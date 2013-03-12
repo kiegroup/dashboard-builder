@@ -56,7 +56,7 @@ the installation instructions. (go the "Java SE 6 Update XX" section to select t
         <pre>C:\ cd <target_directory>\dashbuilder-demo
         start-demo.bat</pre>
 
-* To access the application open a browser window and type the following url: http://localhost:8080
+* To access the application open a browser window and type the following url: http://localhost:8080/dashbuilder
 
     The following users and passwords are configured by default: root/root & demo/demo
 
