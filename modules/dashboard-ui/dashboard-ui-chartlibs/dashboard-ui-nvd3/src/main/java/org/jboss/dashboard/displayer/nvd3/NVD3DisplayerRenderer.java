@@ -44,7 +44,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer  {
     public String barChartDefault;
 
     @Inject @Config("")
-    public String[] pìeChartTypes;
+    public String[] pieChartTypes;
 
     @Inject @Config("")
     public String pieChartDefault;
@@ -81,7 +81,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer  {
         // Register the available chart types.
         availableChartTypes = new HashMap<String, List<String>>();
         availableChartTypes.put(BarChartDisplayerType.UID, Arrays.asList(barChartTypes));
-        availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pìeChartTypes));
+        availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pieChartTypes));
         availableChartTypes.put(LineChartDisplayerType.UID, Arrays.asList(lineChartTypes));
 
         // Set the default chart type for each displayer type.
