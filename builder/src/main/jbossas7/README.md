@@ -6,5 +6,5 @@ Contains the configuration for the factory components.
 * jbossas7/WEB-INF:
 Contains the web application descriptor files, the log4j configuration, and other configuration files for the JBoss server.
 
-Finally, the file jBPM-Integration.md has some guidelines in order to install the application in the JBoss server
+Finally, the file [jBPM-Integration.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/jBPM-Integration.md) has some guidelines in order to install the application in the JBoss server
 and integrate it with the jbpm-console-ng application.

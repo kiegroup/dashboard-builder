@@ -40,27 +40,25 @@ the installation instructions. (go the "Java SE 6 Update XX" section to select t
 * Unzip the dashbuilder-demo-installer.zip file to a given directory (the [target_directory]).
   You should get a directory structure like this:
 
-     [target_directory]/dashbuilder-demo
+     <pre>[target_directory]/dashbuilder-demo
                               start-demo.sh
                               start-demo.bat
                               README.md
                               /db
-                              /log
+                              /log</pre>
 
 * Open a command window and execute the start-demo.sh script for linux environments or start-demo.bat for windows
    environments.
 
-        $ cd <target_directory>/dashbuilder-demo
-        $ ./start-demo.sh
+        <pre>$ cd <target_directory>/dashbuilder-demo
+        $ ./start-demo.sh</pre>
    or
-        C:\ cd <target_directory>\dashbuilder-demo
-        start-demo.bat
+        <pre>C:\ cd <target_directory>\dashbuilder-demo
+        start-demo.bat</pre>
 
-* To access the application open a browser window and type the following url: http://localhost:8080/dashbuilder
+* To access the application open a browser window and type the following url: http://localhost:8080
 
-    The following users and passwords are configured by default.
-        root/root
-        demo/demo
+    The following users and passwords are configured by default: root/root & demo/demo
 
 *  To stop the application close the terminal window or type the "Ctrl + C" command.
 

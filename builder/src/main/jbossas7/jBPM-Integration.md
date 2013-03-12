@@ -3,8 +3,7 @@ jBPM Dashboard & Human Tasks Console integration
 
 Please follow this steps in order to integrate the jbpm-console-ng with the Dashboard Builder.
 
-* NOTE 1: the following procedure is for a JBoss standalone server, but it can easily be extended for other installation types.
-* NOTE 2: If you only want to install the bam application, skip steps 2, 2.1, 2.2, 5.3, and 6.
+* NOTE: the following procedure is for a JBoss standalone server, but it can easily be extended for other installation types.
 
 1 Install a JBoss 7.1 server
 ---------------------------

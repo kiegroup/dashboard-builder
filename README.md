@@ -62,11 +62,11 @@ There are currently three ways to use or work with the product.
     The product demonstration is a stand alone version intended for users that wants to try the product without
     having to do a complex installation and configuration.
 
-    If you are interested to run the demonstration read sections 2 and 3.
+    If you are interested to run the demonstration read [this](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/standalone-demo/README.md).
 
 3. **System integrators**:
     The system integrators need to configure the product distribution to be installed on a given application server.
-    If you want learn about how to configure the product using the dist-config tool read sections 4.2 and 4.3.
+    If you want learn about how to configure the product using the dist-config tool read the [Subprojects](#subprojects) section .
 
 
 Quickstart
@@ -113,15 +113,15 @@ Currently the project is composed of the following three main subprojects.
 * **modules**:
 
 It contains all the modules beloging to the application.
-If you are a project developer o contributor read the modules/README.md file.
+If you are a project developer o contributor read the [modules/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/modules/README.md) file.
 
 * **builder**:
 
 This project generates the different distribution formats for the application.
-Read the builder/README.md file for more information.
+Read the [builder/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/README.md) file for more information.
 
 * **toolkit**:
 
 This project implements some basic tools. If you need to automate the application distribution configuration
 you will be probably interested in the "dist-config" tool.
-Read the toolkit/README.md file for more information.
+Read the [toolkit/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/toolkit/README.md) file for more information.
