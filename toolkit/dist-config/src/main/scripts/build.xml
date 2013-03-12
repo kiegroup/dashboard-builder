@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project basedir="." name="dist-config" default="usage">
+
+<property file="./project.properties" />
+<property file="./lib/external-libs.properties" />
+
+
+<taskdef name="configFactory"
+         classname="org.jboss.dashboard.toolkit.factory.ConfigFactoryTask"
+         classpath="${basedir}/lib/${common-tools}.jar"/>
+
+
+<target name="check-params" >
+    <available file="${config}" type="file" property="configFileExists" value="true"/>
+        <fail message="Configuration file ${config} does not exist, or was not configured. Please set the parameter -Dconfig=file1 properly." unless="configFileExists"/>
+
+    <available file="${product}" type="file" property="productFileExists" value="true"/>
+        <fail message="Product file ${product} does not exist, or was not configured. Please set the parameter -Dproduct=file2 properly." unless="productFileExists"/>
+
+    <property name="parameters" value="${config}"/>
+    <basename property="parameters-name" file="${parameters}" suffix=".properties"/>
+    <basename property="product-name" file="${product}" suffix=".war" />
+
+    <echo>Parameter check passed ok!</echo>
+</target>
+
+
+<target name="factory" depends="check-params, pre-create, update-war, post-create">
+
+</target>
+
+<target name="jboss" depends="check-params, pre-create, copy-jboss-descriptors, replace-jboss-descriptors, copy-log-descriptors, replace-log-descriptors, update-war, post-create" />
+
+<target name="jetty" depends="check-params, pre-create, copy-jetty-descriptors, replace-jetty-descriptors, copy-log-descriptors, replace-log-descriptors, update-war, post-create" />
+
+
+<target name="create-factory-files">
+    <configFactory factoryProperties="${parameters}" factoryPath="${basedir}/tmp/resources"  ignoredPrefixes="jboss,jetty,log4j" />
+    <jar basedir="${basedir}/tmp/resources" destfile="${basedir}/tmp/${moduleName}.jar" />
+</target>
+
+<target name="create-factory-cfg">
+    <unzip src="${basedir}/tmp/${product-name}.war" dest="${basedir}/tmp" overwrite="true">
+        <patternset>
+            <include name="WEB-INF/etc/factory/factory.cfg"/>
+        </patternset>
+    </unzip>
+
+    <concat destfile="${basedir}/tmp/WEB-INF/etc/factory/factory.cfg" append="true" overwrite="true" >${line.separator}</concat>
+    <concat destfile="${basedir}/tmp/WEB-INF/etc/factory/factory.cfg" append="true" overwrite="true" >${moduleName}</concat>
+</target>
+
+<target name="copy-jboss-descriptors">
+    <copy todir="${basedir}/tmp">
+        <fileset dir="${templatesDir}">
+            <include name="jboss-*.xml"/>
+        </fileset>
+    </copy>
+</target>
+
+<target name="copy-jetty-descriptors">
+    <copy todir="${basedir}/tmp">
+        <fileset dir="${templatesDir}">
+            <include name="jetty-*.xml"/>
+        </fileset>
+    </copy>
+</target>
+
+<target name="copy-log-descriptors">
+    <mkdir dir="${basedir}/tmp/WEB-INF/classes" />
+    <copy todir="${basedir}/tmp/WEB-INF/classes">
+        <fileset dir="${templatesDir}">
+            <include name="log4j.xml"/>
+        </fileset>
+    </copy>
+</target>
+
+<target name="replace-jboss-descriptors" >
+    <replace file="${basedir}/tmp/jboss-web.xml" replacefilterfile="${parameters}" />
+</target>
+
+<target name="replace-jetty-descriptors" >
+    <replace file="${basedir}/tmp/jetty-env.xml" replacefilterfile="${parameters}" />
+</target>
+
+<target name="replace-log-descriptors" >
+    <replace file="${basedir}/tmp/WEB-INF/classes/log4j.xml" replacefilterfile="${parameters}" />
+</target>
+
+<target name="pre-create" depends="create-tmp">
+    <copy file="${product}" todir="${basedir}/tmp" />
+    <antcall target="create-factory-files" />
+    <antcall target="create-factory-cfg" />
+</target>
+
+<target name="post-create" >
+    <mkdir dir="${basedir}/output" />
+    <delete includeemptydirs="yes">
+        <fileset dir="${basedir}/output">
+            <include name="**/*"/>
+        </fileset>
+    </delete>
+
+    <move file="${basedir}/tmp/${product-name}.war" todir="${basedir}/output" overwrite="true"/>
+    <antcall target="clean-tmp"/>
+    <antcall target="print-exit"/>
+</target>
+
+<target name="update-war">
+    <zip destfile="${basedir}/tmp/${product-name}.war" update="true">
+        <zipfileset dir="${basedir}/tmp" includes="${moduleName}.jar" prefix="WEB-INF/lib" />
+        <zipfileset dir="${basedir}/tmp" includes="*.xml" prefix="WEB-INF" />
+        <zipfileset dir="${basedir}/tmp" includes="WEB-INF/etc/factory/factory.cfg" />
+        <zipfileset dir="${basedir}/tmp" includes="WEB-INF/classes/log4j.xml" />
+    </zip>
+
+</target>
+
+<target name="clean-tmp" description="Cleans up the tmp directory">
+    <delete includeemptydirs="yes">
+        <fileset dir="${basedir}/tmp">
+            <include name="**/*"/>
+        </fileset>
+    </delete>
+    <delete dir="${basedir}/tmp" />
+</target>
+
+<target name="create-tmp" description="Creates the tmp directory">
+    <mkdir dir="${basedir}/tmp" />
+    <mkdir dir="${basedir}/tmp/resources" />
+</target>
+
+<target name="usage" >
+
+<echo>
+The "dist-config" tool lets you configure the BAM application according to a set of parameters and template files.
+Please read the README.md file in order to get more detailed information.
+
+    ant [script options] -Dproduct=file1 -Dconfig=file2
+
+    Script options:
+    jboss:      Configure the distribution to be deployed in a JBoss server.
+    jetty:      Configure the distribution to be deployed in a standalone Jetty server.
+    factory:    Configure only the distribution components, not including web application deployment descriptors.
+
+    file1:  Path to the BAM application distribution war file.
+    file2:  Path to a properties file with the configuration parameters.
+
+    examples:
+    ant jboss -Dconfig=./env/jboss.postgres.properties -Dproduct=./product/dashbuilder.war
+
+    ant factory -Dconfig=./env/jboss.postgres.properties -Dproduct=./product/dashbuilder.war
+
+
+</echo>
+
+</target>
+
+<target name="print-exit">
+    <echo>The configured file ${product-name}.war was copied to the "output" directory.</echo>
+</target>
+
+</project>

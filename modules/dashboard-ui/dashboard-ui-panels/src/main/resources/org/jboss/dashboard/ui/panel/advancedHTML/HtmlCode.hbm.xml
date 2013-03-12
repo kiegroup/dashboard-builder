@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<!DOCTYPE hibernate-mapping
+    PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false">
+
+<class name="org.jboss.dashboard.ui.panel.advancedHTML.HTMLText" table="dashb_panel_html">
+
+    <cache usage="transactional"/>
+
+    <id name="dbid" type="long" column="dbid" unsaved-value="null">
+        <generator class="native"/>
+    </id>
+
+    <map name="text" table="dashb_panel_html_i18n" cascade="all">
+        <cache usage="transactional"/>
+        <key column="id_text"/>
+        <index column="language" type="string"/>
+        <element column="html_text" type="org.jboss.dashboard.database.hibernate.StringBlobType"/>
+    </map>
+
+    <many-to-one name="panelInstance"
+            class="org.jboss.dashboard.workspace.PanelInstance"
+            column="id_instance"
+            not-null="true"
+            cascade="none" />
+
+</class>
+
+</hibernate-mapping>

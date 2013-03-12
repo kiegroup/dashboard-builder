@@ -1,0 +1,46 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.jboss.dashboard.ui.config.components.panelInstance;
+
+import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
+import org.jboss.dashboard.ui.panel.help.RenderPanelHelpFormatter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class PanelInstanceFormatter extends RenderPanelHelpFormatter {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstanceFormatter.class.getName());
+
+    private PanelInstanceHandler panelInstanceHandler;
+
+    public PanelInstanceHandler getPanelInstanceHandler() {
+        return panelInstanceHandler;
+    }
+
+    public void setPanelInstanceHandler(PanelInstanceHandler panelInstanceHandler) {
+        this.panelInstanceHandler = panelInstanceHandler;
+    }
+
+    public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
+        try {
+            renderHelp(getPanelInstanceHandler().getInstance(), true, true);
+        } catch (Exception e) {
+            log.error("Error: ", e);
+            throw new FormatterException(e);
+        }
+    }
+
+}

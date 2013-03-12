@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>system.workspace_import_export</panel-id>
+<usage>
+<text lang="en">This panel allows the exportation and imporation of the selected workspaces. The export result consists on a proprietary format file and this proprietary format is the format used in the importation.</text>
+<text lang="es">Este panel permite la exportaci&#243;n y la importaci&#243;n de los workspacees que seleccionemos. El resultado de la exportaci&#243;n se trata de un fichero con formato propio y este formato propio es el que a su vez se utilizar&#224; en la importaci&#243;n.</text>
+<text lang="ca">Aquest panel permet l&apos;exportaci&#243; i la importaci&#243; dels workspaces que seleccionem. El resultat de l&apos;exportaci&#243; consistrix en un fitxer amb format propi i aquest format propi &#233;s el que a la vegada s&apos;utilitzar&#224; per a la importaci&#243;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</usage>
+<edit-usage>
+<text lang="en"></text>
+<text lang="es"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</edit-usage>
+<panel-parameter name="useBlanks">
+<text lang="en">Indicates whether the export file should be created as readable output.</text>
+<text lang="es">Indica si el fichero de exportaci&#243;n se encuentra adaptado para la lectura.</text>
+<text lang="ca">Indica si el fitxer d&apos;exportaci&#243; es troba adaptat per a la lectura.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="entryName">
+<text lang="en">Denotes a name of the workspaces group to be exported which will be used as indentification method.</text>
+<text lang="es">Nombre a modo identificativo del grupo de workspacees que se exporta.</text>
+<text lang="ca">Nom a manera identificativa del grup de workspaces que s&apos;exporta.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="showExport">
+<text lang="en">Indicates whether it should be shown in the workspaces exportation menu of the panel.</text>
+<text lang="es">Indica si debe mostrarse el men&#250; de exportaci&#243;n de workspacees en el panel.</text>
+<text lang="ca">Indica si ha de mostrar-se el men&#250; d&apos;exportaci&#243; de workspaces en el panel.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="showImport">
+<text lang="en">Indicates whether it should be shown in the workspaces importation menu of the panel.</text>
+<text lang="es">Indica si debe mostrarse el men&#250; de importaci&#243;n de workspacees en el panel.</text>
+<text lang="ca">Indica si ha de mostrar-se el men&#250; d&apos;importaci&#243; de workspaces en el panel.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="returnedFileName">
+<text lang="en">The file name created for the exported workspaces.</text>
+<text lang="es">Nombre del fichero que se descargar&#225; con la exportaci&#243;n de workspacees.</text>
+<text lang="ca">Nom del fitxer que es descarregar&#224; amb l&apos;exportaci&#243; de workspaces.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter></phelp>

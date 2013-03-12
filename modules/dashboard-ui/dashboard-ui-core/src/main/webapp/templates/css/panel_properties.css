@@ -1,0 +1,67 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+div.PrincipalShadow{
+    background-color: #F1F1F1;
+    padding:0px;
+    z-index: 3000;
+    position:absolute;
+    top: 0;
+    left: 0;
+    display:block;
+    width:200px;
+    height:auto;
+    -moz-box-shadow: 4px 4px 6px #111;
+    -webkit-box-shadow: 4px 4px 6px #111;
+    box-shadow: 4px 4px 6px #111;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=135, Color=#111111)';
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=135, Color='#111111');
+}
+div.PrincipalShadow Table{
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F1F1F1;
+    z-index: 3;
+}
+.Header {
+    padding-left: 6px;
+    width: 100%;
+    text-align: left;
+    height: 20px;
+    font-weight: bold;
+    color: #404040;
+}
+.HeaderShadow{
+    box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.5) inset;
+    height: 8px;
+}
+div.PrincipalShadow td.Left{
+    border-right: solid 1px #ffffff;
+    padding: 3px 6px;
+    text-align: center;
+}
+div.PrincipalShadow td.Right{
+    padding-left: 6px;
+    width: 95%;
+    text-align: left;
+}
+
+div.PrincipalShadow td.Right a{
+    color: #404040;
+}
+
+img {
+    border: 0;
+}

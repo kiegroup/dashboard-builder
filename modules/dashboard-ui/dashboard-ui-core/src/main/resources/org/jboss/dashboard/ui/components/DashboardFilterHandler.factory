@@ -1,0 +1,32 @@
+#
+# Copyright (C) 2012 JBoss Inc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+$class=org.jboss.dashboard.ui.components.DashboardFilterHandler
+$scope=panelSession
+$description=Handler for component Dashboard Filter
+
+dashboardHandler=org.jboss.dashboard.ui.components.DashboardHandler
+
+componentIncludeJSPshow=/components/bam/dashboard_filter/extended/show.jsp
+componentIncludeJSPedit=/components/bam/dashboard_filter/extended/edit.jsp
+componentIncludeJSPproperties=/components/bam/dashboard_filter/extended/properties.jsp
+
+componentIncludeJSPshort_show=/components/bam/dashboard_filter/short/show.jsp
+componentIncludeJSPshort_edit=/components/bam/dashboard_filter/short/edit.jsp
+componentIncludeJSPshort_properties=/components/bam/dashboard_filter/short/properties.jsp
+
+requestProcessor=org.jboss.dashboard.ui.components.DashboardFilterRequestProcessor
+autoRefreshTimeout=15

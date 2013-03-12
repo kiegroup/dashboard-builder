@@ -1,0 +1,83 @@
+#menuShow{
+    padding: 0;
+    margin: 0;
+    display: block;
+    z-index: 1000000;
+    position:fixed;
+    width: 100%;
+}
+
+#menuOn{
+    padding: 0;
+    margin: 0;
+    display:table;
+    top:0;
+    z-index:999999;
+    position:fixed;
+    width: 100%;
+    border-top: #404040 2px solid;
+}
+#menuOn Table{
+    width: 100%;
+    border-collapse: collapse;
+    color: #FFFFFF;
+}
+
+#administrationMenuTable{
+    width: 100%;
+    border-collapse: collapse;
+    color: #FFFFFF;
+}
+#administrationMenuTable td{
+    width: 33%;
+    color: #FFFFFF;
+    padding: 4px 10px 4px 10px;
+    white-space: nowrap;
+    vertical-align: bottom;
+    text-align: center;
+    background-color: #404040;
+}
+#administrationMenuTable td.Right{
+    text-align: right !important;
+}
+#administrationMenuTable td.Left{
+    text-align: left !important;
+}
+
+#administrationMenuTable img{
+    margin: 0 3px;
+    vertical-align: bottom;
+}
+
+td.shadow{
+    padding: 0 !important;
+    background: url('images/shadow_admin-bar.png') repeat-x !important;
+    height: 7px !important;
+    text-align: center !important;
+}
+
+td.shadow img{
+    vertical-align: top !important;
+}
+
+.select select {
+    border: none;
+    color: #FFFFFF;
+    font-size: 12px;
+    height: 18px;
+    padding: 0 0 0 10px;
+    width: 144px !important;
+    z-index: 10;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: url('images/bg_select.png') no-repeat #FFFFFF;
+}
+
+form {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: 0;
+}

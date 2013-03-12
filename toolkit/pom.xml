@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hyear>2012</hyear>
+    </properties>
+
+    <groupId>org.jboss.dashboard-builder</groupId>
+    <artifactId>toolkit</artifactId>
+    <version>6.0-SNAPSHOT</version>
+    <name>Dashbboard Builder Toolkit Set</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>common-tools</module>
+        <module>dist-config</module>
+    </modules>
+
+
+    <build>
+        <plugins>
+            <!-- Header plugin. Check out http://code.google.com/p/maven-license-plugin for more info -->
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>header-template.txt</header>
+                    <excludes>
+                        <!-- Don't touch unless you know what you're doing! -->
+                        <exclude>**/*.md</exclude>
+                    </excludes>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <properties>
+                        <year>${hyear}</year>
+                    </properties>
+                    <encoding>ISO-8859-1</encoding>
+                    <strictCheck>true</strictCheck>
+                    <keywords>
+                        <keyword>
+                            JBoss Inc
+                        </keyword>
+                    </keywords>
+                </configuration>
+
+                <!--	Deactivated for now
+                    <executions>
+                      <execution>
+                        <id>set_headers</id>
+                        <phase>validate</phase>
+                        <goals>
+                          <goal>format</goal>
+                        </goals>
+                      </execution>
+                    </executions>
+                -->
+
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

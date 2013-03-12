@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>navigation.workspace_horiz</panel-id>
+<usage>
+<text lang="en">Panel which has a horizontal menu that allows you to navigate through different workspaces.</text>
+<text lang="es">Panel que contiene un men&#250; horizontal que permite navegar a trav&#233;s de diferentes workspacees.</text>
+<text lang="ca">Panel que cont&#233; un men&#250; horitzontal que permet navegar a trav&#233;s de diferents workspaces.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</usage>
+<edit-usage>
+<text lang="en">In edit mode, allows you to select the workspaces which will be shown.</text>
+<text lang="es">En modo edici&#243;n, permite seleccionar los workspacees que se mostrar&#225;n.</text>
+<text lang="ca">En mode edici&#243;, permet seleccionar els workspaces que es mostraran.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</edit-usage>
+<panel-parameter name="before.link">
+<text lang="en">HTML code which will be introduced before every link of the menu.</text>
+<text lang="es">C&#243;digo HTML que se introducir&#225; antes de cada enlace del men&#250;.</text>
+<text lang="ca">Codi HTML que s&apos;introduir&#224; abans de cada enlla&#231; del men&#250;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="end.html">
+<text lang="en">HTML code which will be introduced after the menu.</text>
+<text lang="es">C&#243;digo HTML que se introducir&#225; al final del men&#250;.</text>
+<text lang="ca">Codi HTML que s&apos;introduir&#224; despr&#233;s del men&#250;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="start.html">
+<text lang="en">HTML code which will be introduced before the menu.</text>
+<text lang="es">C&#243;digo HTML que se introducir&#225; antes del men&#250;.</text>
+<text lang="ca">Codi HTML que s&apos;introduir&#224; abans del men&#250;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="menu.type">
+<text lang="en"></text>
+<text lang="es"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="after.link">
+<text lang="en">HTML code which will be introduced after every link of the menu.</text>
+<text lang="es">C&#243;digo HTML que se introducir&#225; despu&#233;s de cada enlace del men&#250;.</text>
+<text lang="ca">Codi HTML que s&apos;introduir&#224; despr&#233;s de cada enlla&#231; del men&#250;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter></phelp>

@@ -1,0 +1,83 @@
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<layout>
+	<region id="General_Logo">
+        <type>row</type>
+    </region>
+	
+	<region id="Header_Right-top">
+        <type>row</type>
+    </region>
+	
+	<region id="Header_Right-bottom">
+        <type>row</type>
+    </region>
+	
+    <region id="header_top">
+        <type>row</type>
+    </region>
+    <region id="header_left">
+        <type>row</type>
+    </region>
+    <region id="header_right">
+        <type>row</type>
+    </region>
+    <region id="slide">
+        <type>column</type>
+    </region>
+	<region id="left_top">
+        <type>column</type>
+    </region>
+    <region id="left_bottom">
+        <type>column</type>
+    </region>
+    
+	<region id="center_1">
+        <type>column</type>
+    </region>
+    <region id="center_2">
+        <type>row</type>
+    </region>
+    <region id="center_3">
+        <type>tabs</type>
+    </region>
+    <region id="center_4">
+        <type>column</type>
+    </region>
+    <region id="center_5">
+        <type>row</type>
+    </region>
+    <region id="center_6">
+        <type>tabs</type>
+    </region>
+     <region id="col2_1">
+            <type>column</type>
+    </region>
+     <region id="col2_2">
+            <type>column</type>
+    </region>
+     <region id="col3_1">
+            <type>column</type>
+    </region>
+     <region id="col3_2">
+            <type>column</type>
+    </region>
+     <region id="col3_3">
+            <type>column</type>
+    </region>
+</layout>

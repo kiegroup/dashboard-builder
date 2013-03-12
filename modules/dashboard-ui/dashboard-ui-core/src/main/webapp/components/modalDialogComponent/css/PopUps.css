@@ -1,0 +1,80 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+#vellumShade {
+    background-color: #3f4c58;
+    z-index: 2000000;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+#vellumNoShade {
+    z-index: 2000000;
+    position: fixed;
+    width: 99.9%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+.PopUpLightbox {
+    padding: 0px;
+    position:absolute;
+    border: 1px solid #717374;
+    background-color: #fff;
+    z-index: 20000001;
+    display: inline;
+    -moz-box-shadow: 4px 4px 6px #111;
+    -webkit-box-shadow: 4px 4px 6px #111;
+    box-shadow: 4px 4px 6px #111;
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=135, Color=#111111)';
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=6, Direction=135, Color='#111111');
+}
+.PopUpLBHeader {
+    position: absolute;
+    top: auto;
+    font-size: 14px;
+    z-index: 2000001;
+    width: 100%;
+    border:1px solid #404040;
+    border-bottom: 1px solid #717374;
+    height: 22px;
+    margin-left:-1px;
+    margin-right:-1px;
+    background-color: #404040;
+}
+.PopUpLBHeader td {
+    color: white !important;
+    font-size: 14px;
+}
+.slbborder {
+    z-index: -1;
+}
+#PopUpContent{
+    color: #465F7D;
+    font-size: 8pt;
+    height: 92%;
+    margin-top: 25px;
+    overflow: auto;
+    padding: 5px;
+    text-align: left;
+    width: 98.5%;
+}
+#PopUpContent a{
+    color: #404040;
+}

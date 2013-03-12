@@ -1,0 +1,138 @@
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>dashbuilder</display-name>
+    <description>JBoss Dashboard Builder Application</description>
+
+    <filter>
+        <filter-name>Cache Filter</filter-name>
+        <filter-class>org.jboss.dashboard.ui.controller.CacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.jpg</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.png</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.swf</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>org.jboss.dashboard.ui.controller.ControllerServlet</servlet-class>
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CewolfServlet</servlet-name>
+        <servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
+        <init-param>
+            <param-name>storage</param-name>
+            <param-value>de.laures.cewolf.storage.TransientSessionStorage</param-value>
+        </init-param>
+        <init-param>
+            <param-name>overliburl</param-name>
+            <param-value>components/bam/displayer/javascript/overlib.js</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/workspace/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/Controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/Controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/fck_image/Controller</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/workspace/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/fck_image/workspace/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/workspace/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping><servlet-name>CewolfServlet</servlet-name><url-pattern>/cewolf/*</url-pattern></servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <taglib>
+        <taglib-uri>http://jakarta.apache.org/taglibs/i18n-1.0</taglib-uri>
+        <taglib-location>/WEB-INF/tlds/i18n.tld</taglib-location>
+    </taglib>
+
+    <!-- TAGLIB(S) required by bam displayers -->
+    <taglib>
+        <taglib-uri>cewolf.tld</taglib-uri>
+        <taglib-location>/WEB-INF/tlds/cewolf.tld</taglib-location>
+    </taglib>
+
+    <!-- Application main data source definition -->
+    <resource-ref>
+        <description>Dashboard Builder Datasource</description>
+        <res-ref-name>jdbc/dashbuilder</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+</web-app>

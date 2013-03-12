@@ -1,0 +1,197 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Styles for all text elements in page */
+body, td, p, dl, dt, dd, ul, ol, li, blockquote, textarea, input, option {
+    font-family: Verdana, Arial, Tahoma, Helvetica, sans-serif;
+    font-size: 8pt;
+    color: #465F7D;
+}
+
+/* Styles for title 1 (biggest possible)*/
+.skn-title1 {
+    font-size: 170%;
+    font-weight: bold;
+}
+
+/* Styles for title 2 (2nd biggest possible)*/
+.skn-title2 {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+/* Styles for title 3 (3rd biggest possible)*/
+.skn-title3 {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+/* Styles for links */
+A {
+    color: #0000FF;
+    text-decoration: none;
+}
+
+A:visited {
+    color: #0000FF;
+    text-decoration: none;
+}
+
+A:active {
+    color: #FF0000;
+}
+
+A:hover {
+    color: #FF0000;
+    text-decoration: none;
+}
+
+/* Styles for important things, like selected tab in a menu */
+.skn-important {
+    color: #9932cc;
+}
+
+/* Styles for disabled things, like disabled option in a menu */
+.skn-disabled {
+    color: #7F7F7F;
+}
+
+/* Styles for error messages.*/
+.skn-error {
+    color: #FF0000;
+}
+
+/* Styles for alternative text, like a tooltip under a title*/
+.skn-alt {
+    color: #0000FF;
+}
+
+/*Background for things that should have background, like a horizontal bar with buttons*/
+.skn-background {
+    background-color: #f0f8ff;
+}
+
+    /*
+        Alternative background. Should look lighter than skn-background. For
+        things that should have background, but less important than usual.
+    */
+.skn-background_alt {
+    background-color: #f5f5dc;
+}
+
+    /*
+        Styles for buttons.
+    */
+.skn-button {
+    border-right: #999999 1px solid;
+    border-top: #CDCDCD 1px solid;
+    border-left: #CDCDCD 1px solid;
+    border-bottom: #999999 1px solid;
+    border-style: solid;
+    background-color: #C6D8EB;
+    color: #465F7D;
+    font-size: 8pt;
+    font-weight: normal;
+    height: 16;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.skn-button_alt {
+    border-right: #999999 1px solid;
+    border-top: #CDCDCD 1px solid;
+    border-left: #CDCDCD 1px solid;
+    border-bottom: #999999 1px solid;
+    border-style: solid;
+    background-color: #DEE5EC;
+    color: #465F7D;
+    font-size: 8pt;
+    font-weight: normal;
+    height: 16;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.skn-button:hover {
+    color: #465F7D;
+    background-color: #C0C0C0;
+}
+
+.skn-button_alt:hover {
+    color: #465F7D;
+    background-color: #C0C0C0;
+}
+
+/* Styles for text inputs*/
+.skn-input {
+    border-width: 1px;
+    border-color: #cccccc;
+    border-style: solid;
+    background-color: #ffffff;
+    font-size: 8pt;
+    color: #000000;
+}
+
+/* Square border for things (normally, tables) that must be surrounded by a border.*/
+.skn-table_border {
+    border-left: #999999 1px solid;
+    border-bottom: #999999 1px solid;
+    border-right: #999999 1px solid;
+    border-top: #999999 1px solid;
+}
+
+/* Style for table headers.*/
+.skn-table_header {
+    background-color: #C6D8EB;
+    height: 20px;
+    color: #465F7D;
+    font-weight: Bold;
+    text-align: center;
+}
+
+/*Style for odd rows in a table. 1st row in table is odd*/
+.skn-odd_row {
+    background-color: #FFFFFF;
+    height: 20px;
+    text-align: left;
+}
+
+.skn-odd_row_alt {
+    background-color : #AAC9EB;
+    color : #FFFFFF;
+    height: 20px;
+    text-align: left;
+}
+
+/*Style for even rows in a table. 2nd row in table is even*/
+.skn-even_row {
+    background-color: #DEE5EC;
+    height: 20px;
+    text-align: left;
+}
+
+.skn-even_row_alt {
+    background-color : #AAC9EB;
+    color : #FFFFFF;
+    height: 20px;
+    text-align: left;
+}
+
+.skn-row_on {
+    background-color : #91ACC9;
+    color : #FFFFFF;
+    height: 20px;
+    text-align: left;
+}

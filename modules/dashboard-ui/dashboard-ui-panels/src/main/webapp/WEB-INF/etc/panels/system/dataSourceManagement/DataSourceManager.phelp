@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>system.data_source_manager</panel-id>
+<usage>
+<text lang="en">This panel allows to manage the DataSources the system can use. Using this panel you can configure:
+
+1) JNDI DataSources, specifying the connection path
+
+2) own DataSources, in this case you must specify the connection URL, the Data Base type (MySQL, ORACLE, PostgreSQL or SQLServer), the user and password to connect. 
+
+In both DataSource types you have to specify it&apos;s internal name and a sample SQL query to be able to test the connection.</text>
+<text lang="es">Este panel permite gestionar los DataSources que el sistema podr&#225; utilizar. Con este panel se puede configurar DataSources JNDI, especificando la ruta a la que se debe conectar, o DataSources personalizados en los que se debe especificar la URL de conexi&#243;n, el tipo de Base de Datos (MySQL, ORACLE, PostgreSQL o SQLServer), el usuario y el password a utilizar para conectarse.
+En ambos tipos de DataSource, es necesario especificar el nombre interno que se le quiere dar y una consulta SQL para testear la conexi&#243;n.</text>
+<text lang="ca">Aquest panel permet gestionar els DataSources que el sistema pot utilitzar. Amb aquest panel es poden configurar  Datasources JNDI, especificant la ruta a la que s&apos;ha de connectar, o Datasources personalitzats als que s&apos;ha d&apos;especificar la URL de connexi&#243;, el tipus de Base de Dades (MySQL, ORACLE, PostgreSQL o SQLServer), l&apos;usuari i el password utilitzat per connectar-se. En els dos tipus de DataSource, &#233;s necessari especificar el nom intern que se li vol donar i una consulta SQL per a testejar la connexi&#243;.</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</usage>
+<edit-usage>
+<text lang="en"></text>
+<text lang="es"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</edit-usage></phelp>

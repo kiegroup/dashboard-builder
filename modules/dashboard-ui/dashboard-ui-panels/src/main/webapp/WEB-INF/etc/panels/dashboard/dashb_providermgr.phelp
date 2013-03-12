@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>dashboard.data_provider_management</panel-id>
+<usage>
+<text lang="es">   Los datos pueden tener su origen en bases de datos, sistemas remotos accesibles con protocolos propietarios, interfaces remotas de programaci&#243;n en forma de WebServices, RPC, CORBA o RMI, etc&#8230; Podemos tener por tanto distintos tipos de proveedores de datos. Normalmente, y es lo m&#225;s habitual, los datos residen en bases de datos y en tablas perfectamente identificadas. Es por ello que el sistema ofrece por defecto un tipo de proveedor de datos SQL que permite atacar a sistemas gestores de bases de datos locales o remotos de forma sencilla.&lt;br /&gt;
+&lt;br /&gt;
+   El objetivo de un proveedor de datos es obtener  un conjunto de datos de una fuente externa. Estos datos se representan como una tabla, donde existen columnas (&lt;em&gt;propiedades&lt;/em&gt;)&lt;em&gt; &lt;/em&gt;y filas (&lt;em&gt;registros&lt;/em&gt;). El panel &lt;strong&gt;Proveedores de datos&lt;/strong&gt;  permite crear, mantener y eliminar proveedores de datos mediante el enlace &lt;em&gt;Crear nuevo proveedor de datos&lt;/em&gt;,  el icono &lt;em&gt;editar proveedor de datos&lt;/em&gt; y &lt;em&gt;borrar proveedor de datos&lt;/em&gt;, respectivamente. &lt;br /&gt;
+&lt;br /&gt;
+Ejemplo de un proveedor de datos SQL:&lt;br /&gt;
+&lt;br /&gt;
+NOMBRE:          Departamentos&lt;br /&gt;
+Sentencia SQL: SELECT * FROM DEPARTAMENTO;&lt;br /&gt;
+&lt;br /&gt;
+Los datos recuperados son:&lt;br /&gt;
+&lt;br /&gt;
+id_dept (&lt;em&gt;num&#233;rico&lt;/em&gt;), nombre (&lt;em&gt;texto&lt;/em&gt;), fecha_creaci&#243;n (&lt;em&gt;fecha&lt;/em&gt;).&lt;br /&gt;
+1                     &quot;Finanzas&quot;               01/01/08&lt;br /&gt;
+2                     &quot;Marketing&quot;              01/02/07&lt;br /&gt;
+&lt;br /&gt;
+   Durante la edici&#243;n o creaci&#243;n de proveedores de datos, se puede validar un proveedor de datos mediante el bot&#243;n &lt;em&gt;Probar&lt;/em&gt;. Esta prueba nos devuelve el n&#250;mero de registros obtenidos y el tiempo de carga. As&#237; se puede evaluar si la carga es correcta  y la demora de tiempo que sufre el sistema y, evaluar si es necesario, una optimizaci&#243;n del proceso  de obtenci&#243;n de los datos.&lt;br /&gt;
+&lt;br /&gt;
+Adem&#225;s tambien se pueden gestionar las propiedades de &#233;stos mediante el icono &lt;em&gt;editar propiedades del proveedor de datos&lt;/em&gt;. Para las propiedades se permite la introducci&#243;n de nombres de propiedades comprensibles para el usuario en cada idioma, y cambiar su tipo de dato en el caso de num&#233;rico a texto.&lt;br /&gt;
+&lt;br /&gt;</text>
+<text lang="en">Data can come from databases, remotely accesible systems with propriety protocols, remote programming interfaces such as WebServices, RPC, COBRA or RMI... Therefore it would be possible to have differents data provider types. Usually, data resides on perfectly identifiable database-tables. Thus, the system by default provides an SQL data provider which allows to easily access local or remote DBMS.&lt;br /&gt;
+&lt;br /&gt;
+The purpose of a data provider is to obtain a data collection from an external source. This data is served as a table, whose columns represent &lt;em&gt;properties&lt;/em&gt; and whose rows represent &lt;em&gt;entries&lt;/em&gt;. The &lt;strong&gt;Data provider panel &lt;/strong&gt;allows to create, manage and remove data providers through the Create new data provider link, the edit data provider and remove data provider icons, respectively.&lt;br /&gt;
+&lt;br /&gt;
+SQL Data provider example:&lt;br /&gt;
+&lt;br /&gt;
+NAME:  Departamentos&lt;br /&gt;
+SQL query: SELECT * FROM DEPARTAMENTO;&lt;br /&gt;
+&lt;br /&gt;
+Query result:&lt;br /&gt;
+&lt;br /&gt;
+id_dept (&lt;em&gt;num&amp;eacute;rico&lt;/em&gt;), nombre (&lt;em&gt;texto&lt;/em&gt;), fecha_creaci&amp;oacute;n (&lt;em&gt;fecha&lt;/em&gt;).&lt;br /&gt;
+1                     &amp;quot;Finanzas&amp;quot;               01/01/08&lt;br /&gt;
+2                     &amp;quot;Marketing&amp;quot;              01/02/07&lt;br /&gt;
+&lt;br /&gt;
+During creation or edition, a data provider can be validated through the &lt;em&gt;Test&lt;/em&gt; button. This verification returns the amount of obtained rows and the load time, and allows to evaluate the system delay, and if necessary, whether the data retrieval process needs further optimization.&lt;br /&gt;
+&lt;br /&gt;
+Furthermore, the data provider properties can be managed through the &lt;em&gt;data provider properties&lt;/em&gt; &lt;em&gt;edit &lt;/em&gt;icon. For these properties user-comprehensible property names can be entered for each language, as well as change the data type from numeric to text.&lt;br /&gt;</text>
+<text lang="ca">    Les dades poden tenir el seu or&#237;gen en bases de dades, sistemes remots accessibles amb protocols propietaris, interf&#237;cies remotes de programaci&#243; en forma de WebService, RPC, COBRA o RMI, etc... Podem tenir per tant diversos tipus de prove&#239;dors de dades. Normalment, i &#233;s el m&#233;s habitual, les dades resideixen en bases de dades i en taules perfectament identificades. &#201;s per aix&#242; que el sistema ofereix per defecte un tipus de prove&#239;dor de dades SQL que permet atacar a sistemes gestors de bases de dades locals o remots de foma simple.&lt;br /&gt;
+&lt;br /&gt;
+     El objectiu d&apos;un prove&#207;dor de dades &#233;s obtindre un conjunt de dades d&apos;una font externa. Aquestes dades es representen com una taula, on existeixen columnas (&lt;em&gt;propietats&lt;/em&gt;) i filas (&lt;em&gt;registres&lt;/em&gt;), El panel de &lt;strong&gt;Prove&#239;dor de dades&lt;/strong&gt; permet crear, mantindre i esborrar prove&#239;dors de dades mitjan&#231;ant un enlla&#231; &lt;em&gt;Crear nou prove&#239;dor de dades&lt;/em&gt;, i els icones &lt;em&gt;editar prove&#239;dor de dades&lt;/em&gt; i &lt;em&gt;borrar prove&#239;dor de dades&lt;/em&gt;, respectivament.&lt;br /&gt;
+&lt;br /&gt;
+Exemple d&apos;un prove&#239;dor de dades SQL:&lt;br /&gt;
+&lt;br /&gt;
+NOM:                         Departamentos&lt;br /&gt;
+Sent&#232;ncia SQL: SELECT * FROM DEPARTAMENTO;&lt;br /&gt;
+&lt;br /&gt;
+Les dades recuperades son:&lt;br /&gt;
+&lt;br /&gt;
+id_dept (&lt;em&gt;num&#233;rico&lt;/em&gt;), nombre (&lt;em&gt;texto&lt;/em&gt;), fecha_creaci&#243;n (&lt;em&gt;fecha&lt;/em&gt;).&lt;br /&gt;
+                  1            &quot;Finanzas&quot;                            01/01/08&lt;br /&gt;
+                  2                                &quot;Marketing&quot;                          01/02/07&lt;br /&gt;
+&lt;br /&gt;
+    Durant l&apos;edici&#243; o creaci&#243; de prove&#239;dors de dades es pot validar un prove&#239;dor mitjan&#231;ant el bot&#243; &lt;em&gt;Provar&lt;/em&gt;.Aquest prova ens retorna el nombre de registres obtinguts i el temps de c&#224;rrega. Aix&#237; es pot evaluar si la c&#224;rrega &#233;s correcte i la despesa de temps que pateix el sistema i, evaluar si &#233;s necessari, una optimitzaci&#243; del proc&#233;s d&apos;obtenci&#243; de les dades.&lt;br /&gt;
+&lt;br /&gt;
+    A m&#233;s, tamb&#233; es poden gestionar les propietats de aquests mitjan&#231;ant el icone &lt;em&gt;editar propietats del prove&#239;dor de dades&lt;/em&gt;. Per les propietats es permet la introducci&#243; de noms de propietats comprensibles cara a l&apos;ususari en cada idioma i canviar el seu tipus de dades, en el cas de num&#232;ric a texte.&lt;br /&gt;</text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</usage>
+<edit-usage>
+<text lang="es"></text>
+<text lang="en"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text>
+</edit-usage>
+<panel-parameter name="htmlBeforePanel">
+<text lang="es"></text>
+<text lang="en"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+<panel-parameter name="htmlAfterPanel">
+<text lang="es"></text>
+<text lang="en"></text>
+<text lang="ca"></text>
+<text lang="zh"></text>
+<text lang="ru"></text>
+<text lang="ja"></text>
+<text lang="ar"></text>
+<text lang="pt"></text>
+<text lang="fr"></text>
+<text lang="de"></text>
+<text lang="it"></text></panel-parameter>
+</phelp>

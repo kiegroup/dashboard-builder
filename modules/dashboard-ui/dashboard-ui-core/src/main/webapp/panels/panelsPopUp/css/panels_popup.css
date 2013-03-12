@@ -1,0 +1,105 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.popupTreeNode {
+    white-space: nowrap;
+}
+.popupTreeLink {
+    font-size:11px;
+}
+.popupTreeImage {
+    white-space: nowrap;
+}
+.popupDraggable {
+    font-size:11px;
+    width: 180px;
+}
+
+.TableGroup {
+    border-left: solid #B6B6B6 1px;
+    border-right: solid #B6B6B6 1px;
+    border-top: solid #B6B6B6 1px;
+    width: 100%;
+    border-collapse: collapse;
+}
+.TableGroup td {
+    height:20px;
+    vertical-align: middle;
+}
+.TableGroup td.Group {
+    overflow:hidden;
+    border-bottom: solid #B6B6B6 1px;
+    background-color: #E5E5E5;
+    padding: 2px 0 2px 3px;
+    vertical-align: middle;
+}
+.TableGroup td.Img {
+    border-bottom: solid #B6B6B6 1px;
+    background-color: #E5E5E5;
+    width: 25px;
+}
+.TableGroup td.MAxMin {
+    border-bottom: solid #B6B6B6 1px;
+    background-color: #E5E5E5;
+    width: 15px;
+}
+.TableGroup02{
+    width: 100%;
+    border-collapse: collapse;
+}
+.TableGroup02 td.Group02 {
+    overflow:hidden;
+    padding: 2px 0 2px 3px;
+    vertical-align: middle;
+}
+.TableGroup02 td.Img02 {
+    width: 24px;
+}
+.TableInstances {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+}
+.TableInstances td, .TableInstances th  {
+    border: 1px solid #FFFFFF;
+    height: 23px;
+    vertical-align: middle;
+}
+td.Header {
+    background-color: #CDCDCD !important;
+    color: #465f7d;
+    font-size: 10pt;
+    font-weight: bold;
+}
+.TableInstances td.Img_odd, .TableInstances td.NumInst_odd {
+    width: 23px !important;
+    text-align: center;
+    background-color: #EDEDED;
+}
+.TableInstances td.Inst_odd {
+    padding: 0 4px;
+    background-color: #EDEDED;
+    white-space: nowrap;
+}
+.TableInstances td.Img_even, .TableInstances td.NumInst_even {
+    width: 23px !important;
+    text-align: center;
+    background-color: #FFFFFF;
+}
+.TableInstances td.Inst_even {
+    padding: 0 4px;
+    background-color: #FFFFFF;
+    white-space: nowrap;
+}

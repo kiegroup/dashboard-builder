@@ -1,0 +1,1015 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kpis>
+  <dataprovider code="dataprovider_30861353511610610" type="sql">
+    <description language="en">jBPM Count Processes</description>
+    <sqlprovider>
+      <datasource>local</datasource>
+      <query type="default">select * from BAMPROCESSSUMMARY where status=&apos;COMPLETED&apos;</query>
+      <query type="postgresql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
+        from
+        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+        from BAMPROCESSSUMMARY pi group by pId,processname) as total
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_act
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
+        on (total.pId=active.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_compl
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
+        on (total.pId=completed.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_pend
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
+        on (total.pId=pending.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_susp
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
+        on (total.pId=suspended.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_abrt
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
+        on (total.pId=aborted.pId)
+        where {sql_condition, optional, processname, processname}
+        order by processname</query>
+      <query type="sqlserver">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
+        from
+        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+        from BAMPROCESSSUMMARY pi group by pId,processname) as total
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_act
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
+        on (total.pId=active.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_compl
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
+        on (total.pId=completed.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_pend
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
+        on (total.pId=pending.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_susp
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
+        on (total.pId=suspended.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_abrt
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
+        on (total.pId=aborted.pId)
+        where {sql_condition, optional, processname, processname}
+        order by processname
+      </query>
+      <query type="oracle">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
+        from
+        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+        from BAMPROCESSSUMMARY pi group by pi.processinstanceid,pi.processname)  total
+        left outer join
+        (select pi.processinstanceid as pId, count(*) instances_act
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Active&apos; group by pi.processinstanceid)  active
+        on (total.pId=active.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*)  instances_compl
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Completed&apos; group by pi.processinstanceid)  completed
+        on (total.pId=completed.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*)  instances_pend
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Pending&apos; group by pi.processinstanceid)  pending
+        on (total.pId=pending.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*)  instances_susp
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid)  suspended
+        on (total.pId=suspended.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*)  instances_abrt
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid)  aborted
+        on (total.pId=aborted.pId)
+        where {sql_condition, optional, processname, processname}
+        order by processname
+      </query>
+      <query type="h2">select total.processname, ifnull(total.instances,0) total, ifnull(active.instances_act,0) active, ifnull(completed.instances_compl,0) completed, ifnull(pending.instances_pend,0) pending, ifnull(suspended.instances_susp,0) suspended, ifnull(aborted.instances_abrt,0) aborted
+        from
+        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+        from BAMPROCESSSUMMARY pi group by pi.processinstanceid,pi.processname) as total
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_act
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
+        on (total.pId=active.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_compl
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
+        on (total.pId=completed.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_pend
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
+        on (total.pId=pending.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_susp
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
+        on (total.pId=suspended.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_abrt
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
+        on (total.pId=aborted.pId)
+        where {sql_condition, optional, processname, processname}
+        order by processname
+      </query>
+      <query type="mysql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
+        from
+        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+        from BAMPROCESSSUMMARY pi group by pId,processname) as total
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_act
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
+        on (total.pId=active.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_compl
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
+        on (total.pId=completed.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_pend
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
+        on (total.pId=pending.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_susp
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
+        on (total.pId=suspended.pId)
+        left outer join
+        (select pi.processinstanceid as pId, count(*) as instances_abrt
+        from BAMPROCESSSUMMARY pi
+        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
+        on (total.pId=aborted.pId)
+        where {sql_condition, optional, processname, processname}
+        order by processname</query>
+    </sqlprovider>
+    <dataproperties>
+      <dataproperty id="processname">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Process</name>
+        <name language="es">Process</name>
+      </dataproperty>
+      <dataproperty id="total">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Total</name>
+        <name language="es">Total</name>
+      </dataproperty>
+      <dataproperty id="active">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Active</name>
+        <name language="es">Activo</name>
+      </dataproperty>
+      <dataproperty id="completed">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Completed</name>
+        <name language="es">Completado</name>
+      </dataproperty>
+      <dataproperty id="pending">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Pending</name>
+        <name language="es">Pendiente</name>
+      </dataproperty>
+      <dataproperty id="suspended">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Suspended</name>
+        <name language="es">Suspendido</name>
+      </dataproperty>
+      <dataproperty id="aborted">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Aborted</name>
+        <name language="es">Cancelado</name>
+      </dataproperty>
+    </dataproperties>
+  </dataprovider>
+  <dataprovider code="dataprovider_29781353670809093" type="sql">
+    <description language="en">jBPM Process Summary</description>
+    <description language="es">jBPM Process Summary</description>
+    <sqlprovider>
+      <datasource>local</datasource>
+      <query type="default">select processinstanceid,processname,status,startdate,enddate,userid,processversion,duration from BAMPROCESSSUMMARY</query>
+    </sqlprovider>
+    <dataproperties>
+      <dataproperty id="processinstanceid">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+      </dataproperty>
+      <dataproperty id="processname">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Name</name>
+        <name language="es">Nombre</name>
+      </dataproperty>
+      <dataproperty id="status">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Status</name>
+        <name language="es">Estado</name>
+      </dataproperty>
+      <dataproperty id="startdate">
+        <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
+        <name language="en">Start date</name>
+        <name language="es">Fecha incio</name>
+      </dataproperty>
+      <dataproperty id="enddate">
+        <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
+        <name language="en">End date</name>
+        <name language="es">Fecha fin</name>
+      </dataproperty>
+      <dataproperty id="userid">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">User or role</name>
+        <name language="es">Usuario o rol</name>
+      </dataproperty>
+      <dataproperty id="processversion">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Version</name>
+        <name language="es">Versi&#243;n</name>
+      </dataproperty>
+      <dataproperty id="duration">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Duration</name>
+        <name language="es">Duraci&#243;n</name>
+      </dataproperty>
+    </dataproperties>
+  </dataprovider>
+  <dataprovider code="dataprovider_31171353947281370" type="sql">
+    <description language="en">jBPM Task Summary</description>
+    <sqlprovider>
+      <datasource>local</datasource>
+      <query type="default">select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
+        from BAMTASKSUMMARY ts left join BAMPROCESSSUMMARY ps on (ts.processinstanceid=ps.processinstanceid)</query>
+    </sqlprovider>
+    <dataproperties>
+      <dataproperty id="taskid">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+      </dataproperty>
+      <dataproperty id="processinstanceid">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Process ID</name>
+        <name language="es">ID Proceso</name>
+      </dataproperty>
+      <dataproperty id="processname">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Process</name>
+        <name language="es">Proceso</name>
+      </dataproperty>
+      <dataproperty id="processversion">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Version</name>
+        <name language="es">Versi&#243;n</name>
+      </dataproperty>
+      <dataproperty id="taskname">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">Task</name>
+        <name language="es">Tarea</name>
+      </dataproperty>
+      <dataproperty id="createddate">
+        <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
+        <name language="en">Start date</name>
+        <name language="es">Fecha inicio</name>
+      </dataproperty>
+      <dataproperty id="enddate">
+        <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
+        <name language="en">End date</name>
+        <name language="es">Fecha fin</name>
+      </dataproperty>
+      <dataproperty id="userid">
+        <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
+        <name language="en">User or group</name>
+        <name language="es">Usuario o grupo</name>
+      </dataproperty>
+      <dataproperty id="duration">
+        <domain>org.jboss.dashboard.domain.numeric.NumericDomain</domain>
+        <name language="en">Duration</name>
+        <name language="es">Duraci&#243;n</name>
+      </dataproperty>
+    </dataproperties>
+  </dataprovider>
+  <kpi code="kpi_31361353949675344">
+    <description language="en">By version</description>
+    <description language="es">Por versi&#243;n</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="piechart" renderer="ofc2">
+      <domain>
+        <propertyid>processversion</propertyid>
+        <name language="en">Version</name>
+        <name language="es">Versi&#243;n</name>
+        <maxnumberofintervals>10</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value}</unit>
+      </range>
+      <type>pie</type>
+      <color>#FFFFFF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>300</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>true</showtitle>
+      <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_29771353670707848">
+    <description language="en">Instances by process</description>
+    <description language="es">Instancias por proceso</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="piechart" renderer="ofc2">
+      <domain>
+        <propertyid>processname</propertyid>
+        <name language="en">Name</name>
+        <name language="es">Nombre</name>
+        <maxnumberofintervals>10</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value}</unit>
+      </range>
+      <type>pie</type>
+      <intervalsortcriteria>0</intervalsortcriteria>
+      <intervalsortorder>-1</intervalsortorder>
+      <color>#FFFFFF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>500</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>true</showtitle>
+      <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_31331353949095782">
+    <description language="en">Instances by status</description>
+    <description language="es">Instancias por estado</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="piechart" renderer="ofc2">
+      <domain>
+        <propertyid>status</propertyid>
+        <name language="en">Status</name>
+        <name language="es">Estado</name>
+        <maxnumberofintervals>10</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+      </range>
+      <type>pie</type>
+      <color>#FFFFFF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>400</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>true</showtitle>
+      <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_30571353683160264">
+    <description language="en">Instances started by user</description>
+    <description language="es">Instancias creadas por usuario</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="barchart" renderer="ofc2">
+      <domain>
+        <propertyid>userid</propertyid>
+        <name language="en">User or role</name>
+        <name language="es">Usuario o rol</name>
+        <maxnumberofintervals>100</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} instance(s)</unit>
+      </range>
+      <type>bar_filled</type>
+      <intervalsortcriteria>1</intervalsortcriteria>
+      <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>40</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#FF0000</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>500</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>true</showtitle>
+      <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_31261353948417434">
+    <description language="en">Number of task instances</description>
+    <description language="es">N&#250;mero de tareas</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="barchart" renderer="ofc2">
+      <domain>
+        <propertyid>taskname</propertyid>
+        <name language="en">Task</name>
+        <name language="es">Tarea</name>
+        <maxnumberofintervals>50</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>taskid</propertyid>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} task(s)</unit>
+      </range>
+      <type>bar_filled</type>
+      <intervalsortcriteria>0</intervalsortcriteria>
+      <intervalsortorder>1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>320</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#0000FF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>600</width>
+      <height>250</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>east</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_21351361956566198">
+    <description language="en">Number of tasks per user</description>
+    <description language="es">Tareas por usuario</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="barchart" renderer="ofc2">
+      <domain>
+        <propertyid>userid</propertyid>
+        <name language="en">User or group</name>
+        <name language="es">Usuario o grupo</name>
+        <maxnumberofintervals>100</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>taskid</propertyid>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+        <scalarfunction>count</scalarfunction>
+      </range>
+      <type>bar_filled</type>
+      <intervalsortcriteria>1</intervalsortcriteria>
+      <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>35</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#FFFFFF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>600</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_30751353944093386">
+    <description language="en">Process completed by date</description>
+    <description language="es">Procesos completado por fecha</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="linechart" renderer="ofc2">
+      <domain>
+        <propertyid>enddate</propertyid>
+        <name language="en">End date</name>
+        <name language="es">Fecha fin</name>
+        <maxnumberofintervals>30</maxnumberofintervals>
+        <taminterval>-1</taminterval>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} task(s)</unit>
+      </range>
+      <type>line</type>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>40</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#0000FF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>800</width>
+      <height>200</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>east</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_29671354183712341">
+    <description language="en">Process duration</description>
+    <description language="es">Duraci&#243;n de proceso</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="table" renderer="default">
+      <rowsperpage>10</rowsperpage>
+      <headerposition>top</headerposition>
+      <htmlstyle>border: 1px solid #000000; padding:0; text-align:center;</htmlstyle>
+      <htmlclass>skn-table_border</htmlclass>
+      <rowevenclass>skn-even_row</rowevenclass>
+      <rowoddclass>skn-odd_row</rowoddclass>
+      <rowhoverclass>skn-even_row_alt</rowhoverclass>
+      <groupby>
+        <propertyid>processname</propertyid>
+        <name language="en">Name</name>
+        <name language="es">Nombre</name>
+        <maxnumberofintervals>1000000</maxnumberofintervals>
+        <showtotals>true</showtotals>
+        <totalshtmlstyle>text-align:center; background-color:#DEE5EC; height:20px; font-weight:Bold;</totalshtmlstyle>
+      </groupby>
+      <column>
+        <modelproperty>processname</modelproperty>
+        <viewindex>0</viewindex>
+        <name language="en">Process</name>
+        <name language="es">Proceso</name>
+        <hint language="en">Process</hint>
+        <hint language="es">Proceso</hint>
+        <headerhtmlstyle>text-align:center; width:200px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:200px; height:20px;  white-space:nowrap;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+      </column>
+      <column>
+        <modelproperty>processinstanceid</modelproperty>
+        <viewindex>1</viewindex>
+        <name language="en">Instances</name>
+        <name language="es">Instancias</name>
+        <hint language="en">Instances</hint>
+        <hint language="es">Instancias</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>count</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>2</viewindex>
+        <name language="en">MIN</name>
+        <name language="es">MIN</name>
+        <hint language="en">MIN</hint>
+        <hint language="es">MIN</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>min</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>3</viewindex>
+        <name language="en">Average</name>
+        <name language="es">Media</name>
+        <hint language="en">Average</hint>
+        <hint language="es">Media</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>average</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>4</viewindex>
+        <name language="en">MAX</name>
+        <name language="es">MAX</name>
+        <hint language="en">MAX</hint>
+        <hint language="es">MAX</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>max</groupbyfunction>
+      </column>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_30721353944028579">
+    <description language="en">Process initiated by date</description>
+    <description language="es">Procesos iniciados por fecha</description>
+    <provider code="dataprovider_29781353670809093" />
+    <displayer type="linechart" renderer="ofc2">
+      <domain>
+        <propertyid>startdate</propertyid>
+        <name language="en">Start date</name>
+        <name language="es">Fecha incio</name>
+        <maxnumberofintervals>100</maxnumberofintervals>
+        <taminterval>-1</taminterval>
+      </domain>
+      <range>
+        <propertyid>processinstanceid</propertyid>
+        <name language="en">Id</name>
+        <name language="es">Id</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} instance(s)</unit>
+      </range>
+      <type>line</type>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>320</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#0000FF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>900</width>
+      <height>200</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_30531353942661507">
+    <description language="en">Process instances by status</description>
+    <description language="es">Instancias de proceso por estado</description>
+    <provider code="dataprovider_30861353511610610" />
+    <displayer type="table" renderer="default">
+      <rowsperpage>10</rowsperpage>
+      <headerposition>top</headerposition>
+      <htmlstyle>border: 1px solid #000000; padding:0; text-align:center;</htmlstyle>
+      <htmlclass>skn-table_border</htmlclass>
+      <rowevenclass>skn-even_row</rowevenclass>
+      <rowoddclass>skn-odd_row</rowoddclass>
+      <rowhoverclass>skn-even_row_alt</rowhoverclass>
+      <groupby>
+        <propertyid>processname</propertyid>
+        <name language="en">Process</name>
+        <name language="es">Process</name>
+        <maxnumberofintervals>1000000</maxnumberofintervals>
+        <showtotals>true</showtotals>
+        <totalshtmlstyle>text-align:center; background-color:#DEE5EC; height:20px; font-weight:Bold;</totalshtmlstyle>
+      </groupby>
+      <column>
+        <modelproperty>processname</modelproperty>
+        <viewindex>0</viewindex>
+        <name language="en">Process</name>
+        <hint language="en">Process</hint>
+        <headerhtmlstyle>text-align:center; width:200px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:200px; height:20px;  white-space:nowrap;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+      </column>
+      <column>
+        <modelproperty>total</modelproperty>
+        <viewindex>1</viewindex>
+        <name language="en">Total</name>
+        <name language="es">Total</name>
+        <hint language="en">Total</hint>
+        <hint language="es">Total</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>active</modelproperty>
+        <viewindex>2</viewindex>
+        <name language="en">Active</name>
+        <name language="es">Activo</name>
+        <hint language="en">Active</hint>
+        <hint language="es">Activo</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>completed</modelproperty>
+        <viewindex>3</viewindex>
+        <name language="en">Completed</name>
+        <name language="es">Completado</name>
+        <hint language="en">Completed</hint>
+        <hint language="es">Completado</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>pending</modelproperty>
+        <viewindex>4</viewindex>
+        <name language="en">Pending</name>
+        <name language="es">Pendiente</name>
+        <hint language="en">Pending</hint>
+        <hint language="es">Pendiente</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>suspended</modelproperty>
+        <viewindex>5</viewindex>
+        <name language="en">Suspended</name>
+        <name language="es">Suspendido</name>
+        <hint language="en">Suspended</hint>
+        <hint language="es">Suspendido</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>aborted</modelproperty>
+        <viewindex>6</viewindex>
+        <name language="en">Aborted</name>
+        <name language="es">Abortado</name>
+        <hint language="en">Aborted</hint>
+        <hint language="es">Abortado</hint>
+        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>sum</groupbyfunction>
+      </column>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_29741354189063608">
+    <description language="en">Tasks completed by date</description>
+    <description language="es">Tareas completadas por fecha</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="linechart" renderer="ofc2">
+      <domain>
+        <propertyid>enddate</propertyid>
+        <name language="en">End date</name>
+        <name language="es">Fecha fin</name>
+        <maxnumberofintervals>50</maxnumberofintervals>
+        <taminterval>-1</taminterval>
+      </domain>
+      <range>
+        <propertyid>taskid</propertyid>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} task(s)</unit>
+      </range>
+      <type>line</type>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>40</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#FF0000</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>800</width>
+      <height>200</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>east</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_29711354187660609">
+    <description language="en">Tasks duration</description>
+    <description language="es">Duraci&#243;n tareas</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="table" renderer="default">
+      <rowsperpage>25</rowsperpage>
+      <headerposition>top</headerposition>
+      <htmlstyle>border: 1px solid #000000; padding:0; text-align:center;</htmlstyle>
+      <htmlclass>skn-table_border</htmlclass>
+      <rowevenclass>skn-even_row</rowevenclass>
+      <rowoddclass>skn-odd_row</rowoddclass>
+      <rowhoverclass>skn-even_row_alt</rowhoverclass>
+      <groupby>
+        <propertyid>taskname</propertyid>
+        <name language="en">Task</name>
+        <name language="es">Tarea</name>
+        <maxnumberofintervals>10000</maxnumberofintervals>
+        <showtotals>true</showtotals>
+        <totalshtmlstyle>text-align:center; background-color:#DEE5EC; height:20px; font-weight:Bold;</totalshtmlstyle>
+      </groupby>
+      <column>
+        <modelproperty>taskname</modelproperty>
+        <viewindex>0</viewindex>
+        <name language="en">Task</name>
+        <name language="es">ID tarea</name>
+        <hint language="en">Task</hint>
+        <hint language="es">ID tarea</hint>
+        <headerhtmlstyle>text-align:center; width:200px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:200px; height:20px;  white-space:nowrap;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+      </column>
+      <column>
+        <modelproperty>taskid</modelproperty>
+        <viewindex>1</viewindex>
+        <name language="en">Count</name>
+        <name language="es">Count</name>
+        <hint language="en">Count</hint>
+        <hint language="es">Count</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>count</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>2</viewindex>
+        <name language="en">MIN</name>
+        <name language="es">MIN</name>
+        <hint language="en">MIN</hint>
+        <hint language="es">MIN</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>min</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>3</viewindex>
+        <name language="en">Average</name>
+        <name language="es">Media</name>
+        <hint language="en">Average</hint>
+        <hint language="es">Media</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center;</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>average</groupbyfunction>
+      </column>
+      <column>
+        <modelproperty>duration</modelproperty>
+        <viewindex>4</viewindex>
+        <name language="en">MAX</name>
+        <name language="es">MAX</name>
+        <hint language="en">MAX</hint>
+        <hint language="es">MAX</hint>
+        <headerhtmlstyle>text-align:center; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
+        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;text-align:center</cellhtmlstyle>
+        <htmlvalue>{value}</htmlvalue>
+        <selectable>false</selectable>
+        <sortable>true</sortable>
+        <groupbyfunction>max</groupbyfunction>
+      </column>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_31201353947556129">
+    <description language="en">Tasks started by date</description>
+    <description language="es">Tareas iniciadas por fecha</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="linechart" renderer="ofc2">
+      <domain>
+        <propertyid>createddate</propertyid>
+        <name language="en">Start date</name>
+        <name language="es">Fecha inicio</name>
+        <maxnumberofintervals>100</maxnumberofintervals>
+        <taminterval>-1</taminterval>
+      </domain>
+      <range>
+        <propertyid>taskid</propertyid>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+        <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} task(s)</unit>
+      </range>
+      <type>line</type>
+      <showlabelsxaxis>true</showlabelsxaxis>
+      <labelanglexaxis>50</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#FF0000</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>900</width>
+      <height>200</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>east</legendanchor>
+      <showtitle>false</showtitle>
+      <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_31291353948572804">
+    <description language="en">Users with tasks</description>
+    <description language="es">Usuarios con tareas</description>
+    <provider code="dataprovider_31171353947281370" />
+    <displayer type="piechart" renderer="ofc2">
+      <domain>
+        <propertyid>userid</propertyid>
+        <name language="en">User or group</name>
+        <name language="es">Usuario o grupo</name>
+        <maxnumberofintervals>100</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>taskid</propertyid>
+        <name language="en">Task ID</name>
+        <name language="es">ID tarea</name>
+        <scalarfunction>count</scalarfunction>
+      </range>
+      <type>pie</type>
+      <intervalsortcriteria>1</intervalsortcriteria>
+      <intervalsortorder>-1</intervalsortorder>
+      <color>#E40808</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>400</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>true</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>true</showtitle>
+      <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
+    </displayer>
+  </kpi>
+</kpis>

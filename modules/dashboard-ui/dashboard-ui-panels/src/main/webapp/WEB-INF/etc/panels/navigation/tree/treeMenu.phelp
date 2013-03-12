@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>navigation.tree_menu</panel-id>
+<usage>
+<text lang="en">This menu allows to display all or selected workspace pages.</text>
+<text lang="es">Men&#250; que nos permite ver todas o algunas de las p&#225;ginas del workspace.</text>
+<text lang="ca">Men&#250; que ens permet veure totes o algunes de les p&#224;gines del workspace.</text>
+</usage>
+<edit-usage>
+<text lang="en">Used to select which of workspace pages will be seen</text>
+<text lang="es">Permite escoger entre todas las p&#225;ginas del workspace, cu&#225;les se mostrar&#225;n.</text>
+<text lang="ca">Permet escollir entre totes les p&#224;gines del workspace quines es mostraran.</text>
+</edit-usage>
+<panel-parameter name="PageTemplate2">
+<text lang="en">Used to customize menu options look&amp;feel of the second level pages.</text>
+<text lang="es">Permite personalizar el aspecto de las opciones del men&#250; correspondientes a p&#225;ginas de segundo nivel</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de les opcions de men&#250; corresponents a p&#224;gines de segon nivell.</text></panel-parameter>
+<panel-parameter name="tabulation">
+<text lang="en">Text used for the indentation of the child pages.</text>
+<text lang="es">Texto que se utilizar&#225; para indentar las p&#225;ginas hijas</text>
+<text lang="ca">Text que s&apos;utilitza per indentar les p&#224;gines filles.</text></panel-parameter>
+<panel-parameter name="currentPageTemplate2">
+<text lang="en">Used to customize menu option look&amp;feel of the selected second level page.</text>
+<text lang="es">Permite personalizar el aspecto de la opci&#243;n de men&#250; correspondiente a la p&#225;gina de segundo nivel seleccionada.</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de l&apos;opci&#243; de men&#250; corresponent a la p&#224;gina de segon nivell seleccionada.</text></panel-parameter>
+<panel-parameter name="PageTemplate3">
+<text lang="en">Used to customize menu options look&amp;feel of the third and other level pages.</text>
+<text lang="es">Permite personalizar el aspecto de las opciones del men&#250; correspondientes a p&#225;ginas de tercer o m&#225;s nivel</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de les opcions de men&#250; corresponents a p&#224;gines de tercer o m&#233;s nivell.</text></panel-parameter>
+<panel-parameter name="PageTemplate1">
+<text lang="en">Used to customize menu options look&amp;feel of the first level pages.</text>
+<text lang="es">Permite personalizar el aspecto de las opciones del men&#250; correspondientes a p&#225;ginas de primer nivel.</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de les opcions de men&#250; corresponents a p&#224;gines de primer nivell.</text></panel-parameter>
+<panel-parameter name="currentPageTemplate3">
+<text lang="en">Used to customize menu option look&amp;feel of the selected third and other level page.</text>
+<text lang="es">Permite personalizar el aspecto de la opci&#243;n de men&#250; correspondiente a la p&#225;gina de tercer o m&#225;s nivel seleccionada.</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de l&apos;opci&#243; de men&#250; corresponent a la p&#224;gina de tercer o m&#233;s nivell seleccionada.</text></panel-parameter>
+<panel-parameter name="currentPageTemplate1">
+<text lang="en">Used to customize menu option look&amp;feel of the selected first level page.</text>
+<text lang="es">Permite personalizar el aspecto de la opci&#243;n de men&#250; correspondiente a la p&#225;gina de primer nivel seleccionada.</text>
+<text lang="ca">Permet personalitzar l&apos;aspecte de l&apos;opci&#243; de men&#250; corresponent a la p&#224;gina de primer nivell seleccionada.</text></panel-parameter>
+<panel-parameter name="openAllSections">
+<text lang="en">Defines whether the menu should by default appear fully expanded.</text>
+<text lang="es">Indica si el menu ha de aparecer por defecto completamente expandido.</text>
+<text lang="ca">Indica si el menu ha d&apos;apar&#232;ixer per defecte completament expandit.</text></panel-parameter></phelp>

@@ -1,0 +1,61 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.menup {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #404040;
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    position: relative;
+    margin-top: 12px;
+}
+.menup ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0px 10px 0;
+}
+.menup li {
+    display: inline;
+}
+.menup a {
+    background: url("../images/menup_right.png") no-repeat scroll right top transparent;
+    color: #404040;
+    float: left;
+    margin: -8px 1px 0px 0px;
+    text-decoration: none;
+}
+.menup a span {
+    background: url("../images/menup_left.png") no-repeat scroll left top transparent;
+    display: block;
+    padding: 3px 10px;
+}
+.menup a:hover {
+    background-position: 100% -75px;
+}
+.menup a:hover span {
+    background-position: 0 -75px;
+    color: #404040;
+}
+.menup td.current a {
+    background-position: 100% -75px;
+    position: relative;
+    top: 1px;
+}
+.menup td.current a span {
+    background-position: 0 -75px;
+    color: #404040;
+    font-weight: bold;
+}

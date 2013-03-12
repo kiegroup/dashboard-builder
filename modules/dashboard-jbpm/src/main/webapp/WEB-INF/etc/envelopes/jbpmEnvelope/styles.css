@@ -1,0 +1,117 @@
+/**
+ * Copyright (C) 2012 JBoss Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+body{
+	background:url(images/General_Bg.png) !important;
+}
+
+.Table_Top{
+	width: 100%;
+	padding: 0;
+	border: 0;
+	border-spacing: 0;
+}
+.Bg_Top-left{
+	background:url(images/Bg_Top-left.jpg) right;
+	height: 91px;
+	text-align: left;
+}
+.Bg_Top-right{
+	background:url(images/Bg_Top-right.jpg) no-repeat; 
+	width: 1000px;
+	height: 91px;
+	text-align: right;
+}
+
+#General_Logo{
+	width: 169px;
+	height: 91px;
+	top: 1px;
+	left: 1px;
+	position:relative;
+	background:url(images/General_Logo.png) no-repeat;
+}
+
+#Header_Right-top{
+    float: right;
+    height: 30px; 	
+    position: relative;
+    right: 12px;
+    top: -13px;
+}
+
+#Header_Right-bottom{
+    float: right;
+    height: 30px;
+    position: relative;
+    right: 12px;
+    top: 8px;
+}
+
+.GlobalSearch {
+    background: url("images/Bg_search.png") no-repeat scroll 0% 0% transparent;
+    height: 21px;
+    width: 145px;
+    padding-left: 3px;
+}
+
+.GlobalSearch .skn-input {
+    border: 0;
+    width: 120px;
+} 		
+
+
+.GlobalLogin {
+     height: 27px;
+     vertical-align: top;
+	 padding-top: 4px;
+}
+
+.GlobalLogin div {
+     color: #FFFFFF;
+}
+
+div.GlobalLang {
+     margin-top: 1px;
+}
+.GlobalLang td, .GlobalLang td a:link, .GlobalLang td a:visited {
+     color: #FFFFFF;
+}
+div.GlobalBreadCrump {
+	 margin-top: -17px;
+	 margin-left: 10px;
+	 font-size: 95%;
+}
+.Menu{
+	background-color: #e7e6e2;
+	width: 260px;
+	border-bottom: 1px dotted gray;
+}
+
+.Menu a, .Menu b {
+    color: #CC0000;
+}
+
+.MenuTop{
+	background:url(images/Menu_Top.png) no-repeat;
+	width:	260px;
+	height: 8px;
+}
+
+.MenuBottom{
+	background:url(images/Menu_Bottom.png) no-repeat;
+	width:	260px;
+	height: 8px;
+}

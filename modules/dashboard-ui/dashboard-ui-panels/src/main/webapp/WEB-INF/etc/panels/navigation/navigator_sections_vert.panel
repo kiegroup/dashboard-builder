@@ -1,0 +1,47 @@
+#
+# Copyright (C) 2012 JBoss Inc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+#
+# Language selector (horizontal)
+#
+
+panel.id          = navigation.sections_vert
+panel.description = navigation.sections_vert.description
+panel.group       = panel.group.navigation
+panel.driver      = org.jboss.dashboard.ui.panel.navigation.menu.MenuDriver
+
+panel.thumbnail =/panels/thumbnails/menu.png
+
+# logical pages to JSPs mappings
+jsp.show        = /panels/navigation/menu/show.jsp
+jsp.edit.lang   = /panels/navigation/menu/edit_lang.jsp
+jsp.edit.page   = /panels/navigation/menu/edit_page.jsp
+jsp.edit.workspace = /panels/navigation/menu/edit_workspace.jsp
+
+resources.messages=./messages.properties
+
+parameter.menu.type             = page
+parameter.menu.type.default     =
+
+parameter.start.html            = <table align="center" cellpadding="2" cellspacing="0" width="100%" border="0">
+parameter.start.html.default    =
+parameter.end.html              = </table>
+parameter.end.html.default      =
+
+parameter.before.link           = <tr><td valign="middle" align="left">
+parameter.before.link.default   =
+parameter.after.link            = </td></tr>
+parameter.after.link.default    =

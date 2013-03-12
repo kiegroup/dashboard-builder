@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+
+<!DOCTYPE hibernate-mapping
+        PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false">
+
+    <class name="org.jboss.dashboard.workspace.PanelInstance" table="dashb_panel_instance">
+
+        <cache usage="transactional"/>
+        <id name="dbid" type="long" column="dbid" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+
+        <property name="instanceId" type="long">
+            <column name="id_instance"/>
+        </property>
+
+        <property name="providerName" type="string">
+            <column name="provider" not-null="false" length="100"/>
+        </property>
+
+        <many-to-one name="workspace"
+                     class="org.jboss.dashboard.workspace.WorkspaceImpl"
+                     column="id_workspace" not-null="true"/>
+
+        <set name="panelParams" lazy="false" inverse="true" cascade="all-delete-orphan">
+            <cache usage="transactional"/>
+            <key column="id_instance"/>
+            <one-to-many class="org.jboss.dashboard.workspace.PanelParameter" />
+        </set>
+
+        <property name="persistence" type="org.jboss.dashboard.database.hibernate.StringBlobType">
+            <column name="serialization"/>
+        </property>
+    </class>
+
+</hibernate-mapping>

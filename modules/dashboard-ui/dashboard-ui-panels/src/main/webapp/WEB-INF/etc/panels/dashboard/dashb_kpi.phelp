@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>dashboard.kpi</panel-id>
+<usage>
+<text lang="es">El &lt;strong&gt;modo normal&lt;/strong&gt; del panel &lt;em&gt;Indicador clave de rendimiento&lt;/em&gt; permite visualizar gr&amp;aacute;ficamente y en tiempo real cualquier tipo de informaci&amp;oacute;n relativa al &amp;aacute;mbito empresarial: actividad econ&amp;oacute;mica, gesti&amp;oacute;n de los procesos de negocio, gesti&amp;oacute;n de los contenidos, etc. Dentro del &amp;aacute;rea de gesti&amp;oacute;n de procesos o BPM es posible monitorizar diversos indicadores asociados a los casos en marcha de los procesos instalados, como el n&amp;uacute;mero de casos por proceso o los casos completados en el &amp;uacute;ltimo d&amp;iacute;a. Otros ejemplos podr&amp;iacute;an ser la facturaci&amp;oacute;n por departamento en una multinacional o estad&amp;iacute;sticas de acceso a los contenidos en un workspace de noticias. Visualmente, se soportan varias familias de gr&amp;aacute;ficas: de barras, de pastel, de medici&amp;oacute;n o en formato tabla.</text>
+<text lang="en">The &lt;strong&gt;KPI&lt;/strong&gt; (&lt;em&gt;Key Performance Indicator&lt;/em&gt;) panel, in its &amp;ldquo;&lt;strong&gt;normal mode&lt;/strong&gt;&amp;rdquo;, visualizes graphically and in real time all the information related to the business area in question: economic activity, business process management, contents management etc. The Business Process Management (BPM) allows to monitor different indicators associated with the current cases of the installed processes, such as the number of cases per process or the completed cases during the last day. Other examples include the turnover per department in a multinational company or the access statistics to news workspace contents. From the visual point of view, the following graphic interfaces are supported: bar and pie charts, meter types, as well as tabular displays.&lt;br /&gt;
+&lt;br /&gt;</text>
+<text lang="ca">El &lt;strong&gt;mode normal&lt;/strong&gt; del panel &lt;em&gt;Indicador clau de rendiment permet&lt;/em&gt; visualitzar gr&#224;ficament i en temps real qualsevol tipus d&apos;informaci&#243; relativa al &#224;mbit empresarial: activitat econ&#242;mica, gesti&#243; dels processos de negoci, gesti&#243; dels continguts, etc. Dins de l&apos;&#224;rea de gesti&#243; de processos o BPM &#233;s possible monitoritzar diversos indicadors associats als casos actius del processos instal&#183;lats, com el nombre de casos per proc&#233;s o els casos completats l&apos;&#250;ltim dia. Altres exemples podrien &#233;sser la facturaci&#243; per departament en una multinacional o estad&#237;stiques d&apos;acc&#233;s als continguts en un workspace de not&#237;cies. Visualment, es suporten varies fam&#237;lies de gr&#224;fiques: barras, past&#237;s, medici&#243; o en format taula.</text>
+</usage>
+<edit-usage>
+<text lang="es">El objetivo del &lt;strong&gt;modo edici&amp;oacute;n&lt;/strong&gt; es permitir al usuario que pueda configurar a su medida y con un alto grado de detalle la informaci&amp;oacute;n a visualizar en el modo normal, y sobre todo, c&amp;oacute;mo se mostrar&amp;aacute; dicha informaci&amp;oacute;n.&lt;br /&gt;
+&lt;br /&gt;
+Una vez seleccionado el origen o proveedor de datos (previamente es necesario configurarlo utilizando el panel de &lt;em&gt;Gesti&amp;oacute;n de proveedores de datos&lt;/em&gt;, ver su ayuda si es necesario), se tiene que decidir qu&amp;eacute; propiedad act&amp;uacute;a como dominio del indicador y cu&amp;aacute;l como rango. Cabe resaltar la rapidez y facilidad con la que, con un solo acceso al origen de datos, se pueden construir varios indicadores cambiando &amp;uacute;nicamente las propiedades que act&amp;uacute;an como dominio y rango. Como se ver&amp;aacute; en un ejemplo posterior, la elecci&amp;oacute;n de estas dos propiedades marcar&amp;aacute; el significado del indicador. &lt;br /&gt;
+&lt;br /&gt;
+De cada una de las propiedades pueden configurarse, dependiendo de su tipo, varios par&amp;aacute;metros. Destacan especialmente la funci&amp;oacute;n escalar a aplicar al rango: suma, n&amp;uacute;mero de apariciones, m&amp;aacute;ximo, etc; y los que limitan el rango de valores a visualizar: valores m&amp;aacute;ximo y m&amp;iacute;nimo o n&amp;uacute;mero m&amp;aacute;ximo de intervalos.&lt;br /&gt;
+Como a&amp;ntilde;adido se pueden configurar varias opciones de visualizaci&amp;oacute;n de la gr&amp;aacute;fica propiamente dicha como el tipo de familia del gr&amp;aacute;fico, su tipo concreto dentro de la familia, su tama&amp;ntilde;o, d&amp;oacute;nde aparece la leyenda, etc.&lt;br /&gt;
+&lt;br /&gt;
+Para finalizar veamos un &lt;strong&gt;ejemplo&lt;/strong&gt;&lt;strong&gt; de indicador &lt;/strong&gt;dentro del siguiente escenario: una compa&amp;ntilde;&amp;iacute;a cualquiera con sedes u oficinas en distintos pa&amp;iacute;ses, quiere hacer una comparativa de los gastos generados en cada una. Para ello, se deber&amp;iacute;a configurar el indicador escogiendo como dominio la propiedad &lt;em&gt;&amp;quot;office&amp;quot;&lt;/em&gt; y como rango la propiedad &lt;em&gt;&amp;quot;amount&amp;quot;&lt;/em&gt; con la funci&amp;oacute;n escalar a aplicar &lt;em&gt;&amp;quot;suma&amp;quot;&lt;/em&gt;. Como resultado se visualizar&amp;aacute; el &lt;u&gt;total&lt;/u&gt; de &lt;em&gt;&lt;strong&gt;&amp;quot;Gastos por oficina&lt;/strong&gt;&lt;/em&gt;&lt;em&gt;&lt;strong&gt;&amp;quot;&lt;/strong&gt;&lt;/em&gt; de la compa&amp;ntilde;&amp;iacute;a. Para terminar de establecer la configuraci&amp;oacute;n a medida, es necesario configurar los par&amp;aacute;metros de las propiedades y del gr&amp;aacute;fico.&lt;br /&gt;</text>
+<text lang="en">The purpose of the &amp;ldquo;&lt;strong&gt;edition mode&lt;/strong&gt;&amp;rdquo; is to allow the user to be able to configure the information that is visualized in the normal mode, with a help of tailored, high-level parameter configuration, in order to determine and control how the information can be shown.&lt;br /&gt;
+&lt;br /&gt;
+Once the source of the data provider has been selected (previously configured with the Data provider management panel and documented in the panel online help), it needs to be decided which property acts as the domain of the indicator and which acts as range. It might be noted here the speed and ease with which, with a single access to the data origin, different indicators can be configured, only changing the properties that act as domain and range. As it will be shown in a following example, the choice of these properties will indicate the meaning of the indicator.&lt;br /&gt;
+&lt;br /&gt;
+In summary, different parameters of every property can be configured according to their type. An obvious example is the scalar function to apply to the range: sum, number of appearances, maximum, etc; and those which limit the range of values to visualize: maximum and minimum values or maximum number of intervals.&lt;br /&gt;
+&lt;br /&gt;
+In addition, different graphic visualization options can be configured, like the graphic family type, the type within the family, its size, the place where the legend appears etc.&lt;br /&gt;
+&lt;p style=&quot;margin-bottom: 0in;&quot; class=&quot;western&quot;&gt;Let&amp;rsquo;s conclude with an &lt;strong&gt;indicator example&lt;/strong&gt; of the following scenario: a company with headquarters or offices within different countries wants to make a comparative between the expenses generated in every one. For this reason, the &lt;em&gt;&amp;quot;office&amp;quot;&lt;/em&gt; property would be configured as the domain and the &lt;em&gt;&amp;quot;amount&amp;quot;&lt;/em&gt; property as the range with the &lt;em&gt;&amp;quot;sum&amp;quot;&lt;/em&gt; scalar function to apply. As a result the &lt;u&gt;total&lt;/u&gt; of &lt;em&gt;&lt;strong&gt;&amp;quot;Expenses per office&amp;quot;&lt;/strong&gt;&lt;/em&gt; of the company would be visualized. To end the tailored configuration, it is necessary to set both the properties and graphic parameters.&lt;/p&gt;
+&lt;br /&gt;
+&lt;br /&gt;</text>
+<text lang="ca">L&apos;objectiu del &lt;strong&gt;mode edici&#243; &lt;/strong&gt;&#233;s permetre al usuari que pugui configurar a la seva mida i amb un alt grau de detall la informaci&#243; a visualitzar en mode normal i, sobretot, com es mostrar&#224; aquesta informaci&#243;.
+
+Un cop sel&#183;leccionat l&apos;origen o prove&#239;dor de dades (previament configurat mitjan&#231;ant el panel de &lt;em&gt;Gesti&#243; de prove&#239;dors de dades&lt;/em&gt;, veure la seva ajuda si &#233;s necessari), es t&#233; que decidir quina propietat act&#250;a com a domini del indicador i quina con a rang. Cal destacar la rapidesa i facilitat amb la que, amb un sol acc&#233;s a l&apos;oriden de dades, es poden contru&#239;r varis indicadors canviant &#250;nicament les propietats que act&#250;en com a domini i rang. Com es veur&#224; en un exemple posterior, l&apos;elecci&#243; de aquestes dues propietats marcar&#224; el significat de l&apos;indicador.
+
+De cada una de les propietats es pot configurar, depenent del seu tipus, varis par&#224;metres. Destaquen especialment la funci&#243; escalar a aplicar al rang: suma, nombre d&apos;aparicions, m&#224;xim, etc; i els que limiten el rang de valors a visualitzar: valors m&#224;xim i m&#237;nim o nombre d&apos;intervals.
+Com a afegit es poden configurar varies opcions de visualitzaci&#243; de la gr&#224;fica com ara el tipus de familia de gr&#224;fic, el seu tipus concrec dins la familia, el seu tamany, on apareix la llegenda, etc.
+
+Per a finalitzar vegem un &lt;strong&gt;exemple d&apos;indicador&lt;/strong&gt; dins del seg&#251;ent escenari: una companyia amb les seves oficines en diversos pa&#239;sos vol fer una comparativa de despeses generados per cada una d&apos;elles. Per aix&#242;, s&apos;ha de configurar el indicador escollint com a domini la propietat &lt;em&gt;&quot;office&quot;&lt;/em&gt; i com a rang la propietat &lt;em&gt;&quot;amount&quot;&lt;/em&gt;, aquesta amb la funci&#243; escalar &lt;em&gt;&quot;suma&quot;&lt;/em&gt;. Com a resultat es visualitzar&#224; el total de &lt;strong&gt;&quot;Despeses per oficina&quot;&lt;/strong&gt; de la companyia. Per acabar de establir la configuraci&#243; a mida, es necessari configurar el par&#224;metres de les propietats i del gr&#224;fic.</text>
+</edit-usage>
+<panel-parameter name="htmlBeforePanel">
+<text lang="es"></text>
+<text lang="en">&lt;br /&gt;</text>
+<text lang="ca"></text></panel-parameter>
+<panel-parameter name="kpicode">
+<text lang="es"></text>
+<text lang="en"></text>
+<text lang="ca"></text></panel-parameter>
+<panel-parameter name="htmlAfterPanel">
+<text lang="es"></text>
+<text lang="en">&lt;br /&gt;</text>
+<text lang="ca"></text></panel-parameter>
+</phelp>
