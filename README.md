@@ -21,8 +21,8 @@ Table of contents
 What is?
 ----------------
 
-The jBPM Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards.
-Dashboard data can be extracted from from heterogeneous sources of information such as JDBC databases or regular text files.
+The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards.
+Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files.
 It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.
 
 The application will also automatically install some ready-to-use sample dashboards, for demo and learning purposes.
@@ -42,8 +42,8 @@ The application will also automatically install some ready-to-use sample dashboa
 
 **Target users**:
 * Managers / Business owners. Consumer of dashboards and reports.
-* IT / System architects. Connectivity and data extraction
-* Analyst. Dashboard composition & configuration.
+* IT / System architects. Connectivity and data extraction.
+* Analysts. Dashboard composition & configuration.
 
 **Distribution**:
 * Independent application to deploy in WAR format.
@@ -52,14 +52,14 @@ The application will also automatically install some ready-to-use sample dashboa
 General information
 -------------------
 
-There are currently three ways to use or work with the product.
+There are currently three ways to use or work with this module.
 
 1. **Developer mode**:
-    This work mode is used by developers that wants to work and contribute with the project.
-    If you are interested in develop and contribute to the project we recommend that you read the following sections.
+    This work mode is used by developers that wants to work and contribute to the project.
+    If so, we recommend that you read the following sections.
 
 2. **Demonstration mode**:
-    The product demonstration is a stand alone version intended for users that wants to try the product without
+    A standalone demo version is provided to those users who want to try the product without
     having to do a complex installation and configuration.
 
     If you are interested to run the demonstration read the next section.
@@ -72,7 +72,7 @@ There are currently three ways to use or work with the product.
 Quickstart
 -------------------
 
-If you want to build the project and execute the demo in 5 minutes follow this steps.
+If you want to build the project and execute the demo in less than 5 minutes follow the next steps:
 
 0. Prerequisites:
 
@@ -82,7 +82,7 @@ If you want to build the project and execute the demo in 5 minutes follow this s
 
    <pre>$ mvn clean install -DskipTests -P full-build</pre>
 
-2. Go to the 'builder/target' directory and unzip the **dashbuilder-demo-installer.zip** file to any selected directory. (e.g. <my_target_directory>)
+2. Go to the 'builder/target' directory and unzip the **dashbuilder-demo-installer.zip** file to any selected directory. (e.g. [my_target_directory])
 
   After unzipping you will have a directory structure like this:
 
@@ -101,7 +101,7 @@ the **start-demo.sh** script (start-demo.bat on windows systems) to run the demo
 to access the application. The following user/password will be automatically created: **root/root**, **demo/demo**.
 
   NOTE: when you start the demo application for the first time it may take some minutes due to the 
-  database initialization procedure, moreover the H2 database downgrades the application performance 
+  database initialization procedure. The H2 database downgrades the application performance
   compared with other databases like PostgreSQL, MySQL, normally used in production environments.
 
 

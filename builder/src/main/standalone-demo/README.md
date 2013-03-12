@@ -6,7 +6,7 @@ Feel free to run and modify this installation as much as you wish, but remember 
 RECOMMENDED to use this demo in production environments.
 
 NOTE: when you start the demo for the first time it may take some minutes due to the database
-initialization procedure, moreover the H2 database downgrades the application performance compared with other
+initialization procedure. The H2 database downgrades the application performance compared with other
 databases like PostgreSQL, MySQL, etc., normally used in production environments.
 
 Prerequisites
