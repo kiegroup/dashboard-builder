@@ -113,15 +113,17 @@ Currently the project is composed of the following three main subprojects.
 * **modules**:
 
 It contains all the modules beloging to the application.
+
 If you are a project developer o contributor read the [modules/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/modules/README.md) file.
 
 * **builder**:
 
 This project generates the different distribution formats for the application.
+
 Read the [builder/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/README.md) file for more information.
 
 * **toolkit**:
 
-This project implements some basic tools. If you need to automate the application distribution configuration
-you will be probably interested in the "dist-config" tool.
+This project implements some basic tools. If you need to automate the application distribution configuration you will be probably interested in the "dist-config" tool.
+
 Read the [toolkit/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/toolkit/README.md) file for more information.
