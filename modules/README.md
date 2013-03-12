@@ -44,8 +44,11 @@ The parameters that you can configure are: db.url, db.user and db.password
 Log4j configuration
 -------------------
 
-The log4j.xml file is located the following directory: "modules/dashboard-showcase/src/test/resources/log4j.xml"
-configure the following parameter <param name="file" value="/tmp/dashbuilder-app.log"/> to the desired file.
+The log4j.xml file is located the following directory: "modules/dashboard-showcase/src/test/resources/log4j.xml".
+
+Configure the following parameter to the desired file:
+
+    <param name="file" value="/tmp/dashbuilder-app.log"/>
 
 Compile and build
 ----------------------
@@ -89,7 +92,7 @@ Once logged, the jBPM Process Dashboard can be accessed in two ways:
 2. Typing the following url <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
 
 In order to popoulate the jBPM dashboard with dummy data (only for the H2 database), go to the
-"modules/dashboard-showcase/WEB-INF/etc/sql" directory and run the jbpm_demo.sh script.
+**modules/dashboard-showcase/WEB-INF/etc/sql** directory and run the **jbpm_demo.sh** script.
 The target database needs to have been created before this, either by launching the application, or by
 running the create-h2.sql manually.
 

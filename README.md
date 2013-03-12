@@ -94,11 +94,11 @@ If you want to build the project and execute the demo in 5 minutes follow this s
          /log
    </pre>
 
-3. To start the demo application go to the **<my_target_directory>/dashbuilder-demo** directory and execute
+3. To start the demo application go to the **[my_target_directory]/dashbuilder-demo** directory and execute
 the **start-demo.sh** script (start-demo.bat on windows systems) to run the demo application.
 
 4. Once the application is started open a browser window and type the following url **http://localhost:8080/dashbuilder**
-to access the application. The following user/password will be automatically created: **root**/**root**, **demo**/**demo**.
+to access the application. The following user/password will be automatically created: **root/root**, **demo/demo**.
 
   NOTE: when you start the demo application for the first time it may take some minutes due to the 
   database initialization procedure, moreover the H2 database downgrades the application performance 
