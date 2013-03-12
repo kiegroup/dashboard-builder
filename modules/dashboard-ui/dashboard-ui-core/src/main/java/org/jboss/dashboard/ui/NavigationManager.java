@@ -288,26 +288,21 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
 
 
     protected boolean isValidUbication() {
-        if (userRequiresLoginBackdoor)
-            return true; //It is always legal to be in login.jsp
+        if (userRequiresLoginBackdoor) return true;
+        if (getCurrentWorkspaceId() == null) return false;
 
-        if (getCurrentWorkspaceId() == null)
-            return false;
         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(doGetCurrentWorkspace(), WorkspacePermission.ACTION_LOGIN);
-        if (!getUserStatus().hasPermission(workspacePerm))
-            return false;
+        if (!getUserStatus().hasPermission(workspacePerm)) return false;
 
         if (getCurrentSectionId() != null) {
             SectionPermission sectionPerm = SectionPermission.newInstance(doGetCurrentSection(), SectionPermission.ACTION_VIEW);
-            if (!getUserStatus().hasPermission(sectionPerm))
-                return false;
+            if (!getUserStatus().hasPermission(sectionPerm)) return false;
         } else { //Config is valid when there is no current section, but user can admin workspace.
             WorkspacePermission adminWorkspacePerm = WorkspacePermission.newInstance(doGetCurrentWorkspace(), WorkspacePermission.ACTION_ADMIN);
-            if (!getUserStatus().hasPermission(adminWorkspacePerm))
-                return false;
+            if (!getUserStatus().hasPermission(adminWorkspacePerm)) return false;
         }
 
-        //All security checks are met.
+        // All security checks are met.
         return true;
     }
 
