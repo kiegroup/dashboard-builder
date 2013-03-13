@@ -72,7 +72,7 @@ Run the application
 --------------------
 
 To run the application go to the "modules/dashboard-showcase" directory and execute one of the following command
-depending the build profile used to compile the application in the previous section:
+depending the build profile used to compile the application (read the previous section):
 
     $ mvn jetty:run -P postgres,jetty
     $ mvn jetty:run -P h2,jetty
@@ -91,7 +91,7 @@ Once logged, the jBPM Process Dashboard can be accessed in two ways:
 1. As root, by selecting the jBPM Dashboard workspace at the top administration toolbar.
 2. Typing the following url <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
 
-In order to popoulate the jBPM dashboard with dummy data (only for the H2 database), go to the
+In order to populate the jBPM dashboard with dummy data (only for the H2 database), go to the
 **modules/dashboard-showcase/WEB-INF/etc/sql** directory and run the **jbpm_demo.sh** script.
 The target database needs to have been created before this, either by launching the application, or by
 running the create-h2.sql manually.
