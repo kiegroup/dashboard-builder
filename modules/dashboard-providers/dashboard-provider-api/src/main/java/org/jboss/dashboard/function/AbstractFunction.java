@@ -22,7 +22,7 @@ import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import java.util.*;
 
 /**
- * Base class for the implementation of the BAM scalar functions.
+ * Base class for the implementation of scalar functions.
  */
 public abstract class AbstractFunction implements ScalarFunction {
 
@@ -66,7 +66,7 @@ public abstract class AbstractFunction implements ScalarFunction {
         }
 
         public CodeBlockType getType() {
-            return CoreCodeBlockTypes.BAM_FUNCTION;
+            return CoreCodeBlockTypes.SCALAR_FUNCTION;
         }
 
         public String getDescription() {

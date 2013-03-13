@@ -22,7 +22,7 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Panel;
 
 /**
- * Any BAM panel's driver (controller) embedded into a dashboard implements this interface.
+ * Any panel driver (controller) who display dashboard related data should must implement this interface.
  */
 public interface DashboardDriver {
 

@@ -45,7 +45,7 @@ JNDI name: java:jboss/datasources/dashbuilderDS
 The following lines gives you an example of how to create this datasource using the CLI commands, but you can use any
 other method supported by the JBoss 7.1 server like the web console.
 
-Create the H2 datasource to support the BAM application executing the following command.
+Create the H2 datasource by executing the following command.
 
     $ ./jboss-cli.sh --connect --file=[path_to_datasource_file]
 

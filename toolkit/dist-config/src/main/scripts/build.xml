@@ -150,7 +150,7 @@
 <target name="usage" >
 
 <echo>
-The "dist-config" tool lets you configure the BAM application according to a set of parameters and template files.
+The "dist-config" tool lets you configure the application according to a set of parameters and template files.
 Please read the README.md file in order to get more detailed information.
 
     ant [script options] -Dproduct=file1 -Dconfig=file2
@@ -160,7 +160,7 @@ Please read the README.md file in order to get more detailed information.
     jetty:      Configure the distribution to be deployed in a standalone Jetty server.
     factory:    Configure only the distribution components, not including web application deployment descriptors.
 
-    file1:  Path to the BAM application distribution war file.
+    file1:  Path to the application distribution war file.
     file2:  Path to a properties file with the configuration parameters.
 
     examples:
