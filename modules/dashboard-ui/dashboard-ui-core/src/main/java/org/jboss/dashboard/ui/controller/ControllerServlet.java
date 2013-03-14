@@ -40,10 +40,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Application end point for HTTP requests. It provides the following features:<ul>
@@ -88,10 +85,12 @@ public class ControllerServlet extends HttpServlet {
         File outputFile = new File(Application.lookup().getBaseAppDirectory() + "/ControllerError.txt");
         FileWriter writer = null;
         try {
+            StringWriter sw = new StringWriter();
+            initException.printStackTrace(new PrintWriter(sw));
             writer = new FileWriter(outputFile);
-            writer.write(initException.getMessage() + "\n");
-            writer.close();
+            writer.write(initException.getMessage() + "\n" + sw.toString());
             outputFile.deleteOnExit();
+            sw.close();
         } catch (IOException e1) {
             log.error("Error writing to log file: ", e1);
         } finally {
@@ -251,8 +250,7 @@ public class ControllerServlet extends HttpServlet {
      * Called when it's destroyed.
      */
     public void destroy() {
-        // Destroy the Factory configuration.
-        Application.lookup().setGlobalFactory(null);
+        Application.lookup().shutdown();
         log.debug("Destroying controller servlet");
     }
 }
