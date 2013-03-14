@@ -391,6 +391,7 @@
                                     <filtering>true</filtering>
                                     <directory>src/test/resources/config</directory>
                                     <includes>
+                                        <include>**/realm.properties</include>
                                         <include>**/jetty-env.xml</include>
                                         <include>**/log4j.xml</include>
                                     </includes>
