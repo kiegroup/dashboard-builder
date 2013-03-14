@@ -97,4 +97,4 @@ The target database needs to have been created before this, either by launching 
 running the create-h2.sql manually.
 
 If you are interested in setup an integrated installation on JBoss AS of both the jBPM Dashboard and the jBPM Human Task
-console, please, take a look at the following [guide](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/jBPM-Integration.md).
+console, please, take a look at the following [guide](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md).
