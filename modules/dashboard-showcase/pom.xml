@@ -392,7 +392,6 @@
                                     <directory>src/test/resources/config</directory>
                                     <includes>
                                         <include>**/jetty-env.xml</include>
-                                        <include>**/jetty-context.xml</include>
                                         <include>**/log4j.xml</include>
                                     </includes>
                                 </resource>

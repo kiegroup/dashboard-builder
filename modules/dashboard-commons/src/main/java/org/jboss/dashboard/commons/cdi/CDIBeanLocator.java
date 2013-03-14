@@ -37,7 +37,9 @@ public class CDIBeanLocator {
             if (beanManager != null) return beanManager;
 
             InitialContext initialContext = new InitialContext();
-            return (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
+            beanManager = (BeanManager) initialContext.lookup("java:comp/BeanManager");
+            if (beanManager == null) beanManager = (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
+            return beanManager;
         } catch (NamingException e) {
             log.error("Couldn't get BeanManager through JNDI");
             return null;

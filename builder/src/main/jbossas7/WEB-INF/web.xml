@@ -120,8 +120,6 @@
         <taglib-uri>http://jakarta.apache.org/taglibs/i18n-1.0</taglib-uri>
         <taglib-location>/WEB-INF/tlds/i18n.tld</taglib-location>
     </taglib>
-
-    <!-- TAGLIB(S) required by bam displayers -->
     <taglib>
         <taglib-uri>cewolf.tld</taglib-uri>
         <taglib-location>/WEB-INF/tlds/cewolf.tld</taglib-location>

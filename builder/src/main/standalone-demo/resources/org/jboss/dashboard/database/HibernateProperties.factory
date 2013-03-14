@@ -15,6 +15,6 @@
 #
 
 # Demo application works with H2
+hibernate.connection.datasource=java\:comp/env/jdbc/dashbuilder
 hibernate.dialect=org.jboss.dashboard.database.H2Dialect
-
 hibernate.cache.use_second_level_cache=false
