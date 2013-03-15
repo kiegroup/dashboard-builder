@@ -163,7 +163,6 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>Dashboard Builder Realm</realm-name>
         <form-login-config>
             <form-login-page>/jlogin.html</form-login-page>
             <form-error-page>/jerror.html</form-error-page>
