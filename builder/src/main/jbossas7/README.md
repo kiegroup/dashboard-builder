@@ -73,8 +73,28 @@ The configured database user must also have enough database grants to create the
 Take in count that the H2 database downgrades the application performance compared with other databases like PostgreSQL,
 MySQL, etc., normally used in production environments.
 
+User Authentication
+--------------------------
+
 Once started, you can log into the application by typing the following url:
-<code>http://localhost:8080/dashbuilder</code> and the user/password <code>root/root</code> or <code>demo/demo</code>.
+<code>http://localhost:8080/dashbuilder</code>. A login screen should be displayed.
+
+However, some extra configuration is needed before you can sign in.
+
+* The application is based on the J2EE container managed authentication  mechanism.
+This means that the login itself is delegated to the application server.
+
+* First of all, you must first create a user with login=<code>root</code> & role=<code>root</code>
+(using the JBoss [jboss-as7]/bin/adduser command utility) in order to login as superuser.
+
+* The application roles are defined at [builder/src/main/jbossas7/WEB-INF/web.xml](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/WEB-INF/web.xml) file.
+Roles can be used to create access profiles and define custom authorization policies to the dashboards.
+
+* The application uses the JBoss' default security domain as you can see [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/WEB-INF/jboss-web.xml).
+You can define your own security domain and use, for instance, an LDAP, a database, or whatever mechanism you want to use as your credential storage.
+There are plenty of examples in the JBoss AS documentation about.
+
+Feel free to change any settings regarding the application security and, once finished, to generate a distribution war that fits your needs.
 
 
 jBPM Dashboard & Human Tasks Console integration
