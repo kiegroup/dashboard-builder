@@ -125,7 +125,53 @@
         <taglib-location>/WEB-INF/tlds/cewolf.tld</taglib-location>
     </taglib>
 
+    <!-- Security configuration -->
+
+    <security-role>
+        <description>Superuser</description>
+        <role-name>root</role-name>
+    </security-role>
+
+    <security-role>
+        <description>Administrator</description>
+        <role-name>admin</role-name>
+    </security-role>
+
+    <security-role>
+        <description>End user</description>
+        <role-name>user</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Free access</web-resource-name>
+            <url-pattern>/jb_logo.png</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted access</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>root</role-name>
+            <role-name>admin</role-name>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>Dashboard Builder Realm</realm-name>
+        <form-login-config>
+            <form-login-page>/jlogin.html</form-login-page>
+            <form-error-page>/jerror.html</form-error-page>
+        </form-login-config>
+    </login-config>
+
     <!-- Application main data source definition -->
+
     <resource-ref>
         <description>Dashboard Builder Datasource</description>
         <res-ref-name>jdbc/dashbuilder</res-ref-name>

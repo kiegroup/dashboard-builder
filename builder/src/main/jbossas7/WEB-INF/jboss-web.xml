@@ -23,4 +23,17 @@
         <res-type>javax.sql.DataSource</res-type>
         <jndi-name>java:jboss/datasources/dashbuilderDS</jndi-name>
     </resource-ref>
+
+    <!--
+        Use by default the JBoss AS security domain.  Users should be registered using the bin/addUser.sh command.
+        In order to access as superuser to the Dashboard Builder app you must create a "root" user.
+
+        Optionally, you can define a custom security domain.
+        Please, comment the security-domain above and uncomment the next one.
+
+        If you choose to use the custom domain then you should define it into the
+        <jboss-as7>/standalone/configuration/standalone.xml file.
+     -->
+    <security-domain>other</security-domain>
+
 </jboss-web>
