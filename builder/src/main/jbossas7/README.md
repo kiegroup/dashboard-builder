@@ -129,10 +129,10 @@ must be done:
   Go to the menu option <code>Administration -> External connections</code> and create a new "Data Source" with the
   following parameters.
 
-    Type: JNDI
-    Name: JbpmData
-    JNDI path: java:jboss/datasources/ExampleDS
-    Test Query: select * from bamtasksummary
+        Type: JNDI
+        Name: JbpmData
+        JNDI path: java:jboss/datasources/ExampleDS
+        Test Query: select * from bamtasksummary
 
   Use the "Check DataSource" button to execute the test query and save the data source.
 
