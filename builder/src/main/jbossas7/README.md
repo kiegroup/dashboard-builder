@@ -79,7 +79,7 @@ User Authentication
 Once started, you can log into the application by typing the following url:
 <code>http://localhost:8080/dashbuilder</code>. A login screen should be displayed.
 
-However, some extra configuration is needed before you can sign in.
+However, some extra configuration is needed before you can sign in:
 
 * The application is based on the J2EE container managed authentication  mechanism.
 This means that the login itself is delegated to the application server.
