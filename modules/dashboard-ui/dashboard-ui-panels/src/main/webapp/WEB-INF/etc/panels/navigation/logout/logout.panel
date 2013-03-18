@@ -17,8 +17,8 @@
 #
 # Logout panel
 #
-panel.id          =  panels.navigation.logout
-panel.description =  panels.navigation.logout.description
+panel.id          =  navigation.logout
+panel.description =  navigation.logout.description
 panel.group       =  panel.group.navigation
 panel.driver      =  org.jboss.dashboard.ui.panel.logout.LogoutDriver
 
