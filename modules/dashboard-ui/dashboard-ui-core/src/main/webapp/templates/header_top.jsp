@@ -15,7 +15,6 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.workspace.Parameters" %>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -66,9 +65,9 @@
                             <a href="<factory:url friendly="false" bean="org.jboss.dashboard.ui.NavigationManager" action='config'/>">
                             <img  border="0" src="<static:image relativePath="adminHeader/processes.png"/>" title="<%=configModeMsg%>"/>
                             </a>
-                            <i18n:message key="ui.loginLogout" id="loginLogoutMsg"/>
-                            <a href="#" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
-                                <img src="<static:image relativePath="adminHeader/login-logout.png"/>"   border="0" title="<%=loginLogoutMsg%>"/>
+								<i18n:message key="ui.logout" id="loginLogoutMsg"/>
+								<a href="<factory:url bean="org.jboss.dashboard.ui.components.LogoutComponent" action="logout"/>" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
+									<img src="<static:image relativePath="adminHeader/login-logout.png"/>"   border="0" title="<%=loginLogoutMsg%>"/>
                             </a>
                        </form>
                        </div>

@@ -26,7 +26,7 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
     }
 
     public ComplementaryRolePrincipal(Role role) {
-        super(role.getName());
+        super("role-" + role.getName());
     }
 
     public String toString() {
