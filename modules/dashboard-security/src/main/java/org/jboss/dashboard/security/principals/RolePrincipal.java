@@ -24,6 +24,6 @@ public class RolePrincipal extends DefaultPrincipal {
     }
 
     public RolePrincipal(Role role) {
-        super(role.getName());
+        super("role-" + role.getName());
     }
 }

@@ -27,6 +27,7 @@ import org.hibernate.Session;
 import java.security.Permission;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -46,7 +47,7 @@ public class PermissionManager {
     }
 
     public List<PermissionDescriptor> getAllInstances() throws Exception {
-        return find(null);
+        return find( (String) null);
     }
 
     /**
@@ -90,6 +91,9 @@ public class PermissionManager {
         }
     }
 
+    /**
+     * Recover the Permissions for the given permission resource name
+     */
     public List<PermissionDescriptor> find(final String resourceName) throws Exception {
         final List results = new ArrayList();
         new HibernateTxFragment() {
@@ -109,5 +113,96 @@ public class PermissionManager {
             session.setFlushMode(oldFlushMode);
         }}.execute();
         return results;
+    }
+
+    /**
+     * Recover Permissions for the given permission class and resource name
+     */
+    public List<PermissionDescriptor> find(final String permissionClass, final String permissionResource) {
+        final List<PermissionDescriptor> results = new ArrayList<PermissionDescriptor>(10);
+        HibernateTxFragment txFragment = new HibernateTxFragment() {
+            protected void txFragment(Session session) throws Exception {
+                StringBuffer buf = new StringBuffer(" from " + PermissionDescriptor.class.getName() + " as item where item.dbid is not null ");
+                buf.append("and item.permissionClass = :permissionClass and item.permissionResource = :permissionResource");
+                Query query = session.createQuery(buf.toString());
+                query.setString("permissionClass", permissionClass);
+                query.setString("permissionResource", permissionResource);
+                query.setCacheable(true);
+                FlushMode oldFlushMode = session.getFlushMode();
+                session.setFlushMode(FlushMode.NEVER);
+                results.addAll(query.list());
+                session.setFlushMode(oldFlushMode);
+            }
+        };
+        try {
+            txFragment.execute();
+        } catch (Exception e) {
+            log.error("Error retrieving PermissionDescriptors for permission class "  + permissionClass + " and resource " + permissionResource, e);
+        }
+        return results;
+    }
+
+    /**
+     * Recover a Permission by its Id
+     */
+    public PermissionDescriptor findPermissionDescriptorById(final Long idPermission) {
+        final List<PermissionDescriptor> result = new ArrayList<PermissionDescriptor>(1);
+        try {
+            new HibernateTxFragment() {
+                protected void txFragment(Session session) throws Exception {
+                    String sql = new String(" from " + PermissionDescriptor.class.getName() + " as item where item.dbid = :dbid");
+                    Query query = session.createQuery(sql);
+                    query.setLong("dbid", idPermission);
+                    FlushMode oldFlushMode = session.getFlushMode();
+                    session.setFlushMode(FlushMode.NEVER);
+                    result.add( (PermissionDescriptor) query.uniqueResult() );
+                    session.setFlushMode(oldFlushMode);
+                }
+            }.execute();
+        } catch (Exception e) {
+            log.error("PermissionDescriptor with id " + idPermission + " not found!", e);
+        }
+        return result.get(0);
+    }
+
+    /**
+     * Recover the Permissions by the Ids indicated in the List parameter
+     */
+    public List<PermissionDescriptor> find(final List<Long> permissionIds) {
+        final List<PermissionDescriptor> results = new ArrayList<PermissionDescriptor>(10);
+        if (permissionIds != null) {
+            final StringBuilder idString = new StringBuilder(" from " + PermissionDescriptor.class.getName() + " as item where item.dbid in (");
+            for (int i = 0; i < permissionIds.size(); i++) {
+                idString.append(permissionIds.get(i));
+                if (i != permissionIds.size()-1) idString.append(",");
+            }
+            idString.append(")");
+            HibernateTxFragment txFragment = new HibernateTxFragment() {
+                protected void txFragment(Session session) throws Exception {
+                    Query query = session.createQuery(idString.toString());
+                    FlushMode oldFlushMode = session.getFlushMode();
+                    session.setFlushMode(FlushMode.NEVER);
+                    results.addAll(query.list());
+                    session.setFlushMode(oldFlushMode);
+                }
+            };
+            try {
+                txFragment.execute();
+            } catch (Exception e) {
+                log.error("Error deleting PermissionDescriptors with dbids in ("  + idString + ")", e);
+            }
+        }
+        return results;
+    }
+
+    /**
+     * Recover the Permission ids for the given permission class and resource name
+     */
+    public List<Long> getPermissionIds(final String permissionClass, final String permissionResource) {
+        List<Long> ids = new ArrayList<Long>();
+        for (Iterator<PermissionDescriptor> it = find(permissionClass, permissionResource).iterator(); it.hasNext();) {
+            ids.add(it.next().getDbid());
+        }
+        return ids;
     }
 }
