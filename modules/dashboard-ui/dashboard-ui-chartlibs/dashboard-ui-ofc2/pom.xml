@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>dashboard-ui-chartlibs</artifactId>
-        <version>6.0-SNAPSHOT</version>
+        <version>${version.dashbuilder}</version>
     </parent>
 
     <artifactId>dashboard-ui-ofc2</artifactId>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-core</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
             <classifier>classes</classifier>
         </dependency>
     </dependencies>

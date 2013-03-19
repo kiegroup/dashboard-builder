@@ -21,14 +21,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-parent</artifactId>
-        <version>9</version>
+        <groupId>org.drools</groupId>
+        <artifactId>droolsjbpm-parent</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.jboss.dashboard-builder</groupId>
-    <artifactId>parent</artifactId>
-    <version>6.0-SNAPSHOT</version>
+    <artifactId>dashboard-builder</artifactId>
+    <version>${version.dashbuilder}</version>
     <packaging>pom</packaging>
 
     <name>JBoss Dashboard Builder</name>
@@ -49,7 +49,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hyear>2012</hyear>
-        <version.dashboard.builder>6.0-SNAPSHOT</version.dashboard.builder>
+        <version.dashbuilder>6.0.0-SNAPSHOT</version.dashbuilder>
         <version.junit>4.10</version.junit>
         <version.arquillian>1.0.3.Final</version.arquillian>
         <version.arquillian.container>1.0.0.CR5</version.arquillian.container>
@@ -458,6 +458,13 @@
     <profiles>
         <profile>
             <id>full-build</id>
+            <activation>
+                <property>
+                    <name>full</name>
+                </property>
+            </activation>
+
+
             <modules>
                 <module>builder</module>
                 <module>toolkit</module>
