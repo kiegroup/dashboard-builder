@@ -57,17 +57,20 @@ If you want to build the project and execute a demo follow the next steps:
   This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.0.4+ (set as MAVEN_HOME) in your system.
   The <code>java</code> and <code>mvn</code> commands must be added to the executable's path as well.
 
-2. Open a terminal window, go to the 'scripts' directory and type the following command (for linux systems):
+2. Open a terminal window, go to the <code>scripts</code> directory and type the following command (for linux systems):
 
         $ ./buildandrun_h2.sh
 
     This command compiles, builds and runs the application.
 
-    This procedure will take a few minutes (but only the very time) because the maven build process needs to download a
+    This procedure will take a few minutes (but only for the first time) because the maven build process needs to download a
     lot of third-party libraries.
 
-3. Once the application is started, open a browser window and type the following URL: <code>http://localhost:8080/dashbuilder</code>.
-The following user/password are available by default: <code>root/root</code>, <code>demo/demo</code>.
+3. Once the application is started, open a browser window and type the URL: <code>http://localhost:8080/dashbuilder</code>.
+The following user/password are available by default:
+
+    * <code>root/root</code>: to sign-in as the superuser
+    * <code>demo/demo</code>: to enter as a end user.
 
   NOTE: The application uses an auto deployable H2 embedded database. So no extra configuration is needed.
   But when you start the application for the first time it may take some minutes due to the
