@@ -61,11 +61,11 @@
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>org.jboss.dashboard.ui.controller.ControllerServlet</servlet-class>
-        <load-on-startup>5</load-on-startup>
         <init-param>
             <param-name>base.app.dir</param-name>
             <param-value>${project.basedir}/target/dashboard-showcase</param-value>
         </init-param>
+        <load-on-startup>5</load-on-startup>
     </servlet>
 
     <servlet>
