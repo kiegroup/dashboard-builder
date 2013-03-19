@@ -1,4 +1,5 @@
-This readme is intended for developers and will assist you in compiling and running of the project.
+This readme is intended for developers that wants to work and contribute to the project.
+It will assist you in compiling and running the project.
 
 Prerequisites
 --------------------
@@ -7,11 +8,11 @@ This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.0.4+ (s
 
 * Additional configuration for Maven:
 
-  In order to run the application the following environment variable must be set with de suggested values:
+  In order to run the application the following environment variable must be set with the suggested values:
 
     MAVEN_OPTS=-Xms1024M -Xmx3072M -XX:MaxPermSize=512m
 
-DB Configuration
+Database setup
 -------------------------
 
 Two maven profiles are provided for development purposes "postgres" and "h2".
@@ -26,7 +27,7 @@ The parameters that you can configure are: db.url, db.user and db.password
   NOTE: the database user must have admin grants in order to allow the application to automatically
   create the database objects.
 
-* Postgres database creation
+* **Postgres**
 
   The postgres database can be created with the following sql sentence:
 
@@ -39,7 +40,16 @@ The parameters that you can configure are: db.url, db.user and db.password
 
   (The currently tested postgres version for development is 8.4.x)
 
-* H2 database will be created automatically
+* **H2**
+
+    In H2 the database is created automatically. The database itself are two binary files called <code>dashbuilder.h2.db</code>
+    and <code>dashbuilder.trace.db</code> stored by default in the user's home directory. Of course, the location of this files can
+    be easily changed modifying the proper setting in the h2 profile of the pom.xml.
+
+        <db.url>jdbc:h2:~/dashbuilder</db.url>
+        <db.user>dashbuilder</db.user>
+        <db.password>dashbuilder</db.password>
+
 
 Log4j configuration
 -------------------
@@ -63,8 +73,7 @@ The project must be compiled executing the following Maven command in the root d
 
     <pre>$ mvn clean install -P h2,jetty -Dmaven.test.skip=true</pre>
 
-* Finally, if you want to do a complete build (including the demo application and the distribution files) execute the
-following command.
+* Finally, if you want to do a complete build (including the distribution files) execute the following command:
 
     <pre>$ mvn clean install -Dmaven.test.skip=true -P full-build</pre>
 
@@ -77,7 +86,7 @@ depending the build profile used to compile the application (read the previous s
     $ mvn jetty:run -P postgres,jetty
     $ mvn jetty:run -P h2,jetty
 
-To access the application type the following url in your browser:
+To access the application type the following URL in your browser:
 
     http://localhost:8080/dashbuilder
     user: root
