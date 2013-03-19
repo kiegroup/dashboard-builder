@@ -1,7 +1,7 @@
 Deployment onto JBoss
 ==========================
 
-The <code>jbossas7<code> directory contains all the artifacts to build the distribution for the JBoss AS 7.0 and 7.1 server.
+The <code>jbossas7</code> directory contains all the artifacts to build the distribution for the JBoss AS 7.0 and 7.1 server.
 
 Please follow the next steps in order to deploy the application.
 
