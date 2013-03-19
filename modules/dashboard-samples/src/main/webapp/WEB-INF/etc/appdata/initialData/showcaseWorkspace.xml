@@ -660,9 +660,6 @@
                  idSkin="" friendlyUrl="sales-dashboard" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Sales opportunities" lang="en"/>
             <param name="title" value="Indicadores de ventas" lang="es"/>
-            <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                        permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-demo"
-                        actions="view"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3067" regionId="center_1" id="3068"/>
             <panel position="1" instanceId="3049" regionId="center_1" id="3095"/>
