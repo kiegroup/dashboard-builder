@@ -15,6 +15,11 @@
  */
 package org.jboss.dashboard.security.principals;
 
+import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.SecurityServices;
+import org.jboss.dashboard.users.Role;
+
 import java.io.Serializable;
 import java.security.Principal;
 
@@ -39,7 +44,10 @@ public class DefaultPrincipal implements Principal, Serializable {
     }
 
     public String toString() {
-        return this.getName();
+        String desc = "";
+        Role role = SecurityServices.lookup().getRolesManager().getRoleById(this.getName().substring(this.getName().indexOf('-') + 1));
+        if (role != null) desc = role.getDescription(LocaleManager.currentLocale());
+        return StringUtils.isNotBlank(desc) ? desc : this.getName();
     }
 
     public boolean equals(Object o) {

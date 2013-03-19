@@ -21,17 +21,17 @@ else
   echo -n "Enter the data script's name, followed by [ENTER]:"
   read demo;
 
-  echo -n "Enter the H2 database URL (leave empty for default jdbc:h2:~/dashbbuilder), followed by [ENTER]:"
+  echo -n "Enter the H2 database URL (leave empty for default jdbc:h2:~/dashbuilder), followed by [ENTER]:"
   read url
-  if [ -z "$url" ] ; then url="jdbc:h2:~/dashbbuilder"; fi
+  if [ -z "$url" ] ; then url="jdbc:h2:~/dashbuilder"; fi
 
-  echo -n "Enter the H2 database username (leave empty for default dashbbuilder), followed by [ENTER]:"
+  echo -n "Enter the H2 database username (leave empty for default dashbuilder), followed by [ENTER]:"
   read user
-  if [ -z "$user" ] ; then user="dashbbuilder"; fi
+  if [ -z "$user" ] ; then user="dashbuilder"; fi
 
-  echo -n "Enter the H2 database Password (leave empty for default dashbbuilder), followed by [ENTER]:"
+  echo -n "Enter the H2 database Password (leave empty for default dashbuilder), followed by [ENTER]:"
   read -s pwd;
-  if [ -z "$pwd" ] ; then pwd="dashbbuilder"; fi
+  if [ -z "$pwd" ] ; then pwd="dashbuilder"; fi
 
   if [ -e $demo ] ; then
 	echo $'\n'"Loading ..."

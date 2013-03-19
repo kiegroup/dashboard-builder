@@ -67,6 +67,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                     "navigation.workspace_horiz," +
                     "navigation.bread_crumb," +
                     "navigation.tree_menu," +
+                    "navigation.logout," +
                     "dashboard.html_editor," +
                     "dashboard.data_provider_management," +
                     "dashboard.filter," +

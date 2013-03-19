@@ -26,20 +26,23 @@ import javax.naming.NamingException;
 
 public class CDIBeanLocator {
 
-    /** Logger */
-    private transient static Log log = LogFactory.getLog(CDIBeanLocator.class);
-
     /** The bean manager. */
     public static BeanManager beanManager;
 
     public static BeanManager getBeanManager() {
-        try{
-            if (beanManager != null) return beanManager;
+        if (beanManager != null) return beanManager;
 
+        beanManager = lookupBeanManager("java:comp/BeanManager");
+        if (beanManager == null) beanManager = lookupBeanManager("java:comp/env/BeanManager");
+        return beanManager;
+    }
+
+    private static BeanManager lookupBeanManager(String jndiName) {
+        try{
             InitialContext initialContext = new InitialContext();
-            return (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
+            return (BeanManager) initialContext.lookup(jndiName);
         } catch (NamingException e) {
-            log.error("Couldn't get BeanManager through JNDI");
+            // Ignore and return null.
             return null;
         }
     }

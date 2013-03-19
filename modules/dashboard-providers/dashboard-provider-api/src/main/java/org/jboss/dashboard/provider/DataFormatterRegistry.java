@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Registry of data formatters in the BAM module.
+ * Registry of data property formatters.
  */
 @ApplicationScoped
 @Named("dataFormatterRegistry")

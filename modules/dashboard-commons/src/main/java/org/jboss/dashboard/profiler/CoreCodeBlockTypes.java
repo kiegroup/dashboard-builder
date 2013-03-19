@@ -32,9 +32,6 @@ public class CoreCodeBlockTypes {
     public static final CodeBlockType JSP_FORMATTER = CodeBlockHelper.newCodeBlockType("FORMATTER", "JSP Formatter");
     public static final CodeBlockType SQL = CodeBlockHelper.newCodeBlockType("SQL", "SQL Statement");
 
-    public static final CodeBlockType DDM_FORMULA = CodeBlockHelper.newCodeBlockType("FORMULA", "DDM Formula");
-    public static final CodeBlockType DDM_ENTITY_PERSIST = CodeBlockHelper.newCodeBlockType("ENTITY PERSIST", "DDM Entity Persist");
-
-    public static final CodeBlockType BAM_FUNCTION = CodeBlockHelper.newCodeBlockType("BAM_FUNCTION", "Scalar Function");
-    public static final CodeBlockType BAM_BUILD_DATASET = CodeBlockHelper.newCodeBlockType("BAM_DATASET_BUILD", "Data Set Build");
+    public static final CodeBlockType SCALAR_FUNCTION = CodeBlockHelper.newCodeBlockType("SCALAR_FUNCTION", "Scalar Function");
+    public static final CodeBlockType DATASET_BUILD = CodeBlockHelper.newCodeBlockType("_DATASET_BUILD", "Data Set Build");
 }

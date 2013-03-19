@@ -481,7 +481,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         }
 
         public CodeBlockType getType() {
-            return CoreCodeBlockTypes.BAM_BUILD_DATASET;
+            return CoreCodeBlockTypes.DATASET_BUILD;
         }
 
         public String getDescription() {

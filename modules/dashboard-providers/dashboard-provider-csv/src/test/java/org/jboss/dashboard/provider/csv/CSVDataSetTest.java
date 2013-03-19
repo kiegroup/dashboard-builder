@@ -65,6 +65,7 @@ public class CSVDataSetTest {
                 .addPackage("org.jboss.dashboard.provider.sql")
                 .addPackage("org.jboss.dashboard.annotation")
                 .addPackage("org.jboss.dashboard.annotation.config")
+                .addPackage("org.jboss.dashboard.pojo")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

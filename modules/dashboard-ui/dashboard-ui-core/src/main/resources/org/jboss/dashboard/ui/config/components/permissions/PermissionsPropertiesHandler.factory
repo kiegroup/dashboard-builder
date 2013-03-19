@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
-$class=org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandler
+$class=org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandlerConnector
 $scope=session
 $description=Handle workspace permissions properties update
+
+permissionsHandler=org.jboss.dashboard.ui.components.permissions.PermissionsHandler

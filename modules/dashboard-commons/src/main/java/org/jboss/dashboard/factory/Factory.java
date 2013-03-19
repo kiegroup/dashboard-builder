@@ -29,7 +29,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  * Main class for the initialization and lookup of components within the platform.
- * @deprecated Replace by CDI
+ * TODO: Replace by CDI
  */
 public final class Factory {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Factory.class.getName());

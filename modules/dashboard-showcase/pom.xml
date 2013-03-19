@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>modules</artifactId>
-        <version>6.0-SNAPSHOT</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>dashboard-showcase</artifactId>
@@ -37,63 +37,63 @@
             <artifactId>dashboard-ui-core</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-panels</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-resources</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-jfree</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-ofc2</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-nvd3</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-gauge</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-samples</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-jbpm</artifactId>
             <scope>compile</scope>
             <type>war</type>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -189,6 +189,7 @@
                     <groupId>postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>8.4-702.jdbc4</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -210,6 +211,7 @@
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>1.3.168</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -231,6 +233,7 @@
                     <groupId>com.oracle</groupId>
                     <artifactId>ojdbc14</artifactId>
                     <version>10.2.0.4.0</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -252,6 +255,7 @@
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <version>5.1.22</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -273,6 +277,7 @@
                     <groupId>org.tranql</groupId>
                     <artifactId>tranql-connector-sqlserver2005</artifactId>
                     <version>1.3</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -306,6 +311,48 @@
                     <artifactId>weld-servlet</artifactId>
                     <version>1.1.10.Final</version>
                 </dependency>
+
+                <!-- The following deps are required in order to enable the CDI injection in servlets. If not the following error is thrown: -->
+                <!-- SEVERE: Unable to create JettyWeldInjector. CDI injection will not be available in Servlets, Filters or Listeners       -->
+                <!--java.lang.IllegalArgumentException: Cannot load class for org.jboss.weld.environment.jetty.WeldDecorator                 -->
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                    <version>${version.jetty}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.eclipse.jetty</groupId>
+                            <artifactId>jetty-continuation</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.eclipse.jetty</groupId>
+                            <artifactId>jetty-http</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.eclipse.jetty</groupId>
+                            <artifactId>jetty-io</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-servlet</artifactId>
+                    <version>${version.jetty}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.eclipse.jetty</groupId>
+                            <artifactId>jetty-security</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-util</artifactId>
+                    <version>${version.jetty}</version>
+                </dependency>
             </dependencies>
 
             <build>
@@ -313,7 +360,7 @@
                     <plugin>
                         <groupId>org.mortbay.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>8.1.7.v20120910</version>
+                        <version>${version.jetty}</version>
                         <configuration>
                             <scanIntervalSeconds>3</scanIntervalSeconds>
                             <stopPort>9966</stopPort>
@@ -349,8 +396,8 @@
                                     <filtering>true</filtering>
                                     <directory>src/test/resources/config</directory>
                                     <includes>
+                                        <include>**/realm.properties</include>
                                         <include>**/jetty-env.xml</include>
-                                        <include>**/jetty-context.xml</include>
                                         <include>**/log4j.xml</include>
                                     </includes>
                                 </resource>

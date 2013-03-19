@@ -15,7 +15,10 @@
  */
 package org.jboss.dashboard.security.principals;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.users.Role;
+
+import java.util.ResourceBundle;
 
 public class ComplementaryRolePrincipal extends DefaultPrincipal {
 
@@ -26,10 +29,11 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
     }
 
     public ComplementaryRolePrincipal(Role role) {
-        super(role.getName());
+        super("!role-" + role.getName());
     }
 
     public String toString() {
-        return "!"+this.getName();
+        ResourceBundle rb = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.permissions.messages", LocaleManager.currentLocale());
+        return rb.getString("permissions.inverted.role") + " " + super.toString();
     }
 }

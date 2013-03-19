@@ -18,7 +18,7 @@ package org.jboss.dashboard.export;
 import java.io.PrintWriter;
 
 /**
- * BAM export manager.
+ * Dashboard export manager.
  */
 public interface ExportManager {
 

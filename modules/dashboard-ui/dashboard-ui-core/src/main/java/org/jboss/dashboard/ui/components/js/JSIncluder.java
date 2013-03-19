@@ -32,10 +32,10 @@ public class JSIncluder {
     public static final String HEAD = "head";
     public static final String BOTTOM = "bottom";
 
-    @Inject @Config("/javascript/Head.js")
+    @Inject @Config("/js/Head.js")
     private String headScriptFile;
 
-    @Inject @Config("/javascript/Bottom.js")
+    @Inject @Config("/js/Bottom.js")
     private String bottomScriptFile;
 
     @Inject @Config("false")

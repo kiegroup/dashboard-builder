@@ -61,11 +61,11 @@
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>org.jboss.dashboard.ui.controller.ControllerServlet</servlet-class>
-        <load-on-startup>5</load-on-startup>
         <init-param>
             <param-name>base.app.dir</param-name>
             <param-value>${project.basedir}/target/dashboard-showcase</param-value>
         </init-param>
+        <load-on-startup>5</load-on-startup>
     </servlet>
 
     <servlet>
@@ -145,15 +145,33 @@
         <taglib-location>/WEB-INF/tlds/cewolf.tld</taglib-location>
     </taglib>
 
+    <!-- Security configuration -->
+
     <security-role>
+        <description>Superuser</description>
         <role-name>root</role-name>
+    </security-role>
+
+    <security-role>
+        <description>Administrator</description>
         <role-name>admin</role-name>
+    </security-role>
+
+    <security-role>
+        <description>End user</description>
         <role-name>user</role-name>
     </security-role>
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Dashboard Builder Security</web-resource-name>
+            <web-resource-name>Free access</web-resource-name>
+            <url-pattern>/jb_logo.png</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted access</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -173,6 +191,7 @@
     </login-config>
 
     <!-- Application main data source definition -->
+
     <resource-ref>
         <description>Dashboard Builder Datasource</description>
         <res-ref-name>jdbc/dashbuilder</res-ref-name>

@@ -20,7 +20,7 @@ import java.io.InputStream;
 import org.w3c.dom.NodeList;
 
 /**
- * BAM import manager.
+ * Dashboard import manager.
  */
 public interface ImportManager {
 

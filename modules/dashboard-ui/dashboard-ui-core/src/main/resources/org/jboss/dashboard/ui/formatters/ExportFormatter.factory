@@ -16,6 +16,5 @@
 
 $class=org.jboss.dashboard.ui.formatters.ExportFormatter
 $scope=volatile
-$description=BAM export formatter.
 
 exportHandler=org.jboss.dashboard.ui.components.ExportHandler

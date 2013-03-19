@@ -111,7 +111,7 @@ public class UserStatus implements LogoutSurvivor, Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return isLoggedIn() ? userName : "--";
     }
 
     public void setUserName(String userName) {
@@ -264,7 +264,7 @@ public class UserStatus implements LogoutSurvivor, Serializable {
         if (log.isDebugEnabled()) log.debug("Calculating principals for current user.");
 
         Set<Principal> principals = new HashSet<Principal>();
-        principals.add(new UserPrincipal(userLogin));
+        if (userLogin != null) principals.add(new UserPrincipal(userLogin));
         if (!isRootUser()) {
             RolesManager rolesManager = SecurityServices.lookup().getRolesManager();
             for (Role role : rolesManager.getAllRoles()) {

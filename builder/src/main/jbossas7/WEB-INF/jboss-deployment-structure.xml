@@ -21,37 +21,10 @@
 
         <!-- Exclusions allow you to prevent the server from automatically adding some dependencies     -->
         <exclusions>
-
             <module name="org.jboss.logging" />
             <module name="org.apache.log4j" />
             <module name="org.apache.commons.logging" />
-            <module name="org.slf4j" />
-            <module name="org.jboss.logging.jul-to-slf4j-stub" />
             <module name="org.hibernate" />
-
-
-            <!--module name="javaee.api" />
-            <module name="org.jboss.as.jpa" />
-            <module name="org.hibernate" />
-            <module name="org.javassist" />
-            <module name="org.eclipse.persistence" />
-            <module name=" org.apache.openjpa" />
-            <module name="javax.persistence.api" />
-
-            <module name="org.antlr"/>
-
-            <module name="org.apache.ant"/>
-            <module name="org.hibernate.envers"/>
-            <module name="org.hibernate.infinispan"/>
-
-
-            <module name="org.hibernate.validator"/>
-            <module name="org.jboss.as.jpa"/>
-            <module name="org.jboss.as.jpa.hibernate"/>
-            <module name="org.jboss.as.jpa.hibernate.infinispan"/>
-            <module name="org.jboss.as.jpa.openjpa"/-->
-
-
         </exclusions>
 
     </deployment>

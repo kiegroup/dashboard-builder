@@ -89,6 +89,13 @@ public class Application {
         setUpAndRunning(true);
     }
 
+    public void shutdown() {
+        setUpAndRunning(false);
+
+        // Destroy the Factory configuration.
+        setGlobalFactory(null);
+    }
+
     /**
      * Return a string containing the copyright.
      */

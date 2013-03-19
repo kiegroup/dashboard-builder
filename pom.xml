@@ -21,14 +21,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-parent</artifactId>
-        <version>9</version>
+        <groupId>org.drools</groupId>
+        <artifactId>droolsjbpm-parent</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.jboss.dashboard-builder</groupId>
-    <artifactId>parent</artifactId>
-    <version>6.0-SNAPSHOT</version>
+        <artifactId>dashboard-builder</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>JBoss Dashboard Builder</name>
@@ -49,13 +49,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hyear>2012</hyear>
-        <version.dashboard.builder>6.0-SNAPSHOT</version.dashboard.builder>
         <version.junit>4.10</version.junit>
         <version.arquillian>1.0.3.Final</version.arquillian>
         <version.arquillian.container>1.0.0.CR5</version.arquillian.container>
         <version.shrinkwrap.resolver>2.0.0-beta-2</version.shrinkwrap.resolver>
         <version.weld.spi>1.1.Final</version.weld.spi>
         <version.weld.se>1.1.8.Final</version.weld.se>
+        <version.jetty>8.1.7.v20120910</version.jetty>
     </properties>
 
     <scm>
@@ -255,7 +255,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
-            <!-- TODO CHECK THIS SCOPE, jee clases must be provided by the container -->
             <scope>compile</scope>
         </dependency>
 
@@ -342,7 +341,9 @@
             <version>2.3</version>
         </dependency>
 
-        <!-- Unit test -->
+
+
+        <!-- Unit testing -->
 
         <dependency>
             <groupId>org.easytesting</groupId>
@@ -457,6 +458,12 @@
     <profiles>
         <profile>
             <id>full-build</id>
+            <activation>
+                <property>
+                    <name>full</name>
+                </property>
+            </activation>
+
             <modules>
                 <module>builder</module>
                 <module>toolkit</module>
