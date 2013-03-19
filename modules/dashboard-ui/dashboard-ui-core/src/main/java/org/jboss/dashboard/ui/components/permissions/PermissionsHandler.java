@@ -151,10 +151,11 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
     }
 
     public void actionAddNewPermissions(CommandRequest req) throws Exception {
-        String roleName = req.getParameter("roleName");
+        Map<String, String[]> params = req.getRequestObject().getParameterMap();
+        String roleName = params.get("roleName")[0];
+        Boolean invert = params.containsKey("invert");
         if (StringUtils.isNotBlank(roleName)) {
             Role role = getRolesManager().getRoleById(roleName);
-            Boolean invert = Boolean.valueOf(req.getParameter("invert"));
             //Calculate actions
             Set paramNames = req.getParameterNames();
             List grantedActions = new ArrayList();
