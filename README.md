@@ -10,15 +10,13 @@ please update it using the [markdown syntax](http://daringfireball.net/projects/
 Table of contents
 ------------------
 
-* **[What is?](#what-is)**
-
-* **[General information](#general-information)**
+* **[What is it?](#what-is-it)**
 
 * **[Quickstart](#quickstart)**
 
 * **[Subprojects](#subprojects)**
 
-What is?
+What is it?
 ----------------
 
 The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards.
@@ -47,83 +45,45 @@ The application will also automatically install some ready-to-use sample dashboa
 
 **Distribution**:
 * Independent application to deploy in WAR format.
-* Standalone demo installation for quick evaluation.
-
-General information
--------------------
-
-There are currently three ways to use or work with this module.
-
-1. **Developer mode**:
-    This work mode is used by developers that wants to work and contribute to the project.
-    If so, we recommend that you read the following sections.
-
-2. **Demonstration mode**:
-    A standalone demo version is provided to those users who want to try the product without
-    having to do a complex installation and configuration.
-
-    If you are interested to run the demonstration read the next section.
-
-3. **System integrators**:
-    The system integrators need to configure the product distribution to be installed on a given application server.
-    If you want learn about how to configure the product using the dist-config tool read the [Subprojects](#subprojects) section .
 
 
 Quickstart
 -------------------
 
-If you want to build the project and execute the demo in less than 5 minutes follow the next steps:
+If you want to build the project and execute a demo follow the next steps:
 
-0. Prerequisites:
+1. Prerequisites:
 
   This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.0.4+ (set as MAVEN_HOME) in your system.
+  The <code>java</code> and <code>mvn</code> commands must be added to the executable's path as well.
 
-1. Open a terminal window, go to the root directory and execute the following Maven command:
+2. Open a terminal window, go to the <code>scripts</code> directory and type the following command (for linux systems):
 
-   <pre>$ mvn clean install -DskipTests -P full-build</pre>
+        $ ./buildandrun_h2.sh
 
-2. Go to the 'builder/target' directory and unzip the **dashbuilder-demo-installer.zip** file to any selected directory. (e.g. [my_target_directory])
+    This command compiles, builds and runs the application.
 
-  After unzipping you will have a directory structure like this:
+    This procedure will take a few minutes (but only for the first time) because the maven build process needs to download a
+    lot of third-party libraries.
 
-  <pre>
-    [my_target_directory]/dashbuilder-demo
-         start-demo.sh
-         README.md
-         /db
-         /log
-   </pre>
+3. Once the application is started, open a browser window and type the URL: <code>http://localhost:8080/dashbuilder</code>.
+The following user/password are available by default:
 
-3. To start the demo application go to the **[my_target_directory]/dashbuilder-demo** directory and execute
-the **start-demo.sh** script (start-demo.bat on windows systems) to run the demo application.
+* <code>root/root</code>: to sign-in as the superuser
+* <code>demo/demo</code>: to enter as a end user.
 
-4. Once the application is started open a browser window and type the following url **http://localhost:8080/dashbuilder**
-to access the application. The following user/password will be automatically created: **root/root**, **demo/demo**.
-
-  NOTE: when you start the demo application for the first time it may take some minutes due to the 
-  database initialization procedure. The H2 database downgrades the application performance
-  compared with other databases like PostgreSQL, MySQL, normally used in production environments.
+NOTE: The application uses an auto deployable H2 embedded database. So no extra configuration is needed.
+But when you start the application for the first time it may take some minutes due to the
+database initialization procedure. The H2 database downgrades the application performance
+compared with other databases like PostgreSQL, MySQL, normally used in production environments.
 
 
 Subprojects
 -------------------
 
-Currently the project is composed of the following three main subprojects.
+* If you are a project developer o contributor read the
+[modules/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/modules/README.md) file.
 
-* **modules**:
+* If you want to generate a product distribution for the JBoss application server read the
+[builder/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/README.md) file.
 
-It contains all the modules beloging to the application.
-
-If you are a project developer o contributor read the [modules/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/modules/README.md) file.
-
-* **builder**:
-
-This project generates the different distribution formats for the application.
-
-Read the [builder/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/README.md) file for more information.
-
-* **toolkit**:
-
-This project implements some basic tools. If you need to automate the application distribution configuration you will be probably interested in the "dist-config" tool.
-
-Read the [toolkit/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/toolkit/README.md) file for more information.

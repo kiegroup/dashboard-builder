@@ -23,7 +23,7 @@
 <url></url>
 <license></license>
 </about>
-<panel-id>panels.navigation.logout</panel-id>
+<panel-id>navigation.logout</panel-id>
 <usage>
 <text lang="en">This panel shows the currently connected user, as well as a button to log out of the application</text>
 <text lang="es">Este panel muestra el usuario actualmente conectado, as&#237; como un bot&#243;n para salir de la aplicaci&#243;n</text>

@@ -67,14 +67,14 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                     "navigation.workspace_horiz," +
                     "navigation.bread_crumb," +
                     "navigation.tree_menu," +
+                    "navigation.logout," +
                     "dashboard.html_editor," +
                     "dashboard.data_provider_management," +
                     "dashboard.filter," +
                     "dashboard.kpi," +
                     "dashboard.export," +
                     "system.workspace_import_export," +
-                    "system.data_source_manager," +
-                    "panels.navigation.logout")
+                    "system.data_source_manager")
     private String[] basePanelsIds;
 
     @Inject @Config("")
