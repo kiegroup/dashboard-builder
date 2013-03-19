@@ -1,0 +1,56 @@
+<script type="text/javascript" defer="defer">
+    chartData<%=chartId%> = [
+        {
+            key: "<%= displayer.getTitle() %>",
+            values: [
+                <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>
+                {
+                    "label" : "<%= xvalues.get(i) %>" ,
+                    "value" : <%= yvalues.get(i) %>
+                }
+                <% } %>
+            ]
+        }
+    ];
+
+    nv.addGraph({
+      generate: function() {
+            var chart = nv.models.pieChart();
+
+             chart  .x(function(d) { return d.label })
+                    .y(function(d) { return d.value })
+                    .width(<%= displayer.getWidth() %>)
+                    .height(<%= displayer.getHeight() %>)
+                    .showLegend(<%=displayer.isShowLegend() %>)
+                    .showLabels(<%=displayer.isShowLabelsXAxis() %>)
+                    .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>});
+
+               d3.select('#<%= chartId %> svg')
+                    .datum(chartData<%=chartId%>)
+<% if(animateChart) { %> .transition().duration(1200) <% } %>
+                    .call(chart);
+
+               nv.utils.windowResize(chart.update);
+
+            return chart;
+
+      },
+      callback: function(graph) {
+       <% if( enableDrillDown ) {%>
+          graph.pie.dispatch.on('elementClick', function(e) {
+          form = document.getElementById('<%="form"+chartId%>');
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.index;
+          submitAjaxForm(form);
+          });
+       <% } %>
+
+        graph.dispatch.on('tooltipShow', function(e, offsetElement) {
+        <% if(!enableTooltips) { %>
+              content = e.label + " : " + e.value;
+              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+        <% } %>
+          });
+
+      }
+  });
+</script>

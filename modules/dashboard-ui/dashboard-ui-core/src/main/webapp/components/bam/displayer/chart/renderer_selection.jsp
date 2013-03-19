@@ -36,7 +36,9 @@
     </td>
     <td align="left">
         <select title="<%= currentRenderer.getDescription(locale) %>" name='rendererUid' id='<factory:encode name="renderer"/>'
-                class='skn-input' style="width:95px;" >
+                class='skn-input' style="width:95px;"
+                onChange="return bam_kpiedit_submitProperties(this);"
+                >
             <%
                 for (DataDisplayerRenderer renderer : supportedRenderers) {
                     String selected = "";

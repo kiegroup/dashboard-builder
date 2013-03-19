@@ -45,10 +45,16 @@
                 <mvc:include page="renderer_selection.jsp"  flush="true" />
                 <!-- Select the type of the pie -->
                 <mvc:include page="chart_type_selection.jsp" flush="true"/>
+                
+                <!-- Select the type of the pie -->                
+                <mvc:include page="domain_properties.jsp" flush="true"/>
+                
                 <!-- Include the width, height, etc properties -->
                 <mvc:include page="generic_properties.jsp" flush="true"/>
+                
+                
                  <!-- Submit button -->
-                 <mvc:include page="../../kpi_submit.jsp"  flush="true" />
+                 <%--mvc:include page="../../kpi_submit.jsp"  flush="true" /--%>
             </table>
         </td>
         <!-- Include the graphic -->

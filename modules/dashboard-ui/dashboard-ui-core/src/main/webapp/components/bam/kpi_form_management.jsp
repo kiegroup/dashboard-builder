@@ -28,11 +28,11 @@
         if (!isRequestInProgress) {
           element.isRequestInProgress = 'true';
           //  //IE: variable defined in -> /templates/navigatorDetection.jsp
-          //  if(IE){
+            if(IE){
                 element.submit();
-          //  }else{
-          //      submitAjaxForm(element);
-          //  }
+            }else{
+                submitAjaxForm(element);
+            }
         }
         return false;
     }

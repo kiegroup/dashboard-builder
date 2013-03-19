@@ -67,9 +67,8 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("type") && item.hasChildNodes()) {
             displayer.setType(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
-        else if (item.getNodeName().equals("showlabelsxaxis") && item.hasChildNodes() && displayer instanceof AbstractXAxisDisplayer) {
-            AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
-            xAxisDisplayer.setShowLabelsXAxis(Boolean.parseBoolean(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
+        else if (item.getNodeName().equals("showlabelsxaxis") && item.hasChildNodes() ) {
+            displayer.setShowLabelsXAxis(Boolean.parseBoolean(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
         }
         else if (item.getNodeName().equals("labelanglexaxis") && item.hasChildNodes() && displayer instanceof AbstractXAxisDisplayer) {
             AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
@@ -165,6 +164,12 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
                 out.println("</intervalsortorder>");
             }
 
+            printIndent(out, indent);
+            out.print("<showlabelsxaxis>");
+            out.print(displayerToFormat.isShowLabelsXAxis());
+            out.println("</showlabelsxaxis>");
+
+
             // X-Axis based charts properties
             if (displayerToFormat instanceof AbstractXAxisDisplayer) {
                 formatXAxisLabelsProperties(displayerToFormat, out, indent);
@@ -244,10 +249,6 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
 
     public void formatXAxisLabelsProperties(AbstractChartDisplayer displayerToFormat, PrintWriter out, int indent) {
         AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayerToFormat;
-        printIndent(out, indent);
-        out.print("<showlabelsxaxis>");
-        out.print(xAxisDisplayer.isShowLabelsXAxis());
-        out.println("</showlabelsxaxis>");
 
         printIndent(out, indent);
         out.print("<labelanglexaxis>");

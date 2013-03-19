@@ -32,7 +32,7 @@
     String chartId = (String) request.getAttribute("chartId");
     int chartIndex = (Integer) request.getAttribute("chartIndex");
 %>
-<div class="skn-chart-wrapper" style="width:200px;height:160px;cursor:pointer" id="<%=chartId%>"
+<div style="width:200px;height:160px;cursor:pointer" id="<%=chartId%>"
     onClick="
     form = document.getElementById('<%="form"+chartId%>');
     form.<%= GaugeMeterChartViewer.PARAM_NSERIE %>.value = <%=chartIndex%>;

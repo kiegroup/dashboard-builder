@@ -19,6 +19,7 @@ public enum DataDisplayerFeature {
     ALIGN_CHART,
     SHOW_TITLE,
     SHOW_HIDE_LABELS,
+    SHOW_LEGEND_POSITION,
     SHOW_LEGEND,
     SHOW_LINES_AREA,
     SET_MARGIN_LEFT,

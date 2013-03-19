@@ -34,7 +34,6 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%
-    AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 
     DataSet xyDataSet = null;
     if( displayer != null ) {
@@ -85,24 +84,3 @@
        selectedColor = "#0000FF"; // Default blue if not changed
     }
 %>
-
-<form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
-  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
-  <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
-</form>
-
-<table class="skn-chart-table" width="100%">
-    <tbody>
-    <tr>
-        <td width="<%= displayer.getWidth() %>" height="<%= displayer.getHeight() %>" align="<%=displayer.getGraphicAlign()%>">
-<% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
-            <div id="title<%=chartId%>"   class="skn-chart-title"><%=displayer.getTitle()%></div>
-<% } %>
-            <div id="tooltip<%=chartId%>" class="skn-chart-tooltip"></div>
-            <div class="skn-chart-wrapper" style="width:<%= displayer.getWidth() %>px;height:<%= displayer.getHeight() %>px" id="<%= chartId %>">
-                <svg></svg>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>

@@ -46,7 +46,7 @@
                 <!-- Include the width, height, etc properties -->
                 <mvc:include page="generic_properties.jsp"  flush="true" />
                  <!-- Submit button -->
-                 <mvc:include page="../../kpi_submit.jsp"  flush="true" />
+                 <%--mvc:include page="../../kpi_submit.jsp"  flush="true" /--%>
             </table>
         </td>
         <!-- Include the graphic -->

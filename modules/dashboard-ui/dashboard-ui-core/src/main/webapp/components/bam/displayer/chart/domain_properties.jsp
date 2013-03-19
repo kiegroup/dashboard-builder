@@ -15,8 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractXAxisDisplayerEditor" %>
-<%@ page import="org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer" %>
+<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayerRenderer" %>
@@ -24,8 +24,8 @@
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    AbstractXAxisDisplayerEditor editor = (AbstractXAxisDisplayerEditor) request.getAttribute("editor");
-    AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) editor.getDataDisplayer();
+    AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
+    AbstractChartDisplayer displayer = (AbstractChartDisplayer) editor.getDataDisplayer();
     DataDisplayerRenderer renderer = displayer.getDataDisplayerRenderer();
 %>
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_HIDE_LABELS)) { %>
@@ -40,30 +40,5 @@
   </td>
 </tr>
 <% } %>
-<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_LABELS_ANGLE)) { %>
-<tr>
-  <td height="15" align="left" nowrap="nowrap">
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "labelAngleXAxis"%>">!!Label angle</i18n:message>:
-  </td>
-  <td  align="left">
-    <input class="skn-input" name="labelAngleXAxis" type="text" size="14" value="<%= displayer.getLabelAngleXAxis()%>"
-        onChange="return bam_kpiedit_submitProperties(this);">
-  </td>
-</tr>
-<% } %>
-<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LINES_AREA)) { %>
-<tr>
-    <td height="15" align="left" width="33%" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLinesArea"%>">!!Show Lines Area</i18n:message>:
-    </td>
-    <td height="15" width="66%" align="left">
-        <%
-            boolean showLinesArea = false;
-            if (displayer.isShowLinesArea()) showLinesArea = true;
-        %>
-        <input name="showLinesAreas" type="checkbox" value="true" <%=showLinesArea ? "checked" : ""%>
-               onClick="return bam_kpiedit_submitProperties(this);">
-    </td>
-</tr>
-<% } %>
+
 

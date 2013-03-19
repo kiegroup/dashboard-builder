@@ -111,3 +111,8 @@ div.GlobalBreadCrump {
 	width:	260px;
 	height: 8px;
 }
+
+/* Chart related styles */
+.skn-chart-table {  padding:10px; margin:5px;border:1px solid #eeeeee; }
+.skn-chart-title { text-align:center; font-size: 120%; font-weight: bold; }
+.skn-chart-tooltip { text-align:center; font-size: 100%; font-weight: bold; }

@@ -49,8 +49,8 @@
                 <mvc:include page="generic_properties.jsp"  flush="true" />
                 <!-- Include the X-axis properties-->
                 <mvc:include page="xaxis_properties.jsp"  flush="true" />
-                 <!-- Submit button -->
-                 <mvc:include page="../../kpi_submit.jsp"  flush="true" />
+                <!-- Submit button -->
+                <%--mvc:include page="../../kpi_submit.jsp"  flush="true" --%>
             </table>
         </td>
         <td valign="top">

@@ -66,7 +66,7 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
         featuresSupported.add(DataDisplayerFeature.ALIGN_CHART);
         featuresSupported.add(DataDisplayerFeature.SHOW_TITLE);
         featuresSupported.add(DataDisplayerFeature.SHOW_HIDE_LABELS);
-        featuresSupported.add(DataDisplayerFeature.SHOW_LEGEND);
+        //featuresSupported.add(DataDisplayerFeature.SHOW_LEGEND_POSITION);
         featuresSupported.add(DataDisplayerFeature.ROUND_TO_INTEGER);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_WIDTH);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_HEIGHT);

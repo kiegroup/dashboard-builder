@@ -38,7 +38,9 @@
     </td>
     <td align="left">
         <select title="<%= renderer.getChartTypeDescription(displayer.getType(), locale) %>" name='chartType' id='<factory:encode name="chartType"/>'
-        class='skn-input' style="width:95px;">
+          class='skn-input' style="width:95px;"
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
         <%
             for (String type : chartTypes) {
                 String selected = "";

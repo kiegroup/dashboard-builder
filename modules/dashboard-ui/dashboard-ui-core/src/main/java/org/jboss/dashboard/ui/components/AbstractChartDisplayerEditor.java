@@ -99,6 +99,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
 
         // Other properties.
         String showTitle = request.getRequestObject().getParameter("showTitle");
+        String showLegend = request.getRequestObject().getParameter("showLegend");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
         String color = request.getRequestObject().getParameter("color");
         String backgroundColor = request.getRequestObject().getParameter("backgroundColor");
@@ -112,6 +113,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String marginBottom = request.getRequestObject().getParameter("marginBottom");
 
         displayer.setShowTitle(showTitle != null);
+        displayer.setShowLegend(showLegend != null);
         displayer.setAxisInteger(axisInteger != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);
@@ -140,6 +142,10 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         int sortOrder = Integer.parseInt(request.getRequestObject().getParameter("intervalsSortOrder"));
         displayer.setIntervalsSortCriteria(sortCrit);
         displayer.setIntervalsSortOrder(sortOrder);
+
+        // X AXIS labels
+        String showLabelsXAxis = request.getRequestObject().getParameter("showLabelsXAxis");
+        displayer.setShowLabelsXAxis(!StringUtils.isBlank(showLabelsXAxis));
     }
 
     public void actionCancel(CommandRequest request) throws Exception {

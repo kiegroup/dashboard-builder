@@ -32,11 +32,10 @@ public class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
 
         super.actionSubmit(request);
 
-        String showLabelsXAxis = request.getRequestObject().getParameter("showLabelsXAxis");
+
         String labelAngleXAxis = request.getRequestObject().getParameter("labelAngleXAxis");
         String showLinesAreas  = request.getRequestObject().getParameter("showLinesAreas");
         try {
-            xAxisDisplayer.setShowLabelsXAxis(!StringUtils.isBlank(showLabelsXAxis));
             if (!StringUtils.isBlank(labelAngleXAxis)) xAxisDisplayer.setLabelAngleXAxis(Integer.parseInt(labelAngleXAxis));
             if (!StringUtils.isBlank(showLinesAreas)) { xAxisDisplayer.setShowLinesArea(true); } else { xAxisDisplayer.setShowLinesArea(false); }
         } catch (NumberFormatException e) {

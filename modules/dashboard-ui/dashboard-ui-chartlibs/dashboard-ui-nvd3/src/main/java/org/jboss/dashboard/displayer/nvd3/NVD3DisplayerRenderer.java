@@ -21,43 +21,51 @@ import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
-import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
-import org.jboss.dashboard.displayer.chart.LineChartDisplayerType;
-import org.jboss.dashboard.displayer.chart.PieChartDisplayerType;
+import org.jboss.dashboard.displayer.chart.*;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.*;
 
-@Install @BarChart @PieChart @LineChart
-public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer  {
+@Install
+@BarChart
+@PieChart
+@LineChart
+public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
 
-    @Inject @Config(UID)
+    @Inject
+    @Config(UID)
     protected String uid;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String[] barChartTypes;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String barChartDefault;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String[] pìeChartTypes;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String pieChartDefault;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String[] lineChartTypes;
 
-    @Inject @Config("")
+    @Inject
+    @Config("")
     public String lineChartDefault;
 
     List<DataDisplayerFeature> featuresSupported;
-    Map<String,List<String>> availableChartTypes;
-    Map<String,String> defaultChartTypes;
+    Map<String, List<String>> availableChartTypes;
+    Map<String, String> defaultChartTypes;
 
     @PostConstruct
     protected void init() {
@@ -76,7 +84,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer  {
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_TOP);
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_LEFT);
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_RIGHT);
-        featuresSupported.add(DataDisplayerFeature.SHOW_LINES_AREA);
+        //featuresSupported.add(DataDisplayerFeature.SHOW_LINES_AREA);
 
         // Register the available chart types.
         availableChartTypes = new HashMap<String, List<String>>();
@@ -105,7 +113,14 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer  {
     }
 
     public boolean isFeatureSupported(DataDisplayer displayer, DataDisplayerFeature feature) {
-        return featuresSupported.contains(feature);
+        if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LEGEND)) {
+            return true;
+        } else
+        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
+            return true;
+        } else {
+            return featuresSupported.contains(feature);
+        }
     }
 
     public List<String> getAvailableChartTypes(DataDisplayer displayer) {

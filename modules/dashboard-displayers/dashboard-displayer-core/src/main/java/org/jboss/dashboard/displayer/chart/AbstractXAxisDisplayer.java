@@ -17,9 +17,6 @@ package org.jboss.dashboard.displayer.chart;
 
 public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
 
-    /** The flag indicating if the X-aAxis labels should be displayed. */
-    protected boolean showLabelsXAxis;
-
     /** The display angle for the X-axis labels. */
     protected int labelAngleXAxis;
 
@@ -31,14 +28,6 @@ public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
         showLabelsXAxis = true;
         labelAngleXAxis = -45;
         showLinesArea = false;
-    }
-
-    public boolean isShowLabelsXAxis() {
-        return showLabelsXAxis;
-    }
-
-    public void setShowLabelsXAxis(boolean showLabelsXAxis) {
-        this.showLabelsXAxis = showLabelsXAxis;
     }
 
     public int getLabelAngleXAxis() {

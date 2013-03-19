@@ -79,7 +79,7 @@
 <% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
     <tr>
        <td colspan="<%=nCols%>">
-            <div id="title<%="gauge" + suffix%>" class="chartTitle"><%=displayer.getTitle()%></div>
+            <div id="title<%="gauge" + suffix%>" class="skn-chart-title"><%=displayer.getTitle()%></div>
         </td>
     </tr>
 <% } %>

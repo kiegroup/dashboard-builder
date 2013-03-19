@@ -39,5 +39,11 @@ background-color:gold;
 .regionTitle {
 background-color:#0099FF;
 }
+
+/* Chart related styles */
+.skn-chart-table {  padding:10px; margin:5px;border:1px solid #eeeeee; }
+.skn-chart-title { text-align:center; font-size: 120%; font-weight: bold;padding-bottom:10px; }
+.skn-chart-tooltip { text-align:center; font-size: 100%; font-weight: bold; }
+
 </style>
 

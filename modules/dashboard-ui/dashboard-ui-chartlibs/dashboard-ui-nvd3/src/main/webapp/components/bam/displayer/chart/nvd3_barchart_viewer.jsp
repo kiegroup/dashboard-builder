@@ -17,73 +17,18 @@
 --%>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.BarChartViewer_nvd3");
+
+    AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
+<%@include file="nvd3_chart_wrapper.jspi"%>
 
-<script>
-    chartData<%=chartId%> = [
-        {
-            key: "<%= displayer.getTitle() %>",
-            values: [
-                <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>
-                {
-                    "label" : "<%= xvalues.get(i) %>" ,
-                    "value" : <%= yvalues.get(i) %>
-                }
-                <% } %>
-            ]
-        }
-    ];
-
-    nv.addGraph({
-      generate: function() {
-            var chart = nv.models.discreteBarChart();
-
-             chart  .x(function(d) { return d.label })
-                    .y(function(d) { return d.value })
-                    .width(<%= displayer.getWidth() %>)
-                    .height(<%= displayer.getHeight() %>)
-                    .staggerLabels(false)
-<% if(!enableTooltips) { %>
-                    .tooltips(false)
+<% if( enableDrillDown ) { %>
+<!-- Form for drill down action -->
+<form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
+  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
+  <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
+</form>
 <% } %>
-                    .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>})
-                    .showValues(false);
 
-               chart.yAxis
-                    .axisLabel("<%= rangeProperty.getName(locale) %>");
-
-               chart.xAxis
-                    .axisLabel("<%= domainProperty.getName(locale) %>");
-
-               chart.xAxis.rotateLabels(<%=displayer.getLabelAngleXAxis()%>);
-
-               d3.select('#<%= chartId %> svg')
-                    .datum(chartData<%=chartId%>)
-<% if(animateChart) { %> .transition().duration(500) <% } %>
-                    .call(chart);
-
-               nv.utils.windowResize(chart.update);
-
-            return chart;
-
-      },
-      callback: function(graph) {
-       <% if( enableDrillDown ) {%>
-          graph.discretebar.dispatch.on('elementClick', function(e) {
-          form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
-          submitAjaxForm(form);
-          });
-       <% } %>
-
-          graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = graph.xAxis.tickFormat()(graph.discretebar.x()(e.point, e.pointIndex)),
-              y = graph.yAxis.tickFormat()(graph.discretebar.y()(e.point, e.pointIndex)),
-              content = x + " " + y;
-
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-          });
-      }
-  });
-</script>
+<%@include file="nvd3_barchart_script.jspi"%>

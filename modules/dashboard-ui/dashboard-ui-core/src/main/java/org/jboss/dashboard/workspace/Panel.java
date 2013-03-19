@@ -319,10 +319,6 @@ public class Panel implements Cloneable, Comparable, Visitable {
         return false;
     }
 
-    public boolean allowsSubscriptions() {
-        return getInstance().allowsSubscriptions();
-    }
-
     public boolean isPaintTitle() {
         return false;
     }

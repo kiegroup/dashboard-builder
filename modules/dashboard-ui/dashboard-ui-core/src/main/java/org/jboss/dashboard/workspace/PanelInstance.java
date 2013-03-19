@@ -49,10 +49,10 @@ public class PanelInstance implements Cloneable, Visitable {
     public static final String PARAMETER_MINIMIZABLE = "minimizable";
     public static final String PARAMETER_PAINT_TITLE = "paint_title";
     public static final String PARAMETER_PAINT_BORDER = "paint_border";
-    public static final String PARAMETER_INITIALLY_MAXIMIZED = "initially_maximized";
-    public static final String PARAMETER_ALLOW_SUBSCRIBE = "allow_subscriptions";
+    //public static final String PARAMETER_INITIALLY_MAXIMIZED = "initially_maximized";
+    //public static final String PARAMETER_ALLOW_SUBSCRIBE = "allow_subscriptions";
     //public static final String PARAMETER_CACHE_TIME = "cache_time";
-    public static final String PARAMETER_SESSION_KEEP_ALIVE = "session_keep_alive";
+    //public static final String PARAMETER_SESSION_KEEP_ALIVE = "session_keep_alive";
 
     /**
      * logger
@@ -296,10 +296,6 @@ public class PanelInstance implements Cloneable, Visitable {
         return false;
     }
 
-    public boolean allowsSubscriptions() {
-        return BooleanParameter.value(getParameterValue(PARAMETER_ALLOW_SUBSCRIBE), false);
-    }
-
     public boolean isPaintTitle() {
         return false;
     }
@@ -314,7 +310,7 @@ public class PanelInstance implements Cloneable, Visitable {
      * @return if panel session is to be kept alive after page changed.
      */
     public boolean isSessionAliveAfterPageLeft() {
-        return BooleanParameter.value(getParameterValue(PanelInstance.PARAMETER_SESSION_KEEP_ALIVE), false);
+        return true; // FIX WEIRD BUG WITH ND3 AND FIREFOX BooleanParameter.value(getParameterValue(PanelInstance.PARAMETER_SESSION_KEEP_ALIVE), false);
     }
 
     // Parameters set

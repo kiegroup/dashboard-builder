@@ -186,8 +186,8 @@ public class PanelDriver {
         addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_MINIMIZABLE, false, false));
         addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_TITLE, false, false));
         addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_BORDER, false, false));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_INITIALLY_MAXIMIZED, false, false));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_SESSION_KEEP_ALIVE, false, false));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_INITIALLY_MAXIMIZED, false, false));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_SESSION_KEEP_ALIVE, false, false));
     }
 
     protected void initPermissionsParameters() throws NoSuchMethodException {

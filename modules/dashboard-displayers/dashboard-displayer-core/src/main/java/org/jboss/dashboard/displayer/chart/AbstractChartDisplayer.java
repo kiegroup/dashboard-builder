@@ -79,6 +79,9 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected int marginBottom;
     protected int marginTop;
 
+    /** The flag indicating if the X-aAxis labels should be displayed. */
+    protected boolean showLabelsXAxis;
+
     // Constructor of the class
 
     public AbstractChartDisplayer() {
@@ -410,6 +413,14 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     public void setMarginTop(int marginTop) {
         this.marginTop = marginTop;
+    }
+
+    public boolean isShowLabelsXAxis() {
+        return showLabelsXAxis;
+    }
+
+    public void setShowLabelsXAxis(boolean showLabelsXAxis) {
+        this.showLabelsXAxis = showLabelsXAxis;
     }
 
     public DataSet buildXYDataSet() {

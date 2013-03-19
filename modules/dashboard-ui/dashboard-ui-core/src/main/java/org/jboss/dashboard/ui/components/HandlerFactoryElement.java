@@ -35,7 +35,7 @@ public abstract class HandlerFactoryElement extends BasicFactoryElement {
     private Properties actionsShortcuts = new Properties();
     private Properties reverseActionsShortcuts = new Properties();
     private boolean useActionShortcuts = true;
-    private boolean enableDoubleClickControl = true;
+    private boolean enableDoubleClickControl = false;
     private boolean enabledForActionHandling = false;
 
     public boolean isUseActionShortcuts() {

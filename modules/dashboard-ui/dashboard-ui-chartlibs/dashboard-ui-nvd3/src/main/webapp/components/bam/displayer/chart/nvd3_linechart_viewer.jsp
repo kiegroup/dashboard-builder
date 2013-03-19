@@ -18,96 +18,19 @@
 
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.LineChartViewer_nvd3");
+
+    AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
 
-<script>
-    chartData<%=chartId%> = [
-        {
-            key: "<%= displayer.getTitle() != null ? displayer.getTitle() : "" %>",
-            area: <%= displayer.isShowLinesArea()%>,
-            color: "<%=selectedColor%>",
-            values: [
-                <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>
-                {
-                    "x" : "<%= i %>" ,
-                    "y" : <%= yvalues.get(i) %>
-                }
-                <% } %>
-            ]
-        }
-    ];
-
-  var chartLabels<%=chartId%> = [
-  <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>
-    "<%= xvalues.get(i) %>"
-  <% } %>
-  ];
-
-  nv.addGraph({
-  generate: function() {
-            var chart = nv.models.lineChart();
-
-            chart
-                .x(function(d) { return d.x })
-                .y(function(d) { return d.y })
-                .width(<%= displayer.getWidth() %>)
-                .height(<%= displayer.getHeight() %>)
-                .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>})
-
-               ;
-
-            chart.xAxis.tickFormat(function(d) {
-                    if( (typeof d === 'number' && d % 1 == 0) && d >= 0 && d < <%=xvalues.size()%> )
-                        return chartLabels<%=chartId%>[d];
-                    else
-                        return "";
-                   });
-
-            chart.yAxis
-                    .axisLabel("<%= rangeProperty.getName(locale) %>");
-
-            chart.xAxis
-                    .axisLabel("<%= domainProperty.getName(locale) %>");
-
-            chart.xAxis.rotateLabels(<%=displayer.getLabelAngleXAxis()%>);
-
-<% if(!enableTooltips) { %>
-            chart.tooltips(false);
+<% if( enableDrillDown ) { %>
+<!-- Form for drill down action -->
+<form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
+  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
+  <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
+</form>
 <% } %>
-            d3.select('#<%= chartId %> svg')
-                    .datum(chartData<%=chartId%>)
-<% if(animateChart) { %> .transition().duration(500) <% } %>
-                    .call(chart);
 
+<%@include file="nvd3_chart_wrapper.jspi"%>
+<%@include file="nvd3_linechart_script.jspi"%>
 
-            nv.utils.windowResize(chart.update);
-
-            return chart;
-
-  },
-  callback: function(graph) {
-  <% if( enableDrillDown ) {%>
-    graph.lines.dispatch.on('elementClick', function(e) {
-          form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
-          submitAjaxForm(form);
-          });
-  <% } %>
-
-   graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = graph.xAxis.tickFormat()(graph.lines.x()(e.point, e.pointIndex));
-              y = graph.yAxis.tickFormat()(graph.lines.y()(e.point, e.pointIndex));
-              n = e.pointIndex;
-
-              if( n >= 0 && n < <%=xvalues.size()%> ) {
-                 content = x + " = " + y + " - " + chartLabels<%=chartId%>[n];
-              } else {
-                 content = "";
-              }
-
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-          });
-  }
-  });
-</script>
