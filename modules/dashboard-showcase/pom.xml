@@ -189,6 +189,7 @@
                     <groupId>postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>8.4-702.jdbc4</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -210,6 +211,7 @@
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>1.3.168</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -231,6 +233,7 @@
                     <groupId>com.oracle</groupId>
                     <artifactId>ojdbc14</artifactId>
                     <version>10.2.0.4.0</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -252,6 +255,7 @@
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <version>5.1.22</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -273,6 +277,7 @@
                     <groupId>org.tranql</groupId>
                     <artifactId>tranql-connector-sqlserver2005</artifactId>
                     <version>1.3</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>

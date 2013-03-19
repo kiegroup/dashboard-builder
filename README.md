@@ -69,8 +69,8 @@ If you want to build the project and execute a demo follow the next steps:
 3. Once the application is started, open a browser window and type the URL: <code>http://localhost:8080/dashbuilder</code>.
 The following user/password are available by default:
 
-* <code>root/root</code>: to sign-in as the superuser
-* <code>demo/demo</code>: to enter as a end user.
+    * <code>root/root</code>: to sign-in as the superuser
+    * <code>demo/demo</code>: to sign-in as an end user.
 
 NOTE: The application uses an auto deployable H2 embedded database. So no extra configuration is needed.
 But when you start the application for the first time it may take some minutes due to the
