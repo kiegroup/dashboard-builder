@@ -148,10 +148,7 @@ public class KPIImpl implements KPI {
     }
 
     public DataDisplayer getDataDisplayer() {
-        if (dataDisplayer == null) {
-            deserializeDataDisplayer();
-            if (dataDisplayer != null) dataDisplayer.setDataProvider(getDataProvider());
-        }
+        if (dataDisplayer == null) deserializeDataDisplayer();
         return dataDisplayer;
     }
 
@@ -232,7 +229,13 @@ public class KPIImpl implements KPI {
                 if (importResults.getMessages().hasErrors()) {
                     throw new RuntimeException(importResults.getMessages().get(0).toString());
                 }
+                Locale locale = LocaleManager.currentLocale();
                 dataDisplayer.setDataDisplayerType(type);
+                dataDisplayer.setDataProvider(getDataProvider());
+                if (dataDisplayer instanceof AbstractChartDisplayer) {
+                    AbstractChartDisplayer displayer = (AbstractChartDisplayer) dataDisplayer;
+                    displayer.setTitle(getDescription(locale));
+                }
             }
         } catch (Exception e) {
             log.error("Error deserializing data provider for KPI: " + id, e);

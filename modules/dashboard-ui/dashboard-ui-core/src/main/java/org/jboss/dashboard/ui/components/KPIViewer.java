@@ -15,10 +15,14 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.displayer.DataDisplayer;
+
+import java.util.Locale;
 
 public class KPIViewer extends UIComponentHandlerFactoryElement {
 
@@ -65,5 +69,16 @@ public class KPIViewer extends UIComponentHandlerFactoryElement {
 
     public void setComponentIncludeJSP(String componentIncludeJSP) {
         this.componentIncludeJSP = componentIncludeJSP;
+    }
+
+    public void beforeRenderComponent() {
+        // The displayer's title must be the kpi's description.
+        // So set it before render the component.
+        Locale locale = LocaleManager.currentLocale();
+        DataDisplayer kpiDisplayer = kpi.getDataDisplayer();
+        if (kpiDisplayer instanceof AbstractChartDisplayer) {
+            AbstractChartDisplayer displayer = (AbstractChartDisplayer) kpiDisplayer;
+            displayer.setTitle(kpi.getDescription(locale));
+        }
     }
 }
