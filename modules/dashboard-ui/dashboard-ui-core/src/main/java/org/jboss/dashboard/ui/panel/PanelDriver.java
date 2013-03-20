@@ -178,15 +178,15 @@ public class PanelDriver {
         log.debug("Init driver. Adding system parameters");
         addSystemParameter(new StringParameter(provider, PanelInstance.PARAMETER_GROUP, false, false));
         addSystemParameter(new StringParameter(provider, PanelInstance.PARAMETER_TITLE, true, true));
-        addSystemParameter(new IntParameter(provider, PanelInstance.PARAMETER_HEIGHT, true, "0"));
         addParameter(new TextAreaParameter(provider, PanelInstance.PARAMETER_HTML_BEFORE, false, true));
         addParameter(new TextAreaParameter(provider, PanelInstance.PARAMETER_HTML_AFTER, false, true));
-        //addSystemParameter(new IntParameter(provider, PanelInstance.PARAMETER_CACHE_TIME, true, "0"));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_MAXIMIZABLE, false, false));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_MINIMIZABLE, false, false));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_TITLE, false, false));
-        addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_BORDER, false, false));
-        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_INITIALLY_MAXIMIZED, false, false));
+
+        // Probably will be deleted but not decided yet.
+        //addSystemParameter(new IntParameter(provider, PanelInstance.PARAMETER_HEIGHT, true, "0"));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_MAXIMIZABLE, false, false));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_MINIMIZABLE, false, false));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_TITLE, false, false));
+        //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_PAINT_BORDER, false, false));
         //addSystemParameter(new BooleanParameter(provider, PanelInstance.PARAMETER_SESSION_KEEP_ALIVE, false, false));
     }
 
@@ -195,15 +195,11 @@ public class PanelDriver {
         for (int i = 0; i < methods.length; i++) {
             Method method = methods[i];
             if ((method.getName().startsWith("action") || method.getName().startsWith("panelAction"))
-                    &&
-                    method.getParameterTypes().length == 2
-                    &&
-                    method.getParameterTypes()[0].equals(Panel.class)
-                    &&
-                    method.getParameterTypes()[1].equals(CommandRequest.class)
-                    &&
-                    CommandResponse.class.equals(method.getReturnType())
-                    ) {
+                && method.getParameterTypes().length == 2
+                && method.getParameterTypes()[0].equals(Panel.class)
+                && method.getParameterTypes()[1].equals(CommandRequest.class)
+                && CommandResponse.class.equals(method.getReturnType())) {
+
                 addMethodPermission(method.getName(), PanelPermission.class, PanelPermission.ACTION_VIEW);
                 if ("panelActionEditMode".equals(method.getName()))
                     addMethodPermission(method.getName(), PanelPermission.class, PanelPermission.ACTION_EDIT);
@@ -227,7 +223,6 @@ public class PanelDriver {
                     addMethodPermission(method.getName(), PanelPermission.class, PanelPermission.ACTION_MINIMIZE);
             }
         }
-
     }
 
     /**
