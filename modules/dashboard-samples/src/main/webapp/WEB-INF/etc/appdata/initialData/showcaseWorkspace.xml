@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceExport>
-    <workspace envelopeId="Default_Envelope" friendlyUrl="workspace" skinId="Default_Skin" homeMode="0" id="1">
+    <workspace envelopeId="Default_Envelope" friendlyUrl="showcase" skinId="Default_Skin" homeMode="0" id="1">
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
-                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
+                    actions="login,admin,createPage,edit,delete,edit perm,admin providers"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
-                    actions="view,edit,edit perm" readonly="true"/>
+                    actions="view,edit,edit perm"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
-                    actions="view,edit,delete,edit perm" readonly="true"/>
-        <param name="name" value="Showcase" lang="en"/>
-        <param name="name" value="Showcase" lang="es"/>
-        <param name="title" value="Dashboards Showcase" lang="en"/>
+                    actions="view,edit,delete,edit perm"/>
         <param name="title" value="Dashboards Showcase" lang="es"/>
+        <param name="title" value="Dashboards Showcase" lang="en"/>
+        <param name="name" value="Showcase" lang="es"/>
+        <param name="name" value="Showcase" lang="en"/>
         <panelInstance
                 serialization="rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAADdAAEcGFnZXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAKdAABKnh0AAZwb3J0YWxzcQB+AAMAAAABdwQAAAAKcQB+AAV4dAAEbGFuZ3NxAH4AAwAAAAJ3BAAAAAp0AAJlbnQAAmVzeHg="
                 provider="navigation.language_horiz" id="2074">
@@ -78,27 +78,24 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="2989">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30011353503663716" lang=" "/>
             <param name="title" value="Opportunities by status" lang="en"/>
             <param name="title" value="Opportunities by status" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3002">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30041353504912610" lang=" "/>
             <param name="title" value="Opportunities by employee" lang="en"/>
             <param name="title" value="Oportunidades por empleado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3008">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt; " lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30101353505177974" lang=" "/>
             <param name="title" value="Opportunities by country" lang="en"/>
             <param name="title" value="Oportunidades por pa&#237;s" lang="es"/>
@@ -111,36 +108,36 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3028">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30301353506280659" lang=" "/>
+            <param name="maximized" value="true" lang=" "/>
+            <param name="minimizable" value="true" lang=" "/>
+            <param name="paint_border" value="true" lang=" "/>
+            <param name="paint_title" value="true" lang=" "/>
             <param name="title" value="Expected pipeline" lang="en"/>
             <param name="title" value="Ventas esperadas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3031">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30331353506453066" lang=" "/>
             <param name="title" value="By sales person" lang="en"/>
             <param name="title" value="Por persona de ventas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3034">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30361353506582145" lang=" "/>
             <param name="title" value="By status" lang="en"/>
             <param name="title" value="Por estado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3037">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30391353506887646" lang=" "/>
             <param name="title" value="By product" lang="en"/>
             <param name="title" value="Por producto" lang="es"/>
@@ -154,9 +151,8 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3042">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30441353507392054" lang=" "/>
             <param name="title" value="Opportunities by closing date (USD)" lang="en"/>
             <param name="title" value="Oportunidades por fecha de cierre" lang="es"/>
@@ -205,6 +201,7 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="2974">
             <param name="group" value="Sales demo" lang=" "/>
+            <param name="height" value="100" lang=" "/>
             <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
             <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
                    lang="en"/>
@@ -247,18 +244,16 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3023">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30251353675275870" lang=" "/>
             <param name="title" value="Pipeline status" lang="en"/>
             <param name="title" value="Ventas por estado en pipeline" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3026">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30281353675541472" lang=" "/>
             <param name="title" value="By country" lang="en"/>
             <param name="title" value="Por pa&#237;s" lang="es"/>
@@ -279,30 +274,27 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3060">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30621353683547916" lang=" "/>
             <param name="title" value="Sales evolution" lang="en"/>
             <param name="title" value="Evoluci&#243;n de ventas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3063">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30651353683614640" lang=" "/>
             <param name="title" value="By sales person" lang="en"/>
             <param name="title" value="Por vendedor" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3066">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
-            <param name="kpicode" value="kpi_30711353683773457" lang=" "/>
-            <param name="title" value="Summary by status" lang="en"/>
-            <param name="title" value="Res&#250;men por estado" lang="es"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
+            <param name="kpicode" value="kpi_21591363786594721" lang=" "/>
+            <param name="title" value="Amount by status " lang="en"/>
+            <param name="title" value="Cantidad por estado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3075">
             <param name="group" value="Sales demo" lang=" "/>
@@ -315,27 +307,24 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3078">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30801353685378049" lang=" "/>
             <param name="title" value="By customer" lang="en"/>
             <param name="title" value="Por cliente" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3081">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30831353686700387" lang=" "/>
             <param name="title" value="By product" lang="en"/>
             <param name="title" value="Por producto" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3084">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30861353687605533" lang=" "/>
             <param name="title" value="Amount by probability (%)" lang="en"/>
             <param name="title" value="Por probabilidad (%)" lang="es"/>
@@ -638,10 +627,19 @@
             <param name="title" value=" Process dashboard (Totals)" lang="en"/>
             <param name="title" value="HTML para cuadros de mando" lang="es"/>
         </panelInstance>
+        <panelInstance serialization="" provider="navigation.logout" id="2145">
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="&lt;style&gt;
+.login-table td {color:#ffffff;font-weight:bold}
+&lt;/style&gt;" lang="en"/>
+            <param name="title" value="Logout panel" lang="en"/>
+            <param name="title" value="Panel de logout" lang="es"/>
+        </panelInstance>
         <section id="1953" visible="true" panelSpacing="0" position="0" regionSpacing="0" idEnvelope="" idSkin=""
                  friendlyUrl="home" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Home" lang="en"/>
             <param name="title" value="Inicio" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2149"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2309" regionId="center_1" id="2310"/>
             <panel position="0" instanceId="2187" regionId="left_top" id="2188"/>
@@ -650,6 +648,7 @@
                  friendlyUrl="samples" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Sample dashboards" lang="en"/>
             <param name="title" value="Ejemplos cuadro de mando" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2148"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2961" regionId="center_1" id="2083"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3101"/>
@@ -660,6 +659,7 @@
                  idSkin="" friendlyUrl="sales-dashboard" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Sales opportunities" lang="en"/>
             <param name="title" value="Indicadores de ventas" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2150"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3067" regionId="center_1" id="3068"/>
             <panel position="1" instanceId="3049" regionId="center_1" id="3095"/>
@@ -674,6 +674,7 @@
                  idSkin="" friendlyUrl="sales-country" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="By country" lang="en"/>
             <param name="title" value="Por pa&#237;s" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2151"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2982" regionId="center_1" id="2983"/>
             <panel position="1" instanceId="3016" regionId="center_1" id="3017"/>
@@ -690,6 +691,7 @@
                  idSkin="" friendlyUrl="sales-pipeline" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Pipeline analysis" lang="en"/>
             <param name="title" value="An&#225;lisis de pipeline" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2152"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3076" regionId="center_1" id="3077"/>
             <panel position="1" instanceId="3049" regionId="center_1" id="3050"/>
@@ -707,6 +709,7 @@
                  idSkin="" friendlyUrl="sales-report" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Sales report" lang="en"/>
             <param name="title" value="Informe de ventas" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2153"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3079" regionId="center_1" id="3080"/>
             <panel position="1" instanceId="3049" regionId="center_1" id="3094"/>
@@ -718,6 +721,7 @@
                  idSkin="" friendlyUrl="expenses-by-office" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Expense reports" lang="en"/>
             <param name="title" value="Nota de gastos" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2154"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="3047"/>
             <panel position="0" instanceId="3649" regionId="center_1" id="3650"/>
             <panel position="1" instanceId="3647" regionId="center_1" id="3648"/>
@@ -734,6 +738,7 @@
                  friendlyUrl="administration" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Administration" lang="en"/>
             <param name="title" value="Administraci&#243;n" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2155"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2978" regionId="center_1" id="2979"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3101"/>
@@ -744,6 +749,7 @@
                  idSkin="" friendlyUrl="data-providers" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Data providers" lang="en"/>
             <param name="title" value="Proveedores de datos" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2156"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2984" regionId="center_1" id="2985"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3103"/>
@@ -754,6 +760,7 @@
                  idSkin="" friendlyUrl="external-connections" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="External connections" lang="en"/>
             <param name="title" value="Conexiones externas" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2157"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2306" regionId="center_1" id="2083"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3104"/>
@@ -764,12 +771,13 @@
                  idSkin="" friendlyUrl="import-export" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Import and export" lang="en"/>
             <param name="title" value="Importar y exportar" lang="es"/>
+            <panel position="-1" instanceId="2979" id="2980"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2158"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2981" regionId="center_1" id="2982"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3106"/>
             <panel position="0" instanceId="2036" regionId="center_3" id="2037"/>
             <panel position="1" instanceId="2038" regionId="center_3" id="2039"/>
-            <panel position="2" instanceId="2979" regionId="center_3" id="2980"/>
             <panel position="0" instanceId="2187" regionId="left_top" id="2188"/>
         </section>
     </workspace>

@@ -207,7 +207,7 @@
     <description language="es">jBPM Process Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-      <query type="default">select processinstanceid,processname,status,startdate,enddate,userid,processversion,duration from BAMPROCESSSUMMARY</query>
+<query>select processinstanceid,processname,status,startdate,enddate,userid,processversion,duration from BAMPROCESSSUMMARY</query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="processinstanceid">
@@ -256,7 +256,7 @@
     <description language="en">jBPM Task Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-      <query type="default">select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
+<query>select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
         from BAMTASKSUMMARY ts left join BAMPROCESSSUMMARY ps on (ts.processinstanceid=ps.processinstanceid)</query>
     </sqlprovider>
     <dataproperties>
@@ -311,7 +311,7 @@
     <description language="en">By version</description>
     <description language="es">Por versi&#243;n</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>processversion</propertyid>
         <name language="en">Version</name>
@@ -325,13 +325,14 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>300</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
@@ -345,7 +346,7 @@
     <description language="en">Instances by process</description>
     <description language="es">Instancias por proceso</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>processname</propertyid>
         <name language="en">Name</name>
@@ -359,15 +360,16 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>0</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>500</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
@@ -381,7 +383,7 @@
     <description language="en">Instances by status</description>
     <description language="es">Instancias por estado</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>status</propertyid>
         <name language="en">Status</name>
@@ -394,13 +396,14 @@
         <name language="es">Id</name>
         <scalarfunction>count</scalarfunction>
       </range>
-      <type>pie</type>
+      <type></type>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>400</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
@@ -414,7 +417,7 @@
     <description language="en">Instances started by user</description>
     <description language="es">Instancias creadas por usuario</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>userid</propertyid>
         <name language="en">User or role</name>
@@ -428,7 +431,7 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} instance(s)</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -439,21 +442,21 @@
       <width>500</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
-      <marginleft>30</marginleft>
+      <marginleft>50</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>50</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_31261353948417434">
     <description language="en">Number of task instances</description>
     <description language="es">N&#250;mero de tareas</description>
     <provider code="dataprovider_31171353947281370" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>taskname</propertyid>
         <name language="en">Task</name>
@@ -467,32 +470,32 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
       </range>
-      <type>bar_filled</type>
-      <intervalsortcriteria>0</intervalsortcriteria>
-      <intervalsortorder>1</intervalsortorder>
+      <type></type>
+      <intervalsortcriteria>1</intervalsortcriteria>
+      <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
-      <labelanglexaxis>320</labelanglexaxis>
+      <labelanglexaxis>-45</labelanglexaxis>
       <showlinesarea>false</showlinesarea>
       <color>#0000FF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>600</width>
-      <height>250</height>
+      <width>800</width>
+      <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>50</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_21351361956566198">
     <description language="en">Number of tasks per user</description>
     <description language="es">Tareas por usuario</description>
     <provider code="dataprovider_31171353947281370" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>userid</propertyid>
         <name language="en">User or group</name>
@@ -505,7 +508,7 @@
         <name language="es">ID tarea</name>
         <scalarfunction>count</scalarfunction>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -513,24 +516,24 @@
       <showlinesarea>false</showlinesarea>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>600</width>
+      <width>800</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30751353944093386">
     <description language="en">Process completed by date</description>
     <description language="es">Procesos completado por fecha</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>enddate</propertyid>
         <name language="en">End date</name>
@@ -545,23 +548,23 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>40</labelanglexaxis>
-      <showlinesarea>false</showlinesarea>
+      <showlinesarea>true</showlinesarea>
       <color>#0000FF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
-      <height>200</height>
+      <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_29671354183712341">
@@ -659,7 +662,7 @@
     <description language="en">Process initiated by date</description>
     <description language="es">Procesos iniciados por fecha</description>
     <provider code="dataprovider_29781353670809093" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>startdate</propertyid>
         <name language="en">Start date</name>
@@ -674,23 +677,23 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} instance(s)</unit>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
-      <labelanglexaxis>320</labelanglexaxis>
-      <showlinesarea>false</showlinesarea>
+      <labelanglexaxis>-45</labelanglexaxis>
+      <showlinesarea>true</showlinesarea>
       <color>#0000FF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>900</width>
-      <height>200</height>
+      <width>800</width>
+      <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>100</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30531353942661507">
@@ -814,7 +817,7 @@
     <description language="en">Tasks completed by date</description>
     <description language="es">Tareas completadas por fecha</description>
     <provider code="dataprovider_31171353947281370" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>enddate</propertyid>
         <name language="en">End date</name>
@@ -829,23 +832,23 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>40</labelanglexaxis>
-      <showlinesarea>false</showlinesarea>
+      <showlinesarea>true</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
-      <height>200</height>
+      <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_29711354187660609">
@@ -943,7 +946,7 @@
     <description language="en">Tasks started by date</description>
     <description language="es">Tareas iniciadas por fecha</description>
     <provider code="dataprovider_31171353947281370" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>createddate</propertyid>
         <name language="en">Start date</name>
@@ -958,35 +961,35 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>50</labelanglexaxis>
-      <showlinesarea>false</showlinesarea>
+      <showlinesarea>true</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>900</width>
-      <height>200</height>
+      <width>800</width>
+      <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>false</showtitle>
-      <align>left</align>
-      <marginleft>30</marginleft>
+      <align>center</align>
+      <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>30</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_31291353948572804">
     <description language="en">Users with tasks</description>
     <description language="es">Usuarios con tareas</description>
     <provider code="dataprovider_31171353947281370" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>userid</propertyid>
         <name language="en">User or group</name>
         <name language="es">Usuario o grupo</name>
-        <maxnumberofintervals>100</maxnumberofintervals>
+        <maxnumberofintervals>10</maxnumberofintervals>
       </domain>
       <range>
         <propertyid>taskid</propertyid>
@@ -994,15 +997,16 @@
         <name language="es">ID tarea</name>
         <scalarfunction>count</scalarfunction>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#E40808</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>400</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>

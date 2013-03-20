@@ -5,7 +5,7 @@
     <description language="es">Notas de gastos demo</description>
     <csvprovider>
       <csvSeparatedBy>;</csvSeparatedBy>
-      <csvQuoteChar>"</csvQuoteChar>
+      <csvQuoteChar>&quot;</csvQuoteChar>
       <csvEscapeChar>\</csvEscapeChar>
       <csvDatePattern>MM-dd-yyyy</csvDatePattern>
       <csvNumberPattern>#,###.##</csvNumberPattern>
@@ -49,7 +49,7 @@
     <description language="es">Dashboard ventas demo</description>
     <csvprovider>
       <csvSeparatedBy>;</csvSeparatedBy>
-      <csvQuoteChar>"</csvQuoteChar>
+      <csvQuoteChar>&quot;</csvQuoteChar>
       <csvEscapeChar>\</csvEscapeChar>
       <csvDatePattern>MM-dd-yyyy HH:mm:ss</csvDatePattern>
       <csvNumberPattern>#,###.##</csvNumberPattern>
@@ -219,7 +219,7 @@
     <description language="en">Amount by probability (%)</description>
     <description language="es">Cantidad por probabilidad</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>probability</propertyid>
         <name language="en">Probability</name>
@@ -234,25 +234,67 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>0</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#0000FF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>600</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
-      <showtitle>true</showtitle>
+      <showtitle>false</showtitle>
       <align>left</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>50</marginbottom>
+    </displayer>
+  </kpi>
+  <kpi code="kpi_21591363786594721">
+    <description language="en">Amount by status </description>
+    <description language="es">Cantidad por estado</description>
+    <provider code="dataprovider_29881353499006573" />
+    <displayer type="barchart" renderer="nvd3">
+      <domain>
+        <propertyid>status</propertyid>
+        <name language="en">Status</name>
+        <name language="es">Estado</name>
+        <maxnumberofintervals>10</maxnumberofintervals>
+      </domain>
+      <range>
+        <propertyid>amount</propertyid>
+        <name language="en">Amount</name>
+        <name language="es">Cantidad</name>
+        <scalarfunction>sum</scalarfunction>
+        <unit language="en">{value}</unit>
+      </range>
+      <type></type>
+      <showlabelsxaxis>false</showlabelsxaxis>
+      <labelanglexaxis>-45</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
+      <color>#FFFFFF</color>
+      <backgroundcolor>#FFFFFF</backgroundcolor>
+      <width>600</width>
+      <height>300</height>
+      <showlegend>false</showlegend>
+      <axisinteger>false</axisinteger>
+      <legendanchor>south</legendanchor>
+      <showtitle>false</showtitle>
+      <align>center</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>100</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30281353675541472">
     <description language="en">By country</description>
     <description language="es">Por pa&#237;s</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>country</propertyid>
         <name language="en">Country</name>
@@ -266,27 +308,32 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>45</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#00FF00</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30801353685378049">
     <description language="en">By customer</description>
     <description language="es">Por cliente</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>customer</propertyid>
         <name language="en">Customer</name>
@@ -300,23 +347,28 @@
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>300</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30391353506887646">
     <description language="en">By product</description>
     <description language="es">Por producto</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>product</propertyid>
         <name language="en">Product</name>
@@ -330,27 +382,32 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>30</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30831353686700387">
     <description language="en">By product</description>
     <description language="es">Por producto</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>product</propertyid>
         <name language="en">Product</name>
@@ -364,27 +421,32 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_glass</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>60</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#C50C0C</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>400</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>100</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30331353506453066">
     <description language="en">By sales person</description>
     <description language="es">Por vendedor</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>sales person</propertyid>
         <name language="en">Sales person</name>
@@ -398,25 +460,30 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>0</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>600</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30651353683614640">
     <description language="en">By sales person</description>
     <description language="es">Por vendedor</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>sales person</propertyid>
         <name language="en">Sales person</name>
@@ -430,7 +497,8 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>300</width>
@@ -440,13 +508,17 @@
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30361353506582145">
     <description language="en">By status</description>
     <description language="es">Por estado</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>status</propertyid>
         <name language="en">Status</name>
@@ -460,25 +532,30 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>0</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>600</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30301353506280659">
     <description language="en">Expected pipeline</description>
     <description language="es">Cierres esperados</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>closing date</propertyid>
         <name language="en">Closing date</name>
@@ -491,20 +568,24 @@
         <name language="en">Expected amount</name>
         <name language="es">Cantidad esperada</name>
         <scalarfunction>sum</scalarfunction>
-        <unit language="en">$ {value}</unit>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
-      <labelanglexaxis>320</labelanglexaxis>
+      <labelanglexaxis>-45</labelanglexaxis>
+      <showlinesarea>true</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>650</width>
+      <width>600</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>100</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_64011223773089901">
@@ -529,6 +610,7 @@
       <type>line</type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>50</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>1000</width>
@@ -538,6 +620,10 @@
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_64061223773274641">
@@ -655,6 +741,7 @@
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>30</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>500</width>
@@ -664,6 +751,10 @@
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_63901223772516707">
@@ -685,6 +776,7 @@
         <unit language="en">$ {value}</unit>
       </range>
       <type>pie</type>
+      <showlabelsxaxis>false</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>400</width>
@@ -694,6 +786,10 @@
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30461354643057084">
@@ -719,6 +815,7 @@
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>30</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
@@ -728,13 +825,17 @@
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>left</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30441353507392054">
     <description language="en">Opportunities by closing date (USD)</description>
     <description language="es">Oportunidades por fecha de cierre</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>closing date</propertyid>
         <name language="en">Closing date</name>
@@ -749,25 +850,30 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>0</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#0000ff</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>450</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>50</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30101353505177974">
     <description language="en">Opportunities by country</description>
     <description language="es">Oportunidades por pa&#237;s</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>country</propertyid>
         <name language="en">Country</name>
@@ -780,25 +886,30 @@
         <name language="es">Cantidad</name>
         <scalarfunction>count</scalarfunction>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>0</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>450</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>50</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30041353504912610">
     <description language="en">Opportunities by employee</description>
     <description language="es">Oportunidades por empleado (USD)</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="barchart" renderer="ofc2">
+    <displayer type="barchart" renderer="nvd3">
       <domain>
         <propertyid>sales person</propertyid>
         <name language="en">Sales person</name>
@@ -812,27 +923,32 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
-      <labelanglexaxis>330</labelanglexaxis>
+      <labelanglexaxis>-45</labelanglexaxis>
+      <showlinesarea>false</showlinesarea>
       <color>#FF0000</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>450</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30011353503663716">
     <description language="en">Opportunities by status</description>
     <description language="es">Oportunidades por estado (USD)</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>status</propertyid>
         <name language="en">Status</name>
@@ -846,25 +962,30 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
       <intervalsortcriteria>0</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>500</width>
+      <width>450</width>
       <height>300</height>
-      <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <showlegend>true</showlegend>
+      <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30251353675275870">
     <description language="en">Pipeline status</description>
     <description language="es">Estado de fase</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="piechart" renderer="ofc2">
+    <displayer type="piechart" renderer="nvd3">
       <domain>
         <propertyid>pipeline</propertyid>
         <name language="en">Pipeline</name>
@@ -876,25 +997,29 @@
         <name language="en">Amount</name>
         <name language="es">Cantidad</name>
         <scalarfunction>sum</scalarfunction>
-        <unit language="en">$ {value}</unit>
       </range>
-      <type>pie</type>
+      <type></type>
+      <showlabelsxaxis>true</showlabelsxaxis>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>300</width>
       <height>300</height>
-      <showlegend>false</showlegend>
+      <showlegend>true</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
       <align>center</align>
+      <marginleft>30</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>30</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_30621353683547916">
     <description language="en">Sales evolution</description>
     <description language="es">Evoluci&#243;n ventas</description>
     <provider code="dataprovider_29881353499006573" />
-    <displayer type="linechart" renderer="ofc2">
+    <displayer type="linechart" renderer="nvd3">
       <domain>
         <propertyid>closing date</propertyid>
         <name language="en">Closing date</name>
@@ -908,18 +1033,23 @@
         <name language="es">Cantidad</name>
         <scalarfunction>sum</scalarfunction>
       </range>
-      <type>line</type>
+      <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
-      <labelanglexaxis>90</labelanglexaxis>
+      <labelanglexaxis>-45</labelanglexaxis>
+      <showlinesarea>true</showlinesarea>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>1000</width>
       <height>300</height>
       <showlegend>false</showlegend>
-      <axisinteger>true</axisinteger>
+      <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
       <showtitle>true</showtitle>
-      <align>left</align>
+      <align>center</align>
+      <marginleft>80</marginleft>
+      <marginright>30</marginright>
+      <margintop>30</margintop>
+      <marginbottom>50</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_29761353668431694">
@@ -1076,111 +1206,6 @@
         <htmlvalue>{value}</htmlvalue>
         <selectable>false</selectable>
         <sortable>true</sortable>
-      </column>
-    </displayer>
-  </kpi>
-  <kpi code="kpi_30711353683773457">
-    <description language="en">Summary by status</description>
-    <description language="es">Res&#250;men por estado</description>
-    <provider code="dataprovider_29881353499006573" />
-    <displayer type="table" renderer="default">
-      <rowsperpage>10</rowsperpage>
-      <headerposition>top</headerposition>
-      <htmlstyle>border: 1px solid #000000; padding:0; text-align:center;</htmlstyle>
-      <htmlclass>skn-table_border</htmlclass>
-      <rowevenclass>skn-even_row</rowevenclass>
-      <rowoddclass>skn-odd_row</rowoddclass>
-      <rowhoverclass>skn-even_row_alt</rowhoverclass>
-      <groupby>
-        <propertyid>status</propertyid>
-        <name language="en">Status</name>
-        <name language="es">Estado</name>
-        <maxnumberofintervals>10</maxnumberofintervals>
-        <showtotals>true</showtotals>
-        <totalshtmlstyle>text-align:center; background-color:#DEE5EC; height:20px; font-weight:Bold;</totalshtmlstyle>
-      </groupby>
-      <column>
-        <modelproperty>status</modelproperty>
-        <viewindex>0</viewindex>
-        <name language="en">Status</name>
-        <name language="es">Estado</name>
-        <hint language="en">Status</hint>
-        <hint language="es">Estado</hint>
-        <headerhtmlstyle>text-align:left; width:150px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:150px; height:20px;  white-space:nowrap;</cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>true</selectable>
-        <sortable>true</sortable>
-      </column>
-      <column>
-        <modelproperty>creation date</modelproperty>
-        <viewindex>1</viewindex>
-        <name language="en"># Opp</name>
-        <name language="es"># Opp</name>
-        <hint language="en"># Opp</hint>
-        <hint language="es"># Opp</hint>
-        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center; </cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>false</selectable>
-        <sortable>true</sortable>
-        <groupbyfunction>distinct</groupbyfunction>
-      </column>
-      <column>
-        <modelproperty>amount</modelproperty>
-        <viewindex>2</viewindex>
-        <name language="en">AVG</name>
-        <name language="es">AVG</name>
-        <hint language="en">AVG</hint>
-        <hint language="es">AVG</hint>
-        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center; </cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>false</selectable>
-        <sortable>true</sortable>
-        <groupbyfunction>average</groupbyfunction>
-      </column>
-      <column>
-        <modelproperty>amount</modelproperty>
-        <viewindex>3</viewindex>
-        <name language="en">MAX</name>
-        <name language="es">MAX</name>
-        <hint language="en">MAX</hint>
-        <hint language="es">MAX</hint>
-        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center; </cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>false</selectable>
-        <sortable>true</sortable>
-        <groupbyfunction>max</groupbyfunction>
-      </column>
-      <column>
-        <modelproperty>amount</modelproperty>
-        <viewindex>4</viewindex>
-        <name language="en">MIN</name>
-        <name language="es">MIN</name>
-        <hint language="en">MIN</hint>
-        <hint language="es">MIN</hint>
-        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center; </cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>false</selectable>
-        <sortable>true</sortable>
-        <groupbyfunction>min</groupbyfunction>
-      </column>
-      <column>
-        <modelproperty>probability</modelproperty>
-        <viewindex>5</viewindex>
-        <name language="en">AVG %</name>
-        <name language="es">AVG %</name>
-        <hint language="en">AVG %</hint>
-        <hint language="es">AVG %</hint>
-        <headerhtmlstyle>text-align:center; width:100px; overflow:hidden; background-color:#C6D8EB; height:20px; color:#465F7D; font-weight:Bold;  white-space:nowrap;</headerhtmlstyle>
-        <cellhtmlstyle>width:100px; height:20px;  white-space:nowrap;text-align:center; </cellhtmlstyle>
-        <htmlvalue>{value}</htmlvalue>
-        <selectable>false</selectable>
-        <sortable>true</sortable>
-        <groupbyfunction>average</groupbyfunction>
       </column>
     </displayer>
   </kpi>

@@ -24,12 +24,12 @@
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<table cellspacing="5px" cellpadding="1px" border="0">
+<table cellspacing="5px" cellpadding="1px" border="0" class="login-table">
 	<tr>
-		<td valign="top" align="left" class="skn-title3"><i18n:message key="ui.login.loggedAs">!!! Logged as</i18n:message>
+		<td valign="middle" align="left"><i18n:message key="ui.login.loggedAs">!!! Logged as</i18n:message>
 			<%= UserStatus.lookup().getUserLogin() %>
 		</td>
-		<td valign="top" align="right" >
+		<td valign="middle" align="right" >
 			<a href="<factory:url action="logout" friendly="true"/>" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
 				<input type="button" class="skn-button"
 					   value="<i18n:message key="ui.logout">!!! Logout</i18n:message>"
