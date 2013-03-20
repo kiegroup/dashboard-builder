@@ -31,14 +31,6 @@
     <name>Dashboard Builder Modules</name>
     <description>Dashboard builder's aggregation module</description>
 
-    <!-- Added to support dependencies to JFreeChart/Cewolf libraries -->
-    <repositories>
-        <repository>
-            <id>project.local.dashb</id>
-            <url>file:../repository</url>
-        </repository>
-    </repositories>
-
     <modules>
         <module>dashboard-commons</module>
         <module>dashboard-security</module>

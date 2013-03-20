@@ -110,11 +110,6 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
                 meterDisplayer.setWarningThermoThreshold(thermoWarningThreshold);
                 meterDisplayer.setCriticalThermoThreshold(thermoCriticalThreshold);
                 meterDisplayer.setThermoUpperBound(thermoUpperBound);
-
-                /* Original units of the thermometer disabled.
-                    String thermoUnits = request.getRequestObject().getParameter("thermoUnits");
-                    if (thermoUnits != null && !"".equals(thermoUnits)) meterDisplayer.setThermoUnits(Integer.parseInt(thermoUnits));
-                 */
             }
             // Dial
             else if (meterDisplayer.getType().equals("dial")) {

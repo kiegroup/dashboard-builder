@@ -106,11 +106,6 @@ public class MeterChartDisplayerXMLFormat extends ChartDisplayerXMLFormat {
             NodeList thermoNodes = item.getChildNodes();
             for (int k = 0; k < thermoNodes.getLength(); k++) {
                 Node thermoItem = thermoNodes.item(k);
-                /*  // Original units of the thermometer disabled. Apply here the same pattern as in meter type.
-                    if (thermoItem.getNodeName().equals("thermoUnits") && thermoItem.hasChildNodes()) {
-                        meterDisplayer.setThermoUnits(Integer.parseInt(StringEscapeUtils.unescapeXml(thermoItem.getFirstChild().getNodeValue())));
-                    }
-                 */
                 if (thermoItem.getNodeName().equals("positionType") && thermoItem.hasChildNodes()) {
                     meterDisplayer.setPositionType(StringEscapeUtils.unescapeXml(thermoItem.getFirstChild().getNodeValue()));
                 }
@@ -241,14 +236,7 @@ public class MeterChartDisplayerXMLFormat extends ChartDisplayerXMLFormat {
         } else if (meterDisplayer.getType().equals("thermometer")) {
             printIndent(out, indent++);
             out.println("<thermometer>");
-            // Thermometer properties.
-            // Units. Original units of the thermometer disabled. Apply here the same pattern as in meter type.
-            /*
-                printIndent(out, indent);
-                out.print("<thermoUnits>");
-                out.print(StringEscapeUtils.escapeXml(numberFormat.format(meterDisplayer.getThermoUnits())));
-                out.println("</thermoUnits>");
-            */
+
             // Position type
             printIndent(out, indent);
             out.print("<positionType>");

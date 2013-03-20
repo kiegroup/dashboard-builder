@@ -68,7 +68,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     @PostConstruct
     protected void init() {
-        // Define the displaying features supported by the JFree renderer.
+        // Define the displaying features supported.
         featuresSupported = new ArrayList<DataDisplayerFeature>();
         featuresSupported.add(DataDisplayerFeature.ALIGN_CHART);
         featuresSupported.add(DataDisplayerFeature.SHOW_TITLE);

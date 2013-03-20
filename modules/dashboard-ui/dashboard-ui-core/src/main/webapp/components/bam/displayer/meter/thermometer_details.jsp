@@ -23,7 +23,6 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="org.jfree.chart.plot.ThermometerPlot" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.MeterChartEditor" %>
@@ -33,32 +32,6 @@
     MeterChartDisplayer meterDisplayer = (MeterChartDisplayer) request.getAttribute("meterDisplayer");
     NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
 %>
-<!-- Original units of the thermometer disabled.
-    <td>
-        <select name="thermoUnits" id="<factory:encode name="thermoUnits"/>" class="skn-input" style="width:70px;">
-        <%
-            int[] thermoUnitType = new int[] {ThermometerPlot.UNITS_NONE, ThermometerPlot.UNITS_CELCIUS,
-                                                ThermometerPlot.UNITS_FAHRENHEIT, ThermometerPlot.UNITS_KELVIN};
-            // i18n
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
-            String[] thermoUnitsDescrip = new String[] {
-                    i18n.getString(MeterChartEditor.I18N_METER + "thermometer." + "thermoUnits." + "none"),
-                    i18n.getString(MeterChartEditor.I18N_METER + "thermometer." + "thermoUnits." + "celsius"),
-                    i18n.getString(MeterChartEditor.I18N_METER + "thermometer." + "thermoUnits." + "fahrenheit"),
-                    i18n.getString(MeterChartEditor.I18N_METER + "thermometer." + "thermoUnits." + "kelvin")};
-            for (int i = 0; i < thermoUnitType.length; i++) {
-                String selected = "";
-                if (thermoUnitType[i] == meterDisplayer.getThermoUnits()) selected = "selected";
-        %>
-                <option value="<%= thermoUnitType[i] %>" <%= selected %>>
-                    <%= thermoUnitsDescrip[i] %>
-                </option>
-        <%
-            }
-        %>
-        </select>
-    </td>
--->
 <!-- Lower bound -->
 <tr>
     <td width="160px" height="15" nowrap>

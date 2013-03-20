@@ -45,9 +45,6 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     protected Color colorNormalInterval;
 
     // Thermometer properties.
-    // Original units of the thermometer disabled. Apply here the same pattern as in meter type.
-    protected String thermometerUnits;
-    protected int thermoUnits;
     protected Color mercuryColor;
     protected Color valueColor;
     protected Color thermometerColor;
@@ -90,12 +87,10 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
         criticalThreshold = -1;
 
         // Thermometer properties.
-        // Original units of the thermometer disabled. Apply here the same pattern as in meter type.
-        /* thermoUnits = ThermometerPlot.UNITS_NONE; */
-        thermometerUnits = null;
         mercuryColor = Color.decode("#00CCCC");
         valueColor = Color.decode("#FFFFFF");
         thermometerColor = Color.decode("#000000");
+
         // Thresholds.
         warningThermoThreshold = -1;
         criticalThermoThreshold = -1;
@@ -291,22 +286,6 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     }
 
     // Thermometer properties.
-
-    public String getThermometerUnits() {
-        return thermometerUnits;
-    }
-
-    public void setThermometerUnits(String thermometerUnits) {
-        this.thermometerUnits = thermometerUnits;
-    }
-
-    public int getThermoUnits() {
-        return thermoUnits;
-    }
-
-    public void setThermoUnits(int thermoUnits) {
-        this.thermoUnits = thermoUnits;
-    }
 
     public Color getMercuryColor() {
         return mercuryColor;

@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 public class CalendarUtils {
 
     /**
-     * Get calendar instance using plaform current locale.
+     * Get calendar instance using platform current locale.
      * @return The calendar instance.
      */
     public static Calendar getInstance() {

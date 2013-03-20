@@ -32,7 +32,6 @@
     <description>Dashboard Builder Chart Libraries</description>
 
     <modules>
-        <module>dashboard-ui-jfree</module>
         <module>dashboard-ui-ofc2</module>
         <module>dashboard-ui-nvd3</module>
         <module>dashboard-ui-gauge</module>

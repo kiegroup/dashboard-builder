@@ -62,7 +62,6 @@ public class ServicesLookupTest {
                 .addPackage("org.jboss.dashboard.displayer.annotation")
                 .addPackage("org.jboss.dashboard.displayer.chart")
                 .addPackage("org.jboss.dashboard.displayer.table")
-                .addPackage("org.jboss.dashboard.displayer.jfree")
                 .addPackage("org.jboss.dashboard.displayer.nvd3")
                 .addPackage("org.jboss.dashboard.displayer.gauge")
                 .addPackage("org.jboss.dashboard.displayer.ofc2")

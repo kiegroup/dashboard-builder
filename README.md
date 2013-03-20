@@ -36,7 +36,7 @@ The application will also automatically install some ready-to-use sample dashboa
 * Granular access control for different user profiles.
 * Look'n'feel customization tools.
 * Pluggable chart library architecture.
-* Chart libraries provided: NVD3, JFreeChart, OFC2 & Gauge.
+* Chart libraries provided: NVD3, OFC2 & Gauge.
 
 **Target users**:
 * Managers / Business owners. Consumer of dashboards and reports.

@@ -79,12 +79,6 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
-
-        <!-- Added to support dependencies to JFreeChart/Cewolf libraries -->
-        <repository>
-            <id>project.local.dashb</id>
-            <url>file:./repository</url>
-        </repository>
     </repositories>
 
     <modules>
@@ -286,8 +280,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- JFreeChart -->
-
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
@@ -295,53 +287,10 @@
         </dependency>
 
         <dependency>
-            <groupId>batik</groupId>
-            <artifactId>batik-dom</artifactId>
-            <version>1.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>batik</groupId>
-            <artifactId>batik-awt-util</artifactId>
-            <version>1.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>batik</groupId>
-            <artifactId>batik-svggen</artifactId>
-            <version>1.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>batik</groupId>
-            <artifactId>batik-xml</artifactId>
-            <version>1.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>batik</groupId>
-            <artifactId>batik-util</artifactId>
-            <version>1.6</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>cewolf</groupId>
-            <artifactId>cewolf-ulf</artifactId>
-            <version>1.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
-
-
 
         <!-- Unit testing -->
 
@@ -426,7 +375,6 @@
                         <exclude>**/commons/html/*.*</exclude>
                         <exclude>**/*.phelp</exclude>
                         <exclude>**/overlib.js</exclude>
-                        <exclude>**/cewolf.tld</exclude>
                         <exclude>**/*.csv</exclude>
                         <exclude>**/*.swf</exclude>
                     </excludes>

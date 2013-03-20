@@ -68,20 +68,6 @@
         <load-on-startup>5</load-on-startup>
     </servlet>
 
-    <servlet>
-        <servlet-name>CewolfServlet</servlet-name>
-        <servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
-        <init-param>
-            <param-name>storage</param-name>
-            <param-value>de.laures.cewolf.storage.TransientSessionStorage</param-value>
-        </init-param>
-        <init-param>
-            <param-name>overliburl</param-name>
-            <param-value>components/bam/displayer/javascript/overlib.js</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/Controller</url-pattern>
@@ -122,11 +108,6 @@
         <url-pattern>/fckeditor/editor/dialog/workspace/*</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>CewolfServlet</servlet-name>
-        <url-pattern>/cewolf/*</url-pattern>
-    </servlet-mapping>
-
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
@@ -138,11 +119,6 @@
     <taglib>
         <taglib-uri>http://jakarta.apache.org/taglibs/i18n-1.0</taglib-uri>
         <taglib-location>/WEB-INF/tlds/i18n.tld</taglib-location>
-    </taglib>
-
-    <taglib>
-        <taglib-uri>cewolf.tld</taglib-uri>
-        <taglib-location>/WEB-INF/tlds/cewolf.tld</taglib-location>
     </taglib>
 
     <!-- Security configuration -->
