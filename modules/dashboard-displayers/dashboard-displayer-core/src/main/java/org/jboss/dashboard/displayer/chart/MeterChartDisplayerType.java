@@ -32,7 +32,7 @@ import org.jboss.dashboard.displayer.annotation.MeterChart;
 import org.jboss.dashboard.export.DataDisplayerXMLFormat;
 
 @ApplicationScoped
-@Install
+//@Install -- Under development
 @MeterChart
 public class MeterChartDisplayerType extends AbstractChartDisplayerType {
 

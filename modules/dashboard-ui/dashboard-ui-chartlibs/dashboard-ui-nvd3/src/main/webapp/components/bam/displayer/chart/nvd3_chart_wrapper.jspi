@@ -1,5 +1,5 @@
 <!-- Chart wrapper begin -->
-<table class="skn-chart-table" width="<%= displayer.getWidth() %>" >
+<table class="skn-chart-table" width="100%" >
     <tbody>
     <tr>
         <td height="<%= displayer.getHeight() %>" align="<%=displayer.getGraphicAlign()%>">

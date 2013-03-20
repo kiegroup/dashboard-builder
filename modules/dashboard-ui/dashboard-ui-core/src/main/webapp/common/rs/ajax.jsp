@@ -75,10 +75,7 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
             if (status == 200) {
                 var targetElementId;
                 if (ajaxHandler.ajaxReq.responseText.indexOf("<html>")!=-1){
-                    //alert("Workspace response contains an html tag. Doing my best with "+ajaxHandler.ajaxReq.responseText);
-                    //document.location.href = '<%=request.getRequestURI()%>';
-                    value = ajaxHandler.ajaxReq.responseText;
-                    setTimeout("document.write(value);document.close()",1);
+                    document.location.href = '<%=request.getRequestURI()%>';
                 } else {
                     var element;
                     if (ajaxHandler.ajaxReq.responseText.indexOf("modal_component_")!=-1){

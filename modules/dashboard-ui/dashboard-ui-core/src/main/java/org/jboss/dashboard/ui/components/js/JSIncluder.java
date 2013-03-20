@@ -35,7 +35,7 @@ public class JSIncluder {
     @Inject @Config("/js/Head.js")
     private String headScriptFile;
 
-    @Inject @Config("/js/Bottom.js")
+    @Inject @Config("")
     private String bottomScriptFile;
 
     @Inject @Config("false")
@@ -44,8 +44,8 @@ public class JSIncluder {
     @Inject @Config("false")
     private boolean existBottom;
 
-    @Inject @Config("/components/bam/displayer/chart/gauge/raphael.2.1.0.min.js," +
-                    "/components/bam/displayer/chart/gauge/justgage.1.0.1.min.js," +
+    @Inject @Config(//"/components/bam/displayer/chart/gauge/raphael.2.1.0.min.js," +
+                    //"/components/bam/displayer/chart/gauge/justgage.1.0.1.min.js," +
                     "/components/bam/displayer/chart/nvd3/lib/d3.v2.min.js," +
                     "/components/bam/displayer/chart/nvd3/nv.d3.min.js," +
                     "/components/bam/displayer/chart/nvd3/src/tooltip.js," +
