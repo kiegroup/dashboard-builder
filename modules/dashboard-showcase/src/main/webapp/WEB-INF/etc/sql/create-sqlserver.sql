@@ -126,7 +126,8 @@ CREATE TABLE dashb_permission(
   principal_name varchar(100),
   permission_class varchar(100) NOT NULL,
   permission_resource varchar(100) NOT NULL,
-  permission_action varchar(100)
+  permission_action varchar(100),
+  permission_readonly bit
 );
 -- CUSTOM_DELIMITER
 

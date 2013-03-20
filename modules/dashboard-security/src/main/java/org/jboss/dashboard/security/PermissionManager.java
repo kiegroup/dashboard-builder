@@ -119,14 +119,23 @@ public class PermissionManager {
      * Recover Permissions for the given permission class and resource name
      */
     public List<PermissionDescriptor> find(final String permissionClass, final String permissionResource) {
+        return find(permissionClass, permissionResource, Boolean.TRUE);
+    }
+
+    /**
+     * Recover Permissions for the given permission class and resource name, including or excluding the ones marked as readonly
+     */
+    public List<PermissionDescriptor> find(final String permissionClass, final String permissionResource, final Boolean includeReadOnly) {
         final List<PermissionDescriptor> results = new ArrayList<PermissionDescriptor>(10);
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 StringBuffer buf = new StringBuffer(" from " + PermissionDescriptor.class.getName() + " as item where item.dbid is not null ");
                 buf.append("and item.permissionClass = :permissionClass and item.permissionResource = :permissionResource");
+                if (!includeReadOnly) buf.append(" and item.readonly = :readonly");
                 Query query = session.createQuery(buf.toString());
                 query.setString("permissionClass", permissionClass);
                 query.setString("permissionResource", permissionResource);
+                if (!includeReadOnly) query.setBoolean("readonly", includeReadOnly);
                 query.setCacheable(true);
                 FlushMode oldFlushMode = session.getFlushMode();
                 session.setFlushMode(FlushMode.NEVER);
@@ -193,16 +202,5 @@ public class PermissionManager {
             }
         }
         return results;
-    }
-
-    /**
-     * Recover the Permission ids for the given permission class and resource name
-     */
-    public List<Long> getPermissionIds(final String permissionClass, final String permissionResource) {
-        List<Long> ids = new ArrayList<Long>();
-        for (Iterator<PermissionDescriptor> it = find(permissionClass, permissionResource).iterator(); it.hasNext();) {
-            ids.add(it.next().getDbid());
-        }
-        return ids;
     }
 }

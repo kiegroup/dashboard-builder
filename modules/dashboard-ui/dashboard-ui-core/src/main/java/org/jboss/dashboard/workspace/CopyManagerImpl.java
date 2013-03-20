@@ -413,7 +413,7 @@ public class CopyManagerImpl implements CopyManager {
                 else if (permission.isActionUndefined(action)) permissionCopy.removeAction(action);
             }
 
-            // Add permission to security policy if values for it has been specified.
+            // Add permission to security policy if values for it have been specified.
             if (!permissionCopy.isEmpty()) {
                 securityPolicy.addPermission(principal, permissionCopy);
                 log.debug("Set permission for cloned workspace " + principal.getName() + " " + permissionCopy.toString());

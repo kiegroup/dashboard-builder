@@ -41,6 +41,7 @@ public class PermissionDescriptor {
     private String permissionClass;
     private String permissionResource;
     private String permissionActions;
+    private Boolean readonly;
 
     public PermissionDescriptor() {
         this.dbid = null;
@@ -49,6 +50,7 @@ public class PermissionDescriptor {
         this.permissionClass = null;
         this.permissionResource = null;
         this.permissionActions = null;
+        this.readonly = false;
     }
 
     public PermissionDescriptor(Principal prpal, Permission perm) {
@@ -107,6 +109,14 @@ public class PermissionDescriptor {
 
     public void setPermissionActions(String permissionActions) {
         this.permissionActions = permissionActions;
+    }
+
+    public Boolean isReadonly() {
+        return readonly;
+    }
+
+    public void setReadonly(Boolean readonly) {
+        this.readonly = readonly;
     }
 
     public Principal getPrincipal() throws InstantiationException {

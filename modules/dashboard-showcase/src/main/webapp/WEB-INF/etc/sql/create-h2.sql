@@ -59,7 +59,8 @@ CREATE TABLE dashb_permission (
    principal_name VARCHAR(100),
    permission_class VARCHAR(100) NOT NULL,
    permission_resource VARCHAR(100) NOT NULL,
-   permission_action VARCHAR(100)
+   permission_action VARCHAR(100),
+   permission_readonly BOOLEAN
 );
 
 CREATE TABLE dashb_workspace (

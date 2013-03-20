@@ -33,6 +33,7 @@
         <xs:attribute name="principalClass" type="stringtype" use="required"/>
         <xs:attribute name="permissionClass" type="stringtype" use="required"/>
         <xs:attribute name="actions" type="stringtype" use="required"/>
+        <xs:attribute name="readonly" type="stringtype" use="optional"/>
     </xs:complexType>
 
     <!-- Type definition for params (i18n or not) -->

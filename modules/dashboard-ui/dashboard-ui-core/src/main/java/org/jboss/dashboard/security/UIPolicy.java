@@ -209,7 +209,7 @@ public class UIPolicy implements Policy, Startable {
 
         for (int i = 0; i < defaultPermissions.size(); i++) {
             Object[] objects = (Object[]) defaultPermissions.get(i);
-            this.addPermission((Principal) objects[0], (Permission) objects[1]);
+            this.addPermission((Principal) objects[0], (Permission) objects[1], Boolean.TRUE);
         }
     }
 
@@ -246,34 +246,44 @@ public class UIPolicy implements Policy, Startable {
         this.addPermission(null, newPerm);
     }
 
-    public synchronized void addPermission(Principal prpal, Permission perm) {
+    public void addPermission(Principal prpal, Permission perm) {
+        this.addPermission(prpal, perm, Boolean.FALSE);
+    }
+
+    public synchronized void addPermission(Principal prpal, Permission perm, Boolean readonly) {
         try {
-            log.debug("Adding permission " + perm + " for principal " + prpal);
 
             // No principal specified then use unspecified principal
             Principal key = prpal;
             if (key == null) key = UNSPECIFIED_PRINCIPAL;
 
-            Permissions prpalPermissions = (Permissions) permissionMap.get(key);
-            if (prpalPermissions == null) {
-                prpalPermissions = new Permissions();
-                permissionMap.put(key, prpalPermissions);
-            }
-            // If the permission is already granted then
-            // the new permission will be ignored when calling the following method,
-            // so we don't have to implement any redundance control.
-            prpalPermissions.add(perm);
-
-            // Update the persistent descriptor.
             PermissionDescriptor pd = PermissionManager.lookup().find(key, perm);
             if (pd == null) pd = PermissionManager.lookup().createNewItem();
-            pd.setPrincipal(key);
-            pd.setPermission(perm);
 
-            // If update buffer contains permission descriptor then remove from it.
-            int pos = updateBuffer.indexOf(pd);
-            if (pos != -1) updateBuffer.remove(pos);
-            updateBuffer.add(pd);
+            // If the PermissionDescriptor is marked as readonly, do nothing
+            if (!pd.isReadonly()) {
+                log.debug("Adding permission " + perm + " for principal " + prpal);
+
+                Permissions prpalPermissions = (Permissions) permissionMap.get(key);
+                if (prpalPermissions == null) {
+                    prpalPermissions = new Permissions();
+                    permissionMap.put(key, prpalPermissions);
+                }
+                // If the permission is already granted then
+                // the new permission will be ignored when calling the following method,
+                // so we don't have to implement any redundance control.
+                prpalPermissions.add(perm);
+
+                // Update the persistent descriptor.
+                pd.setPrincipal(key);
+                pd.setPermission(perm);
+                pd.setReadonly(readonly);
+
+                // If update buffer contains permission descriptor then remove from it.
+                int pos = updateBuffer.indexOf(pd);
+                if (pos != -1) updateBuffer.remove(pos);
+                updateBuffer.add(pd);
+            }
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -312,24 +322,24 @@ public class UIPolicy implements Policy, Startable {
     public synchronized void removePermission(Principal p, Permission perm) {
         // Update buffers
         PermissionDescriptor pd = PermissionManager.lookup().find(p, perm);
-        if (pd != null) {
+        if (pd != null && !pd.isReadonly()) {
             int pos = updateBuffer.indexOf(pd);
             if (pos != -1) updateBuffer.remove(pos);
             pos = deleteBuffer.indexOf(pd);
             if (pos == -1) deleteBuffer.add(pd);
-        }
 
-        // Remove the permission from memory
-        if (log.isDebugEnabled()) log.debug("Removing permission " + perm + " for principal " + p);
-        Permissions prpalPermissions = (Permissions)permissionMap.get(p);
-        if (prpalPermissions != null) {
-            Permissions newPermissions = new Permissions();
-            Enumeration en = prpalPermissions.elements();
-            while (en.hasMoreElements()) {
-                Permission permission = (Permission) en.nextElement();
-                if (!perm.equals(permission)) newPermissions.add(permission);
+            // Remove the permission from memory
+            if (log.isDebugEnabled()) log.debug("Removing permission " + perm + " for principal " + p);
+            Permissions prpalPermissions = (Permissions)permissionMap.get(p);
+            if (prpalPermissions != null) {
+                Permissions newPermissions = new Permissions();
+                Enumeration en = prpalPermissions.elements();
+                while (en.hasMoreElements()) {
+                    Permission permission = (Permission) en.nextElement();
+                    if (!perm.equals(permission)) newPermissions.add(permission);
+                }
+                permissionMap.put(p, newPermissions);
             }
-            permissionMap.put(p, newPermissions);
         }
     }
 

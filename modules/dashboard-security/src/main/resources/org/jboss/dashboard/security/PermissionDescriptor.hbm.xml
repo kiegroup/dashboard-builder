@@ -50,6 +50,10 @@
             <column name="permission_action" not-null="false" length="100"/>
         </property>
 
+        <property name="readonly" type="java.lang.Boolean">
+            <column name="permission_readonly" not-null="false"/>
+        </property>
+
     </class>
 
 </hibernate-mapping>

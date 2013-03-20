@@ -57,7 +57,8 @@ CREATE TABLE dashb_permission(
    principal_name varchar2(100),
    permission_class varchar2(100) NOT NULL,
    permission_resource varchar2(100) NOT NULL,
-   permission_action varchar2(100)
+   permission_action varchar2(100),
+   permission_readonly varchar2(1)
 );
 
 CREATE TABLE dashb_workspace (

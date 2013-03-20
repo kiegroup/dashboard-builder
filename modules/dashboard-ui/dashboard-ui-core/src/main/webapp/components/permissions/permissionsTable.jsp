@@ -151,6 +151,7 @@
 				<tr class="<%=className%>" onmouseover="className='<%=altClass%>'" onmouseout="className='<%=className%>'">
 					<%--Individual permission actions (select, delete)--%>
 					<td align="center" width="1px" valign="top">
+						<% if (!pd.isReadonly()) { %>
 						<a href="<factory:url action="<%=PermissionsHandler.PARAM_ACTION_SELECT_OBJECT%>" friendly="true"><factory:param name="<%=PermissionsHandler.PARAM_OBJECT_ID%>" value="<%=pdId%>"/></factory:url>">
 							<% if (permissionsHandler.isPermissionSelected(pdId)) { %>
 							<img title="<i18n:message key="permissions.deselect">!!! Deselect</i18n:message>" src="<static:image relativePath="general/16x16/ico-check_on.png"/>" style="border:0px">
@@ -158,14 +159,21 @@
 							<img title="<i18n:message key="permissions.select">!!! Select</i18n:message>" src="<static:image relativePath="general/16x16/ico-check_off.png"/>" style="border:0px">
 							<% } %>
 						</a>
+						<% } else { %>
+						&nbsp;
+						<% } %>
 					</td>
 					<td align="center" width="1px" valign="top">
+						<% if (!pd.isReadonly()) { %>
 						<a onclick="if (!confirm('<i18n:message key="permissions.delete.confirm">Sure?</i18n:message>')) return false;"
 							href="<factory:url action="<%=PermissionsHandler.PARAM_ACTION_DELETE_OBJECT%>" friendly="true" >
 									<factory:param name="<%=PermissionsHandler.PARAM_OBJECT_ID%>" value="<%=pdId%>"/>
 								  </factory:url>">
 							<img title="<i18n:message key="permissions.delete">!!! Deselect</i18n:message>" src="<static:image relativePath="general/16x16/ico-trash.png"/>" style="border:0px">
 						</a>
+						<% } else { %>
+						&nbsp;
+						<% } %>
 					</td>
 					<%--Permission details--%>
 					<td><%= pd.getPrincipal() %>

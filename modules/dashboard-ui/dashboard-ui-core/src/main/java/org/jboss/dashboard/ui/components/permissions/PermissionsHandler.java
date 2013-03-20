@@ -102,6 +102,11 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         return getPermissionsManager().find(permissionClass.getName(), resourceName);
     }
 
+    // UI handler methods
+
+    /*
+     * Select a permission
+     */
     public void actionSelectObject(CommandRequest request) throws Exception {
         String sid = request.getParameter(PARAM_OBJECT_ID);
         if (!StringUtils.isEmpty(sid)) {
@@ -109,14 +114,25 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         }
     }
 
+    /*
+     * Select all editable permissions
+     */
     public void actionSelectAllObjects(CommandRequest request) throws Exception {
-        selectedIds.addAll(getPermissionsManager().getPermissionIds(permissionClass.getName(), resourceName));
+        for (Iterator<PermissionDescriptor> it = getPermissionsManager().find(permissionClass.getName(), resourceName, Boolean.FALSE).iterator(); it.hasNext();) {
+            selectedIds.add(it.next().getDbid());
+        }
     }
 
+    /*
+     * Deselect all selected permissions
+     */
     public void actionUnselectAllObjects(CommandRequest request) throws Exception {
         selectedIds.clear();
     }
 
+    /*
+     * Delete a permission (only if not marked as readonly)
+     */
     public void actionDeleteObject(CommandRequest request) throws Exception {
         String sid = request.getParameter(PARAM_OBJECT_ID);
         if (!StringUtils.isEmpty(sid)) {
@@ -129,6 +145,9 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         }
     }
 
+    /*
+     * Delete all selected permissions
+     */
     public void actionDeleteSelectedObjects(CommandRequest request) throws Exception {
         for (Iterator<PermissionDescriptor> pdIt = getPermissionsManager().find(selectedIds).iterator(); pdIt.hasNext(); ) {
             PermissionDescriptor pd = pdIt.next();
@@ -137,6 +156,9 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         getPolicy().save();
     }
 
+    /*
+     * Delete all permissions (only permission that are not marked as readonly)
+     */
     public void actionDeleteAllObjects(CommandRequest request) throws Exception {
         getPolicy().removePermissions(getResourceName());
         getPolicy().save();
@@ -150,6 +172,9 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         return selectedIds.size();
     }
 
+    /*
+     * Add a new permissions (or modify an existing one, if it's not marked as readonly)
+     */
     public void actionAddNewPermissions(CommandRequest req) throws Exception {
         Map<String, String[]> params = req.getRequestObject().getParameterMap();
         String roleName = params.get("roleName")[0];

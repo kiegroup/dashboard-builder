@@ -32,6 +32,7 @@ public interface Policy extends Serializable, Persistent {
 
     void addPermission(Permission perm);
     void addPermission(Principal p, Permission perm);
+    void addPermission(Principal p, Permission perm, Boolean readonly);
     void removePermissions(Object resource) throws Exception;
     PermissionCollection getPermissions(Subject user);
     PermissionCollection getPermissions(Principal prpal);

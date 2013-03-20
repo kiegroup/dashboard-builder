@@ -147,6 +147,7 @@ public class WorkspaceBuilder {
         String permClass = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PERMISSION_CLASS);
         String principalName = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PRINCIPAL);
         String principalClass = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PRINCIPAL_CLASS);
+        String readonly = node.getAttributes().getProperty("readonly");
 
         UIPermission permission = null;
         if (WorkspacePermission.class.getName().equals(permClass)) {
@@ -169,7 +170,7 @@ public class WorkspaceBuilder {
         Constructor principalConstructor = Class.forName(principalClass).getConstructor(new Class[]{String.class});
         DefaultPrincipal principal = (DefaultPrincipal) principalConstructor.newInstance(new Object[]{principalName});
         Policy securityPolicy = SecurityServices.lookup().getSecurityPolicy();
-        securityPolicy.addPermission(principal, permission);
+        securityPolicy.addPermission(principal, permission, Boolean.valueOf(readonly));
         securityPolicy.save();
     }
 
