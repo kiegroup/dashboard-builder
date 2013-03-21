@@ -105,7 +105,7 @@
                              <img src="<static:image relativePath="general/16x16/ico-info.png"/>"  border="0" >
                         </a>
                        <% request.setAttribute("propertyId",propertyId); %>
-                       <%--mvc:include page="../filter_help.jsp"/--%>
+                       <mvc:include page="../filter_help.jsp" />
                     </div>
                 </td>
             </mvc:fragmentValue>

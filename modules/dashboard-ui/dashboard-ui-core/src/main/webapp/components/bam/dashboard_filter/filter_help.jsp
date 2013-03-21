@@ -25,21 +25,7 @@
        style="display:none; position:absolute;"
        id="<panel:encode name="<%="helpForProperty_" + request.getAttribute("propertyId")%>"/>">
    <tr>
-     <td align="left"><i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "filterHelp"%>">
-       !!!<p>Por favor, rellene los campos por los que desea buscar.<br/>Puede utilizar los siguiente operadores durante la entrada de datos:</p>
-       <ul style="list-style:none;">
-         <li><span style="font-weight:bold">*</span> Cualquier conjunto de caracteres</li>
-         <li><span style="font-weight:bold">&gt;</span> Mayor que</li>
-         <li><span style="font-weight:bold">&lt;</span> Menor que</li>
-         <li><span style="font-weight:bold">,</span>&nbsp; Para separar valores distintos</li>
-       </ul>
-       <p>Ejemplos:</p>
-       <ul style="list-style:none;">
-         <li>Id. Caso: > 6000</li>
-         <li>Id. Caso: 1020,1040,3000</li>
-         <li>Paso Actual: Rev*</li>
-         <li>Fecha modificaci&oacute;n: >01/11/2006 12:00, >2006, <12/2006</li>
-       </ul></i18n:message></td>
+     <td align="left"><i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "filterHelp"%>" /></td>
    </tr>
 </table>
 <script defer="defer">
