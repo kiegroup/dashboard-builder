@@ -15,7 +15,6 @@
     limitations under the License.
 
 --%>
-
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.LineChartViewer_nvd3");
 

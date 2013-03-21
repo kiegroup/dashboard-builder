@@ -17,7 +17,6 @@
 --%>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.BarChartViewer_nvd3");
-
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
