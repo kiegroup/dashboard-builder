@@ -53,7 +53,8 @@
         <input class="skn-button" type="submit" name="submitInput"
                value="<i18n:message key="ui.saveChanges"/>">
         <script type="text/javascript" language="Javascript" defer>
-            var sBasePath = 'fckeditor/';
+
+            var sBasePath = '<%=request.getContextPath()%>/fckeditor/';
             var oFCKeditor = new FCKeditor('<panel:encode name='Content_html' />', '100%', '500') ;
             oFCKeditor.BasePath = sBasePath;
             oFCKeditor.Config['CustomConfigurationsPath'] = '<factory:url bean="org.jboss.dashboard.ui.components.RedirectionHandler" action="redirectToSection" friendly="false"><factory:param name="<%=RedirectionHandler.PARAM_PAGE_TO_REDIRECT%>" value="/fckeditor/custom/fckConfig.jsp"/></factory:url>';

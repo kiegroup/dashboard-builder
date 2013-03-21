@@ -76,7 +76,7 @@ public class URLMarkupGenerator {
     public String getPermanentLink(String bean, String property, Map params) {
         String base = /*this.getBasePath();
         while (base.endsWith("/")) base = base.substring(0, base.length() - 1);
-        base = base + "/" +*/ COMMAND_RUNNER;
+        base = base + "/" +*/ RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
         StringBuffer sb = new StringBuffer();
         sb.append(base).append("?");
         String alias = Factory.getAlias(bean);
@@ -324,7 +324,7 @@ public class URLMarkupGenerator {
         if (allowFriendly) {
             friendlyUrl = StringUtils.defaultIfEmpty(workspace.getFriendlyUrl(), workspace.getId());
         }
-        sb.append(FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
+        sb.append(RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
         return sb.toString();
     }
 

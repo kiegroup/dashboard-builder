@@ -54,12 +54,14 @@ public class EnvelopeHeadTag extends TagSupport {
         Factory.doWork(new FactoryWork() { //In case this is called from a pure jsp...
             public void doWork() {
                 pageContext.getRequest().setAttribute(ENVELOPE_TOKEN, Boolean.TRUE);
-
+/*
+                // Removed due to incompatibilities with some charting libraries
                 try {
                     printBaseHref();
                 } catch (IOException e) {
                     log.error("Error: ", e);
                 }
+*/
 
                 EnvelopesManager envelopesManager = null;
 
