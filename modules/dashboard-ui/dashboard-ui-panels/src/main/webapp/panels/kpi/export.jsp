@@ -16,7 +16,7 @@
 
 --%>
 <%@ taglib prefix="factory" uri="factory.tld" %>
-<table width="700px" cellpadding="0" cellspacing="0" border="0" align="center">
+<table width="700px" cellpadding="0" cellspacing="0" border="0" align="left">
     <tr>
         <td valign="top" align="left" class="skn-table_border" style="padding:1px">
             <factory:useComponent bean="org.jboss.dashboard.ui.components.ExportHandler" />

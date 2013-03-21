@@ -368,7 +368,7 @@
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>500</width>
       <height>300</height>
-      <showlegend>true</showlegend>
+      <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
       <showtitle>true</showtitle>
@@ -483,7 +483,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>50</marginleft>
       <marginright>30</marginright>
@@ -521,7 +521,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -552,14 +552,14 @@
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>40</labelanglexaxis>
       <showlinesarea>true</showlinesarea>
-      <color>#0000FF</color>
+      <color>#4C4CFE</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
       <height>300</height>
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -681,14 +681,14 @@
       <showlabelsxaxis>true</showlabelsxaxis>
       <labelanglexaxis>-45</labelanglexaxis>
       <showlinesarea>true</showlinesarea>
-      <color>#0000FF</color>
+      <color>#4C4CFE</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
       <width>800</width>
       <height>300</height>
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -843,7 +843,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -972,7 +972,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>

@@ -277,12 +277,12 @@
       <showlinesarea>false</showlinesarea>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>600</width>
-      <height>300</height>
+      <width>800</width>
+      <height>250</height>
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
-      <showtitle>false</showtitle>
+      <showtitle>true</showtitle>
       <align>center</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -321,7 +321,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>true</showtitle>
+      <showtitle>false</showtitle>
       <align>left</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -395,7 +395,7 @@
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>true</showtitle>
+      <showtitle>false</showtitle>
       <align>left</align>
       <marginleft>80</marginleft>
       <marginright>30</marginright>
@@ -471,7 +471,7 @@
       <showlegend>true</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>south</legendanchor>
-      <showtitle>true</showtitle>
+      <showtitle>false</showtitle>
       <align>left</align>
       <marginleft>30</marginleft>
       <marginright>30</marginright>
@@ -543,7 +543,7 @@
       <showlegend>true</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
-      <showtitle>true</showtitle>
+      <showtitle>false</showtitle>
       <align>left</align>
       <marginleft>30</marginleft>
       <marginright>30</marginright>
@@ -736,7 +736,7 @@
         <scalarfunction>sum</scalarfunction>
         <unit language="en">$ {value}</unit>
       </range>
-      <type>bar_filled</type>
+      <type>bar_glass</type>
       <intervalsortcriteria>1</intervalsortcriteria>
       <intervalsortorder>-1</intervalsortorder>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -1039,8 +1039,8 @@
       <showlinesarea>true</showlinesarea>
       <color>#FFFFFF</color>
       <backgroundcolor>#FFFFFF</backgroundcolor>
-      <width>1000</width>
-      <height>300</height>
+      <width>800</width>
+      <height>250</height>
       <showlegend>false</showlegend>
       <axisinteger>false</axisinteger>
       <legendanchor>east</legendanchor>
@@ -1049,7 +1049,7 @@
       <marginleft>80</marginleft>
       <marginright>30</marginright>
       <margintop>30</margintop>
-      <marginbottom>50</marginbottom>
+      <marginbottom>80</marginbottom>
     </displayer>
   </kpi>
   <kpi code="kpi_29761353668431694">

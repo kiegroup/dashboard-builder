@@ -29,7 +29,7 @@
         boolean showExport = showExportParam == null || new Boolean(showExportParam).booleanValue();
         boolean showImport = showImportParam == null || new Boolean(showImportParam).booleanValue();
 %>
-<table width="700px" border="0" align="center" cellpadding="0" cellspacing="0" style="text-align:center; background-color:#ffffff;">
+<table width="700px" border="0" align="left" cellpadding="0" cellspacing="0" style="text-align:center; background-color:#ffffff;">
     <tr height="100%"><%if (showExport) {%>
         <td width="100%" class="skn-table_border" style="border-bottom:none;"><div class="skn-table_border" style="margin:1px;"><div class="skn-table_header" style="padding-top:5px;"><i18n:message key="exporting">!!!Export</i18n:message></div></div></td><%}%>
         <td>&nbsp;</td><%if (showImport) {%>

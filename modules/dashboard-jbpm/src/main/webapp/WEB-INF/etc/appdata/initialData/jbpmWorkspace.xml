@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceExport>
     <workspace envelopeId="jbpmEnvelope" friendlyUrl="jbpm-dashboard" skinId="Default_Skin" homeMode="0" id="2">
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
-                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
-                    actions="view,edit,edit perm" readonly="true"/>
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
-                    actions="view,edit,delete,edit perm" readonly="true"/>
         <param name="title" value="jBPM Dashboard" lang="es"/>
         <param name="title" value="jBPM Dashboard" lang="en"/>
         <param name="name" value="jBPM Dashboard" lang="es"/>
@@ -183,16 +174,12 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3068">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_29771353670707848" lang=" "/>
             <param name="title" value="Instances by process" lang="en"/>
             <param name="title" value="Instancias por proceso" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3065">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30571353683160264" lang=" "/>
             <param name="title" value="Instances started by user" lang="en"/>
             <param name="title" value="Instancias creadas por usuario" lang="es"/>
@@ -398,16 +385,12 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3070">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30721353944028579" lang=" "/>
             <param name="title" value="Process initiated by date" lang="en"/>
             <param name="title" value="Procesos iniciados por fecha" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3073">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30751353944093386" lang=" "/>
             <param name="title" value="Process completed by date" lang="en"/>
             <param name="title" value="Procesos completados por fecha" lang="es"/>
@@ -442,8 +425,6 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3118">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_31201353947556129" lang=" "/>
             <param name="title" value="Tasks started by date" lang="en"/>
             <param name="title" value="Tareas iniciadas por fecha" lang="es"/>
@@ -456,32 +437,24 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3124">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_31261353948417434" lang=" "/>
             <param name="title" value="Number of task instances" lang="en"/>
             <param name="title" value="N&#250;mero de instancias de tarea" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3127">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_31291353948572804" lang=" "/>
             <param name="title" value="Users with tasks" lang="en"/>
             <param name="title" value="Usuarios con tareas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3131">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_31331353949095782" lang=" "/>
             <param name="title" value="Instances by status" lang="en"/>
             <param name="title" value="Instancias por estado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3134">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_31361353949675344" lang=" "/>
             <param name="title" value="By version" lang="en"/>
             <param name="title" value="Por versi&#243;n" lang="es"/>
@@ -518,8 +491,6 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="2972">
             <param name="group" value="Process" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_29741354189063608" lang=" "/>
             <param name="title" value="Tasks completed by date" lang="en"/>
             <param name="title" value="Tareas completadas por fecha" lang="es"/>

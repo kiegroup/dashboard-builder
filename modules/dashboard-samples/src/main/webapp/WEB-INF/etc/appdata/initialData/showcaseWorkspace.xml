@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceExport>
     <workspace envelopeId="Default_Envelope" friendlyUrl="showcase" skinId="Default_Skin" homeMode="0" id="1">
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
-                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
-                    actions="view,edit,edit perm" readonly="true"/>
-        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
-                    actions="view,edit,delete,edit perm" readonly="true"/>
         <param name="title" value="Dashboards Showcase" lang="es"/>
         <param name="title" value="Dashboards Showcase" lang="en"/>
         <param name="name" value="Showcase" lang="es"/>
@@ -54,7 +45,7 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.html_editor" id="2309">
             <rawcontent>
-                rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAACdAACZW50BGA8aDE+V2VsY29tZSB0byBKQm9zcyBEYXNoYm9hcmQgQnVpbGRlcjwvaDE+DQo8cD48aW1nIHdpZHRoPSI1NzAiIGhlaWdodD0iNDI1IiBzdHlsZT0iZmxvYXQ6IHJpZ2h0OyIgc3JjPSJpbWFnZXMvaG9tZS1pbWFnZS5qcGciIGFsdD0iSkJvc3MgRGFzaGJvYXJkIEJ1aWxkZXIiIHRpdGxlPSJKQm9zcyBEYXNoYm9hcmQgQnVpbGRlciIgLz5KQm9zcyBEYXNoYm9hcmQgQnVpbGRlciBpcyBhbiBvcGVuIHNvdXJjZSBkYXNoYm9hcmQgYW5kIHJlcG9ydGluZyB0b29sIHRoYXQgYWxsb3dzOjwvcD4NCjxwPiZuYnNwOzwvcD4NCjx1bD4NCiAgICA8bGk+VmlzdWFsIGNvbmZpZ3VyYXRpb24gYW5kIHBlcnNvbmFsaXphdGlvbiBvZiBkYXNoYm9hcmRzLjwvbGk+DQogICAgPGxpPkdyYXBoaWNhbCByZXByZXNlbnRhdGlvbiBvZiBLUElzIChLZXkgUGVyZm9ybWFuY2UgSW5kaWNhdG9ycykuPC9saT4NCiAgICA8bGk+RGVmaW5pdGlvbiBvZiBpbnRlcmFjdGl2ZSByZXBvcnQgdGFibGVzLjwvbGk+DQogICAgPGxpPkZpbHRlcmluZyBhbmQgc2VhcmNoLCBib3RoIGluLW1lbW9yeSBvciBkYXRhYmFzZSBiYXNlZC48L2xpPg0KPC91bD4NCjx1bD4NCiAgICA8bGk+UHJvY2VzcyBleGVjdXRpb24gbWV0cmljcyBkYXNoYm9hcmRzLjwvbGk+DQogICAgPGxpPkRhdGEgZXh0cmFjdGlvbiBmcm9tIGV4dGVybmFsIHN5c3RlbXMsIHRocm91Z2ggZGlmZmVyZW50IHByb3RvY29scy48L2xpPg0KICAgIDxsaT5BY2Nlc3MgY29udHJvbCBmb3IgZGlmZmVyZW50IHVzZXIgcHJvZmlsZXMgdG8gZGlmZmVyZW50IGxldmVscyBvZiBpbmZvcm1hdGlvbi48L2xpPg0KPC91bD4NCjxiciAvPg0KPGJyIC8+DQo8aDI+VXBjb21pbmcgcHJvZHVjdCBmZWF0dXJlczwvaDI+DQombmJzcDsNCjx1bD4NCiAgICA8bGk+QWRkaXRpb25hbCBjaGFydCB0eXBlcy48L2xpPg0KICAgIDxsaT5TdXBwb3J0IGZvciBtdWx0aXBsZSBkYXRhIHNlcmllcy48L2xpPg0KICAgIDxsaT48c3BhbiBzdHlsZT0iZm9udC1zaXplOiA5cHQ7Ij5Db21wbGV0ZSBpbXBvcnQgYW5kIGV4cG9ydCBvZiBkYXNoYm9hcmRzLjwvc3Bhbj48L2xpPg0KICAgIDxsaT5OZXcgY29ubmVjdG9ycyB0byBOb1NRTCBkYXRhYmFzZXMuPC9saT4NCjwvdWw+dAACZXN0BUM8aDE+QmllbnZlbmlkbyBhIEpCb3NzIERhc2hib2FyZCBCdWlsZGVyPC9oMT4NCjxwPjxpbWcgd2lkdGg9IjU3MCIgaGVpZ2h0PSI0MjUiIHN0eWxlPSJmbG9hdDogcmlnaHQ7IiBzcmM9ImltYWdlcy9ob21lLWltYWdlLmpwZyIgYWx0PSJKQm9zcyBEYXNoYm9hcmQgQnVpbGRlciIgdGl0bGU9IkpCb3NzIERhc2hib2FyZCBCdWlsZGVyIiAvPjwvcD4NCjxwPkpCb3NzIERhc2hib2FyZCBCdWlsZGVyJm5ic3A7ZXMgdW5hIGhlcnJhbWllbnRvIGRlIGMmb2FjdXRlO2RpZ28gYWJpZXJ0byBwYXJhIHJlYWxpemFyIGN1YWRyb3MgZGUgbWFuZG8gZSBpbmZvcm1lcyBxdWUgcGVybWl0ZTo8YnIgLz4NCiZuYnNwOzwvcD4NCjx1bD4NCiAgICA8bGk+Q29uZmlndXJhY2kmb2FjdXRlO24gdmlzdWFsIHkgcGVyc29uYWxpemFjaSZvYWN1dGU7biBkZSBjdWFkcm9zIGRlIG1hbmRvLjwvbGk+DQogICAgPGxpPlJlcHJlc2VudGFjaSZvYWN1dGU7biBnciZhYWN1dGU7ZmljYSBkZSBLUElzIChpbmRpY2Fkb3JlcyBjbGF2ZSBkZSByZW5kaW1pZW50bykuPC9saT4NCiAgICA8bGk+RGVmaW5pY2kmb2FjdXRlO24gZGUgdGFibGFzIGRlIGluZm9ybWUgaW50ZXJhY3RpdmFzLjwvbGk+DQogICAgPGxpPkZpbHRyYWRvIHkgYiZ1YWN1dGU7c3F1ZWRhLCB0YW50byBlbiBtZW1vcmlhIGNvbW8gZW4gYmFzZSBkZSBkYXRvcy48L2xpPg0KPC91bD4NCjx1bD4NCiAgICA8bGk+Q3VhZHJvcyBkZSBtYW5kbyBkZSBtJmVhY3V0ZTt0cmljYXMgZGUgZWplY3VjaSZvYWN1dGU7biBkZSBwcm9jZXNvcy48L2xpPg0KICAgIDxsaT5FeHRyYWNjaSZvYWN1dGU7biBkZSBkYXRvcyBkZSBzaXN0ZW1hcyBleHRlcm5vcywgYSB0cmF2JmVhY3V0ZTtzIGRlIGRpc3RpbnRvcyBwcm90b2NvbG9zLjwvbGk+DQogICAgPGxpPkNvbnRyb2wgZGUgYWNjZXNvIGEgbG9zIGRpZmVyZW50ZXMgbml2ZWxlcyBkZSBpbmZvcm1hY2kmb2FjdXRlO24gcGFyYSBkaWZlcmVudGVzIHBlcmZpbGVzIGRlIHVzdWFyaW8uPC9saT4NCjwvdWw+DQo8YnIgLz4NCjxiciAvPg0KPGgyPjxiciAvPg0KUHImb2FjdXRlO3hpbWFzIGZ1bmNpb25hbGlkYWRlcyBkZSBwcm9kdWN0bzo8L2gyPg0KJm5ic3A7DQo8dWw+DQogICAgPGxpPlNvcG9ydGUgcGFyYSBtJnVhY3V0ZTtsdGlwbGVzIHNlcmllcyBkZSBkYXRvcy48L2xpPg0KICAgIDxsaT48c3BhbiBzdHlsZT0iZm9udC1zaXplOiA5cHQ7Ij5Db21wbGV0YSBleHBvcnRhY2kmb2FjdXRlO24gZSBpbXBvcnRhY2kmb2FjdXRlO24gZGUgY3VhZHJvcyBkZSBtYW5kby48L3NwYW4+PC9saT4NCiAgICA8bGk+TnVldm9zIGNvbmVjdG9yZXMgYSBiYXNlcyBkZSBkYXRvcyBOb1NRTC48L2xpPg0KPC91bD54
+                rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAACdAACZW50BKU8aDE+V2VsY29tZSB0byBKQm9zcyBEYXNoYm9hcmQgQnVpbGRlcjwvaDE+DQo8cD48aW1nIHdpZHRoPSI1NzAiIGhlaWdodD0iNDI1IiB0aXRsZT0iSkJvc3MgRGFzaGJvYXJkIEJ1aWxkZXIiIGFsdD0iSkJvc3MgRGFzaGJvYXJkIEJ1aWxkZXIiIHNyYz0iaW1hZ2VzL2hvbWUtaW1hZ2UuanBnIiBzdHlsZT0iZmxvYXQ6IHJpZ2h0OyIgLz5KQm9zcyBEYXNoYm9hcmQgQnVpbGRlciBpcyBhbiBvcGVuIHNvdXJjZSBkYXNoYm9hcmQgYW5kIHJlcG9ydGluZyB0b29sIHRoYXQgYWxsb3dzOjwvcD4NCjxwPiZuYnNwOzwvcD4NCjx1bD4NCiAgICA8bGk+VmlzdWFsIGNvbmZpZ3VyYXRpb24gYW5kIHBlcnNvbmFsaXphdGlvbiBvZiBkYXNoYm9hcmRzLjwvbGk+DQogICAgPGxpPkdyYXBoaWNhbCByZXByZXNlbnRhdGlvbiBvZiBLUElzIChLZXkgUGVyZm9ybWFuY2UgSW5kaWNhdG9ycykuPC9saT4NCiAgICA8bGk+RGVmaW5pdGlvbiBvZiBpbnRlcmFjdGl2ZSByZXBvcnQgdGFibGVzLjwvbGk+DQogICAgPGxpPkZpbHRlcmluZyBhbmQgc2VhcmNoLCBib3RoIGluLW1lbW9yeSBvciBkYXRhYmFzZSBiYXNlZC48L2xpPg0KPC91bD4NCjx1bD4NCiAgICA8bGk+UHJvY2VzcyBleGVjdXRpb24gbWV0cmljcyBkYXNoYm9hcmRzLjwvbGk+DQogICAgPGxpPkRhdGEgZXh0cmFjdGlvbiBmcm9tIGV4dGVybmFsIHN5c3RlbXMsIHRocm91Z2ggZGlmZmVyZW50IHByb3RvY29scy48L2xpPg0KICAgIDxsaT5BY2Nlc3MgY29udHJvbCBmb3IgZGlmZmVyZW50IHVzZXIgcHJvZmlsZXMgdG8gZGlmZmVyZW50IGxldmVscyBvZiBpbmZvcm1hdGlvbi48L2xpPg0KPC91bD4NCjxiciAvPg0KPGJyIC8+DQo8aDI+VXBjb21pbmcgZmVhdHVyZXM8L2gyPg0KJm5ic3A7DQo8dWw+DQogICAgPGxpPkFkZGl0aW9uYWwgY2hhcnQgdHlwZXMuPC9saT4NCiAgICA8bGk+U3VwcG9ydCBmb3IgbXVsdGlwbGUgZGF0YSBzZXJpZXMuPC9saT4NCiAgICA8bGk+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogOXB0OyI+Q29tcGxldGUgaW1wb3J0IGFuZCBleHBvcnQgb2YgZGFzaGJvYXJkcy48L3NwYW4+PC9saT4NCiAgICA8bGk+TmV3IGNvbm5lY3RvcnMgdG8gTm9TUUwgZGF0YWJhc2VzLjwvbGk+DQogICAgPGxpPlJlYWwtdGltZSBkYXRhIGZlZWRzIHN1cHBvcnQuPC9saT4NCiAgICA8bGk+UHJlZGljdGl2ZSBtb2RlbHMuPC9saT4NCjwvdWw+dAACZXN0Ba08aDE+QmllbnZlbmlkbyBhIEpCb3NzIERhc2hib2FyZCBCdWlsZGVyPC9oMT4NCjxwPjxpbWcgd2lkdGg9IjU3MCIgaGVpZ2h0PSI0MjUiIHRpdGxlPSJKQm9zcyBEYXNoYm9hcmQgQnVpbGRlciIgYWx0PSJKQm9zcyBEYXNoYm9hcmQgQnVpbGRlciIgc3JjPSJpbWFnZXMvaG9tZS1pbWFnZS5qcGciIHN0eWxlPSJmbG9hdDogcmlnaHQ7IiAvPjwvcD4NCjxwPkpCb3NzIERhc2hib2FyZCBCdWlsZGVyJm5ic3A7ZXMgdW5hIGhlcnJhbWllbnRvIGRlIGMmb2FjdXRlO2RpZ28gYWJpZXJ0byBwYXJhIHJlYWxpemFyIGN1YWRyb3MgZGUgbWFuZG8gZSBpbmZvcm1lcyBxdWUgcGVybWl0ZTo8YnIgLz4NCiZuYnNwOzwvcD4NCjx1bD4NCiAgICA8bGk+Q29uZmlndXJhY2kmb2FjdXRlO24gdmlzdWFsIHkgcGVyc29uYWxpemFjaSZvYWN1dGU7biBkZSBjdWFkcm9zIGRlIG1hbmRvLjwvbGk+DQogICAgPGxpPlJlcHJlc2VudGFjaSZvYWN1dGU7biBnciZhYWN1dGU7ZmljYSBkZSBLUElzIChpbmRpY2Fkb3JlcyBjbGF2ZSBkZSByZW5kaW1pZW50bykuPC9saT4NCiAgICA8bGk+RGVmaW5pY2kmb2FjdXRlO24gZGUgdGFibGFzIGRlIGluZm9ybWUgaW50ZXJhY3RpdmFzLjwvbGk+DQogICAgPGxpPkZpbHRyYWRvIHkgYiZ1YWN1dGU7c3F1ZWRhLCB0YW50byBlbiBtZW1vcmlhIGNvbW8gZW4gYmFzZSBkZSBkYXRvcy48L2xpPg0KPC91bD4NCjx1bD4NCiAgICA8bGk+Q3VhZHJvcyBkZSBtYW5kbyBkZSBtJmVhY3V0ZTt0cmljYXMgZGUgZWplY3VjaSZvYWN1dGU7biBkZSBwcm9jZXNvcy48L2xpPg0KICAgIDxsaT5FeHRyYWNjaSZvYWN1dGU7biBkZSBkYXRvcyBkZSBzaXN0ZW1hcyBleHRlcm5vcywgYSB0cmF2JmVhY3V0ZTtzIGRlIGRpc3RpbnRvcyBwcm90b2NvbG9zLjwvbGk+DQogICAgPGxpPkNvbnRyb2wgZGUgYWNjZXNvIGEgbG9zIGRpZmVyZW50ZXMgbml2ZWxlcyBkZSBpbmZvcm1hY2kmb2FjdXRlO24gcGFyYSBkaWZlcmVudGVzIHBlcmZpbGVzIGRlIHVzdWFyaW8uPC9saT4NCjwvdWw+DQo8YnIgLz4NCjxiciAvPg0KPGgyPjxiciAvPg0KUHImb2FjdXRlO3hpbWFzIGZ1bmNpb25hbGlkYWRlczo8L2gyPg0KJm5ic3A7DQo8dWw+DQogICAgPGxpPlNvcG9ydGUgcGFyYSBtJnVhY3V0ZTtsdGlwbGVzIHNlcmllcyBkZSBkYXRvcy48L2xpPg0KICAgIDxsaT5OdWV2b3MgdGlwb3MgZGUgZ3ImYWFjdXRlO2ZpY2FzLjwvbGk+DQogICAgPGxpPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDlwdDsiPkNvbXBsZXRhIGV4cG9ydGFjaSZvYWN1dGU7biBlIGltcG9ydGFjaSZvYWN1dGU7biBkZSBjdWFkcm9zIGRlIG1hbmRvLjwvc3Bhbj48L2xpPg0KICAgIDxsaT5OdWV2b3MgY29uZWN0b3JlcyBhIGJhc2VzIGRlIGRhdG9zIE5vU1FMLjwvbGk+DQogICAgPGxpPkRhdG9zIGVuIHRpZW1wbyByZWFsLjwvbGk+DQogICAgPGxpPk1vZGVsb3MgcHJlZGljdGl2b3MuPC9saT4NCjwvdWw+eA==
             </rawcontent>
             <param name="title" value="Welcome title" lang="en"/>
             <param name="title" value="T&#237;tulo de bienvenida" lang="es"/>
@@ -78,24 +69,18 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="2989">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30011353503663716" lang=" "/>
             <param name="title" value="Opportunities by status" lang="en"/>
             <param name="title" value="Opportunities by status" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3002">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30041353504912610" lang=" "/>
             <param name="title" value="Opportunities by employee" lang="en"/>
             <param name="title" value="Oportunidades por empleado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3008">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30101353505177974" lang=" "/>
             <param name="title" value="Opportunities by country" lang="en"/>
             <param name="title" value="Oportunidades por pa&#237;s" lang="es"/>
@@ -108,8 +93,6 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3028">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30301353506280659" lang=" "/>
             <param name="maximized" value="true" lang=" "/>
             <param name="minimizable" value="true" lang=" "/>
@@ -120,24 +103,18 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3031">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30331353506453066" lang=" "/>
             <param name="title" value="By sales person" lang="en"/>
             <param name="title" value="Por persona de ventas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3034">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30361353506582145" lang=" "/>
             <param name="title" value="By status" lang="en"/>
             <param name="title" value="Por estado" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3037">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30391353506887646" lang=" "/>
             <param name="title" value="By product" lang="en"/>
             <param name="title" value="Por producto" lang="es"/>
@@ -151,8 +128,6 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3042">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30441353507392054" lang=" "/>
             <param name="title" value="Opportunities by closing date (USD)" lang="en"/>
             <param name="title" value="Oportunidades por fecha de cierre" lang="es"/>
@@ -236,7 +211,7 @@
             <param name="title" value="Usuarios y seguridad (T&#237;tulo)" lang="es"/>
         </panelInstance>
         <panelInstance
-                serialization="rO0ABXQGSDxkYXNoYm9hcmRfZmlsdGVyPgogIDxwcm9wZXJ0eSBpZD0iY3JlYXRpb24gZGF0ZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InBpcGVsaW5lIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0ic3RhdHVzIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0iY3VzdG9tZXIiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJjb3VudHJ5IiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICAgIDxzZWN0aW9uPjMwMDc8L3NlY3Rpb24+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InByb2R1Y3QiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJzYWxlcyBwZXJzb24iIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJwcm9iYWJpbGl0eSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InNvdXJjZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9ImNvbG9yIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxvcHRpb25zPgogICAgPHNob3J0Vmlld01vZGU+dHJ1ZTwvc2hvcnRWaWV3TW9kZT4KICAgIDxzaG93TGVnZW5kPnRydWU8L3Nob3dMZWdlbmQ+CiAgICA8c2hvd1JlZnJlc2hCdXR0b24+dHJ1ZTwvc2hvd1JlZnJlc2hCdXR0b24+CiAgICA8c2hvd0FwcGx5aEJ1dHRvbj50cnVlPC9zaG93QXBwbHloQnV0dG9uPgogICAgPHNob3dDbGVhckJ1dHRvbj50cnVlPC9zaG93Q2xlYXJCdXR0b24+CiAgICA8c2hvd1Byb3BlcnR5TmFtZXM+dHJ1ZTwvc2hvd1Byb3BlcnR5TmFtZXM+CiAgICA8c2hvd1N1Ym1pdE9uQ2hhbmdlPnRydWU8L3Nob3dTdWJtaXRPbkNoYW5nZT4KICA8c2hvd0F1dG9SZWZyZXNoPmZhbHNlPC9zaG93QXV0b1JlZnJlc2g+CiAgPC9vcHRpb25zPgo8L2Rhc2hib2FyZF9maWx0ZXI+Cg=="
+                serialization="rO0ABXQGwDxkYXNoYm9hcmRfZmlsdGVyPgogIDxwcm9wZXJ0eSBpZD0iY3JlYXRpb24gZGF0ZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9ImNsb3NpbmcgZGF0ZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InBpcGVsaW5lIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0ic3RhdHVzIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0iY3VzdG9tZXIiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJjb3VudHJ5IiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICAgIDxzZWN0aW9uPjMwMDc8L3NlY3Rpb24+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InByb2R1Y3QiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJzYWxlcyBwZXJzb24iIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTg4MTM1MzQ5OTAwNjU3MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPHByb3BlcnR5IGlkPSJwcm9iYWJpbGl0eSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InNvdXJjZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5ODgxMzUzNDk5MDA2NTczIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9ImNvbG9yIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk4ODEzNTM0OTkwMDY1NzMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxvcHRpb25zPgogICAgPHNob3J0Vmlld01vZGU+dHJ1ZTwvc2hvcnRWaWV3TW9kZT4KICAgIDxzaG93TGVnZW5kPnRydWU8L3Nob3dMZWdlbmQ+CiAgICA8c2hvd1JlZnJlc2hCdXR0b24+dHJ1ZTwvc2hvd1JlZnJlc2hCdXR0b24+CiAgICA8c2hvd0FwcGx5aEJ1dHRvbj50cnVlPC9zaG93QXBwbHloQnV0dG9uPgogICAgPHNob3dDbGVhckJ1dHRvbj50cnVlPC9zaG93Q2xlYXJCdXR0b24+CiAgICA8c2hvd1Byb3BlcnR5TmFtZXM+dHJ1ZTwvc2hvd1Byb3BlcnR5TmFtZXM+CiAgICA8c2hvd1N1Ym1pdE9uQ2hhbmdlPnRydWU8L3Nob3dTdWJtaXRPbkNoYW5nZT4KICA8c2hvd0F1dG9SZWZyZXNoPmZhbHNlPC9zaG93QXV0b1JlZnJlc2g+CiAgPC9vcHRpb25zPgo8L2Rhc2hib2FyZF9maWx0ZXI+Cg=="
                 provider="dashboard.filter" id="3001">
             <param name="group" value="Sales demo" lang=" "/>
             <param name="title" value="Dashboard filter" lang="en"/>
@@ -244,16 +219,12 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3023">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30251353675275870" lang=" "/>
             <param name="title" value="Pipeline status" lang="en"/>
             <param name="title" value="Ventas por estado en pipeline" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3026">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30281353675541472" lang=" "/>
             <param name="title" value="By country" lang="en"/>
             <param name="title" value="Por pa&#237;s" lang="es"/>
@@ -274,24 +245,18 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3060">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30621353683547916" lang=" "/>
             <param name="title" value="Sales evolution" lang="en"/>
             <param name="title" value="Evoluci&#243;n de ventas" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3063">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30651353683614640" lang=" "/>
             <param name="title" value="By sales person" lang="en"/>
             <param name="title" value="Por vendedor" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3066">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_21591363786594721" lang=" "/>
             <param name="title" value="Amount by status " lang="en"/>
             <param name="title" value="Cantidad por estado" lang="es"/>
@@ -307,24 +272,18 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3078">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30801353685378049" lang=" "/>
             <param name="title" value="By customer" lang="en"/>
             <param name="title" value="Por cliente" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3081">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30831353686700387" lang=" "/>
             <param name="title" value="By product" lang="en"/>
             <param name="title" value="Por producto" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3084">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30861353687605533" lang=" "/>
             <param name="title" value="Amount by probability (%)" lang="en"/>
             <param name="title" value="Por probabilidad (%)" lang="es"/>
@@ -529,18 +488,16 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6388">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_63901223772516707" lang=" "/>
             <param name="title" value="Expenses by office USD" lang="en"/>
             <param name="title" value="Expenses by office" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6391">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_63931223772633377" lang=" "/>
             <param name="title" value="Expenses by department USD" lang="en"/>
             <param name="title" value="Indicador clave de rendimiento" lang="es"/>
@@ -561,18 +518,16 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6399">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_64011223773089901" lang=" "/>
             <param name="title" value="Expense evolution" lang="en"/>
             <param name="title" value="Evoluci&#243;n del gasto" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6402">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_64061223773274641" lang=" "/>
             <param name="title" value="Expense reports table" lang="en"/>
             <param name="title" value="Listado de gastos" lang="es"/>
@@ -592,9 +547,8 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3044">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlAfterPanel" value="" lang="en"/>
+            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30461354643057084" lang=" "/>
             <param name="title" value="Expenses by user" lang="en"/>
             <param name="title" value="Gastos por usuario" lang="es"/>
@@ -628,10 +582,8 @@
             <param name="title" value="HTML para cuadros de mando" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="navigation.logout" id="2145">
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;style&gt;
-.login-table td {color:#ffffff;font-weight:bold}
-&lt;/style&gt;" lang="en"/>
+            <param name="htmlBeforePanel"
+                   value="&lt;style&gt; .login-table td {color:#ffffff;font-weight:bold} &lt;/style&gt;" lang="en"/>
             <param name="title" value="Logout panel" lang="en"/>
             <param name="title" value="Panel de logout" lang="es"/>
         </panelInstance>
