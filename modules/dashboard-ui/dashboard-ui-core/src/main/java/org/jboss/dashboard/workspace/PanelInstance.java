@@ -266,14 +266,8 @@ public class PanelInstance implements Cloneable, Visitable {
     }
 
     public int getHeight() {
-        return IntParameter.value(getParameterValue(PARAMETER_HEIGHT), 0);
-    }
-
-    /**
-     * @return
-     * @deprecated
-     */
-    public int getCacheTime() {
+        // The parameter PARAMETER_HEIGHT probably will be deleted but not decided yet.
+        // return IntParameter.value(getParameterValue(PARAMETER_HEIGHT), 0);
         return 0;
     }
 

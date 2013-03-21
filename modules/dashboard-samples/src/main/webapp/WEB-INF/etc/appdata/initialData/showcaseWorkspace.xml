@@ -94,10 +94,6 @@
         <panelInstance serialization="" provider="dashboard.kpi" id="3028">
             <param name="group" value="Sales demo" lang=" "/>
             <param name="kpicode" value="kpi_30301353506280659" lang=" "/>
-            <param name="maximized" value="true" lang=" "/>
-            <param name="minimizable" value="true" lang=" "/>
-            <param name="paint_border" value="true" lang=" "/>
-            <param name="paint_title" value="true" lang=" "/>
             <param name="title" value="Expected pipeline" lang="en"/>
             <param name="title" value="Ventas esperadas" lang="es"/>
         </panelInstance>
@@ -176,10 +172,8 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="2974">
             <param name="group" value="Sales demo" lang=" "/>
-            <param name="height" value="100" lang=" "/>
             <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
-                   lang="en"/>
+            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;" lang="en"/>
             <param name="kpicode" value="kpi_29761353668431694" lang=" "/>
             <param name="title" value="Sales report table" lang="en"/>
             <param name="title" value="Informe de ventas (tabla)" lang="es"/>
