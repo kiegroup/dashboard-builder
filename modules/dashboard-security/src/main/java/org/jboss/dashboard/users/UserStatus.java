@@ -144,9 +144,7 @@ public class UserStatus implements LogoutSurvivor, Serializable {
     }
 
     /**
-     * Determine if currently logged user .
-     *
-     * @return true if currently logged user is root user.
+     * @return true if the user login is not a blank String
      */
     public boolean isLoggedIn() {
         return !StringUtils.isBlank(userLogin);
