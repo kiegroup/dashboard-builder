@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceExport>
     <workspace envelopeId="jbpmEnvelope" friendlyUrl="jbpm-dashboard" skinId="Default_Skin" homeMode="0" id="2">
+        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
+                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
+                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
+        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
+                    permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
+                    actions="view,edit,edit perm" readonly="true"/>
+        <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
+                    permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
+                    actions="view,edit,delete,edit perm" readonly="true"/>
         <param name="title" value="jBPM Dashboard" lang="es"/>
         <param name="title" value="jBPM Dashboard" lang="en"/>
         <param name="name" value="jBPM Dashboard" lang="es"/>
