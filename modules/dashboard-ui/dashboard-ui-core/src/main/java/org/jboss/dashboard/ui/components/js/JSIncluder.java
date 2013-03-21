@@ -67,7 +67,8 @@ public class JSIncluder {
                     "/fckeditor/fckeditor.js")
     private String[] pagesToIncludeInHeader;
 
-    @Inject @Config("/components/colorpicker/js/colorPicker.jsp")
+    @Inject @Config("/components/colorpicker/js/colorPicker.jsp," +
+                    "/components/datepicker/js/datePicker.jsp")
     private String[] jspPagesToIncludeInHeader;
 
     @Inject @Config("")
