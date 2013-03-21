@@ -3,13 +3,13 @@
     <workspace envelopeId="Default_Envelope" friendlyUrl="showcase" skinId="Default_Skin" homeMode="0" id="1">
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
-                    actions="login,admin,createPage,edit,delete,edit perm,admin providers"/>
+                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
-                    actions="view,edit,edit perm"/>
+                    actions="view,edit,edit perm" readonly="true"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
                     permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
-                    actions="view,edit,delete,edit perm"/>
+                    actions="view,edit,delete,edit perm" readonly="true"/>
         <param name="title" value="Dashboards Showcase" lang="es"/>
         <param name="title" value="Dashboards Showcase" lang="en"/>
         <param name="name" value="Showcase" lang="es"/>
