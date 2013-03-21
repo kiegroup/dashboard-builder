@@ -144,5 +144,21 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
             return chartType;
         }
     }
+
+    public void setDefaultSettings(DataDisplayer displayer) {
+        if (displayer instanceof AbstractChartDisplayer) {
+            AbstractChartDisplayer chartDisplayer = (AbstractChartDisplayer) displayer;
+            chartDisplayer.setMarginLeft(80);
+            chartDisplayer.setMarginBottom(100);
+        }
+        if (displayer instanceof AbstractXAxisDisplayer) {
+            AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
+            xAxisDisplayer.setLabelAngleXAxis(-45);
+        }
+        if (displayer instanceof LineChartDisplayer) {
+            LineChartDisplayer lineChartDisplayer = (LineChartDisplayer) displayer;
+            lineChartDisplayer.setShowLinesArea(true);
+        }
+    }
 }
 

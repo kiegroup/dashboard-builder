@@ -18,6 +18,7 @@ package org.jboss.dashboard.displayer.chart;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.dataset.DataSetComparator;
 import org.jboss.dashboard.displayer.AbstractDataDisplayer;
+import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.domain.DomainConfiguration;
@@ -449,6 +450,37 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             trace.end();
         }
         return targetDataSet;
+    }
+
+    public void copyFrom(DataDisplayer sourceDisplayer) {
+        try {
+            super.copyFrom(sourceDisplayer);
+
+            AbstractChartDisplayer source = (AbstractChartDisplayer) sourceDisplayer;
+            setBackgroundColor(source.getBackgroundColor());
+            setColor(source.getColor());
+            setDomainConfiguration(source.domainConfig);
+            setDomainProperty(source.getDomainProperty());
+            setGraphicAlign(source.getGraphicAlign());
+            setHeight(source.getHeight());
+            setLegendAnchor(source.getLegendAnchor());
+            setRangeConfiguration(source.rangeConfig);
+            setRangeProperty(source.getRangeProperty());
+            setRangeScalarFunction(source.getRangeScalarFunction());
+            setMarginBottom(source.getMarginBottom());
+            setMarginTop(source.getMarginTop());
+            setMarginLeft(source.getMarginLeft());
+            setMarginRight(source.getMarginRight());
+            setTitle(source.getTitle());
+            setWidth(source.getWidth());
+            setAxisInteger(source.isAxisInteger());
+            setShowLegend(source.isShowLegend());
+            setShowTitle(source.isShowTitle());
+            setIntervalsSortCriteria(source.getIntervalsSortCriteria());
+            setIntervalsSortOrder(source.getIntervalsSortOrder());
+        } catch (ClassCastException e) {
+            // Ignore wrong types
+        }
     }
 
     // For internal implementation use.

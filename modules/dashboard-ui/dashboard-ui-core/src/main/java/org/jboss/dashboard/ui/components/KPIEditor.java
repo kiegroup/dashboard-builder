@@ -101,7 +101,8 @@ public class KPIEditor extends KPIViewer {
         // If the displayer associated to the kpi is not the new displayer, change it.
         if (!kpiDisplayerType.getUid().equals(selectedType.getUid())) {
             DataDisplayer newDisplayer = selectedType.createDataDisplayer();
-            kpiDisplayerType.copyDataDisplayer(kpiDisplayer, newDisplayer);
+            newDisplayer.setDefaultSettings();
+            newDisplayer.copyFrom(kpiDisplayer);
             kpi.setDataDisplayer(newDisplayer);
             setKpi(kpi);
             return null;

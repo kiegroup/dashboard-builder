@@ -21,9 +21,7 @@ import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
-import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
-import org.jboss.dashboard.displayer.chart.LineChartDisplayerType;
-import org.jboss.dashboard.displayer.chart.PieChartDisplayerType;
+import org.jboss.dashboard.displayer.chart.*;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -124,6 +122,13 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
             return i18n.getString("ofc2.type." + chartType);
         } catch (Exception e) {
             return chartType;
+        }
+    }
+
+    public void setDefaultSettings(DataDisplayer displayer) {
+        if (displayer instanceof AbstractXAxisDisplayer) {
+            AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
+            xAxisDisplayer.setLabelAngleXAxis(-45);
         }
     }
 }

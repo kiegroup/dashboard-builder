@@ -20,35 +20,4 @@ import org.jboss.dashboard.displayer.DataDisplayer;
 
 public abstract class AbstractChartDisplayerType extends AbstractDataDisplayerType {
 
-    public void copyDataDisplayer(DataDisplayer sourceDisplayer, DataDisplayer targetDisplayer) {
-        try {
-            AbstractChartDisplayer source = (AbstractChartDisplayer) sourceDisplayer;
-            AbstractChartDisplayer target = (AbstractChartDisplayer) targetDisplayer;
-            target.setDataDisplayerRenderer(source.getDataDisplayerRenderer());
-            target.setBackgroundColor(source.getBackgroundColor());
-            target.setColor(source.getColor());
-            target.setDataProvider(source.getDataProvider());
-            target.setDomainConfiguration(source.domainConfig);
-            target.setDomainProperty(source.getDomainProperty());
-            target.setGraphicAlign(source.getGraphicAlign());
-            target.setHeight(source.getHeight());
-            target.setLegendAnchor(source.getLegendAnchor());
-            target.setRangeConfiguration(source.rangeConfig);
-            target.setRangeProperty(source.getRangeProperty());
-            target.setRangeScalarFunction(source.getRangeScalarFunction());
-            target.setMarginBottom(source.getMarginBottom());
-            target.setMarginTop(source.getMarginTop());
-            target.setMarginLeft(source.getMarginLeft());
-            target.setMarginRight(source.getMarginRight());
-            target.setTitle(source.getTitle());
-            target.setWidth(source.getWidth());
-            target.setAxisInteger(source.isAxisInteger());
-            target.setShowLegend(source.isShowLegend());
-            target.setShowTitle(source.isShowTitle());
-            target.setIntervalsSortCriteria(source.getIntervalsSortCriteria());
-            target.setIntervalsSortOrder(source.getIntervalsSortOrder());
-        } catch (ClassCastException e) {
-            // Ignore non-chart displayers.
-        }
-    }
 }

@@ -64,4 +64,19 @@ public abstract class AbstractDataDisplayer implements DataDisplayer {
             this.dataDisplayerRenderer = renderer;
         }
     }
+
+    public void setDefaultSettings() {
+        // The settings differs depending on the type of the renderer.
+        getDataDisplayerRenderer().setDefaultSettings(this);
+    }
+
+    public void copyFrom(DataDisplayer sourceDisplayer) {
+        try {
+            AbstractDataDisplayer source = (AbstractDataDisplayer) sourceDisplayer;
+            setDataDisplayerRenderer(source.getDataDisplayerRenderer());
+            setDataProvider(source.getDataProvider());
+        } catch (ClassCastException e) {
+            // Ignore wrong types
+        }
+    }
 }

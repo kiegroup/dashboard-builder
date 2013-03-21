@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.displayer.chart;
 
+import org.jboss.dashboard.displayer.DataDisplayer;
+
 public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
 
     /** The display angle for the X-axis labels. */
@@ -44,5 +46,17 @@ public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
 
     public void setShowLinesArea(boolean showLinesArea) {
         this.showLinesArea = showLinesArea;
+    }
+
+    public void copyFrom(DataDisplayer sourceDisplayer) {
+        try {
+            super.copyFrom(sourceDisplayer);
+
+            AbstractXAxisDisplayer source = (AbstractXAxisDisplayer) sourceDisplayer;
+            setShowLabelsXAxis(source.isShowLabelsXAxis());
+            setLabelAngleXAxis(source.getLabelAngleXAxis());
+        } catch (ClassCastException e) {
+            // Ignore wrong types
+        }
     }
 }

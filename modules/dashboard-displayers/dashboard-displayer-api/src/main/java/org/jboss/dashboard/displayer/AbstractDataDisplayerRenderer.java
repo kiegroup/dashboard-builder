@@ -58,4 +58,7 @@ public abstract class AbstractDataDisplayerRenderer implements DataDisplayerRend
         // N/A
         return null;
     }
+
+    public void setDefaultSettings(DataDisplayer displayer) {
+    }
 }

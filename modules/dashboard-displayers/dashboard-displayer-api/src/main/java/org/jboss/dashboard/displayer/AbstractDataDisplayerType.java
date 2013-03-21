@@ -35,26 +35,6 @@ public abstract class AbstractDataDisplayerType implements DataDisplayerType {
         return displayerRenderers.get(0);
     }
 
-
-
-    /*
-        protected DataDisplayerRenderer defaultRenderer;
-
-       public DataDisplayerRenderer getDefaultRenderer() {
-        if (defaultRenderer != null) return defaultRenderer;
-
-        if (CollectionUtils.isEmpty(displayerRenderers)) {
-            throw new RuntimeException("No default renderer found for " + getUid() + " displayers");
-        }
-        for (DataDisplayerRenderer renderer : displayerRenderers) {
-            Alternative alternative = renderer.getClass().getAnnotation(Alternative.class);
-            if (alternative == null) {
-                return defaultRenderer = renderer;
-            }
-        }
-        return defaultRenderer = displayerRenderers.get(0);
-    }*/
-
     public int hashCode() {
         return new HashCodeBuilder().append(getUid()).toHashCode();
     }

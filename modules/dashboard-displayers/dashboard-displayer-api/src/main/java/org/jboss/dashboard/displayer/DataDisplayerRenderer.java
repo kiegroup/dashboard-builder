@@ -21,9 +21,16 @@ import java.util.Locale;
 public interface DataDisplayerRenderer {
 
     String getUid();
+
     String getDescription(Locale l);
+
     boolean isFeatureSupported(DataDisplayer displayer, DataDisplayerFeature feature);
+
     List<String> getAvailableChartTypes(DataDisplayer displayer);
+
     String getDefaultChartType(DataDisplayer displayer);
+
     String getChartTypeDescription(String chartType, Locale locale);
+
+    void setDefaultSettings(DataDisplayer displayer);
 }

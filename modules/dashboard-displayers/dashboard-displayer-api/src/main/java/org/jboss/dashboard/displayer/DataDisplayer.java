@@ -40,4 +40,14 @@ public interface DataDisplayer extends Cloneable {
     DataDisplayerRenderer getDataDisplayerRenderer();
     void setDataDisplayerRenderer(DataDisplayerRenderer library);
 
+    /**
+     * Restore the default settings.
+     */
+    void setDefaultSettings();
+
+    /**
+     * Copies the configuration of one displayer into this.
+     * @param source The displayer with the configuration to copy.
+     */
+    void copyFrom(DataDisplayer source);
 }

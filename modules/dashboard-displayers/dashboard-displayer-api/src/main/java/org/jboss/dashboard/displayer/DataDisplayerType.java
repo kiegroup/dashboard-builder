@@ -37,11 +37,4 @@ public interface DataDisplayerType {
      * Get the displayer renderer installed by default for this type.
      */
     DataDisplayerRenderer getDefaultRenderer();
-
-    /**
-     * Copies the configuration of one displayer instance to another.
-     * @param source The displayer with the configuration to copy.
-     * @param target The destination displayer.
-     */
-    void copyDataDisplayer(DataDisplayer source, DataDisplayer target);
 }

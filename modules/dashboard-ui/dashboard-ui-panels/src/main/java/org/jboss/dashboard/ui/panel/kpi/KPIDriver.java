@@ -146,6 +146,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         // Set the KPI's data displayer
         DataDisplayerType displayerType = DataDisplayerServices.lookup().getDataDisplayerManager().getDisplayerTypeByUid(BarChartDisplayerType.UID);
         BarChartDisplayer displayer = (BarChartDisplayer) displayerType.createDataDisplayer();
+        displayer.setDefaultSettings();
         displayer.setTitle(kpi.getDescription(LocaleManager.currentLocale()));
         displayer.setDataProvider(provider);
         kpi.setDataDisplayer(displayer);
