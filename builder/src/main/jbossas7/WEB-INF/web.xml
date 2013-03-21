@@ -108,11 +108,6 @@
     <!-- Security configuration -->
 
     <security-role>
-        <description>Superuser</description>
-        <role-name>root</role-name>
-    </security-role>
-
-    <security-role>
         <description>Administrator</description>
         <role-name>admin</role-name>
     </security-role>
@@ -135,7 +130,6 @@
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>root</role-name>
             <role-name>admin</role-name>
             <role-name>user</role-name>
         </auth-constraint>

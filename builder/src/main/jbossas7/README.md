@@ -82,9 +82,10 @@ However, some extra configuration is needed before you can sign in:
 * The application is based on the J2EE container managed authentication  mechanism.
 This means that the login itself is delegated to the application server.
 
-* First of all, you must create a user with login=<code>root</code> in order to login as superuser
-(you can use the <code>[jboss-as7]/bin/adduser</code> command utility). The superuser is granted with all the
- permissions within the application, no matter which roles has been assigned, as long as is able to login succesfully.
+* First of all, in order to login as superuser, using the <code>[jboss-as7]/bin/adduser</code> command utility,
+you must create a user with login=<code>root</code> and role=<whatever role has been defined in the web.xml file>.
+This is just for container authentication purposes, as the root user's application privileges are not role-linked,
+but instead is granted with all permissions).
 
 * The application roles are defined at [builder/src/main/jbossas7/WEB-INF/web.xml](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/WEB-INF/web.xml) file.
 Roles can be used to create access profiles and define custom authorization policies.
