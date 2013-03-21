@@ -116,7 +116,7 @@
                                 <%
                                     if (selected) {
                                 %>
-                                    <img src="<%= displayerTypes[i].getIconPath() %>"
+                                    <img src="<%=request.getContextPath()%>/<%= displayerTypes[i].getIconPath() %>"
                                          style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );"
                                          title="<%= displayerTypes[i].getDescription(locale) %>">
                                 <%
@@ -128,7 +128,7 @@
                                     document.getElementById('<factory:encode name="changeDisplayer"/>').value='true';
                                     bam_kpiedit_submitProperties(document.getElementById('<factory:encode name="changeDisplayer"/>'));return false;">
 
-                                    <img src="<%= displayerTypes[i].getIconPath() %>" border="0" title="<%= displayerTypes[i].getDescription(locale) %>">
+                                    <img src="<%=request.getContextPath()%>/<%= displayerTypes[i].getIconPath() %>" border="0" title="<%= displayerTypes[i].getDescription(locale) %>">
                                 </a>
                                 <script defer="true">
                                     setAjax('<factory:encode name="changeDisplayer"/>');

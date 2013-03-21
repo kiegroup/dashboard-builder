@@ -41,14 +41,17 @@
     <script src="<%=reqContext%>/components/bam/displayer/chart/nvd3/src/models/scatter.js" type="text/javascript"></script>
     <script src="<%=reqContext%>/components/bam/displayer/chart/nvd3/src/models/pie.js" type="text/javascript"></script>
     <script src="<%=reqContext%>/components/bam/displayer/chart/nvd3/src/models/pieChart.js" type="text/javascript"></script>
-    <link  href="<%=reqContext%>/components/bam/displayer/chart/nvd3/src/nv.d3.css" rel="stylesheet" type="text/css">
-    <style type="text/css">
-    /* Chart related styles */
-    .skn-chart-table {  padding:10px; margin:5px;border:1px solid #eeeeee; }
-    .skn-chart-title { text-align:center; font-size: 120%; font-weight: bold;padding-bottom:10px; }
-    .skn-chart-tooltip { text-align:center; font-size: 100%; font-weight: bold; }
-    </style>
+    <link  href="<%=reqContext%>/components/bam/displayer/chart/nv.d3.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+/* Chart related styles */
+.skn-chart-table {  padding:10px; margin:5px;border:1px solid #eeeeee; }
+.skn-chart-title { text-align:center; font-size: 120%; font-weight: bold;padding-bottom:10px; }
+.skn-chart-tooltip { text-align:center; font-size: 100%; font-weight: bold; height:25px}
+</style>
+
 </head>
+
 <body>
 
 <%@include file="nvd3_chart_common.jspi"%>

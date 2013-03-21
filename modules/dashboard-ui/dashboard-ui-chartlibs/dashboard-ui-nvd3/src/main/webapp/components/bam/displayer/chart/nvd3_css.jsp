@@ -16,4 +16,4 @@
 
 --%>
 <%@ taglib prefix="mvc" uri="mvc_taglib.tld"%>
-<link href='<mvc:context uri="/components/bam/displayer/chart/nvd3/src/nv.d3.css"/>' rel="stylesheet" type="text/css">
+<link href='<mvc:context uri="/components/bam/displayer/chart/nv.d3.css"/>' rel="stylesheet" type="text/css">

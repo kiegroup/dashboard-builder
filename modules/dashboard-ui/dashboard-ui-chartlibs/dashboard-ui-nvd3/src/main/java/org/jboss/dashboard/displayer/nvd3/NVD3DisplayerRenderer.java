@@ -117,7 +117,11 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         } else
         if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
             return true;
-        } else {
+        }
+        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR)) {
+            return true;
+        }
+        else {
             return featuresSupported.contains(feature);
         }
     }

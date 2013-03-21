@@ -45,12 +45,11 @@
        <% } %>
 
         graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-        <% if(!enableTooltips) { %>
+        <% if(enableTooltips) { %>
               content = e.label + " : " + e.value;
               document.getElementById("tooltip<%=chartId%>").innerHTML=content;
         <% } %>
           });
-
       }
   });
 </script>
