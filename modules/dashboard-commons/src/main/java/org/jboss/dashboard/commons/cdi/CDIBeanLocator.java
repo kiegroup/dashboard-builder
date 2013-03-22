@@ -51,7 +51,7 @@ public class CDIBeanLocator {
         BeanManager bm = getBeanManager();
         Bean bean = bm.getBeans(name).iterator().next();
         CreationalContext ctx = bm.createCreationalContext(bean);
-        Object o = bm.getReference(bean, bean.getClass(), ctx);
+        Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
         return o;
     }
 
@@ -59,7 +59,7 @@ public class CDIBeanLocator {
         BeanManager bm = getBeanManager();
         Bean bean = bm.getBeans(type).iterator().next();
         CreationalContext ctx = bm.createCreationalContext(bean);
-        Object o = bm.getReference(bean, bean.getClass(), ctx);
+        Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
         return o;
     }    
 }

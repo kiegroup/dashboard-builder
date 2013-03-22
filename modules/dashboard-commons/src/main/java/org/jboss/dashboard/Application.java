@@ -30,11 +30,10 @@ import java.util.*;
  * Class that defines some application set-up parameters.
  */
 @ApplicationScoped
-@Named("application")
 public class Application {
 
     public static Application lookup() {
-        return (Application) CDIBeanLocator.getBeanByName("application");
+        return (Application) CDIBeanLocator.getBeanByType(Application.class);
     }
 
     @Inject

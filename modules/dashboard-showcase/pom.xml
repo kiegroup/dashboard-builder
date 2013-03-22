@@ -291,14 +291,19 @@
                     <version>${version.weld.spi}</version>
                 </dependency>
                 <dependency>
+                    <groupId>org.jboss.weld</groupId>
+                    <artifactId>weld-core</artifactId>
+                    <version>${version.weld}</version>
+                </dependency>
+                <dependency>
                     <groupId>org.jboss.weld.se</groupId>
                     <artifactId>weld-se-core</artifactId>
-                    <version>${version.weld.se}</version>
+                    <version>${version.weld}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet</artifactId>
-                    <version>1.1.10.Final</version>
+                    <version>${version.weld}</version>
                 </dependency>
 
                 <!-- The following deps are required in order to enable the CDI injection in servlets. If not the following error is thrown: -->
