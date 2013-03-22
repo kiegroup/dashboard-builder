@@ -74,7 +74,7 @@ MySQL, etc., normally used in production environments.
 User Authentication
 --------------------------
 
-Once started, you can log into the application by typing the following url:
+Once started, open a browser and type the following URL:
 <code>http://localhost:8080/dashbuilder</code>. A login screen should be displayed.
 
 However, some extra configuration is needed before you can sign in:

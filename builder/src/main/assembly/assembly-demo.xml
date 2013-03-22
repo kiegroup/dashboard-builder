@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+    <id>demo</id>
+    <formats>
+        <format>war</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <includes>
+                <include>org.jboss.dashboard-builder:dashboard-showcase:war</include>
+            </includes>
+            <outputDirectory>.</outputDirectory>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>WEB-INF/jetty-*.xml</exclude>
+                    <exclude>WEB-INF/web.xml</exclude>
+                    <exclude>WEB-INF/classes/log4j.xml</exclude>
+                    <exclude>WEB-INF/etc/factory/factory.cfg</exclude>
+                </excludes>
+            </unpackOptions>
+            <useStrictFiltering>true</useStrictFiltering>
+        </dependencySet>
+
+        <dependencySet>
+            <includes>
+                <include>com.h2database:h2:jar</include>
+                <include>org.jboss.weld:weld-spi:jar</include>
+                <include>org.jboss.weld:weld-core:jar</include>
+                <include>org.jboss.weld.se:weld-se-core:jar</include>
+                <include>org.jboss.weld.servlet:weld-servlet:jar</include>
+            </includes>
+            <outputDirectory>WEB-INF/lib</outputDirectory>
+            <unpack>false</unpack>
+            <useStrictFiltering>true</useStrictFiltering>
+        </dependencySet>
+
+    </dependencySets>
+
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/standalone-demo/WEB-INF</directory>
+            <outputDirectory>WEB-INF</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>${project.basedir}/target</directory>
+            <outputDirectory>WEB-INF/lib</outputDirectory>
+            <includes>
+                <include>dashbuilder-demo-configuration.jar</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>
