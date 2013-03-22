@@ -28,6 +28,9 @@
   <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
   <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
+<script defer="true">
+    setAjax('<%="form"+chartId%>');
+</script>
 <% } %>
 
 <%@include file="nvd3_chart_wrapper.jspi"%>
