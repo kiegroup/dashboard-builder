@@ -97,21 +97,22 @@ public class ControllerStatus {
 
     public void compareConsumedUri() {
         String consumedUri = StringUtils.replace(consumedRequestURI.toString(), "//", "/");
-        if (consumedUri.endsWith("/"))
-            consumedUri = consumedUri.substring(0, consumedUri.length() - 1);
+        if (consumedUri.endsWith("/")) consumedUri = consumedUri.substring(0, consumedUri.length() - 1);
         if (!requestURI.equals(consumedUri)) {
             if (log.isDebugEnabled()) {
                 log.debug("Received URI: " + requestURI);
                 log.debug("Consumed URI: " + consumedUri);
             }
             if (StringUtils.isEmpty(consumedUri)) {
-                log.error("No part of the received uri " + requestURI + " has been consumed. Trying to serve it as good as possible.");
-            } else if (requestURI.startsWith(consumedUri)) {
+                log.error("No part of the received URI " + requestURI + " has been consumed. Trying to serve it as good as possible.");
+            }
+            else if (requestURI.startsWith(consumedUri)) {
                 String uriToForward = requestURI.substring(consumedUri.length());
                 setResponse(new RedirectToURLResponse(uriToForward, !uriToForward.startsWith(request.getRequestObject().getContextPath())));
-                log.warn("Redirecting to static uri: " + uriToForward);
-            } else {
-                log.error("Consumed uri " + consumedUri + " is not even part of request uri: " + requestURI +
+                log.warn("Redirecting to static URI: " + uriToForward);
+            }
+            else {
+                log.error("Consumed URI " + consumedUri + " is not even part of request URI: " + requestURI +
                         ". Trying to serve it as good as possible.");
             }
         }

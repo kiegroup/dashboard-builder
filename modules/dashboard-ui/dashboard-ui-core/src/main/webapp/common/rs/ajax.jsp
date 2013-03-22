@@ -74,8 +74,9 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
             // only if "OK"
             if (status == 200) {
                 var targetElementId;
-                if (ajaxHandler.ajaxReq.responseText.indexOf("<html>")!=-1){
-                    document.location.href = '<%=request.getRequestURI()%>';
+                if (ajaxHandler.ajaxReq.responseText.indexOf("<html>")!=-1) {
+                    // Just refresh the current screen.
+                    document.location.href = '<%=request.getContextPath()%>';
                 } else {
                     var element;
                     if (ajaxHandler.ajaxReq.responseText.indexOf("modal_component_")!=-1){

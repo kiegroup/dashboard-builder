@@ -314,7 +314,7 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
             List workspaceIds = getSortedWorkspacesList();
             for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
                 currentWorkspaceId = (String) iterator.next();
-                WorkspaceImpl workspace = (WorkspaceImpl) doGetCurrentWorkspace();
+                WorkspaceImpl workspace = doGetCurrentWorkspace();
                 Section[] pages = workspace.getAllRootSections();
                 for (int i = 0; i < pages.length; i++) { //First search root sections in order
                     Section page = pages[i];
@@ -323,7 +323,7 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
                     if (isValidUbication()) return;
                 }
                 pages = workspace.getAllSections();
-                for (int i = 0; i < pages.length; i++) { //Then, the rest of sections
+                for (int i = 0; i < pages.length; i++) { // Then, the rest of sections
                     Section page = pages[i];
                     if (!page.isRoot()) {
                         setCurrentSectionId(page.getId());
@@ -332,7 +332,7 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
                     }
                 }
             }
-            //We've tried all workspaces and sections without success. Try all workspaces without sections, in case admin is logging in.
+            // We've tried all workspaces and sections without success. Try all workspaces without sections, in case admin is logging in.
             for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
                 currentWorkspaceId = (String) iterator.next();
                 clearRequestCache();
@@ -341,7 +341,7 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         } catch (Exception e) {
             log.error("Error: ", e);
         }
-        //We've tried all. No valid ubication. Show login page.
+        // We've tried all. No valid ubication. Show login page.
         currentWorkspaceId = null;
         setCurrentSectionId(null);
         clearRequestCache();
@@ -370,9 +370,6 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
 
     /**
      * Cancels config mode
-     *
-     * @param request
-     * @throws Exception
      */
     public void actionCancelConfig(CommandRequest request) throws Exception {
         setShowingConfig(false);
@@ -395,12 +392,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         }
     }
 
-
     /**
      * Go to config page
-     *
-     * @param request
-     * @throws Exception
      */
     public void actionConfig(CommandRequest request) throws Exception {
         setShowingConfig(true);

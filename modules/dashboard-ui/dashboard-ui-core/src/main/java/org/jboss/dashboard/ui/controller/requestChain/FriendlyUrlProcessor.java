@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
@@ -68,18 +69,22 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
      */
     protected boolean processRequest() throws Exception {
         HttpServletRequest request = getRequest();
+        String servletPath = request.getServletPath();
+
+        // No friendly -> nothing to do.
+        if (!servletPath.startsWith(FRIENDLY_MAPPING)) return true;
 
         String contextPath = request.getContextPath();
-        String servletPath = request.getServletPath();
-        if (!servletPath.startsWith(FRIENDLY_MAPPING)) //No friendly -> nothing to do.
-            return true;
         getControllerStatus().consumeURIPart(FRIENDLY_MAPPING);
         navigationManager.setShowingConfig(false);
         String requestUri = request.getRequestURI();
         String relativeUri = requestUri.substring(contextPath == null ? 0 : (contextPath.length()));
         relativeUri = relativeUri.substring(servletPath == null ? 0 : (servletPath.length()));
 
-        //Apply language information if any
+        // Empty URI -> nothing to do.
+        if (StringUtils.isBlank(relativeUri)) return true;
+
+        // Apply language information, if any.
         String[] possibleLangs = LocaleManager.lookup().getPlatformAvailableLangs();
         for (int i = 0; i < possibleLangs.length; i++) {
             String lang = possibleLangs[i];
@@ -90,7 +95,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                 break;
             }
         }
-
+        // Tokenize the friendly URI.
         StringTokenizer tokenizer = new StringTokenizer(relativeUri, "/", false);
         List tokens = new ArrayList();
         int i = 0;
@@ -99,41 +104,29 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
             if (i < 2) {
                 tokens.add(token);
                 i++;
-            } else if (tokens.size() == 2)
+            } else if (tokens.size() == 2) {
                 tokens.add("/" + token);
-            else
+            } else {
                 tokens.set(2, tokens.get(2) + "/" + token);
-        }
-        String workspaceCandidate;
-        String sectionCandidate = null;
-
-        log.debug("  Tokens=" + tokens);
-
-        switch (tokens.size()) {
-            default:
-            case 2:
-                sectionCandidate = (String) tokens.get(1);
-            case 1:
-                workspaceCandidate = (String) tokens.get(0);
-                break;
-            case 0:
-                //Reposition user when there is no workspace specified
-                resetFriendlyStatus();
-                return true;
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("   workspaceCandidate=" + workspaceCandidate);
-            log.debug("   sectionCandidate=" + sectionCandidate);
+            }
         }
         try {
+            // Get the target workspace/section spècified.
+            log.debug("Tokens=" + tokens);
+            String workspaceCandidate = null;
+            String sectionCandidate = null;
+            if (tokens.size() > 0) workspaceCandidate = (String) tokens.get(0);
+            if (tokens.size() > 1) sectionCandidate = (String) tokens.get(1);
+            if (log.isDebugEnabled()) {
+                log.debug("workspaceCandidate=" + workspaceCandidate);
+                log.debug("sectionCandidate=" + sectionCandidate);
+            }
             WorkspaceImpl workspace = null;
             Section section = null;
             if (workspaceCandidate != null) {
                 boolean canbeWorkspaceId = canBeWorkspaceId(workspaceCandidate);
-                if (canbeWorkspaceId)
-                    workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceCandidate);
-                if (workspace == null)
-                    workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspaceByUrl(workspaceCandidate);
+                if (canbeWorkspaceId) workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceCandidate);
+                if (workspace == null) workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspaceByUrl(workspaceCandidate);
             }
             if (workspace != null && sectionCandidate != null) {
                 try {
@@ -142,19 +135,19 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                     section = workspace.getSectionByUrl(sectionCandidate);
                 }
             }
-
+            // Check the user has access permissions to the target workspace.
             if (workspace != null && section == null) {
                 try {
                     Workspace currentWorkspace = navigationManager.getCurrentWorkspace();
                     log.debug("currentWorkspace = " + (currentWorkspace == null ? "null" : currentWorkspace.getId()) + " workspaceCandidate = " + workspaceCandidate);
                     if (!workspace.equals(currentWorkspace)) {
+
                         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                         if (getUserStatus().hasPermission(workspacePerm)) {
                             navigationManager.setCurrentWorkspace(workspace);
                             log.debug("SessionManager.setWorkspace(" + workspace.getId() + ")");
                         } else {
-                            if (log.isDebugEnabled())
-                                log.debug("User has no " + WorkspacePermission.ACTION_LOGIN + " permission in workspace " + workspaceCandidate);
+                            if (log.isDebugEnabled()) log.debug("User has no " + WorkspacePermission.ACTION_LOGIN + " permission in workspace " + workspaceCandidate);
                             if (isShowLoginBackDoorOnPermissionDenied()) {
                                 navigationManager.setUserRequiresLoginBackdoor(true);
                                 navigationManager.setCurrentWorkspace(workspace);
@@ -165,20 +158,20 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                 } catch (Exception e) {
                     log.error("Cannot set current workspace.", e);
                 }
-            } else if (section != null) {
-
+            }
+            // Check the user has access permissions to the target section.
+            else if (section != null) {
                 try {
                     if (!section.equals(navigationManager.getCurrentSection())) {
+
                         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(section.getWorkspace(), WorkspacePermission.ACTION_LOGIN);
                         SectionPermission sectionPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_VIEW);
-                        if (getUserStatus().hasPermission(workspacePerm)
-                                && getUserStatus().hasPermission(sectionPerm)) {
-                            if (log.isDebugEnabled())
-                                log.debug("SessionManager.setSection(" + section.getId() + ")");
+                        if (getUserStatus().hasPermission(workspacePerm) && getUserStatus().hasPermission(sectionPerm)) {
+                            if (log.isDebugEnabled()) log.debug("SessionManager.setSection(" + section.getId() + ")");
                             navigationManager.setCurrentSection(section);
-                        } else {
-                            if (log.isDebugEnabled())
-                                log.debug("User has no " + WorkspacePermission.ACTION_LOGIN + " permission in workspace " + workspaceCandidate);
+                        }
+                        else {
+                            if (log.isDebugEnabled()) log.debug("User has no " + WorkspacePermission.ACTION_LOGIN + " permission in workspace " + workspaceCandidate);
                             if (isShowLoginBackDoorOnPermissionDenied()) {
                                 navigationManager.setUserRequiresLoginBackdoor(true);
                                 navigationManager.setCurrentSection(section);
@@ -191,10 +184,8 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                     log.error("Cannot set current section.", e);
                 }
             }
-        } catch (IOException se) {
-            log.debug("IO error: ", se);
         } catch (Exception e) {
-            log.error("Exception processing uri", e);
+            log.error("Exception processing friendly URI", e);
         }
         return true;
     }
@@ -206,10 +197,5 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         } catch (NumberFormatException nfe) {
             return false;
         }
-    }
-
-    protected void resetFriendlyStatus() {
-        getNavigationManager().setCurrentWorkspace(null);
-        getNavigationManager().setUserRequiresLoginBackdoor(false);
     }
 }
