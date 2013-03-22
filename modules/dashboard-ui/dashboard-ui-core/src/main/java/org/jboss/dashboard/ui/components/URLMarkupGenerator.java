@@ -120,7 +120,14 @@ public class URLMarkupGenerator {
      * @return the base URI for any markup
      */
     public String getServletMapping() {
-        return COMMAND_RUNNER;
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
+        if( request != null ) {
+            return request.getContextPath()+"/"+COMMAND_RUNNER;
+        } else {
+            // Do the best we can, this is a relative URL that might not work if AJAX handler does not convert it to
+            // absolute or a <base> tag is specified in the generated HTML
+            return COMMAND_RUNNER;
+        }
     }
 
     /**
