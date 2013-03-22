@@ -17,20 +17,24 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DashboardFilterHandler" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib prefix="i18n" uri="http://jakarta.apache.org/taglibs/i18n-1.0" %>
 
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.filter.messages" locale="<%=LocaleManager.currentLocale()%>"/>
+<%
+	String propId = StringUtils.deleteWhitespace((String) request.getAttribute("propertyId"));
+%>
 <table border="0" align="left" cellpadding="10" cellspacing="0"  class="skn-table_border" bgcolor="#ffffff"
        style="display:none; position:absolute;"
-       id="<panel:encode name="<%="helpForProperty_" + request.getAttribute("propertyId")%>"/>">
+       id="<panel:encode name="<%="helpForProperty_" + propId%>"/>">
    <tr>
      <td align="left"><i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "filterHelp"%>" /></td>
    </tr>
 </table>
 <script defer="defer">
-    window.<panel:encode name="<%="helpForProperty_" + request.getAttribute("propertyId") + "_function"%>"/> = function() {
-        var element = document.getElementById('<panel:encode name="<%="helpForProperty_" + request.getAttribute("propertyId")%>"/>');
+    window.<panel:encode name="<%="helpForProperty_" + propId + "_function"%>"/> = function() {
+        var element = document.getElementById('<panel:encode name="<%="helpForProperty_" + propId%>"/>');
         if (element.style.display=='none') element.style.display = "block";
         else element.style.display = "none";
     }

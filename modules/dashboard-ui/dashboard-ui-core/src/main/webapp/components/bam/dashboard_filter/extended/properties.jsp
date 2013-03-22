@@ -18,6 +18,7 @@
 <%@ page import="org.jboss.dashboard.ui.components.DashboardFilterHandler" %>
 <%@ page import="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
@@ -101,7 +102,7 @@
                     <div id="<panel:encode name="<%="CustomStringFor/"+dataProviderCode+"/"+propertyId%>"/>" style="display:none">
                         <input class="skn-input" style="width:150px;" type="text" name = "<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE+"_"+ propertyId%>">
                         &nbsp;
-                        <a style="height:20px; vertical-align:bottom;" href="#" onclick="window.<panel:encode name='<%="helpForProperty_" + propertyId + "_function"%>'/>(); return false;">
+                        <a style="height:20px; vertical-align:bottom;" href="#" onclick="window.<panel:encode name='<%="helpForProperty_" + StringUtils.deleteWhitespace((String)propertyId) + "_function"%>'/>(); return false;">
                              <img src="<static:image relativePath="general/16x16/ico-info.png"/>"  border="0" >
                         </a>
                        <% request.setAttribute("propertyId",propertyId); %>
