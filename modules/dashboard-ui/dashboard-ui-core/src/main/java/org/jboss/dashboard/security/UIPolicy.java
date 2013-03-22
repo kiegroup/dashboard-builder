@@ -257,33 +257,27 @@ public class UIPolicy implements Policy, Startable {
             Principal key = prpal;
             if (key == null) key = UNSPECIFIED_PRINCIPAL;
 
+            log.debug("Adding permission " + perm + " for principal " + prpal);
+            Permissions prpalPermissions = (Permissions) permissionMap.get(key);
+            if (prpalPermissions == null) {
+                prpalPermissions = new Permissions();
+                permissionMap.put(key, prpalPermissions);
+            }
+            // If the permission is already granted then the new permission will be ignored when calling the following method,
+            // So we don't have to implement any redundancy control.
+            prpalPermissions.add(perm);
+
+            // Update the persistent descriptor.
             PermissionDescriptor pd = PermissionManager.lookup().find(key, perm);
             if (pd == null) pd = PermissionManager.lookup().createNewItem();
+            pd.setPrincipal(key);
+            pd.setPermission(perm);
+            pd.setReadonly(readonly);
 
-            // If the PermissionDescriptor is marked as readonly, do nothing
-            if (!pd.isReadonly()) {
-                log.debug("Adding permission " + perm + " for principal " + prpal);
-
-                Permissions prpalPermissions = (Permissions) permissionMap.get(key);
-                if (prpalPermissions == null) {
-                    prpalPermissions = new Permissions();
-                    permissionMap.put(key, prpalPermissions);
-                }
-                // If the permission is already granted then
-                // the new permission will be ignored when calling the following method,
-                // so we don't have to implement any redundance control.
-                prpalPermissions.add(perm);
-
-                // Update the persistent descriptor.
-                pd.setPrincipal(key);
-                pd.setPermission(perm);
-                pd.setReadonly(readonly);
-
-                // If update buffer contains permission descriptor then remove from it.
-                int pos = updateBuffer.indexOf(pd);
-                if (pos != -1) updateBuffer.remove(pos);
-                updateBuffer.add(pd);
-            }
+            // If the update buffer already contains the permission descriptor then remove it.
+            int pos = updateBuffer.indexOf(pd);
+            if (pos != -1) updateBuffer.remove(pos);
+            updateBuffer.add(pd);
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -391,8 +385,9 @@ public class UIPolicy implements Policy, Startable {
             Enumeration en = permCollection.elements();
             while (en.hasMoreElements()) {
                 Permission perm = (Permission)en.nextElement();
-                if (perm.getName().equals(permName) &&
-                        perm.getClass().getName().equals(permClass.getName())) return perm;
+                if (perm.getName().equals(permName) && perm.getClass().getName().equals(permClass.getName())) {
+                    return perm;
+                }
             }
         }
         return null;
@@ -481,8 +476,8 @@ public class UIPolicy implements Policy, Startable {
     public synchronized void load() throws Exception {
         // Load permission descriptors from persistent storage
         log.debug("Load policy.");
-        //final List results = getPermissionsEntity().getAllInstances();
-        final List results = PermissionManager.lookup().getAllInstances();
+        List results = PermissionManager.lookup().getAllInstances();
+
         // Initialize policy
         clear();
         Iterator it = results.iterator();
@@ -490,8 +485,7 @@ public class UIPolicy implements Policy, Startable {
             PermissionDescriptor pd = (PermissionDescriptor) it.next();
             if (pd != null)
                 try {
-                    if (log.isDebugEnabled())
-                        log.debug("Adding permission " + pd.getPermission() + " for principal " + pd.getPrincipal());
+                    if (log.isDebugEnabled()) log.debug("Adding permission " + pd.getPermission() + " for principal " + pd.getPrincipal());
                     Principal prpal = pd.getPrincipal();
                     Permission perm = pd.getPermission();
                     addPermission(prpal, perm);
