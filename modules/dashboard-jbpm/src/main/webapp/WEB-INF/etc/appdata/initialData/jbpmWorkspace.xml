@@ -442,7 +442,7 @@
             <param name="title" value="Tareas iniciadas por fecha" lang="es"/>
         </panelInstance>
         <panelInstance
-                serialization="rO0ABXQEGTxkYXNoYm9hcmRfZmlsdGVyPgogIDxwcm9wZXJ0eSBpZD0idGFza25hbWUiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8zMTE3MTM1Mzk0NzI4MTM3MCI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogICAgPHNlY3Rpb24+MjI3NDwvc2VjdGlvbj4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0idXNlcmlkIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMzExNzEzNTM5NDcyODEzNzAiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICAgIDxzZWN0aW9uPjIyNzQ8L3NlY3Rpb24+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InN0YXR1cyIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5NzgxMzUzNjcwODA5MDkzIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InN0YXJ0ZGF0ZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5NzgxMzUzNjcwODA5MDkzIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9ImVuZGRhdGUiIHByb3ZpZGVyQ29kZSA9ImRhdGFwcm92aWRlcl8yOTc4MTM1MzY3MDgwOTA5MyI+CiAgICA8dmlzaWJsZT50cnVlPC92aXNpYmxlPgogIDwvcHJvcGVydHk+CiAgPG9wdGlvbnM+CiAgICA8c2hvcnRWaWV3TW9kZT50cnVlPC9zaG9ydFZpZXdNb2RlPgogICAgPHNob3dMZWdlbmQ+dHJ1ZTwvc2hvd0xlZ2VuZD4KICAgIDxzaG93UmVmcmVzaEJ1dHRvbj50cnVlPC9zaG93UmVmcmVzaEJ1dHRvbj4KICAgIDxzaG93QXBwbHloQnV0dG9uPnRydWU8L3Nob3dBcHBseWhCdXR0b24+CiAgICA8c2hvd0NsZWFyQnV0dG9uPnRydWU8L3Nob3dDbGVhckJ1dHRvbj4KICAgIDxzaG93UHJvcGVydHlOYW1lcz50cnVlPC9zaG93UHJvcGVydHlOYW1lcz4KICAgIDxzaG93U3VibWl0T25DaGFuZ2U+dHJ1ZTwvc2hvd1N1Ym1pdE9uQ2hhbmdlPgogIDxzaG93QXV0b1JlZnJlc2g+ZmFsc2U8L3Nob3dBdXRvUmVmcmVzaD4KICA8L29wdGlvbnM+CjwvZGFzaGJvYXJkX2ZpbHRlcj4K"
+                serialization="rO0ABXQD4TxkYXNoYm9hcmRfZmlsdGVyPgogIDxwcm9wZXJ0eSBpZD0ic3RhdHVzIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk3ODEzNTM2NzA4MDkwOTMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0ic3RhcnRkYXRlIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMjk3ODEzNTM2NzA4MDkwOTMiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0iZW5kZGF0ZSIgcHJvdmlkZXJDb2RlID0iZGF0YXByb3ZpZGVyXzI5NzgxMzUzNjcwODA5MDkzIj4KICAgIDx2aXNpYmxlPnRydWU8L3Zpc2libGU+CiAgPC9wcm9wZXJ0eT4KICA8cHJvcGVydHkgaWQ9InRhc2tuYW1lIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMzExNzEzNTM5NDcyODEzNzAiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxwcm9wZXJ0eSBpZD0idXNlcmlkIiBwcm92aWRlckNvZGUgPSJkYXRhcHJvdmlkZXJfMzExNzEzNTM5NDcyODEzNzAiPgogICAgPHZpc2libGU+dHJ1ZTwvdmlzaWJsZT4KICA8L3Byb3BlcnR5PgogIDxvcHRpb25zPgogICAgPHNob3J0Vmlld01vZGU+dHJ1ZTwvc2hvcnRWaWV3TW9kZT4KICAgIDxzaG93TGVnZW5kPnRydWU8L3Nob3dMZWdlbmQ+CiAgICA8c2hvd1JlZnJlc2hCdXR0b24+dHJ1ZTwvc2hvd1JlZnJlc2hCdXR0b24+CiAgICA8c2hvd0FwcGx5aEJ1dHRvbj50cnVlPC9zaG93QXBwbHloQnV0dG9uPgogICAgPHNob3dDbGVhckJ1dHRvbj50cnVlPC9zaG93Q2xlYXJCdXR0b24+CiAgICA8c2hvd1Byb3BlcnR5TmFtZXM+dHJ1ZTwvc2hvd1Byb3BlcnR5TmFtZXM+CiAgICA8c2hvd1N1Ym1pdE9uQ2hhbmdlPnRydWU8L3Nob3dTdWJtaXRPbkNoYW5nZT4KICA8c2hvd0F1dG9SZWZyZXNoPmZhbHNlPC9zaG93QXV0b1JlZnJlc2g+CiAgPC9vcHRpb25zPgo8L2Rhc2hib2FyZF9maWx0ZXI+Cg=="
                 provider="dashboard.filter" id="3122">
             <param name="title" value="Dashboard filter" lang="en"/>
             <param name="title" value="Filtro para cuadros de mando" lang="es"/>
@@ -696,10 +696,17 @@
             <param name="title" value="Expenses by department USD" lang="en"/>
             <param name="title" value="Indicador clave de rendimiento" lang="es"/>
         </panelInstance>
+        <panelInstance serialization="" provider="navigation.logout" id="2093">
+            <param name="htmlBeforePanel" value="&lt;style&gt; .login-table td {color:#ffffff;font-weight:bold}
+&lt;/style&gt;" lang="en"/>
+            <param name="title" value="Logout panel" lang="en"/>
+            <param name="title" value="Panel de logout" lang="es"/>
+        </panelInstance>
         <section id="2274" visible="true" panelSpacing="0" position="0" regionSpacing="0" idEnvelope="" idSkin=""
                  friendlyUrl="process-dashboard" idTemplate="jbpmLayout">
             <param name="title" value="Process dashboard" lang="en"/>
             <param name="title" value="Procesos" lang="es"/>
+            <panel position="0" instanceId="2093" regionId="Header_Right-bottom" id="2099"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3016" regionId="center_1" id="3097"/>
             <panel position="0" instanceId="3068" regionId="center_2" id="3069"/>
@@ -720,6 +727,7 @@
                  idSkin="" friendlyUrl="process-selected" idTemplate="jbpmLayout">
             <param name="title" value="Selected process" lang="en"/>
             <param name="title" value="Proceso seleccionado" lang="es"/>
+            <panel position="0" instanceId="2093" regionId="Header_Right-bottom" id="2096"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3016" regionId="center_1" id="3099"/>
             <panel position="1" instanceId="2986" regionId="center_1" id="2987"/>
@@ -741,6 +749,7 @@
                  idSkin="" idTemplate="jbpmLayout">
             <param name="title" value="Selected user or group" lang="en"/>
             <param name="title" value="Usuario o grupo seleccionado" lang="es"/>
+            <panel position="0" instanceId="2093" regionId="Header_Right-bottom" id="2100"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="3016" regionId="center_1" id="3099"/>
             <panel position="1" instanceId="2995" regionId="center_1" id="2987"/>

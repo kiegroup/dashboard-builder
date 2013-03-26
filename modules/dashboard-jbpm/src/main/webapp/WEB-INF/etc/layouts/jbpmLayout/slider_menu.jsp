@@ -15,22 +15,23 @@
     limitations under the License.
 
 --%>
+<%@ taglib prefix="static" uri="static-resources.tld" %>
 <script language="JavaScript" type="text/javascript">
     <!--
-    var aSlideSideMenu = new Object();
-    aSlideSideMenu.minWidth = 0;
-    aSlideSideMenu.maxWidth = 260;
-    aSlideSideMenu.increment = 30;
-    aSlideSideMenu.speed = 5;
-    aSlideSideMenu.divStyleToMove = null;
-    aSlideSideMenu.cookieName = "region_left_web_2_0_cookie";
-    aSlideSideMenu.getCookieVal = function (offset) {
+    var slideSideMenu = new Object();
+    slideSideMenu.minWidth = 0;
+    slideSideMenu.maxWidth = 260;
+    slideSideMenu.increment = 30;
+    slideSideMenu.speed = 5;
+    slideSideMenu.divStyleToMove = null;
+    slideSideMenu.cookieName = "region_left_web_2_0_cookie";
+    slideSideMenu.getCookieVal = function (offset) {
         var endstr = document.cookie.indexOf (";", offset);
         if (endstr == -1)
             endstr = document.cookie.length;
         return unescape(document.cookie.substring(offset, endstr));
     }
-    aSlideSideMenu.GetCookie = function (name)  {
+    slideSideMenu.GetCookie = function (name)  {
         var arg = name + "=";
         var alen = arg.length;
         var clen = document.cookie.length;
@@ -46,7 +47,7 @@
         return null;
     }
 
-    aSlideSideMenu.SetCookie = function (name, value) {
+    slideSideMenu.SetCookie = function (name, value) {
         var argv = this.SetCookie.arguments;
         var argc = this.SetCookie.arguments.length;
         var expires = (argc > 2) ? argv[2] : null;
@@ -60,9 +61,9 @@
                 ((secure == true) ? "; secure" : "");
     }
 
-    aSlideSideMenu.EvaluateInitialStatus = function () {
+    slideSideMenu.EvaluateInitialStatus = function () {
         if ( (IE && document.readyState != 'complete') || !document.getElementById("region_left_web_2_0")) {
-            setTimeout("aSlideSideMenu.EvaluateInitialStatus()",100);
+            setTimeout("slideSideMenu.EvaluateInitialStatus()",100);
         } else {
             this.divStyleToMove = document.getElementById("region_left_web_2_0").style;
             //this.divStyleToMove.width = this.maxWidth+'px';
@@ -77,14 +78,14 @@
         }
     }
 
-    aSlideSideMenu.start = function() {
+    slideSideMenu.start = function() {
         var state = this.GetCookie(this.cookieName) ;
         state = state == null ? 0 : state;
         if (state == 1) this.slide(null, true);
         else this.slide(null, false);
     }
 
-    aSlideSideMenu.slide = function( pos , back){
+    slideSideMenu.slide = function( pos , back){
         this.divStyleToMove.overflow = 'hidden';
         this.divStyleToMove.display = 'block';
         pos = (pos != null) ? pos : (back ? this.maxWidth: this.minWidth);
@@ -96,7 +97,7 @@
 
         if ( !end ){
             var totalIncrement = back ? (pos-this.increment):(pos+this.increment);
-            setTimeout("aSlideSideMenu.slide("+totalIncrement+","+back+")", this.speed);
+            setTimeout("slideSideMenu.slide("+totalIncrement+","+back+")", this.speed);
         } else {
             this.divStyleToMove.width =  (!back ? this.maxWidth: this.minWidth) + "px";
             this.divStyleToMove.overflow = back ? 'hidden':'visible';
@@ -105,12 +106,12 @@
         }
     }
 
-    aSlideSideMenu.openIt = function(){
+    slideSideMenu.openIt = function(){
         this.SetCookie(this.cookieName, 1);
         this.divStyleToMove.width = this.maxWidth + "px";
     }
 
-    setTimeout ("aSlideSideMenu.EvaluateInitialStatus()",100);
+    setTimeout ("slideSideMenu.EvaluateInitialStatus()",100);
 
     //-->
 </script>
@@ -208,7 +209,7 @@
             </div>
         </td>
         <td style="width:10px; vertical-align:top; padding-top:25px;">
-            <img onclick="aSlideSideMenu.start();return false;" src="bui/images/general/resize.gif" style="width:10px; height:40px; border:none; padding:1px; cursor:pointer" />
+            <img onclick="slideSideMenu.start();return false;" src="<static:image relativePath="general/resize.gif"/>" style="width:10px; height:40px; border:none; padding:1px; cursor:pointer" />
         </td>
         <td style="vertical-align:top; text-align:left; width:99%; padding-left: 15px; border-left: 1px dotted gray; height: 800px;">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
