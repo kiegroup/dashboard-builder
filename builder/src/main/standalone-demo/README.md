@@ -81,7 +81,22 @@ The following user/password are available by default:
     * <code>root/root</code>: to sign-in as the superuser
     * <code>demo/demo</code>: to sign-in as an end user.
 
+  On start-up, the application installs automatically some ready-to-use sample dashboards, for demo and learning purposes,
+  as well as the jBPM Process Dashboard.
+
 * To stop the application close the terminal window or type the "Ctrl + C" command.
+
+jBPM Process Dashboard
+------------------------
+
+Once logged, the jBPM Process Dashboard can be accessed in two ways:
+
+1. As root, by selecting the jBPM Dashboard workspace at the top administration toolbar.
+2. Typing the following URL: <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
+
+In order to populate the jBPM dashboard with dummy data, go to the installation root directory and run
+the **install-jbpm-data.sh** script.
+
 
 Application database
 ----------------------
@@ -89,6 +104,6 @@ Application database
 The demo application database will be generated automatically when you start the application for the first time.
 If you want to restore the application to its initial state you can:
 
-1. Stop the application (if running)
-2. Delete the database files in the <code>/db</code> directory
-3. Start the application
+1. Stop the application (if running).
+2. Delete the database files in the <code>/db</code> directory.
+3. Start the application.
