@@ -19,7 +19,7 @@
 <%@ page import="org.jboss.dashboard.displayer.table.DataSetTable" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.DataSetTableHandler" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="org.jboss.dashboard.provider.DataProperty" %>
+<%@ page import="org.jboss.dashboard.provider.*" %>
 <%@ page import="org.jboss.dashboard.function.ScalarFunction" %>
 <%@ page import="org.jboss.dashboard.DataDisplayerServices" %>
 <%@ page import="java.text.NumberFormat" %>
@@ -42,8 +42,9 @@
             if (table.isNonGroupByColumn(columnIndex)) {
                 DataProperty columnProperty = table.getOriginalDataProperty(columnIndex);
                 ScalarFunction columnFunction = DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(table.getGroupByFunctionCode(columnIndex));
-                NumberFormat format = NumberFormat.getNumberInstance(locale);
-                String scalar = format.format(columnFunction.scalar(columnProperty.getValues()));
+                double value = columnFunction.scalar(columnProperty.getValues());
+                DataPropertyFormatter formatter = DataFormatterRegistry.lookup().getPropertyFormatter(columnProperty.getPropertyId());
+                String scalar = formatter.formatValue(columnProperty, value, locale);
 %>
         <td title="<%= scalar %>" height="15" nowrap>
             <div style="<%= table.getGroupByTotalsHtmlStyle() %> height:18px; font:100-family: variant: font-style:italic; overflow:hidden; vertical-align:middle" title="<%= scalar %>">
