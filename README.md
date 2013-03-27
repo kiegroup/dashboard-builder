@@ -23,7 +23,7 @@ The Dashboard Builder is a full featured web application which allows non-techni
 Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files.
 It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.
 
-The application will also automatically install some ready-to-use sample dashboards, for demo and learning purposes.
+Some ready-to-use sample dashboards are provided as well, for demo and learning purposes.
 
 **Key features**:
 * Visual configuration of dashboards (Drag'n'drop).
