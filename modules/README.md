@@ -94,7 +94,7 @@ To access the application type the URL: <code>http://localhost:8080/dashbuilder<
 The following user/password are available by default:
 
 * <code>root/root</code>: to sign-in as the superuser
-* <code>demo/demo</code>: to enter as a end user.
+* <code>demo/demo</code>: to sign-in as an end user.
 
 
 jBPM Process Dashboard
