@@ -70,10 +70,10 @@ Installation steps
         C:\ cd <target_directory>\dashbuilder-demo
         start-demo.bat
 
-  NOTE: The application uses an auto deployable H2 embedded database. So no extra configuration is needed.
-  But when you start the application for the first time it may take some minutes due to the
-  database initialization procedure. The H2 database downgrades the application performance
-  compared with other databases like PostgreSQL, MySQL, normally used in production environments.
+  NOTE: The application uses an auto deployable H2 embedded database which it's automatically created when you run
+  it for the very first time. The database initialization procedure it takes a few minutes. Furthermore, you should
+  take into account that the H2 database downgrades the application performance compared with other databases like
+  PostgreSQL, MySQL, normally used in production environments.
 
 * Once the application is started, open a browser and type the URL: <code>http://localhost:8080/dashbuilder</code>.
 The following user/password are available by default:
@@ -95,7 +95,10 @@ Once logged, the jBPM Process Dashboard can be accessed in two ways:
 2. Typing the following URL: <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
 
 In order to populate the jBPM dashboard with dummy data, go to the installation root directory and run
-the **install-jbpm-data.sh** script.
+the **install-jbpm-data.sh** script Don't forget to start the application before executing the script,
+otherwise you will get the following error:
+
+    Exception in thread "main" org.h2.jdbc.JdbcSQLException: Table "BAMPROCESSSUMMARY" not found;
 
 
 Application database
