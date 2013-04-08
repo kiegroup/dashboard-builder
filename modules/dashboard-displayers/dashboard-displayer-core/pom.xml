@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>dashboard-displayers</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.0.Beta1</version>
     </parent>
 
     <artifactId>dashboard-displayer-core</artifactId>
@@ -36,13 +36,13 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-displayer-api</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.0.0.Beta1</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.0.0.Beta1</version>
         </dependency>
     </dependencies>
 </project>
