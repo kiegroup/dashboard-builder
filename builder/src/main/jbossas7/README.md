@@ -10,7 +10,7 @@ Generate a distribution
 
 Open a terminal window, go to the root directory and execute the following Maven command:
 
-    $ mvn clean install -DskipTests -P full-build
+    $ mvn clean install -DskipTests -P full
 
 Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.0.war**.
 

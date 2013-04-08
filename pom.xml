@@ -407,13 +407,12 @@
 
     <profiles>
         <profile>
-            <id>full-build</id>
+            <id>fullProfile</id>
             <activation>
                 <property>
-                    <name>full-build</name>
+                    <name>full</name>
                 </property>
             </activation>
-
             <modules>
                 <module>builder</module>
             </modules>
