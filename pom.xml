@@ -413,7 +413,6 @@
                     <name>full</name>
                 </property>
             </activation>
-
             <modules>
                 <module>builder</module>
             </modules>
