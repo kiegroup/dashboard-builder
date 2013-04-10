@@ -171,6 +171,8 @@
 															<mvc:fragmentValue name="selectedSQLServer"/>>SQLServer</option>
 														<option value="org.h2.Driver"
 															<mvc:fragmentValue name="selectedH2"/>>H2</option>
+														<option value="org.teiid.jdbc.TeiidDriver"
+															<mvc:fragmentValue name="selectedTeiid"/>>Teiid</option>                                                            
 														</select>
 													</td>&nbsp;&nbsp;
 													<td align="left">
