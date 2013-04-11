@@ -1,2 +1,0 @@
-/subsystem=datasources/data-source="dashbuilderDS":add(jndi-name="java:jboss/datasources/dashbuilderDS", driver-name="h2", connection-url="jdbc:h2:~/dashbuilder-ds", user-name="dashbuilder", password="dashbuilder")
-/subsystem=datasources/data-source=dashbuilderDS:enable
