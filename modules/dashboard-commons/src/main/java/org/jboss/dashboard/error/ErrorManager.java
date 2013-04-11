@@ -23,6 +23,9 @@ import org.jboss.dashboard.CoreServices;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.jsp.JspException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 /**
@@ -127,6 +130,21 @@ public class ErrorManager {
     }
 
     /**
+     * Get the root exception.
+     */
+    public Throwable getRootCause(Throwable t) {
+        if (t == null) return null;
+        Throwable root = t.getCause();
+        if (root == null) {
+            if (t instanceof ServletException) root = ((ServletException) t).getRootCause();
+            if (t instanceof JspException) root = ((JspException) t).getRootCause();
+            if (t instanceof InvocationTargetException) root = ((InvocationTargetException) t).getTargetException();
+        }
+        if (root == null) return t;
+        else return getRootCause(root);
+    }
+
+    /**
      * Check if the specified exception is a DB interlock error.
      */
     public boolean isDBInterlockException(Throwable e) {
@@ -190,7 +208,7 @@ public class ErrorManager {
                 log.error("UNEXPECTED ERROR.\n" + report.printContext(0));
             }
             // Catch database interlock exceptions & print a detailed report in order to find out the cause.
-            if (logDBInterlockThreadsEnabled && isDBInterlockException(report.getRootException())) {
+            if (logDBInterlockThreadsEnabled && isDBInterlockException(getRootCause(report.getException()))) {
                 log.error(Profiler.lookup().printActiveThreadsReport());
             }
         }

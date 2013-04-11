@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.database;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.annotation.config.Config;
@@ -22,14 +24,12 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.apache.commons.lang.ArrayUtils;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
+import org.jboss.dashboard.error.ErrorManager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.*;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -39,77 +39,50 @@ import java.util.Vector;
 @ApplicationScoped
 public class DatabaseAutoSynchronizer {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DatabaseAutoSynchronizer.class.getName());
+    private static transient Log log = LogFactory.getLog(DatabaseAutoSynchronizer.class.getName());
+
+    @Inject @Config("sql")
+    protected String databaseConfigDir;
 
     @Inject @Config("oracle=create-oracle.sql," +
                     "mysql=create-mysql.sql," +
                     "postgres=create-postgres.sql," +
                     "sqlserver=create-sqlserver.sql," +
                     "h2=create-h2.sql")
-    private Properties createFiles = new Properties();
+    protected Properties createFiles = new Properties();
 
-    @Inject @Config("select * from dashb_installed_module")
-    private String testTableExistsSql;
+    @Inject @Config("dashb_installed_module")
+    protected String installedModulesTable;
 
     @Inject @Config("oracle, mysql, postgres, sqlserver, h2, hsql, oracle10g")
-    private String[] supportedDatabases;
-
-    public static final String CUSTOM_DELIMITER = "-- CUSTOM_DELIMITER";
-    public static final String CUSTOM_DELIMITER_ENABLER = "-- ENABLE_CUSTOM_DELIMITER";
-    public static final String DATABASE_CONFIG_DIR = "sql";
+    protected String[] supportedDatabases;
 
     @Inject @Config("delimiter //, //, , delimiter ;, GO")
-    private String[] excludedScriptStatements;
+    protected String[] excludedScriptStatements;
 
-    public String getTestTableExistsSql() {
-        return testTableExistsSql;
-    }
+    @Inject @Config("-- CUSTOM_DELIMITER")
+    protected String customDelimiter;
 
-    public void setTestTableExistsSql(String testTableExistsSql) {
-        this.testTableExistsSql = testTableExistsSql;
-    }
-
-    public Properties getCreateFiles() {
-        return createFiles;
-    }
-
-    public void setCreateFiles(Properties createFiles) {
-        this.createFiles = createFiles;
-    }
-
-    public String[] getSupportedDatabases() {
-        return supportedDatabases;
-    }
-
-    public void setSupportedDatabases(String[] supportedDatabases) {
-        this.supportedDatabases = supportedDatabases;
-    }
-
-    public String[] getExcludedScriptStatements() {
-        return excludedScriptStatements;
-    }
-
-    public void setExcludedScriptStatements(String[] excludedScriptStatements) {
-        this.excludedScriptStatements = excludedScriptStatements;
-    }
+    @Inject @Config("-- ENABLE_CUSTOM_DELIMITER")
+    protected String customDelimiterEnabler;
 
     public void synchronize(HibernateInitializer hibernateInitializer) throws Exception {
         String databaseName = hibernateInitializer.getDatabaseName();
         if (isCurrentDatabaseSupported(databaseName)) {
             boolean tableExists = existsModulesTable(databaseName);
             if (!tableExists) {
-                createProductDatabase(databaseName);
+                createDatabase(databaseName);
             }
         }
     }
 
-    protected void createProductDatabase(String databaseName) throws Exception {
+    protected void createDatabase(String databaseName) throws Exception {
         String sqlFilePath = createDatabaseScriptPath(databaseName);
         runScript(sqlFilePath);
     }
 
     protected String createDatabaseScriptPath(String databaseName) {
-        String sqlBasePath =  Application.lookup().getBaseCfgDirectory() + "/" + DATABASE_CONFIG_DIR;
+        String sqlBasePath =  Application.lookup().getBaseCfgDirectory() + "/" + databaseConfigDir;
         databaseName = databaseName.startsWith("oracle") ? "oracle" : databaseName;
         return sqlBasePath + "/" + createFiles.get(databaseName);
     }
@@ -129,10 +102,11 @@ public class DatabaseAutoSynchronizer {
     }
 
     private String[] splitString(String str, String delims) {
-        if (str == null)
+        if (str == null) {
             return null;
-        else if (str.equals("") || delims == null || delims.length() == 0)
+        } else if (str.equals("") || delims == null || delims.length() == 0) {
             return new String[]{str};
+        }
         String[] s;
         Vector v = new Vector();
         int pos = 0;
@@ -144,43 +118,43 @@ public class DatabaseAutoSynchronizer {
         }
         v.addElement(str.substring(pos));
         s = new String[v.size()];
-        for (int i = 0, cnt = s.length; i < cnt; i++)
+        for (int i = 0, cnt = s.length; i < cnt; i++) {
             s[i] = ((String) v.elementAt(i)).trim();
+        }
         return s;
     }
 
     protected void runDDL(final String ddl) throws Exception {
         String separator = ";";
-        if (ddl.startsWith(CUSTOM_DELIMITER_ENABLER))
-            separator = CUSTOM_DELIMITER;
+        if (ddl.startsWith(customDelimiterEnabler)) separator = customDelimiter;
         String[] statements = splitString(ddl, separator);
         for (int i = 0; i < statements.length; i++) {
             final String ddlStatement = removeComments(statements[i]);
-            if (ArrayUtils.contains(getExcludedScriptStatements(), ddlStatement))
+            if (ArrayUtils.contains(excludedScriptStatements, ddlStatement)) {
                 continue;
-            if (log.isDebugEnabled())
-                log.debug("Running statement: " + ddlStatement);
+            }
+
+            if (log.isDebugEnabled()) log.debug("Running statement: " + ddlStatement);
             new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    Work w = new Work() {
-                        public void execute(Connection connection) throws SQLException {
-                            Statement statement = null;
-                            try {
-                                statement = connection.createStatement();
-                                statement.execute(ddlStatement);
-                            } catch (SQLException e) {
-                                log.error("Error executing " + ddlStatement + ": ", e);
-                                throw e;
-                            } finally {
-                                if (statement != null)
-                                    statement.close();
-                            }
+            protected void txFragment(Session session) throws Exception {
+                Work w = new Work() {
+                public void execute(Connection connection) throws SQLException {
+                    Statement statement = null;
+                    try {
+                        statement = connection.createStatement();
+                        statement.execute(ddlStatement);
+                    } catch (Exception e) {
+                        Throwable root = ErrorManager.lookup().getRootCause(e);
+                        log.error("Error executing " + ddlStatement + ": " + root.getMessage());
+                    } finally {
+                        if (statement != null) {
+                            statement.close();
                         }
-                    };
-                    session.doWork(w);
-                    session.flush();
-                }
-            }.execute();
+                    }
+                }};
+                session.doWork(w);
+                session.flush();
+            }}.execute();
         }
     }
 
@@ -190,8 +164,7 @@ public class DatabaseAutoSynchronizer {
         String line = null;
         try {
             while ((line = strreader.readLine()) != null) {
-                if (line.trim().startsWith("--"))
-                    continue;
+                if (line.trim().startsWith("--")) continue;
                 sb.append(line).append("\n");
             }
         } catch (IOException e) {
@@ -201,35 +174,17 @@ public class DatabaseAutoSynchronizer {
     }
 
     protected boolean existsModulesTable(final String databaseName) throws Exception {
-        final boolean[] returnValue = new boolean[]{false};
+        final boolean[] returnValue = {false};
         new HibernateTxFragment(true) {
-            protected void txFragment(Session session) throws Exception {
-                Work w = new Work() {
-                    public void execute(Connection connection) throws SQLException {
-                        Statement statement = null;
-                        try {
-                            statement = connection.createStatement();
-                            statement.execute(getTestTableExistsSql());
-                            returnValue[0] = true;
-                            log.debug("Execution of getTestTableExistsSql() query didn't throw any error. Database might be installed.");
-                        } catch (SQLException e) {
-                            markAsRollbackOnly();
-                        } catch (UndeclaredThrowableException e) {
-                            //SQL server 2008 thows other exception.
-                            if (e.getCause() != null && e.getCause().getCause() instanceof SQLException) {
-                                markAsRollbackOnly();
-                            }else{
-                                throw e;
-                            }
-                        } finally {
-                            if (statement != null)
-                                statement.close();
-                        }
-                    }
-                };
-                session.doWork(w);
-            }
-        }.execute();
+        protected void txFragment(Session session) throws Exception {
+            Work w = new Work() {
+            public void execute(Connection connection) throws SQLException {
+                DatabaseMetaData metaData = connection.getMetaData();
+                ResultSet result = metaData.getTables(null, null, installedModulesTable, null);
+                returnValue[0] = result.next();
+            }};
+            session.doWork(w);
+        }}.execute();
         return returnValue[0];
     }
 
@@ -239,5 +194,4 @@ public class DatabaseAutoSynchronizer {
         }
         return false;
     }
-
 }

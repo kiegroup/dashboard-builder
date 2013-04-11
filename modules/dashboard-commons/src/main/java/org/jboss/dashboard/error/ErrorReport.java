@@ -20,8 +20,6 @@ import org.jboss.dashboard.factory.BasicFactoryElement;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.Profiler;
 
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
@@ -78,22 +76,6 @@ public class ErrorReport extends BasicFactoryElement {
         return exception;
     }
 
-    public Throwable getRootException() {
-        // Get the root cause.
-        return getRootCause(exception);
-    }
-
-    protected Throwable getRootCause(Throwable t) {
-        if (t == null) return null;
-        Throwable root = t.getCause();
-        if (root == null) {
-            if (t instanceof ServletException) root = ((ServletException) t).getRootCause();
-            if (t instanceof JspException) root = ((JspException) t).getRootCause();
-        }
-        if (root == null) return t;
-        else return getRootCause(root);
-    }
-
     public void setException(Throwable exception) {
         this.exception = exception;
     }
@@ -126,7 +108,7 @@ public class ErrorReport extends BasicFactoryElement {
 
     public String printExceptionTrace() {
         StringWriter sw = new StringWriter();
-        getRootException().printStackTrace(new PrintWriter(sw));
+        ErrorManager.lookup().getRootCause(getException()).printStackTrace(new PrintWriter(sw));
         return sw.getBuffer().toString();
     }
 

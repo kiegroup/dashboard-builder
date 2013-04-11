@@ -49,7 +49,8 @@ public class ErrorTrace extends CodeBlockTrace {
     }
 
     public String getDescription() {
-        return error.getRootException().getMessage();
+        Throwable root = ErrorManager.lookup().getRootCause(error.getException());
+        return root.getMessage();
     }
 
     public Map<String,Object> getContext() {
