@@ -21,7 +21,7 @@
     <resource-ref>
         <res-ref-name>jdbc/dashbuilder</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
-        <jndi-name>java:jboss/datasources/dashbuilderDS</jndi-name>
+        <jndi-name>java:jboss/datasources/ExampleDS</jndi-name>
     </resource-ref>
 
     <!--
