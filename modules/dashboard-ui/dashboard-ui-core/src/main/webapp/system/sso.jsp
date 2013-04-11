@@ -58,7 +58,7 @@
 </head>
 <body onload="document.getElementById('password').value='';document.getElementById('password').focus();">
 <h2 class="skn-error">Restricted area. Access denied.</h2><br>
-<br/>
-<%= copyright %>
+<br/>Only the superuser has access granted. Please, login first.
+<br/><%= copyright %>
 </body>
 </html>

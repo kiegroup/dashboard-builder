@@ -121,6 +121,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
                 pageLeft(doGetCurrentSection());
                 currentWorkspaceId = workspaceId;
                 setCurrentSectionId(null);
+                repositionSection(); // Set a current section by default.
+                if (!isValidUbication()) setCurrentSectionId(null);
                 clearRequestCache();
                 workspaceChanged = true;
             }
@@ -131,12 +133,9 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
             clearRequestCache();
             workspaceChanged = true;
         }
-        if (workspaceChanged)
-            try {
-                getUserStatus().invalidateUserPrincipals();
-            } catch (Exception e) {
-                log.error("Error: ", e);
-            }
+        if (workspaceChanged) {
+            getUserStatus().invalidateUserPrincipals();
+        }
     }
 
     public boolean userIsAdminInCurrentWorkspace() {
@@ -232,12 +231,9 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
      * @return current workspace after checking ubication is correct
      */
     public synchronized WorkspaceImpl getCurrentWorkspace() {
-        // First check in request cache
         WorkspaceImpl currentWorkspace = getCurrentWorkspaceFromCache();
-        if (currentWorkspace != null)
-            return currentWorkspace;
-        if (!isValidUbication())
-            reposition();
+        if (currentWorkspace != null) return currentWorkspace;
+        if (!isValidUbication()) reposition();
         currentWorkspace = doGetCurrentWorkspace();
         return currentWorkspace;
     }
@@ -250,10 +246,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
     public synchronized Section getCurrentSection() {
         // First check in request cache
         Section currentSection = getCurrentPageFromCache();
-        if (currentSection != null)
-            return currentSection;
-        if (!isValidUbication())
-            reposition();
+        if (currentSection != null) return currentSection;
+        if (!isValidUbication()) reposition();
         currentSection = doGetCurrentSection();
         return currentSection;
     }
@@ -270,20 +264,18 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
     }
 
     public Section doGetCurrentSection() {
-        if (getCurrentSectionId() == null)
-            return null;
         try {
-            final Section[] sectionToReturn = new Section[]{null};
+            if (getCurrentSectionId() == null) return null;
+            final Section[] sectionToReturn = new Section[] {null};
             new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    sectionToReturn[0] = (Section) session.get(Section.class, getCurrentSectionId());
-                }
-            }.execute();
+            protected void txFragment(Session session) throws Exception {
+                sectionToReturn[0] = (Section) session.get(Section.class, getCurrentSectionId());
+            }}.execute();
             return sectionToReturn[0];
         } catch (Exception e) {
             log.error("Error: ", e);
+            return null;
         }
-        return null;
     }
 
 
@@ -297,7 +289,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         if (getCurrentSectionId() != null) {
             SectionPermission sectionPerm = SectionPermission.newInstance(doGetCurrentSection(), SectionPermission.ACTION_VIEW);
             if (!getUserStatus().hasPermission(sectionPerm)) return false;
-        } else { //Config is valid when there is no current section, but user can admin workspace.
+        } else {
+            // Config is valid when there is no current section, but user can admin workspace.
             WorkspacePermission adminWorkspacePerm = WorkspacePermission.newInstance(doGetCurrentWorkspace(), WorkspacePermission.ACTION_ADMIN);
             if (!getUserStatus().hasPermission(adminWorkspacePerm)) return false;
         }
@@ -314,23 +307,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
             List workspaceIds = getSortedWorkspacesList();
             for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
                 currentWorkspaceId = (String) iterator.next();
-                WorkspaceImpl workspace = doGetCurrentWorkspace();
-                Section[] pages = workspace.getAllRootSections();
-                for (int i = 0; i < pages.length; i++) { //First search root sections in order
-                    Section page = pages[i];
-                    setCurrentSectionId(page.getDbid());
-                    clearRequestCache();
-                    if (isValidUbication()) return;
-                }
-                pages = workspace.getAllSections();
-                for (int i = 0; i < pages.length; i++) { // Then, the rest of sections
-                    Section page = pages[i];
-                    if (!page.isRoot()) {
-                        setCurrentSectionId(page.getId());
-                        clearRequestCache();
-                        if (isValidUbication()) return;
-                    }
-                }
+                repositionSection();
+                if (isValidUbication()) return;
             }
             // We've tried all workspaces and sections without success. Try all workspaces without sections, in case admin is logging in.
             for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
@@ -345,9 +323,31 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         currentWorkspaceId = null;
         setCurrentSectionId(null);
         clearRequestCache();
-        log.debug("Couldn't reposition navigation to a valid ubication.");
+        log.warn("Couldn't reposition navigation to a valid ubication.");
     }
 
+    protected void repositionSection() {
+        WorkspaceImpl workspace = doGetCurrentWorkspace();
+        Section[] pages = workspace.getAllRootSections();
+
+        // First search root sections in order
+        for (int i = 0; i < pages.length; i++) {
+            Section page = pages[i];
+            setCurrentSectionId(page.getDbid());
+            clearRequestCache();
+            if (isValidUbication()) return;
+        }
+        // Then, the rest of sections
+        pages = workspace.getAllSections();
+        for (int i = 0; i < pages.length; i++) {
+            Section page = pages[i];
+            if (!page.isRoot()) {
+                setCurrentSectionId(page.getId());
+                clearRequestCache();
+                if (isValidUbication()) return;
+            }
+        }
+    }
 
     protected List getSortedWorkspacesList() throws Exception {
         // Order workspaces as follows: current workspace, default workspace, other sorted by id on order to make home search algorithm determinist.
@@ -387,8 +387,9 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         String pageId = request.getParameter(PAGE_ID);
         if (workspaceId != null && pageId != null) {
             WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
-            if (workspace != null)
+            if (workspace != null) {
                 setCurrentSection(workspace.getSection(Long.decode(pageId)));
+            }
         }
     }
 
@@ -429,33 +430,43 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         Workspace workspace = navigationPoint.getWorkspace();
         if (workspace != null) {
             WorkspacePermission workspacePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
-            if (!getUserStatus().hasPermission(workspacePerm))
-                return false; // No access permission in workspace
+            if (!getUserStatus().hasPermission(workspacePerm)) {
+                // No access permission in workspace
+                return false;
+            }
             Section section = navigationPoint.getPage();
             if (section != null) {
                 SectionPermission sectionPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_VIEW);
-                if (!getUserStatus().hasPermission(sectionPerm))
-                    return false;// No access permission in page
-
+                if (!getUserStatus().hasPermission(sectionPerm)) {
+                    // No access permission in page
+                    return false;
+                }
                 Panel panel = navigationPoint.getPanel();
                 String actionName = navigationPoint.getActionName();
                 if (panel != null) {
                     PanelPermission panelPerm = PanelPermission.newInstance(panel, PanelPermission.ACTION_VIEW);
-                    if (!getUserStatus().hasPermission(panelPerm))
-                        return false; // No view permission in panel
+                    if (!getUserStatus().hasPermission(panelPerm)) {
+                        // No view permission in panel
+                        return false;
+                    }
                     if (!StringUtils.isEmpty(actionName)) {
-                        return panel.getProvider().getDriver().canInvokeAction(panel, actionName); // Can I invoke the action ??
+                        // Can I invoke the action?
+                        return panel.getProvider().getDriver().canInvokeAction(panel, actionName);
                     } else {
-                        return true; // No action?? strange anyway
+                        // No action? strange anyway
+                        return true;
                     }
                 } else {
-                    return true; //No panel...
+                    // No panel...
+                    return true;
                 }
             } else {
-                return false; //Page doesn't exist !!!
+                // Page doesn't exist !!!
+                return false;
             }
         } else {
-            return false; // Workspace doesn't exist !!!
+            // Workspace doesn't exist !!!
+            return false;
         }
     }
 }
