@@ -17,6 +17,12 @@ Currently, the following artifacts are generated:
 
   Read the [src/main/dashbuilder-jbossas7/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md) file to get more information.
 
+* **dashbuilder-tomcat-7.0.war:**  Product distribution for Apache Tomcat 7 server.
+
+  By the default the distribution is configured to use H2 hibernate dialect.
+
+  Read the [src/main/dashbuilder-tomcat7/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/tomcat7/README.md) file to get more information.
+
 * **dashbuilder-demo-installer.zip:** Product standalone demo.
 
   Read the [src/main/standalone-demo/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/standalone-demo/README.md) file to get more information.
