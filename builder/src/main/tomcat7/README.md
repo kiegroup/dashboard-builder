@@ -20,7 +20,7 @@ Configure Apache Tomcat 7 server
 
 An special system variable needs to be defined before Tomcat startup
 
-    <code>export CATALINA_OPTS="-Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false"</code>
+    export CATALINA_OPTS="-Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false"
 
 You can add this line to the Tomcat 7 startup script.
 
