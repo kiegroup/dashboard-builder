@@ -182,6 +182,7 @@ public class TableFormatter extends Formatter {
         String htmlValue = column.getHtmlValue();
         if (htmlValue != null) {
             setAttribute("columnhtmlvalue", StringUtils.defaultString(htmlValue));
+            setAttribute("columnhtmlvalueedit", StringUtils.defaultString(StringEscapeUtils.escapeHtml(htmlValue)));
         }
     }
 

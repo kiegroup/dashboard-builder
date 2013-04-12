@@ -247,7 +247,30 @@
                                     </mvc:fragmentValue>
                                 </td>
                             </tr>
-
+                            <tr>
+                                <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
+                                    <i18n:message key="table.columnHeaderHTML">!!!Header HTML</i18n:message>
+                                </td>
+                                <td align="left">
+                                    <input class="skn-input" type="text" name="columnheaderhtmlstyle" value="<mvc:fragmentValue name="columnheaderstyleedit"/>" size="32">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
+                                    <i18n:message key="table.columnCellsHTML">!!!Cells HTML</i18n:message>
+                                </td>
+                                <td align="left">
+                                    <input class="skn-input" type="text" name="columncellhtmlstyle" value="<mvc:fragmentValue name="columncellstyleedit"/>" size="32">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
+                                    <i18n:message key="table.columnHTMLValue">!!!HTML Value</i18n:message>
+                                </td>
+                                <td align="left">
+                                    <input class="skn-input" type="text" name="htmlvalue" value="<mvc:fragmentValue name="columnhtmlvalueedit"/>" size="32">
+                                </td>
+                            </tr>
                             <tr>
                                 <td colspan="2" align="center">
                                     <input type="button" class="skn-button" value="<i18n:message key="table.columnSave">!!!Guardar</i18n:message>" onclick="window.<factory:encode name="saveColumn"/>('<mvc:fragmentValue name="columnindex"/>'); return false;">
