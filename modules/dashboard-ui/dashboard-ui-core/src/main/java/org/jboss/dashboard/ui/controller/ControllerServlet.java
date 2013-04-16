@@ -94,8 +94,7 @@ public class ControllerServlet extends HttpServlet {
         } catch (IOException e1) {
             log.error("Error writing to log file: ", e1);
         } finally {
-            // Destroy the Factory configuration.
-            Application.lookup().setGlobalFactory(null);
+            Application.lookup().shutdown();
             if (writer != null) {
                 try {
                     writer.close();
