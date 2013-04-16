@@ -36,20 +36,8 @@
     <name>JBoss Dashboard Builder</name>
     <description>JBoss tool for the visual composition of custom dashboards</description>
     <inceptionYear>2012</inceptionYear>
-    <organization>
-        <name>JBoss by Red Hat</name>
-        <url>http://www.jboss.org/</url>
-    </organization>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hyear>2012</hyear>
         <version.junit>4.10</version.junit>
         <version.arquillian>1.0.3.Final</version.arquillian>
