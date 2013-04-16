@@ -180,8 +180,9 @@ public class DatabaseAutoSynchronizer {
             Work w = new Work() {
             public void execute(Connection connection) throws SQLException {
                 DatabaseMetaData metaData = connection.getMetaData();
-                ResultSet result = metaData.getTables(null, null, installedModulesTable, null);
-                returnValue[0] = result.next();
+                ResultSet resultLowcase = metaData.getTables(null, null, installedModulesTable.toLowerCase(), null);
+                ResultSet resultUppercase = metaData.getTables(null, null, installedModulesTable.toUpperCase(), null);
+                returnValue[0] = resultLowcase.next() || resultUppercase.next();
             }};
             session.doWork(w);
         }}.execute();
