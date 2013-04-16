@@ -16,7 +16,6 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.ui.controller.ControllerException;
 import org.jboss.dashboard.ui.controller.ControllerListener;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
@@ -101,7 +100,7 @@ public class SessionInitializer extends RequestChainProcessor {
 
         // Verify session integrity
         if (!verifySession(session)) {
-            throw new ControllerException("Session verification failed.");
+            throw new Exception("Session verification failed.");
         }
 
         return true;
