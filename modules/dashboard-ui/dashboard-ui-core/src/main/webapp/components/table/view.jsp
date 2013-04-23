@@ -71,7 +71,7 @@
                                     <% if (((Boolean) sorteable).booleanValue()) { %>
                                     <a href="#" onclick="window.<factory:encode name="orderCellValue"/>('<mvc:fragmentValue name="columnindex"/>'); return false;" style="border:0;"
                                        title="<i18n:message key="<%=(String)iconTextId%>"/>">
-                                        <img src="<static:image relativePath="<%="general/16x16/"+iconId%>"/>"  border="0" ></a>
+                                        <img src="<static:image relativePath='<%="general/16x16/"+iconId%>'/>"  border="0" ></a>
                                     <% } %>
                                 </td>
                                 <td title="<mvc:fragmentValue name="columnhint"/>" nowrap>

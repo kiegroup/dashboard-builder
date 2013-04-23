@@ -33,7 +33,7 @@
 <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_RENDER_TYPE%>"
                     value="<%=DashboardFilterFormatter.RENDER_TYPE_SHOW%>"/>
 <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>"
-                    value="<%=request.getAttribute("componentCode")%>"/>
+                    value='<%=request.getAttribute("componentCode")%>'/>
 
 <mvc:fragment name="outputEmpty">
 
@@ -55,9 +55,9 @@
     <tr>
         <td colspan="2">
             <div style="width:160px; overflow:hidden;"
-                 title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>">!!!Panel duplicado</i18n:message>">
+                 title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>'>!!!Panel duplicado</i18n:message>">
                 <span class="skn-error"><i18n:message
-                        key="<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>">!!!Panel duplicado</i18n:message></span>
+                        key='<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>'>!!!Panel duplicado</i18n:message></span>
             </div>
         </td>
     </tr>
@@ -70,9 +70,8 @@
     <tr>
         <td style="white-space:nowrap; border-bottom: 1px dotted gray;" colspan="3">
             <div style="width:180px; white-space:nowrap; overflow:hidden;"
-                 title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>">!!! Propiedades filtradas</i18n:message>">
-                <b><i18n:message
-                        key="<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>">!!! Propiedades filtradas</i18n:message></b>
+                 title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>'>!!! Propiedades filtradas</i18n:message>">
+                <b><i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>'>!!! Propiedades filtradas</i18n:message></b>
             </div>
         </td>
     </tr>
@@ -131,7 +130,7 @@
                 %>
                 <tr style="border-bottom: solid 1px #808080;">
                     <td style="width:20px; height:20px; padding-top:4px; text-align:center; vertical-align:middle;">
-                        <a title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>">!!! Clear</i18n:message>"
+                        <a title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>'>!!! Clear</i18n:message>"
                            href="#" onclick="
                                 document.getElementById('<panel:encode name="filteredPropertyToDelete"/>').value = '<mvc:fragmentValue name="propertyId"/>';
                                 submitAjaxForm(document.getElementById('<panel:encode name="deleteFilteredPropertyForm"/>'));
@@ -212,7 +211,7 @@
 
     <a href="#" onclick="submitAjaxForm(document.getElementById('<panel:encode name="filterForm"/>')); return false;">
         <img src="<static:image relativePath="general/16x16/ico-filter.png"/>" border="0"
-             title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "apply"%>">!!! Aplicar</i18n:message>">
+             title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "apply"%>'>!!! Aplicar</i18n:message>">
     </a>
 
 </mvc:fragment>
@@ -221,7 +220,7 @@
 
     <a href="#" onclick="submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>')); return false;">
         <img src="<static:image relativePath="general/16x16/ico-refresh.png"/>"  border="0"
-             title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "refresh"%>">!!! Refresh</i18n:message>">
+             title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "refresh"%>'>!!! Refresh</i18n:message>">
     </a>
 
 </mvc:fragment>
@@ -230,7 +229,7 @@
 
     <a href="#" onclick="submitAjaxForm(document.getElementById('<panel:encode name="clearForm"/>')); return false;">
       <img src="<static:image relativePath="general/16x16/ico-trash.png"/>" border="0"
-           title="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>">!!! Clear</i18n:message>"/>
+           title="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>'>!!! Clear</i18n:message>"/>
     </a>
 
 </mvc:fragment>

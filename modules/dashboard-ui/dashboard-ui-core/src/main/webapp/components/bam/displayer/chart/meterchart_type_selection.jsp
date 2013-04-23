@@ -42,7 +42,7 @@
 %>
 <tr>
     <td align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "type"%>">!!Type</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "type"%>'>!!Type</i18n:message>:
     </td>
     <td align="left">
         <select title="<%= renderer.getChartTypeDescription(displayer.getType(), locale) %>"
@@ -62,12 +62,12 @@
         &nbsp;
         <a style="border:0" href="#" onclick='window.<factory:encode name="editMeterProperties"/>(); return false;'>
         <img src='<static:image relativePath="general/16x16/ico-edit.png"/>' border="0"
-            title="<i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "edit_meter_properties"%>">!!Editar meter properties</i18n:message>"></a>
+            title="<i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "edit_meter_properties"%>'>!!Editar meter properties</i18n:message>"></a>
         <div id='<factory:encode name="idMeterProperties"/>' align="center" style="width:400px;height:300px; overflow:-moz-scrollbars-horizontal; overflow-x:hidden;overflow-y:auto; display:none;position:absolute;vertical-align:middle;z-index:11;">
         <table width="100%" align="left" border="0" cellpadding="4"  bgcolor="#FFFFFF" cellspacing="1" class="skn-table_border">
             <tr class="skn-table_header">
                 <td colspan="2">
-                    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "edit_meter_properties"%>">!!Editar meter properties</i18n:message>
+                    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "edit_meter_properties"%>'>!!Editar meter properties</i18n:message>
                 </td>
             </tr>
             <%  request.setAttribute("meterDisplayer", displayer); %>
@@ -87,7 +87,7 @@
 <%  } %>
 <tr>
     <td align="left">
-        <i18n:message key="<%= "meterChartDisplayer.positionType"%>">!!Position</i18n:message>
+        <i18n:message key="meterChartDisplayer.positionType">!!Position</i18n:message>
     </td>
     <td>
         <select name="positionType" id='<factory:encode name="positionType"/>' class="skn-input" style="width:95px;" onChange="return bam_kpiedit_submitProperties(this);">

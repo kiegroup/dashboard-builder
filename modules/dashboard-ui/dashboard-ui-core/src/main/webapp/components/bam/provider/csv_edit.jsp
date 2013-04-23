@@ -134,7 +134,7 @@
 	} else {
 	%>
 	<br><font color=red> <i18n:message key="editor.invalidDataSet"/>
-	<br> <i18n:message key="<%= "editor.csv."+editor.getLoadError() %>">
+	<br> <i18n:message key='<%= "editor.csv."+editor.getLoadError() %>'>
 		<%= editor.getLoadError() %>
 	</i18n:message></font>
 	<%

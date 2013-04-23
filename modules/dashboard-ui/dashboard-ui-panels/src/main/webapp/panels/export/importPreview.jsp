@@ -118,7 +118,7 @@
                                         <mvc:fragment name="warningOutput">
                                             <mvc:fragmentValue name="warning" id="warning">
                                                 <mvc:fragmentValue name="arguments" id="arguments">
-                                                    <span class="skn-error"><i18n:message key="<%="warning."+String.valueOf(warning)%>"
+                                                    <span class="skn-error"><i18n:message key='<%="warning."+String.valueOf(warning)%>'
                                                                   args="<%=(Object[])arguments%>"><%=warning%></i18n:message></span>
                                                 </mvc:fragmentValue>
                                             </mvc:fragmentValue>

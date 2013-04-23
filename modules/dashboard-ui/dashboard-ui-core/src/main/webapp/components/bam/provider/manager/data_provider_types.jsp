@@ -33,7 +33,7 @@
 
     if (providerTypes.length == 0) {
 %>
-    <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "noDataProviderTypes"%>">!!! No existen tipos de proveedores de datos</i18n:message>
+    <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "noDataProviderTypes"%>'>!!! No existen tipos de proveedores de datos</i18n:message>
 <%
     } else {
 %>
@@ -41,7 +41,7 @@
     id="<factory:encode name="typesSelect"/>" <% if (!dph.isCreate()) {%> disabled <%} %>
     onchange="document.getElementById('<factory:encode name="providerTypeChangedInput"/>').value = 'true'; submitAjaxForm(this.form)">
         <option value="-1" <%if (currentTypeUid == null) {%> selected <%} %> >
-            <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "chooseDataProviderType"%>">!!!Escoger tipo</i18n:message>
+            <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "chooseDataProviderType"%>'>!!!Escoger tipo</i18n:message>
         </option>
 <%
     for (int i = 0; i < providerTypes.length; i++) {

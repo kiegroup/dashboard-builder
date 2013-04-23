@@ -27,14 +27,14 @@
 %>
 <table border="0" align="left" cellpadding="10" cellspacing="0"  class="skn-table_border" bgcolor="#ffffff"
        style="display:none; position:absolute;"
-       id="<panel:encode name="<%="helpForProperty_" + propId%>"/>">
+       id="<panel:encode name='<%="helpForProperty_" + propId%>'/>">
    <tr>
-     <td align="left"><i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "filterHelp"%>" /></td>
+     <td align="left"><i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "filterHelp"%>' /></td>
    </tr>
 </table>
 <script defer="defer">
-    window.<panel:encode name="<%="helpForProperty_" + propId + "_function"%>"/> = function() {
-        var element = document.getElementById('<panel:encode name="<%="helpForProperty_" + propId%>"/>');
+    window.<panel:encode name='<%="helpForProperty_" + propId + "_function"%>'/> = function() {
+        var element = document.getElementById('<panel:encode name='<%="helpForProperty_" + propId%>'/>');
         if (element.style.display=='none') element.style.display = "block";
         else element.style.display = "none";
     }

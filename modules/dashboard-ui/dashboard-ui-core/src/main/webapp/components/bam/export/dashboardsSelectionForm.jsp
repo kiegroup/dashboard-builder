@@ -41,11 +41,11 @@
                     </td>
                     <td nowrap="nowrap" valign="middle" align="left" style="padding-left:5px;">
                        <a href="<factory:url action="selectWorkspace" friendly="true"><factory:param name="<%= ExportHandler.PARAM_WORKSPACE_ID %>" value="<%=(String)workspaceId%>"/></factory:url>"
-                          style="font-weight:normal; color:#465F7D;" id="<panel:encode name="<%="link_"+workspaceId%>"/>" title="<i18n:message key="<%=(String)expandAction%>">!!! Expandir</i18n:message>">
+                          style="font-weight:normal; color:#465F7D;" id="<panel:encode name='<%="link_"+workspaceId%>'/>" title="<i18n:message key="<%=(String)expandAction%>">!!! Expandir</i18n:message>">
                            <div style="margin-top:2px; width:200px; height:15px; cursor:pointer;"><mvc:fragmentValue name="workspaceName"/></div>
                        </a>
                        <script defer="defer">
-                            setAjax("<panel:encode name="<%="link_"+workspaceId%>"/>");
+                            setAjax("<panel:encode name='<%="link_"+workspaceId%>'/>");
                        </script>
                     </td>
                     <td width="15px" style="vertical-align:middle">
@@ -63,7 +63,7 @@
     <mvc:fragmentValue name="workspaceId" id="workspaceId">
     <mvc:fragmentValue name="nsections" id="nsections">
     <% int size = (((Integer)nsections).intValue()*29); size = size>290 ? 290 : size; size = size<100 ? 100 : size; %>
-    <div id="<panel:encode name="<%=workspaceId+"_sections"%>"/>" style="height:<%=size+"px"%>; width:100%; overflow:auto;">
+    <div id="<panel:encode name='<%=workspaceId+"_sections"%>'/>" style="height:<%=size+"px"%>; width:100%; overflow:auto;">
         <form action="<factory:formUrl/>" id="<panel:encode name="checkSectionForm"/>" method="post" enctype="multipart/form-data">
         <factory:handler action="checkSection"/>
         <input type="hidden" name="<%= ExportHandler.PARAM_SECTION_ID %>" />
@@ -95,7 +95,7 @@
             <tr>
                 <td align="left" width="10px">
                     <input type="checkbox" name="<%= ExportHandler.PARAM_SECTION_ID + sectionId %>"
-                           title="<i18n:message key="<%= isChecked.booleanValue() ? "dashboard.unselect" : "dashboard.select" %>">!!! Seleccionar</i18n:message>"
+                           title="<i18n:message key='<%= isChecked.booleanValue() ? "dashboard.unselect" : "dashboard.select" %>'>!!! Seleccionar</i18n:message>"
                            onclick="this.form.<%=ExportHandler.PARAM_SECTION_ID %>.value='<%=sectionId%>'; submitAjaxForm(this.form);"
                            <%= isChecked.booleanValue() ? "checked" : "" %> />
                 </td>

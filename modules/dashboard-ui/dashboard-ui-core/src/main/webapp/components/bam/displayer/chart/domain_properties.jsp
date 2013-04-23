@@ -31,7 +31,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_HIDE_LABELS)) { %>
 <tr>
   <td height="15" align="left" nowrap="nowrap">
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLabels"%>">!!Show labels</i18n:message>:
+    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLabels"%>'>!!Show labels</i18n:message>:
   </td>
   <td height="15" align="left">
     <input name="showLabelsXAxis" type="checkbox" value="true" <%=displayer.isShowLabelsXAxis() ? "checked" : ""%>

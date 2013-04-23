@@ -34,7 +34,7 @@
 <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_RENDER_TYPE%>"
                     value="<%=DashboardFilterFormatter.RENDER_TYPE_SHOW%>"/>
 <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>"
-                    value="<%=request.getAttribute("componentCode")%>"/>
+                    value='<%=request.getAttribute("componentCode")%>'/>
 
 <mvc:fragment name="outputEmpty">
 
@@ -55,7 +55,7 @@
     <tr>
         <td colspan="2">
             <span class="skn-error"><i18n:message
-                    key="<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>">!!!Panel duplicado</i18n:message></span>
+                    key='<%=DashboardFilterHandler.I18N_PREFFIX + "duplicatedPanel"%>'>!!!Panel duplicado</i18n:message></span>
         </td>
     </tr>
 </mvc:fragment>
@@ -67,7 +67,7 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
         <td style="white-space:nowrap; border-bottom: 1px dotted gray;" colspan="3"><b><i18n:message
-                key="<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>">!!! Propiedades filtradas</i18n:message></b></td>
+                key='<%=DashboardFilterHandler.I18N_PREFFIX + "filteredProperties"%>'>!!! Propiedades filtradas</i18n:message></b></td>
     </tr>
 </mvc:fragment>
 
@@ -190,14 +190,14 @@
 <mvc:fragment name="outputApplyButton">
 
     <input type="submit" class="skn-button"
-           value="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "apply"%>">!!! Aplicar</i18n:message>">
+           value="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "apply"%>'>!!! Aplicar</i18n:message>">
 
 </mvc:fragment>
 
 <mvc:fragment name="outputRefreshButton">
 
     <input type="button" class="skn-button"
-           value="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "refresh"%>">!!! Refresh</i18n:message>"
+           value="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "refresh"%>'>!!! Refresh</i18n:message>"
            onclick="submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>'));">
 
 </mvc:fragment>
@@ -205,7 +205,7 @@
 <mvc:fragment name="outputClearButton">
 
     <input type="button" class="skn-button"
-           value="<i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>">!!! Clear</i18n:message>"
+           value="<i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "clear"%>'>!!! Clear</i18n:message>"
            onclick="submitAjaxForm(document.getElementById('<panel:encode name="clearForm"/>'));">
 
 </mvc:fragment>

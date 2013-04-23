@@ -31,7 +31,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_HIDE_LABELS)) { %>
 <tr>
   <td height="15" align="left" nowrap="nowrap">
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLabels"%>">!!Show labels</i18n:message>:
+    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLabels"%>'>!!Show labels</i18n:message>:
   </td>
   <td height="15" align="left">
     <input name="showLabelsXAxis" type="checkbox" value="true" <%=displayer.isShowLabelsXAxis() ? "checked" : ""%>
@@ -43,7 +43,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_LABELS_ANGLE)) { %>
 <tr>
   <td height="15" align="left" nowrap="nowrap">
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "labelAngleXAxis"%>">!!Label angle</i18n:message>:
+    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "labelAngleXAxis"%>'>!!Label angle</i18n:message>:
   </td>
   <td  align="left">
     <input class="skn-input" name="labelAngleXAxis" type="text" size="14" value="<%= displayer.getLabelAngleXAxis()%>"
@@ -54,7 +54,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LINES_AREA)) { %>
 <tr>
     <td height="15" align="left" width="33%" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLinesArea"%>">!!Show Lines Area</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLinesArea"%>'>!!Show Lines Area</i18n:message>:
     </td>
     <td height="15" width="66%" align="left">
         <%

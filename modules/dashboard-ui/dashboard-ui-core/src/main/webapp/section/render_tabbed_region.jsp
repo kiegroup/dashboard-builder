@@ -85,7 +85,7 @@
 %>
                             >
                                 <span style="display:none">Panel:<%=((Panel)panel).getPanelId()%></span>
-                                <a id="<factory:encode name="<%="region_tab_" + ((Panel)panel).getPanelId()%>"/>"
+                                <a id="<factory:encode name='<%="region_tab_" + ((Panel)panel).getPanelId()%>'/>"
                                     href="<mvc:fragmentValue name="url"/>"
                                     onclick="if ( window.disableMenuForPanel ) {
                                         window.disableMenuForPanel = false; return false;
@@ -95,7 +95,7 @@
                                 </a>
                             </div>
                             <script type="text/javascript" defer>
-                                if (!IE) setAjax('<factory:encode name="<%="region_tab_" + ((Panel)panel).getPanelId()%>"/>');
+                                if (!IE) setAjax('<factory:encode name='<%="region_tab_" + ((Panel)panel).getPanelId()%>'/>');
 <%
     if(adminMode) {
 %>

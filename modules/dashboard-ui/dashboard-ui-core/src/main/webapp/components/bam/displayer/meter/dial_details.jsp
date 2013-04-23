@@ -35,8 +35,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "pointerType"%>">!!pointerType</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "pointerType"%>">!!pointerType</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "pointerType"%>'>!!pointerType</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "pointerType"%>'>!!pointerType</i18n:message>
         </div>
     </td>
     <td>
@@ -64,8 +64,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "dialLowerBound"%>">!!dialLowerBound</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "dialLowerBound"%>">!!dialLowerBound</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "dialLowerBound"%>'>!!dialLowerBound</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "dialLowerBound"%>'>!!dialLowerBound</i18n:message>
         </div>
     </td>
     <td>
@@ -75,8 +75,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "dialUpperBound"%>">!!dialUpperBound</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "dialUpperBound"%>">!!dialUpperBound</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "dialUpperBound"%>'>!!dialUpperBound</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "dialUpperBound"%>'>!!dialUpperBound</i18n:message>
         </div>
     </td>
     <td>
@@ -86,8 +86,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>">!!maxTicks</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>">!!maxTicks</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>'>!!maxTicks</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>'>!!maxTicks</i18n:message>
         </div>
     </td>
     <td>
@@ -97,8 +97,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "minorTickCount"%>">!!minorTickCount</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "minorTickCount"%>">!!minorTickCount</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "minorTickCount"%>'>!!minorTickCount</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "minorTickCount"%>'>!!minorTickCount</i18n:message>
         </div>
     </td>
     <td>

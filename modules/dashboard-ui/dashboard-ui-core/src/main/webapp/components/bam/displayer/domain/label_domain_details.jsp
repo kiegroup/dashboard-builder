@@ -30,7 +30,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left">
 
-            <i18n:message key="<%= LabelDomain.I18N_PREFFIX + "labelIntervalsToHide"%>">!!Ocultar intervalos (separados por comas)</i18n:message>:
+            <i18n:message key='<%= LabelDomain.I18N_PREFFIX + "labelIntervalsToHide"%>'>!!Ocultar intervalos (separados por comas)</i18n:message>:
                 
     </td>
     <td nowrap="nowrap" align="left">

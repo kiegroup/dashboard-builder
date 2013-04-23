@@ -16,13 +16,7 @@ Open a terminal window, go to the root directory and execute the following Maven
 Go to the <code>builder/target</code> directory and get the file called **dashbuilder-TOMCAT-7.0.war**.
 
 Configure Apache Tomcat 7 server
----------------------------
-
-An special system variable needs to be defined before Tomcat startup
-
-    export CATALINA_OPTS="-Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false"
-
-You can add this line to the Tomcat 7 startup script.
+--------------------------------
 
 A context and a H2 datasource are automatically created, according to the values set in <code>/builder/src/main/tomcat7/META-INF/context-xml</code>
 
@@ -30,7 +24,7 @@ You can override these values by using the appropriate configuration in <code><t
 the Apache Tomcat 7 documentation about the different available options.
 
 Authentication and authorization
----------------------------
+---------------------------------
 
 The dashboard builder module uses container managed authentication and authorization.
 

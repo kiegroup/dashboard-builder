@@ -24,14 +24,14 @@
 <!-- Domain axis selection and edition -->
 <tr>
     <td align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "domain"%>">!!Domain</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "domain"%>'>!!Domain</i18n:message>:
     </td>
     <mvc:include page="../domain/domain_selector_component.jsp"  flush="true" />
 </tr>
 <!-- Range axis selection and edition -->
 <tr>
     <td align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "range"%>">!!Range</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "range"%>'>!!Range</i18n:message>:
     </td>
     <mvc:include page="../range/range_selector_component.jsp"  flush="true" />
 </tr>

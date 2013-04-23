@@ -113,7 +113,7 @@
 <%
     }
 %>
-                                                        <a id="<factory:encode name="<%="panelGroup_" + categoryId + "_" + providerId %>"/>"
+                                                        <a id="<factory:encode name='<%= "panelGroup_" + categoryId + "_" + providerId %>'/>"
                                                            href="<factory:url bean="org.jboss.dashboard.ui.panel.PopupPanelsHandler" action="redrawPopup"><factory:param name="<%=PopupPanelsHandler.GROUPID%>" value="<%=categoryId%>"/><factory:param name="<%=PopupPanelsHandler.PANEL_INSTANCE_ID%>" value="<%=providerId%>"/></factory:url>">
                                                             <mvc:fragmentValue name="name"/>
                                                         </a>
@@ -128,7 +128,7 @@
                                             </tr>
                                         </table>
                                         <script type="text/javascript" defer="defer">
-                                            setAjax("<factory:encode name="<%="panelGroup_" + categoryId + "_" + providerId %>"/>");
+                                            setAjax("<factory:encode name='<%= "panelGroup_" + categoryId + "_" + providerId %>'/>");
                                         </script>
                                     </td>
                                 </tr>

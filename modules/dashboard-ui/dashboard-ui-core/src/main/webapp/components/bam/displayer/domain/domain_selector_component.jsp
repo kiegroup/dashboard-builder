@@ -60,7 +60,7 @@
         &nbsp;
         <a style="border:0" href="#" onclick="window.<factory:encode name="editDomain "/>(); return false;">
             <img src="<static:image relativePath="general/16x16/ico-edit.png"/>" border="0"
-                     title="<i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_domain"%>">!!Editar domain</i18n:message>"
+                     title="<i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_domain"%>'>!!Editar domain</i18n:message>"
                      style="vertical-align:middle">
         </a>
     </td>
@@ -69,7 +69,7 @@
             <table width="100%" align="center" border="0" bgcolor="#FFFFFF" cellpadding="4" cellspacing="1" class="skn-table_border">
                 <tr class="skn-table_header">
                     <td colspan="5">
-                        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_domain"%>">!!Editar domain</i18n:message>
+                        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_domain"%>'>!!Editar domain</i18n:message>
                     </td>
                 </tr>
                 <%  request.setAttribute("domainConfig", new DomainConfiguration(displayer.getDomainProperty())); %>

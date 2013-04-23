@@ -59,7 +59,7 @@
         &nbsp;
         <a style="border:0" href="#" onclick="window.<factory:encode name="editRange"/>(); return false;">
             <img src="<static:image relativePath="general/16x16/ico-edit.png"/>" border="0"
-                   title="<i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_range"%>">!!Editar range</i18n:message>"
+                   title="<i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_range"%>'>!!Editar range</i18n:message>"
                    style="vertical-align:middle">
         </a>
     </td>
@@ -68,7 +68,7 @@
             <table width="100%" align="left" cellpadding="4"  bgcolor="#FFFFFF" cellspacing="1" border="0" class="skn-table_border">
                 <tr class="skn-table_header">
                     <td colspan="5">
-                        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_range"%>">!!Editar range</i18n:message>
+                        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "editar_range"%>'>!!Editar range</i18n:message>
                     </td>
                 </tr>
                 <% request.setAttribute("rangeConfig", new RangeConfiguration(displayer.getRangeProperty(), displayer.getRangeScalarFunction(), displayer.getUnitI18nMap())); %>

@@ -86,7 +86,7 @@
                                                                 <% if (icon_Node == null || "".equals((String) icon_Node)) {%>
                                                                 <img src="<static:image relativePath="general/spacer.png"/>" height="18" width="1"/>
                                                                 <% } else { %>
-                                                                <img src="<static:image relativePath="<%="general/tree/"+(String)icon_Node%>"/>"
+                                                                <img src="<static:image relativePath='<%="general/tree/"+icon_Node%>'/>"
                                                                      title="<%= (String) name_Node %>" border="0">
                                                                 <% } %>
                                                             </td>

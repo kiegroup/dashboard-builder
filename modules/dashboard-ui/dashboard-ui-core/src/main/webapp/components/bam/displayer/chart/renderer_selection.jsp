@@ -32,7 +32,7 @@
 %>
 <tr>
     <td align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "renderer"%>">!!Renderer</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "renderer"%>'>!!Renderer</i18n:message>:
     </td>
     <td align="left">
         <select title="<%= currentRenderer.getDescription(locale) %>" name='rendererUid' id='<factory:encode name="renderer"/>'

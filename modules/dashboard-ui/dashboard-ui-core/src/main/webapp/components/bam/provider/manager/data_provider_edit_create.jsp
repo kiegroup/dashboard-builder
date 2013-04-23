@@ -41,7 +41,7 @@
         <tr>
             <td nowrap="nowrap">
                <div style="vertical-align:middle; text-align:left;" class="skn-title3">
-                   <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "creatingDataProvider"%>">!!!Crear nuevo</i18n:message><br><br>
+                   <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "creatingDataProvider"%>'>!!!Crear nuevo</i18n:message><br><br>
                </div>
             </td>
         </tr>
@@ -52,7 +52,7 @@
         <tr>
             <td nowrap="nowrap">
                <div style="vertical-align:middle; text-align:left;" class="skn-title3">
-                   <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editingProvider"%>" args="<%=new Object[] {providerName}%>">!!!Editar</i18n:message><br><br>
+                   <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editingProvider"%>' args="<%=new Object[] {providerName}%>">!!!Editar</i18n:message><br><br>
                </div>
             </td>
         </tr>
@@ -68,7 +68,7 @@
     <mvc:fragment name="outputDataProviderTypes">
         <tr>
             <td width="10%">
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "selectProviderType"%>">!!!Seleccione tipo </i18n:message>:
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "selectProviderType"%>'>!!!Seleccione tipo </i18n:message>:
             </td>
             <td colspan="2" width="90%">
                 <mvc:include page="data_provider_types.jsp"/>
@@ -79,7 +79,7 @@
     <mvc:fragment name="outputCancelButtonNoTypeSelected">
         <tr>
             <td colspan="2" style="padding-left:60px">
-                <input class="skn-button_alt" type="button" value="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>">!!!Cancelar</i18n:message>"
+                <input class="skn-button_alt" type="button" value="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>'>!!!Cancelar</i18n:message>"
                                 onclick="submitAjaxForm(document.getElementById('<factory:encode name="goToShowPageForm"/>'))"/>
             </td>
         </tr>
@@ -92,7 +92,7 @@
                 String strClass = "";
                 if (error != null && ((Boolean)error).booleanValue()) strClass = "skn-error";
             %>
-            <td width="15%"><span class="<%=strClass%>"><i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "providerName"%>">!!!Nombre del proveedor de datos</i18n:message>:&nbsp;</span></td>
+            <td width="15%"><span class="<%=strClass%>"><i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "providerName"%>'>!!!Nombre del proveedor de datos</i18n:message>:&nbsp;</span></td>
             <td width="64%">
                 <input size="65" class="skn-input" value="<factory:property property="providerName"/>" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="providerName"/>" >
             </td>
@@ -133,10 +133,10 @@
     <mvc:fragment name="outputButtons">
         <tr>
             <td width="100%" align="center" style="padding-top: 10px;" colspan="3">
-                <input class="skn-button" type="button" value="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "save"%>">!!!Guardar</i18n:message>"
+                <input class="skn-button" type="button" value="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "save"%>'>!!!Guardar</i18n:message>"
                        onclick="document.getElementById('<factory:encode name="editCreateFormSubmitted"/>').value='true';
                                 submitAjaxForm(this.form);">&nbsp;
-               <input class="skn-button_alt" type="button" value="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>">!!!Cancelar</i18n:message>"
+               <input class="skn-button_alt" type="button" value="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>'>!!!Cancelar</i18n:message>"
                                 onclick="submitAjaxForm(document.getElementById('<factory:encode name="goToShowPageForm"/>'))"/>
                <input id="<factory:encode name="editCreateFormSubmitted"/>" type="hidden" value="false" name="<factory:bean property="saveButtonPressed" bean="org.jboss.dashboard.ui.components.DataProviderHandler"/>">
             </td>

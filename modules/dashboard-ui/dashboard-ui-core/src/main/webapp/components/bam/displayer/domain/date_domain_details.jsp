@@ -33,7 +33,7 @@
 %>
     <tr>
         <td width="160px" height="15" nowrap="nowrap" align="left" class="skn-even_row">
-                <i18n:message key="<%= DateDomain.I18N_PREFFIX + "dateTamInterval"%>">!!Tamano del intervalo</i18n:message>:
+                <i18n:message key='<%= DateDomain.I18N_PREFFIX + "dateTamInterval"%>'>!!Tamano del intervalo</i18n:message>:
         </td>
         <td nowrap="nowrap" align="left">
             <select name="dateTamInterval" class="skn-input" style="width:120px;">
@@ -42,7 +42,7 @@
                 if (domainConfig.getDateTamInterval().equals("-1") ) tamPredefinido = "selected";
             %>
                  <option value="-1" <%= tamPredefinido %>>
-                    <i18n:message key="<%= AbstractDomain.I18N_PREFFIX + "tamPredefined"%>">!!!Tamaño predefinido</i18n:message>
+                    <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "tamPredefined"%>'>!!!Tamaño predefinido</i18n:message>
                 </option>
             <%
                 // i18n
@@ -72,7 +72,7 @@
     </tr>
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-                <i18n:message key="<%= DateDomain.I18N_PREFFIX + "initialDate"%>">!!Fecha de inicio</i18n:message>:
+                <i18n:message key='<%= DateDomain.I18N_PREFFIX + "initialDate"%>'>!!Fecha de inicio</i18n:message>:
         </td>
         <td nowrap="nowrap" align="left">
             <% String minDate = domainConfig.getDateMinDate(); %>
@@ -87,7 +87,7 @@
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= DateDomain.I18N_PREFFIX + "endDate"%>">!!Fecha de fin</i18n:message>:
+                <i18n:message key='<%= DateDomain.I18N_PREFFIX + "endDate"%>'>!!Fecha de fin</i18n:message>:
 
         </td>
         <td nowrap="nowrap" align="left">

@@ -115,7 +115,7 @@
                                 <tr class="skn-table_header">
                                     <% if (((Integer) columnindex).intValue() > 0 && tableHandler.isStructuralChangesAllowed()) { %>
                                     <td width="10px">
-                                        <a href="#" id="<factory:encode name="<%="table_moveLeft_" + columnindex%>"/>"
+                                        <a href="#" id="<factory:encode name='<%="table_moveLeft_" + columnindex%>'/>"
                                            onclick="window.<factory:encode name="moveColumn"/>('<%= columnindex %>', '-1'); return false;">
                                             <img src="<static:image relativePath="general/10x10/left.gif"/>" title="<i18n:message key="table.moveColumn">!!!Mover columna</i18n:message>" style="border: 0px;">
                                         </a>
@@ -127,7 +127,7 @@
                                            onclick="window.<factory:encode name="orderCellValue"/>('<mvc:fragmentValue name="columnindex"/>'); return false;"
                                            style="border:0;"
                                            title="<i18n:message key="<%=(String)iconTextId%>"/>">
-                                            <img src="<static:image relativePath="<%="general/16x16/"+iconId%>"/>"  border="0" >
+                                            <img src="<static:image relativePath='<%="general/16x16/"+iconId%>'/>"  border="0" >
                                         </a>
                                         <% } %>
                                     </td>
@@ -139,13 +139,13 @@
                                     </td>
                                     <% if (tableHandler.isStructuralChangesAllowed()) { %>
                                     <td width="10px">
-                                        <a href="#" id="<factory:encode name="<%="table_createColumn_" + columnindex%>"/>"
+                                        <a href="#" id="<factory:encode name='<%="table_createColumn_" + columnindex%>'/>"
                                            onclick="window.<factory:encode name="newColumn"/>('<%=columnindex%>', '1'); return false;">
                                             <img src="<static:image relativePath="general/10x10/add.gif"/>" title="<i18n:message key="table.createColumn">!!!Crear columna</i18n:message>" style="border: 0px;">
                                         </a>
                                     </td>
                                     <td width="10px">
-                                        <a href="#" id="<factory:encode name="<%="table_dropColumn_" + columnindex%>"/>"
+                                        <a href="#" id="<factory:encode name='<%="table_dropColumn_" + columnindex%>'/>"
                                            onclick="window.<factory:encode name="removeColumn"/>('<%=columnindex%>'); return false;">
                                             <img src="<static:image relativePath="general/10x10/delete.gif"/>" title="<i18n:message key="table.removeColumn">!!!Eliminar esta columna</i18n:message>" style="border: 0px;">
                                         </a>
@@ -153,7 +153,7 @@
                                     <% } %>
                                     <% if (((Integer) columnindex).intValue() < table.getColumnCount()-1 && tableHandler.isStructuralChangesAllowed()) { %>
                                     <td width="10px">
-                                        <a href="#" id="<factory:encode name="<%="table_moveRight_" + columnindex%>"/>"
+                                        <a href="#" id="<factory:encode name='<%="table_moveRight_" + columnindex%>'/>"
                                            onclick="window.<factory:encode name="moveColumn"/>('<%=columnindex%>', '1'); return false;">
                                             <img src="<static:image relativePath="general/10x10/right.gif"/>" title="<i18n:message key="table.moveColumn">!!!Mover columna</i18n:message>" style="border: 0px;">
                                         </a>

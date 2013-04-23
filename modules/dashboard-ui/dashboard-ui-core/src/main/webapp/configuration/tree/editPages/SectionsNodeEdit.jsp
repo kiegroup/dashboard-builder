@@ -46,7 +46,7 @@
     <mvc:fragment name="outputErrorCommands">
         <mvc:fragmentValue name="errorCommand" id="errorCommand">
 
-            <i18n:message key="<%="ui.sections."+errorCommand%>" id="errorMessage">!!Error Command</i18n:message>
+            <i18n:message key='<%="ui.sections."+errorCommand%>' id="errorMessage">!!Error Command</i18n:message>
 <script type="text/javascript" language="Javascript" defer>
     alert("<%=errorMessage%>");
 </script>
@@ -129,7 +129,7 @@
     if (editPanels!=null && ((Boolean)editPanels).booleanValue()) {
         WorkspacePermission editPanelsPermission = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_ADMIN);
 %>
-                        <security:checkpermission permission="<%= (WorkspacePermission)editPanelsPermission %>">
+                        <security:checkpermission permission="<%= editPanelsPermission %>">
                             <a href="#" onclick="return submitFormAction('<%=SectionsPropertiesHandler.ACTION_GO_TO_PANELS%>');" border="0"
                                 title="<i18n:message key="ui.PagePanels"/>"
                                 id="<%=SectionsPropertiesHandler.ACTION_GO_TO_PANELS%>">
@@ -168,7 +168,7 @@
     SectionPermission editPerm = SectionPermission.newInstance(workspace, SectionPermission.ACTION_EDIT);
     SectionPermission deletePerm = SectionPermission.newInstance(workspace, SectionPermission.ACTION_DELETE);
 %>
-                <security:checkpermission permission="<%= (SectionPermission)editPerm %>">
+                <security:checkpermission permission="<%= editPerm %>">
                             <a href="#" onclick="return submitFormAction('<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES%>');" border="0"
                                 title="<i18n:message key="ui.edit"/>"
                                 id="<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES%>">
@@ -191,7 +191,7 @@
                                  <img src="<static:image relativePath="general/16x16/ico-new_page.png"/>" border="0" />
                             </a>
                 </security:checkpermission>
-                <security:checkpermission permission="<%= (SectionPermission)deletePerm %>">
+                <security:checkpermission permission="<%= deletePerm %>">
                             <a href="#" onclick="return doDelete();" border="0"
                                 title="<i18n:message key="ui.delete"/>"
                                 id="<%=SectionsPropertiesHandler.ACTION_DELETE%>">

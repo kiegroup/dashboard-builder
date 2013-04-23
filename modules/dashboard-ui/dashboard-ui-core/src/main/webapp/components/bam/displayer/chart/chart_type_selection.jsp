@@ -34,7 +34,7 @@
 %>
 <tr>
     <td align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "type"%>">!!Type</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "type"%>'>!!Type</i18n:message>:
     </td>
     <td align="left">
         <select title="<%= renderer.getChartTypeDescription(displayer.getType(), locale) %>" name='chartType' id='<factory:encode name="chartType"/>'

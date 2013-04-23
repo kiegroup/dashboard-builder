@@ -39,7 +39,7 @@
     <mvc:fragment name="outputTitle">
         <mvc:fragmentValue name="providerName" id="providerName">
         <tr>
-            <td class="skn-title3"><i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editingProviderProperties"%>" args="<%=new Object[] {providerName}%>"></i18n:message> <br><br></td>
+            <td class="skn-title3"><i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editingProviderProperties"%>' args="<%=new Object[] {providerName}%>"></i18n:message> <br><br></td>
         </tr>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -57,13 +57,13 @@
         <table class="skn-table_border" cellspacing="1" cellpadding="4" border="0" align="center" width="100%">
         <tr class="skn-table_header">
             <td>
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "header_properties"%>">!!! Acciones</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "header_properties"%>'>!!! Acciones</i18n:message>
             </td>
             <td>
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "header_type"%>">!!! Nombre</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "header_type"%>'>!!! Nombre</i18n:message>
             </td>
             <td colspan="2">
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "header_name"%>">!!! Nombre</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "header_name"%>'>!!! Nombre</i18n:message>
             </td>
         </tr>
     </mvc:fragment>
@@ -85,7 +85,7 @@
 
     <mvc:fragment name="outputEmpty">
         <td>
-            <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "noProperties"%>">!!!No existen propiedades</i18n:message>
+            <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "noProperties"%>'>!!!No existen propiedades</i18n:message>
         </td>
     </mvc:fragment>
 
@@ -147,10 +147,10 @@
               Locale locale = locales[i];
           %>
           <input id="<factory:encode name="listName"/><%= "_" + propertyId + "_" + locale.toString()%>"
-                 name="name<%="/"+propertyId + "/" + locale.toString()%>"
+                 name='name<%="/"+propertyId + "/" + locale.toString()%>'
                  class="skn-input"
-                 style="<%="width:250px;"+ (locale.getLanguage().equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>"
-                 value="<%=StringUtils.defaultString((value == null || "".equals(value)) ? "" : (String)((Map) value).get(locale))%>">
+                 style='<%="width:250px;"+ (locale.getLanguage().equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>'
+                 value='<%=StringUtils.defaultString((value == null || "".equals(value)) ? "" : (String)((Map) value).get(locale))%>'>
           <% } %>
                     <select class="skn-input" onchange="
                     var elements = this.form.elements;
@@ -193,9 +193,9 @@
     <mvc:fragment name="outputButtons">
         <tr>
             <td width="100%" align="center" style="padding-top:10px;">
-               <input class="skn-button" type="button" value="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "save"%>">!!!Guardar</i18n:message>"
+               <input class="skn-button" type="button" value="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "save"%>'>!!!Guardar</i18n:message>"
                        onclick="submitAjaxForm(this.form);">&nbsp;
-               <input class="skn-button_alt" type="button" value="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>">!!!Cancelar</i18n:message>"
+               <input class="skn-button_alt" type="button" value="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "cancel"%>'>!!!Cancelar</i18n:message>"
                                 onclick="submitAjaxForm(document.getElementById('<factory:encode name="goToShowPageForm"/>'))"/>
                <input id="<factory:encode name="editCreateFormSubmitted"/>" type="hidden" value="false" name="<factory:bean property="saveButtonPressed" bean="org.jboss.dashboard.ui.components.DataProviderHandler"/>">
             </td>

@@ -38,7 +38,7 @@
     <tr>
          <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= AbstractDomain.I18N_PREFFIX + "description"%>">!!Descripcion</i18n:message>:
+                <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "description"%>'>!!Descripcion</i18n:message>:
 
         </td>
         <td nowrap="nowrap" align="left">
@@ -48,7 +48,7 @@
     <tr>
          <td height="15" nowrap="nowrap" align="left"  class="skn-even_row">
 
-                <i18n:message key="<%= AbstractDomain.I18N_PREFFIX + "scalarFunction"%>">!!Funcion escalar a aplicar</i18n:message>:
+                <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "scalarFunction"%>'>!!Funcion escalar a aplicar</i18n:message>:
 
         </td>
         <td nowrap="nowrap" align="left">
@@ -71,7 +71,7 @@
     <tr>
          <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= AbstractDomain.I18N_PREFFIX + "unit"%>">!!Unidad</i18n:message>:
+                <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "unit"%>'>!!Unidad</i18n:message>:
             
         </td>
         <%

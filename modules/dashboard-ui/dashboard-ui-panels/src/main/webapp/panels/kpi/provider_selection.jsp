@@ -36,7 +36,7 @@
                 <tr style="display:table-row; width:12px;">
                     <td class="skn-table_border">
                         <div style="vertical-align:middle; text-align:left;" class="skn-title3">
-                            <i18n:message key="<%= KPIDriver.I18N_PREFFIX + "dataProviderSelectionTitle" %>">!!!Seleccion de provider</i18n:message>
+                            <i18n:message key='<%= KPIDriver.I18N_PREFFIX + "dataProviderSelectionTitle" %>'>!!!Seleccion de provider</i18n:message>
                        </div>
                     </td>
                 </tr>
@@ -53,15 +53,15 @@
                             Set dataProviders = DataDisplayerServices.lookup().getDataProviderManager().getAllDataProviders();
                             if (dataProviders.isEmpty()) {
                         %>
-                            <span class="skn-error"><i18n:message key="<%=KPIDriver.I18N_PREFFIX + "noProviders"%>">!!No hay providers</i18n:message>
+                            <span class="skn-error"><i18n:message key='<%=KPIDriver.I18N_PREFFIX + "noProviders"%>'>!!No hay providers</i18n:message>
                         <%
                             } else {
                         %>
-                        <i18n:message key="<%=KPIDriver.I18N_PREFFIX + "dataProviderSelection"%>">!!Seleccione la instancia</i18n:message>:&nbsp;
+                        <i18n:message key='<%=KPIDriver.I18N_PREFFIX + "dataProviderSelection"%>'>!!Seleccione la instancia</i18n:message>:&nbsp;
                         <select name=initialProvider id="<panel:encode name="initialProvider"/>" width="20" class="skn-input"
                                 onChange="submitAjaxForm(this.form); return false;">
                             <option value="-1" selected>
-                                <i18n:message key="<%= KPIDriver.I18N_PREFFIX + "chooseDataProviderInstance" %>">!!!Escoger provider</i18n:message>
+                                <i18n:message key='<%= KPIDriver.I18N_PREFFIX + "chooseDataProviderInstance" %>'>!!!Escoger provider</i18n:message>
                             </option>
                         <%
                                 Iterator dpi = dataProviders.iterator();

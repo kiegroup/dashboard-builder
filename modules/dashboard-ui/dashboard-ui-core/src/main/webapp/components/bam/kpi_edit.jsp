@@ -50,7 +50,7 @@
          <table align="left"  cellpadding="4" cellspacing="0" border="0">
           <tr>
             <td align="left">
-                <i18n:message key="<%= KPIEditor.I18N_PREFFIX + "providerSelected"%>">!!Proveedor de datos</i18n:message>:
+                <i18n:message key='<%= KPIEditor.I18N_PREFFIX + "providerSelected"%>'>!!Proveedor de datos</i18n:message>:
             </td>
             <td align="left">
                 <select name="providerSelected" title="<%= provider.getDescription(locale) %>" id="<factory:encode name="providerSelected"/>" class="skn-input"
@@ -77,7 +77,7 @@
           </tr>
            <tr>
              <td align="left">
-               <i18n:message key="<%= KPIEditor.I18N_PREFFIX + "kpiName"%>">!!KPI name</i18n:message>:
+               <i18n:message key='<%= KPIEditor.I18N_PREFFIX + "kpiName"%>'>!!KPI name</i18n:message>:
              </td>
              <td align="left">
                <input size="22" class="skn-input" name="<%=KPIEditor.PARAM_KPI_DESCRIPTION%>" type="text" value="<%= kpiEditor.getKpi().getDescription(locale) %>"

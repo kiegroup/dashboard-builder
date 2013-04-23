@@ -33,7 +33,7 @@
         <tr>
             <td width="100%">
                 <span class="skn_error">
-                    <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "noDataProviders"%>">!!no hay proveedores de datos</i18n:message>
+                    <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "noDataProviders"%>'>!!no hay proveedores de datos</i18n:message>
                 </span>
             </td>
         </tr>
@@ -44,8 +44,8 @@
                 <tr style="display:table-row; width:12px;">
                     <td class="skn-table_border">
                        <a id="<factory:encode name="createNewDataProvider"/>" href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="StartCreateNewDataProvider"/>">
-                            <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-add.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>">!!create</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>">!!create</i18n:message>">
-                            <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>">!!create</i18n:message>
+                            <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-add.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>'>!!create</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>'>!!create</i18n:message>">
+                            <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "createNewDataProvider"%>'>!!create</i18n:message>
                        </a>&nbsp;
                        <script defer>
                            setAjax('<factory:encode name="createNewDataProvider"/>');
@@ -59,13 +59,13 @@
         <table class="skn-table_border" cellspacing="1" cellpadding="4" border="0" align="center" width="100%">
         <tr class="skn-table_header">
             <td colspan="3">
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "header_actions"%>">!!! Acciones</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "header_actions"%>'>!!! Acciones</i18n:message>
             </td>
             <td>
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "header_dataProviderName"%>">!!! Nombre</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "header_dataProviderName"%>'>!!! Nombre</i18n:message>
             </td>
             <td>
-                <i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "selectProviderType"%>">!!! Tipo</i18n:message>
+                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "selectProviderType"%>'>!!! Tipo</i18n:message>
             </td>
         </tr>
     </mvc:fragment>
@@ -89,53 +89,53 @@
             <tr class="<%=className%>" onmouseover="className='<%=altClass%>'" onmouseout="className='<%=className%>'">
                     <td align="center" width="1">
                         <% if (((Boolean)canEdit).booleanValue()) { %>
-                        <a title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>">!!!Editar</i18n:message>"
+                        <a title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>'>!!!Editar</i18n:message>"
                             href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="editDataProvider"> <factory:param name="<%=DataProviderHandler.PARAM_PROVIDER_CODE%>" value="<%=code%>"/></factory:url>"
-                            id="<factory:encode name="<%="editLink"+code%>"/>">
-                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>">!!!Editar</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>">!!!Editar</i18n:message>">
+                            id="<factory:encode name='<%="editLink"+code%>'/>">
+                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>'>!!!Editar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>'>!!!Editar</i18n:message>">
 
                            </a>
                         <% } else { %>
-                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>">!!!Editar</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>">!!!Editar</i18n:message>">
+                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>'>!!!Editar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProvider"%>'>!!!Editar</i18n:message>">
                         <% } %>
                     <script defer>
-                        setAjax('<factory:encode name="<%="editLink"+code%>"/>');
+                        setAjax('<factory:encode name='<%="editLink"+code%>'/>');
                     </script>
                     </td>
                     <td align="center" width="1">
                         <% if (((Boolean)canEditProperties).booleanValue()) { %>
-                        <a title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>">!!!Editar propiedades</i18n:message>"
+                        <a title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>'>!!!Editar propiedades</i18n:message>"
                             href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="editDataProviderProperties"> <factory:param name="<%=DataProviderHandler.PARAM_PROVIDER_CODE%>" value="<%=code%>"/></factory:url>"
-                            id="<factory:encode name="<%="editPropertiesLink"+code%>"/>">
-                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page02.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>">!!!Editar propiedades</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>">!!!Editar propiedades</i18n:message>">
+                            id="<factory:encode name='<%="editPropertiesLink"+code%>'/>">
+                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page02.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>'>!!!Editar propiedades</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>'>!!!Editar propiedades</i18n:message>">
                                
                            </a>
                         <% } else { %>
-                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>">!!!Editar propiedades</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>">!!!Editar propiedades</i18n:message>">
+                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-edit_page01.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>'>!!!Editar propiedades</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "editDataProviderProperties"%>'>!!!Editar propiedades</i18n:message>">
                         <% } %>
                     <script defer>
-                        setAjax('<factory:encode name="<%="editPropertiesLink"+code%>"/>');
+                        setAjax('<factory:encode name='<%="editPropertiesLink"+code%>'/>');
                     </script>
                     </td>
                     <td align="center" width="1">
                         <% if (((Boolean)canDelete).booleanValue()) { %>
-                        <a title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>">!!!Borrar</i18n:message>"
+                        <a title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>"
                             href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="deleteDataProvider"> <factory:param name="<%=DataProviderHandler.PARAM_PROVIDER_CODE%>" value="<%=code%>"/></factory:url>"
-                            id="<factory:encode name="<%="dropLinks"+code%>"/>"
+                            id="<factory:encode name='<%="dropLinks"+code%>'/>"
                             <% if (usedByOtherKpis != null && ((Boolean)usedByOtherKpis).booleanValue()) { %>
-                                onclick="alert('<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "cannotDelete"%>">!!!cannot delete</i18n:message>');return false;"
+                                onclick="alert('<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "cannotDelete"%>'>!!!cannot delete</i18n:message>');return false;"
                             <% } else { %>
-                                onclick="return confirm('<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "confirmDelete"%>">!!!Sure to delete?</i18n:message>');"
+                                onclick="return confirm('<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "confirmDelete"%>'>!!!Sure to delete?</i18n:message>');"
                             <% } %> >
 
-                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>">!!!Borrar</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>">!!!Borrar</i18n:message>">
+                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>">
 
                            </a>
                         <% } else { %>
-                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>">!!!Borrar</i18n:message>" title="<i18n:message key="<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>">!!!Borrar</i18n:message>">
+                                <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>">
                         <% } %>
                     <script defer>
-                        setAjax('<factory:encode name="<%="dropLink"+code%>"/>');
+                        setAjax('<factory:encode name='<%="dropLink"+code%>'/>');
                     </script>
                     </td>
                     <td align="left">

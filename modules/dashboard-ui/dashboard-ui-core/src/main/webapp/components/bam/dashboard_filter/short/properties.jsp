@@ -29,7 +29,7 @@
 
 <mvc:formatter name="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter">
     <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_RENDER_TYPE%>" value="<%=DashboardFilterFormatter.RENDER_TYPE_PROPERTIES%>"/>
-    <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>" value="<%=request.getAttribute("componentCode")%>"/>
+    <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>" value='<%=request.getAttribute("componentCode")%>'/>
 
     <mvc:fragment name="outputStart">
         <table cellpadding="0" cellspacing="10" border="0" width="100%">
@@ -39,7 +39,7 @@
         <tr>
             <td width="100%">
                 <span class="skn_error">
-                    <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "noProperties"%>">!!! No hay propiedades seleccionadas</i18n:message>
+                    <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "noProperties"%>'>!!! No hay propiedades seleccionadas</i18n:message>
                 </span>
             </td>
         </tr>
@@ -81,7 +81,7 @@
                    <select class="skn-input" style="width:172px;" name="<%=DashboardFilterHandler.PARAM_VALUE +"_"+ propertyId%>"
                            title=""
                             onchange="
-                                    var element = document.getElementById('<panel:encode name="<%="CustomStringFor/"+dataProviderCode+"/"+propertyId%>"/>');
+                                    var element = document.getElementById('<panel:encode name='<%="CustomStringFor/"+dataProviderCode+"/"+propertyId%>'/>');
                                     if (this.options[this.selectedIndex].value == '<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE%>') element.style.display = 'inline';
                                     else if (this.options[this.selectedIndex].value == '<%=DashboardFilterHandler.PARAM_NULL_VALUE%>') element.style.display = 'none';
                                     else {
@@ -106,9 +106,9 @@
                             }
                         %>
                     </select>
-                    <div id="<panel:encode name="<%="CustomStringFor/"+dataProviderCode+"/"+propertyId%>"/>" style="display:none; white-space:nowrap;">
+                    <div id="<panel:encode name='<%="CustomStringFor/"+dataProviderCode+"/"+propertyId%>'/>" style="display:none; white-space:nowrap;">
                         <div style="height:5px;"></div>
-                        <input class="skn-input" style="width:148px;" type="text" name = "<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE+"_"+ propertyId%>">
+                        <input class="skn-input" style="width:148px;" type="text" name='<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE+"_"+ propertyId%>'>
                         <a style="height:20px; vertical-align:bottom;" href="#" onclick="window.<panel:encode name='<%="helpForProperty_" + StringUtils.deleteWhitespace((String)propertyId) + "_function"%>'/>(); return false;">
                              <img src="<static:image relativePath="general/16x16/ico-info.png"/>" border="0" >
                         </a>
@@ -133,7 +133,7 @@
                         <mvc:fragmentValue name="submitOnChange" id="submitOnChange">
                             <select class="skn-input" style="width:172px;" name="<%=DashboardFilterHandler.PARAM_VALUE +"_"+ propertyId%>"
                                     onchange="
-                                    var element = document.getElementById('<panel:encode name="<%="CustomDateFor/"+dataProviderCode+"/"+propertyId%>"/>');
+                                    var element = document.getElementById('<panel:encode name='<%="CustomDateFor/"+dataProviderCode+"/"+propertyId%>'/>');
                                     if (this.options[this.selectedIndex].value == '<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE%>') element.style.display = 'inline';
                                     else if (this.options[this.selectedIndex].value == '<%=DashboardFilterHandler.PARAM_NULL_VALUE%>') element.style.display = 'none';
                                     else {
@@ -143,37 +143,37 @@
                                         <% } %>
                                     }">
                                 }
-                                <option title="- <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "select"%>"/> <mvc:fragmentValue name="propertyName"/> -"
+                                <option title="- <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "select"%>'/> <mvc:fragmentValue name="propertyName"/> -"
                                         value="<%=DashboardFilterHandler.PARAM_NULL_VALUE%>"
-                                        <%=minValue == null && maxValue == null ? "selected" : ""%>> - <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "select"%>"/> <mvc:fragmentValue name="propertyName"/> - </option>
+                                        <%=minValue == null && maxValue == null ? "selected" : ""%>> - <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "select"%>'/> <mvc:fragmentValue name="propertyName"/> - </option>
                                 <option value="<%=DashboardFilterHandler.PARAM_CUSTOM_VALUE%>"
-                                        <%=minValue != null || maxValue != null ? "selected": ""%>> - <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "custom"%>"/> - </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_HOUR%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "lastHour"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_12HOURS%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "last12Hours"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_TODAY%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "today"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_YESTERDAY%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "yesterday"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_7DAYS%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "last7Days"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_MONTH%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "lastMonth"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_THIS_MONTH%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "thisMonth"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_THIS_QUARTER%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "thisQuarter"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_QUARTER%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "lastQuarter"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_6MONTHS%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "last6Months"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_THIS_YEAR%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "thisYear"%>"/> </option>
-                                <option value="<%=DashboardFilterHandler.PARAM_LAST_YEAR%>" > <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "lastYear"%>"/> </option>
+                                        <%=minValue != null || maxValue != null ? "selected": ""%>> - <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "custom"%>'/> - </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_HOUR%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "lastHour"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_12HOURS%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "last12Hours"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_TODAY%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "today"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_YESTERDAY%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "yesterday"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_7DAYS%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "last7Days"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_MONTH%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "lastMonth"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_THIS_MONTH%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "thisMonth"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_THIS_QUARTER%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "thisQuarter"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_QUARTER%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "lastQuarter"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_6MONTHS%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "last6Months"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_THIS_YEAR%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "thisYear"%>'/> </option>
+                                <option value="<%=DashboardFilterHandler.PARAM_LAST_YEAR%>" > <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "lastYear"%>'/> </option>
                             </select>
-                            <div id="<panel:encode name="<%="CustomDateFor/"+dataProviderCode+"/"+propertyId%>"/>" style="display:none; white-space:nowrap;">
+                            <div id="<panel:encode name='<%="CustomDateFor/"+dataProviderCode+"/"+propertyId%>'/>" style="display:none; white-space:nowrap;">
                                  <div style="height:5px;"></div>
-                                 <input class="skn-input" style="width:43px;" id="<panel:encode name="<%="dateInputMin_" + dataProviderCode + "/" + propertyId%>"/>"
-                                        name="<%=DashboardFilterHandler.PARAM_VALUE_MIN + "_" + propertyId%>"
-                                        value="<%=minValue == null ? "" : minValue%>">
-                                 <a style="height:20px; vertical-align:bottom;" href="#" onclick="NewCal('<panel:encode name="<%="dateInputMin_" + dataProviderCode + "/" + propertyId%>"/>','ddmmyyyy',true); return false; ">
+                                 <input class="skn-input" style="width:43px;" id="<panel:encode name='<%="dateInputMin_" + dataProviderCode + "/" + propertyId%>'/>"
+                                        name='<%=DashboardFilterHandler.PARAM_VALUE_MIN + "_" + propertyId%>'
+                                        value='<%=minValue == null ? "" : minValue%>'>
+                                 <a style="height:20px; vertical-align:bottom;" href="#" onclick="NewCal('<panel:encode name='<%="dateInputMin_" + dataProviderCode + "/" + propertyId%>'/>','ddmmyyyy',true); return false; ">
                                      <img src="<static:image relativePath="general/16x16/ico-calendar.png"/>" border="0">
                                  </a>
-                                 <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "to"%>"/>
-                                <input class="skn-input" style="width:43px;" id="<panel:encode name="<%="dateInputMax_" + dataProviderCode + "/" + propertyId%>"/>"
-                                        name="<%=DashboardFilterHandler.PARAM_VALUE_MAX + "_" + propertyId%>"
-                                        value="<%=maxValue == null ? "" : maxValue%>">
-                                 <a style="height:20px; vertical-align:bottom;" href="#" onclick="NewCal('<panel:encode name="<%="dateInputMax_" + dataProviderCode + "/" + propertyId%>"/>','ddmmyyyy',true); return false; ">
+                                 <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "to"%>'/>
+                                <input class="skn-input" style="width:43px;" id="<panel:encode name='<%="dateInputMax_" + dataProviderCode + "/" + propertyId%>'/>"
+                                        name='<%=DashboardFilterHandler.PARAM_VALUE_MAX + "_" + propertyId%>'
+                                        value='<%=maxValue == null ? "" : maxValue%>'>
+                                 <a style="height:20px; vertical-align:bottom;" href="#" onclick="NewCal('<panel:encode name='<%="dateInputMax_" + dataProviderCode + "/" + propertyId%>'/>','ddmmyyyy',true); return false; ">
                                      <img src="<static:image relativePath="general/16x16/ico-calendar.png"/>" border="0">
                                  </a>
                             </div>
@@ -192,11 +192,11 @@
                 <mvc:fragmentValue name="minValue" id="minValue">
                     <mvc:fragmentValue name="maxValue" id="maxValue">
                         <div style="white-space:nowrap;">
-                           <input class="skn-input" style="width:63px; overflow:hidden;" type="text" id="<panel:encode name="<%="numericInputMin_" + dataProviderCode + "/" + propertyId%>"/>"
+                           <input class="skn-input" style="width:63px; overflow:hidden;" type="text" id="<panel:encode name='<%="numericInputMin_" + dataProviderCode + "/" + propertyId%>'/>"
                                    name="<%=DashboardFilterHandler.PARAM_VALUE_MIN + "_" +propertyId%>"
                                     value="<%=minValue == null ? "" : minValue%>">
-                            <i18n:message key="<%=DashboardFilterHandler.I18N_PREFFIX + "to"%>"/>
-                            <input class="skn-input" style="width:63px; overflow:hidden;" type="text" id="<panel:encode name="<%="numericInputMax_" + dataProviderCode + "/" + propertyId%>"/>"
+                            <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "to"%>'/>
+                            <input class="skn-input" style="width:63px; overflow:hidden;" type="text" id="<panel:encode name='<%="numericInputMax_" + dataProviderCode + "/" + propertyId%>'/>"
                                    name="<%=DashboardFilterHandler.PARAM_VALUE_MAX + "_" + propertyId%>"
                                     value="<%=maxValue == null ? "" : maxValue%>">
                         </div>

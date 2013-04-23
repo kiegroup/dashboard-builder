@@ -14,14 +14,6 @@ Open a terminal window, go to the root directory and execute the following Maven
 
 Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.0.war**.
 
-Install a JBoss 7.1 server
----------------------------
-
-Add the following additional configuration.
-Edit the <jboss_home>/bin/standalone.conf file and add the following line at the end of the file:
-
-    JAVA_OPTS="$JAVA_OPTS -Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false"
-
 Deploy the application
 --------------------------
 

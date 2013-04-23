@@ -38,8 +38,8 @@
                     <td class="skn-table_border" colspan="2">
                        <div style="vertical-align:middle; text-align:left;">
                            <a id="<panel:encode name="createNewDatasource"/>" href="<factory:url bean="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" action="CreateNewDatasource"/>">
-                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-add.png"/>" alt="<i18n:message key="<%="datasource.create.title"%>">!!create</i18n:message>" title="<i18n:message key="<%="datasource.create.title"%>">!!create</i18n:message>">
-                                <i18n:message key="<%="datasource.create.title"%>">!!create</i18n:message>
+                                <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-add.png"/>" alt="<i18n:message key="datasource.create.title">!!create</i18n:message>" title="<i18n:message key="datasource.create.title">!!create</i18n:message>">
+                                <i18n:message key="datasource.create.title">!!create</i18n:message>
                            </a>
                            <script defer>
                                setAjax('<panel:encode name="createNewDatasource"/>');
@@ -54,7 +54,7 @@
                 <tr style="display:table-row; width:12px;">
                     <td class="skn-table_border" colspan="2">
                        <div style="vertical-align:middle; text-align:left;">
-                                <i18n:message key="<%="datasource.creating.title"%>">!!create</i18n:message>
+                                <i18n:message key="datasource.creating.title">!!create</i18n:message>
                        </div>
                     </td>
                 </tr>
@@ -138,23 +138,23 @@
                                         <td align="center" width="1px"><a
                                                 title="<i18n:message key="datasource.edit">!!!Editar</i18n:message>"
                                                 href="<factory:url bean="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" action="editDataSource"> <factory:param name="<%=DataSourceManagementHandler.PARAM_DS_NAME%>" value="<%=dataSName%>"/></factory:url>"
-                                                id="<panel:encode name="<%="editLink"+dataSName%>"/>">
+                                                id="<panel:encode name='<%="editLink"+dataSName%>'/>">
                                             <img src="<static:image relativePath="general/16x16/ico-edit.png"/>" border="0" />
                                         </a>
                                         <script defer>
-                                            setAjax('<panel:encode name="<%="editLink"+dataSName%>"/>');
+                                            setAjax('<panel:encode name='<%="editLink"+dataSName%>'/>');
                                         </script>
 
                                         </td>
                                         <td align="center" width="1px"><a
                                                 title="<i18n:message key="datasource.delete">!!!Borrar</i18n:message>"
                                                 href="<factory:url bean="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" action="deleteDataSource"> <factory:param name="<%=DataSourceManagementHandler.PARAM_DS_NAME%>" value="<%=dataSName%>"/></factory:url>"
-                                                id="<panel:encode name="<%="deleteLink"+dataSName%>"/>"
+                                                id="<panel:encode name='<%="deleteLink"+dataSName%>'/>"
                                                 onclick="return confirm('<i18n:message key="datasource.delete.confirm">!!!Sure?</i18n:message>')">
                                             <img src="<static:image relativePath="general/16x16/ico-directory-trash.png"/>" border="0" />
                                         </a>
                                         <script defer>
-                                            setAjax('<panel:encode name="<%="deleteLink"+dataSName%>"/>');
+                                            setAjax('<panel:encode name='<%="deleteLink"+dataSName%>'/>');
                                         </script>
                                         </td>
                                         <td nowrap="nowrap" width="200px">
@@ -166,12 +166,8 @@
                                         <mvc:fragmentValue name="entryType" id="entryType">
                                         <td nowrap="nowrap" width="150px">
                                                 <div style="width:150px; height:18px; overflow:hidden; vertical-align:middle"
-                                                    title="<i18n:message
-                                                            key="<%="datasource.type."+entryType%>">!!!Type
-                                                    </i18n:message>">
-                                                    <i18n:message
-                                                            key="<%="datasource.type."+entryType%>">!!!Type
-                                                    </i18n:message>
+                                                    title="<i18n:message key='<%="datasource.type."+entryType%>'>!!!Type </i18n:message>">
+                                                    <i18n:message key='<%="datasource.type."+entryType%>'>!!!Type</i18n:message>
                                                 </div>
                                         </td>
                                         </mvc:fragmentValue>

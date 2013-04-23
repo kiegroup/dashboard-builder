@@ -66,13 +66,13 @@
                     }
                 }
 %>
-                 <td align="right" width="1px" height="18px" style="background:url('<static:image relativePath="<%= "general/tree/"+linePath%>" />')">
+                 <td align="right" width="1px" height="18px" style="background:url('<static:image relativePath='<%= "general/tree/"+linePath%>' />')">
                      <%if(!theSubnode.isLeaf()){%>
                          <a href="<factory:url bean="org.jboss.dashboard.ui.config.TreeActionsHandler" action="expandOrCollapse"><factory:param name="path" value="<%=path_Node%>"/></factory:url>">
-                             <img src="<static:image relativePath="<%= "general/tree/"+expandPath%>" />"  border="0">
+                             <img src="<static:image relativePath='<%= "general/tree/"+expandPath %>' />"  border="0">
                          </a>
                      <%}else{%>
-                         <img src="<static:image relativePath="<%= "general/tree/"+branchPath%>" />"  border="0">
+                         <img src="<static:image relativePath='<%= "general/tree/"+branchPath %>' />"  border="0">
                      <%}%>
                  </td>
 
@@ -86,12 +86,12 @@
                     if(((Boolean)isEditable).booleanValue()){
 %>
                     <a href="<factory:url bean="org.jboss.dashboard.ui.config.TreeActionsHandler" friendly="false" action="navigateTo"><factory:param name="path" value="<%=path_Node%>"/></factory:url>">
-                        <img src="<static:image relativePath="<%= "general/tree/"+icon_Node%>" />" title="<%= (String) name_Node %>" border="0">
+                        <img src="<static:image relativePath='<%= "general/tree/"+icon_Node %>' />" title="<%= (String) name_Node %>" border="0">
                     </a>
 <%
                     } else {
 %>
-                    <img src="<static:image relativePath="<%= "general/tree/"+icon_Node%>" />" title="<%= (String) name_Node %>" border="0">
+                    <img src="<static:image relativePath='<%= "general/tree/"+icon_Node %>' />" title="<%= (String) name_Node %>" border="0">
 <%
                     }
 %>

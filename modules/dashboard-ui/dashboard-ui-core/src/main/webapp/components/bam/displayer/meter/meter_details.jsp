@@ -34,7 +34,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left"  class="skn-even_row">
 
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "minValue"%>">!!Valor minimo</i18n:message>:
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "minValue"%>'>!!Valor minimo</i18n:message>:
 
     </td>
     <td nowrap="nowrap" align="left">
@@ -45,7 +45,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "warningThreshold"%>">!!Intervalo warning</i18n:message>:
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "warningThreshold"%>'>!!Intervalo warning</i18n:message>:
 
     </td>
     <td nowrap="nowrap" align="left">
@@ -55,7 +55,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "criticalThreshold"%>">!!Umbral critico</i18n:message>:
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "criticalThreshold"%>'>!!Umbral critico</i18n:message>:
 
     </td>
     <td nowrap="nowrap" align="left">
@@ -66,7 +66,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "maxValue"%>">!!Valor maximo</i18n:message>:
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "maxValue"%>'>!!Valor maximo</i18n:message>:
 
     </td>
     <td nowrap="nowrap" align="left">
@@ -77,7 +77,7 @@
 <tr>
     <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>">!!maxTicks</i18n:message>:
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "dial." + "maxTicks"%>'>!!maxTicks</i18n:message>:
        
     </td>
     <td nowrap="nowrap" align="left">
@@ -88,8 +88,8 @@
 <!--<tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripNormalInterval"%>">!!Descripcion del intervalo Normal</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripNormalInterval"%>">!!Descripcion del intervalo Normal</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripNormalInterval"%>'>!!Descripcion del intervalo Normal</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripNormalInterval"%>'>!!Descripcion del intervalo Normal</i18n:message>
         </div>
     </td>
     <td>
@@ -99,8 +99,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripWarningInterval"%>">!!Descripcion del intervalo Warning</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripWarningInterval"%>">!!Descripcion del intervalo Warning</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripWarningInterval"%>'>!!Descripcion del intervalo Warning</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripWarningInterval"%>'>!!Descripcion del intervalo Warning</i18n:message>
         </div>
     </td>
     <td>
@@ -110,8 +110,8 @@
 <tr>
     <td width="160px" height="15" nowrap>
         <div style="width:160px; height:18px; text-align:right; overflow:hidden; vertical-align:middle"
-             title="<i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripCriticalInterval"%>">!!Descripcion del intervalo critico</i18n:message>">
-                <i18n:message key="<%= MeterChartEditor.I18N_METER + "meter." + "descripCriticalInterval"%>">!!Descripcion del intervalo critico</i18n:message>
+             title="<i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripCriticalInterval"%>'>!!Descripcion del intervalo critico</i18n:message>">
+                <i18n:message key='<%= MeterChartEditor.I18N_METER + "meter." + "descripCriticalInterval"%>'>!!Descripcion del intervalo critico</i18n:message>
         </div>
     </td>
     <td>

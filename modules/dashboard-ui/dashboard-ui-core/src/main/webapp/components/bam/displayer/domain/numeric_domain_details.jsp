@@ -31,7 +31,7 @@
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= NumericDomain.I18N_PREFFIX + "numericTamInterval"%>">!!Tamano del intervalo</i18n:message>:
+                <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericTamInterval"%>'>!!Tamano del intervalo</i18n:message>:
 
         </td>
         <td nowrap="nowrap" align="left">
@@ -41,7 +41,7 @@
                 if (domainConfig.getNumericTamInterval().equals("-1") ) tamPredefinido = "selected";
             %>
                  <option value="-1" <%= tamPredefinido %>>
-                    <i18n:message key="<%= AbstractDomain.I18N_PREFFIX + "tamPredefined"%>">!!!Tamaño predefinido</i18n:message>
+                    <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "tamPredefined"%>'>!!!Tamaño predefinido</i18n:message>
                 </option>
             <%
                 //TODO: Get the description of the intervals from the formatter
@@ -63,7 +63,7 @@
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= NumericDomain.I18N_PREFFIX + "numericMinValue"%>">!!Valor minimo</i18n:message>:
+                <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericMinValue"%>'>!!Valor minimo</i18n:message>:
 
         </td>
         <td nowrap="nowrap" align="left">
@@ -74,7 +74,7 @@
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
 
-                <i18n:message key="<%= NumericDomain.I18N_PREFFIX + "numericMaxValue"%>">!!Valor maximo</i18n:message>:
+                <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericMaxValue"%>'>!!Valor maximo</i18n:message>:
             
         </td>
         <td nowrap="nowrap" align="left">

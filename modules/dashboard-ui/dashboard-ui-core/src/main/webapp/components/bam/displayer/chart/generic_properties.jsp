@@ -41,7 +41,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_TITLE)) { %>
 <tr>
     <td height="15" align="left" width="33%" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showTitle"%>">!!Mostrar titulo</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showTitle"%>'>!!Mostrar titulo</i18n:message>:
     </td>
     <td height="15" width="66%" align="left">
         <%
@@ -57,7 +57,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.ROUND_TO_INTEGER)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "axisInteger"%>">!!Valores enteros</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "axisInteger"%>'>!!Valores enteros</i18n:message>:
     </td>
     <td height="15" width="66%" align="left">
         <%
@@ -73,7 +73,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_CHART_WIDTH)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "width"%>">!!Anchura</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "width"%>'>!!Anchura</i18n:message>:
     </td>
     <td align="left">
         <input class="skn-input" name="width" type="text" size="14" value="<%= displayer.getWidth() %>"
@@ -85,7 +85,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_CHART_HEIGHT)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "height"%>">!!Altura</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "height"%>'>!!Altura</i18n:message>:
     </td>
     <td align="left">
         <input class="skn-input" name="height" type="text" size="14" value="<%= displayer.getHeight() %>"
@@ -97,7 +97,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_FOREGRND_COLOR)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "color"%>">!!Color externo</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "color"%>'>!!Color externo</i18n:message>:
     </td>
     <td  align="left">
         <input class="skn-input" name="color" type="text" size="14" value="<%=displayer.getColor()%>" onClick="startColorPicker(this);" onkeyup="maskedHex(this)"
@@ -108,7 +108,7 @@
 <!-- TODO: Background color hidden. Resolve this bug in the future. 
 <tr>
     <td align="left">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "backgroundColor"%>">!!Color de fondo</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "backgroundColor"%>'>!!Color de fondo</i18n:message>:
     </td>
     <td>
         <input class="skn-input" name="backgroundColor" type="text" onClick="startColorPicker(this);" onkeyup="maskedHex(this)"
@@ -121,7 +121,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND)) { %>
 <tr>
     <td height="15" align="left" width="33%" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLegend"%>">!!Show legend</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "showLegend"%>'>!!Show legend</i18n:message>:
     </td>
     <td height="15" width="66%" align="left">
         <%
@@ -138,7 +138,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND_POSITION)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "legendAnchor"%>">!!Leyenda</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "legendAnchor"%>'>!!Leyenda</i18n:message>:
     </td>
     <td align="left">
         <select name="legendAnchor" class="skn-input" style="width:95px;"
@@ -149,7 +149,7 @@
                 if (!displayer.isShowLegend()) sinLeyenda = "selected";
             %>
              <option value="-1" <%= sinLeyenda %>>
-                <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "legendAnchor." +  "noLegend" %>">!!!Sin leyenda</i18n:message>
+                <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "legendAnchor." +  "noLegend" %>'>!!!Sin leyenda</i18n:message>
             </option>
         <%
             String[] legendAnchor = new String[] {"north", "south", "east", "west"};
@@ -173,7 +173,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.ALIGN_CHART)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "graphicAlign"%>">!!Alinear grafico a</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "graphicAlign"%>'>!!Alinear grafico a</i18n:message>:
     </td>
     <td align="left">
         <select name="graphicAlign" class="skn-input" style="width:95px;"
@@ -200,10 +200,10 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_MARGIN_LEFT)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_left"%>">!!Margin Left</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_left"%>'>!!Margin Left</i18n:message>:
     </td>
     <td align="left">
-        <input class="skn-input" name="marginLeft" type="text" size="14" value="<%= displayer.getMarginLeft() %>" "
+        <input class="skn-input" name="marginLeft" type="text" size="14" value="<%= displayer.getMarginLeft() %>"
           onChange="return bam_kpiedit_submitProperties(this);"
         >
     </td>
@@ -212,7 +212,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_MARGIN_RIGHT)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_right"%>">!!Margin Right</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_right"%>'>!!Margin Right</i18n:message>:
     </td>
     <td align="left">
         <input class="skn-input" name="marginRight" type="text" size="14" value="<%= displayer.getMarginRight() %>"
@@ -224,7 +224,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_MARGIN_TOP)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_top"%>">!!Margin Top</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_top"%>'>!!Margin Top</i18n:message>:
     </td>
     <td align="left">
         <input class="skn-input" name="marginTop" type="text" size="14" value="<%= displayer.getMarginTop() %>"
@@ -236,7 +236,7 @@
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_MARGIN_BOTTOM)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">
-        <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_bottom"%>">!!Margin Bottom</i18n:message>:
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "margin_bottom"%>'>!!Margin Bottom</i18n:message>:
     </td>
     <td align="left">
         <input class="skn-input" name="marginBottom" type="text" size="14" value="<%= displayer.getMarginBottom() %>"
@@ -247,28 +247,28 @@
 <% } %>
 <tr>
   <td height="15" nowrap="nowrap" align="left" >
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria"%>">!!Sort intervals by</i18n:message>:
+    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria"%>'>!!Sort intervals by</i18n:message>:
   </td>
   <td height="15" nowrap="nowrap" align="left">
     <select class="skn-input" name="intervalsSortCriteria" style="width:95px;"
       onChange="return bam_kpiedit_submitProperties(this);"
     >
-      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_LABEL %>" <%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_LABEL == intervalsSortCriteria ? "selected": "" %>><i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria.label"%>">!!Label</i18n:message></option>
-      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_VALUE %>" <%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_VALUE == intervalsSortCriteria ? "selected": "" %>><i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria.value"%>">!!Value</i18n:message></option>
+      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_LABEL %>" <%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_LABEL == intervalsSortCriteria ? "selected": "" %>><i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria.label"%>'>!!Label</i18n:message></option>
+      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_VALUE %>" <%= AbstractChartDisplayer.INTERVALS_SORT_CRITERIA_VALUE == intervalsSortCriteria ? "selected": "" %>><i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria.value"%>'>!!Value</i18n:message></option>
     </select>
   </td>
 </tr>
 <tr>
   <td height="15" nowrap="nowrap" align="left" >
-    <i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder"%>">!!Sort order</i18n:message>:
+    <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder"%>'>!!Sort order</i18n:message>:
   </td>
   <td height="15" nowrap="nowrap" align="left">
     <select class="skn-input" name="intervalsSortOrder" style="width:95px;"
       onChange="return bam_kpiedit_submitProperties(this);"
     >
-      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_NONE %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_NONE == intervalsSortOrder ? "selected": "" %>><i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.none"%>">!!None</i18n:message></option>
-      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_ASC %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_ASC == intervalsSortOrder ? "selected": "" %>><i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.ascendant"%>">!!Ascendant</i18n:message></option>
-      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_DESC %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_DESC == intervalsSortOrder ? "selected": "" %>><i18n:message key="<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.descendant"%>">!!Descendant</i18n:message></option>
+      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_NONE %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_NONE == intervalsSortOrder ? "selected": "" %>><i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.none"%>'>!!None</i18n:message></option>
+      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_ASC %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_ASC == intervalsSortOrder ? "selected": "" %>><i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.ascendant"%>'>!!Ascendant</i18n:message></option>
+      <option value="<%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_DESC %>" <%= AbstractChartDisplayer.INTERVALS_SORT_ORDER_DESC == intervalsSortOrder ? "selected": "" %>><i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortOrder.descendant"%>'>!!Descendant</i18n:message></option>
     </select>
   </td>
 </tr>
