@@ -106,9 +106,8 @@ Once logged, the jBPM Process Dashboard can be accessed in two ways:
 2. Typing the following URL: <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
 
 In order to populate the jBPM dashboard with dummy data (only for the H2 database), go to the
-**modules/dashboard-showcase/WEB-INF/etc/sql** directory and run the **jbpm_demo.sh** script.
-The target database needs to have been created before this, either by launching the application, or by
-running the create-h2.sql manually.
+**/modules/dashboard-showcase/target/dashboard-showcase/WEB-INF/etc/sql** directory and run the **install-jbpm-data.sh** script.
+This can be done only after running the application.
 
 If you are interested in setup an integrated installation on JBoss AS of both the jBPM Dashboard and the jBPM Human Task
 console, please, take a look at the following [guide](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md).

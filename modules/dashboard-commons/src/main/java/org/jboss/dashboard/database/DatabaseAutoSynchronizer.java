@@ -18,6 +18,7 @@ package org.jboss.dashboard.database;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.dashboard.Application;
+import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
@@ -30,8 +31,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.*;
 import java.sql.*;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * This component manages the database creation.
@@ -44,17 +44,10 @@ public class DatabaseAutoSynchronizer {
     @Inject @Config("sql")
     protected String databaseConfigDir;
 
-    @Inject @Config("oracle=create-oracle.sql," +
-                    "mysql=create-mysql.sql," +
-                    "postgres=create-postgres.sql," +
-                    "sqlserver=create-sqlserver.sql," +
-                    "h2=create-h2.sql")
-    protected Properties createFiles = new Properties();
-
     @Inject @Config("dashb_installed_module")
     protected String installedModulesTable;
 
-    @Inject @Config("oracle, mysql, postgres, sqlserver, h2, hsql, oracle10g")
+    @Inject @Config("oracle, mysql, postgres, sqlserver, h2")
     protected String[] supportedDatabases;
 
     @Inject @Config("delimiter //, //, , delimiter ;, GO")
@@ -77,20 +70,30 @@ public class DatabaseAutoSynchronizer {
     }
 
     protected void createDatabase(String databaseName) throws Exception {
-        String sqlFilePath = createDatabaseScriptPath(databaseName);
-        runScript(sqlFilePath);
+        // Search in the classpath for the SQL files for the given database.
+        String sqlDir = Application.lookup().getBaseCfgDirectory() + File.separator + databaseConfigDir;
+        Map<String, File> sqlFileMap = new HashMap<String, File>();
+        DirectoriesScanner scanner = new DirectoriesScanner("sql");
+        File[] sqlFiles = scanner.findFiles(new File(sqlDir));
+        for (File sqlFile : sqlFiles) {
+            // The file name must start with an ordinal which indicates the order of execution and finish with the databaseName.
+            if (sqlFile.getName().endsWith(databaseName + ".sql") && Character.isDigit(sqlFile.getName().charAt(0))) {
+                sqlFileMap.put(sqlFile.getName(), sqlFile);
+            }
+        }
+
+        // Sort by name and run the SQL files encountered.
+        List<String> sqlFileNames = new ArrayList<String>(sqlFileMap.keySet());
+        Collections.sort(sqlFileNames);
+        for (String sqlFileName : sqlFileNames) {
+            File sqlFile = sqlFileMap.get(sqlFileName);
+            runSQLFile(sqlFile);
+        }
     }
 
-    protected String createDatabaseScriptPath(String databaseName) {
-        String sqlBasePath =  Application.lookup().getBaseCfgDirectory() + "/" + databaseConfigDir;
-        databaseName = databaseName.startsWith("oracle") ? "oracle" : databaseName;
-        return sqlBasePath + "/" + createFiles.get(databaseName);
-    }
-
-    protected void runScript(String filePath) throws Exception {
-        File f = new File(filePath);
+    protected void runSQLFile(File f) throws Exception {
         if (f.exists() && f.isFile()) {
-            log.warn("Creating database. Running file " + filePath);
+            log.warn("Running file " + f.getName());
             BufferedReader reader = new BufferedReader(new FileReader(f));
             StringBuffer sb = new StringBuffer();
             String line = null;
@@ -99,29 +102,6 @@ public class DatabaseAutoSynchronizer {
             }
             runDDL(sb.toString());
         }
-    }
-
-    private String[] splitString(String str, String delims) {
-        if (str == null) {
-            return null;
-        } else if (str.equals("") || delims == null || delims.length() == 0) {
-            return new String[]{str};
-        }
-        String[] s;
-        Vector v = new Vector();
-        int pos = 0;
-        int newpos = str.indexOf(delims, pos);
-        while (newpos != -1) {
-            v.addElement(str.substring(pos, newpos));
-            pos = newpos + delims.length();
-            newpos = str.indexOf(delims, pos);
-        }
-        v.addElement(str.substring(pos));
-        s = new String[v.size()];
-        for (int i = 0, cnt = s.length; i < cnt; i++) {
-            s[i] = ((String) v.elementAt(i)).trim();
-        }
-        return s;
     }
 
     protected void runDDL(final String ddl) throws Exception {
@@ -156,6 +136,29 @@ public class DatabaseAutoSynchronizer {
                 session.flush();
             }}.execute();
         }
+    }
+
+    private String[] splitString(String str, String delims) {
+        if (str == null) {
+            return null;
+        } else if (str.equals("") || delims == null || delims.length() == 0) {
+            return new String[]{str};
+        }
+        String[] s;
+        Vector v = new Vector();
+        int pos = 0;
+        int newpos = str.indexOf(delims, pos);
+        while (newpos != -1) {
+            v.addElement(str.substring(pos, newpos));
+            pos = newpos + delims.length();
+            newpos = str.indexOf(delims, pos);
+        }
+        v.addElement(str.substring(pos));
+        s = new String[v.size()];
+        for (int i = 0, cnt = s.length; i < cnt; i++) {
+            s[i] = ((String) v.elementAt(i)).trim();
+        }
+        return s;
     }
 
     protected String removeComments(String ddlStatement) {

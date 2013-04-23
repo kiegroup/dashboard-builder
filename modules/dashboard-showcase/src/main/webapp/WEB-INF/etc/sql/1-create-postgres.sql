@@ -14,12 +14,10 @@
 -- limitations under the License.
 --
 
-
 CREATE SEQUENCE hibernate_sequence START 1000;
 
-
 CREATE TABLE dashb_data_source (
-   dbid bigint PRIMARY KEY,
+   dbid numeric(50,0) PRIMARY KEY,
    ds_type  varchar(512),
    name varchar(512),
    jndi_path  varchar(512),
@@ -49,7 +47,7 @@ CREATE TABLE dashb_data_source_column (
 
 CREATE TABLE dashb_installed_module (
    name varchar(256) PRIMARY KEY,
-   version bigint,
+   version numeric(50,0),
    status varchar(50)
 );
 
@@ -64,7 +62,7 @@ CREATE TABLE dashb_permission (
 );
 
 CREATE TABLE dashb_workspace (
-   id_workspace VARCHAR(40) NOT NULL PRIMARY KEY,
+   id_workspace VARCHAR(40) PRIMARY KEY,
    look VARCHAR(100),
    envelope VARCHAR(100),
    url varchar unique,
@@ -75,7 +73,7 @@ CREATE TABLE dashb_workspace (
 CREATE TABLE dashb_workspace_home (
    id_workspace VARCHAR(40) NOT NULL,
    id_role   VARCHAR(100) NOT NULL,
-   id_section numeric(28,0),
+   id_section NUMERIC(28,0),
    PRIMARY KEY(id_workspace, id_role),
    FOREIGN KEY (id_workspace) REFERENCES dashb_workspace(id_workspace) ON DELETE CASCADE
 );
@@ -217,38 +215,3 @@ CREATE TABLE dashb_data_provider_i18n (
    FOREIGN KEY (id_data_provider) REFERENCES dashb_data_provider(id)
 );
 
--- jBPM integration
-
-CREATE TABLE bamprocesssummary (
-  pk BIGINT NOT NULL,
-  processinstanceid BIGINT NOT NULL,
-  processname VARCHAR(255) NOT NULL,
-  status VARCHAR(255),
-  startdate TIMESTAMP NOT NULL,
-  userid VARCHAR(255),
-  enddate TIMESTAMP,
-  processversion VARCHAR(255),
-  duration BIGINT,
-  PRIMARY KEY (pk)
-);
-
-CREATE INDEX idx_ps_pk on bamprocesssummary(pk);
-CREATE INDEX idx_ps_pid on bamprocesssummary(processinstanceid);
-CREATE INDEX idx_ps_name on bamprocesssummary(processname);
-
-CREATE table bamtasksummary (
-  pk BIGINT NOT NULL,
-  taskid BIGINT NOT NULL,
-  taskname VARCHAR(255) NOT NULL,
-  createddate TIMESTAMP,
-  startdate TIMESTAMP,
-  userid VARCHAR(255),
-  processinstanceid BIGINT,
-  enddate TIMESTAMP,
-  duration BIGINT,
-  status VARCHAR(255),
-  PRIMARY KEY (pk)
-);
-
-CREATE INDEX idx_ts_pk on bamtasksummary(pk);
-CREATE INDEX idx_ts_tid on bamtasksummary(taskid);

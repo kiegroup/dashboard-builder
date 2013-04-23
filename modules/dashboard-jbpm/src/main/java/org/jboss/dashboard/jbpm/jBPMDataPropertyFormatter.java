@@ -19,23 +19,29 @@ import java.util.*;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.provider.DataPropertyFormatterImpl;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 @Install
 public class jBPMDataPropertyFormatter extends DataPropertyFormatterImpl {
 
     public String[] getSupportedPropertyIds() {
-        return new String[] {"duration"};
+        return new String[] {"duration", "status"};
     }
     
     public String formatValue(String propertyId, Object value, Locale l) {
         // If the value is null or the value has no a predefined format string invoke its custom format method (if exists).
+        String result = null;
         Method m = null;
         try { m = this.getClass().getMethod("formatValue_" + propertyId, new Class[] {Object.class, Locale.class}); } catch (NoSuchMethodException e) { /* Ignore */}
-        try { if (m != null) return (String) m.invoke(this, new Object[] {value, l}); } catch (Exception e2) { /* Ignore */ }
+        try { if (m != null) result = (String) m.invoke(this, new Object[] {value, l}); } catch (Exception e2) { /* Ignore */ }
 
         // If no custom format method is found then apply a default format.
+        if (result != null) return result;
         return super.formatValue(propertyId, value, l);
     }
 
@@ -44,10 +50,21 @@ public class jBPMDataPropertyFormatter extends DataPropertyFormatterImpl {
         Number lengthInSeconds = (Number) value;
         long millis = lengthInSeconds.longValue() * 1000;
         if (millis < 0) millis = 0;
-        return formatElapsedTime(millis);
+        return formatElapsedTime(millis, l);
     }
 
-    public String formatElapsedTime(long millis) {
+    public String formatValue_status(Object value, Locale l) throws Exception {
+        try {
+            if (value == null) return "---";
+            if (value instanceof List) return null;
+            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.jbpm.messages", l);
+            return i18n.getString("status." + value.toString());
+        } catch (Exception e) {
+            return value.toString();
+        }
+    }
+
+    public String formatElapsedTime(long millis, Locale l) {
         long milliseconds = millis;
         long seconds = milliseconds / 1000; milliseconds %= 1000;
         long minutes = seconds / 60; seconds %= 60;
@@ -55,7 +72,7 @@ public class jBPMDataPropertyFormatter extends DataPropertyFormatterImpl {
         long days = hours / 24; hours %= 24;
         long weeks = days / 7; days %= 7;
 
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.jbpm.messages");
+        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.jbpm.messages", l);
         String pattern = "ellapsedtime.hours";
         if (days > 0) pattern = "ellapsedtime.days";
         if (weeks > 0) pattern = "ellapsedtime.weeks";

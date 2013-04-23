@@ -214,37 +214,3 @@ CREATE TABLE dashb_data_provider_i18n (
    constraint  dashb_data_provider_i18n_fk FOREIGN KEY (id_data_provider) REFERENCES dashb_data_provider(id)
 );
 
-
--- jBPM integration
-
-CREATE TABLE bamprocesssummary (
-  pk NUMBER(38,0) NOT NULL PRIMARY KEY USING INDEX (CREATE INDEX idx_ps_pk ON bamprocesssummary(pk)),
-  processinstanceid NUMBER(38,0) NOT NULL,
-  processname VARCHAR2(255) NOT NULL,
-  status VARCHAR2(255),
-  startdate TIMESTAMP NOT NULL,
-  userid VARCHAR2(255),
-  enddate TIMESTAMP,
-  processversion VARCHAR2(255),
-  duration NUMBER(38,0)
-);
-
--- CREATE INDEX idx_ps_pk on bamprocesssummary(pk);
-CREATE INDEX idx_ps_pid on bamprocesssummary(processinstanceid);
-CREATE INDEX idx_ps_name on bamprocesssummary(processname);
-
-CREATE table bamtasksummary (
-  pk NUMBER(38,0) NOT NULL PRIMARY KEY USING INDEX(CREATE INDEX idx_ts_pk on bamtasksummary(pk)),
-  taskid NUMBER(38,0) NOT NULL,
-  taskname VARCHAR2(255) NOT NULL,
-  createddate TIMESTAMP,
-  startdate TIMESTAMP,
-  userid VARCHAR2(255),
-  processinstanceid NUMBER(38,0),
-  enddate TIMESTAMP,
-  duration NUMBER(38,0),
-  status VARCHAR2(255)
-);
-
--- CREATE INDEX idx_ts_pk on bamtasksummary(pk);
-CREATE INDEX idx_ts_tid on bamtasksummary(taskid);

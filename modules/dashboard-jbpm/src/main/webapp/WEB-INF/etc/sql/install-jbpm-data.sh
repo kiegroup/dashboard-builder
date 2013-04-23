@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Copyright (C) 2012 JBoss Inc
 #
@@ -14,12 +15,10 @@
 # limitations under the License.
 #
 
-ellapsedtime.hours={2}h {1}m {0}s
-ellapsedtime.days={3}d {2}h {1}m {0}s
-ellapsedtime.weeks={4} week {3}d {2}h {1}m {0}s
-
-status.0=Pending
-status.1=Active
-status.2=Completed
-status.3=Aborted
-status.4=Suspended
+if [ -z "$JAVA_HOME" ] ; then
+  echo "Error: JAVA_HOME is not defined."
+else
+  echo "Populating the jBPM Process Dashboard with some sample data..."
+  "$JAVA_HOME/bin/java" -cp ../../lib/h2*.jar org.h2.tools.RunScript -url "jdbc:h2:~/dashbuilder" -user "dashbuilder" -password "dashbuilder" -script "./jbpm_demo_1000_h2.sql"
+  echo "Done."
+fi

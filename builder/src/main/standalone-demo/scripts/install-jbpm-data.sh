@@ -15,8 +15,10 @@
 # limitations under the License.
 #
 
-echo "Populating the jBPM Process Dashboard with some sample data..."
-
-java -cp ./db/h2*.jar org.h2.tools.RunScript -url "jdbc:h2:./db/dashbuilder" -user "dashbuilder" -password "dashbuilder" -script "./db/jbpm_demo_1000_h2.sql"
-
-echo "Done."
+if [ -z "$JAVA_HOME" ] ; then
+  echo "Error: JAVA_HOME is not defined."
+else
+  echo "Populating the jBPM Process Dashboard with some sample data..."
+  "$JAVA_HOME/bin/java" -cp ./db/h2*.jar org.h2.tools.RunScript -url "jdbc:h2:./db/dashbuilder" -user "dashbuilder" -password "dashbuilder" -script "./db/jbpm_demo_1000_h2.sql"
+  echo "Done."
+fi

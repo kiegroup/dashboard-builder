@@ -4,165 +4,166 @@
     <description language="en">jBPM Count Processes</description>
     <sqlprovider>
       <datasource>local</datasource>
-      <query type="default">select * from bamprocesssummary where status=&apos;COMPLETED&apos;</query>
       <query type="postgresql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
-        from
-        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-        from bamprocesssummary pi group by pId,processname) as total
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_act
-        from bamprocesssummary pi
-        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
-        on (total.pId=active.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_compl
-        from bamprocesssummary pi
-        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
-        on (total.pId=completed.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_pend
-        from bamprocesssummary pi
-        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
-        on (total.pId=pending.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_susp
-        from bamprocesssummary pi
-        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
-        on (total.pId=suspended.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_abrt
-        from bamprocesssummary pi
-        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
-        on (total.pId=aborted.pId)
-        where {sql_condition, optional, processname, processname}
-        order by processname</query>
+          from
+          (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+          from processinstancelog pi group by pId,processname) as total
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_act
+          from processinstancelog pi
+          where pi.status=1 group by pi.processinstanceid) as active
+          on (total.pId=active.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_compl
+          from processinstancelog pi
+          where pi.status=2 group by pi.processinstanceid) as completed
+          on (total.pId=completed.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_pend
+          from processinstancelog pi
+          where pi.status=0 group by pi.processinstanceid) as pending
+          on (total.pId=pending.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_susp
+          from processinstancelog pi
+          where pi.status=4 group by pi.processinstanceid) as suspended
+          on (total.pId=suspended.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_abrt
+          from processinstancelog pi
+          where pi.status=3 group by pi.processinstanceid) as aborted
+          on (total.pId=aborted.pId)
+          where {sql_condition, optional, processname, processname}
+          order by processname
+      </query>
       <query type="sqlserver">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
-        from
-        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-        from bamprocesssummary pi group by pId,processname) as total
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_act
-        from bamprocesssummary pi
-        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
-        on (total.pId=active.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_compl
-        from bamprocesssummary pi
-        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
-        on (total.pId=completed.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_pend
-        from bamprocesssummary pi
-        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
-        on (total.pId=pending.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_susp
-        from bamprocesssummary pi
-        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
-        on (total.pId=suspended.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_abrt
-        from bamprocesssummary pi
-        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
-        on (total.pId=aborted.pId)
-        where {sql_condition, optional, processname, processname}
-        order by processname
+          from
+          (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+          from processinstancelog pi group by pId,processname) as total
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_act
+          from processinstancelog pi
+          where pi.status=1 group by pi.processinstanceid) as active
+          on (total.pId=active.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_compl
+          from processinstancelog pi
+          where pi.status=2 group by pi.processinstanceid) as completed
+          on (total.pId=completed.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_pend
+          from processinstancelog pi
+          where pi.status=0 group by pi.processinstanceid) as pending
+          on (total.pId=pending.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_susp
+          from processinstancelog pi
+          where pi.status=4 group by pi.processinstanceid) as suspended
+          on (total.pId=suspended.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_abrt
+          from processinstancelog pi
+          where pi.status=3 group by pi.processinstanceid) as aborted
+          on (total.pId=aborted.pId)
+          where {sql_condition, optional, processname, processname}
+          order by processname
       </query>
       <query type="oracle">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
-        from
-        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-        from bamprocesssummary pi group by pi.processinstanceid,pi.processname)  total
-        left outer join
-        (select pi.processinstanceid as pId, count(*) instances_act
-        from bamprocesssummary pi
-        where pi.status=&apos;Active&apos; group by pi.processinstanceid)  active
-        on (total.pId=active.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*)  instances_compl
-        from bamprocesssummary pi
-        where pi.status=&apos;Completed&apos; group by pi.processinstanceid)  completed
-        on (total.pId=completed.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*)  instances_pend
-        from bamprocesssummary pi
-        where pi.status=&apos;Pending&apos; group by pi.processinstanceid)  pending
-        on (total.pId=pending.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*)  instances_susp
-        from bamprocesssummary pi
-        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid)  suspended
-        on (total.pId=suspended.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*)  instances_abrt
-        from bamprocesssummary pi
-        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid)  aborted
-        on (total.pId=aborted.pId)
-        where {sql_condition, optional, processname, processname}
-        order by processname
+          from
+          (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+          from processinstancelog pi group by pId,processname) total
+          left outer join
+          (select pi.processinstanceid as pId, count(*) instances_act
+          from processinstancelog pi
+          where pi.status=1 group by pi.processinstanceid) active
+          on (total.pId=active.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) instances_compl
+          from processinstancelog pi
+          where pi.status=2 group by pi.processinstanceid) completed
+          on (total.pId=completed.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) instances_pend
+          from processinstancelog pi
+          where pi.status=0 group by pi.processinstanceid) pending
+          on (total.pId=pending.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) instances_susp
+          from processinstancelog pi
+          where pi.status=4 group by pi.processinstanceid) suspended
+          on (total.pId=suspended.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) instances_abrt
+          from processinstancelog pi
+          where pi.status=3 group by pi.processinstanceid) aborted
+          on (total.pId=aborted.pId)
+          where {sql_condition, optional, processname, processname}
+          order by processname
       </query>
       <query type="h2">select total.processname, ifnull(total.instances,0) total, ifnull(active.instances_act,0) active, ifnull(completed.instances_compl,0) completed, ifnull(pending.instances_pend,0) pending, ifnull(suspended.instances_susp,0) suspended, ifnull(aborted.instances_abrt,0) aborted
-        from
-        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-        from bamprocesssummary pi group by pi.processinstanceid,pi.processname) as total
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_act
-        from bamprocesssummary pi
-        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
-        on (total.pId=active.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_compl
-        from bamprocesssummary pi
-        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
-        on (total.pId=completed.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_pend
-        from bamprocesssummary pi
-        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
-        on (total.pId=pending.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_susp
-        from bamprocesssummary pi
-        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
-        on (total.pId=suspended.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_abrt
-        from bamprocesssummary pi
-        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
-        on (total.pId=aborted.pId)
-        where {sql_condition, optional, processname, processname}
-        order by processname
+          from
+          (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+          from processinstancelog pi group by pId,processname) as total
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_act
+          from processinstancelog pi
+          where pi.status=1 group by pi.processinstanceid) as active
+          on (total.pId=active.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_compl
+          from processinstancelog pi
+          where pi.status=2 group by pi.processinstanceid) as completed
+          on (total.pId=completed.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_pend
+          from processinstancelog pi
+          where pi.status=0 group by pi.processinstanceid) as pending
+          on (total.pId=pending.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_susp
+          from processinstancelog pi
+          where pi.status=4 group by pi.processinstanceid) as suspended
+          on (total.pId=suspended.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_abrt
+          from processinstancelog pi
+          where pi.status=3 group by pi.processinstanceid) as aborted
+          on (total.pId=aborted.pId)
+          where {sql_condition, optional, processname, processname}
+          order by processname
       </query>
       <query type="mysql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
-        from
-        (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-        from bamprocesssummary pi group by pId,processname) as total
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_act
-        from bamprocesssummary pi
-        where pi.status=&apos;Active&apos; group by pi.processinstanceid) as active
-        on (total.pId=active.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_compl
-        from bamprocesssummary pi
-        where pi.status=&apos;Completed&apos; group by pi.processinstanceid) as completed
-        on (total.pId=completed.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_pend
-        from bamprocesssummary pi
-        where pi.status=&apos;Pending&apos; group by pi.processinstanceid) as pending
-        on (total.pId=pending.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_susp
-        from bamprocesssummary pi
-        where pi.status=&apos;Suspended&apos; group by pi.processinstanceid) as suspended
-        on (total.pId=suspended.pId)
-        left outer join
-        (select pi.processinstanceid as pId, count(*) as instances_abrt
-        from bamprocesssummary pi
-        where pi.status=&apos;Aborted&apos; group by pi.processinstanceid) as aborted
-        on (total.pId=aborted.pId)
-        where {sql_condition, optional, processname, processname}
-        order by processname</query>
+          from
+          (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
+          from processinstancelog pi group by pId,processname) as total
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_act
+          from processinstancelog pi
+          where pi.status=1 group by pi.processinstanceid) as active
+          on (total.pId=active.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_compl
+          from processinstancelog pi
+          where pi.status=2 group by pi.processinstanceid) as completed
+          on (total.pId=completed.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_pend
+          from processinstancelog pi
+          where pi.status=0 group by pi.processinstanceid) as pending
+          on (total.pId=pending.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_susp
+          from processinstancelog pi
+          where pi.status=4 group by pi.processinstanceid) as suspended
+          on (total.pId=suspended.pId)
+          left outer join
+          (select pi.processinstanceid as pId, count(*) as instances_abrt
+          from processinstancelog pi
+          where pi.status=3 group by pi.processinstanceid) as aborted
+          on (total.pId=aborted.pId)
+          where {sql_condition, optional, processname, processname}
+          order by processname
+      </query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="processname">
@@ -207,7 +208,7 @@
     <description language="es">jBPM Process Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-<query>select processinstanceid,processname,status,startdate,enddate,userid,processversion,duration from bamprocesssummary</query>
+<query>select processinstanceid,processname,status,start_date,end_date,identity,processversion,duration from processinstancelog</query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="processinstanceid">
@@ -225,17 +226,17 @@
         <name language="en">Status</name>
         <name language="es">Estado</name>
       </dataproperty>
-      <dataproperty id="startdate">
+      <dataproperty id="start_date">
         <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
         <name language="en">Start date</name>
         <name language="es">Fecha incio</name>
       </dataproperty>
-      <dataproperty id="enddate">
+      <dataproperty id="end_date">
         <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
         <name language="en">End date</name>
         <name language="es">Fecha fin</name>
       </dataproperty>
-      <dataproperty id="userid">
+      <dataproperty id="identity">
         <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
         <name language="en">User or role</name>
         <name language="es">Usuario o rol</name>
@@ -257,7 +258,7 @@
     <sqlprovider>
       <datasource>local</datasource>
 <query>select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
-        from bamtasksummary ts left join bamprocesssummary ps on (ts.processinstanceid=ps.processinstanceid)</query>
+          from bamtasksummary ts left join processinstancelog ps on (ts.processinstanceid=ps.processinstanceid)</query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="taskid">
@@ -419,10 +420,10 @@
     <provider code="dataprovider_29781353670809093" />
     <displayer type="barchart" renderer="nvd3">
       <domain>
-        <propertyid>userid</propertyid>
+        <propertyid>identity</propertyid>
         <name language="en">User or role</name>
         <name language="es">Usuario o rol</name>
-        <maxnumberofintervals>100</maxnumberofintervals>
+        <maxnumberofintervals>10</maxnumberofintervals>
       </domain>
       <range>
         <propertyid>processinstanceid</propertyid>
@@ -535,10 +536,10 @@
     <provider code="dataprovider_29781353670809093" />
     <displayer type="linechart" renderer="nvd3">
       <domain>
-        <propertyid>enddate</propertyid>
+        <propertyid>end_date</propertyid>
         <name language="en">End date</name>
         <name language="es">Fecha fin</name>
-        <maxnumberofintervals>30</maxnumberofintervals>
+        <maxnumberofintervals>10</maxnumberofintervals>
         <taminterval>-1</taminterval>
       </domain>
       <range>
@@ -664,10 +665,10 @@
     <provider code="dataprovider_29781353670809093" />
     <displayer type="linechart" renderer="nvd3">
       <domain>
-        <propertyid>startdate</propertyid>
+        <propertyid>start_date</propertyid>
         <name language="en">Start date</name>
         <name language="es">Fecha incio</name>
-        <maxnumberofintervals>100</maxnumberofintervals>
+        <maxnumberofintervals>10</maxnumberofintervals>
         <taminterval>-1</taminterval>
       </domain>
       <range>
