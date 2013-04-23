@@ -423,7 +423,7 @@
         <propertyid>identity</propertyid>
         <name language="en">User or role</name>
         <name language="es">Usuario o rol</name>
-        <maxnumberofintervals>10</maxnumberofintervals>
+        <maxnumberofintervals>100</maxnumberofintervals>
       </domain>
       <range>
         <propertyid>processinstanceid</propertyid>
@@ -539,7 +539,7 @@
         <propertyid>end_date</propertyid>
         <name language="en">End date</name>
         <name language="es">Fecha fin</name>
-        <maxnumberofintervals>10</maxnumberofintervals>
+        <maxnumberofintervals>30</maxnumberofintervals>
         <taminterval>-1</taminterval>
       </domain>
       <range>
@@ -668,7 +668,7 @@
         <propertyid>start_date</propertyid>
         <name language="en">Start date</name>
         <name language="es">Fecha incio</name>
-        <maxnumberofintervals>10</maxnumberofintervals>
+        <maxnumberofintervals>100</maxnumberofintervals>
         <taminterval>-1</taminterval>
       </domain>
       <range>
