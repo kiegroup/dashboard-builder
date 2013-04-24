@@ -75,7 +75,7 @@ jBPM Dashboard & Human Tasks Console integration
 =================================================
 
 The next sections explain how to install the jBPM Human Task console in order to feed the dashboard with data coming
-from the jBPM engine. Once finished, you can continue with the deployment of the Dashboard Builder [here](#dashbuilder-deployment).
+from the jBPM engine. Once finished, you can continue with the deployment of the Dashboard Builder [here](#deploy-the-dashboard-builder).
 
 NOTE: The jBPM Process Dashboard requires the jBPM History log's database tables to exist.
 So, it's **mandatory** to deploy the jBPM Human Task console before the Dashboard Builder. Otherwise, the jBPM Process
