@@ -208,7 +208,7 @@
     <description language="es">jBPM Process Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-<query>select processinstanceid,processname,status,start_date,end_date,identity,processversion,duration from processinstancelog</query>
+<query>select processinstanceid,processname,status,start_date,end_date,user_identity,processversion,duration from processinstancelog</query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="processinstanceid">
@@ -236,7 +236,7 @@
         <name language="en">End date</name>
         <name language="es">Fecha fin</name>
       </dataproperty>
-      <dataproperty id="identity">
+      <dataproperty id="user_identity">
         <domain>org.jboss.dashboard.domain.label.LabelDomain</domain>
         <name language="en">User or role</name>
         <name language="es">Usuario o rol</name>
@@ -420,7 +420,7 @@
     <provider code="dataprovider_29781353670809093" />
     <displayer type="barchart" renderer="nvd3">
       <domain>
-        <propertyid>identity</propertyid>
+        <propertyid>user_identity</propertyid>
         <name language="en">User or role</name>
         <name language="es">Usuario o rol</name>
         <maxnumberofintervals>100</maxnumberofintervals>
