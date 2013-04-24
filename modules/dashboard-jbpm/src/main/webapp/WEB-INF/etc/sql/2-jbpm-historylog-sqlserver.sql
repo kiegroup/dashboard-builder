@@ -23,7 +23,7 @@ CREATE TABLE processinstancelog (
   status int,
   start_date datetime NOT NULL,
   end_date datetime,
-  identity varchar(255),
+  user_identity varchar(255),
   processversion varchar(255),
   duration bigint,
   primary key (pk)
