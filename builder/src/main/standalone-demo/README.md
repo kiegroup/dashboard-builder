@@ -70,8 +70,8 @@ Installation steps
         C:\ cd <target_directory>\dashbuilder-demo
         start-demo.bat
 
-  NOTE: The application uses an auto deployable H2 embedded database which it's automatically created when you run
-  it for the very first time. The database initialization procedure it takes a few minutes. Furthermore, you should
+  NOTE: The application uses an auto-deployable embedded H2 database which it's automatically created when you start
+  the app for the very first time. The database initialization procedure it takes a few minutes. Furthermore, you should
   take into account that the H2 database downgrades the application performance compared with other databases like
   PostgreSQL, MySQL, normally used in production environments.
 

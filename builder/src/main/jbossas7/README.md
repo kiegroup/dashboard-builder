@@ -14,10 +14,14 @@ Open a terminal window, go to the root directory and execute the following Maven
 
 Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.0.war**.
 
-Deploy the application
---------------------------
+Deploy the Dashboard Builder
+----------------------------
 
-Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) distribution file and execute the following command:
+Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
+
+(Read [this](#deploy-the-jbpm-human-tasks-console) if you want to set-up an installation of the jBPM Dashboard & the Human Tasks Console running togheter).
+
+If you only want to install the Dashboard Builder then continue reading...
 
     $ cd <jboss_home>/bin
     $ ./jboss-cli.sh --connect --command="deploy <path_to_war_file>"
@@ -26,13 +30,8 @@ Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) distribution file and
     e.g. $ ./jboss-cli.sh --connect --command="deploy /home/myuser/myfiles/dashbuilder-jboss-as7.0.war" )
 
 
-The application is configured to use the datasource with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.
-Notice, this is datasource present by default at any JBoss installation and is intended for development/demo purposes.
-
-NOTE: when the application starts for the first time it may take some minutes due to the database initialization procedure.
-The configured database user must also have enough database grants to create the database objects.
-Take in count that the H2 database downgrades the application performance compared with other databases like PostgreSQL,
-MySQL, etc., normally used in production environments.
+The application is configured to use a datasource with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.
+Notice, this datasource is intended for development/demo purposes and it's present by default at any JBoss installation.
 
 User Authentication
 --------------------------
@@ -59,22 +58,32 @@ There are plenty of examples in the JBoss AS documentation about.
 
 Feel free to change any settings regarding the application security and, once finished, to generate a distribution war that fits your needs.
 
+jBPM Process Dashboard
+-----------------------------
 
-jBPM Dashboard & Human Tasks Console integration
-=================================================
-
-The Dashboard Builder comes with an out-of-the-box Process Dashboard for jBPM which can be accessed in two ways:
+If the jBPM Human Task console has been deployed then the Dashboard Builder gives you access to the jBPM Process Dashboard,
+which can be accessed in two ways:
 
 * As root, by selecting the jBPM Dashboard workspace at the top administration toolbar, or
 * Typing the following URL: <code>http://localhost:8080/dashbuilder/workspace/jbpm-dashboard</code>
 
-As you will see, the dashboard is empty. No data is displayed.
+You can create process instances and tasks from the jBPM Human Task console and later on refresh the jBPM Dashboard to
+see how the different key performance monitoring indicators are updated.
+
+
+jBPM Dashboard & Human Tasks Console integration
+=================================================
 
 The next sections explain how to install the jBPM Human Task console in order to feed the dashboard with data coming
-from the jBPM engine.
+from the jBPM engine. Once finished, you can continue with the deployment of the Dashboard Builder [here](#dashbuilder-deployment).
 
-Deploy the JBPM console
----------------------------
+NOTE: The jBPM Process Dashboard requires the jBPM History log's database tables to exist.
+So, it's **mandatory** to deploy the jBPM Human Task console before the Dashboard Builder. Otherwise, the jBPM Process
+Dashboard will not be initialized correctly and will not be possible to display the jBPM's key performance indicators.
+
+
+Deploy the jBPM Human Tasks console
+-----------------------------------
 
 Get the proper jbpm-console-ng application (e.g. jbpm-console-ng-jboss-as7.0.war) distribution file and deploy it in
 the JBoss 7.1 server.
@@ -96,3 +105,5 @@ Execute the following steps:
         e.g. $ ./jboss-cli.sh --connect --command="deploy /home/myuser/myfiles/jbpm-console-ng-jboss-as7.0.war"
 
 Assuming <code>[jboss_home]</code> is the path to the given JBoss installation dir (e.g. /opt/jboss-as-7.1.1.Final).
+
+
