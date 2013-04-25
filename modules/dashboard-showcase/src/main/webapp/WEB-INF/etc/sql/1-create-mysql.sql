@@ -69,7 +69,7 @@ CREATE TABLE dashb_data_source_column (
     data_source varchar (512),
     table_name varchar (512),
     primary_key varchar (5),
-    identity1 varchar (5)
+    user_identity1 varchar (5)
 ) ENGINE = INNODB;
 -- CUSTOM_DELIMITER
 
