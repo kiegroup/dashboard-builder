@@ -208,7 +208,7 @@
     <description language="es">jBPM Process Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-<query>select processinstanceid,processname,status,start_date,end_date,user_identity,processversion,duration from processinstancelog</query>
+      <query>select processinstanceid,processname,status,start_date,end_date,user_identity,processversion,duration from processinstancelog</query>
     </sqlprovider>
     <dataproperties>
       <dataproperty id="processinstanceid">
@@ -257,7 +257,7 @@
     <description language="en">jBPM Task Summary</description>
     <sqlprovider>
       <datasource>local</datasource>
-<query>select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
+      <query>select ts.taskid,ts.processinstanceid,ps.processname,ps.processversion,ts.taskname,ts.createddate,ts.enddate,ts.userid,ts.duration
           from bamtasksummary ts left join processinstancelog ps on (ts.processinstanceid=ps.processinstanceid)</query>
     </sqlprovider>
     <dataproperties>
@@ -466,10 +466,11 @@
       </domain>
       <range>
         <propertyid>taskid</propertyid>
-        <name language="en">Task ID</name>
-        <name language="es">ID tarea</name>
+        <name language="en">#Tasks</name>
+        <name language="es">#Tareas</name>
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
+        <unit language="es">{value} tarea(s)</unit>
       </range>
       <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
@@ -505,9 +506,11 @@
       </domain>
       <range>
         <propertyid>taskid</propertyid>
-        <name language="en">Task ID</name>
-        <name language="es">ID tarea</name>
+        <name language="en">#Tasks</name>
+        <name language="es">#Tareas</name>
         <scalarfunction>count</scalarfunction>
+        <unit language="en">{value} task(s)</unit>
+        <unit language="es">{value} tarea(s)</unit>
       </range>
       <type></type>
       <intervalsortcriteria>1</intervalsortcriteria>
@@ -544,10 +547,11 @@
       </domain>
       <range>
         <propertyid>processinstanceid</propertyid>
-        <name language="en">Id</name>
-        <name language="es">Id</name>
+        <name language="en">#Instances</name>
+        <name language="es">#Instancias</name>
         <scalarfunction>count</scalarfunction>
-        <unit language="en">{value} task(s)</unit>
+        <unit language="en">{value} instance(s)</unit>
+        <unit language="es">{value} instancia(s)</unit>
       </range>
       <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -673,10 +677,11 @@
       </domain>
       <range>
         <propertyid>processinstanceid</propertyid>
-        <name language="en">Id</name>
-        <name language="es">Id</name>
+        <name language="en">#Instances</name>
+        <name language="es">#Instancias</name>
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} instance(s)</unit>
+        <unit language="es">{value} instancias(s)</unit>
       </range>
       <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -828,10 +833,11 @@
       </domain>
       <range>
         <propertyid>taskid</propertyid>
-        <name language="en">Task ID</name>
-        <name language="es">ID tarea</name>
+        <name language="en">#Tasks</name>
+        <name language="es">#Tareas</name>
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
+        <unit language="es">{value} tarea(s)</unit>
       </range>
       <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
@@ -957,10 +963,11 @@
       </domain>
       <range>
         <propertyid>taskid</propertyid>
-        <name language="en">Task ID</name>
-        <name language="es">ID tarea</name>
+        <name language="en">#Tasks</name>
+        <name language="es">#Tareas</name>
         <scalarfunction>count</scalarfunction>
         <unit language="en">{value} task(s)</unit>
+        <unit language="es">{value} tarea(s)</unit>
       </range>
       <type></type>
       <showlabelsxaxis>true</showlabelsxaxis>
