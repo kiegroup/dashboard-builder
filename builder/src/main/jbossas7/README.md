@@ -17,11 +17,11 @@ Go to the <code>builder/target</code> directory and get the file called **dashbu
 Deploy the Dashboard Builder
 ----------------------------
 
-Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
-
 (Read [this](#deploy-the-jbpm-human-tasks-console) if you want to set-up an installation of the jBPM Dashboard & the Human Tasks Console running togheter).
 
 If you only want to install the Dashboard Builder then continue reading...
+
+Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
 
     $ cd <jboss_home>/bin
     $ ./jboss-cli.sh --connect --command="deploy <path_to_war_file>"
