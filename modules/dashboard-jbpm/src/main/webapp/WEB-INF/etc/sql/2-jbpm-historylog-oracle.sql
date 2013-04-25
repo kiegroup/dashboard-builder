@@ -23,7 +23,7 @@ CREATE TABLE processinstancelog (
   status INTEGER,
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP,
-  identity VARCHAR2(255),
+  user_identity VARCHAR2(255),
   processversion VARCHAR2(255),
   duration NUMBER(38,0)
 );
