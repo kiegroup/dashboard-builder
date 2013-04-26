@@ -55,6 +55,12 @@
                     <exclude>WEB-INF/lib/stax-*.jar</exclude>
                     <exclude>WEB-INF/lib/cdi-*.jar</exclude>
                     <exclude>WEB-INF/lib/activation-*.jar</exclude>
+                    <exclude>WEB-INF/lib/c3p0-*.jar</exclude>
+                    <exclude>WEB-INF/lib/mchange-*.jar</exclude>
+                    <exclude>WEB-INF/lib/fontbox-*.jar</exclude>
+                    <exclude>WEB-INF/lib/itext-*.jar</exclude>
+                    <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
+                    <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>
