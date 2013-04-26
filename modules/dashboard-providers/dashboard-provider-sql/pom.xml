@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>dashboard-providers</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.0.Beta2</version>
     </parent>
 
     <artifactId>dashboard-provider-sql</artifactId>
@@ -36,7 +36,7 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.0.0.Beta2</version>
         </dependency>
     </dependencies>
 </project>
