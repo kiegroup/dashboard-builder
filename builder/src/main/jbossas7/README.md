@@ -106,4 +106,17 @@ Execute the following steps:
 
 Assuming <code>[jboss_home]</code> is the path to the given JBoss installation dir (e.g. /opt/jboss-as-7.1.1.Final).
 
+Single Sign On
+---------------------------------
 
+In order to enable SSO between the jBPM Dashboard and the jBPM Task Console, please, edit the
+<code>[jboss-as7]/standalone/config/standalone.xml</code> file and add the **<sso/>** tag under the virtual server configuration.
+
+
+    ...
+    <virtual-server name="default-host" enable-welcome-root="true">
+        <alias name="localhost"/>
+        <alias name="example.com"/>
+         <sso/>
+    </virtual-server>
+    ...
