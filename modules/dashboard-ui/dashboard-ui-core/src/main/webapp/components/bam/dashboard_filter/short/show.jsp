@@ -35,11 +35,6 @@
 <mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>"
                     value='<%=request.getAttribute("componentCode")%>'/>
 
-<mvc:fragment name="outputEmpty">
-
-</mvc:fragment>
-
-
 <mvc:fragment name="outputStart">
     <table border="0" style="margin:0px;" cellspacing="0" width="100%">
     <tr>
@@ -49,6 +44,16 @@
     <factory:handler bean="<%=handler.getComponentPath()%>" action="filter"/>
     <table border="0" cellspacing="5" cellpadding="0" width="100%">
 
+</mvc:fragment>
+
+<mvc:fragment name="outputEmpty">
+    <tr>
+        <td colspan="2">
+            <span class="skn-error">
+                <i18n:message key='<%=DashboardFilterHandler.I18N_PREFFIX + "emptyPanel"%>'>!!!Panel empty</i18n:message>
+            </span>
+        </td>
+    </tr>
 </mvc:fragment>
 
 <mvc:fragment name="outputPanelDuplicated">
@@ -77,7 +82,7 @@
     </tr>
 </mvc:fragment>
 
-<mvc:fragment name="outputLegenedStringProperty">
+<mvc:fragment name="outputLegendStringProperty">
     <mvc:fragmentValue name="index" id="index">
         <%
             String className, altClass;
@@ -114,7 +119,7 @@
     </mvc:fragmentValue>
 </mvc:fragment>
 
-<mvc:fragment name="outputLegenedToFromProperty">
+<mvc:fragment name="outputLegendToFromProperty">
     <mvc:fragmentValue name="propertyMaxValue" id="propertyMaxValue">
         <mvc:fragmentValue name="index" id="index">
             <mvc:fragmentValue name="outputText" id="outputText">

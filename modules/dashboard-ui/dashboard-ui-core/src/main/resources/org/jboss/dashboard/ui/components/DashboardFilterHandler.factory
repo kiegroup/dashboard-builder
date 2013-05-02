@@ -29,4 +29,3 @@ componentIncludeJSPshort_edit=/components/bam/dashboard_filter/short/edit.jsp
 componentIncludeJSPshort_properties=/components/bam/dashboard_filter/short/properties.jsp
 
 requestProcessor=org.jboss.dashboard.ui.components.DashboardFilterRequestProcessor
-autoRefreshTimeout=15

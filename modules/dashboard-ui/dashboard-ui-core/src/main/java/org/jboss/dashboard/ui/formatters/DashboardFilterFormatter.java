@@ -143,51 +143,50 @@ public class DashboardFilterFormatter extends Formatter {
             return;
         }
 
-        // Render if empty.
-        if (checkEmpty()) {
-            renderFragment("outputEmpty");
-            if (getDashboardFilterHandler().isShowAutoRefresh()) renderFragment("outputAutoRefreshInTable");
-            return;
-        }
-
         // Render panel.
         renderFragment("outputStart");
 
-        // Show legend.
-        DashboardFilterProperty[] filteredProperties = getDashboardFilterHandler().getBeingFilteredProperties();
-        if (getDashboardFilterHandler().isShowLegend() && filteredProperties.length > 0) {
-            renderFragment("outputStartLegend");
-            for (int i = 0; i < filteredProperties.length; i++) {
-                DashboardFilterProperty dashboardFilterProperty = filteredProperties[i];
-                setAttribute("propertyId", dashboardFilterProperty.getPropertyId());
-                setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
-                setAttribute("index", new Integer(i));
-                if (dashboardFilterProperty.isLabelProperty()) {
-                    setAttribute("propertyValue", dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertySelectedValues(), getLocale()));
-                    renderFragment("outputLegenedStringProperty");
-                } else {
-                    String minValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMinValue(), getLocale());
-                    String maxValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMaxValue(), getLocale());
-                    setAttribute("propertyMinValue", minValue);
-                    setAttribute("propertyMaxValue", maxValue);
-                    StringBuffer str = new StringBuffer();
-                    str.append(getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "from")).append("  ");
-                    str.append(minValue);
-                    boolean existMaxValue = maxValue != null && maxValue.trim().length() > 0;
-                    if (existMaxValue) {
-                        str.append(" ").append(getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "to")).append("  ");
-                        str.append(maxValue);
-                    }
-                    setAttribute("outputText", str.toString());
-                    renderFragment("outputLegenedToFromProperty");
-                }
-            }
-            renderFragment("outputEndLegend");
-        }
+        // Render if empty.
+        if (checkEmpty()) {
+            renderFragment("outputEmpty");
+        } else {
 
-        renderFragment("outputStartProperties");
-        includePage(getDashboardFilterHandler().getJSPForProperties());
-        renderFragment("outputEndProperties");
+            // Show legend.
+            DashboardFilterProperty[] filteredProperties = getDashboardFilterHandler().getBeingFilteredProperties();
+            if (getDashboardFilterHandler().isShowLegend() && filteredProperties.length > 0) {
+                renderFragment("outputStartLegend");
+                for (int i = 0; i < filteredProperties.length; i++) {
+                    DashboardFilterProperty dashboardFilterProperty = filteredProperties[i];
+                    setAttribute("propertyId", dashboardFilterProperty.getPropertyId());
+                    setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
+                    setAttribute("index", new Integer(i));
+                    if (dashboardFilterProperty.isLabelProperty()) {
+                        setAttribute("propertyValue", dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertySelectedValues(), getLocale()));
+                        renderFragment("outputLegendStringProperty");
+                    } else {
+                        String minValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMinValue(), getLocale());
+                        String maxValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMaxValue(), getLocale());
+                        setAttribute("propertyMinValue", minValue);
+                        setAttribute("propertyMaxValue", maxValue);
+                        StringBuffer str = new StringBuffer();
+                        str.append(getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "from")).append("  ");
+                        str.append(minValue);
+                        boolean existMaxValue = maxValue != null && maxValue.trim().length() > 0;
+                        if (existMaxValue) {
+                            str.append(" ").append(getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "to")).append("  ");
+                            str.append(maxValue);
+                        }
+                        setAttribute("outputText", str.toString());
+                        renderFragment("outputLegendToFromProperty");
+                    }
+                }
+                renderFragment("outputEndLegend");
+            }
+
+            renderFragment("outputStartProperties");
+            includePage(getDashboardFilterHandler().getJSPForProperties());
+            renderFragment("outputEndProperties");
+        }
 
         renderFragment("outputStartBottom");
         if (getDashboardFilterHandler().isShowAutoRefresh()) renderFragment("outputAutoRefresh");
@@ -199,7 +198,6 @@ public class DashboardFilterFormatter extends Formatter {
         if (getDashboardFilterHandler().isShowRefreshButton()) renderFragment("outputRefreshButton");
         renderFragment("outputEndButtons");
         renderFragment("outputEndBottom");
-        renderFragment("outputEndRow");
         renderFragment("outputEnd");
     }
 

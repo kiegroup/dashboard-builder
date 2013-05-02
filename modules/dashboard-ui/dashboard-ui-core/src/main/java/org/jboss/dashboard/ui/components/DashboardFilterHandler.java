@@ -111,7 +111,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         serializedProperties = null;
         isShowMode = true;
         isEditMode = false;
-        isShortMode = false;
+        isShortMode = true;
         properties = new ArrayList();
         filterPropertyErrors = new HashSet();
         notAllowedProperties = new ArrayList();
@@ -122,11 +122,11 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         showSubmitOnChange = true;
         showLegend = true;
         showAutoRefresh = false;
-        autoRefreshTimeout = 30;
+        autoRefreshTimeout = 15;
         panelDuplicated = false;
     }
 
-    // -------------- START GETTERS AND SETTERS --------------------- //
+// -------------- START GETTERS AND SETTERS --------------------- //
 
     public boolean isPanelDuplicated() {
         return panelDuplicated;
@@ -410,7 +410,6 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return results;
     }
 
-    // Calls dashboard filter to get all properties but keep properties instance configuration. Is propety is found on this instance properties List thsi instance is returned.
     public DashboardFilterProperty[] getAllPropertiesForCurrentFilter() {
         List results = new ArrayList();
         try {
@@ -514,7 +513,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
 
             // Check if another property with same identifier.
             if (getDashboardFilterProperty(propertyId) != null) {
-                // Another propety with same id is already setted to the filter.
+                // Another property with same id is already set to the filter.
                 // Filter cannot use two properties with same property id., so show warning.
                 notAllowedProperties.add(prop);
                 continue;

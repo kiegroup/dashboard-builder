@@ -33,57 +33,54 @@
     <tr class="skn-table_header">
         <td width="10px">
             <%  if (refreshEnabled) { %>
-               <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
+            <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
             <% } else { %>
-                <a id="<panel:encode name="refreshPlayLink"/>" href="<factory:url action="play" bean="<%=handler.getComponentPath()%>"/>">
-                    <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px;">
-                </a>
-                <script defer="defer">
-                    setAjax('<panel:encode name="refreshPlayLink"/>');
-                </script>
+            <a id="<panel:encode name="refreshPlayLink"/>" href="<factory:url action="play" bean="<%=handler.getComponentPath()%>"/>">
+                <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px;">
+            </a>
+            <script defer="defer">
+                setAjax('<panel:encode name="refreshPlayLink"/>');
+            </script>
             <% } %>
         </td>
         <td width="10px">
             <% if (!handler.isRefreshEnabled()) { %>
-                <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
+            <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
             <% } else { %>
-                <a id="<panel:encode name="refreshStopLink"/>" onclick="clearTimeout(<panel:encode name="clearTimeout"/>);" href="<factory:url action="stop" bean="<%=handler.getComponentPath()%>"/>">
-                    <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px;">
-                </a>
-                <script defer="defer">
-                    setAjax('<panel:encode name="refreshStopLink"/>');
-                </script>
+            <a id="<panel:encode name="refreshStopLink"/>" onclick="clearTimeout(window.<panel:encode name="clearTimeout"/>);" href="<factory:url action="stop" bean="<%=handler.getComponentPath()%>"/>">
+                <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px;">
+            </a>
+            <script defer="defer">
+                setAjax('<panel:encode name="refreshStopLink"/>');
+            </script>
             <% } %>
 
         </td>
         <td nowrap="nowrap">
             <input type="text" class="skn-input" size="3" value="<%=handler.getAutoRefreshTimeout()%>" onchange="
-                document.getElementById('<panel:encode name="refreshTimeOut"/>').value = this.value;
-                submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>')); return false;"> s.
+                    document.getElementById('<panel:encode name="refreshTimeOut"/>').value = this.value;
+                    submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>')); return false;">
         </td>
-        <td nowrap="nowrap" width="25px">
-            <span id="<panel:encode name="p_timeout"/>" style="color:#FFFFFF;"></span>
+        <td nowrap="nowrap">
+            <span id="<panel:encode name="p_timeout"/>" style="color:#FFFFFF;"><%=handler.getAutoRefreshTimeout()%></span>&nbsp;''
         </td>
-
     </tr>
-
 </table>
 <script type="text/javascript" defer="defer">
-    var <panel:encode name="timeout_value"/> = 0;
-    var <panel:encode name="clearTimeout"/> = 0;
-    <% if (refreshEnabled) {%>
-        <panel:encode name="clearTimeout"/> = setTimeout('<panel:encode name="refresh_timeout"/>()', 1000);
-    <% }%>
-</script>
-
-<script type="text/javascript">
     function <panel:encode name="refresh_timeout"/>() {
-            if (<panel:encode name="timeout_value"/> == <%=handler.getAutoRefreshTimeout()%>) {
-                submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>'));
-            } else {
-                <panel:encode name="timeout_value"/> += 1;
-                document.getElementById('<panel:encode name="p_timeout"/>').innerHTML =  <panel:encode name="timeout_value"/>;
-                <panel:encode name="clearTimeout"/> = setTimeout('<panel:encode name="refresh_timeout"/>()', 1000);
-            }
+        if (<panel:encode name="timeout_value"/> == 0) {
+            submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>'));
+        } else {
+            <panel:encode name="timeout_value"/> -= 1;
+            document.getElementById('<panel:encode name="p_timeout"/>').innerHTML =  <panel:encode name="timeout_value"/>;
+            <panel:encode name="clearTimeout"/> = setTimeout('<panel:encode name="refresh_timeout"/>()', 1000);
+        }
     }
+
+    if (window.<panel:encode name="clearTimeout"/>) clearTimeout(window.<panel:encode name="clearTimeout"/>);
+    var <panel:encode name="timeout_value"/> = <%=handler.getAutoRefreshTimeout()%>;
+    window.<panel:encode name="clearTimeout"/> = 0;
+    <% if (refreshEnabled) {%>
+    window.<panel:encode name="clearTimeout"/> = setTimeout('<panel:encode name="refresh_timeout"/>()', 1000);
+    <% }%>
 </script>
