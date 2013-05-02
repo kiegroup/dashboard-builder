@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.DataDisplayerServices;
@@ -82,7 +83,7 @@ public class KPIEditor extends KPIViewer {
 
         // Update the kpi description.
         String kpiDescr = request.getRequestObject().getParameter(PARAM_KPI_DESCRIPTION);
-        if (kpiDescr != null) kpi.setDescription(kpiDescr, locale);
+        if (!StringUtils.isBlank(kpiDescr)) kpi.setDescription(kpiDescr, locale);
 
         // Check for change of locale and update LocaleManager if necessary.
         localeChanged(request);
@@ -90,7 +91,6 @@ public class KPIEditor extends KPIViewer {
     }
 
     public CommandResponse actionChangeDisplayer(CommandRequest request) throws Exception {
-
         String uid = request.getRequestObject().getParameter("uid");
         DataDisplayerType selectedType = DataDisplayerServices.lookup().getDataDisplayerManager().getDisplayerTypeByUid(uid);
         if (selectedType == null) return null;

@@ -128,10 +128,12 @@ public class FactoryActionRequestExecutor extends RequestChainProcessor {
         public PanelActionTrace(Section section, Panel panel, String pAction) {
             super(panel.getInstanceId().toString());
             LocaleManager localeManager = LocaleManager.lookup();
+            String title = (String) localeManager.localize(panel.getInstance().getTitle());
+            if (title == null) title = panel.getPanelId().toString();
             context = new LinkedHashMap<String,Object>();
             context.put("Workspace", localeManager.localize(section.getWorkspace().getTitle()));
             context.put("Section", localeManager.localize(section.getTitle()));
-            context.put("Panel", localeManager.localize(panel.getInstance().getTitle()).toString());
+            context.put("Panel", title);
             context.put("Panel id.", panel.getPanelId().toString());
             context.put("Panel driver", panel.getProvider().getDriver().getClass().getName());
             context.put("Panel action", pAction);

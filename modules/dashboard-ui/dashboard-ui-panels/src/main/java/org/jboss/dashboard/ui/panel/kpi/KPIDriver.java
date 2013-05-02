@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.kpi;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
@@ -181,7 +182,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         // Make the panel instance's description match the KPI description.
         String lang = LocaleManager.currentLang();
         String kpiDescr = request.getRequestObject().getParameter(KPIEditor.PARAM_KPI_DESCRIPTION);
-        if (kpiDescr != null) panel.getInstance().setTitle(kpiDescr, lang);
+        if (!StringUtils.isBlank(kpiDescr)) panel.getInstance().setTitle(kpiDescr, lang);
 
         // Make changes persistent.
         kpi.save();
