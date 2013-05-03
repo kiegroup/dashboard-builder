@@ -32,10 +32,6 @@
 <static:image relativePath="general/16x16/ico-folder_closed.png" id="folderClosedURI"/>
 <static:image relativePath="general/16x16/ico-folder_open.png" id="folderOpenURI"/>
 
-<%
-    try{
-%>
-
 <factory:setProperty bean="org.jboss.dashboard.ui.components.MessagesComponentHandler"
                      property="i18nBundle" propValue="org.jboss.dashboard.ui.messages" />
 <factory:setProperty bean="org.jboss.dashboard.ui.components.MessagesComponentHandler"
@@ -382,8 +378,8 @@
 
     <i18n:message key="ui.sections.confirmDelete" id="confirmDeleteMsg"/>
     function doDelete() {
-        if (confirm('<%=confirmDeleteMsg%>')) {
-            submitFormAction('<%=SectionsPropertiesHandler.ACTION_DELETE%>');
+        if (checkSelection('<%=SectionsPropertiesHandler.ACTION_DELETE%>')) {
+            if (confirm('<%=confirmDeleteMsg%>')) document.config.submit();
         }
         return false;
     }
@@ -404,7 +400,4 @@
     </mvc:fragment>
 <%-------------------------------------------------------------------------------------------%>
 </mvc:formatter>
-<%}catch(Throwable t){
-    t.printStackTrace();
-} %>
 
