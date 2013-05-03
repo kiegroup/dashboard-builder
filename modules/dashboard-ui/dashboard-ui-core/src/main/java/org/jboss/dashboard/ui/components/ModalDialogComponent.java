@@ -27,8 +27,6 @@ public class ModalDialogComponent extends UIComponentHandlerFactoryElement {
         return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
     }
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ModalDialogComponent.class.getName());
-
     public static final int DEFAULT_WIDTH = 640;
     public static final int DEFAULT_HEIGHT = 480;
 

@@ -29,10 +29,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PopupPanelsHandler extends PanelComponent {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PopupPanelsHandler.class.getName());
@@ -86,8 +83,6 @@ public class PopupPanelsHandler extends PanelComponent {
         this.showedPanelSubgroupId = showedPanelSubgroupId;
     }
 
-
-
     public void actionGetPanelsPopupPage(CommandRequest request) {
         ModalDialogComponent modalDialog = getModalDialogComponent();
 
@@ -96,6 +91,8 @@ public class PopupPanelsHandler extends PanelComponent {
             return;
         }
 
+        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.messages", LocaleManager.currentLocale());
+        modalDialog.setTitle(i18n.getString("ui.panels.popup.title"));
         modalDialog.setCurrentComponent(this);
         modalDialog.setModal(false);
         modalDialog.setDraggable(true);
