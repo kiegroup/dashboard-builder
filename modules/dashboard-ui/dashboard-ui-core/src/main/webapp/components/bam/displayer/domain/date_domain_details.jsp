@@ -86,9 +86,7 @@
     </tr>
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                 <i18n:message key='<%= DateDomain.I18N_PREFFIX + "endDate"%>'>!!Fecha de fin</i18n:message>:
-
         </td>
         <td nowrap="nowrap" align="left">
             <% String maxDate = domainConfig.getDateMaxDate(); %>

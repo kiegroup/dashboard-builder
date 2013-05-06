@@ -28,10 +28,8 @@
     DomainConfiguration domainConfig =  (DomainConfiguration) request.getAttribute("domainConfig");
 %>
 <tr>
-    <td height="15" nowrap="nowrap" align="left">
-
+    <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
             <i18n:message key='<%= LabelDomain.I18N_PREFFIX + "labelIntervalsToHide"%>'>!!Ocultar intervalos (separados por comas)</i18n:message>:
-                
     </td>
     <td nowrap="nowrap" align="left">
         <input class="skn-input" name="labelIntervalsToHide" type="text" value="<%= domainConfig.getLabelIntervalsToHide(LocaleManager.currentLocale()) %>">

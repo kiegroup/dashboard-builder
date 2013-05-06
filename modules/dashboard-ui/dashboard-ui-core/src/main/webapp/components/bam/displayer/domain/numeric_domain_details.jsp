@@ -30,9 +30,7 @@
 %>
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                 <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericTamInterval"%>'>!!Tamano del intervalo</i18n:message>:
-
         </td>
         <td nowrap="nowrap" align="left">
             <select name="numericTamInterval" class="skn-input" style="width:120px;">
@@ -62,9 +60,7 @@
     </tr>
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                 <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericMinValue"%>'>!!Valor minimo</i18n:message>:
-
         </td>
         <td nowrap="nowrap" align="left">
             <% String minValue = domainConfig.getNumericMinValue(); %>
@@ -73,9 +69,7 @@
     </tr>
     <tr>
         <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                 <i18n:message key='<%= NumericDomain.I18N_PREFFIX + "numericMaxValue"%>'>!!Valor maximo</i18n:message>:
-            
         </td>
         <td nowrap="nowrap" align="left">
             <% String maxValue = domainConfig.getNumericMaxValue(); %>

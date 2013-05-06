@@ -39,9 +39,7 @@
 %>
        <tr>
             <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                     <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "description"%>'>!!Descripcion</i18n:message>:
-
             </td>
             <td align="left">
                 <input class="skn-input" name="descripDomainDetails" type="text" value="<%= domainConfig.getPropertyName(locale) %>">
@@ -50,9 +48,7 @@
 <% } %>
         <tr>
             <td height="15" nowrap="nowrap" align="left" class="skn-even_row">
-
                     <i18n:message key='<%= AbstractDomain.I18N_PREFFIX + "maxNumberOfIntervals"%>'>!!Numero maximo de intervalos</i18n:message>:
-                
             </td>
             <td align="left">
                 <input class="skn-input" name="domainMaxNumberOfIntervals" type="text" value="<%= domainConfig.getMaxNumberOfIntervals() %>">
