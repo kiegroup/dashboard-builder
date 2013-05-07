@@ -174,7 +174,9 @@ public class UIPolicy implements Policy, Startable {
         RolesManager rolesManager = SecurityServices.lookup().getRolesManager();
         WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
         SectionPermission sectionPerm = new SectionPermission("*", SectionPermission.ACTION_VIEW);
+        sectionPerm.setReadOnly(true);
         PanelPermission panelPerm = new PanelPermission("*", PanelPermission.ACTION_VIEW);
+        panelPerm.setReadOnly(true);
 
         // All roles can view all sections and panels
         for (Role role : rolesManager.getAllRoles()) {
@@ -185,6 +187,7 @@ public class UIPolicy implements Policy, Startable {
             // Give users with pure role "admin" some global permissions
             if (role.getName().equals(Role.ADMIN)) {
                 BackOfficePermission bPerm = new BackOfficePermission(BackOfficePermission.getResourceName(null), null);
+                bPerm.setReadOnly(true);
                 bPerm.grantAction(BackOfficePermission.ACTION_USE_GRAPHIC_RESOURCES);
                 bPerm.grantAction(BackOfficePermission.ACTION_CREATE_WORKSPACE);
                 defaultPermissions.add(new Object[]{rolePrincipal, bPerm});
@@ -194,14 +197,17 @@ public class UIPolicy implements Policy, Startable {
 
                     WorkspacePermission workspacePerm = new WorkspacePermission(getResourceName(workspace), null);
                     workspacePerm.grantAllActions();
+                    workspacePerm.setReadOnly(true);
                     defaultPermissions.add(new Object[]{rolePrincipal, workspacePerm});
 
                     SectionPermission adminSectionPerm = new SectionPermission(getResourceName(workspace) + ".*", null);
                     adminSectionPerm.grantAllActions();
+                    adminSectionPerm.setReadOnly(true);
                     defaultPermissions.add(new Object[]{rolePrincipal, adminSectionPerm});
 
                     PanelPermission adminPanelPerm = new PanelPermission(getResourceName(workspace) + ".*", null);
                     adminPanelPerm.grantAllActions();
+                    adminPanelPerm.setReadOnly(true);
                     defaultPermissions.add(new Object[]{rolePrincipal, adminPanelPerm});
                 }
             }
@@ -209,7 +215,7 @@ public class UIPolicy implements Policy, Startable {
 
         for (int i = 0; i < defaultPermissions.size(); i++) {
             Object[] objects = (Object[]) defaultPermissions.get(i);
-            this.addPermission((Principal) objects[0], (Permission) objects[1], Boolean.TRUE);
+            this.addPermission((Principal) objects[0], (Permission) objects[1]);
         }
     }
 
@@ -246,11 +252,7 @@ public class UIPolicy implements Policy, Startable {
         this.addPermission(null, newPerm);
     }
 
-    public void addPermission(Principal prpal, Permission perm) {
-        this.addPermission(prpal, perm, Boolean.FALSE);
-    }
-
-    public synchronized void addPermission(Principal prpal, Permission perm, Boolean readonly) {
+    public synchronized void addPermission(Principal prpal, Permission perm) {
         try {
 
             // No principal specified then use unspecified principal
@@ -272,7 +274,7 @@ public class UIPolicy implements Policy, Startable {
             if (pd == null) pd = PermissionManager.lookup().createNewItem();
             pd.setPrincipal(key);
             pd.setPermission(perm);
-            pd.setReadonly(readonly);
+            pd.setReadonly(((UIPermission) perm).isReadOnly());
 
             // If the update buffer already contains the permission descriptor then remove it.
             int pos = updateBuffer.indexOf(pd);
@@ -487,7 +489,8 @@ public class UIPolicy implements Policy, Startable {
                 try {
                     if (log.isDebugEnabled()) log.debug("Adding permission " + pd.getPermission() + " for principal " + pd.getPrincipal());
                     Principal prpal = pd.getPrincipal();
-                    Permission perm = pd.getPermission();
+                    UIPermission perm = (UIPermission) pd.getPermission();
+                    perm.setReadOnly(pd.isReadonly());
                     addPermission(prpal, perm);
                 }
                 catch (InstantiationException ie) {

@@ -16,7 +16,11 @@
 package org.jboss.dashboard.ui.config.components.workspace;
 
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.security.Policy;
+import org.jboss.dashboard.security.WorkspacePermission;
+import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
@@ -24,15 +28,13 @@ import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.components.WorkspaceHandler;
+import org.jboss.dashboard.users.Role;
+import org.jboss.dashboard.users.RolesManager;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspacesPropertiesHandler.class.getName());
@@ -127,16 +129,26 @@ public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
                 newWorkspace.setName(name);
                 newWorkspace.setSkinId(skinId);
                 newWorkspace.setEnvelopeId(envelopeId);
-                //newWorkspace.setFriendlyUrl(url);
 
-                HibernateTxFragment txFragment = new HibernateTxFragment() {
-                    protected void txFragment(Session session) throws Exception {
-                        // Register workspace
-                        UIServices.lookup().getWorkspacesManager().addNewWorkspace(newWorkspace);
-                        getNavigationManager().setCurrentWorkspace(newWorkspace);
-                    }
-                };
-                txFragment.execute();
+                // Register workspace (persistent operation)
+                new HibernateTxFragment() {
+                protected void txFragment(Session session) throws Exception {
+                    UIServices.lookup().getWorkspacesManager().addNewWorkspace(newWorkspace);
+                    getNavigationManager().setCurrentWorkspace(newWorkspace);
+                }}.execute();
+
+                // Add default access/admin permissions to the roles the creator user belongs to.
+                RolesManager rolesManager = SecurityServices.lookup().getRolesManager();
+                Policy policy = SecurityServices.lookup().getSecurityPolicy();
+                WorkspacePermission perm = WorkspacePermission.newInstance(newWorkspace, null);
+                perm.grantAllActions();
+                for (String roleId : UserStatus.lookup().getUserRoleIds()) {
+                    Role role = rolesManager.getRoleById(roleId);
+                    RolePrincipal prpal = new RolePrincipal(role);
+                    policy.addPermission(prpal, perm);
+                    policy.save();
+                }
+
                 title = null;
                 name = null;
                 skinId = UIServices.lookup().getSkinsManager().getDefaultElement().getId();

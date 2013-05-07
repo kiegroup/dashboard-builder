@@ -78,6 +78,7 @@ public class ExportVisitor implements WorkspaceVisitor {
     public static final String PERMISSION_ATTR_PRINCIPAL_CLASS = "principalClass";
     public static final String PERMISSION_ATTR_PERMISSION_CLASS = "permissionClass";
     public static final String PERMISSION_ATTR_ACTIONS = "actions";
+    public static final String PERMISSION_ATTR_READONLY = "readonly";
     public static final String PARAMETER_ATTR_NAME = "name";
     public static final String PARAMETER_ATTR_VALUE = "value";
     public static final String PARAMETER_ATTR_LANG = "lang";
@@ -204,6 +205,7 @@ public class ExportVisitor implements WorkspaceVisitor {
         node.addAttribute(PERMISSION_ATTR_ACTIONS, perm.getActions());
         node.addAttribute(PERMISSION_ATTR_PRINCIPAL_CLASS, perm.getRelatedPrincipal().getClass().getName());
         node.addAttribute(PERMISSION_ATTR_PRINCIPAL, perm.getRelatedPrincipal().getName());
+        node.addAttribute(PERMISSION_ATTR_READONLY, Boolean.toString(perm.isReadOnly()));
         currentNode.addChild(node);
         currentNode = node;
         return node;

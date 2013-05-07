@@ -147,7 +147,7 @@ public class WorkspaceBuilder {
         String permClass = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PERMISSION_CLASS);
         String principalName = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PRINCIPAL);
         String principalClass = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_PRINCIPAL_CLASS);
-        String readonly = node.getAttributes().getProperty("readonly");
+        String readonly = node.getAttributes().getProperty(ExportVisitor.PERMISSION_ATTR_READONLY);
 
         UIPermission permission = null;
         if (WorkspacePermission.class.getName().equals(permClass)) {
@@ -158,19 +158,21 @@ public class WorkspaceBuilder {
             permission = PanelPermission.newInstance(resource, actions);
         }
 
-        if (principalClass.equals("org.jboss.dashboard.security.UserPrincipal"))
+        if (principalClass.equals("org.jboss.dashboard.security.UserPrincipal")) {
             principalClass = "org.jboss.dashboard.security.principals.UserPrincipal";
-        else if (principalClass.equals("org.jboss.dashboard.security.UserGroupPrincipal"))
+        } else if (principalClass.equals("org.jboss.dashboard.security.UserGroupPrincipal")) {
             principalClass = "org.jboss.dashboard.security.principals.UserGroupPrincipal";
-        else if (principalClass.equals("org.jboss.dashboard.security.BehaviourPrincipal"))
+        } else if (principalClass.equals("org.jboss.dashboard.security.BehaviourPrincipal")) {
             principalClass = "org.jboss.dashboard.security.principals.UserGroupPrincipal";
+        }
 
         principalName = transformPrincipalName(principalName, principalClass, attributes);
+        permission.setReadOnly(readonly != null && readonly.equals("true"));
 
         Constructor principalConstructor = Class.forName(principalClass).getConstructor(new Class[]{String.class});
         DefaultPrincipal principal = (DefaultPrincipal) principalConstructor.newInstance(new Object[]{principalName});
         Policy securityPolicy = SecurityServices.lookup().getSecurityPolicy();
-        securityPolicy.addPermission(principal, permission, Boolean.valueOf(readonly));
+        securityPolicy.addPermission(principal, permission);
         securityPolicy.save();
     }
 

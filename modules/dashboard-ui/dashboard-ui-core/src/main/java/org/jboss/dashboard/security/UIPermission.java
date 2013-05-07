@@ -29,18 +29,19 @@ public class UIPermission extends DefaultPermission implements Visitable {
 
     private Principal relatedPrincipal;
 
-    private String resourceName, actions;
+    private String resourceName;
+    private String actions;
+    private boolean readOnly;
 
     public UIPermission(String resourceName, String actions) {
         super(resourceName, actions);
         this.resourceName = resourceName;
         this.actions = actions;
+        readOnly = false;
     }
 
     /**
      * Set the related principal, useful only for visitor operations.
-     *
-     * @param relatedPrincipal
      */
     public void setRelatedPrincipal(Principal relatedPrincipal) {
         this.relatedPrincipal = relatedPrincipal;
@@ -48,8 +49,6 @@ public class UIPermission extends DefaultPermission implements Visitable {
 
     /**
      * Get the related principal, useful only for visitor operations.
-     *
-     * @return relatedPrincipal
      */
     public Principal getRelatedPrincipal() {
         return relatedPrincipal;
@@ -58,6 +57,14 @@ public class UIPermission extends DefaultPermission implements Visitable {
     public Object acceptVisit(WorkspaceVisitor visitor) throws Exception {
         visitor.visitPermission(this, relatedPrincipal);
         return visitor.endVisit();
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 
     public boolean equals(Object o) {
@@ -69,7 +76,7 @@ public class UIPermission extends DefaultPermission implements Visitable {
             return super.equals(o);
         }
         catch (ClassCastException cce) {
-            return false;   //Do not compare getClass() because it is slower
+            return false;   // Do not compare getClass() because it is slower
         }
     }
 
@@ -87,5 +94,4 @@ public class UIPermission extends DefaultPermission implements Visitable {
             return action;
         }
     }
-
 }
