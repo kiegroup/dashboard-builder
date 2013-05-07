@@ -16,7 +16,7 @@
 
 $class=org.jboss.dashboard.ui.config.treeNodes.HomePagesNode
 $scope=volatile
-$description=Home pages Sections Node
+$description=Home pages node
 
 homePagesHandler=org.jboss.dashboard.ui.config.components.homePages.HomePagesHandler
 
