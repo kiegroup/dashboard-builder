@@ -45,6 +45,10 @@
                     .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>})
                     .showValues(false);
 
+               chart.xAxis.tickFormat(function(d) {
+                    return <%= displayer.isShowLabelsXAxis() ?  "d" : "''" %>;
+              });
+
                chart.yAxis
                     .axisLabel("<%= rangeProperty.getName(locale) %>");
 

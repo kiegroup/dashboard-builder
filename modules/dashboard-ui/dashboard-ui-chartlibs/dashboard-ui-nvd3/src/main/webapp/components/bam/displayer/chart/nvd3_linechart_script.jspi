@@ -50,7 +50,7 @@
 
             chart.xAxis.tickFormat(function(d) {
                     if( (typeof d === 'number' && d % 1 == 0) && d >= 0 && d < <%=xvalues.size()%> )
-                        return chartLabels<%=chartId%>[d];
+                        return <%= displayer.isShowLabelsXAxis() ? "chartLabels" + chartId + "[d]" : "" %>
                     else
                         return "";
                    });
