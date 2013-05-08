@@ -36,7 +36,7 @@
 <div class="skn-background_alt">
     <table width="100%">
         <tr>
-            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/modules/info.png"/>"></td>
+            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/info.png"/>"></td>
             <td align="left"><i18n:message key="export.info">!!!Select the dahboards to export</i18n:message></td>
         </tr>
     </table>
@@ -47,7 +47,7 @@
 <div class="skn-background_alt">
     <table width="100%">
         <tr>
-            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/modules/info.png"/>"></td>
+            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/info.png"/>"></td>
             <td align="left"><%= dataProviders.size() %> <i18n:message key="selected.providers">!!!Data providers</i18n:message><br/>
                 <%= kpis.size() %> <i18n:message key="selected.kpis">!!!Business indicators</i18n:message></td>
         </tr>

@@ -41,7 +41,7 @@
 <div class="skn-background_alt" style="width:100%; padding-top:5px; padding-bottom:5px;">
     <table width="100%">
         <tr>
-            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/modules/info.png"/>"></td>
+            <td style="text-align:center;vertical-align:top;width: 32px;"><img src="<static:image relativePath="general/32x32/info.png"/>"></td>
             <td align="left"><i18n:message key="export.info">!!!Seleccione los cuadros de mando a exportar</i18n:message></td>
         </tr>
     </table>
