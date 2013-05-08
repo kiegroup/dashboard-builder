@@ -19,6 +19,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.security.Policy;
+import org.jboss.dashboard.security.UIPolicy;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.jboss.dashboard.ui.UIServices;
@@ -34,6 +35,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
 
+import java.security.Permission;
 import java.util.*;
 
 public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
@@ -139,15 +141,16 @@ public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
 
                 // Add default access/admin permissions to the roles the creator user belongs to.
                 RolesManager rolesManager = SecurityServices.lookup().getRolesManager();
-                Policy policy = SecurityServices.lookup().getSecurityPolicy();
-                WorkspacePermission perm = WorkspacePermission.newInstance(newWorkspace, null);
-                perm.grantAllActions();
+                UIPolicy policy = (UIPolicy) SecurityServices.lookup().getSecurityPolicy();
+                List<Permission> defaultPermissions = policy.createDefaultPermissions(newWorkspace);
                 for (String roleId : UserStatus.lookup().getUserRoleIds()) {
                     Role role = rolesManager.getRoleById(roleId);
                     RolePrincipal prpal = new RolePrincipal(role);
-                    policy.addPermission(prpal, perm);
-                    policy.save();
+                    for (Permission perm : defaultPermissions) {
+                        policy.addPermission(prpal, perm);
+                    }
                 }
+                policy.save();
 
                 title = null;
                 name = null;

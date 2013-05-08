@@ -194,21 +194,9 @@ public class UIPolicy implements Policy, Startable {
 
                 for (int i = 0; i < workspacesManager.getWorkspaces().length; i++) {
                     WorkspaceImpl workspace = workspacesManager.getWorkspaces()[i];
-
-                    WorkspacePermission workspacePerm = new WorkspacePermission(getResourceName(workspace), null);
-                    workspacePerm.grantAllActions();
-                    workspacePerm.setReadOnly(true);
-                    defaultPermissions.add(new Object[]{rolePrincipal, workspacePerm});
-
-                    SectionPermission adminSectionPerm = new SectionPermission(getResourceName(workspace) + ".*", null);
-                    adminSectionPerm.grantAllActions();
-                    adminSectionPerm.setReadOnly(true);
-                    defaultPermissions.add(new Object[]{rolePrincipal, adminSectionPerm});
-
-                    PanelPermission adminPanelPerm = new PanelPermission(getResourceName(workspace) + ".*", null);
-                    adminPanelPerm.grantAllActions();
-                    adminPanelPerm.setReadOnly(true);
-                    defaultPermissions.add(new Object[]{rolePrincipal, adminPanelPerm});
+                    for (Permission permission : createDefaultPermissions(workspace)) {
+                        defaultPermissions.add(new Object[] {rolePrincipal, permission});
+                    }
                 }
             }
         }
@@ -217,6 +205,25 @@ public class UIPolicy implements Policy, Startable {
             Object[] objects = (Object[]) defaultPermissions.get(i);
             this.addPermission((Principal) objects[0], (Permission) objects[1]);
         }
+    }
+
+    public List<Permission> createDefaultPermissions(Workspace workspace) {
+        List<Permission> result = new ArrayList<Permission>();
+        WorkspacePermission workspacePerm = new WorkspacePermission(getResourceName(workspace), null);
+        workspacePerm.grantAllActions();
+        workspacePerm.setReadOnly(true);
+        result.add(workspacePerm);
+
+        SectionPermission adminSectionPerm = new SectionPermission(getResourceName(workspace) + ".*", null);
+        adminSectionPerm.grantAllActions();
+        adminSectionPerm.setReadOnly(true);
+        result.add(adminSectionPerm);
+
+        PanelPermission adminPanelPerm = new PanelPermission(getResourceName(workspace) + ".*", null);
+        adminPanelPerm.grantAllActions();
+        adminPanelPerm.setReadOnly(true);
+        result.add(adminPanelPerm);
+        return result;
     }
 
     public boolean isPermissionGrantedByDefault(PermissionDescriptor permissionDescriptor) {
