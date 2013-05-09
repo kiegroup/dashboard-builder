@@ -20,8 +20,10 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * A data source entry that gets the database connection doing a JNDI lookup of the target data source.
@@ -29,10 +31,10 @@ import java.sql.Connection;
 public class JNDIDataSourceEntry extends DataSourceEntry {
 
     private static transient Log log = LogFactory.getLog(JNDIDataSourceEntry.class.getName());
-    private static final String CONTEXT_PATH = "java:comp/env/";
+
     private DataSource dataSource;
 
-    public DataSource getDataSource() throws Exception {
+    public DataSource getDataSource() throws NamingException {
         if (dataSource != null) return dataSource;
 
         Context context = new InitialContext();

@@ -16,4 +16,5 @@
 
 $class=org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler
 $scope=panelSession
+$alias=dsmgthandler
 $description=Handles datasource management

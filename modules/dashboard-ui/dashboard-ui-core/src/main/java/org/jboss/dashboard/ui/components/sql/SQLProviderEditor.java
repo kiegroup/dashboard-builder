@@ -15,7 +15,9 @@
  */
 package org.jboss.dashboard.ui.components.sql;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
 import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.commons.misc.Chronometer;
@@ -82,7 +84,8 @@ public class SQLProviderEditor extends DataProviderEditor {
             dataProvider.setDataSet(ds);
 
         } catch (Exception e) {
-            setQueryError(e.getMessage() != null ? e.getMessage() : "error");
+            Throwable cause = ErrorManager.lookup().getRootCause(e);
+            setQueryError(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : "Unexpected error");
             dataProvider.setDataSet(null);
         }
         return null;

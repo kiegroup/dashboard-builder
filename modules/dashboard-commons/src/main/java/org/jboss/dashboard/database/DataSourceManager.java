@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.database;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,7 +71,9 @@ public class DataSourceManager {
 
     public boolean checkDriverClassAvailable(String driverClassName) {
         try {
-            Class.forName(driverClassName);
+            if (!StringUtils.isBlank(driverClassName)) {
+                Class.forName(driverClassName);
+            }
         } catch (ClassNotFoundException e) {
             log.warn("Driver class not found: " + driverClassName);
             return false;

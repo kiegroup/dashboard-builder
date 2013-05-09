@@ -273,12 +273,12 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
             return jndi.getConnection();
         }
         if (getType().equals(CUSTOM_TYPE)) {
-            JDBCDataSourceEntry polyds = new JDBCDataSourceEntry();
-            polyds.setUrl(getUrl());
-            polyds.setDriverClass(getDriverClass());
-            polyds.setUserName(getUserName());
-            polyds.setPassword(getPassword());
-            return polyds.getConnection();
+            JDBCDataSourceEntry custom = new JDBCDataSourceEntry();
+            custom.setUrl(getUrl());
+            custom.setDriverClass(getDriverClass());
+            custom.setUserName(getUserName());
+            custom.setPassword(getPassword());
+            return custom.getConnection();
         }
         return null;
     }
@@ -343,9 +343,9 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
 
     private void validate(String type) {
         clearFieldErrors();
-        String javaId = StringUtils.toJavaIdentifier(getName());
-        if (getName() == null || "".equals(getName()) || !javaId.equals(getName()))
+        if (getName() == null || "".equals(getName())) {
             addFieldError(new FactoryURL(getComponentName(), "name"), null, getName());
+        }
 
         if (type == null || "".equals(type)) {
             addFieldError(new FactoryURL(getComponentName(), "jdbc"), null, getType());
@@ -578,9 +578,6 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         validate(getType());
         if (getFieldErrors().isEmpty()) {
             try {
-                //WM dejar esto  bien, pero el chequeo no se puede hacer a saco en este paso para los casos
-                //jndi
-
                 if (CUSTOM_TYPE.equals(getType()) && !getDataSourceManager().checkDriverClassAvailable(getDriverClass())) {
                     ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                     setTEST_RESULT(i18n.getString("datasource.driver.na"));
@@ -594,8 +591,9 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                     }
                 }
             } catch (Exception e) {
-                log.error("Error: ", e);
-                setTEST_RESULT(e.getMessage());
+                if (log.isDebugEnabled()) log.debug(e.getMessage());
+                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
+                setTEST_RESULT(i18n.getString("datasource.connection.failed"));
             }
             finally {
                 setTEST_MODE(true);
