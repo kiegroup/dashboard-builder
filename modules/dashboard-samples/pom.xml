@@ -36,18 +36,18 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-displayer-core</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-core</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
             <classifier>classes</classifier>
         </dependency>
     </dependencies>

@@ -36,13 +36,13 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-displayer-api</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>${version.dashbuilder}</version>
         </dependency>
     </dependencies>
 </project>
