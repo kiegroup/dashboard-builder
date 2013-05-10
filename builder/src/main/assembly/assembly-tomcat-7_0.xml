@@ -42,7 +42,6 @@
                     <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
                     <exclude>WEB-INF/web.xml</exclude>
                     <exclude>WEB-INF/classes/log4j.xml</exclude>
-                    <exclude>WEB-INF/etc/factory/factory.cfg</exclude>
                     <exclude>WEB-INF/lib/jboss-*.jar</exclude>
                     <exclude>WEB-INF/lib/servlet-*.jar</exclude>
                     <exclude>WEB-INF/lib/jsp-*.jar</exclude>
@@ -78,15 +77,6 @@
             <directory>${project.basedir}/src/main/tomcat7/WEB-INF/classes</directory>
             <outputDirectory>WEB-INF/classes</outputDirectory>
         </fileSet>
-
-        <fileSet>
-            <directory>${project.basedir}/target</directory>
-            <outputDirectory>WEB-INF/lib</outputDirectory>
-            <includes>
-                <include>dashbuilder-tomcat-7.0-configuration.jar</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
 
 </assembly>

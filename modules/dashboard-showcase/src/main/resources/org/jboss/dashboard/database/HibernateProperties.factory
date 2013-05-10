@@ -21,7 +21,6 @@
 #
 
 hibernate.connection.datasource=java\:comp/env/jdbc/dashbuilder
-hibernate.dialect=${db.hibernate.dialect}
 hibernate.cache.use_second_level_cache=${db.hibernate.use_second_level_cache}
 
 

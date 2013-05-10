@@ -41,7 +41,6 @@
                     <exclude>WEB-INF/jetty-*.xml</exclude>
                     <exclude>WEB-INF/lib/jetty-*.jar</exclude>
                     <exclude>WEB-INF/classes/log4j.xml</exclude>
-                    <exclude>WEB-INF/etc/factory/factory.cfg</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>
@@ -68,15 +67,6 @@
             <directory>${project.basedir}/src/main/standalone-demo/WEB-INF</directory>
             <outputDirectory>WEB-INF</outputDirectory>
         </fileSet>
-
-        <fileSet>
-            <directory>${project.basedir}/target</directory>
-            <outputDirectory>WEB-INF/lib</outputDirectory>
-            <includes>
-                <include>dashbuilder-demo-configuration.jar</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
 
 </assembly>

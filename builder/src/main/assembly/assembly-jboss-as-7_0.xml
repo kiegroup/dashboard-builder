@@ -42,7 +42,6 @@
                     <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
                     <exclude>WEB-INF/web.xml</exclude>
                     <exclude>WEB-INF/classes/log4j.xml</exclude>
-                    <exclude>WEB-INF/etc/factory/factory.cfg</exclude>
                     <exclude>WEB-INF/etc/sql/*jbpm*.sql</exclude>
                     <exclude>WEB-INF/etc/sql/*jbpm*.sh</exclude>
                     <exclude>WEB-INF/lib/jboss-*.jar</exclude>
@@ -72,15 +71,6 @@
             <directory>${project.basedir}/src/main/jbossas7/WEB-INF</directory>
             <outputDirectory>WEB-INF</outputDirectory>
         </fileSet>
-
-        <fileSet>
-            <directory>${project.basedir}/target</directory>
-            <outputDirectory>WEB-INF/lib</outputDirectory>
-            <includes>
-                <include>dashbuilder-jboss-as7.0-configuration.jar</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
 
 </assembly>

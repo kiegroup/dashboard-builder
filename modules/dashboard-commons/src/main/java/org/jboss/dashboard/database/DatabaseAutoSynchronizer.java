@@ -47,9 +47,6 @@ public class DatabaseAutoSynchronizer {
     @Inject @Config("dashb_installed_module")
     protected String installedModulesTable;
 
-    @Inject @Config("oracle, mysql, postgres, sqlserver, h2")
-    protected String[] supportedDatabases;
-
     @Inject @Config("delimiter //, //, , delimiter ;, GO")
     protected String[] excludedScriptStatements;
 
@@ -61,11 +58,9 @@ public class DatabaseAutoSynchronizer {
 
     public void synchronize(HibernateInitializer hibernateInitializer) throws Exception {
         String databaseName = hibernateInitializer.getDatabaseName();
-        if (isCurrentDatabaseSupported(databaseName)) {
-            boolean tableExists = existsModulesTable(databaseName);
-            if (!tableExists) {
-                createDatabase(databaseName);
-            }
+        boolean tableExists = existsModulesTable();
+        if (!tableExists) {
+            createDatabase(databaseName);
         }
     }
 
@@ -176,7 +171,7 @@ public class DatabaseAutoSynchronizer {
         return sb.toString().trim();
     }
 
-    protected boolean existsModulesTable(final String databaseName) throws Exception {
+    protected boolean existsModulesTable() throws Exception {
         final boolean[] returnValue = {false};
         new HibernateTxFragment(true) {
         protected void txFragment(Session session) throws Exception {
@@ -190,12 +185,5 @@ public class DatabaseAutoSynchronizer {
             session.doWork(w);
         }}.execute();
         return returnValue[0];
-    }
-
-    public boolean isCurrentDatabaseSupported(String databaseName) {
-        for (int i = 0; supportedDatabases != null && i < supportedDatabases.length; i++) {
-            if (databaseName.equals(supportedDatabases[i])) return true;
-        }
-        return false;
     }
 }

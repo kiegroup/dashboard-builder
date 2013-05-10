@@ -20,6 +20,7 @@ import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.database.DatabaseAutoSynchronizer;
+import org.jboss.dashboard.database.JNDIDataSourceEntry;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.database.cache.CacheConfigurationGenerator;
@@ -35,6 +36,7 @@ import org.hibernate.persister.entity.AbstractEntityPersister;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.*;
+import java.sql.Connection;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -48,19 +50,40 @@ import java.util.zip.ZipFile;
 public class HibernateInitializer implements Startable {
 
     private static transient Log log = LogFactory.getLog(HibernateInitializer.class.getName());
-    private static final String HIBERNATE_FILE_EXTENSION = "hbm.xml";
+
+    public static final String DB_H2 = "h2";
+    public static final String DB_POSTGRES = "postgres";
+    public static final String DB_MYSQL = "mysql";
+    public static final String DB_ORACLE = "oracle";
+    public static final String DB_SQLSERVER = "sqlserver";
+
+    private static final String HIBERNATE_EXTENSION = "hbm.xml";
+
+    @Inject
+    protected HibernateSessionFactoryProvider hibernateSessionFactoryProvider;
+
+    @Inject
+    protected DatabaseAutoSynchronizer databaseAutoSynchronizer;
 
     @Inject @Config("true")
     protected boolean performNativeToHiloReplace;
 
-    @Inject @Config("org.hibernate.dialect.MySQLDialect, org.hibernate.dialect.SQLServerDialect")
+    @Inject @Config("true")
+    protected boolean enableDatabaseStructureVerification;
+
+    @Inject @Config("true")
+    protected boolean enableDatabaseAutoSynchronization;
+
+    @Inject @Config(DB_H2 + "=org.jboss.dashboard.database.H2Dialect," +
+                    DB_POSTGRES + "=org.hibernate.dialect.PostgreSQLDialect," +
+                    DB_ORACLE + "=org.hibernate.dialect.Oracle10gDialect," +
+                    DB_MYSQL + "=org.hibernate.dialect.MySQLDialect," +
+                    DB_SQLSERVER + "=org.hibernate.dialect.SQLServerDialect")
+    protected Map<String,String> supportedDialects;
+
+    @Inject @Config("org.hibernate.dialect.MySQLDialect," +
+                    "org.hibernate.dialect.SQLServerDialect")
     protected String[] nativeToHiloReplaceableDialects;
-
-    @Inject @Config("true")
-    protected boolean enableDatabaseStructureVerification = true;
-
-    @Inject @Config("true")
-    protected boolean enableDatabaseAutoSynchronization = true;
 
     @Inject @Config("org.jboss.dashboard.ui.resources.Envelope," +
                     "org.jboss.dashboard.ui.resources.Skin," +
@@ -68,12 +91,6 @@ public class HibernateInitializer implements Startable {
                     "org.jboss.dashboard.ui.resources.ResourceGallery," +
                     "org.jboss.dashboard.ui.resources.GraphicElement")
     protected String[] databaseStructureVerificationExcludedClassNames;
-
-    @Inject
-    protected HibernateSessionFactoryProvider hibernateSessionFactoryProvider;
-
-    @Inject
-    protected DatabaseAutoSynchronizer databaseAutoSynchronizer;
 
     protected Configuration hbmConfig;
     protected String databaseName;
@@ -165,22 +182,18 @@ public class HibernateInitializer implements Startable {
     }
 
     public void start() throws Exception {
+        // Get the underlying database name.
+        calculateDatabaseName();
+
         // Get the caches configured before proceeding.
         getCacheConfigurationManager().initializeCaches();
 
+        // Initialize the Hibernate engine.
         Properties properties = getHibernateProperties();
         processHibernateProperties(properties);
         System.getProperties().putAll(properties);
         hbmConfig = new Configuration();
         hbmConfig.setProperties(properties);
-
-        String dialect = properties.getProperty("hibernate.dialect");
-        String dialectName = dialect.substring(dialect.lastIndexOf('.') + 1);
-        if (dialectName.endsWith("Dialect")) dialectName = dialectName.substring(0, dialectName.length() - 7);
-        dialectName = dialectName.toLowerCase();
-        if (dialectName.equals("postgresql")) databaseName = "postgres";
-        else databaseName = dialectName;
-
         loadFiles(hbmConfig);
         hibernateSessionFactoryProvider.setSessionFactory(hbmConfig.buildSessionFactory());
 
@@ -208,6 +221,10 @@ public class HibernateInitializer implements Startable {
             p.remove("hibernate.connection.username");
             p.remove("hibernate.connection.password");
         }
+
+        // Add the dialect configuration according to the database running.
+        String hbnDialect = supportedDialects.get(databaseName);
+        p.setProperty("hibernate.dialect", hbnDialect);
     }
 
     protected void verifyHibernateConfig() throws Exception {
@@ -259,7 +276,7 @@ public class HibernateInitializer implements Startable {
         ZipFile zf = new ZipFile(jarFile);
         for (Enumeration en = zf.entries(); en.hasMoreElements();) {
             ZipEntry entry = (ZipEntry) en.nextElement();
-            if (entry.getName().endsWith(HIBERNATE_FILE_EXTENSION) && !entry.isDirectory()) {
+            if (entry.getName().endsWith(HIBERNATE_EXTENSION) && !entry.isDirectory()) {
                 InputStream is = zf.getInputStream(entry);
                 String xml = readXMLForFile(is);
                 xml = processXMLContents(entry.getName(), xml);
@@ -316,6 +333,40 @@ public class HibernateInitializer implements Startable {
         return databaseName;
     }
 
+    public void calculateDatabaseName() throws Exception {
+        String jndiName = getHibernateProperties().getProperty("hibernate.connection.datasource");
+        if (StringUtils.isBlank(jndiName)) throw new Error("Property 'hibernate.connection.datasource' not specified.");
+
+        // Obtain a JDBC connection to the application data source.
+        JNDIDataSourceEntry jndiDS = new JNDIDataSourceEntry();
+        jndiDS.setJndiPath(jndiName);
+        Connection connection = jndiDS.getConnection();
+
+        // Calculate the db name.
+        String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
+        if (dbProductName.contains("h2")) {
+            databaseName = DB_H2;
+        }
+        else if (dbProductName.contains("postgre")) {
+            databaseName = DB_POSTGRES;
+        }
+        else if (dbProductName.contains("mysql")) {
+            databaseName = DB_MYSQL;
+        }
+        else if (dbProductName.contains("oracle")) {
+            databaseName = DB_ORACLE;
+        }
+        else if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) {
+            databaseName = DB_SQLSERVER;
+        }
+
+        if (StringUtils.isBlank(databaseName)) {
+            throw new Error("The underlying database is unknown or the system is unable to recognize it.");
+        } else {
+            log.info("The underlying database is: " + databaseName);
+        }
+    }
+
     /**
      * Evict all cache information.
      */
@@ -343,27 +394,26 @@ public class HibernateInitializer implements Startable {
     }
 
     public boolean isOracleDatabase() {
-        return isDatabase("Oracle");
+        return isDatabase(DB_ORACLE);
     }
 
     public boolean isPostgresDatabase() {
-        return isDatabase("Postgre");
+        return isDatabase(DB_POSTGRES);
     }
 
     public boolean isSQLServerDatabase() {
-        return isDatabase("SQLServer");
+        return isDatabase(DB_SQLSERVER);
     }
 
     public boolean isMySQLDatabase() {
-        return isDatabase("MySQL");
+        return isDatabase(DB_MYSQL);
     }
 
     public boolean isH2Database() {
-        return isDatabase("H2");
+        return isDatabase(DB_H2);
     }
 
     protected boolean isDatabase(String dbId) {
-        String dialect = getHibernateProperties().getProperty("hibernate.dialect");
-        return dialect.indexOf(dbId) != -1 || dialect.indexOf(dbId.toLowerCase()) != -1;
+        return dbId.equals(databaseName);
     }
 }

@@ -19,7 +19,7 @@ $scope=global
 $desc=Hibernate properties to use in configuration
 
 hibernate.jdbc.use_streams_for_binary=true
-hibernate.cache.use_second_level_cache=true
+hibernate.cache.use_second_level_cache=false
 hibernate.cache.provider_class=org.jboss.dashboard.database.cache.providers.CustomCacheProvider
 hibernate.cache.use_query_cache=true
 hibernate.show_sql=false
