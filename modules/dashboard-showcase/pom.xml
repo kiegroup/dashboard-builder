@@ -189,7 +189,6 @@
                 <db.driver>org.postgresql.Driver</db.driver>
                 <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
                 <db.isolation>2</db.isolation>
-                <db.hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</db.hibernate.dialect>
             </properties>
         </profile>
 
@@ -210,7 +209,6 @@
                 <db.password>dashbuilder</db.password>
                 <db.driver>org.h2.Driver</db.driver>
                 <db.isolation>2</db.isolation>
-                <db.hibernate.dialect>org.jboss.dashboard.database.H2Dialect</db.hibernate.dialect>
                 <db.hibernate.use_second_level_cache>false</db.hibernate.use_second_level_cache>
             </properties>
         </profile>
@@ -233,7 +231,6 @@
                 <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
                 <db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
                 <db.isolation>2</db.isolation>
-                <db.hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</db.hibernate.dialect>
             </properties>
         </profile>
 
@@ -255,7 +252,6 @@
                 <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
                 <db.driver>com.mysql.jdbc.Driver</db.driver>
                 <db.isolation>2</db.isolation>
-                <db.hibernate.dialect>org.hibernate.dialect.MySQLDialect</db.hibernate.dialect>
             </properties>
         </profile>
 
@@ -277,7 +273,6 @@
                 <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
                 <db.driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</db.driver>
                 <db.isolation>2</db.isolation>
-                <db.hibernate.dialect>org.hibernate.dialect.SQLServerDialect</db.hibernate.dialect>
             </properties>
         </profile>
 
