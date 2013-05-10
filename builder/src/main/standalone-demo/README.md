@@ -1,10 +1,3 @@
-Dashboard Builder Demo
-=======================
-
-The following directories contain the needed files to run the Dashboard Builder application in standalone demo mode.
-Feel free to run and modify this installation as much as you wish, but remember that's NOT
-RECOMMENDED to use this demo in production environments.
-
     Copyright 2012 JBoss Inc
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +11,13 @@ RECOMMENDED to use this demo in production environments.
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+Dashboard Builder Demo
+=======================
+
+The following directories contain the needed files to run the Dashboard Builder application in standalone demo mode.
+Feel free to run and modify this installation as much as you wish, but remember that's NOT
+RECOMMENDED to use this demo in production environments.
 
 
 Prerequisites
@@ -98,7 +98,7 @@ In order to populate the jBPM dashboard with dummy data, go to the installation 
 the **install-jbpm-data.sh** script Don't forget to start the application before executing the script,
 otherwise you will get the following error:
 
-    Exception in thread "main" org.h2.jdbc.JdbcSQLException: Table "BAMPROCESSSUMMARY" not found;
+    Exception in thread "main" org.h2.jdbc.JdbcSQLException: Table "PROCESSINSTANCELOG" not found;
 
 
 Application database

@@ -17,7 +17,7 @@ Go to the <code>builder/target</code> directory and get the file called **dashbu
 Deploy the Dashboard Builder
 ----------------------------
 
-(Read [this](#deploy-the-jbpm-human-tasks-console) if you want to set-up an installation of the jBPM Dashboard & the Human Tasks Console running togheter).
+(Read [this](#deploy-the-jbpm-human-tasks-console) if you want to set-up an installation of the jBPM Dashboard & the jBPM Human Tasks Console running togheter).
 
 If you only want to install the Dashboard Builder then continue reading...
 
@@ -71,8 +71,8 @@ You can create process instances and tasks from the jBPM Human Task console and 
 see how the different key performance monitoring indicators are updated.
 
 
-jBPM Dashboard & Human Tasks Console integration
-=================================================
+jBPM Human Tasks Console integration
+==========================================
 
 The next sections explain how to install the jBPM Human Task console in order to feed the dashboard with data coming
 from the jBPM engine. Once finished, you can continue with the deployment of the Dashboard Builder [here](#deploy-the-dashboard-builder).

@@ -36,7 +36,7 @@ Some ready-to-use sample dashboards are provided as well, for demo and learning 
 * Granular access control for different user profiles.
 * Look'n'feel customization tools.
 * Pluggable chart library architecture.
-* Chart libraries provided: NVD3, OFC2 & Gauge.
+* Chart libraries provided: NVD3 & OFC2.
 
 **Target users**:
 * Managers / Business owners. Consumer of dashboards and reports.
