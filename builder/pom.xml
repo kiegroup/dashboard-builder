@@ -13,7 +13,7 @@
     <version>${version.dashbuilder}</version>
     <packaging>pom</packaging>
 
-    <name>Dashboard App Builder</name>
+    <name>Dashboard Distributions Builder</name>
     <description>
         This module builds the distribution wars for different application servers and the standalone demo as well.
     </description>
