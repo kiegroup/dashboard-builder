@@ -177,7 +177,7 @@ public class Log4JManager implements Startable {
         // Avoid high throughput.
         if (!highTroughputAllowed && _highThroughputCount > 0 &&  _highThroughputCount > (highTroughputMaxTime / 1000)) {
             setLoggerSetsLevel(org.apache.log4j.Level.FATAL);
-            String warnMessage = "\nWARNING: Log4J High thoughput detected (more than " + getHighThroughput() + " events per second). All log levels set to FATAL.\n";
+            String warnMessage = "\nWARNING: Log4J High throughput detected (more than " + getHighThroughput() + " events per second). All log levels set to FATAL.\n";
             LoggingEvent warnEvent = new LoggingEvent(Category.class.getName(), Logger.getRootLogger(), org.apache.log4j.Level.WARN, warnMessage, null);
             memoryAppender.buffer.addLast(warnEvent);
             System.out.println(warnMessage);
