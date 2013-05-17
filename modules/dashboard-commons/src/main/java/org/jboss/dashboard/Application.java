@@ -16,6 +16,7 @@
 package org.jboss.dashboard;
 
 import org.jboss.dashboard.annotation.StartableProcessor;
+import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
@@ -23,6 +24,7 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -40,9 +42,12 @@ public class Application {
     protected StartableProcessor startupProcessor;
 
     protected boolean upAndRunning = false;
+    protected String libDirectory = null;
     protected String baseCfgDirectory = null;
     protected String baseAppDirectory = null;
-    protected Factory globalFactory = null;
+
+    protected transient Set<File> jarFiles = null;
+    protected transient Factory globalFactory = null;
 
     public String getBaseAppDirectory() {
         return baseAppDirectory;
@@ -58,6 +63,14 @@ public class Application {
 
     public void setBaseCfgDirectory(String newBaseCfgDirectory) {
         baseCfgDirectory = newBaseCfgDirectory;
+    }
+
+    public String getLibDirectory() {
+        return libDirectory;
+    }
+
+    public void setLibDirectory(String libDirectory) {
+        this.libDirectory = libDirectory;
     }
 
     public Factory getGlobalFactory() {
@@ -93,6 +106,22 @@ public class Application {
 
         // Destroy the Factory configuration.
         setGlobalFactory(null);
+    }
+
+    public Set<File> getJarFiles() {
+        if (jarFiles != null) return jarFiles;
+
+        jarFiles = new HashSet<File>();
+        File libDir = new File(libDirectory);
+        File[] jars = new DirectoriesScanner("jar").findFiles(libDir);
+        for (int i = 0; i < jars.length; i++) {
+            File jar = jars[i];
+            String jarName = jar.getName();
+            if (jarName.startsWith("dashboard-")) {
+                jarFiles.add(jar);
+            }
+        }
+        return jarFiles;
     }
 
     /**

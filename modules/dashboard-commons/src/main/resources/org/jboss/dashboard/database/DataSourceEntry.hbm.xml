@@ -16,14 +16,13 @@
     limitations under the License.
 
 -->
-
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
     <class name="org.jboss.dashboard.database.DataSourceEntry" table="dashb_data_source">
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>

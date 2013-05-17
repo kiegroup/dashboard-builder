@@ -16,22 +16,18 @@
     limitations under the License.
 
 -->
-
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
     <class name="org.jboss.dashboard.database.InstalledModule" table="dashb_installed_module">
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
         <id name="name" type="string" column="name" unsaved-value="null">
             <generator class="assigned"/>
         </id>
         <property name="version" type="long">
             <column name="version"/>
-        </property>
-        <property name="status" type="string">
-            <column name="status"/>
         </property>
     </class>
 </hibernate-mapping>

@@ -187,7 +187,7 @@
                 <db.user>dashbuilder</db.user>
                 <db.password>dashbuilder</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
+                <db.hibernate.use_second_level_cache>false</db.hibernate.use_second_level_cache>
                 <db.isolation>2</db.isolation>
             </properties>
         </profile>

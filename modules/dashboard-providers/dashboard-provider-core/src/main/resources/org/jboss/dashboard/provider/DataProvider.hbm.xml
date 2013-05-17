@@ -18,16 +18,16 @@
 -->
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
     <class name="org.jboss.dashboard.provider.DataProviderImpl" table="dashb_data_provider">
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
 
         <id name="id" type="long" column="id" unsaved-value="null"><generator class="native"/></id>
 
         <map name="descriptions" table="dashb_data_provider_i18n" cascade="all" lazy="false">
-            <cache usage="transactional"/>
+            <cache usage="read-write"/>
             <key column="id_data_provider"/>
             <index column="language" type="string"/>
             <element column="description" type="string"/>

@@ -16,14 +16,19 @@
     limitations under the License.
 
 -->
-<jboss-deployment-structure>
-    <deployment>
 
-        <!-- Exclusions allow you to prevent the server from automatically adding some dependencies     -->
-        <exclusions>
-            <module name="org.apache.log4j" />
-            <module name="org.apache.commons.logging" />
-        </exclusions>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="true"
+         monitoring="autodetect" dynamicConfig="true">
 
-    </deployment>
-</jboss-deployment-structure>
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="true"
+            timeToIdleSeconds="28800"
+            timeToLiveSeconds="86400"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="1200"
+            memoryStoreEvictionPolicy="FIFO"
+            />
+</ehcache>

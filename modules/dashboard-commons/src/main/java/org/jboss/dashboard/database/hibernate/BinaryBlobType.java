@@ -15,7 +15,10 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.IOException;
@@ -25,20 +28,9 @@ import java.io.Serializable;
 import java.sql.*;
 import java.util.Arrays;
 
-public class BinaryBlobType extends org.hibernate.lob.BlobImpl implements UserType, Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BinaryBlobType.class.getName());
+public class BinaryBlobType implements UserType, Serializable {
 
-    public BinaryBlobType(InputStream inputStream, int i) {
-        super(inputStream, i);
-    }
-
-    public BinaryBlobType(byte[] bytes) {
-        super(bytes);
-    }
-
-    public BinaryBlobType() {
-        super(new byte[0]);
-    }
+    private static transient Log log = LogFactory.getLog(BinaryBlobType.class.getName());
 
     public int[] sqlTypes() {
         return new int[]{Types.BLOB};
@@ -59,7 +51,7 @@ public class BinaryBlobType extends org.hibernate.lob.BlobImpl implements UserTy
         return o == null ? 0 : o.hashCode();
     }
 
-    public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException, SQLException {
         LOBHelper.lookup().nullSafeSet(st, value, index, new LOBHelper.ValueWriter() {
             public void writeValue(OutputStream os, Object value) throws IOException {
                 if (value != null) {
@@ -72,7 +64,7 @@ public class BinaryBlobType extends org.hibernate.lob.BlobImpl implements UserTy
         });
     }
 
-    public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
         if (log.isDebugEnabled()) log.debug("Getting value with names " + Arrays.asList(names));
 
         Object o = rs.getObject(names[0]);
@@ -88,7 +80,6 @@ public class BinaryBlobType extends org.hibernate.lob.BlobImpl implements UserTy
             throw new IllegalArgumentException("Unexpected value read. Must be Blob or byte[], but it is " + o.getClass());
         }
     }
-
 
     public Object deepCopy(Object value) {
         if (value == null) return null;
@@ -111,14 +102,13 @@ public class BinaryBlobType extends org.hibernate.lob.BlobImpl implements UserTy
     }
 
     public Object assemble(Serializable serializable, Object owner) throws HibernateException {
-        if (serializable == null) return null;
-        return (byte[]) serializable;
+        return serializable;
     }
 
     public Object replace(Object original, Object target, Object owner) throws HibernateException {
         if (original == null) return null;
         byte[] copy = new byte[((byte[]) original).length];
-        System.arraycopy((byte[]) original, 0, copy, 0, copy.length);
+        System.arraycopy(original, 0, copy, 0, copy.length);
         return copy;
     }
 }

@@ -18,13 +18,13 @@
 -->
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
 
     <class name="org.jboss.dashboard.workspace.Section" table="dashb_section">
 
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>
@@ -54,7 +54,7 @@
         </property>
 
         <map name="title" table="dashb_section_i18n" lazy="true" cascade="all">
-            <cache usage="transactional"/>
+            <cache usage="read-write"/>
             <key column="id_section"/>
             <index column="language" type="string"/>
             <element column="title" type="string"/>
@@ -77,7 +77,7 @@
         </property>
 
         <set name="panels" inverse="true" lazy="true" cascade="all-delete-orphan">
-            <cache usage="transactional"/>
+            <cache usage="read-write"/>
             <key column="id_section"/>
             <one-to-many class="org.jboss.dashboard.workspace.Panel"/>
         </set>

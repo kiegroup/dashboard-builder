@@ -4,7 +4,7 @@
     <description language="en">jBPM Count Processes</description>
     <sqlprovider>
       <datasource>local</datasource>
-      <query type="postgresql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
+      <query type="postgres">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
           from processinstancelog pi group by pId,processname) as total

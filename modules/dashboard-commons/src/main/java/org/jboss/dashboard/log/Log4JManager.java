@@ -223,7 +223,7 @@ public class Log4JManager implements Startable {
     protected void initLoggerSets() {
         loggerSets.add(new LoggerSet("Transactions", org.apache.log4j.Level.FATAL, "org.jboss.dashboard.database.hibernate.HibernateTransaction", false));
         loggerSets.add(new LoggerSet("SQL sentences", org.apache.log4j.Level.FATAL, "org.jboss.dashboard.database.NonPooledDataSource", false));
-        loggerSets.add(new LoggerSet("Hibernate SQL", org.apache.log4j.Level.FATAL, "org.hibernate.SQL\norg.hibernate.pretty", false));
+        loggerSets.add(new LoggerSet("Hibernate SQL", org.apache.log4j.Level.FATAL, "org.hibernate.engine.jdbc.internal\norg.hibernate.SQL\norg.hibernate.pretty", false));
         loggerSets.add(new LoggerSet("HTTP requests", org.apache.log4j.Level.FATAL, "org.jboss.dashboard.ui.controller.ControllerServlet\norg.jboss.dashboard.ui.controller.responses", false));
     }
 }

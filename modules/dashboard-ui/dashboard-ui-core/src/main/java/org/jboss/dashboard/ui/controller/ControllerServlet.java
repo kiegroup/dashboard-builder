@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.controller;
 
 import org.jboss.dashboard.Application;
+import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.factory.Component;
 import org.jboss.dashboard.factory.ComponentsContextManager;
 import org.jboss.dashboard.factory.Factory;
@@ -119,6 +120,7 @@ public class ControllerServlet extends HttpServlet {
         }
         Application.lookup().setBaseAppDirectory(baseAppDir);
         Application.lookup().setBaseCfgDirectory(baseConfigDir);
+        Application.lookup().setLibDirectory(baseAppDir + "/WEB-INF/lib");
     }
 
     /**
@@ -216,6 +218,7 @@ public class ControllerServlet extends HttpServlet {
     protected void displayTheError(Throwable t) {
         // Get the error has been generated during the thread's execution.
         ErrorReport report = ErrorReport.getCurrentThreadError();
+        if (report == null) report = ErrorManager.lookup().notifyError(t, true);
 
         // Initialize the error handler bean.
         ErrorReportHandler errorHandler = ErrorReportHandler.lookup();

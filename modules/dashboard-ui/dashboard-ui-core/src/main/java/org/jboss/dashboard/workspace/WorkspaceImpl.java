@@ -17,7 +17,6 @@ package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.commons.text.StringUtil;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
@@ -334,52 +333,45 @@ public class WorkspaceImpl implements Workspace {
 
         try {
             new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    FlushMode oldFlushMode = session.getFlushMode();
-                    session.setFlushMode(FlushMode.NEVER);
-                    Query filter;
-                    if (sectionId == null)
-                        filter = session.createFilter(getSections(), " where this.parentSectionId is null ");
-                    else
-                        filter = session.createFilter(getSections(), " where this.parentSectionId = " + sectionId);
-                    //Do not use named parameter, as this way it is faster !!
-                    filter.setCacheable(true);
-                    childSections.addAll(filter.list());
-                    session.setFlushMode(oldFlushMode);
-                }
-            }.execute();
+            protected void txFragment(Session session) throws Exception {
+                FlushMode oldFlushMode = session.getFlushMode();
+                session.setFlushMode(FlushMode.NEVER);
+
+                StringBuffer hql = new StringBuffer("from ");
+                hql.append(Section.class.getName()).append(" as section where section.workspace=:workspace");
+                if (sectionId == null) hql.append(" and section.parentSectionId is null");
+                else hql.append(" and section.parentSectionId=:parentSectionId");
+
+                Query query = session.createQuery(hql.toString());
+                query.setParameter("workspace", WorkspaceImpl.this);
+                if (sectionId != null) query.setLong("parentSectionId", sectionId);
+                query.setCacheable(true);
+                childSections.addAll(query.list());
+                session.setFlushMode(oldFlushMode);
+            }}.execute();
         } catch (Exception e) {
             log.error("Error: ", e);
         }
-
-        /* Old mode
-        Iterator it = sections.iterator();
-        while (it.hasNext()) {
-            Section s = (Section) it.next();
-            if (s.getParentSectionId() != null &&
-                    s.getParentSectionId().equals(sectionId)) {
-                childSections.add(s);
-            }
-        } */
-
         Collections.sort(childSections);
         return (Section[]) childSections.toArray(new Section[childSections.size()]);
     }
 
     public int getSectionsCount() {
         try {
-            final Long[] size = new Long[1];
+            final int[] size = new int[1];
             new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
                     FlushMode oldFlushMode = session.getFlushMode();
                     session.setFlushMode(FlushMode.NEVER);
-                    Query filter = session.createFilter(sections, "select count(*)");
-                    filter.setCacheable(true);
-                    size[0] = (Long) filter.uniqueResult();
+                    Query query = session.createQuery("from " + Section.class.getName() + " as section " +
+                            "where section.workspace=:workspace");
+
+                    query.setParameter("workspace", WorkspaceImpl.this);
+                    query.setCacheable(true);
+                    size[0] = query.list().size();
                     session.setFlushMode(oldFlushMode);
-                }
-            }.execute();
-            return size[0].intValue();
+                }}.execute();
+            return size[0];
         } catch (Exception e) {
             log.error("Error: ", e);
         }
@@ -397,29 +389,21 @@ public class WorkspaceImpl implements Workspace {
                 protected void txFragment(Session session) throws Exception {
                     FlushMode oldFlushMode = session.getFlushMode();
                     session.setFlushMode(FlushMode.NEVER);
-                    Query filter = session.createFilter(getSections(), " where this.sectionId = :pageid ");
-                    filter.setLong("pageid", id.longValue());
-                    filter.setCacheable(true);
-                    candidates.addAll(filter.list());
+                    Query query = session.createQuery("from " + Section.class.getName() + " as section " +
+                            "where section.workspace=:workspace and section.sectionId=:pageid");
+
+                    query.setParameter("workspace", WorkspaceImpl.this);
+                    query.setLong("pageid", id.longValue());
+                    query.setCacheable(true);
+                    candidates.addAll(query.list());
                     session.setFlushMode(oldFlushMode);
-                }
-            }.execute();
+                }}.execute();
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         if (candidates.size() == 1) {
             return (Section) candidates.get(0);
         }
-
-        /* OLD Mode without filter
-        if (id == null) return null;
-        Iterator it = sections.iterator();
-        while (it.hasNext()) {
-            Section s = (Section) it.next();
-            if (s.getId().equals(id)) {
-                return s;
-            }
-        } */
         return null;
 
     }
@@ -726,29 +710,21 @@ public class WorkspaceImpl implements Workspace {
                 protected void txFragment(Session session) throws Exception {
                     FlushMode oldFlushMode = session.getFlushMode();
                     session.setFlushMode(FlushMode.NEVER);
-                    Query filter = session.createFilter(getPanelInstancesSet(), " where this.instanceId = :instid ");
-                    filter.setLong("instid", id.longValue());
-                    filter.setCacheable(true);
-                    candidates.addAll(filter.list());
+                    Query query = session.createQuery("from " + PanelInstance.class.getName() + " as instance " +
+                            "where instance.workspace=:workspace and instance.instanceId=:instid");
+
+                    query.setParameter("workspace", WorkspaceImpl.this);
+                    query.setLong("instid", id.longValue());
+                    query.setCacheable(true);
+                    candidates.addAll(query.list());
                     session.setFlushMode(oldFlushMode);
-                }
-            }.execute();
+                }}.execute();
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         if (candidates.size() == 1) {
             return (PanelInstance) candidates.get(0);
         }
-
-        /* OLD MODE, without using filter
-        Iterator it = panelInstancesSet.iterator();
-        while (it.hasNext()) {
-            PanelInstance instance = (PanelInstance) it.next();
-            if (instance.getInstanceId().equals(id)) {
-                return instance;
-            }
-        }
-        */
         return null;
     }
 
@@ -934,13 +910,15 @@ public class WorkspaceImpl implements Workspace {
                 protected void txFragment(Session session) throws Exception {
                     FlushMode oldFlushMode = session.getFlushMode();
                     session.setFlushMode(FlushMode.NEVER);
-                    Query filter = session.createFilter(getSections(), " where this.friendlyUrl = :pageid ");
-                    filter.setString("pageid", friendlyUrl);
-                    filter.setCacheable(true);
-                    candidates.addAll(filter.list());
+                    Query query = session.createQuery("from " + Section.class.getName() + " as section " +
+                            "where section.workspace=:workspace and section.friendlyUrl=:pageid");
+
+                    query.setParameter("workspace", WorkspaceImpl.this);
+                    query.setString("pageid", friendlyUrl);
+                    query.setCacheable(true);
+                    candidates.addAll(query.list());
                     session.setFlushMode(oldFlushMode);
-                }
-            }.execute();
+                }}.execute();
         } catch (Exception e) {
             log.error("Error: ", e);
         }

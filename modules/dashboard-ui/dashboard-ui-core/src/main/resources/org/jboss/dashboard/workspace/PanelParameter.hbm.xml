@@ -16,9 +16,9 @@
     limitations under the License.
 
 -->
-<!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<!DOCTYPE hibernate-mapping
+        PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
     <class name="org.jboss.dashboard.workspace.PanelParameter" table="dashb_panel_parameter">
@@ -26,7 +26,7 @@
             @hibernate.class
             table="dashb_panel_parameter"
         </meta>
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
 
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>

@@ -47,7 +47,7 @@ public class ExternalDataSource implements DataSource {
         return ds;
     }
 
-    protected static transient Log log = LogFactory.getLog(LocalDataSource.class.getName());
+    protected static transient Log log = LogFactory.getLog(ExternalDataSource.class.getName());
     protected String name;
     protected DataSourceEntry dataSourceEntry;
     protected transient Connection currentConnection;

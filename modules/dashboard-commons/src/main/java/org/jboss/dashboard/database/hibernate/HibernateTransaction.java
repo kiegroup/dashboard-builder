@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
+import org.hibernate.HibernateException;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.error.ErrorManager;
@@ -131,12 +132,17 @@ public class HibernateTransaction {
 
     /** Begin the transaction */
     public void begin() throws Exception {
-        log.debug("Begin transaction. Id=" + getId());
-        HibernateSessionFactoryProvider hibernateSessionFactoryProvider = CoreServices.lookup().getHibernateSessionFactoryProvider();
-        SessionFactory sessionFactory = hibernateSessionFactoryProvider.getSessionFactory();
-        session = sessionFactory.openSession();
-        session.getTransaction().begin();
-        active = true;
+        try {
+            log.debug("Begin transaction. Id=" + getId());
+            HibernateSessionFactoryProvider hibernateSessionFactoryProvider = CoreServices.lookup().getHibernateSessionFactoryProvider();
+            SessionFactory sessionFactory = hibernateSessionFactoryProvider.getSessionFactory();
+            session = sessionFactory.openSession();
+            session.getTransaction().begin();
+            active = true;
+        } catch (HibernateException e) {
+            error(e);
+            throw e;
+        }
     }
 
     /** Complete the transaction */

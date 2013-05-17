@@ -16,17 +16,15 @@
     limitations under the License.
 
 -->
-
-
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
 
     <class name="org.jboss.dashboard.workspace.PanelInstance" table="dashb_panel_instance">
 
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>
@@ -44,7 +42,7 @@
                      column="id_workspace" not-null="true"/>
 
         <set name="panelParams" lazy="false" inverse="true" cascade="all-delete-orphan">
-            <cache usage="transactional"/>
+            <cache usage="read-write"/>
             <key column="id_instance"/>
             <one-to-many class="org.jboss.dashboard.workspace.PanelParameter" />
         </set>

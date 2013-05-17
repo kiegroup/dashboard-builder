@@ -18,13 +18,13 @@
 -->
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
 
     <class name="org.jboss.dashboard.security.PermissionDescriptor" table="dashb_permission">
 
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
 
         <id name="dbid" type="long" column="id_permission" unsaved-value="null">
             <generator class="native"/>

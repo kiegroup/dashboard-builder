@@ -15,16 +15,12 @@
  */
 package org.jboss.dashboard.factory;
 
+import org.hibernate.LockOptions;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
-import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.database.InstalledModule;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.LockMode;
 import org.hibernate.Session;
-import org.jboss.dashboard.CoreServices;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -41,9 +37,6 @@ public class InitialModulesManager implements Startable {
     @Inject
     private InitialModuleRegistry initialModuleRegistry;
 
-    @Inject @Config("false")
-    private boolean clearCachesAfterLoading;
-
     public Priority getPriority() {
         return Priority.LOW;
     }
@@ -53,85 +46,35 @@ public class InitialModulesManager implements Startable {
         for (final InitialModule module : modules) {
             new HibernateTxFragment(true) {
             protected void txFragment(Session session) throws Exception {
-                InstalledModule currentVersion = loadAndLockModule(module.getName());
-                if (currentVersion != null) {
-                    try {
-                        if (currentVersion.getVersion() == module.getVersion()) {
-                            if (log.isDebugEnabled())
-                                log.debug("Module " + module.getName() + " version " + module.getVersion() + "is already installed.");
-                        } else if (currentVersion.getVersion() == 0) {
-                            if (module.doTheInstall()) {
-                                if (log.isDebugEnabled())
-                                    log.debug("Installed module " + module.getName() + " version " + module.getVersion());
-                                storeModule(currentVersion, module);
-                            } else {
-                                log.warn("Error installing module " + module.getName() + " version " + module.getVersion());
-                            }
-                        } else if (module.doTheUpgrade(currentVersion.getVersion())) {
-                            if (log.isDebugEnabled())
-                                log.debug("Upgraded module " + module.getName() + " to version " + module.getVersion());
-                            storeModule(currentVersion, module);
-                        } else
-                            log.warn("Error upgrading module " + module.getName() + " to version " + module.getVersion());
-                    } finally {
-                        unlockModule(currentVersion);
+                InstalledModule currentVersion = (InstalledModule) session.get(InstalledModule.class, module.getName(), LockOptions.UPGRADE);
+
+                // The module is not registered => Install it!
+                if (currentVersion == null) {
+                    if (module.doTheInstall()) {
+                        if (log.isDebugEnabled()) log.debug("Installed module " + module.getName() + " version " + module.getVersion());
+                        currentVersion = new InstalledModule(module.getName(), 1);
+                        session.save(currentVersion);
+                        session.flush();
+                    } else {
+                        log.warn("Error installing module " + module.getName() + " version " + module.getVersion());
                     }
+                }
+                // The module's version has been increased => Upgrade it!
+                else if (currentVersion.getVersion() < module.getVersion()) {
+                    if (module.doTheUpgrade(currentVersion.getVersion())) {
+                        if (log.isDebugEnabled()) log.debug("Upgraded module " + module.getName() + " to version " + module.getVersion());
+                        currentVersion.setVersion(module.getVersion());
+                        session.saveOrUpdate(currentVersion);
+                        session.flush();
+                    } else {
+                        log.warn("Error upgrading module " + module.getName() + " to version " + module.getVersion());
+                    }
+                }
+                // Default => Do nothing.
+                else {
+                    if (log.isDebugEnabled()) log.debug("Module " + module.getName() + " version " + module.getVersion() + "is already installed.");
                 }
             }}.execute();
         }
-        if (clearCachesAfterLoading) {
-            HibernateInitializer hin = CoreServices.lookup().getHibernateInitializer();
-            hin.evictAllCaches();
-        }
-    }
-
-
-    protected void unlockModule(final InstalledModule currentVersion) throws Exception {
-        HibernateTxFragment fragment = new HibernateTxFragment() {
-            public void txFragment(Session session) throws Exception {
-                currentVersion.setStatus(null);
-                session.update(currentVersion);
-                session.flush();
-            }
-        };
-        fragment.execute();
-    }
-
-    protected void storeModule(final InstalledModule currentVersion, final InitialModule newVersion) {
-        try {
-            new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    currentVersion.setVersion(newVersion.getVersion());
-                    session.saveOrUpdate(currentVersion);
-                    session.flush();
-                }
-            }.execute();
-        } catch (Exception e) {
-            log.error("Error saving InstalledModule " + newVersion.getName() + " version " + newVersion.getVersion(), e);
-        }
-    }
-
-    protected InstalledModule loadAndLockModule(final String moduleName) {
-        final InstalledModule[] module = new InstalledModule[1];
-        try {
-            new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    InstalledModule currentVersion = (InstalledModule) session.get(InstalledModule.class, moduleName, LockMode.UPGRADE);
-                    if (currentVersion == null) {
-                        module[0] = new InstalledModule(moduleName, 0);
-                        module[0].setStatus(InstalledModule.STATUS_LOADING);
-                        session.save(module[0]);
-                    } else if (StringUtils.isEmpty(currentVersion.getStatus())) {
-                        currentVersion.setStatus(InstalledModule.STATUS_LOADING);
-                        session.update(currentVersion);
-                        module[0] = currentVersion;
-                    }
-                    session.flush();
-                }
-            }.execute();
-        } catch (Exception e) {
-            log.error("Error loading InstalledModule " + moduleName, e);
-        }
-        return module[0];
     }
 }

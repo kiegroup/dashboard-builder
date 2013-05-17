@@ -16,24 +16,22 @@
     limitations under the License.
 
 -->
-
-
 <!DOCTYPE hibernate-mapping
-    PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping auto-import="false">
 
 <class name="org.jboss.dashboard.ui.panel.advancedHTML.HTMLText" table="dashb_panel_html">
 
-    <cache usage="transactional"/>
+    <cache usage="read-write"/>
 
     <id name="dbid" type="long" column="dbid" unsaved-value="null">
         <generator class="native"/>
     </id>
 
     <map name="text" table="dashb_panel_html_i18n" cascade="all">
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
         <key column="id_text"/>
         <index column="language" type="string"/>
         <element column="html_text" type="org.jboss.dashboard.database.hibernate.StringBlobType"/>

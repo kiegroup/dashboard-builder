@@ -16,6 +16,7 @@
 package org.jboss.dashboard.database;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,24 +47,9 @@ public class DataSourceManager {
      */
     protected static transient ThreadLocal currentThreadDataSources = new ThreadLocal();
 
-    protected String[] initialClassesToLoad;
-
-    public String[] getInitialClassesToLoad() {
-        return initialClassesToLoad;
-    }
-
-    public void setInitialClassesToLoad(String[] initialClassesToLoad) {
-        this.initialClassesToLoad = initialClassesToLoad;
-    }
-
     @PostConstruct
     public void start() throws Exception {
         // Load database drivers.
-        if (initialClassesToLoad != null) {
-            for (int i = 0; i < initialClassesToLoad.length; i++) {
-                checkDriverClassAvailable(initialClassesToLoad[i]);
-            }
-        }
         for (DataSourceEntry entry : getDataSourceEntries()) {
             checkDriverClassAvailable(entry.getDriverClass());
         }
@@ -182,7 +168,7 @@ public class DataSourceManager {
     /**
      * Retrieve a data sources being used by the current thread.
      */
-    protected DataSource getCurrentThreadDataSource(String name) {
+    protected DataSource getCurrentThreadDataSource(String name) throws Exception {
         Map<String, DataSource> dsMap = getCurrentThreadDataSources();
         return dsMap.get(name);
     }
@@ -190,7 +176,7 @@ public class DataSourceManager {
     /**
      * Store a data source as used by the current thread.
      */
-    protected void setCurrentThreadDataSource(String name, DataSource ds) {
+    protected void setCurrentThreadDataSource(String name, DataSource ds) throws Exception {
         Map<String, DataSource> dsMap = getCurrentThreadDataSources();
         dsMap.put(name, ds);
     }
@@ -198,11 +184,12 @@ public class DataSourceManager {
     /**
      * Retrieve the data sources being used by the current thread.
      */
-    protected Map<String, DataSource> getCurrentThreadDataSources() {
+    protected Map<String, DataSource> getCurrentThreadDataSources() throws Exception {
         Map<String, DataSource> dsMap = (Map) currentThreadDataSources.get();
         if (dsMap == null) {
             dsMap = new HashMap();
-            dsMap.put(DEFAULT_DATASOURCE_NAME, new LocalDataSource());
+            DataSource localDataSource = CoreServices.lookup().getHibernateInitializer().getLocalDataSource();
+            dsMap.put(DEFAULT_DATASOURCE_NAME, localDataSource);
             currentThreadDataSources.set(dsMap);
         }
         return dsMap;

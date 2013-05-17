@@ -15,23 +15,29 @@
  */
 package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Data source tables manager
+ */
+@ApplicationScoped
 public class DataSourceTableManager {
 
     /**
      * Get the singleton instance.
      */
     public static DataSourceTableManager lookup() {
-        return (DataSourceTableManager) Factory.lookup("org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceTableManager");
+        return (DataSourceTableManager) CDIBeanLocator.getBeanByType(DataSourceTableManager.class);
     }
 
      public List getSelectedTablesEntries(final String datasource) throws Exception {

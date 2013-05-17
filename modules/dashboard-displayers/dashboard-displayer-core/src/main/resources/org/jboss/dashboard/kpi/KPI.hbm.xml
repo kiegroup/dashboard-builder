@@ -18,28 +18,25 @@
 -->
 <!DOCTYPE hibernate-mapping
         PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
     <class name="org.jboss.dashboard.kpi.KPIImpl" table="dashb_kpi">
-        <cache usage="transactional"/>
+        <cache usage="read-write"/>
 
         <id name="id" type="long" column="id" unsaved-value="null"><generator class="native"/></id>
-
-
-
-        <many-to-one name="dataProvider" class="org.jboss.dashboard.provider.DataProviderImpl" column="id_data_provider" not-null="true" lazy="false" cascade="none" />
+        <property name="code" type="string" column="code" />
+        <property name="dataDisplayerUid" type="string" column="displayer_uid" />
+        <property name="dataDisplayerXML" type="org.jboss.dashboard.database.hibernate.StringBlobType" column="displayer_xml" />
 
         <map name="descriptions" table="dashb_kpi_i18n" cascade="all" lazy="false">
-            <cache usage="transactional"/>
+            <cache usage="read-write"/>
             <key column="id_kpi"/>
             <index column="language" type="string"/>
             <element column="description" type="string"/>
         </map>
 
-        <property name="code" type="string" column="code" />
-        <property name="dataDisplayerUid" type="string" column="displayer_uid" />
-        <property name="dataDisplayerXML" type="org.jboss.dashboard.database.hibernate.StringBlobType" column="displayer_xml" />
+        <many-to-one name="dataProvider" class="org.jboss.dashboard.provider.DataProviderImpl" column="id_data_provider" not-null="true" lazy="false" cascade="none" />
     </class>
 </hibernate-mapping>
 

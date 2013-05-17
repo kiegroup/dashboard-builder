@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.provider.sql;
 
+import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.sql.SQLDataSet;
 import org.jboss.dashboard.provider.AbstractDataLoader;
@@ -24,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.dashboard.CoreServices;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,8 +66,12 @@ public class SQLDataLoader extends AbstractDataLoader {
     public void setDataSource(String dataSource) {
         this.dataSource = dataSource;
         try {
-            DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
-            if (dataSource != null) dataBaseName = dataSourceManager.getDatasource(dataSource).getConnection().getMetaData().getDatabaseProductName().toLowerCase();
+            if (dataSource != null) {
+                HibernateInitializer hbnInitializer = CoreServices.lookup().getHibernateInitializer();
+                DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
+                DataSource ds = dataSourceManager.getDatasource(dataSource);
+                dataBaseName = hbnInitializer.inferDatabaseName(ds);
+            }
         } catch (Exception e) {
             log.error("Cannot get datasource named " + dataSource,e);
         }

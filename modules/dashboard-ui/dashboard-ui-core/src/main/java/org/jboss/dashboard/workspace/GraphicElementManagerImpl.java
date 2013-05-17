@@ -106,7 +106,7 @@ public abstract class GraphicElementManagerImpl implements GraphicElementManager
             protected void txFragment(Session session) throws Exception {
                 FlushMode oldFlushMode = session.getFlushMode();
                 session.setFlushMode(FlushMode.NEVER);
-                List dbItems = ((org.hibernate.classic.Session) session).find("from " + classToHandle.getName() + " as element");
+                List dbItems = session.createQuery("from " + classToHandle.getName() + " as element").list();
                 for (int i = 0; i < dbItems.size(); i++) {
                     GraphicElement element = (GraphicElement) dbItems.get(i);
                     //element.deploy();

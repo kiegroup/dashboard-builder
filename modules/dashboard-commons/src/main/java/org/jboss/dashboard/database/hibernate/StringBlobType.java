@@ -15,7 +15,9 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
-import org.jboss.dashboard.database.hibernate.HibernateInitializer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 import org.jboss.dashboard.CoreServices;
@@ -28,30 +30,11 @@ import java.util.Arrays;
  * Note that we don't use CLOBs to avoid ORACLE handling the encoding. We just store String bytes using default encoding,
  * so encoding related problems rely always in our application.
  */
-public class StringBlobType extends org.hibernate.lob.BlobImpl implements UserType, Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(StringBlobType.class.getName());
+public class StringBlobType implements UserType, Serializable {
 
-    public static final String STRING_ENCODING;
+    private static transient Log log = LogFactory.getLog(StringBlobType.class.getName());
 
-    static {
-        STRING_ENCODING = "UTF-8";
-    }
-
-    public StringBlobType(InputStream inputStream, int i) {
-        super(inputStream, i);
-    }
-
-    public StringBlobType(byte[] bytes) {
-        super(bytes);
-    }
-
-    public StringBlobType(String s) {
-        super(s.getBytes());
-    }
-
-    public StringBlobType() {
-        super(new byte[0]);
-    }
+    public static final String STRING_ENCODING = "UTF-8";
 
     public int[] sqlTypes() {
         return new int[]{Types.BLOB};
@@ -72,7 +55,7 @@ public class StringBlobType extends org.hibernate.lob.BlobImpl implements UserTy
         return o == null ? 0 : o.hashCode();
     }
 
-    public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException, SQLException {
         LOBHelper.lookup().nullSafeSet(st, value, index, new LOBHelper.ValueWriter() {
             public void writeValue(OutputStream os, Object value) throws IOException {
                 if (value != null) {
@@ -101,10 +84,7 @@ public class StringBlobType extends org.hibernate.lob.BlobImpl implements UserTy
         });
     }
 
-
-
-    public Object nullSafeGet(ResultSet rs, String[] names, Object owner)
-            throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
         if (log.isDebugEnabled()) log.debug("Getting value with names " + Arrays.asList(names));
         Object o = rs.getObject(names[0]);
         if (o == null) {

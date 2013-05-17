@@ -32,7 +32,7 @@ public class JNDIDataSourceEntry extends DataSourceEntry {
 
     private static transient Log log = LogFactory.getLog(JNDIDataSourceEntry.class.getName());
 
-    private DataSource dataSource;
+    private DataSource dataSource = null;
 
     public DataSource getDataSource() throws NamingException {
         if (dataSource != null) return dataSource;

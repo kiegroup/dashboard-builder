@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
+import org.hibernate.jdbc.Work;
 import org.jboss.dashboard.profiler.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +23,7 @@ import org.hibernate.Session;
 import org.jboss.dashboard.commons.misc.ReflectionUtils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -251,29 +253,31 @@ public abstract class HibernateTxFragment {
         }
 
         public Map<String,Object> buildContext(HibernateTransaction tx) throws Exception {
-            Connection conn = tx.getSession().connection();
-            Map<String,Object> ctx = new LinkedHashMap<String,Object>();
+            final Map<String,Object> ctx = new LinkedHashMap<String,Object>();
+            tx.getSession().doWork(new Work() {
+            public void execute(Connection conn) throws SQLException {
 
-            // Generic
-            ctx.put("Tx id", id);
-            ctx.put(TX_ISOLATION, Integer.toString(conn.getTransactionIsolation()));
-            ctx.put(AUTO_COMMIT, conn.getAutoCommit());
+                // Generic
+                ctx.put("Tx id", id);
+                ctx.put(TX_ISOLATION, Integer.toString(conn.getTransactionIsolation()));
+                ctx.put(AUTO_COMMIT, conn.getAutoCommit());
 
-            // SQLServer-specific
-            Object tdsChannel = ReflectionUtils.getPrivateField(conn, "tdsChannel");
-            if (tdsChannel != null) {
-                Object spid = ReflectionUtils.getPrivateField(tdsChannel, "spid");
-                if (spid != null) ctx.put(PROCESS_ID, spid.toString());
-            }
-            // SQLServer-specific
-            Object connId = ReflectionUtils.getPrivateField(conn, "connectionID");
-            if (connId == null) connId = ReflectionUtils.getPrivateField(conn, "traceID");
-            if (connId != null) {
-                ctx.put(CONNECTION_ID, connId.toString());
-            }
+                // SQLServer-specific
+                Object tdsChannel = ReflectionUtils.getPrivateField(conn, "tdsChannel");
+                if (tdsChannel != null) {
+                    Object spid = ReflectionUtils.getPrivateField(tdsChannel, "spid");
+                    if (spid != null) ctx.put(PROCESS_ID, spid.toString());
+                }
+                // SQLServer-specific
+                Object connId = ReflectionUtils.getPrivateField(conn, "connectionID");
+                if (connId == null) connId = ReflectionUtils.getPrivateField(conn, "traceID");
+                if (connId != null) {
+                    ctx.put(CONNECTION_ID, connId.toString());
+                }
 
-            ThreadProfile threadProfile = Profiler.lookup().getCurrentThreadProfile();
-            if (threadProfile != null) threadProfile.addContextProperties(ctx);
+                ThreadProfile threadProfile = Profiler.lookup().getCurrentThreadProfile();
+                if (threadProfile != null) threadProfile.addContextProperties(ctx);
+            }});
             return ctx;
         }
     }
