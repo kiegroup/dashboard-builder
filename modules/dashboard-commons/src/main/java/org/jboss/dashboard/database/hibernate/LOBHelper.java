@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.jca.adapters.jdbc.WrappedConnection;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -104,21 +105,29 @@ public class LOBHelper {
             if (Class.forName(ORACLE_JDBC_ORACLE_CONNECTION).isAssignableFrom(conn.getClass())) {
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
             }
-            // The connection has been opened by the C3P0 pool.
+            // JBoss AS data source wrapper connection.
+            else if (WrappedConnection.class.isAssignableFrom(conn.getClass())) {
+                WrappedConnection wrappedConnection = (WrappedConnection) conn;
+                arglist[0] = wrappedConnection.getUnderlyingConnection();
+                tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
+            }
+            // C3P0 pool managed connection.
             else if (NewProxyConnection.class.isAssignableFrom(conn.getClass())) {
                 NewProxyConnection castCon = (NewProxyConnection) conn;
                 arglist[0] = C3P0ProxyConnection.RAW_CONNECTION;
                 tempBlob = castCon.rawConnectionOperation(createTempMethod, C3P0ProxyConnection.RAW_CONNECTION, arglist);
             }
-            // The connection has been configured as a Tomcat data source.
+            // Apache's DBCP pool managed connection.
             else if (PoolableConnection.class.isAssignableFrom(conn.getClass())) {
                 arglist[0] = ((PoolableConnection) statement.getConnection()).getDelegate();
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
 
             } else {
                 throw new HibernateException("JDBC connection object must be a oracle.jdbc.OracleConnection " +
-                        "a org.apache.commons.dbcp.PoolableConnection or a com.mchange.v2.c3p0.impl.NewProxyConnection. " +
-                        "Connection class is " + conn.getClass().getName());
+                        "a " + WrappedConnection.class.getName() +
+                        "a " + PoolableConnection.class.getName() +
+                        "or a " + NewProxyConnection.class.getName() +
+                        ". Connection class is " + conn.getClass().getName());
             }
 
             Method openMethod = getMethod(oracleBlobClass, ORACLE_OPEN_METHOD, Integer.TYPE, null, null);
