@@ -24,11 +24,141 @@
     <defaultCache
             maxElementsInMemory="10000"
             eternal="true"
-            timeToIdleSeconds="28800"
-            timeToLiveSeconds="86400"
-            overflowToDisk="false"
-            diskPersistent="false"
-            diskExpiryThreadIntervalSeconds="1200"
-            memoryStoreEvictionPolicy="FIFO"
             />
+
+    <cache  name="org.hibernate.cache.spi.UpdateTimestampsCache"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.hibernate.cache.internal.StandardQueryCache"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.database.DataSourceEntry"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceColumnEntry"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.ui.panel.advancedHTML.HTMLText"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.kpi.KPIImpl"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.database.InstalledModule"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.ui.resources.GraphicElement"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.security.PermissionDescriptor"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.PanelInstance"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceTableEntry"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.provider.DataProviderImpl"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.PanelParameter"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.Section"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.Panel"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl.panelInstancesSet"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.provider.DataProviderImpl.descriptions"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.ui.panel.advancedHTML.HTMLText.text"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.Section.title"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl.workspaceParams"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.PanelInstance.panelParams"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl.workspaceHomes"
+            maxElementsInMemory="1000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.kpi.KPIImpl.descriptions"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl.sections"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.Section.panels"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
+    <cache  name="org.jboss.dashboard.workspace.WorkspaceImpl.panelProvidersAllowed"
+            maxElementsInMemory="10000"
+            eternal="true"
+            />
+
 </ehcache>
