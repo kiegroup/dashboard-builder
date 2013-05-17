@@ -49,8 +49,7 @@ CREATE TABLE dashb_data_source_column (
 
 CREATE TABLE dashb_installed_module (
    name varchar(256) PRIMARY KEY,
-   version bigint,
-   status varchar(50)
+   version bigint
 );
 
 CREATE TABLE dashb_permission (

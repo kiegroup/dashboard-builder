@@ -75,8 +75,7 @@ CREATE TABLE dashb_data_source_column (
 
 CREATE TABLE dashb_installed_module (
     name varchar(255) primary key,
-    version bigint(50),
-    status varchar(50)
+    version bigint(50)
 ) ENGINE = INNODB;
   -- CUSTOM_DELIMITER
 
