@@ -59,7 +59,7 @@ If you want to build the project and execute a quick demo, please, proceed as in
 
 2. Open a terminal window, go to the <code>scripts</code> directory and type the following command (for linux systems):
 
-        $ ./buildandrun_h2.sh
+        $ ./buildandrun.sh h2
 
   This command compiles, builds and runs the application.
 
