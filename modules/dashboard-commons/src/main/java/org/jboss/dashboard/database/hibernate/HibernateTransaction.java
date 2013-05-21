@@ -15,15 +15,12 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
-import org.hibernate.HibernateException;
+import org.hibernate.*;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.error.ErrorManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.FlushMode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.jboss.dashboard.CoreServices;
 
 import java.util.ArrayList;
@@ -95,12 +92,18 @@ public class HibernateTransaction {
      */
     private boolean completing;
 
+    /**
+     * The underlying Hibernate transaction
+     */
+    protected Transaction tx;
+
     private HibernateTransaction() {
         this.id = Thread.currentThread().getName();
         this.currentFragment = null;
         this.followers = new ArrayList<HibernateTxFragment>();
         this.listeners = new ArrayList<HibernateTxFragment>();
         this.session = null;
+        this.tx = null;
         this.active = false;
         this.rollback = false;
         this.completing = false;
@@ -137,7 +140,7 @@ public class HibernateTransaction {
             HibernateSessionFactoryProvider hibernateSessionFactoryProvider = CoreServices.lookup().getHibernateSessionFactoryProvider();
             SessionFactory sessionFactory = hibernateSessionFactoryProvider.getSessionFactory();
             session = sessionFactory.openSession();
-            session.getTransaction().begin();
+            tx = session.beginTransaction();
             active = true;
         } catch (HibernateException e) {
             error(e);
@@ -164,6 +167,7 @@ public class HibernateTransaction {
         completing = false;
         active = false;
         close();
+        tx = null;
         activeTx.set(null);
 
         // Invoke listeners
@@ -188,7 +192,9 @@ public class HibernateTransaction {
     protected void close() {
         try {
             log.debug("Close transaction. Id=" + getId());
-            session.close();
+            if (session.isOpen()) {
+                session.close();
+            }
         } catch (Throwable e) {
             log.error("Close error. Id=" + getId());
             error(e);
@@ -199,7 +205,7 @@ public class HibernateTransaction {
     protected void rollback() {
         try {
             log.debug("Rollback transaction. Id=" + getId());
-            session.getTransaction().rollback();
+            tx.rollback();
         } catch (Throwable e) {
             log.error("Error in rollback. Id=" + getId());
             rollback = false;
@@ -211,7 +217,7 @@ public class HibernateTransaction {
     protected void commit() {
         try {
             log.debug("Commit transaction. Id=" + getId());
-            session.getTransaction().commit();
+            tx.commit();
         } catch (Throwable e) {
             log.error("Error in commit. Id=" + getId());
             error(e);
