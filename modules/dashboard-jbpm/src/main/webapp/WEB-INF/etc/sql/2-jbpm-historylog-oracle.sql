@@ -17,7 +17,7 @@
 -- Integration with the jBPM history log
 
 CREATE TABLE processinstancelog (
-  pk NUMBER(38,0) NOT NULL PRIMARY KEY USING INDEX (CREATE INDEX idx_ps_pk ON bamprocesssummary(pk)),
+  pk NUMBER(38,0) NOT NULL PRIMARY KEY USING INDEX (CREATE INDEX idx_ps_pk ON processinstancelog(pk)),
   processinstanceid NUMBER(38,0) NOT NULL,
   processname VARCHAR2(255) NOT NULL,
   status INTEGER,
@@ -28,9 +28,9 @@ CREATE TABLE processinstancelog (
   duration NUMBER(38,0)
 );
 
--- CREATE INDEX idx_ps_pk on bamprocesssummary(pk);
-CREATE INDEX idx_ps_pid on bamprocesssummary(processinstanceid);
-CREATE INDEX idx_ps_name on bamprocesssummary(processname);
+-- CREATE INDEX idx_ps_pk on processinstancelog(pk);
+CREATE INDEX idx_ps_pid on processinstancelog(processinstanceid);
+CREATE INDEX idx_ps_name on processinstancelog(processname);
 
 CREATE table bamtasksummary (
   pk NUMBER(38,0) NOT NULL PRIMARY KEY USING INDEX(CREATE INDEX idx_ts_pk on bamtasksummary(pk)),

@@ -30,13 +30,13 @@ CREATE TABLE processinstancelog (
 );
 -- CUSTOM_DELIMITER
 
-CREATE INDEX idx_ps_pk on bamprocesssummary(pk);
+CREATE INDEX idx_ps_pk on processinstancelog(pk);
 -- CUSTOM_DELIMITER
 
-CREATE INDEX idx_ps_pid on bamprocesssummary(processinstanceid);
+CREATE INDEX idx_ps_pid on processinstancelog(processinstanceid);
 -- CUSTOM_DELIMITER
 
-CREATE INDEX idx_ps_name on bamprocesssummary(processname);
+CREATE INDEX idx_ps_name on processinstancelog(processname);
 -- CUSTOM_DELIMITER
 
 CREATE table bamtasksummary (
