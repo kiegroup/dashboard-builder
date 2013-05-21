@@ -7,7 +7,7 @@
       <query type="postgres">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-          from processinstancelog pi group by pId,processname) as total
+          from processinstancelog pi group by pi.processinstanceid,processname) as total
           left outer join
           (select pi.processinstanceid as pId, count(*) as instances_act
           from processinstancelog pi
@@ -39,7 +39,7 @@
       <query type="sqlserver">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-          from processinstancelog pi group by pId,processname) as total
+          from processinstancelog pi group by pi.processinstanceid,processname) as total
           left outer join
           (select pi.processinstanceid as pId, count(*) as instances_act
           from processinstancelog pi
@@ -71,7 +71,7 @@
       <query type="oracle">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-          from processinstancelog pi group by pId,processname) total
+          from processinstancelog pi group by pi.processinstanceid,processname) total
           left outer join
           (select pi.processinstanceid as pId, count(*) instances_act
           from processinstancelog pi
@@ -103,7 +103,7 @@
       <query type="h2">select total.processname, ifnull(total.instances,0) total, ifnull(active.instances_act,0) active, ifnull(completed.instances_compl,0) completed, ifnull(pending.instances_pend,0) pending, ifnull(suspended.instances_susp,0) suspended, ifnull(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-          from processinstancelog pi group by pId,processname) as total
+          from processinstancelog pi group by pi.processinstanceid,processname) as total
           left outer join
           (select pi.processinstanceid as pId, count(*) as instances_act
           from processinstancelog pi
@@ -135,7 +135,7 @@
       <query type="mysql">select total.processname, coalesce(total.instances,0) total, coalesce(active.instances_act,0) active, coalesce(completed.instances_compl,0) completed, coalesce(pending.instances_pend,0) pending, coalesce(suspended.instances_susp,0) suspended, coalesce(aborted.instances_abrt,0) aborted
           from
           (select pi.processinstanceid as pId, pi.processname as processname, count(*) as instances
-          from processinstancelog pi group by pId,processname) as total
+          from processinstancelog pi group by pi.processinstanceid,processname) as total
           left outer join
           (select pi.processinstanceid as pId, count(*) as instances_act
           from processinstancelog pi
