@@ -23,7 +23,7 @@
 <hibernate-mapping auto-import="false">
     <class name="org.jboss.dashboard.workspace.Panel" table="dashb_panel">
 
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>

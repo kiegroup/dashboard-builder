@@ -22,7 +22,7 @@
 
 <hibernate-mapping>
     <class name="org.jboss.dashboard.kpi.KPIImpl" table="dashb_kpi">
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
 
         <id name="id" type="long" column="id" unsaved-value="null"><generator class="native"/></id>
         <property name="code" type="string" column="code" />
@@ -30,7 +30,7 @@
         <property name="dataDisplayerXML" type="org.jboss.dashboard.database.hibernate.StringBlobType" column="displayer_xml" />
 
         <map name="descriptions" table="dashb_kpi_i18n" cascade="all" lazy="false">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_kpi"/>
             <index column="language" type="string"/>
             <element column="description" type="string"/>

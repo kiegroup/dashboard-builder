@@ -22,7 +22,7 @@
 
 <hibernate-mapping auto-import="false">
     <class name="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceColumnEntry" table="dashb_data_source_column">
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>

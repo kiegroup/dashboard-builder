@@ -22,7 +22,7 @@
 
 <hibernate-mapping auto-import="false">
     <class name="org.jboss.dashboard.database.InstalledModule" table="dashb_installed_module">
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
         <id name="name" type="string" column="name" unsaved-value="null">
             <generator class="assigned"/>
         </id>

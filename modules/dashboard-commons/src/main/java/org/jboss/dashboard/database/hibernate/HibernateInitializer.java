@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.jboss.dashboard.Application;
@@ -328,16 +329,10 @@ public class HibernateInitializer implements Startable {
      * Evict all cache information.
      */
     public synchronized void evictAllCaches() {
-        // Cache manager might support it
-        /*if (!getCacheConfigurationManager().freeAllCache()) {
-            SessionFactory sf = getSessionFactory();
-            sf.evictQueries();
-            Map metadata = getSessionFactory().getAllClassMetadata();
-            for (Object o : metadata.values()) {
-                final AbstractEntityPersister persister = (AbstractEntityPersister) o;
-                final String className = persister.getName();
-                sf.evictEntity(className);
-            }
-        }*/
+        Cache cache = getSessionFactory().getCache();
+        cache.evictQueryRegions();
+        cache.evictEntityRegions();
+        cache.evictCollectionRegions();
+        cache.evictNaturalIdRegions();
     }
 }

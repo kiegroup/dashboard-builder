@@ -24,7 +24,7 @@
 
     <class name="org.jboss.dashboard.workspace.PanelInstance" table="dashb_panel_instance">
 
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
         <id name="dbid" type="long" column="dbid" unsaved-value="null">
             <generator class="native"/>
         </id>
@@ -42,7 +42,7 @@
                      column="id_workspace" not-null="true"/>
 
         <set name="panelParams" lazy="false" inverse="true" cascade="all-delete-orphan">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_instance"/>
             <one-to-many class="org.jboss.dashboard.workspace.PanelParameter" />
         </set>

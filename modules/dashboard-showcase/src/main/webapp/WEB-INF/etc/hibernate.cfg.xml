@@ -30,12 +30,15 @@ limitations under the License.
         <property name="jdbc.use_streams_for_binary">true</property>
 
         <!-- Cache settings: use EHCache by default -->
-        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.use_query_cache">true</property>
+        <property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <property name="cache.use_second_level_cache">true</property>
+        <property name="cache.use_query_cache">true</property>
 
-        <!-- Context scoping for org.hibernate.SessionFactory#getCurrentSession() processing. -->
+        <!-- Context scoping for org.hibernate.SessionFactory#getCurrentSession() processing -->
         <property name="current_session_context_class">thread</property>
+
+        <!-- Enable statistics collection -->
+        <property name="generate_statistics">true</property>
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>

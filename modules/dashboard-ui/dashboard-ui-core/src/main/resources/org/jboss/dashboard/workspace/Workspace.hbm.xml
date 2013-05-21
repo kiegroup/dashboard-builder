@@ -24,7 +24,7 @@
 
     <class name="org.jboss.dashboard.workspace.WorkspaceImpl" table="dashb_workspace">
 
-        <cache usage="read-write"/>
+        <cache usage="transactional"/>
 
         <id name="id" type="string" column="id_workspace" unsaved-value="null">
             <generator class="assigned"/>
@@ -51,7 +51,7 @@
         </property>
 
         <set name="workspaceParams" table="dashb_workspace_parameter" lazy="true" cascade="all">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_workspace"/>
             <composite-element class="org.jboss.dashboard.workspace.WorkspaceParameter">
                 <parent name="Workspace"/>
@@ -62,25 +62,25 @@
         </set>
 
         <set name="sections" inverse="true" lazy="true" cascade="all-delete-orphan">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_workspace"/>
             <one-to-many class="org.jboss.dashboard.workspace.Section"/>
         </set>
 
         <set name="panelInstancesSet" inverse="true" lazy="true" cascade="all-delete-orphan">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_workspace"/>
             <one-to-many class="org.jboss.dashboard.workspace.PanelInstance"/>
         </set>
 
         <set name="panelProvidersAllowed" lazy="true" table="dashb_allowed_panel">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_workspace"/>
             <element column="id_panel_provider" type="string"/>
         </set>
 
         <set name="workspaceHomes" table="dashb_workspace_home" cascade="all">
-            <cache usage="read-write"/>
+            <cache usage="transactional"/>
             <key column="id_workspace"/>
             <composite-element class="org.jboss.dashboard.workspace.WorkspaceHome">
               <parent name="Workspace"/>
