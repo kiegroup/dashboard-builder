@@ -177,10 +177,11 @@ public class DatabaseAutoSynchronizer {
         protected void txFragment(Session session) throws Exception {
             Work w = new Work() {
             public void execute(Connection connection) throws SQLException {
+                // IMPORTANT NOTE: SQL Server driver closes the previous result set. So it's very important to read the
+                // data from the first result set before opening a new one. If not an exception is thrown.
                 DatabaseMetaData metaData = connection.getMetaData();
-                ResultSet resultLowcase = metaData.getTables(null, null, installedModulesTable.toLowerCase(), null);
-                ResultSet resultUppercase = metaData.getTables(null, null, installedModulesTable.toUpperCase(), null);
-                returnValue[0] = resultLowcase.next() || resultUppercase.next();
+                returnValue[0] = metaData.getTables(null, null, installedModulesTable.toLowerCase(), null).next();
+                if (!returnValue[0]) returnValue[0] = metaData.getTables(null, null, installedModulesTable.toUpperCase(), null).next();
             }};
             session.doWork(w);
         }}.execute();
