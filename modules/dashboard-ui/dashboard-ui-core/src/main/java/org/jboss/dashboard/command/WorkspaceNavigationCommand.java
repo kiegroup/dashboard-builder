@@ -25,9 +25,9 @@ import org.jboss.dashboard.users.UserStatus;
 public class WorkspaceNavigationCommand extends AbstractCommand {
 
     public static final String WORKSPACE_ID     = "navigation_workspace_id";
-    public static final String SECTION_ID       = "navigation_section_id";
     public static final String WORKSPACE_TITLE  = "navigation_workspace_title";
-    public static final String SECTION_TITLE    = "navigation_section_title";
+    public static final String PAGE_ID          = "navigation_page_id";
+    public static final String PAGE_TITLE       = "navigation_page_title";
     public static final String LANGUAGE         = "navigation_language";
     public static final String USER_LOGIN       = "navigation_user_login";
     public static final String USER_NAME        = "navigation_user_name";
@@ -44,9 +44,9 @@ public class WorkspaceNavigationCommand extends AbstractCommand {
         String commandName = getName();
 
         if (WORKSPACE_ID.equals(commandName)) return navMgr.getCurrentWorkspaceId();
-        if (SECTION_ID.equals(commandName)) return navMgr.getCurrentSectionId().toString();
         if (WORKSPACE_TITLE.equals(commandName)) return localeMgr.localize(navMgr.getCurrentWorkspace().getTitle()).toString();
-        if (SECTION_TITLE.equals(commandName)) return localeMgr.localize(navMgr.getCurrentSection().getTitle()).toString();
+        if (PAGE_ID.equals(commandName)) return navMgr.getCurrentSectionId().toString();
+        if (PAGE_TITLE.equals(commandName)) return localeMgr.localize(navMgr.getCurrentSection().getTitle()).toString();
         if (LANGUAGE.equals(commandName)) return localeMgr.getCurrentLang();
         if (USER_LOGIN.equals(commandName)) return userCtx.getUserLogin();
         if (USER_NAME.equals(commandName)) return userCtx.getUserName();

@@ -73,9 +73,9 @@ import java.util.Set;
  * <p><b>Navigations commands</b>. Give access to the user navigation context within the workspace:
  * <ul>
  * <li>{navigation_workspace_id}     => The current workspace identifier.
- * <li>{navigation_section_id}    => The current section identifier.
  * <li>{navigation_workspace_title}  => The current workspace title localized in the user language.
- * <li>{navigation_section_title} => The current section title localized in the user language.
+ * <li>{navigation_page_id}        => The current page identifier.
+ * <li>{navigation_page_title}     => The current page title localized in the user language.
  * <li>{navigation_language}      => The current language (es, en, ca, ...)
  * <li>{navigation_user_login}    => The logged user login.
  * <li>{navigation_user_name}     => The logged user name.

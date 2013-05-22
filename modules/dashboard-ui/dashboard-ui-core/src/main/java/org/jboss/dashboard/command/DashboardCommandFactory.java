@@ -41,9 +41,9 @@ public class DashboardCommandFactory implements CommandFactory {
 
         // Commands to access the current workspace navigation context.
         if (commandName.equals(WorkspaceNavigationCommand.WORKSPACE_ID)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.WORKSPACE_ID);
-        if (commandName.equals(WorkspaceNavigationCommand.SECTION_ID)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.SECTION_ID);
+        if (commandName.equals(WorkspaceNavigationCommand.PAGE_ID)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.PAGE_ID);
         if (commandName.equals(WorkspaceNavigationCommand.WORKSPACE_TITLE)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.WORKSPACE_TITLE);
-        if (commandName.equals(WorkspaceNavigationCommand.SECTION_TITLE)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.SECTION_TITLE);
+        if (commandName.equals(WorkspaceNavigationCommand.PAGE_TITLE)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.PAGE_TITLE);
         if (commandName.equals(WorkspaceNavigationCommand.LANGUAGE)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.LANGUAGE);
         if (commandName.equals(WorkspaceNavigationCommand.USER_LOGIN)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.USER_LOGIN);
         if (commandName.equals(WorkspaceNavigationCommand.USER_NAME)) return new WorkspaceNavigationCommand(WorkspaceNavigationCommand.USER_NAME);
