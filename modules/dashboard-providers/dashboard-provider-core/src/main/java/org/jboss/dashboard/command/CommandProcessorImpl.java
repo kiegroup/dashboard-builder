@@ -53,6 +53,7 @@ public class CommandProcessorImpl implements CommandProcessor {
     public List<Command> getSuccessfulCommands() {
         return successfulCommands;
     }
+
     public List<Command> getFailedCommands() {
         return failedCommands;
     }

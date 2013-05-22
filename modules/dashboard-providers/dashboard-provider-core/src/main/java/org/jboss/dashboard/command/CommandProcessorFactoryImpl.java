@@ -15,17 +15,15 @@
  */
 package org.jboss.dashboard.command;
 
-import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 /**
- * A command processor is an interface used by the TemplateProcessor service.
- * Its main responsability is to transform command fragments coming from a text template.
+ * Default CommandProcessor factory.
  */
-public interface CommandProcessor {
+@ApplicationScoped
+public class CommandProcessorFactoryImpl implements CommandProcessorFactory {
 
-    void setCommandExecutionEnabled(boolean commandExecutionEnabled);
-    boolean isCommandExecutionEnabled();
-    List<Command> getSuccessfulCommands();
-    List<Command> getFailedCommands();
-    String processCommand(String[] command) throws Exception;
+    public CommandProcessor createCommandProcessor() {
+        return new CommandProcessorImpl();
+    }
 }

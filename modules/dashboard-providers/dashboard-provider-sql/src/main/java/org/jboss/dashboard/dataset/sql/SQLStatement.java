@@ -54,7 +54,7 @@ public class SQLStatement {
 
         // Parse the SQL commands inside the SQL and get a ready-to-run SQL statement.
         TemplateProcessor tp = DataProviderServices.lookup().getTemplateProcessor();
-        CommandProcessorImpl cp = new CommandProcessorImpl();
+        CommandProcessor cp = DataProviderServices.lookup().getCommandProcessorFactory().createCommandProcessor();
         SQLSentence = tp.processTemplate(SQLTemplate, cp);
 
         // Get the parameters used to generate the SQL sentence.

@@ -15,17 +15,13 @@
  */
 package org.jboss.dashboard.command;
 
-import java.util.List;
+import javax.enterprise.inject.Specializes;
 
-/**
- * A command processor is an interface used by the TemplateProcessor service.
- * Its main responsability is to transform command fragments coming from a text template.
- */
-public interface CommandProcessor {
+@Specializes
+public class DashboardCommandProcessorFactory extends CommandProcessorFactoryImpl {
 
-    void setCommandExecutionEnabled(boolean commandExecutionEnabled);
-    boolean isCommandExecutionEnabled();
-    List<Command> getSuccessfulCommands();
-    List<Command> getFailedCommands();
-    String processCommand(String[] command) throws Exception;
+    @Override
+    public CommandProcessor createCommandProcessor() {
+        return new DashboardCommandProcessor();
+    }
 }

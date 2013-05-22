@@ -110,7 +110,7 @@ public class TemplateProcessorImpl implements TemplateProcessor {
     public boolean containsCommandArg(String template, final String arg, final int pos) {
         try {
             final Boolean[] result = new Boolean[] {Boolean.FALSE};
-            processTemplate(template, new CommandProcessor() {
+            processTemplate(template, new CommandProcessorImpl() {
                 public String processCommand(String[] command) {
                     if (command.length > pos && command[pos].equals(arg)) {
                         result[0] = Boolean.TRUE;

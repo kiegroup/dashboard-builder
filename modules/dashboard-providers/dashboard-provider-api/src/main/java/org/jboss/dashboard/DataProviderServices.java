@@ -17,6 +17,7 @@ package org.jboss.dashboard;
 
 import org.jboss.dashboard.command.CommandFactory;
 import org.jboss.dashboard.command.CommandProcessor;
+import org.jboss.dashboard.command.CommandProcessorFactory;
 import org.jboss.dashboard.command.TemplateProcessor;
 import org.jboss.dashboard.function.ScalarFunctionManager;
 import org.jboss.dashboard.provider.DataProviderManager;
@@ -44,6 +45,9 @@ public class DataProviderServices {
 
     @Inject
     protected TemplateProcessor templateProcessor;
+
+    @Inject
+    protected CommandProcessorFactory commandProcessorFactory;
 
     @Inject
     protected Instance<CommandFactory> commandFactories;
@@ -74,6 +78,10 @@ public class DataProviderServices {
 
     public Instance<CommandFactory> getCommandFactories() {
         return commandFactories;
+    }
+
+    public CommandProcessorFactory getCommandProcessorFactory() {
+        return commandProcessorFactory;
     }
 }
 
