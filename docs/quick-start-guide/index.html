@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+<TITLE></TITLE>
+<style>
+body {
+	color: #333333;
+	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 10pt;
+	line-height: 150%;
+	margin: 0 auto;
+	max-width: 66em;
+	padding: 0 2em;
+	text-align: justify;
+}
+img {
+	text-align: center;
+	display: block;
+	margin: auto;
+	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
+}
+</style>
+
+
+</HEAD>
+<BODY>
+<h1>What is it?</h1>
+
+<p>The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards. Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files. It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.</p>
+
+<p>Some ready-to-use sample dashboards are provided as well, for demo and learning purposes.</p>
+
+Key features:
+
+    Visual configuration of dashboards (Drag'n'drop).
+    Graphical representation of KPIs (Key Performance Indicators).
+    Configuration of interactive report tables.
+    Data export to Excel and CSV format.
+    Filtering and search, both in-memory or SQL based.
+    Process and tasks dashboards with jBPM.
+    Data extraction from external systems, through different protocols.
+    Granular access control for different user profiles.
+    Look'n'feel customization tools.
+    Pluggable chart library architecture.
+    Chart libraries provided: NVD3 & OFC2.
+
+Target users:
+
+    Managers / Business owners. Consumer of dashboards and reports.
+    IT / System architects. Connectivity and data extraction.
+    Analysts. Dashboard composition & configuration.
+
+Distribution:
+
+    Independent application to deploy in WAR format.
+
+
+<H1>Quickstart Guide</H1>
+
+<p>After installation and launch later we put the following address in any of the browsers we use regularly:<br>
+<a href="http://localhost:8080/dashbuilder/" target="_blank">http://localhost:8080/dashbuilder/</a><br>
+We appears the login screen where the user can access demo and password demo, done that, will access the portal Dashboards Showcase, where we find different pages.</p>
+
+<IMG SRC="images/m7889832e.png" NAME="graphics01">
+  
+<p>The first thing we do, after you have accessed the website, is to create a data provider for that, will access the Administration page and then to the Data providers, once there, select the option "Create new data provider".</p>
+    
+<IMG SRC="images/m62551576.png" NAME="graphics02">   
+  
+<p>We form appears like the one shown in the following image, in which we will have to fill the fields that we need:</p>
+<ul>
+  <li>Type: in this case, choose the CSV File</li>
+  <li>Name: Write the name you want to give to our data provider (this field is multi-language).</li>
+  <li>CSV file URL: Here write the path where the CSV file is located.</li>
+  <li>Data saparator:</li>
+  <li>Quoting symbol:</li>
+  <li>Date format: Where we can define different date formats or even hour.</li>
+  <li>Number format: Where we can define the number format.</li>
+</ul>
+<p>Once you have filled all the fields that we consider necessary for the creation of our new data provider, click on Try, check that everything works properly, the application will give you a message "Correct data set ..." and we can keep our pressing Save.</p>
+<IMG SRC="images/454df96.png" NAME="graphics03">
+<p>That done, we get a form from data properties we have created, this shows each of the fields that make up the form, giving us the option to change your name or even type.</p>
+  <IMG SRC="images/m2e53ddb4.png" NAME="graphics04">
+<p>After this last step, we keep the latest changes and we have our new Data Provider in the list.</p>
+<IMG SRC="images/m26dfec79.png" NAME="graphics05">
+<p>There is also the possibility of creating a data provider from a SQL Query. From the Administration / Data providers in select Type, choose the SQL Query option, and we see the following form, which will fill the fields Name, Datasource and Query, which will field a select to a table in the database we are using in our facility.</p>
+
+  <img src="images/select_query_00.png" NAME="select_query_00">
+<p>Once set the select, you click on try, and if successful we will get a message like the one pictured.</p>
+  
+  <img src="images/select_query_01.png" NAME="select_query_01">
+  <p>TODO: Explain sql_condition command.</p>
+  <p>The next page shows a few properties of our new Data Provider, we can edit later .</p>
+  <img src="images/select_query_02.png" NAME="select_query_02">
+<p>If we keep our work, we have created a new data provider, this time, starting from a SQL Query.</p>
+  <img src="images/select_query_03.png" NAME="select_query_03">
+   <p>Una vez creados nuestros propios Proveedores de Datos, vamos a crear una página similar a la que podemos encontrarnos en el portal Demo que tenemos en la instalación por defecto.</p>
+  <IMG SRC="images/Admin_01.png" NAME="Admin_01">
+  <p>Para hacer esto, lo que hemos hecho ha sido, salir del usuario Demo y logarnos como Administrador (Usuario: admin, Contraseña: admin)</p>
+  <IMG SRC="images/Admin_02.png" NAME="Admin_02">
+  <p>La nueva página la podemos crear partiendo desde cero o bien la podemos construir clonando una que ya tengamos y eliminando los módulos o paneles que no necesitemos.</p>
+  <IMG SRC="images/Admin_03.png" NAME="Admin_03">
+  <BR><IMG SRC="images/m329db37b.png" NAME="graphics08">
+  <BR><IMG SRC="images/49009e80.png" NAME="graphics09">
+  <BR><IMG SRC="images/7c65dc19.png" NAME="graphics10">
+  <BR>
+  <IMG SRC="images/Bar_chart.png" NAME="Bar_chart" align="left">Bar chart
+  <BR><IMG SRC="images/Line_chart.png" NAME="Line_chart" align="left">Line chart
+  <BR><IMG SRC="images/Data_table.png" NAME="Data_table" align="left">Data table
+  <BR><IMG SRC="images/Pie_chart.png" NAME="Pie_chart" align="left">Pie chart
+
+
+</BODY>
+</HTML>
