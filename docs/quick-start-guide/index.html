@@ -4,7 +4,8 @@
 <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
 <TITLE></TITLE>
 <style>
-body {
+
+body{
 	color: #333333;
 	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 10pt;
@@ -14,18 +15,39 @@ body {
 	padding: 0 2em;
 	text-align: justify;
 }
+td, th {
+	font-size: 10pt;	
+}
+
 img {
+	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
+	border: solid 1px gray;
+}
+
+.centerImg {
 	text-align: center;
 	display: block;
 	margin: auto;
-	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
-	border: solid 1px gray;
 }
 </style>
 
 
 </HEAD>
 <BODY>
+
+<ol>
+  <li><a href="#What_is_it">What is JBoss Dashboard Builder?</a></li>
+  <li>How to install and run it?</li>
+  <li><a href="#Quickstart_Guide">First steps with Dashboard Builder</a>
+<ol>
+      <li>Connecting to dashboard data</li>
+      <li>Adding a new indicator to a page</li>
+      <li>Creating a new page in an existing dashboard</li>
+      <li>Managing dashboards</li>
+      <li>Customizing dashboard look'n'feel</li>
+    </ol>
+  </li>
+</ol>
 <h1><a name="What_is_it"></a>What is it?</h1>
 
 <p>The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards. Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files. It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.</p>
@@ -68,11 +90,11 @@ img {
 <a href="http://localhost:8080/dashbuilder/" target="_blank">http://localhost:8080/dashbuilder/</a><br>
 We appears the login screen where the user can access demo and password demo, done that, will access the portal Dashboards Showcase, where we find different pages.</p>
 
-<IMG SRC="images/m7889832e.png" NAME="graphics01">
+<IMG SRC="images/m7889832e.png" NAME="graphics01" class="centerImg">
   
 <p>The first thing we do, after you have accessed the website, is to create a data provider for that, will access the Administration page and then to the Data providers, once there, select the option "Create new data provider".</p>
     
-<IMG SRC="images/m62551576.png" NAME="graphics02">   
+<IMG SRC="images/m62551576.png" NAME="graphics02" class="centerImg">   
   
 <p>We form appears like the one shown in the following image, in which we will have to fill the fields that we need:</p>
 <ul>
@@ -85,37 +107,54 @@ We appears the login screen where the user can access demo and password demo, do
   <li>Number format: Where we can define the number format.</li>
 </ul>
 <p>Once you have filled all the fields that we consider necessary for the creation of our new data provider, click on Try, check that everything works properly, the application will give you a message "Correct data set ..." and we can keep our pressing Save.</p>
-<IMG SRC="images/454df96.png" NAME="graphics03">
+<IMG SRC="images/454df96.png" NAME="graphics03" class="centerImg">
 <p>That done, we get a form from data properties we have created, this shows each of the fields that make up the form, giving us the option to change your name or even type.</p>
-  <IMG SRC="images/m2e53ddb4.png" NAME="graphics04">
+<IMG SRC="images/m2e53ddb4.png" NAME="graphics04" class="centerImg">
 <p>After this last step, we keep the latest changes and we have our new Data Provider in the list.</p>
-<IMG SRC="images/m26dfec79.png" NAME="graphics05">
+<IMG SRC="images/m26dfec79.png" NAME="graphics05" class="centerImg">
 <p>There is also the possibility of creating a data provider from a SQL Query. From the Administration / Data providers in select Type, choose the SQL Query option, and we see the following form, which will fill the fields Name, Datasource and Query, which will field a select to a table in the database we are using in our facility.</p>
 
-  <img src="images/select_query_00.png" NAME="select_query_00">
+<img src="images/select_query_00.png" NAME="select_query_00" class="centerImg">
 <p>Once set the select, you click on try, and if successful we will get a message like the one pictured.</p>
   
-  <img src="images/select_query_01.png" NAME="select_query_01">
+<img src="images/select_query_01.png" NAME="select_query_01" class="centerImg">
   <p>TODO: Explain sql_condition command.</p>
   <p>The next page shows a few properties of our new Data Provider, we can edit later .</p>
-  <img src="images/select_query_02.png" NAME="select_query_02">
+<img src="images/select_query_02.png" NAME="select_query_02" class="centerImg">
 <p>If we keep our work, we have created a new data provider, this time, starting from a SQL Query.</p>
-  <img src="images/select_query_03.png" NAME="select_query_03">
+<img src="images/select_query_03.png" NAME="select_query_03" class="centerImg">
    <p>Una vez creados nuestros propios Proveedores de Datos, vamos a crear una página similar a la que podemos encontrarnos en el portal Demo que tenemos en la instalación por defecto.</p>
-  <IMG SRC="images/Admin_01.png" NAME="Admin_01">
+<IMG SRC="images/Admin_01.png" NAME="Admin_01" class="centerImg">
   <p>Para hacer esto, lo que hemos hecho ha sido, salir del usuario Demo y logarnos como Administrador (Usuario: admin, Contraseña: admin)</p>
-  <IMG SRC="images/Admin_02.png" NAME="Admin_02">
+<IMG SRC="images/Admin_02.png" NAME="Admin_02" class="centerImg">
   <p>La nueva página la podemos crear partiendo desde cero o bien la podemos construir clonando una que ya tengamos y eliminando los módulos o paneles que no necesitemos.</p>
-  <IMG SRC="images/Admin_03.png" NAME="Admin_03">
-  <BR><IMG SRC="images/m329db37b.png" NAME="graphics08">
-  <BR><IMG SRC="images/49009e80.png" NAME="graphics09">
-  <BR><IMG SRC="images/7c65dc19.png" NAME="graphics10">
-  <BR>
-  <IMG SRC="images/Bar_chart.png" NAME="Bar_chart" align="left">Bar chart
-  <BR><IMG SRC="images/Line_chart.png" NAME="Line_chart" align="left">Line chart
-  <BR><IMG SRC="images/Data_table.png" NAME="Data_table" align="left">Data table
-  <BR><IMG SRC="images/Pie_chart.png" NAME="Pie_chart" align="left">Pie chart
+<IMG SRC="images/Admin_03.png" NAME="Admin_03" class="centerImg">
+  <p>A partir del icono de "Add panel to the current page" <img src="images/ico_AddPanel.png" title="Create a new panel in current page" width="18" height="18"> nos aparece un PopUp en la pantalla, con todos los paneles de que disponemos para poder poner en nuestras páginas...</p>
+<IMG SRC="images/m329db37b.png" NAME="graphics08" class="centerImg">
+<p>...lo que a nosotros nos interesa en este momento lo encontraremos en la parte de Dashboard y concretamente en Key Perfomance Indicator, una vez tenemos localizada y seleccionada esta opción, en la columna de la derecha nos aparece la opción de Create panel, lo siguiente que tenemos que hacer es arrastrar esta a una de las regiones que se nos resaltará en nuestra página.</p>
+<IMG SRC="images/Admin_04.png" NAME="Admin_04" class="centerImg">
+<p>Arrastrado el nuevo panel, lo primero que se nos va a pedir es el Proveedor de Datos	que queremos utilizar para alimentar nuestra gráfica, si desplegamos el select veremos que están aquellas que hemos creado inicialmente, así que elegimos una de ellas.</p>
 
+<IMG SRC="images/49009e80.png" NAME="graphics09" class="centerImg">
+<p>Y automáticamente nos aparece el panel de edición de las gráficas. Es un entorno intuitivo, y que no requiere de demasiadas explicaciones, de todos modos paso a detallas aquellos puntos que pueden resultar más conflictivos.</p>
+<ul>
+  <li>Domain (X Axis): Aquellos datos que queremos mostrar en el eje de las X, en nuestro ejemos hemos elegido Country.</li>
+  <li>Range (Y Axis): Aquellos datos que queremos mostrar en el eje de las Y, en nuestro ejemos hemos elegido Amount.</li>
+  <li>Renderer: Es le tipo de librería gráfica que queremos utilizar, en nuestro ejemplo, vamos a utilizar la NVD3</li>
+  <li>Sort intervals by: es el tipo de ordenación que le queremos dar a los intervalos, en nuestro ejemplo se lo daremos a través del Valor.</li>
+  <li>Sort order: y para el orden general de la gráfica, le aplicaremos un orden ascendente.</li>
+</ul>
+<table align="center"><tr><td><IMG SRC="images/Admin_06.png" NAME="Admin_06"></td><td style="vertical-align:top"> 
+
+<IMG src="images/Bar_chart.png" NAME="Bar_chart" title="Bar chart" width="30" height="31" align="absmiddle">&nbsp;Bar chart<br>
+<IMG SRC="images/Line_chart.png" NAME="Line_chart" title="Line chart" width="30" height="31" align="absmiddle">&nbsp;Line chart
+<br><IMG SRC="images/Data_table.png" NAME="Data_table" title="Data table" width="30" height="31" align="absmiddle">&nbsp;Data table
+<br><IMG SRC="images/Pie_chart.png" NAME="Pie_chart" title="Pie chart" width="30" height="31" align="absmiddle">&nbsp;Pie chart
+<br>
+</td></tr></table>
+
+<p>De todos modos, siempre estamos a tiempo, de poder acceder en un futuro, siempre que lo necesitemos, a las propiedades de una gráfica (o de cualquier panel) y modificarlas, cambiando el tipo de visualización o datos que se están mostrando o incluso, el Proveedor de Datos que se está utilizando.</p>
+<IMG SRC="images/Admin_05.png" NAME="Admin_05" class="centerImg">
 
 </BODY>
 </HTML>
