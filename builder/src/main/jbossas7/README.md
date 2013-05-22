@@ -21,7 +21,7 @@ Deploy the Dashboard Builder
 
 If you only want to install the Dashboard Builder then continue reading...
 
-Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
+Get the proper WAR file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
 
     $ cd <jboss_home>/bin
     $ ./jboss-cli.sh --connect --command="deploy <path_to_war_file>"
@@ -32,6 +32,36 @@ Get the proper war file (e.g. dashbuilder-jboss-as7.0.war) and execute the follo
 
 The application is configured to use a datasource with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.
 Notice, this datasource is intended for development/demo purposes and it's present by default at any JBoss installation.
+
+If you want to deploy on a database different from H2 like Oracle, MySQL, Postgres or MS SQL Server please follow the next steps:
+
+* Install the database driver on JBoss (read the JBoss documentation)
+
+* Create an empty database and a JBoss data source which connects to it
+
+* Modify the file *dashboard-builder/builder/src/main/jbossas7/WEB-INF/jboss-web.xml*:
+
+        <jboss-web>
+           <context-root>/dashbuilder</context-root>
+           <resource-ref>
+               <res-ref-name>jdbc/dashbuilder</res-ref-name>
+               <res-type>javax.sql.DataSource</res-type>
+               <jndi-name>java:jboss/datasources/myDataSource</jndi-name>
+           </resource-ref>
+           ...
+
+   Replace the *jndi-name* parameter value by the JNDI path of the JBoss data source you've just created.
+
+* Modify the file *dashboard-builder/builder/src/main/jbossas7/WEB-INF/jboss-deployment-structure.xml*.
+
+  Add the following snippet of configuration inside the *deployment* tag, where *jdbcDriverModuleName* is the name of the JBoss JDBC driver module.
+
+        <dependencies>
+            <module name="jdbcDriverModuleName" />
+        </dependencies>
+
+
+After that, your are ready to generate a WAR distribution prepared for the target database.
 
 User Authentication
 --------------------------
