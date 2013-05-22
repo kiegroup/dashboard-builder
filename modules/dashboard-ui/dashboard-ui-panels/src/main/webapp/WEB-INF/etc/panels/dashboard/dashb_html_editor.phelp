@@ -25,54 +25,169 @@
 </about>
 <panel-id>dashboard.html_editor</panel-id>
 <usage>
-<text lang="en">This panel shows HTML content.</text>
-<text lang="es">Este panel permite mostrar un contenido HTML cualquiera.</text>
-<text lang="ca">Aquest panel permet mostrar un contingut HTML qualsevol.</text>
-<text lang="zh"></text>
-<text lang="ru"></text>
-<text lang="ja"></text>
-<text lang="ar"></text>
-<text lang="pt"></text>
-<text lang="fr"></text>
-<text lang="de"></text>
-<text lang="it"></text>
+<text lang="es">Este panel permite mostrar un contenido HTML cualquiera. En modo edici&#243;n, se muestra un editor HTML. En &#233;l, puede escribir o cortar y pegar cualquier texto HTML.
+Tambi&#233;n Permite incrustar dentro del HTML datos de negocio que est&#225;n siendo visualizados por un cuadro de mandos.
+Por ejemplo, permite visualizar, como parte del fragmento HTML, el n&#250;mero de casos en marcha que los KPIs de un cuadro de mandos est&#225;n visualizando, o
+la cantidad total de ventas realizadas en un periodo determinado. El siguiente fragmento HTML es un ejemplo de como hacer esto. Supongamos que queremos visualizar
+el siguiente indicador: &lt;br&gt;&lt;br&gt;
+
+&lt;b&gt;&#8364; 9600K Total de ventas entre el 1 de Enero de 2008 y el 31 de Julio de 2008 &lt;/b&gt;&lt;/br&gt;.&lt;br&gt;
+
+Como podemos observar tenemos 3 variables extraidas del contexto del cuadro de mandos. El fuente HTML que imprime el texto anterior es:&lt;br&gt;
+&lt;b&gt;&#8364; {dashboard_sum, order_amount} Total de ventas entre el {dashboard_minvalue, date} y el {dashboard_maxvalue, date}&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+
+Cada comando se sustituye por:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_sum, order_amount} =&gt; &#8364; 9600K
+&lt;li&gt;{dashboard_minvalue, date}    =&gt; 1 de Enero de 2008
+&lt;li&gt;{dashboard_maxvalue, date}    =&gt; 31 de Julio de 2008
+&lt;/ul&gt;&lt;br&gt;
+Por lo tanto, con un simple mecanismo de comandos se puede mezclar en el editor, HTML est&#225;tico junto a informaci&#243;n extraida de los indicadores de un cuadro de mandos.&lt;br&gt;
+A continuaci&#243;n tenemos una lista con algunos comandos disponibles:&lt;br&gt;&lt;br&gt;
+
+&lt;p&gt;&lt;b&gt;Comandos de propiedades de datos&lt;/b&gt;: Acceden al estado actual del filtro de datos del dashboard:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_minvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; El valor m&#237;nimo filtrado del dato definido para una propiedad.
+&lt;li&gt;{dashboard_maxvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; El valor m&#225;ximo filtrado del dato definido para una propiedad.
+&lt;li&gt;{dashboard_selectedvalues, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; Los valores filtrados introducidos por el usuario.
+&lt;li&gt;{dashboard_allvalues, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; Todos los valores extra&#237;dos de la propiedad.
+&lt;/ul&gt;&lt;br&gt;
+&lt;i&gt;propertyId&lt;/i&gt; Deber ser reemplazado por un identificador de propiedad perteneciente a los proveedores de datos contenidos en el dashboard.
+As&#237; si se tiene un proveedor de datos que carga, por ejemplo, una propiedad order_amount, se puede extraer informaci&#243;n de esa propiedad usando comandos.
+
+&lt;p&gt;&lt;b&gt;Comandos de funci&#243;n&lt;/b&gt;: Aplican una funci&#243;n escalar sobre los valores extra&#237;dos por una propiedad dada:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; El n&#250;mero de ocurrencias o valores que tiene la propiedad dada.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; El valor m&#225;ximo para una propiedad dada.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; El valor m&#237;nimo para una propiedad dada.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; El valor medio para una propiedad dada.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; La suma de todos los valores para una propiedad dada.
+&lt;/ul&gt;&lt;br&gt;
+Los &#250;ltimos 4 comandos solo pueden ser aplicados a propiedades num&#233;ricas.&lt;br&gt;
+
+&lt;p&gt;&lt;b&gt;Comandos de navigaci&#243;n&lt;/b&gt;: Dan acceso al contexto de navegaci&#243;n del usuario en el workspace:
+&lt;ul&gt;
+&lt;li&gt;{navigation_workspace_id}     =&gt; El identificador del workspace actual.
+&lt;li&gt;{navigation_workspace_title}  =&gt; El t&#237;tulo del workspace actual localizado en el idioma del usuario.
+&lt;li&gt;{navigation_page_id}          =&gt; El identificador de la p&#225;gina actual.
+&lt;li&gt;{navigation_page_title}       =&gt; El tt&#237;tulo de la p&#225;gina actual localizado en el idioma del usuario.
+&lt;li&gt;{navigation_language}         =&gt; El idioma actual (es, en, ca, ...)
+&lt;li&gt;{navigation_user_id}          =&gt; El identificador del usuario logado.
+&lt;li&gt;{navigation_user_login}       =&gt; El login del usuario logado.
+&lt;li&gt;{navigation_user_name}        =&gt; El nombre del usuario logado.
+&lt;li&gt;{navigation_user_email}       =&gt; El e-mail del usuario logado.
+&lt;/ul&gt;</text>
+<text lang="en">This panel shows HTML content. In edit mode it shows an HTML editor, where you can write or paste any
+HTML text. It also makes possible to embed business data being displayed by a dashboard. For example, it&apos;s possible
+to display, as a part of an HTML fragment, the number of running cases that a given dashboard KPI is displaying, or
+the total amount of sales made in a given period. The following HTML fragment is an example of how to do that. Suppose we want to display the following
+indicator: &lt;br&gt;&lt;br&gt;
+
+&lt;b&gt;  &#8364; 9600K Total sales between January 1st, 2008 and July 31st, 2008&lt;/b&gt;&lt;/br&gt;&lt;br&gt;
+
+As we can see we got 3 dynamic variables extracted from the dashboard context. The HTML source that prints the previous HTML is:&lt;br&gt;&lt;br&gt;
+
+&lt;b&gt;&#8364; {dashboard_sum, order_amount} Total sales between {dashboard_minvalue, date} and {dashboard_maxvalue, date}&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+
+Each command is replaced by:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_sum, order_amount} =&gt; &#8364; 9600K
+&lt;li&gt;{dashboard_minvalue, date}    =&gt; January 1st, 2008
+&lt;li&gt;{dashboard_maxvalue, date}    =&gt; July 31st, 2008
+&lt;/ul&gt;
+&lt;br&gt;
+So with a simple command mechanism the HTML editor can mix HTML static code with information displayed by the dashboard&apos;s KPIs.
+Next is the list of commands available:&lt;br&gt;&lt;br&gt;
+&lt;p&gt;&lt;b&gt;Data property commands&lt;/b&gt;: Access the dashboard data filter current status:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_minvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; The minimum data filter value defined for a property.
+&lt;li&gt;{dashboard_maxvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; The maximum data filter value defined for a property.
+&lt;li&gt;{dashboard_selectedvalues, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; The filter values the user has entered.
+&lt;li&gt;{dashboard_allvalues, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; All the filter allowed values.
+&lt;/ul&gt;&lt;br&gt;
+
+&lt;i&gt;propertyId&lt;/i&gt; must be replaced by a property identifier belonging to the data providers contained in the dashboard.
+So if we got a data provider that loads, for instance, an order_amount property, then we could extract information about that property using commands.&lt;br&gt;
+
+&lt;p&gt;&lt;b&gt;Function commands&lt;/b&gt;: Apply an scalar function over the values loaded for a given property:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; The number of occurrences or values a given property has.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The maximum value for a given property.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The minimum value for a given property.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; The average value for a given property.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The sum of all the values for a given property.
+&lt;/ul&gt;&lt;br&gt;
+The last 4 commands can only be applied to numeric properties.&lt;br&gt;
+
+&lt;p&gt;&lt;b&gt;Navigation commands&lt;/b&gt;: Give access to the user navigation context within the workspace:
+&lt;ul&gt;
+&lt;li&gt;{navigation_workspace_id}     =&gt; The current workspace identifier.
+&lt;li&gt;{navigation_workspace_title}  =&gt; The current workspace title localized in the user language.
+&lt;li&gt;{navigation_page_id}          =&gt; The current page identifier.
+&lt;li&gt;{navigation_page_title}       =&gt; The current page title localized in the user language.
+&lt;li&gt;{navigation_language}         =&gt; The current language (es, en, ca, ...)
+&lt;li&gt;{navigation_user_login}       =&gt; The logged user login.
+&lt;li&gt;{navigation_user_name}        =&gt; The logged user name.
+&lt;li&gt;{navigation_user_email}       =&gt; The logged user e-mail.
+&lt;/ul&gt;</text>
+<text lang="ca">Aquest panel permet mostrar un contingut HTML qualsevol. En mode edici&#243;, es mostra un editor HTML. En ell, es pot escriure o copiar i enganxar qualsevol text HTML.
+Tamb&#233; permet inserir dins el codi HTML dades de negoci visualitzades en un taulell de comandament. Per exemple, permet visualitzar com a part del fragment HTML, el nombre de casos
+actius que els KPIs d&apos;un taulell de comandament est&#224; visualitzant, o la quantitat total de ventes realitzades en un per&#237;ode determinat. El seg&#252;ent fragment HTML &#233;s
+un exemple de com fer-ho. Suposem que volem visualitzar el seg&#252;ent indicador: &lt;br&gt;&lt;br&gt;
+
+&lt;b&gt;&#8364; 9600K Total de vendes entre l&apos;1 de Gener de 2008 i el 31 de Juliol de 2008 &lt;/b&gt;&lt;/br&gt;&lt;br&gt;
+
+Com podem veure tenim 3 variables obtingudes del contexte del taulell de comandament. El codi font HTML que mostra el text anterior &#233;s:&lt;br&gt;
+&lt;b&gt;&#8364; {dashboard_sum, order_amount} Total de vendes entre l&apos;{dashboard_minvalue, date} i el {dashboard_maxvalue, date}&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+
+Cadasc&#250;n de les comandes es sustitueix per:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_sum, order_amount} =&gt; &#8364; 9600K
+&lt;li&gt;{dashboard_minvalue, date}    =&gt; 1 de Gener 2008
+&lt;li&gt;{dashboard_maxvalue, date}    =&gt; 31 de Juliol de 2008
+&lt;/ul&gt;&lt;br&gt;
+
+Per tant, usan aquests mecanisme de comandes podem introdu&#239;r en l&apos;editor codi HTML est&#224;tic juntament amb informaci&#243; agafada dels indicadors d&apos;un taulell de comandament.
+A continuaci&#243; tenim la llista d&apos;algunes comandes disponibles:&lt;br&gt;
+&lt;p&gt;&lt;b&gt;Comandes sobre les propietats dels prove&#239;dors de dades&lt;/b&gt;: Accedeix a l&apos;estat actual del filtre del taulell de comandaments:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_minvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; Retorna el m&#237;nim obtingut del valor d&apos;una propietat que s&apos;ha introdu&#239;t en el filtre.
+&lt;li&gt;{dashboard_maxvalue, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; Retorna el m&#224;xim obtingut del valor d&apos;una propietat que s&apos;ha introdu&#239;t en el filtre.
+&lt;li&gt;{dashboard_selectedvalues, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; Retorna tots els valors que l&apos;usuari ha entrat en el filtre.
+&lt;li&gt;{dashboard_allvalues, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; Retorna tots el valors permesos pel filtre d&apos;una propietat.
+&lt;/ul&gt;&lt;br&gt;
+&lt;i&gt;propertyId&lt;/i&gt; s&apos;ha de sobreescriure per l&apos;identificador de la propietat que pertany als prove&#239;dors disponibles en el taulell de comandament.
+Per exemple, si un prove&#239;dor carga una propietat anomenada order_amout, podem extreu informaci&#243; d&apos;aquest valor mitjan&#231;ant comandes.
+
+&lt;p&gt;&lt;b&gt;Comandes tipus funci&#243;&lt;/b&gt;: Apliquen una funci&#243; escalar sobre els valors obtinguts d&apos;una propietat:
+&lt;ul&gt;
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; Nombre d&apos;ocurr&#232;ncies o valors d&apos;una propietat.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna el valor m&#224;xim del conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna el valor m&#237;nim del conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; Retorna la mitja obtinguda pel conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna la suma de tot el conjunt de valors d&apos;una propietat.
+&lt;/ul&gt;&lt;br&gt;
+Les 4 &#250;ltimes comandes &#250;nicament es poden aplicar a propietats de tipus num&#232;ric.&lt;br&gt;
+
+&lt;p&gt;&lt;b&gt;Comandes de navegacio&lt;/b&gt;: Donen acc&#233;s al usuari sobre el context de navegaci&#243; dins del workspace:
+&lt;ul&gt;
+&lt;li&gt;{navigation_workspace_id}     =&gt; Identificador de workspace actual.
+&lt;li&gt;{navigation_workspace_title}  =&gt; T&#237;tol del workspace actual en l&apos;idioma de navegaci&#243;.
+&lt;li&gt;{navigation_page_id}          =&gt; Identificador de p&#224;gina actual.
+&lt;li&gt;{navigation_page_title}       =&gt; T&#237;tol de la p&#224;gina actual en l&apos;idioma de navegaci&#243;.
+&lt;li&gt;{navigation_language}         =&gt; L&apos;idioma actual (es, en, ca...).
+&lt;li&gt;{navigation_user_id}          =&gt; Identificador de l&apos;usuari que est&#224; actualment registrat al sistema.
+&lt;li&gt;{navigation_user_login}       =&gt; Login de l&apos;usuari identificat.
+&lt;li&gt;{navigation_user_name}        =&gt; Nom d&apos;usuari de l&apos;usuari identificat.
+&lt;li&gt;{navigation_user_email}       =&gt; Correu electr&#242;nic de l&apos;usuari identificat.
+&lt;/ul&gt;</text>
 </usage>
-<edit-usage>
-<text lang="en">In the edit mode it shows an HTML editor, where you can write or paste any HTML text. It also has own menu bar at the top with several buttons to save, format the text, insert images, links, ...</text>
-<text lang="es">En modo edici&#243;n, se muestra un editor HTML. En &#233;l, puede escribir o cortar y pegar cualquier texto HTML. Tambi&#233;n puede utilizar los controles de la parte superior para darle formato al texto, insertar im&#225;genes, enlaces, etc.</text>
-<text lang="ca">En mode edici&#243;, es mostra un editor HTML. En ell, es pot escriure o copiar i enganxar qualsevol text HTML. A m&#233;s pot utilitzar els controls de la part superior per a donar-li format al text, inserir imatges, enlla&#231;os, etc.</text>
-<text lang="zh"></text>
-<text lang="ru"></text>
-<text lang="ja"></text>
-<text lang="ar"></text>
-<text lang="pt"></text>
-<text lang="fr"></text>
-<text lang="de"></text>
-<text lang="it"></text>
-</edit-usage>
 <panel-parameter name="useDefaultLanguage">
-<text lang="en">This parameter allows to specify whether to 
-1) show the content in the default language in the case that there is no content in a given language,  or 
-2) show no content when empty.</text>
+<text lang="en">This parameter allows to specify whether to show the content in the default language in the case that there is no content in a given language, or show no content when empty.</text>
 <text lang="es">Este par&#225;metro determina si, en caso de no existir contenido en un idioma dado, se debe mostrar el contenido en el idioma por defecto, o no mostrar nada.</text>
-<text lang="ca">Aquest par&#224;metre determina si, en cas de no existir contingut en un idioma donat, s&apos;ha de mostrar el contingut en l&apos;idioma per defecte, o no mostrar res.</text>
-<text lang="zh"></text>
-<text lang="ru"></text>
-<text lang="ja"></text>
-<text lang="ar"></text>
-<text lang="pt"></text>
-<text lang="fr"></text>
-<text lang="de"></text>
-<text lang="it"></text></panel-parameter>
+<text lang="ca">Aquest par&#224;metre determina si, en cas de no existir contingut en un idioma donat, s&apos;ha de mostrar el contingut en l&apos;idioma per defecte, o no mostrar res.</text></panel-parameter>
 <panel-parameter name="defaultGroup">
 <text lang="en">This parameter determines the content group according to which the panel content is indexed. It can be useful for grouping search results, or creating advanced searches.</text>
 <text lang="es">Este par&#225;metro determina el grupo de contenidos en el que se indexa el contenido de este panel. Puede servir para agrupar resultados de la b&#250;squeda, o construir b&#250;squedas avanzadas.</text>
-<text lang="ca">Aquest par&#224;metre determina el grup de continguts en el qual s&apos;indexa el contingut d&apos;aquest panel. Pot servir per a agrupar resultats de la cerca, o construir cerques avan&#231;ades.</text>
-<text lang="zh"></text>
-<text lang="ru"></text>
-<text lang="ja"></text>
-<text lang="ar"></text>
-<text lang="pt"></text>
-<text lang="fr"></text>
-<text lang="de"></text>
-<text lang="it"></text></panel-parameter></phelp>
+<text lang="ca">Aquest par&#224;metre determina el grup de continguts en el qual s&apos;indexa el contingut d&apos;aquest panel. Pot servir per a agrupar resultats de la cerca, o construir cerques avan&#231;ades.</text></panel-parameter>
+</phelp>
