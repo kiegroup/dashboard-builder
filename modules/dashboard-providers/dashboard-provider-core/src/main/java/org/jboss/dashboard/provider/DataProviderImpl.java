@@ -250,7 +250,7 @@ public class DataProviderImpl implements DataProvider {
         try {
             dataProviderUid = null;
             dataProviderXML = null;
-            if (dataLoader == null) return;
+            if (dataLoader == null || !dataLoader.isReady()) return;
 
             DataProviderType type = dataLoader.getDataProviderType();
             dataProviderUid = type.getUid();
