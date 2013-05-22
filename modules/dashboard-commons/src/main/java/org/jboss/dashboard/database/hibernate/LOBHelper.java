@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.commons.misc.ReflectionUtils;
 import org.jboss.jca.adapters.jdbc.WrappedConnection;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -101,24 +102,26 @@ public class LOBHelper {
 
             Object tempBlob;
 
+            // Needed to avoid JBoss AS class loading issues...
+            Class connClassInCurrentClassLoader = Class.forName(conn.getClass().getName());
+
             // Direct Oracle connection
-            if (Class.forName(ORACLE_JDBC_ORACLE_CONNECTION).isAssignableFrom(conn.getClass())) {
+            if (Class.forName(ORACLE_JDBC_ORACLE_CONNECTION).isAssignableFrom(connClassInCurrentClassLoader)) {
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
             }
             // JBoss AS data source wrapper connection.
-            else if (WrappedConnection.class.isAssignableFrom(conn.getClass())) {
-                WrappedConnection wrappedConnection = (WrappedConnection) conn;
-                arglist[0] = wrappedConnection.getUnderlyingConnection();
+            else if (WrappedConnection.class.isAssignableFrom(connClassInCurrentClassLoader)) {
+                arglist[0] = ReflectionUtils.invokeMethod(conn, "getUnderlyingConnection", null);
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
             }
             // C3P0 pool managed connection.
-            else if (NewProxyConnection.class.isAssignableFrom(conn.getClass())) {
+            else if (NewProxyConnection.class.isAssignableFrom(connClassInCurrentClassLoader)) {
                 NewProxyConnection castCon = (NewProxyConnection) conn;
                 arglist[0] = C3P0ProxyConnection.RAW_CONNECTION;
                 tempBlob = castCon.rawConnectionOperation(createTempMethod, C3P0ProxyConnection.RAW_CONNECTION, arglist);
             }
             // Apache's DBCP pool managed connection.
-            else if (PoolableConnection.class.isAssignableFrom(conn.getClass())) {
+            else if (PoolableConnection.class.isAssignableFrom(connClassInCurrentClassLoader)) {
                 arglist[0] = ((PoolableConnection) statement.getConnection()).getDelegate();
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
 
@@ -127,7 +130,7 @@ public class LOBHelper {
                         "a " + WrappedConnection.class.getName() +
                         "a " + PoolableConnection.class.getName() +
                         "or a " + NewProxyConnection.class.getName() +
-                        ". Connection class is " + conn.getClass().getName());
+                        ". Connection class is " + connClassInCurrentClassLoader.getName());
             }
 
             Method openMethod = getMethod(oracleBlobClass, ORACLE_OPEN_METHOD, Integer.TYPE, null, null);

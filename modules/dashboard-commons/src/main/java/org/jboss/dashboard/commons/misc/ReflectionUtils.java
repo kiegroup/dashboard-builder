@@ -45,8 +45,8 @@ public class ReflectionUtils {
         return null;
     }
 
-    public static Object invokePrivateMethod(Object o, String methodName, Object[] params) {
-        Method methods[] = o.getClass().getDeclaredMethods();
+    public static Object invokeMethod(Object o, String methodName, Object[] params) {
+        Method methods[] = o.getClass().getMethods();
         for (int i = 0; i < methods.length; ++i) {
             if (methodName.equals(methods[i].getName())) {
                 try {
@@ -232,7 +232,7 @@ public class ReflectionUtils {
     public static void main(String[] args) {
         String s = new String("pepe");
         Object v1 = getPrivateField(s, "cunt");
-        Object v2 = invokePrivateMethod(s, "sustring", new Object[] {new Integer(1)});
+        Object v2 = invokeMethod(s, "sustring", new Object[]{new Integer(1)});
         System.out.println(v1);
         System.out.println(v2);
     }
