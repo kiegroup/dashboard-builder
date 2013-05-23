@@ -1,62 +1,70 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
-<TITLE></TITLE>
-<style>
+    <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+    <TITLE></TITLE>
+    <style>
 
-body{
-	color: #333333;
-	font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 10pt;
-	line-height: 150%;
-	margin: 0 auto;
-	max-width: 66em;
-	padding: 0 2em;
-	text-align: justify;
-}
-td, th {
-	font-size: 10pt;	
-}
+        body{
+        color: #333333;
+        font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 10pt;
+        line-height: 150%;
+        margin: 0 auto;
+        max-width: 66em;
+        padding: 0 2em;
+        text-align: justify;
+        }
+        td, th {
+        font-size: 10pt;
+        }
 
-img {
-	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
-	border: solid 1px gray;
-}
+        img {
+        box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
+        border: solid 1px gray;
+        }
 
-.centerImg {
-	text-align: center;
-	display: block;
-	margin: auto;
-}
-</style>
+        .centerImg {
+        text-align: center;
+        display: block;
+        margin: auto;
+        }
+    </style>
 
 
 </HEAD>
 <BODY>
+<h1>JBoss Dashboard Builder Quick Start</h1>
 
-<ol>
-  <li><a href="#What_is_it">What is JBoss Dashboard Builder?</a></li>
-  <li>How to install and run it?</li>
-  <li><a href="#Quickstart_Guide">First steps with Dashboard Builder</a>
-<ol>
-      <li>Connecting to dashboard data</li>
-      <li>Adding a new indicator to a page</li>
-      <li><a href="#Creating_a_new_page">Creating a new page in an existing dashboard</a></li>
-      <li>Managing dashboards</li>
-      <li>Customizing dashboard look'n'feel</li>
-    </ol>
-  </li>
-</ol>
-<h1><a name="What_is_it"></a>What is it?</h1>
+Table of contents:<br>
+<ul>
+    <li><a href="#What_is_it">What is JBoss Dashboard Builder?</a></li>
+    <li>How to install and run it?</li>
+    <li><a href="#Quickstart_Guide">First steps</a>
+        <ol>
+            <li>Setup data connections (data providers)</li>
+            <li>Adding a new indicator to a page</li>
+            <li><a href="#Creating_a_new_page">Creating a new dashboard page</a></li>
+            <li><a href="">Duplicating a page</a></li>
+            <li>Configuring filter and drill-down</li>
+            <li>Managing dashboards</li>
+            <li>Customizing look'n'feel</li>
+        </ol>
+    </li>
+</ul>
+<hr>
+<h1><a name="What_is_it"></a>What is JBoss Dashboard Builder?</h1>
 
-<p>The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards. Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files. It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.</p>
+<p>The Dashboard Builder is a full featured web application which allows non-technical users to visually create business
+    dashboards. Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or
+    regular text files. It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can
+    display multiple key performance indicators regarding process instances, tasks and users.</p>
 
 <p>Some ready-to-use sample dashboards are provided as well, for demo and learning purposes.</p>
 
 <H3><a name="Key_features"></a>Key features:</H3>
 <ul>
-  <li>Visual configuration of dashboards (Drag'n'drop).</li>
+    <li>Visual configuration of dashboards (Drag'n'drop).</li>
     <li>Graphical representation of KPIs (Key Performance Indicators).</li>
     <li>Configuration of interactive report tables.</li>
     <li>Data export to Excel and CSV format.</li>
@@ -68,9 +76,9 @@ img {
     <li>Pluggable chart library architecture.</li>
     <li>Chart libraries provided: NVD3 & OFC2.</li>
 </ul>
- <H3><a name="Target_users"></a>Target users:</H3>
+<H3><a name="Target_users"></a>Target users:</H3>
 
-    <ul>
+<ul>
     <li>Managers / Business owners. Consumer of dashboards and reports.</li>
     <li>IT / System architects. Connectivity and data extraction.</li>
     <li>Analysts. Dashboard composition & configuration.</li>
@@ -78,114 +86,275 @@ img {
 
 <H3><a name="Distribution"></a>Distribution:</H3>
 
-    <ul>
+<ul>
     <li>Independent application to deploy in WAR format.</li>
 </ul>
 
 
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<hr>
+<h1><a name="What_is_it"></a>How to install and run it</h1>
+TODO:
 
-<H1><a name="Quickstart_Guide"></a>Quickstart Guide</H1>
 
-<p>After installation and launch later we put the following address in any of the browsers we use regularly:<br>
-<a href="http://localhost:8080/dashbuilder/" target="_blank">http://localhost:8080/dashbuilder/</a><br>
-We appears the login screen where the user can access demo and password demo, done that, will access the portal Dashboards Showcase, where we find different pages.</p>
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<hr>
+<h1><a name="First_steps"></a>First steps</h1>
+The purpose of this document is not to provide a full detailed explanation of the module, but to guide you through the
+key steps to get your first dashboards created.
+
+The following chapters will provide basic information about how to configure the system to retrieve
+information from existing databases or files, create new indicators and manage different dashboards.
+<br>
+<br>
+For this guide, it's assumed the simple installation has been done, with the standard set of examples
+and user and role configuration.
+
+It's important to notice this configuration <b>MUST NOT be used in production</b>, since it provides default security
+credentials.
+
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<hr>
+<h1><a name="First_steps"></a>Connecting to data</h1>
+
+<p>To start we enter the following address in any browser:
+    <br><br>
+    <a href="http://localhost:8080/dashbuilder/" target="_blank">http://localhost:8080/dashbuilder/</a><br>
+    <br>
+    The login screen will appear. Login as user <b>demo</b> and password <b>demo</b>.
+    You'll gain access to the initial dashboard, but you will NOT be able to modify it yet.
+
+    Dashboards Showcase, where we find different pages.</p>
 
 <IMG SRC="images/m7889832e.png" NAME="graphics01" class="centerImg">
-  
-<p>The first thing we do, after you have accessed the website, is to create a data provider for that, will access the Administration page and then to the Data providers, once there, select the option "Create new data provider".</p>
-    
-<IMG SRC="images/m62551576.png" NAME="graphics02" class="centerImg">   
-  
-<p>We form appears like the one shown in the following image, in which we will have to fill the fields that we need:</p>
+<br>
+<br>
+
+<p>The first thing to do, after you have accessed the web application, is to create a <b>data provider</b>.
+    On the left menu, click on the Administration page and then in the Data providers. Once there, select the option
+    "Create new data provider".</p>
+
+The purpose of data providers is to gather information from any system, either a database, a file or any other, and
+transform it
+to the internal in-memory representation for building dashboards.
+<br>
+<br>
+<IMG SRC="images/m62551576.png" NAME="graphics02" class="centerImg">
+<br>
+
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<hr>
+<h2><a name="First_steps"></a>Retrieving data from a file</h2>
+
+<p>Click on 'Create new data provider'. The following fields will be shown in the form, with some sensible defaults:</p>
 <ul>
-  <li>Type: in this case, choose the CSV File</li>
-  <li>Name: Write the name you want to give to our data provider (this field is multi-language).</li>
-  <li>CSV file URL: Here write the path where the CSV file is located.</li>
-  <li>Data saparator:</li>
-  <li>Quoting symbol:</li>
-  <li>Date format: Where we can define different date formats or even hour.</li>
-  <li>Number format: Where we can define the number format.</li>
+    <li>Type: in this case - choose the CSV File</li>
+    <li>Name: Write the name you want to give to our data provider (this field is multi-language).</li>
+    <li>CSV file URL: Here write the path where the CSV file is located.</li>
+    <li>Data separator:</li>
+    <li>Quoting symbol:</li>
+    <li>Date format: Where we can define different date formats or even hour.</li>
+    <li>Number format: Where we can define the number format.</li>
 </ul>
-<p>Once you have filled all the fields that we consider necessary for the creation of our new data provider, click on Try, check that everything works properly, the application will give you a message "Correct data set ..." and we can keep our pressing Save.</p>
+<p>Once you have filled all the fields, click on 'Try', to check that everything works properly.
+    The application will give you a message "Correct data set ..." and we continue by pressing 'Save'.</p>
 <IMG SRC="images/454df96.png" NAME="graphics03" class="centerImg">
-<p>That done, we get a form from data properties we have created, this shows each of the fields that make up the form, giving us the option to change your name or even type.</p>
+
+<p>Next, a screen is shown with all the fields found while parsing the file,
+    giving us the option to change your name or even type.</p>
 <IMG SRC="images/m2e53ddb4.png" NAME="graphics04" class="centerImg">
-<p>After this last step, we keep the latest changes and we have our new Data Provider in the list.</p>
+
+<p>After this last step, you can save you will have your new Data Provider in the list.</p>
 <IMG SRC="images/m26dfec79.png" NAME="graphics05" class="centerImg">
-<p>There is also the possibility of creating a data provider from a SQL Query. From the Administration / Data providers in select Type, choose the SQL Query option, and we see the following form, which will fill the fields Name, Datasource and Query, which will field a select to a table in the database we are using in our facility.</p>
+
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<br>
+<hr>
+<h2><a name="First_steps"></a>Connecting to a database</h2>
+
+<p> You can create a data provider to query a JDBC data base. Go to Administration &gt; Data providers and click on
+    'Create new data provider'.
+    Choose the 'SQL Query', fill the form with the data provider name and the SQL query to retrieve the data.
+</p>
 
 <img src="images/select_query_00.png" NAME="select_query_00" class="centerImg">
-<p>Once set the select, you click on try, and if successful we will get a message like the one pictured.</p>
-  
+
+<p>Once the query is typed in, you can click on 'Try', and if the query is successful you will get a message.</p>
+
 <img src="images/select_query_01.png" NAME="select_query_01" class="centerImg">
-  <p>TODO: Explain sql_condition command.</p>
-  <p>The next page shows a few properties of our new Data Provider, we can edit later .</p>
+
+<p>TODO: <b>Explain sql_condition command</b>.</p>
+
+<p>After the query is correct, you can rename the name of the properties to provide a more user friendly name.</p>
 <img src="images/select_query_02.png" NAME="select_query_02" class="centerImg">
-<p>If we keep our work, we have created a new data provider, this time, starting from a SQL Query.</p>
+
+<p>The data provider has been set:</p>
 <img src="images/select_query_03.png" NAME="select_query_03" class="centerImg">
-   <p>Una vez creados nuestros propios Proveedores de Datos, vamos a crear una página similar a la que podemos encontrarnos en el portal Demo que tenemos en la instalación por defecto.</p>
+
+
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<br>
+<hr>
+<h1><a name=""></a>Adding new indicator to an existing page</h1>
+
+<p>
+    Once the necessary data providers have been created, we'll continue by adding a new indicator to an existing page.
+    All dashboards are
+    created by adding indicators and other types of panels to pages, until you can compose any page similar to the
+    following:
+</p>
 <IMG SRC="images/Admin_01.png" NAME="Admin_01" class="centerImg">
-  <p>Para hacer esto, lo que hemos hecho ha sido, salir del usuario Demo y logarnos como Administrador (Usuario: admin, Contraseña: admin)</p>
+
+<p>To be able to modify pages that you need administrator privileges onto that page or dashboard.
+    Logout first, and then login as user 'admin' with password 'admin'</p>
 <IMG SRC="images/Admin_02.png" NAME="Admin_02" class="centerImg">
-  <p>La nueva página la podemos crear partiendo desde cero o bien la podemos construir clonando una que ya tengamos y eliminando los módulos o paneles que no necesitemos.</p>
+
+<p>Pages can be created from scratch, or duplicating an existing one. Both options will be explained in the following
+    sections, meanwhile
+    we will assume the page already exists and we want to add an indicator.
+</p>
 <IMG SRC="images/Admin_03.png" NAME="Admin_03" class="centerImg">
-  <p>A partir del icono de "Add panel to the current page" <img src="images/ico_AddPanel.png" title="Create a new panel in current page" width="18" height="18"> nos aparece un PopUp en la pantalla, con todos los paneles de que disponemos para poder poner en nuestras páginas...</p>
+
+Indicators are a special type of panels, which are the widgets that can be placed around the page.
+
+To add a panel or indicator:
+
+<br>
+
+<p>Click on the icon "Add panel to the current page" <img src="images/ico_AddPanel.png"
+                                                          title="Create a new panel in current page" width="18"
+                                                          height="18">. This will make a popup be shown with all the
+    available panels</p>
 <IMG SRC="images/m329db37b.png" NAME="graphics08" class="centerImg">
-<p>...lo que a nosotros nos interesa en este momento lo encontraremos en la parte de Dashboard y concretamente en Key Perfomance Indicator, una vez tenemos localizada y seleccionada esta opción, en la columna de la derecha nos aparece la opción de Create panel, lo siguiente que tenemos que hacer es arrastrar esta a una de las regiones que se nos resaltará en nuestra página.</p>
+
+<p> To add a new 'Key Performance Indicator', click on <b>Dashboard</b> &gt;&gt; <b>Key Perfomance Indicator</b>.
+    Drag the '<b>Create panel</b>' option and drop it into any of the page regions. You will see that they are being
+    highlighted while you
+    move the mouse over them, then simply drop the panel.
+</p>
 <IMG SRC="images/Admin_04.png" NAME="Admin_04" class="centerImg">
-<p>Arrastrado el nuevo panel, lo primero que se nos va a pedir es el Proveedor de Datos	que queremos utilizar para alimentar nuestra gráfica, si desplegamos el select veremos que están aquellas que hemos creado inicialmente, así que elegimos una de ellas.</p>
+
+<p> Once dropped, the first step is to select the Data Provider we need to use, as configured before, to feed data to
+    the
+    charts and reports. Select any of the data provider and then you can start creating a new indicator.</p>
 
 <IMG SRC="images/49009e80.png" NAME="graphics09" class="centerImg">
-<p>Y automáticamente nos aparece el panel de edición de las gráficas. Es un entorno intuitivo, y que no requiere de demasiadas explicaciones, de todos modos paso a detallas aquellos puntos que pueden resultar más conflictivos.</p>
+
+<p>Now, you must see the chart edition panel. It's an intuitive environment which helps you configure different type of
+    charts and reports..</p>
 <ul>
-  <li>Domain (X Axis): Aquellos datos que queremos mostrar en el eje de las X, en nuestro ejemos hemos elegido Country.</li>
-  <li>Range (Y Axis): Aquellos datos que queremos mostrar en el eje de las Y, en nuestro ejemos hemos elegido Amount.</li>
-  <li>Renderer: Es le tipo de librería gráfica que queremos utilizar, en nuestro ejemplo, vamos a utilizar la NVD3</li>
-  <li>Sort intervals by: es el tipo de ordenación que le queremos dar a los intervalos, en nuestro ejemplo se lo daremos a través del Valor.</li>
-  <li>Sort order: y para el orden general de la gráfica, le aplicaremos un orden ascendente.</li>
+    <li>Domain (X Axis): Data that will be shown in the X axis. In this example, we choose the property 'Country'.
+    </li>
+    <li>Range (Y Axis): Information to be grouped and aggregated for every value in the Domain. For example, 'Amount'.
+    </li>
+    <li>Renderer: Graphical library that can be used. Each one will provide different features and visualization style.
+        We can choose 'NVD3'.
+    </li>
+    <li>Sort intervals by: It's how the domain values can be sorted, for example, according to the Range value.
+    </li>
+    <li>Sort order: It can be ascending or descending.</li>
 </ul>
-<table align="center"><tr><td><IMG SRC="images/Admin_06.png" NAME="Admin_06"></td><td style="vertical-align:top"> 
+<table align="center">
+    <tr>
+        <td><IMG SRC="images/Admin_06.png" NAME="Admin_06"></td>
+        <td style="vertical-align:top">
 
-<IMG src="images/Bar_chart.png" NAME="Bar_chart" title="Bar chart" width="30" height="31" align="absmiddle">&nbsp;Bar chart<br>
-<IMG SRC="images/Line_chart.png" NAME="Line_chart" title="Line chart" width="30" height="31" align="absmiddle">&nbsp;Line chart
-<br><IMG SRC="images/Data_table.png" NAME="Data_table" title="Data table" width="30" height="31" align="absmiddle">&nbsp;Data table
-<br><IMG SRC="images/Pie_chart.png" NAME="Pie_chart" title="Pie chart" width="30" height="31" align="absmiddle">&nbsp;Pie chart
-<br>
-</td></tr></table>
+            <IMG src="images/Bar_chart.png" NAME="Bar_chart" title="Bar chart" width="30" height="31" align="absmiddle">&nbsp;Bar
+            chart<br>
+            <IMG SRC="images/Line_chart.png" NAME="Line_chart" title="Line chart" width="30" height="31"
+                 align="absmiddle">&nbsp;Line chart
+            <br><IMG SRC="images/Data_table.png" NAME="Data_table" title="Data table" width="30" height="31"
+                     align="absmiddle">&nbsp;Data table
+            <br><IMG SRC="images/Pie_chart.png" NAME="Pie_chart" title="Pie chart" width="30" height="31"
+                     align="absmiddle">&nbsp;Pie chart
+            <br>
+        </td>
+    </tr>
+</table>
 
-<p>De todos modos, siempre estamos a tiempo, de poder acceder en un futuro, siempre que lo necesitemos, a las propiedades de una gráfica (o de cualquier panel) y modificarlas, cambiando el tipo de visualización o datos que se están mostrando o incluso, el Proveedor de Datos que se está utilizando.</p>
+<p>Once you have finished setting your chart, click on the close button in the top-right corner.
+    You can modify any of these properties at any time, even changing the chart type or the data provider, by clicking
+    on the 'Edit content' panel option.</p>
 <br>
-  <IMG SRC="images/Admin_05.png" NAME="Admin_05" class="centerImg">
+<IMG SRC="images/Admin_05.png" NAME="Admin_05" class="centerImg">
+
+
+<!------------------------------------------------- SECTION ---------------------------------------------------------->
+<br>
+<hr>
 <H1><a name="Creating_a_new_page"></a>Creating a new page</H1>
-<p>Para crear una página nueva, lo podemos hacer de dos modos diferentes, y aunque lo más común, es hacerlo a partir de existente, clonandola a través del icono <IMG SRC="images/ico_ClonePage.png" NAME="ClonePage">, en este primer ejemplo lo haremos a partir de una página nueva <IMG SRC="images/ico_NewPage.png" NAME="NewPage">, estos iconos los encontraremos en la parte superior de nuestra página, en lo que denominaremos barra de administración.</p>
-<IMG SRC="images/NewPage_01.png" NAME="NewPage_01" class="centerImg">
-<p>Para crear una página nueva, lo podemos hacer de dos modos diferentes, y aunque lo más común, es hacerlo a partir de existente, clonandola a través del icono. si accedemos, aparecemos en una página donde se nos piden una serie de parémetros, estos son los siguientes:</p>
+
+<p> There are two different ways of creating a page:
 <ul>
-  <li>Title: Título que le queremos dar a nuestra nueva página</li>
-  <li>Parent page: Página padre de la que dependerá nuestra nueva página, en nuestro ejemplo, la página quedará a nivel de raiz, así que no le pondremos página padre.</li>
-  <li>Skin: Apariencia que queremos que tenga nuestra página, por lo general, siempre se deja que utilice el skin que se está utilizando a nivel portal.</li>
-  <li>Envelope: Al igual que pasa con el Skin, utilizamos el que se aplica a nivel de portal y generalmente nos aporta diseño a nuestras páginas.</li>
-  <li>Region layout: Es la forma que tenemos de estructurar la información dentro de una página, en nuestra demo utilizaremos &quot;Demo - Default template with sliding&quot; por ser la que mejor se adapta a nuestras necesidades para este ejemplo.</li>
+    <li>Starting as a blank page <IMG SRC="images/ico_NewPage.png" NAME="NewPage"></li>
+    <li>Duplicating an existing page <IMG SRC="images/ico_ClonePage.png" NAME="ClonePage">.</li>
+</ul>
+
+You will find these icons at the top of the page, in the administration bar.</p>
+<IMG SRC="images/NewPage_01.png" NAME="NewPage_01" class="centerImg">
+
+<p>
+    To create a new page, click on the 'Create new page' icon <IMG SRC="images/ico_NewPage.png" NAME="NewPage">, a new
+    screen will be shown to fill in some parameters:
+<ul>
+    <li>Page title</li>
+    <li>Parent page: Pages are organized in a hierarchical way. This is the parent page.
+    </li>
+    <li>Skin: This will select and specific look'n'feel and CSS stylesheet for this page. You can leave the default
+        value.
+    </li>
+    <li>Envelope: Defines which kind of HTML template will be placed around the page layout.
+    </li>
+    <li>Region layout: This is the template, that is, how regions are organized to place the panels inside the page.
+        We can choose any of the installed types, for example, &quot;Demo - Default template with sliding&quot;.
+    </li>
 </ul>
 <IMG SRC="images/NewPage_02.png" NAME="NewPage_02" class="centerImg">
-<p>A continuación pulsamos sobre Create new page y nos iremos automáticamente a una pantalla donde se nos muestra toda la estructura de paginas que compone nuestro portal y donde podremos ver el lugar que ocupa nuestra nueva página.</p>
-<IMG SRC="images/NewPage_03.png" NAME="NewPage_03" class="centerImg">
-<p>Ahora ya podemos regresar a nuestro portal y comprobar que nuestra página, todo y estar creada, no aparece en ninguna parte, tan solo en el desplegable de la barra de administración.</p>
-<IMG SRC="images/NewPage_04.png" NAME="NewPage_04" class="centerImg">
-<p>Por ejemplo, si la queremos hacer visible en el menú lateral, accedemos al modo edición de este, y tan solo tendremos que activarla, para que a partir de este momento aparezca el enlace en todas y cada una de las instancias que tengamos de este panel, y así poder acceder a nuestra página desde cualquier sitio del portal.</p>
+
+<p>Most of these properties will be discussed in the chapter about 'Changing look'n'feel'</p>
+
+<p>When back to the dashboard, you might realize the page is still not accessible from the left menu. You can see it in
+    the combo list in the administration toolbar:
+
+    TODO: IMAGE OF ADMINISTRATION BAR
+
+    <br>
+    <br>
+
+    <IMG SRC="images/NewPage_04.png" NAME="NewPage_04" class="centerImg">
+
+<p> If you want this page to be shown in the left menu, you can click on 'Edit content' and then add the newly created
+    page to the list of options displayed in the menu.</p>
 <table align="center">
-  <tr><td valign="top"><IMG SRC="images/NewPage_05.png" NAME="NewPage_05" class="centerImg">
-</td><td valign="top"><IMG SRC="images/NewPage_06.png" NAME="NewPage_06" class="centerImg">
-</td><td valign="top"><IMG SRC="images/NewPage_07.png" NAME="NewPage_07" class="centerImg"></td></tr></table>
-<p>Si ahora entramos en nuestra nueva página, descubriremos que tiene la apariencia deseada, ya que hace uso, tanto de el Skin como del Envelope adecuado, pero no contiene ningún módulo instanciado, así que está totalmente vacía y no nos muestra ningún tipo de información. Para empezar a instanciar módulos, tenemos que hacer uso, tal y como hemos visto anteriormente del del icono de "Add panel to the current page" <img src="images/ico_AddPanel.png" title="Create a new panel in current page" width="18" height="18">, y a partir del panel que se nos muestra en pantalla, ir arrastrando todos y cada uno de los paneles que vamos a necesitar.</p>
+    <tr>
+        <td valign="top"><IMG SRC="images/NewPage_05.png" NAME="NewPage_05" class="centerImg">
+        </td>
+        <td valign="top"><IMG SRC="images/NewPage_06.png" NAME="NewPage_06" class="centerImg">
+        </td>
+        <td valign="top"><IMG SRC="images/NewPage_07.png" NAME="NewPage_07" class="centerImg"></td>
+    </tr>
+</table>
+<p> We can click on the page that has been created. It has the same look'n'feel as the rest of the dashboard, due to the
+    fact it's sharing the same skin and envelope setting.
+    Now we can start adding panels to it to compose its content. As described above, all you need to do is use the "Add
+    panel to the current page" feature <img src="images/ico_AddPanel.png"
+                                            title="Create a new panel in current page"
+                                            width="18" height="18">, y a partir del
+    panel que se nos muestra en pantalla, ir arrastrando todos y cada uno de los paneles que vamos a necesitar.</p>
 <IMG SRC="images/NewPage_08.png" NAME="NewPage_08" class="centerImg">
-<p>Así hasta tener completada nuestra nueva página.</p>
-<p>Destacar únicamente, que la plantilla que estructura nuestra página, divide esta en regiones, y etas pueden ser de tres tipos diferentes en función de la disposición de los módulos:</p>
+
+<p>Repeat until the page has all the content and panels required.</p>
+
+<p>The page template is divided in regions, and these can be of three different types:</p>
 <ul>
-  <li>Column: Donde los módulos se van colocando uno debajo del otro.</li>
-  <li>Row: Donde la disposición de los módulos es uno al lado del otro.</li>
-  <li>Tabbed: El conjunto de módulos se ve representado por diferentes pestañas y se muestra el módulo en función de la pestaña que esté seleccionada.</li>
+    <li>Columns.</li>
+    <li>Rows.</li>
+    <li>Tabbed regions.</li>
 </ul>
+
+After dropping the panels in the right regions and configuring them, you might be able to create the following page:
+<br>
+<br>
 <IMG SRC="images/NewPage_09.png" NAME="NewPage_09" class="centerImg">
 </BODY>
 </HTML>
