@@ -57,6 +57,7 @@
                     <exclude>WEB-INF/lib/itext-*.jar</exclude>
                     <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
                     <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
+                    <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>
