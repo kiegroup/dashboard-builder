@@ -140,7 +140,7 @@ Single Sign On
 ---------------------------------
 
 In order to enable SSO between the jBPM Dashboard and the jBPM Task Console, please, edit the
-<code>[jboss-as7]/standalone/config/standalone.xml</code> file and add the **<sso/>** tag under the virtual server configuration.
+<code>[jboss-as7]/standalone/configuration/standalone.xml</code> file and add the **<sso/>** tag under the virtual server configuration.
 
 
     ...
