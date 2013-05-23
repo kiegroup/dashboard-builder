@@ -19,11 +19,19 @@
 <jboss-deployment-structure>
     <deployment>
 
-        <!-- Exclusions allow you to prevent the server from automatically adding some dependencies     -->
+        <dependencies>
+            <module name="org.hibernate" />
+            <module name="org.jdom" />
+            <module name="org.apache.commons.lang" />
+            <module name="org.apache.commons.io" />
+            <module name="org.apache.commons.collections" />
+            <module name="org.apache.commons.codec" />
+            <module name="org.jboss.ironjacamar.jdbcadapters" />
+        </dependencies>
+
         <exclusions>
             <module name="org.apache.log4j" />
             <module name="org.apache.commons.logging" />
         </exclusions>
-
     </deployment>
 </jboss-deployment-structure>

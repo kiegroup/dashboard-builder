@@ -58,6 +58,20 @@
                     <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
                     <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
                     <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-lang-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-collections-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-io-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-codec-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-dbcp-*.jar</exclude>
+                    <exclude>WEB-INF/lib/c3p0-*.jar</exclude>
+                    <exclude>WEB-INF/lib/ironjacamar-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-core-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-jpa-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-commons-*.jar</exclude>
+                    <exclude>WEB-INF/lib/antlr-*.jar</exclude>
+                    <exclude>WEB-INF/lib/dom4j-*.jar</exclude>
+                    <exclude>WEB-INF/lib/jdom-*.jar</exclude>
+                    <exclude>WEB-INF/lib/javassist-*.jar</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>
