@@ -5,29 +5,30 @@
     <TITLE></TITLE>
     <style>
 
-        body{
-        color: #333333;
-        font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-        font-size: 10pt;
-        line-height: 150%;
-        margin: 0 auto;
-        max-width: 66em;
-        padding: 0 2em;
-        text-align: justify;
+        body {
+            color: #333333;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 150%;
+            margin: 0 auto;
+            max-width: 66em;
+            padding: 0 2em;
+            text-align: justify;
         }
+
         td, th {
-        font-size: 10pt;
+            font-size: 10pt;
         }
 
         img {
-        box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
-        border: solid 1px gray;
+            box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.6);
+            border: solid 1px gray;
         }
 
         .centerImg {
-        text-align: center;
-        display: block;
-        margin: auto;
+            text-align: center;
+            display: block;
+            margin: auto;
         }
     </style>
 
@@ -45,10 +46,10 @@ Table of contents:<br>
             <li>Setup data connections (data providers)</li>
             <li>Adding a new indicator to a page</li>
             <li><a href="#Creating_a_new_page">Creating a new dashboard page</a></li>
-            <li><a href="">Duplicating a page</a></li>
-            <li>Configuring filter and drill-down</li>
-            <li>Managing dashboards</li>
-            <li>Customizing look'n'feel</li>
+            <li><a href="#Duplicating_Page">Duplicating a page</a></li>
+            <li><a href="#Configuring_filter_and_drill-down">Configuring filter and drill-down</a></li>
+            <li><a href="#Managing_dashboards">Managing dashboards</a></li>
+            <li><a href="#Customizing_look">Customizing look'n'feel</a></li>
         </ol>
     </li>
 </ul>
@@ -134,13 +135,12 @@ credentials.
     On the left menu, click on the Administration page and then in the Data providers. Once there, select the option
     "Create new data provider".</p>
 
-The purpose of data providers is to gather information from any system, either a database, a file or any other, and
-transform it
-to the internal in-memory representation for building dashboards.
-<br>
-<br>
+<p>The purpose of data providers is to gather information from any system, either a database, a file or any other, and
+    transform it
+    to the internal in-memory representation for building dashboards.
+</p>
 <IMG SRC="images/m62551576.png" NAME="graphics02" class="centerImg">
-<br>
+
 
 <!------------------------------------------------- SECTION ---------------------------------------------------------->
 <hr>
@@ -215,11 +215,10 @@ to the internal in-memory representation for building dashboards.
 </p>
 <IMG SRC="images/Admin_03.png" NAME="Admin_03" class="centerImg">
 
-Indicators are a special type of panels, which are the widgets that can be placed around the page.
+<p>Indicators are a special type of panels, which are the widgets that can be placed around the page.
 
-To add a panel or indicator:
+    To add a panel or indicator:</p>
 
-<br>
 
 <p>Click on the icon "Add panel to the current page" <img src="images/ico_AddPanel.png"
                                                           title="Create a new panel in current page" width="18"
@@ -275,7 +274,7 @@ To add a panel or indicator:
 <p>Once you have finished setting your chart, click on the close button in the top-right corner.
     You can modify any of these properties at any time, even changing the chart type or the data provider, by clicking
     on the 'Edit content' panel option.</p>
-<br>
+
 <IMG SRC="images/Admin_05.png" NAME="Admin_05" class="centerImg">
 
 
@@ -284,18 +283,18 @@ To add a panel or indicator:
 <hr>
 <H1><a name="Creating_a_new_page"></a>Creating a new page</H1>
 
-<p> There are two different ways of creating a page:
+<p> There are two different ways of creating a page:</p>
 <ul>
     <li>Starting as a blank page <IMG SRC="images/ico_NewPage.png" NAME="NewPage"></li>
     <li>Duplicating an existing page <IMG SRC="images/ico_ClonePage.png" NAME="ClonePage">.</li>
 </ul>
 
-You will find these icons at the top of the page, in the administration bar.</p>
+<p>You will find these icons at the top of the page, in the administration bar.</p>
 <IMG SRC="images/NewPage_01.png" NAME="NewPage_01" class="centerImg">
 
 <p>
     To create a new page, click on the 'Create new page' icon <IMG SRC="images/ico_NewPage.png" NAME="NewPage">, a new
-    screen will be shown to fill in some parameters:
+    screen will be shown to fill in some parameters:</p>
 <ul>
     <li>Page title</li>
     <li>Parent page: Pages are organized in a hierarchical way. This is the parent page.
@@ -314,14 +313,10 @@ You will find these icons at the top of the page, in the administration bar.</p>
 <p>Most of these properties will be discussed in the chapter about 'Changing look'n'feel'</p>
 
 <p>When back to the dashboard, you might realize the page is still not accessible from the left menu. You can see it in
-    the combo list in the administration toolbar:
+    the combo list in the administration toolbar:</p>
 
-    TODO: IMAGE OF ADMINISTRATION BAR
-
-    <br>
-    <br>
-
-    <IMG SRC="images/NewPage_04.png" NAME="NewPage_04" class="centerImg">
+<p>TODO: IMAGE OF ADMINISTRATION BAR</p>
+<IMG SRC="images/NewPage_04.png" NAME="NewPage_04" class="centerImg">
 
 <p> If you want this page to be shown in the left menu, you can click on 'Edit content' and then add the newly created
     page to the list of options displayed in the menu.</p>
@@ -339,8 +334,8 @@ You will find these icons at the top of the page, in the administration bar.</p>
     Now we can start adding panels to it to compose its content. As described above, all you need to do is use the "Add
     panel to the current page" feature <img src="images/ico_AddPanel.png"
                                             title="Create a new panel in current page"
-                                            width="18" height="18">, y a partir del
-    panel que se nos muestra en pantalla, ir arrastrando todos y cada uno de los paneles que vamos a necesitar.</p>
+                                            width="18" height="18">, panel and from that we displayed, go dragging each
+    and every one of the panels that we need.</p>
 <IMG SRC="images/NewPage_08.png" NAME="NewPage_08" class="centerImg">
 
 <p>Repeat until the page has all the content and panels required.</p>
@@ -352,9 +347,134 @@ You will find these icons at the top of the page, in the administration bar.</p>
     <li>Tabbed regions.</li>
 </ul>
 
-After dropping the panels in the right regions and configuring them, you might be able to create the following page:
-<br>
-<br>
+<p>After dropping the panels in the right regions and configuring them, you might be able to create the following
+    page:</p>
 <IMG SRC="images/NewPage_09.png" NAME="NewPage_09" class="centerImg">
+
+<h3><a name="Duplicating_Page"></a>Duplicating a page</h3>
+
+<p>As we had mentioned earlier, another way to create new pages, is from one we already have, and we do that from clone
+    icon, this way is much faster, and the only thing we have to take into account are those panels that we want to keep
+    and those who want to duplicate.</p>
+
+<p>At the moment we access the utility to clone page, we appear in a page similar to the image below, which as I said
+    before, we want to select those instances duplicate and those desamos maintain.</p>
+<IMG SRC="images/NewPage_10.png" NAME="NewPage_10" class="centerImg">
+
+<p>Once done, select Duplicate page and we have our new page created.</p>
+<hr>
+<h1><a name="Configuring_filter_and_drill-down"></a>Configuring filter and drill-down</h1>
+
+<IMG SRC="images/EditDataFilter_01.png" NAME="EditDataFilter_01" class="centerImg">
+
+<hr>
+<h1><a name="Managing_dashboards"></a>Managing dashboards</h1>
+
+<h3>Permits portal</h3>
+
+<p>From here you manage permissions for different users and roles created in place to act on the selected portal. You
+    can also set permissions at the level of pages and portlets that will apply at all on site.</p>
+
+<p>As can be seen in the figure below, at the top displays a list of permissions that are currently defined on the
+    portal, while the bottom of the screen is devoted to the assignment of permissions itself. Thus, in succession,
+    individual users will be assigned specific permissions to access the portal, to manage, create pages, edit its
+    properties, delete, and edit permissions and change the portlets that can be displayed in him. These can be selected
+    in the popup window (shown in Figure 8) that appears by clicking on the link ’Choose to whom’.</p>
+
+<IMG SRC="images/Permissions_01.png" NAME="Permissions_01" class="centerImg"><br>
+<IMG SRC="images/Permissions_02.png" NAME="Permissions_02" class="centerImg">
+
+<h3>Role-default page</h3>
+
+<p>Each role can be assigned a default page for portal, so that when a user with this role are identified and enter the
+    portal, this will be your home page.</p>
+
+<p>This option is activated only when the site has configured its home page as property the role assigned page.</p>
+<IMG SRC="images/Permissions_03.png" NAME="Permissions_03" class="centerImg">
+
+
+<hr>
+<h1><a name="Customizing_look"></a>Customizing look'n'feel</h1>
+
+<p>The components for graphical configuration of the portal are:</p>
+<ul>
+    <li>Skins: Style sheets, images and predefined icons that serve to change the look of the portal.</li>
+    <li>Bundle: Setting the pages where they are located.</li>
+    <li>Templates: Format the available predefined regions of a page, where you can place portlets.</li>
+</ul>
+<p>Each chart has a field component of validity (portal or page), and is packaged in a file. Zip file that contains a
+    property that varies with the type of component.</p>
+
+<p>You can access the administration of these components from the management console (from the portal or page), select
+    the node ’Graphic resources.’</p>
+
+<p>The structure of the administration screen is the same for each area (portal or page) and graphic component (skin,
+    wrapper, or gallery staff):</p>
+<ul>
+    <li>Form to register new components with the following fields:
+        <ul>
+            <li>ID: It must be unique, different from all discharged so far as an existing or in case you want to
+                overwrite.
+            </li>
+            <li>File. Zip: Path of the file containing the definition of the component and its resources.</li>
+        </ul>
+    </li>
+    <li>List of components such discharge.</li>
+</ul>
+<IMG SRC="images/Graphics_component_01.png" NAME="Graphics_component_01" class="centerImg">
+
+<p>At the time to validate a component, verify that consist only jsp code and html tags themselves. This control is done
+    to prevent malicious java code.</p>
+
+<h3>Facilities for independent management</h3>
+Polymita Portal is a content management solution agile, flexible and easy to use. Offers users the ability to manage all
+graphic resources, as well as style sheets, templates and wrappers from any computer with an Internet connection. With
+this, the content manager, developer, etc. Shall not require the presence of a technician to do their job.</p>
+<h3>Structure of the *. zip and *. properties</h3>
+
+<p> Each zip file has a file of statements from the elements. Depending on the type of component would be:
+    envelope.properties (envelope), skin.properties (skin), layout.properties (template) and gallery.properties (gallery
+    of resources).</p>
+
+<p>These files. Properties have two distinct parts:</p>
+<ul>
+    <li>Name of the item in different languages, to which is added a line in the following format:<br>
+        name.&lt;idiom abbreviation(es, en, ca)&gt; = Name of the resource in that language
+    </li>
+    <li>Definition of the component associated with:<br>
+        resource.&lt;resource_id&gt;= Path relative to the zip file.
+    </li>
+</ul>
+<p>Before detailing what each resource, it is important that these four graphic resources can ’jump' at different levels
+    from the page, via the portal (a given) to reach the global level (all portals).</p>
+
+<h3>Skins</h3>
+
+<p>Access from console: Portals&gt; Portal (&gt; Pages&gt; Page)&gt; Resource Graphics&gt; Skins.<br>
+    You may see the skins added to the resource library Polymita Portal. You can check, using the preview, look &amp;
+    feel that will be applied to any of them. You can download the skin you want, clicking the icon.</p>
+
+<p>Also add a new skin for our library resources. You only need the zip file containing all the elements for the correct
+    update Library resources and assign an identifier.
+</p>
+<IMG SRC="images/Graphics_component_02.png" NAME="Graphics_component_02" class="centerImg">
+
+<p>The modification of the skins (all styles, images and icons predefined) has an effect on the appearance of the
+    elements contained Polymita Portal.<br>
+    The easiest way to create a new skin is to lower one of which has by default application. It amended by adding
+    unwanted changes in appearance and saved with a different name. If you only want to modify a default skin, will have
+    to save after the changes, with the same name.</p>
+
+<h3>Templates</h3>
+
+<p>Access from console: Portals&gt; Portal (&gt; Pages&gt; page)&gt; Graphics Resources&gt; Templates.<br>
+    You can display the list of all the templates installed on Polymita Portal. The preview lets you see the layout of
+    the parts to be created in a page. Any of these templates can be downloaded by clicking on the icon.<br>
+</p>
+<IMG SRC="images/Graphics_component_03.png" NAME="Graphics_component_03" class="centerImg">
+
+<p>The form is located before the list of templates, allows us to add templates. To do this you must create a zip file
+    containing all the elements required for the upgrade and, finally, assign an identifier name.</p>
+
 </BODY>
 </HTML>
