@@ -399,8 +399,8 @@ credentials.
 <p>The components for graphical configuration of the portal are:</p>
 <ul>
     <li>Skins: Style sheets, images and predefined icons that serve to change the look of the portal.</li>
-    <li>Bundle: Setting the pages where they are located.</li>
-    <li>Templates: Format the available predefined regions of a page, where you can place portlets.</li>
+    <li>Region Layouts: Format the available predefined regions of a page, where you can place portlets.</li>
+    <li>Envelopes: Defines which kind of HTML template will be placed around the page layout</li>
 </ul>
 <p>Each chart has a field component of validity (portal or page), and is packaged in a file. Zip file that contains a
     property that varies with the type of component.</p>
@@ -408,13 +408,11 @@ credentials.
 <p>You can access the administration of these components from the management console (from the portal or page), select
     the node ’Graphic resources.’</p>
 
-<p>The structure of the administration screen is the same for each area (portal or page) and graphic component (skin,
-    wrapper, or gallery staff):</p>
+<p>The structure of the administration screen is the same for each area (portal or page) and graphic component (skin, wrapper, or gallery staff):</p>
 <ul>
     <li>Form to register new components with the following fields:
         <ul>
-            <li>ID: It must be unique, different from all discharged so far as an existing or in case you want to
-                overwrite.
+            <li>ID: It must be unique, different from all discharged so far as an existing or in case you want to overwrite.
             </li>
             <li>File. Zip: Path of the file containing the definition of the component and its resources.</li>
         </ul>
@@ -427,7 +425,8 @@ credentials.
     to prevent malicious java code.</p>
 
 <h3>Facilities for independent management</h3>
-Polymita Portal is a content management solution agile, flexible and easy to use. Offers users the ability to manage all
+This application is a content management solution agile, flexible and easy to use. Offers users the ability to manage
+all
 graphic resources, as well as style sheets, templates and wrappers from any computer with an Internet connection. With
 this, the content manager, developer, etc. Shall not require the presence of a technician to do their job.</p>
 <h3>Structure of the *. zip and *. properties</h3>
@@ -445,36 +444,32 @@ this, the content manager, developer, etc. Shall not require the presence of a t
         resource.&lt;resource_id&gt;= Path relative to the zip file.
     </li>
 </ul>
-<p>Before detailing what each resource, it is important that these four graphic resources can ’jump' at different levels
-    from the page, via the portal (a given) to reach the global level (all portals).</p>
+<p>Before detailing what each resource, it is important that these four graphic resources can ’jump' at different levels from the page, via the portal (a given) to reach the global level (all portals).</p>
 
 <h3>Skins</h3>
 
-<p>Access from console: Portals&gt; Portal (&gt; Pages&gt; Page)&gt; Resource Graphics&gt; Skins.<br>
-    You may see the skins added to the resource library Polymita Portal. You can check, using the preview, look &amp;
-    feel that will be applied to any of them. You can download the skin you want, clicking the icon.</p>
+<p>You may see the skins added to the resource library. You can check, using the preview, look &amp; feel that will be applied to any of them. You can download the skin you want, clicking the icon.</p>
 
-<p>Also add a new skin for our library resources. You only need the zip file containing all the elements for the correct
-    update Library resources and assign an identifier.
-</p>
+<p>Also add a new skin for our library resources. You only need the zip file containing all the elements for the correct update Library resources and assign an identifier.</p>
 <IMG SRC="images/Graphics_component_02.png" NAME="Graphics_component_02" class="centerImg">
 
-<p>The modification of the skins (all styles, images and icons predefined) has an effect on the appearance of the
-    elements contained Polymita Portal.<br>
-    The easiest way to create a new skin is to lower one of which has by default application. It amended by adding
-    unwanted changes in appearance and saved with a different name. If you only want to modify a default skin, will have
-    to save after the changes, with the same name.</p>
+<p>The modification of the skins (all styles, images and icons predefined) has an effect on the appearance of the elements contained.</p>
+<p>The easiest way to create a new skin is to lower one of which has by default application. It amended by adding unwanted changes in appearance and saved with a different name. If you only want to modify a default skin, will have to save after the changes, with the same name.</p>
 
-<h3>Templates</h3>
+<h3>Region layouts</h3>
 
-<p>Access from console: Portals&gt; Portal (&gt; Pages&gt; page)&gt; Graphics Resources&gt; Templates.<br>
-    You can display the list of all the templates installed on Polymita Portal. The preview lets you see the layout of
-    the parts to be created in a page. Any of these templates can be downloaded by clicking on the icon.<br>
-</p>
+<p>You can display the list of all the templates installed on your portal. The preview lets you see the layout of the parts to be created in a page. Any of these templates can be downloaded by clicking on the icon.</p>
 <IMG SRC="images/Graphics_component_03.png" NAME="Graphics_component_03" class="centerImg">
 
-<p>The form is located before the list of templates, allows us to add templates. To do this you must create a zip file
-    containing all the elements required for the upgrade and, finally, assign an identifier name.</p>
+<p>The form is located before the list of templates, allows us to add templates. To do this you must create a zip file containing all the elements required for the upgrade and, finally, assign an identifier name.</p>
+
+<h3>Envelopes</h3>
+
+<p>You can display the list of all the envelopes installed on your portal. The preview lets you see the envelopes of the parts to be created in a page. Any of these envelopes can be downloaded by clicking on the icon.
+</p>
+<IMG SRC="images/Graphics_component_04.png" NAME="Graphics_component_04" class="centerImg">
+
+<p>The form is located before the list of envelopes, allows us to add envelopes. To do this you must create a zip file containing all the elements required for the upgrade and, finally, assign an identifier name.</p>
 
 </BODY>
 </HTML>
