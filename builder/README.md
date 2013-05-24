@@ -7,7 +7,7 @@ the auto-instalable standalone demo.
 If you want to generate all the distribution files then go to the dashboard-builder root directory and
 type the following command:
 
-    $ mvn clean install -Dmaven.test.skip=true -P full
+    $ mvn clean install -Dfull -DskipTests
 
 Currently, the following artifacts are generated:
 

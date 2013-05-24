@@ -75,7 +75,7 @@ The project must be compiled executing the following Maven command in the root d
 
 * Finally, if you want to do a complete build (including the distribution files) execute the following command:
 
-    <pre>$ mvn clean install -Dmaven.test.skip=true -P full</pre>
+    <pre>$ mvn clean install -Dfull -DskipTests</pre>
 
 Run the application
 --------------------

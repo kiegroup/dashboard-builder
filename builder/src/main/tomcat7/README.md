@@ -11,7 +11,7 @@ Generate a distribution
 
 Open a terminal window, go to the root directory and execute the following Maven command:
 
-    $ mvn clean install -DskipTests -P full
+    $ mvn clean install -Dfull -DskipTests
 
 Go to the <code>builder/target</code> directory and get the file called **dashbuilder-TOMCAT-7.0.war**.
 
