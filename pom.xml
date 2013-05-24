@@ -376,7 +376,7 @@
 
     <profiles>
         <profile>
-            <id>full</id>
+            <id>fullProfile</id>
             <activation>
                 <property>
                     <name>full</name>
