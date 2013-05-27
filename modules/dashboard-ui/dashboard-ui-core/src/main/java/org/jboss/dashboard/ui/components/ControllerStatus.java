@@ -40,7 +40,7 @@ public class ControllerStatus {
 
     private static transient Log log = LogFactory.getLog(ControllerStatus.class.getName());
 
-    @Inject @Config("/controllerResponse.jsp")
+    @Inject @Config("/templates/standard_template.jsp")
     protected String showPage;
 
     private CommandResponse response;

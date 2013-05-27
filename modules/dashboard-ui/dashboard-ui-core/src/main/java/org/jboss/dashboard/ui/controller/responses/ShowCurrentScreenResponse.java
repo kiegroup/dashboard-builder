@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.controller.responses;
 public class ShowCurrentScreenResponse extends ShowScreenResponse {
 
     public ShowCurrentScreenResponse() {
-        super("/controllerResponse.jsp");
+        super("/templates/standard_template.jsp");
     }
 
     public ShowCurrentScreenResponse(String jsp) {
