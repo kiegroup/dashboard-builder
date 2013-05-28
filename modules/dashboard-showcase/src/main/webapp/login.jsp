@@ -156,13 +156,13 @@
         <h3><%= i18nBundle.getString(messageKey) %></h3>
         <form action="j_security_check" method="POST">
             <p>
-                <label>Username</label>
+                <label><%= i18nBundle.getString("login.username") %></label>
                 <input value="" name="j_username" class="text-input" type="text" autofocus/>
             </p>
             <br style="clear: both;"/>
 
             <p>
-                <label>Password</label>
+                <label><%= i18nBundle.getString("login.password") %></label>
                 <input name="j_password" class="text-input" type="password"/>
             </p>
             <br style="clear: both;"/>
