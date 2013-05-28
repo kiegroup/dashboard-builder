@@ -294,7 +294,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         if (groupByProperty != null) {
             // When the table is grouped then get the interval selected.
-            Interval selectedInterval = groupByProperty.getDomain().getIntervals()[rowIndex];
+            Interval selectedInterval = (Interval) dataSetTable.getDataSet().getValueAt(rowIndex, 0);
             dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY);
         } else {
             Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
