@@ -15,26 +15,28 @@
  */
 package org.jboss.dashboard.function;
 
+import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 
-import java.util.*;
-
-import org.jboss.dashboard.annotation.Install;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
- * It calculates the number of occurrences inside a given collection.
+ * It calculates the number of distinct occurrences inside a given collection.
  */
 @Install
-public class CountFunction extends AbstractFunction {
+public class DistinctFunction extends AbstractFunction {
 
     /**
      * The code of the function.
      */
-    public static final String CODE = "count";
+    public static final String CODE = "distinct";
 
     protected String code;
 
-    public CountFunction() {
+    public DistinctFunction() {
         super();
         code = CODE;
     }
@@ -52,10 +54,19 @@ public class CountFunction extends AbstractFunction {
     }
 
     public double scalar(Collection values) {
-        CodeBlockTrace trace = new ScalarFunctionTrace(CODE, values).begin();
+        CodeBlockTrace trace = new AbstractFunction.ScalarFunctionTrace(CODE, values).begin();
         try {
             if (values == null || values.isEmpty()) return 0;
-            return values.size();
+
+            // Return the number of distinct items in the collection.
+            Set distincts = new HashSet();
+            Iterator it = values.iterator();
+            while (it.hasNext()) {
+                Object o = it.next();
+                if (distincts.contains(o)) continue;
+                distincts.add(o);
+            }
+            return distincts.size();
         } finally {
             trace.end();
         }

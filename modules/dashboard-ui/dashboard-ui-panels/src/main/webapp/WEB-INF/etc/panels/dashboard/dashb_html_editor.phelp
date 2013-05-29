@@ -57,11 +57,12 @@ As&#237; si se tiene un proveedor de datos que carga, por ejemplo, una propiedad
 
 &lt;p&gt;&lt;b&gt;Comandos de funci&#243;n&lt;/b&gt;: Aplican una funci&#243;n escalar sobre los valores extra&#237;dos por una propiedad dada:
 &lt;ul&gt;
-&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; El n&#250;mero de ocurrencias o valores que tiene la propiedad dada.
-&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; El valor m&#225;ximo para una propiedad dada.
-&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; El valor m&#237;nimo para una propiedad dada.
-&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; El valor medio para una propiedad dada.
-&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; La suma de todos los valores para una propiedad dada.
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}    =&gt; El n&#250;mero de ocurrencias o valores que tiene la propiedad dada.
+&lt;li&gt;{dashboard_distinct, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; El n&#250;mero diferente de ocurrencias tiene la propiedad dada.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; El valor m&#225;ximo para una propiedad dada.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; El valor m&#237;nimo para una propiedad dada.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; El valor medio para una propiedad dada.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; La suma de todos los valores para una propiedad dada.
 &lt;/ul&gt;&lt;br&gt;
 Los &#250;ltimos 4 comandos solo pueden ser aplicados a propiedades num&#233;ricas.&lt;br&gt;
 
@@ -111,11 +112,12 @@ So if we got a data provider that loads, for instance, an order_amount property,
 
 &lt;p&gt;&lt;b&gt;Function commands&lt;/b&gt;: Apply an scalar function over the values loaded for a given property:
 &lt;ul&gt;
-&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; The number of occurrences or values a given property has.
-&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The maximum value for a given property.
-&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The minimum value for a given property.
-&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; The average value for a given property.
-&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; The sum of all the values for a given property.
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}    =&gt; The number of occurrences or values a given property has.
+&lt;li&gt;{dashboard_distinct, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; The number of different occurrences a given property has.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; The maximum value for a given property.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; The minimum value for a given property.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; The average value for a given property.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; The sum of all the values for a given property.
 &lt;/ul&gt;&lt;br&gt;
 The last 4 commands can only be applied to numeric properties.&lt;br&gt;
 
@@ -161,11 +163,12 @@ Per exemple, si un prove&#239;dor carga una propietat anomenada order_amout, pod
 
 &lt;p&gt;&lt;b&gt;Comandes tipus funci&#243;&lt;/b&gt;: Apliquen una funci&#243; escalar sobre els valors obtinguts d&apos;una propietat:
 &lt;ul&gt;
-&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}   =&gt; Nombre d&apos;ocurr&#232;ncies o valors d&apos;una propietat.
-&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna el valor m&#224;xim del conjunt de valors d&apos;una propietat.
-&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna el valor m&#237;nim del conjunt de valors d&apos;una propietat.
-&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; Retorna la mitja obtinguda pel conjunt de valors d&apos;una propietat.
-&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}     =&gt; Retorna la suma de tot el conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_count, &lt;i&gt;propertyId&lt;/i&gt;}    =&gt; Nombre d&apos;ocurr&#232;ncies o valors d&apos;una propietat.
+&lt;li&gt;{dashboard_distinct, &lt;i&gt;propertyId&lt;/i&gt;} =&gt; Nombre diferent d&apos;ocurr&#232;ncies d&apos;una propietat.
+&lt;li&gt;{dashboard_max, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; Retorna el valor m&#224;xim del conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_min, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; Retorna el valor m&#237;nim del conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_average, &lt;i&gt;propertyId&lt;/i&gt;}  =&gt; Retorna la mitja obtinguda pel conjunt de valors d&apos;una propietat.
+&lt;li&gt;{dashboard_sum, &lt;i&gt;propertyId&lt;/i&gt;}      =&gt; Retorna la suma de tot el conjunt de valors d&apos;una propietat.
 &lt;/ul&gt;&lt;br&gt;
 Les 4 &#250;ltimes comandes &#250;nicament es poden aplicar a propietats de tipus num&#232;ric.&lt;br&gt;
 
