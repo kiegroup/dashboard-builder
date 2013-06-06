@@ -52,12 +52,6 @@ public class Dashboard {
     protected Long sectionDbid;
 
     /**
-     * KPIs working copy per PanelInstance map. PI id-> KPI
-     * This Map contains a working copy for each KPI.
-     */
-    protected Map<Long, KPI> kpis;
-
-    /**
      * The dashboard filter.
      */
     protected DashboardFilter dashboardFilter;
@@ -80,7 +74,6 @@ public class Dashboard {
     public Dashboard() {
         sectionDbid = null;
         parent = null;
-        kpis = new HashMap<Long, KPI>();
         listeners = new Publisher();
         setDashboardFilter(new DashboardFilter());
     }
@@ -165,14 +158,7 @@ public class Dashboard {
         if (!belongsToDashboard(panel)) return null;
         if (!(panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver"))) return null;
 
-        // Get the current working copy for the given panel.
-        KPI workingKPI = kpis.get(panel.getInstanceId());
-        if (workingKPI != null) return workingKPI;
-
-        // Get a KPI working copy for this dashboard.
-        KPI loadedKPI = getKPI(panel.getInstance());
-        kpis.put(panel.getInstanceId(), loadedKPI);
-        return loadedKPI;
+        return getKPI(panel.getInstance());
     }
 
     public final static String KPI_CODE = "kpicode";
@@ -192,37 +178,11 @@ public class Dashboard {
         }
     }
 
-    /**
-     * Get the KPI displayed by given dashboard panel.
-     */
-    public KPI getKPI(Long instanceId) {
-        for (Object obj: getSection().getPanels()) {
-            Panel panel = (Panel) obj;
-            if (panel.getInstanceId().equals(instanceId)) {
-                return getKPI(panel);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Removes from the dashboard the KPI attached to the panel.
-     * @return true If the panel's KPI was registered and it is removed.
-     */
-    public boolean removeKPI(PanelInstance panel) throws Exception {
-        int oldSize = kpis.size();
-        Iterator it = kpis.keySet().iterator();
-        while (it.hasNext()) {
-            Long panelId = (Long) it.next();
-            if (panelId.equals(panel.getInstanceId())) it.remove();
-        }
-        return oldSize != kpis.size();
-    }
-
     public Set<DataProvider> getDataProviders() {
         Set<DataProvider> results = new HashSet<DataProvider>();
-        for (Long instanceId: kpis.keySet()) {
-            KPI kpi = getKPI(instanceId);
+        Iterator it = getSection().getPanels().iterator();
+        while (it.hasNext()) {
+            KPI kpi = getKPI((Panel) it.next());
 
             // The KPI is null if the panel is not assigned to a region.
             if (kpi != null) results.add(kpi.getDataProvider());
@@ -288,10 +248,10 @@ public class Dashboard {
             // A section instance is required.
             if (sectionDbid == null) return;
 
-            // Reload the KPIs stored in this dashboard cache.
-            kpis.clear();
-            Iterator it = getSection().getPanels().iterator();
-            while (it.hasNext()) getKPI((Panel) it.next());
+            // Reload all the data providers referenced by this dashboard.
+            for (DataProvider dataProvider : getDataProviders()) {
+                dataProvider.refreshDataSet();
+            }
 
             // Preserve the current filter after refresh (if any)
             if (dashboardFilter.getPropertyIds().length > 0) {
@@ -323,7 +283,8 @@ public class Dashboard {
         }
 
         if (interval instanceof LabelInterval) {
-            values = new HashSet(interval.getValues(interval.getDomain().getProperty()));
+            if (dashboardFilter.getPropertyIds().length == 0) values = Arrays.asList(interval);
+            else values = Arrays.asList(((LabelInterval) interval).getLabel());
         }
 
         if (interval instanceof CompositeInterval) {
@@ -331,7 +292,10 @@ public class Dashboard {
             minValueIncluded = ((CompositeInterval)interval).isMinValueIncluded();
             maxValue = ((CompositeInterval)interval).getMaxValue();
             maxValueIncluded = ((CompositeInterval)interval).isMaxValueIncluded();
-            if (minValue == null && maxValue == null) values = new HashSet(interval.getValues(interval.getDomain().getProperty()));
+            if (minValue == null && maxValue == null) {
+                if (dashboardFilter.getPropertyIds().length == 0) values = Arrays.asList(interval);
+                else values = new HashSet(interval.getValues(interval.getDomain().getProperty()));
+            }
         }
 
         return filter(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, values, allowMode);
@@ -347,14 +311,14 @@ public class Dashboard {
             Dashboard targetDashboard = dashboardFilterProperty.getDrillDownDashboard();
             DashboardFilter targetFilter = targetDashboard.getDashboardFilter();
             if (targetDashboard.drillDown(this, propertyId)) {
-                targetFilter.addProperty(propertyId, minValue,minValueIncluded,maxValue,maxValueIncluded,allowedValues, FilterByCriteria.ALLOW_ANY);
+                targetFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, FilterByCriteria.ALLOW_ANY);
                 targetDashboard.filter();
                 return true;
             }
         }
         // Apply filter only.
         else {
-            dashboardFilter.addProperty(propertyId, minValue,minValueIncluded,maxValue,maxValueIncluded,allowedValues, FilterByCriteria.ALLOW_ANY);
+            dashboardFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, FilterByCriteria.ALLOW_ANY);
             filter();
             refreshPanels(dashboardFilter.getPropertyIds());
         }
@@ -364,10 +328,14 @@ public class Dashboard {
     public boolean unfilter(String propertyId) throws Exception {
         if (dashboardFilter.containsProperty(propertyId)) {
             dashboardFilter.removeProperty(propertyId);
-            if (drillUp()) return true;
-
-            filter();
-            refreshPanels(new String[]{propertyId});
+            Dashboard parent = drillUp();
+            if (parent != null) {
+                parent.filter();
+                return true;
+            } else {
+                filter();
+                refreshPanels(new String[]{propertyId});
+            }
         }
         return false;
     }
@@ -375,7 +343,9 @@ public class Dashboard {
     public boolean unfilter() throws Exception {
         String[] propIds = dashboardFilter.getPropertyIds();
         dashboardFilter.init();
-        if (drillUp()) {
+        Dashboard parent = drillUp();
+        if (parent != null) {
+            parent.filter();
             return true;
         } else {
             refreshPanels(propIds);
@@ -432,14 +402,14 @@ public class Dashboard {
         return true;
     }
 
-    protected boolean drillUp() {
+    protected Dashboard drillUp() {
         String parentProperty = getParentProperty();
-        if (parentProperty == null) return false;
+        if (parentProperty == null) return null;
 
         Dashboard parent = this;
         Dashboard firstParent = null;
         while (parentProperty != null) {
-            if (!ArrayUtils.contains(getDashboardFilter().getPropertyIds(),parentProperty)) {
+            if (!ArrayUtils.contains(getDashboardFilter().getPropertyIds(), parentProperty)) {
                 // Apply drill-up.
                 firstParent = parent.getParent();
             }
@@ -447,12 +417,13 @@ public class Dashboard {
             if (parent != null) parentProperty = parent.getParentProperty();
             else parentProperty = null;
         }
+        // No drill-up detected
+        if (firstParent == null) return null;
 
         // Return back to the parent dashboard.
-        if (firstParent == null) return false;
         NavigationManager.lookup().setCurrentSection(firstParent.getSection());
         listeners.notifyEvent(DashboardListener.EVENT_DRILL_UP, new Object[] {firstParent, this});
-        return true;
+        return firstParent;
     }
 
     /**

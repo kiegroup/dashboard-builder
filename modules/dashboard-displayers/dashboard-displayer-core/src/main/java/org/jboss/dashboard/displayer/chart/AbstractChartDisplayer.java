@@ -16,7 +16,6 @@
 package org.jboss.dashboard.displayer.chart;
 
 import org.jboss.dashboard.DataDisplayerServices;
-import org.jboss.dashboard.dataset.DataSetComparator;
 import org.jboss.dashboard.displayer.AbstractDataDisplayer;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.provider.DataProperty;
@@ -425,31 +424,24 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     }
 
     public DataSet buildXYDataSet() {
-        DataSet targetDataSet = null;
         DataProperty domainProperty = getDomainProperty();
         DataProperty rangeProperty = getRangeProperty();
         ScalarFunction scalarFunction = getRangeScalarFunction();
+        DataSet sourceDataSet = domainProperty.getDataSet();
         CodeBlockTrace trace = new BuildXYDataSetTrace(domainProperty, rangeProperty, scalarFunction).begin();
         try {
             if (domainProperty == null || domainProperty.getDomain() == null) return null;
             if (rangeProperty == null || scalarFunction == null) return null;
 
-            // Group the original data set by the domain property. Thus the scalar function is applied to the range values.
-            DataSet sourceDataSet = domainProperty.getDataSet();
-            List<DataProperty> targetDataProps = Arrays.asList(new DataProperty[]{domainProperty, rangeProperty});
-            List<String> targetFunctionCodes = Arrays.asList(new String[]{CountFunction.CODE, scalarFunction.getCode()});
-            targetDataSet = sourceDataSet.groupBy(domainProperty, targetDataProps, targetFunctionCodes);
-
-            // Sort the resulting data set according to the sort policy specified.
-            if (intervalsSortOrder != INTERVALS_SORT_ORDER_NONE) {
-                DataSetComparator comp = new DataSetComparator();
-                comp.addSortCriteria(Integer.toString(intervalsSortCriteria), intervalsSortOrder);
-                targetDataSet.sort(comp);
-            }
+            // Group the original data set by the domain property.
+            int pivot = sourceDataSet.getPropertyColumn(domainProperty);
+            int range = sourceDataSet.getPropertyColumn(rangeProperty);
+            int[] columns = new int[] {pivot, range};
+            String[] functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode()};
+            return sourceDataSet.groupBy(domainProperty, columns, functionCodes, intervalsSortCriteria, intervalsSortOrder);
         } finally {
             trace.end();
         }
-        return targetDataSet;
     }
 
     public void copyFrom(DataDisplayer sourceDisplayer) {

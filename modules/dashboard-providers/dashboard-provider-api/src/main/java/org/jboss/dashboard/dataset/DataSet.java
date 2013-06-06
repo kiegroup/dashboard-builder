@@ -51,9 +51,9 @@ public interface DataSet {
     List getPropertyValues(DataProperty p);
 
     /**
-     * Get a property by its id
+     * Get a property by its column index (starting by 0)
      */
-    DataProperty getPropertyByIndex(int column);
+    DataProperty getPropertyByColumn(int column);
 
     /**
      * Get a property by its column index.
@@ -99,17 +99,32 @@ public interface DataSet {
 
     /**
      * Filter the dataset.
+     * @return A filtered data set or null if there is nothing to do with the filter specified,
+     * because it's empty or does not contains properties belonging to this data set.
      */
-    void filter(DataFilter filter) throws Exception;
+    DataSet filter(DataFilter filter) throws Exception;
 
     /**
      * Groups this data set.
-     * @param property The property to group for.
-     * @param groupByProps The list of DataProperty instances to be include in the resulting data set.
+     *
+     * @param groupByProperty The property to group for.
+     * @param columns An array of the columns to be included in the resulting data set.
      * @param functionCodes The scalar function codes to apply to each property of the resulting data set.
      * @return A new data set instance containing the group by calculations.
      */
-    DataSet groupBy(DataProperty property, List<DataProperty> groupByProps, List<String> functionCodes);
+    DataSet groupBy(DataProperty groupByProperty, int[] columns, String[] functionCodes);
+
+    /**
+     * Groups this data set.
+     *
+     * @param groupByProperty The property to group for.
+     * @param columns An array of the columns to be included in the resulting data set.
+     * @param functionCodes The scalar function codes to apply to each property of the resulting data set.
+     * @param sortIndex The resulting data set column to order the result for (starting at 0 and lower than the columns array length).
+     * @param sortOrder 1=Ascending, -1=Descending, 0=None
+     * @return A new data set instance containing the group by calculations.
+     */
+    DataSet groupBy(DataProperty groupByProperty, int[] columns, String[] functionCodes, int sortIndex, int sortOrder);
 
     /**
      * Sorts this data set.

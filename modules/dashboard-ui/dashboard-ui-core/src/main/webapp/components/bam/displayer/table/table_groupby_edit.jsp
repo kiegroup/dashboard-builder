@@ -79,10 +79,8 @@
             <%
                 int groupBySelectedColumnIndex = tableHandler.getGroupBySelectedColumnIndex();
                 DataProperty groupBySelectedProperty = table.getOriginalDataProperty(groupBySelectedColumnIndex);
-                Iterator it = groupBySelectedProperty.getDomain().getScalarFunctionsSupported().iterator();
-                while (it.hasNext()) {
+                for (ScalarFunction scalarFunction : groupBySelectedProperty.getDomain().getScalarFunctionsSupported()) {
                     String selected = "";
-                    ScalarFunction scalarFunction = (ScalarFunction) it.next();
                     if (scalarFunction.getCode().equals(table.getGroupByFunctionCode(groupBySelectedColumnIndex))) selected = "selected";
             %>
                     <option value="<%= scalarFunction.getCode() %>" <%= selected %>><%= scalarFunction.getName(locale) %></option>

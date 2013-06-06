@@ -89,7 +89,6 @@ public interface DataProvider {
      * IMPORTANT NOTE: this method is called several times by the UI components.
      */
     DataSet getDataSet() throws Exception;
-    void setDataSet(DataSet s);
 
     /**
      * Get the most up to date data.<br>

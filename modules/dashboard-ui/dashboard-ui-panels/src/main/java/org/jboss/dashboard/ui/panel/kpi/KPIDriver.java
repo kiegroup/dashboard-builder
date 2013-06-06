@@ -22,8 +22,8 @@ import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.ui.components.DashboardHandler;
+import org.jboss.dashboard.ui.components.KPIViewer;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.workspace.Panel;
@@ -35,7 +35,6 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
 
@@ -97,9 +96,17 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         if (kpi == null) panelSession.setCurrentPageId(PAGE_PROVIDER_SELECTION);
         else panelSession.setCurrentPageId(PAGE_SHOW);
 
-        UIBeanLocator.lookup().getEditor(kpi);
-        UIBeanLocator.lookup().getViewer(kpi);
+        // Ensure that the UI editor & viewer see the KPI
+        passKPItoUI(kpi);
     }
+
+    protected void passKPItoUI(KPI kpi) {
+        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor();
+        KPIViewer kpiViewer = UIBeanLocator.lookup().getViewer();
+        if (kpiEditor.getKpi() == null) kpiEditor.setKpi(kpi);
+        if (kpiViewer.getKpi() == null) kpiViewer.setKpi(kpi);
+    }
+
 
     protected void beforePanelInstanceRemove(PanelInstance instance) throws Exception {
         // Delete from persistence the KPI attached to the panel.
@@ -108,12 +115,6 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
             // Only delete not null KPIs based on deleteable providers.
             kpi.delete();
         }
-    }
-
-    protected void beforePanelRemoved(Panel panel) throws Exception {
-        // Remove the related KPI.
-        Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
-        if (dashboard != null) dashboard.removeKPI(panel.getInstance());
     }
 
     public boolean supportsHelpMode(Panel panel) {
@@ -166,8 +167,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         panel.getInstance().setParameterValue(Dashboard.KPI_CODE, kpi.getCode());
 
         // Go to edit mode.
-        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor(kpi);
-        kpiEditor.setKpi(kpi);
+        passKPItoUI(kpi);
         return panelActionEditMode(panel, request);
     }
 
@@ -175,8 +175,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
      * Save changes on the KPI being edited.
      */
     public void actionSubmit(Panel panel, CommandRequest request) throws Exception {
-        KPI kpi = getKPI(panel);
-        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor(kpi);
+        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor();
         kpiEditor.actionSubmit(request);
 
         // Make the panel instance's description match the KPI description.
@@ -185,7 +184,11 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         if (!StringUtils.isBlank(kpiDescr)) panel.getInstance().setTitle(kpiDescr, lang);
 
         // Make changes persistent.
+        KPI kpi = kpiEditor.getKpi();
         kpi.save();
+
+        // Ensure that the UI editor & viewer see the KPI changes
+        passKPItoUI(kpi);
     }
 
     // DashboardDriver interface

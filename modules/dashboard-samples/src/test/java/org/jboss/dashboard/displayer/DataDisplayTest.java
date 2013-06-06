@@ -16,6 +16,7 @@
 package org.jboss.dashboard.displayer;
 
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayer;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
 import org.jboss.dashboard.function.ScalarFunction;
@@ -91,6 +92,9 @@ public class DataDisplayTest {
     protected DataProviderManager dataProviderManager;
 
     @Inject
+    protected DataSetManager dataSetManager;
+
+    @Inject
     protected ScalarFunctionManager scalarFunctionManager;
 
     @Inject
@@ -106,10 +110,11 @@ public class DataDisplayTest {
         dataPoviderType = dataProviderManager.getProviderTypeByUid(CSVDataProviderType.UID);
         DataProvider dataProvider = dataProviderManager.createDataProvider();
         CSVDataLoader csvDataLoader = (CSVDataLoader) dataPoviderType.createDataLoader();
+        dataProvider.setDataLoader(csvDataLoader);
 
         InputStream dataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("data.csv");
         dataSet = csvDataLoader.load(dataProvider, dataStream);
-        dataProvider.setDataSet(dataSet);
+        dataSetManager.registerDataSet(dataProvider, dataSet);
     }
 
     @Test

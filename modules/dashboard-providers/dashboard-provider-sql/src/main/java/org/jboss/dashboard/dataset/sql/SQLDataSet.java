@@ -16,6 +16,7 @@
 package org.jboss.dashboard.dataset.sql;
 
 import org.jboss.dashboard.dataset.AbstractDataSet;
+import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.provider.sql.SQLDataProperty;
 import org.jboss.dashboard.provider.DataProvider;
@@ -54,6 +55,12 @@ public class SQLDataSet extends AbstractDataSet {
         super(provider);
         this.dataSource = loader.getDataSource();
         this.sqlQuery = loader.getSQLQuery();
+    }
+
+    public SQLDataSet(DataProvider provider, String dataSource, String sqlQuery) {
+        super(provider);
+        this.dataSource = dataSource;
+        this.sqlQuery = sqlQuery;
     }
 
     public String getDataSource() {
@@ -104,7 +111,7 @@ public class SQLDataSet extends AbstractDataSet {
                     SQLDataSet.this.addRowValues(row);
                 }
 
-                // Once we got the datase initialized calculate the domain for each property.
+                // Once we got the dataset initialized then calculate the domain for each property.
                 for (int i = 0; i < properties.length; i++) {
                     SQLDataProperty property = (SQLDataProperty) properties[i];
                     property.calculateDomain();
@@ -131,13 +138,21 @@ public class SQLDataSet extends AbstractDataSet {
         }}.execute();
     }
 
-    public void filter(DataFilter filter) throws Exception {
+    public DataSet filter(DataFilter filter) throws Exception {
         // Check if the SQL changes when filtering is requested. If so then reload the full dataset.
         SQLStatement currentStatement = createSQLStatament();
         if (!lastExecutedStmt.equals(currentStatement)) {
-            load();
+            SQLDataSet sqlDataSet = new SQLDataSet(provider, dataSource, sqlQuery);
+            sqlDataSet.load();
+
+            // Apply the in-memory filter in order to cover all the filter properties non specified as SQL conditions.
+            DataSet result = sqlDataSet.filter(filter);
+
+            // If the in-memory filter applies then return it.
+            if (result != null) return result;
+            return sqlDataSet;
         }
-        // Always apply the in-memory filter in order to cover all the filter properties non specified as SQL conditions.
-        super.filter(filter);
+        // Apply the in-memory filter by default.
+        return super.filter(filter);
     }
 }

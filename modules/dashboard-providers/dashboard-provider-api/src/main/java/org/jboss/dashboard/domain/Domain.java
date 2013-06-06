@@ -30,12 +30,12 @@ public interface Domain extends Cloneable {
 
     DataProperty getProperty();
     void setProperty(DataProperty property);
-    Interval[] getIntervals();
+    List<Interval> getIntervals();
     int getMaxNumberOfIntervals();
     void setMaxNumberOfIntervals(int maxIntervals);
     boolean isScalarFunctionSupported(String functionCode);
     boolean isScalarFunctionSupported(ScalarFunction sf);
-    List getScalarFunctionsSupported();
+    List<ScalarFunction> getScalarFunctionsSupported();
     Class getValuesClass();    
     Domain cloneDomain();
 }

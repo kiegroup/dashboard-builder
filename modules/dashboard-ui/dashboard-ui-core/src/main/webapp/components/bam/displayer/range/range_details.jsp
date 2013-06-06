@@ -55,10 +55,8 @@
             <select name="scalarFunctionCode" class="skn-input" style="width:120px;">
             <%
                 Domain rangeDomain = rangeConfig.getRangeProperty().getDomain();
-                Iterator it = rangeDomain.getScalarFunctionsSupported().iterator();
-                while (it.hasNext()) {
+                for (ScalarFunction scalarFunction : rangeDomain.getScalarFunctionsSupported()) {
                     String selected = "";
-                    ScalarFunction scalarFunction = (ScalarFunction) it.next();
                     if (scalarFunction.getCode().equals(rangeConfig.getScalarFunctionCode())) selected = "selected";
             %>
                     <option value="<%= scalarFunction.getCode() %>" <%= selected %>><%= scalarFunction.getName(locale) %></option>
