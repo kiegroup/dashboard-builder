@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
+import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
+import org.jboss.dashboard.dataset.DataSetComparator;
 import org.jboss.dashboard.domain.DomainConfigurationParser;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.displayer.table.DataSetTable;
@@ -33,6 +35,10 @@ public class DataSetTableHandler extends TableHandler {
         super();
         groupBySelectedColumnIndex = -1;
         showGroupByConfig = false;
+    }
+
+    protected ComparatorByCriteria createTableComparator() {
+        return new DataSetComparator();
     }
 
     public boolean showGroupByConfig() {

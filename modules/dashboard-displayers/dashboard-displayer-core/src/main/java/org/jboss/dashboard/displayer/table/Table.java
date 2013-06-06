@@ -196,8 +196,17 @@ public class Table {
     }
 
     public Object getValueAt(int row, int column) {
-        if ((row < 0) || (row >= getRowCount()) || (column < 0) || (column >= getColumnCount()))
+        if ((row < 0) || (row >= getRowCount()) || (column < 0) || (column >= getColumnCount())) {
             throw new IllegalArgumentException("Impossible to get value from position " + row + ", " + column + ": index out of range.");
-        return model.getValue(row, getColumn(column).getPropertyId());
+        }
+        TableColumn tableColumn = getColumn(column);
+        String tablePropertyId = tableColumn.getPropertyId();
+        if (column < model.getColumnCount()) {
+            String modelPropertyId = model.getColumnId(column);
+            if (tablePropertyId.equals(modelPropertyId)) {
+                return model.getValueAt(row, column);
+            }
+        }
+        return model.getValue(row, tablePropertyId);
     }
 }

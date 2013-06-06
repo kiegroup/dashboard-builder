@@ -20,26 +20,6 @@ import org.jboss.dashboard.commons.filter.FilterByCriteria;
 
 public abstract class AbstractTableModel implements TableModel {
 
-    protected FilterByCriteria filter;
-    protected ComparatorByCriteria comparator;
-
-    protected AbstractTableModel() {
-        filter = null;
-        comparator = null;
-    }
-
-    public void filter(FilterByCriteria filter) {
-        this.filter = filter;
-    }
-
-    public void sort(ComparatorByCriteria comparator) {
-        this.comparator = comparator;
-    }
-
-    public ComparatorByCriteria getComparator() {
-        return comparator;
-    }
-
     public int getColumnPosition(String columnName) {
         return -1;
     }

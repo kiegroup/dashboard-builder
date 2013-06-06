@@ -15,37 +15,43 @@
  */
 package org.jboss.dashboard.displayer.table;
 
+import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
+
 /**
  */
 public class DefaultTableModel extends AbstractTableModel {
 
-    protected javax.swing.table.DefaultTableModel _defaullTableModel;
+    protected javax.swing.table.DefaultTableModel _defaultTableModel;
 
     public DefaultTableModel() {
         super();
-        _defaullTableModel = new javax.swing.table.DefaultTableModel();
+        _defaultTableModel = new javax.swing.table.DefaultTableModel();
+    }
+
+    public void sort(ComparatorByCriteria comparator) {
+        // Not supported
     }
 
     public int getColumnCount() {
-        return _defaullTableModel.getColumnCount();
+        return _defaultTableModel.getColumnCount();
     }
 
     public int getRowCount() {
-        return _defaullTableModel.getRowCount();
+        return _defaultTableModel.getRowCount();
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return _defaullTableModel.getValueAt(rowIndex, columnIndex);
+        return _defaultTableModel.getValueAt(rowIndex, columnIndex);
     }
 
     public int getColumnPosition(String columnName) {
         for (int i = 0; i < getColumnCount(); i ++) {
-            if (_defaullTableModel.getColumnName(i).equals(columnName)) return i;
+            if (_defaultTableModel.getColumnName(i).equals(columnName)) return i;
         }
         return super.getColumnPosition(columnName);
     }
 
     public String getColumnName(int index) {
-        return _defaullTableModel.getColumnName(index);
+        return _defaultTableModel.getColumnName(index);
     }
 }

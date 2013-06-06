@@ -27,6 +27,5 @@ public interface TableModel {
     int getRowCount();
     Object getValue(int row, String propertyName);
     Object getValueAt(int row, int column);
-    void filter(FilterByCriteria filter);
     void sort(ComparatorByCriteria comparator);
 }

@@ -39,6 +39,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
     private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TableHandler.class);
 
     protected Table table;
+    protected ComparatorByCriteria tableComparator;
     protected boolean editMode;
     protected String viewModeJsp;
     protected String editModeJsp;
@@ -47,7 +48,6 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
     protected boolean structuralChangesAllowed;
 
     public static final String EXPORT_FORMAT = "dataExportFormat";
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     // Constructor of the class
     public TableHandler() {
@@ -58,6 +58,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         editModeJsp = "/components/table/edit.jsp";
         tableFormatter = new TableFormatter();
         structuralChangesAllowed = true;
+        tableComparator = createTableComparator();
     }
 
     public Table getTable() {
@@ -66,6 +67,15 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    protected ComparatorByCriteria createTableComparator() {
+        // To be provided by subclasses.
+        return null;
+    }
+
+    public ComparatorByCriteria getTableComparator() {
+        return tableComparator;
     }
 
     public TableFormatter getTableFormatter() {
@@ -266,19 +276,22 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         int tableColumnIdx = Integer.parseInt(request.getRequestObject().getParameter("columnindex"));
         TableColumn tableColumn = getTable().getColumn(tableColumnIdx);
         AbstractTableModel model = (AbstractTableModel) getTable().getModel();
-        ComparatorByCriteria comparator = model.getComparator();
 
-        if (comparator != null) {
+        if (tableComparator != null) {
+            // Get the current order.
             String modelColumnIdx = Integer.toString(model.getColumnPosition(tableColumn.getPropertyId()));
             int currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
-            if (comparator.existCriteria(modelColumnIdx)) currentOrdering = comparator.getSortCriteriaOrdering(modelColumnIdx);
+            if (tableComparator.existCriteria(modelColumnIdx)) currentOrdering = tableComparator.getSortCriteriaOrdering(modelColumnIdx);
+
+            // Reverse that order
             if (currentOrdering == ComparatorByCriteria.ORDER_UNSPECIFIED) currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
             else if (currentOrdering == ComparatorByCriteria.ORDER_ASCENDING) currentOrdering = ComparatorByCriteria.ORDER_DESCENDING;
             else currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
 
-            comparator.removeAllSortCriteria();
-            comparator.addSortCriteria(modelColumnIdx, currentOrdering);
-            model.sort(comparator);
+            // Sort
+            tableComparator.removeAllSortCriteria();
+            tableComparator.addSortCriteria(modelColumnIdx, currentOrdering);
+            model.sort(tableComparator);
         }
     }
 
