@@ -27,6 +27,8 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
+import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -122,7 +124,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         return viewModeJsp;
     }
 
-    public void actionExecAction(CommandRequest request) throws Exception {
+    public CommandResponse actionExecAction(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter("tableaction");
         if ("saveTable".equals(action)) actionSaveTable(request);
         else if ("newColumn".equals(action)) actionNewColumn(request);
@@ -136,8 +138,9 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         else if ("firstPage".equals(action)) actionFirstPage(request);
         else if ("lastPage".equals(action)) actionLastPage(request);
         else if ("gotoPage".equals(action)) actionGotoPage(request);
-        else if ("selectCellValue".equals(action)) actionSelectCellValue(request);
+        else if ("selectCellValue".equals(action)) return actionSelectCellValue(request);
         else if ("sortByColumn".equals(action)) actionSortByColumn(request);
+        return null;
     }
 
     public void actionSaveTable(CommandRequest request) throws Exception {
@@ -295,7 +298,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         }
     }
 
-    public void actionSelectCellValue(CommandRequest request) throws Exception {
+    public CommandResponse actionSelectCellValue(CommandRequest request) throws Exception {
         table.setCurrentPage(1);
 
         int rowIndex = Integer.parseInt(request.getRequestObject().getParameter("rowindex"));
@@ -308,13 +311,17 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         if (groupByProperty != null) {
             // When the table is grouped then get the interval selected.
             Interval selectedInterval = (Interval) dataSetTable.getDataSet().getValueAt(rowIndex, 0);
-            dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY);
+            if (dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY)) {
+                // If drill-down then force the whole screen to be refreshed.
+                return new ShowCurrentScreenResponse();
+            }
         } else {
             Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
             Collection values = new ArrayList();
             values.add(selectedValue);
             dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY);
         }
+        return null;
     }
 
     public CommandResponse actionExportData(String format) throws Exception {

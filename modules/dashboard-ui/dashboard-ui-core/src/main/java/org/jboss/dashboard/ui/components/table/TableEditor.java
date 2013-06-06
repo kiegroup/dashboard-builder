@@ -20,6 +20,7 @@ import org.jboss.dashboard.ui.components.DataDisplayerEditor;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.displayer.table.TableDisplayer;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 
 public class TableEditor extends DataDisplayerEditor {
@@ -57,10 +58,11 @@ public class TableEditor extends DataDisplayerEditor {
 
     // DataDisplayerEditor implementation.
 
-    public void actionSubmit(CommandRequest request) throws Exception {
-        tableHandler.actionExecAction(request);
+    public CommandResponse actionSubmit(CommandRequest request) throws Exception {
+        return tableHandler.actionExecAction(request);
     }
 
-    public void actionCancel(CommandRequest request) throws Exception {
+    public CommandResponse actionCancel(CommandRequest request) throws Exception {
+        return null;
     }
 }

@@ -16,9 +16,10 @@
 package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 public abstract class DataDisplayerEditor extends DataDisplayerViewer {
 
-    public abstract void actionSubmit(CommandRequest request) throws Exception;
-    public abstract void actionCancel(CommandRequest request) throws Exception;
+    public abstract CommandResponse actionSubmit(CommandRequest request) throws Exception;
+    public abstract CommandResponse actionCancel(CommandRequest request) throws Exception;
 }

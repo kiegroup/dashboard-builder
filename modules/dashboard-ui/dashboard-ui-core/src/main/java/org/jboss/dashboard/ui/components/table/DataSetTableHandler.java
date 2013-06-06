@@ -22,6 +22,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.displayer.table.DataSetTable;
 import org.jboss.dashboard.domain.DomainConfiguration;
 import org.jboss.dashboard.provider.DataProperty;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 /**
  * Table component handler extension.
@@ -54,11 +55,12 @@ public class DataSetTableHandler extends TableHandler {
         return groupBySelectedColumnIndex;
     }
 
-    public void actionExecAction(CommandRequest request) throws Exception {
+    public CommandResponse actionExecAction(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter("tableaction");
         if ("selectGroupByProperty".equals(action)) actionSelectGroupByProperty(request);
         else if ("showGroupByConfig".equals(action)) actionShowGroupByConfig(request);
-        else super.actionExecAction(request);
+        else return super.actionExecAction(request);
+        return null;
     }
 
     public void actionSelectColumn(CommandRequest request) throws Exception {

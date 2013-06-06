@@ -20,18 +20,18 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 public class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
 
     /** Logger */
     private transient static Log log = LogFactory.getLog(AbstractXAxisDisplayerEditor.class);
 
-    public void actionSubmit(CommandRequest request) throws Exception {
+    public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) getDataDisplayer();
-        if (!xAxisDisplayer.getDataProvider().isReady()) return;
+        if (!xAxisDisplayer.getDataProvider().isReady()) return null;
 
         super.actionSubmit(request);
-
 
         String labelAngleXAxis = request.getRequestObject().getParameter("labelAngleXAxis");
         String showLinesAreas  = request.getRequestObject().getParameter("showLinesAreas");
@@ -41,5 +41,6 @@ public class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
         } catch (NumberFormatException e) {
             log.warn("Cannot parse labelAngleXAxis value as number: " + labelAngleXAxis);
         }
+        return null;
     }
 }

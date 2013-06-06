@@ -26,6 +26,7 @@ import org.jboss.dashboard.domain.DomainConfiguration;
 import org.jboss.dashboard.domain.RangeConfiguration;
 import org.jboss.dashboard.dataset.DataSet;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 /**
  * Base class for Chart displayer editors.
@@ -39,15 +40,15 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
     public static final String DOMAIN_SAVE_BUTTON_PRESSED = "updateDomainDetails";
     public static final String RANGE_SAVE_BUTTON_PRESSED = "updateRangeDetails";
 
-    public void actionSubmit(CommandRequest request) throws Exception {
+    public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         AbstractChartDisplayer displayer = (AbstractChartDisplayer) getDataDisplayer();
-        if (!displayer.getDataProvider().isReady()) return;
+        if (!displayer.getDataProvider().isReady()) return null;
         DataSet ds = displayer.getDataProvider().getDataSet();
 
         // Renderer
         String rendererUid = request.getRequestObject().getParameter("rendererUid");
         DataDisplayerRenderer renderer = DataDisplayerServices.lookup().getDataDisplayerManager().getDisplayerRendererByUid(rendererUid);
-        if (renderer == null) return;
+        if (renderer == null) return null;
         displayer.setDataDisplayerRenderer(renderer);
 
         // New domain and range properties.
@@ -146,8 +147,10 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         // X AXIS labels
         String showLabelsXAxis = request.getRequestObject().getParameter("showLabelsXAxis");
         displayer.setShowLabelsXAxis(!StringUtils.isBlank(showLabelsXAxis));
+        return null;
     }
 
-    public void actionCancel(CommandRequest request) throws Exception {
+    public CommandResponse actionCancel(CommandRequest request) throws Exception {
+        return null;
     }
 }
