@@ -34,57 +34,19 @@
     <dependencies>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-core</artifactId>
-            <scope>compile</scope>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-panels</artifactId>
-            <scope>compile</scope>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-resources</artifactId>
-            <scope>compile</scope>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-ofc2</artifactId>
-            <scope>compile</scope>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-nvd3</artifactId>
-            <scope>compile</scope>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-gauge</artifactId>
-            <scope>compile</scope>
+            <artifactId>dashboard-webapp</artifactId>
             <type>war</type>
             <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-samples</artifactId>
-            <scope>compile</scope>
             <type>war</type>
             <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-jbpm</artifactId>
-            <scope>compile</scope>
             <type>war</type>
             <version>${version.dashbuilder}</version>
         </dependency>
@@ -130,27 +92,7 @@
                         </overlay>
                         <overlay>
                             <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-resources</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-panels</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-core</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-gauge</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-ofc2</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-ui-nvd3</artifactId>
+                            <artifactId>dashboard-webapp</artifactId>
                         </overlay>
 
                     </overlays>
