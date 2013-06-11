@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.provider;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataProviderServices;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xerces.parsers.DOMParser;
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.dataset.DataSetManager;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -48,7 +50,6 @@ public class DataProviderImpl implements DataProvider {
     protected String dataProviderUid;
     protected String dataProviderXML;
     protected String dataPropertiesXML;
-    protected transient DataSet dataSet;
     protected transient DataLoader dataLoader;
 
     public DataProviderImpl() {
@@ -56,7 +57,6 @@ public class DataProviderImpl implements DataProvider {
         code = null;
         descriptions = new HashMap();
         dataLoader = null;
-        dataSet = null;
         dataProviderUid = null;
         dataProviderXML = null;
         dataPropertiesXML = null;
@@ -130,7 +130,7 @@ public class DataProviderImpl implements DataProvider {
 
     public String getCode() {
         if (id != null && (code == null || code.trim().equals(""))) code = "dataprovider_" + id + System.currentTimeMillis();
-        if (id == null && (code == null || code.trim().equals(""))) code = "dataprovider_" + System.currentTimeMillis();
+        if (id == null && (code == null || code.trim().equals(""))) code = "dataprovider_" + (int)(Math.random()*10000) + System.currentTimeMillis();
         return code;
     }
 
@@ -180,7 +180,6 @@ public class DataProviderImpl implements DataProvider {
     public void setDataLoader(DataLoader dataLoader) {
         this.dataLoader = dataLoader;
         if (dataLoader != null) serializeDataLoader();
-
     }
 
     // Persistent stuff
@@ -220,42 +219,31 @@ public class DataProviderImpl implements DataProvider {
     // DataProvider implementation.
 
     public DataSet getDataSet() throws Exception {
-        if (dataSet == null && getDataLoader() != null) {
-            dataSet = getDataLoader().load(this);
-            dataSet.setDataProvider(this);
-            deserializeDataProperties();
-        }
-        return dataSet;
-    }
-
-    public void setDataSet(DataSet s) {
-        dataSet = s;
+        DataSetManager dataSetManager = DataProviderServices.lookup().getDataSetManager();
+        return dataSetManager.getDataSet(this);
     }
 
     public DataSet refreshDataSet() throws Exception {
-        if (getDataLoader() == null) return null;
-        dataSet = getDataLoader().load(this);
-        return dataSet;
+        DataSetManager dataSetManager = DataProviderServices.lookup().getDataSetManager();
+        return dataSetManager.refreshDataSet(this);
     }
 
     public DataSet filterDataSet(DataFilter filter) throws Exception {
-        getDataSet().filter(filter);
-        deserializeDataProperties();
-        return getDataSet();
+        DataSetManager dataSetManager = DataProviderServices.lookup().getDataSetManager();
+        return dataSetManager.filterDataSet(this, filter);
     }
 
     // Persistence internals.
 
     protected void serializeDataLoader() {
         try {
-            dataProviderUid = null;
-            dataProviderXML = null;
-            if (dataLoader == null || !dataLoader.isReady()) return;
-
-            DataProviderType type = dataLoader.getDataProviderType();
-            dataProviderUid = type.getUid();
-            dataProviderXML = type.getXmlFormat().format(dataLoader);
-            serializeDataProperties();
+            DataLoader loader = getDataLoader();
+            if (loader != null && loader.isReady()) {
+                DataProviderType type = loader.getDataProviderType();
+                dataProviderUid = type.getUid();
+                dataProviderXML = type.getXmlFormat().format(loader);
+                serializeDataProperties();
+            }
         } catch (Exception e) {
             log.error("Error serializing data provider: " + id, e);
         }
@@ -282,52 +270,46 @@ public class DataProviderImpl implements DataProvider {
         }
     }
 
-    protected void deserializeDataProperties() throws Exception {
-        if (dataPropertiesXML == null || dataPropertiesXML.trim().equals("")) return;
+    public void deserializeDataProperties(DataSet dataSet) throws Exception {
+        if (StringUtils.isBlank(dataPropertiesXML)) return;
 
         DOMParser parser = new DOMParser();
         parser.parse(new InputSource(new StringReader(dataPropertiesXML)));
         Document doc = parser.getDocument();
         NodeList nodes = doc.getElementsByTagName("dataproperty");
-        getDataSet().parseXMLProperties(nodes);
+        dataSet.parseXMLProperties(nodes);
     }
 
     // For Hibernate
+
     protected String getDataProviderUid() {
         return dataProviderUid;
     }
 
-    // For Hibernate
     protected void setDataProviderUid(String dataProviderUid) {
         this.dataProviderUid = dataProviderUid;
     }
 
-    // For Hibernate
     protected String getDataProviderXML() {
         return dataProviderXML;
     }
 
-    // For Hibernate
     protected void setDataProviderXML(String dataProviderXML) {
         this.dataProviderXML = dataProviderXML;
     }
 
-    // For Hibernate
     protected String getDataPropertiesXML() {
         return dataPropertiesXML;
     }
 
-    // For Hibernate
     protected void setDataPropertiesXML(String dataPropertiesXML) {
         this.dataPropertiesXML = dataPropertiesXML;
     }
 
-    // For Hibernate
     protected Map getDescriptions() {
         return this.descriptions;
     }
 
-    // For Hibernate
     protected void setDescriptions(Map descriptionI18nMap) {
         this.descriptions = descriptionI18nMap;
     }

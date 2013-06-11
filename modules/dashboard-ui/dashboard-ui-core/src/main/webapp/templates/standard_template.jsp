@@ -28,7 +28,7 @@
         <mvc:include page='<%=String.valueOf(pageToInclude)%>' flush="true"/>
     </mvc:fragment>
     <mvc:fragment name="loginPage">
-		<mvc:include page='/jlogin.html' flush="true"/>
+		<mvc:include page='/login.jsp' flush="true"/>
     </mvc:fragment>
 </mvc:formatter>
 

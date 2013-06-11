@@ -236,7 +236,7 @@
 </style>
 </mvc:fragment>
 <mvc:fragment name="accessDenied">
-    <jsp:include page="../../jlogin.html"/>
+    <jsp:include page="../../login.jsp"/>
 </mvc:fragment>
 </mvc:formatter>
 

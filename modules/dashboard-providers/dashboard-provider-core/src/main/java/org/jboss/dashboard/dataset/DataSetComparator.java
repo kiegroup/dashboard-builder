@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Utility class that can be used to compare two dataset rows by a given column name.
+ * Utility class that can be used to compare two dataset rows by a given column index.
  */
 public class DataSetComparator extends AbstractComparatorByCriteria {
 

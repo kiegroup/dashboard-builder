@@ -118,7 +118,9 @@ public class NumericDomain extends AbstractDomain {
         return intervalMode;
     }
 
-    public Interval[] getIntervals() {
+    public List<Interval> getIntervals() {
+        List<Interval> results = new ArrayList<Interval>();
+
         // Purge the null values present in data (f.i: null values in a SQL column)
         List domainValues = property.getValues();
         Iterator it = domainValues.iterator();
@@ -136,8 +138,8 @@ public class NumericDomain extends AbstractDomain {
         // Ranges can not be created if limits are not defined.
         Number minValueLimit = minValue != null ? minValue : absoluteMinValue;
         Number maxValueLimit = maxValue != null ? maxValue : absoluteMaxValue;
-        if (minValueLimit == null || maxValueLimit == null) return new Interval[] {};
-        if (minValueLimit.longValue() > maxValueLimit.longValue()) return new Interval[] {};
+        if (minValueLimit == null || maxValueLimit == null) return results;
+        if (minValueLimit.longValue() > maxValueLimit.longValue()) return results;
 
         // If min/max are equals then create a single interval.
         if (minValueLimit != null && minValueLimit.longValue() == maxValueLimit.longValue()) {
@@ -147,11 +149,12 @@ public class NumericDomain extends AbstractDomain {
             interval.setMinValueIncluded(true);
             interval.setMaxValueIncluded(true);
             interval.setDomain(this);
-            return new Interval[] {interval};
+            results.add(interval);
+            return results;
         }
 
         // Create the intervals according to the min/max dates specified.
-        if (maxNumberOfIntervals < 0) maxNumberOfIntervals = 10;
+        if (maxNumberOfIntervals < 1) maxNumberOfIntervals = 10;
         int intervalMode = calculateNumericIntervalMode(maxNumberOfIntervals, minValueLimit, maxValueLimit);
 
         // Ensure the interval mode obtained is always greater or equals than the preferred interval size set by the user.
@@ -161,7 +164,6 @@ public class NumericDomain extends AbstractDomain {
         List listOfIntervals = getListOfIntervals(intervalMode, minValueLimit, maxValueLimit);
 
         // If there are values before the minValue, create the initial composite interval.
-        List intervals = new ArrayList();
         if (minValue != null && absoluteMinValue.longValue() < minValue.longValue()) {
             // New date interval.
             NumericInterval numericInterval = new NumericInterval();
@@ -181,10 +183,10 @@ public class NumericDomain extends AbstractDomain {
             listOfMinIntervals.add(numericInterval);
             compositeMinInterval.setIntervals(listOfMinIntervals);
             compositeMinInterval.setDomain(this);
-            intervals.add(compositeMinInterval);
+            results.add(compositeMinInterval);
         }
         // Add the list of intervals.
-        intervals.addAll(listOfIntervals);
+        results.addAll(listOfIntervals);
 
         // If there are values after the maxValue, create the final composite interval.
         if (maxValue != null && absoluteMaxValue.longValue() > maxValue.longValue()) {
@@ -206,11 +208,8 @@ public class NumericDomain extends AbstractDomain {
             listOfMaxIntervals.add(numericInterval);
             compositeMaxInterval.setIntervals(listOfMaxIntervals);
             compositeMaxInterval.setDomain(this);
-            intervals.add(compositeMaxInterval);
+            results.add(compositeMaxInterval);
         }
-
-        Interval[] results = new Interval[intervals.size()];
-        for (int i = 0; i < results.length; i++) results[i] = (Interval) intervals.get(i);
         return results;
     }
 
@@ -292,11 +291,11 @@ public class NumericDomain extends AbstractDomain {
         return INTERVAL_BILLON;
     }
 
-    public String toString(Interval[] intervals) {
+    public String toString(List<Interval> intervals) {
         StringBuffer buf = new StringBuffer();
-        buf.append("Number of ranges=" + intervals.length).append("\r\n");
-        for (int i = 0; i < intervals.length; i++) {
-            NumericInterval r = (NumericInterval) intervals[i];
+        buf.append("Number of ranges=" + intervals.size()).append("\r\n");
+        for (int i = 0; i < intervals.size(); i++) {
+            NumericInterval r = (NumericInterval) intervals.get(i);
             buf.append("Interval ").append(i).append("=").append(r.getMinValue()).append(" TO ").append(r.getMaxValue()).append("\r\n");
         }
         return buf.toString();

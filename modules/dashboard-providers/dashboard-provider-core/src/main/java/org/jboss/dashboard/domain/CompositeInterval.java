@@ -15,8 +15,12 @@
  */
 package org.jboss.dashboard.domain;
 
+import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.date.DateInterval;
+import org.jboss.dashboard.domain.label.LabelDomain;
+import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.domain.numeric.NumericInterval;
+import org.jboss.dashboard.provider.DataProperty;
 
 import java.util.*;
 
@@ -25,7 +29,7 @@ import java.util.*;
  */
 public class CompositeInterval extends AbstractInterval {
 
-    protected Set intervals;
+    protected Set<Interval> intervals;
     protected Map descriptionI18nMap;
 
     public CompositeInterval() {
@@ -67,10 +71,15 @@ public class CompositeInterval extends AbstractInterval {
     }
 
     public boolean contains(Object value) {
+        if (intervals.contains(value)) {
+            return true;
+        }
         Iterator it = intervals.iterator();
         while (it.hasNext()) {
             Interval interval = (Interval) it.next();
-            if (interval.contains(value)) return true;
+            if (interval.contains(value)) {
+                return true;
+            }
         }
         return false;
     }
@@ -116,5 +125,12 @@ public class CompositeInterval extends AbstractInterval {
         }
         return false;
     }
-    
+
+    public List getValues(DataProperty p) {
+        if (domain instanceof LabelDomain) {
+            LabelDomain labelDomain = (LabelDomain) domain;
+            return labelDomain.getValues(intervals, p);
+        }
+        return super.getValues(p);
+    }
 }

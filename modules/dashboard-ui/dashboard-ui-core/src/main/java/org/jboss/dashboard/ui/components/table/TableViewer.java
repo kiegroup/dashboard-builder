@@ -56,8 +56,8 @@ public class TableViewer extends DataDisplayerViewer {
         tableHandler.setTable(table);
     }
 
-    public void actionSubmitViewer(CommandRequest request) throws Exception {
-        tableHandler.actionExecAction(request);
+    public CommandResponse actionSubmitViewer(CommandRequest request) throws Exception {
+        return tableHandler.actionExecAction(request);
     }
 
     public CommandResponse actionExportData(CommandRequest request) throws Exception {

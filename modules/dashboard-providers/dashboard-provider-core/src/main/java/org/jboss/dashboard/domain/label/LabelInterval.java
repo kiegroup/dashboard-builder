@@ -15,12 +15,16 @@
  */
 package org.jboss.dashboard.domain.label;
 
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.dataset.index.DistinctValue;
 import org.jboss.dashboard.domain.AbstractInterval;
+import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.provider.DataFormatterRegistry;
 import org.jboss.dashboard.provider.DataPropertyFormatter;
 import org.jboss.dashboard.provider.DataProperty;
 
-import java.util.Locale;
+import java.util.*;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -30,11 +34,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 public class LabelInterval extends AbstractInterval {
 
-    protected String label;
+    protected DistinctValue holder;
 
     public LabelInterval() {
         super();
-        label = null;
     }
 
     public int hashCode() {
@@ -42,38 +45,55 @@ public class LabelInterval extends AbstractInterval {
     }
 
     public boolean equals(Object obj) {
-        try {
-            if (obj == null) return false;
-            if (obj == this) return true;
+        if (obj == null) return false;
+        if (obj == this) return true;
 
-            LabelInterval other = (LabelInterval)obj;
-            return contains(other.label);
-        }
-        catch (ClassCastException e) {
-            return false;
-        }
+        return contains(obj);
+    }
+
+    public DistinctValue getHolder() {
+        return holder;
+    }
+
+    public void setHolder(DistinctValue holder) {
+        this.holder = holder;
     }
 
     public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
+        return holder.value.toString();
     }
 
     public String getDescription(Locale l) {
         DataFormatterRegistry dfr = DataFormatterRegistry.lookup();
         DataProperty property = getDomain().getProperty();
-        if (property == null) return label;
+        if (property == null) return getLabel();
 
         DataPropertyFormatter dpf = dfr.getPropertyFormatter(property.getPropertyId());
-        return dpf.formatValue(property, label, l);
+        return dpf.formatValue(property, getLabel(), l);
+    }
+
+    public List getValues(DataProperty p) {
+        List results = new ArrayList();
+        List targetValues = p.getValues();
+        for (Integer targetRow : holder.rows) {
+            results.add(targetValues.get(targetRow));
+        }
+        return results;
     }
 
     public boolean contains(Object value) {
-        if (value == null) return label == null;
-        if (label == null) return false;
-        return label.equals(value.toString());
+        if (value == null) return false;
+
+        Object other = value;
+        if (other instanceof LabelInterval) {
+            other = ((LabelInterval) value).getLabel();
+        }
+        if (getLabel() == null) return other == null;
+        if (other == null) return getLabel() == null;
+        return getLabel().equals(other.toString());
+    }
+
+    public String toString() {
+        return getDescription(LocaleManager.currentLocale());
     }
 }

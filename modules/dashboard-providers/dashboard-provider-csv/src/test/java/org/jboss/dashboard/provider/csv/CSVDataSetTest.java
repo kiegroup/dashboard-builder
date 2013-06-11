@@ -16,6 +16,7 @@
 package org.jboss.dashboard.provider.csv;
 
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderManager;
 import org.jboss.dashboard.provider.DataProviderType;
@@ -75,6 +76,9 @@ public class CSVDataSetTest {
     @Inject
     protected DataProviderManager dataProviderManager;
 
+    @Inject
+    protected DataSetManager dataSetManager;
+
     protected DataSet dataSet;
     protected DataProviderType dataPoviderType;
 
@@ -88,7 +92,7 @@ public class CSVDataSetTest {
 
         InputStream dataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("data.csv");
         dataSet = csvDataLoader.load(dataProvider, dataStream);
-        dataProvider.setDataSet(dataSet);
+        dataSetManager.registerDataSet(dataProvider, dataSet);
     }
 
     @Test

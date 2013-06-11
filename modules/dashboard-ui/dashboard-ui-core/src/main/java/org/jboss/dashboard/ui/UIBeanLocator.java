@@ -71,23 +71,19 @@ public class UIBeanLocator {
     }
 
     /**
-     * Get the editor component for the specified KPI.
+     * Get the KPI editor component.
      */
-    public KPIEditor getEditor(KPI target) {
+    public KPIEditor getEditor() {
         String editorPath = "org.jboss.dashboard.ui.components.KPIEditor";
-        KPIEditor editor = (KPIEditor) Factory.lookup(editorPath);
-        editor.setKpi(target);
-        return editor;
+        return (KPIEditor) Factory.lookup(editorPath);
     }
 
     /**
-     * Get the viewer component for the specified KPI.
+     * Get the KPI viewer component.
      */
-    public KPIViewer getViewer(KPI target) {
+    public KPIViewer getViewer() {
         String viewerPath = "org.jboss.dashboard.ui.components.KPIViewer";
-        KPIViewer viewer = (KPIViewer) Factory.lookup(viewerPath);
-        viewer.setKpi(target);
-        return viewer;
+        return (KPIViewer) Factory.lookup(viewerPath);
     }
 
     /**

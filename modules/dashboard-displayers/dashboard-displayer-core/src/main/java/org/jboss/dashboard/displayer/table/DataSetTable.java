@@ -150,16 +150,6 @@ public class DataSetTable extends Table {
         return null;
     }
 
-    public int getOriginalModelIndex(int columnIndex) {
-        DataProperty prop = getOriginalDataProperty(columnIndex);
-        DataProperty[] props = getOriginalDataSet().getProperties();
-        for (int i = 0; i < props.length; i++) {
-            DataProperty dataProperty = props[i];
-            if (dataProperty.equals(prop)) return i;
-        }
-        return -1;
-    }
-
     public DataProperty getGroupByProperty() {
         DataSet originalDataSet = getOriginalDataSet();
         if (originalDataSet == null) return null;
@@ -313,13 +303,14 @@ public class DataSetTable extends Table {
         // Performance log.
         log.debug("Creating the group by data set.");
 
-        List props = new ArrayList();
-        List functions = new ArrayList();
-        for (int columnIndex=0; columnIndex<getColumnCount(); columnIndex++) {
-            props.add(getOriginalDataProperty(columnIndex));
-            functions.add(getGroupByFunctionCode(columnIndex));
+        DataSet originalDataSet = getOriginalDataSet();
+        int[] columns = new int [getColumnCount()];
+        String[] functions = new String[getColumnCount()];
+        for (int i=0; i<getColumnCount(); i++) {
+            columns[i] = originalDataSet.getPropertyColumn(getOriginalDataProperty(i));
+            functions[i] = getGroupByFunctionCode(i);
         }
-        return getOriginalDataSet().groupBy(groupByProperty, props, functions);
+        return originalDataSet.groupBy(groupByProperty, columns, functions);
     }
 
     // For internal use only.

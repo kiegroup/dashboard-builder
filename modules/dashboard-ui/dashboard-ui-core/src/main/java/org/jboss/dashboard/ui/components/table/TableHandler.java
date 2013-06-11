@@ -27,6 +27,8 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
+import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +41,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
     private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TableHandler.class);
 
     protected Table table;
+    protected ComparatorByCriteria tableComparator;
     protected boolean editMode;
     protected String viewModeJsp;
     protected String editModeJsp;
@@ -47,7 +50,6 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
     protected boolean structuralChangesAllowed;
 
     public static final String EXPORT_FORMAT = "dataExportFormat";
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     // Constructor of the class
     public TableHandler() {
@@ -58,6 +60,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         editModeJsp = "/components/table/edit.jsp";
         tableFormatter = new TableFormatter();
         structuralChangesAllowed = true;
+        tableComparator = createTableComparator();
     }
 
     public Table getTable() {
@@ -66,6 +69,15 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    protected ComparatorByCriteria createTableComparator() {
+        // To be provided by subclasses.
+        return null;
+    }
+
+    public ComparatorByCriteria getTableComparator() {
+        return tableComparator;
     }
 
     public TableFormatter getTableFormatter() {
@@ -112,7 +124,7 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         return viewModeJsp;
     }
 
-    public void actionExecAction(CommandRequest request) throws Exception {
+    public CommandResponse actionExecAction(CommandRequest request) throws Exception {
         String action = request.getRequestObject().getParameter("tableaction");
         if ("saveTable".equals(action)) actionSaveTable(request);
         else if ("newColumn".equals(action)) actionNewColumn(request);
@@ -126,8 +138,9 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         else if ("firstPage".equals(action)) actionFirstPage(request);
         else if ("lastPage".equals(action)) actionLastPage(request);
         else if ("gotoPage".equals(action)) actionGotoPage(request);
-        else if ("selectCellValue".equals(action)) actionSelectCellValue(request);
+        else if ("selectCellValue".equals(action)) return actionSelectCellValue(request);
         else if ("sortByColumn".equals(action)) actionSortByColumn(request);
+        return null;
     }
 
     public void actionSaveTable(CommandRequest request) throws Exception {
@@ -266,23 +279,26 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         int tableColumnIdx = Integer.parseInt(request.getRequestObject().getParameter("columnindex"));
         TableColumn tableColumn = getTable().getColumn(tableColumnIdx);
         AbstractTableModel model = (AbstractTableModel) getTable().getModel();
-        ComparatorByCriteria comparator = model.getComparator();
 
-        if (comparator != null) {
+        if (tableComparator != null) {
+            // Get the current order.
             String modelColumnIdx = Integer.toString(model.getColumnPosition(tableColumn.getPropertyId()));
             int currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
-            if (comparator.existCriteria(modelColumnIdx)) currentOrdering = comparator.getSortCriteriaOrdering(modelColumnIdx);
+            if (tableComparator.existCriteria(modelColumnIdx)) currentOrdering = tableComparator.getSortCriteriaOrdering(modelColumnIdx);
+
+            // Reverse that order
             if (currentOrdering == ComparatorByCriteria.ORDER_UNSPECIFIED) currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
             else if (currentOrdering == ComparatorByCriteria.ORDER_ASCENDING) currentOrdering = ComparatorByCriteria.ORDER_DESCENDING;
             else currentOrdering = ComparatorByCriteria.ORDER_ASCENDING;
 
-            comparator.removeAllSortCriteria();
-            comparator.addSortCriteria(modelColumnIdx, currentOrdering);
-            model.sort(comparator);
+            // Sort
+            tableComparator.removeAllSortCriteria();
+            tableComparator.addSortCriteria(modelColumnIdx, currentOrdering);
+            model.sort(tableComparator);
         }
     }
 
-    public void actionSelectCellValue(CommandRequest request) throws Exception {
+    public CommandResponse actionSelectCellValue(CommandRequest request) throws Exception {
         table.setCurrentPage(1);
 
         int rowIndex = Integer.parseInt(request.getRequestObject().getParameter("rowindex"));
@@ -294,14 +310,18 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         if (groupByProperty != null) {
             // When the table is grouped then get the interval selected.
-            Interval selectedInterval = groupByProperty.getDomain().getIntervals()[rowIndex];
-            dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY);
+            Interval selectedInterval = (Interval) dataSetTable.getDataSet().getValueAt(rowIndex, 0);
+            if (dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY)) {
+                // If drill-down then force the whole screen to be refreshed.
+                return new ShowCurrentScreenResponse();
+            }
         } else {
             Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
             Collection values = new ArrayList();
             values.add(selectedValue);
             dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY);
         }
+        return null;
     }
 
     public CommandResponse actionExportData(String format) throws Exception {

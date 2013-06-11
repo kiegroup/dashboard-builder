@@ -19,6 +19,7 @@ import org.jboss.dashboard.command.CommandFactory;
 import org.jboss.dashboard.command.CommandProcessor;
 import org.jboss.dashboard.command.CommandProcessorFactory;
 import org.jboss.dashboard.command.TemplateProcessor;
+import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.function.ScalarFunctionManager;
 import org.jboss.dashboard.provider.DataProviderManager;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
@@ -41,6 +42,9 @@ public class DataProviderServices {
     protected DataProviderManager dataProviderManager;
 
     @Inject
+    protected DataSetManager dataSetManager;
+
+    @Inject
     protected ScalarFunctionManager scalarFunctionManager;
 
     @Inject
@@ -56,24 +60,16 @@ public class DataProviderServices {
         return dataProviderManager;
     }
 
-    public void setDataProviderManager(DataProviderManager dataProviderManager) {
-        this.dataProviderManager = dataProviderManager;
+    public DataSetManager getDataSetManager() {
+        return dataSetManager;
     }
 
     public ScalarFunctionManager getScalarFunctionManager() {
         return scalarFunctionManager;
     }
 
-    public void setScalarFunctionManager(ScalarFunctionManager scalarFunctionManager) {
-        this.scalarFunctionManager = scalarFunctionManager;
-    }
-
     public TemplateProcessor getTemplateProcessor() {
         return templateProcessor;
-    }
-
-    public void setTemplateProcessor(TemplateProcessor templateProcessor) {
-        this.templateProcessor = templateProcessor;
     }
 
     public Instance<CommandFactory> getCommandFactories() {

@@ -15,4 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ include file="/templates/standard_template.jsp" %>
+<%
+    request.getSession().invalidate();
+    String redirectURL = request.getContextPath()  +"?message=login.not_authorized";
+    response.sendRedirect(redirectURL);
+%>

@@ -24,6 +24,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 
 public class MeterChartEditor extends AbstractChartDisplayerEditor {
 
@@ -34,9 +35,9 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
     public static final String I18N_METER = "meterChartDisplayer.";
     public static final String METER_SAVE_BUTTON_PRESSED = "updateMeterDetails";
 
-    public void actionSubmit(CommandRequest request) throws Exception {
+    public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         MeterChartDisplayer meterDisplayer = (MeterChartDisplayer) getDataDisplayer();
-        if (!meterDisplayer.getDataProvider().isReady()) return;
+        if (!meterDisplayer.getDataProvider().isReady()) return null;
 
         super.actionSubmit(request);
         try {
@@ -54,22 +55,22 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
                 String maxMeterTicksParam = request.getRequestObject().getParameter("maxMeterTicks");
                 String warningThresholdParam = request.getRequestObject().getParameter("meterWarningThreshold");
                 String criticalThresholdParam = request.getRequestObject().getParameter("meterCriticalThreshold");
-                if (minValueParam == null || "".equals(minValueParam.trim())) return;
-                if (maxValueParam == null || "".equals(maxValueParam.trim())) return;
-                if (warningThresholdParam == null || "".equals(warningThresholdParam.trim())) return;
-                if (criticalThresholdParam == null || "".equals(criticalThresholdParam.trim())) return;
-                if (maxMeterTicksParam == null || "".equals(maxMeterTicksParam.trim())) return;
+                if (minValueParam == null || "".equals(minValueParam.trim())) return null;
+                if (maxValueParam == null || "".equals(maxValueParam.trim())) return null;
+                if (warningThresholdParam == null || "".equals(warningThresholdParam.trim())) return null;
+                if (criticalThresholdParam == null || "".equals(criticalThresholdParam.trim())) return null;
+                if (maxMeterTicksParam == null || "".equals(maxMeterTicksParam.trim())) return null;
 
                 double minValue = numberFormat.parse(minValueParam).doubleValue();
                 double maxValue = numberFormat.parse(maxValueParam).doubleValue();
                 double warningThreshold = numberFormat.parse(warningThresholdParam).doubleValue();
                 double criticalThreshold = numberFormat.parse(criticalThresholdParam).doubleValue();
                 int maxMeterTicks = numberFormat.parse(maxMeterTicksParam).intValue();
-                if (minValue > maxValue) return;
-                if (warningThreshold < minValue || warningThreshold > maxValue) return;
-                if (criticalThreshold < minValue || criticalThreshold > maxValue) return;
-                if (warningThreshold > criticalThreshold) return;
-                if (maxMeterTicks < 0) return;
+                if (minValue > maxValue) return null;
+                if (warningThreshold < minValue || warningThreshold > maxValue) return null;
+                if (criticalThreshold < minValue || criticalThreshold > maxValue) return null;
+                if (warningThreshold > criticalThreshold) return null;
+                if (maxMeterTicks < 0) return null;
 
                 meterDisplayer.setMaxMeterTicks(maxMeterTicks);
                 meterDisplayer.setMinValue(minValue);
@@ -92,19 +93,19 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
                 String thermoUpperBoundParam = request.getRequestObject().getParameter("thermoUpperBound");
                 String thermoWarningThresholdParam = request.getRequestObject().getParameter("thermoWarningThreshold");
                 String thermoCriticalThresholdParam = request.getRequestObject().getParameter("thermoCriticalThreshold");
-                if (thermoLowerBoundParam == null || "".equals(thermoLowerBoundParam.trim())) return;
-                if (thermoUpperBoundParam == null || "".equals(thermoUpperBoundParam.trim())) return;
-                if (thermoWarningThresholdParam == null || "".equals(thermoWarningThresholdParam.trim())) return;
-                if (thermoCriticalThresholdParam == null || "".equals(thermoCriticalThresholdParam.trim())) return;
+                if (thermoLowerBoundParam == null || "".equals(thermoLowerBoundParam.trim())) return null;
+                if (thermoUpperBoundParam == null || "".equals(thermoUpperBoundParam.trim())) return null;
+                if (thermoWarningThresholdParam == null || "".equals(thermoWarningThresholdParam.trim())) return null;
+                if (thermoCriticalThresholdParam == null || "".equals(thermoCriticalThresholdParam.trim())) return null;
 
                 double thermoLowerBound = numberFormat.parse(thermoLowerBoundParam).doubleValue();
                 double thermoUpperBound = numberFormat.parse(thermoUpperBoundParam).doubleValue();
                 double thermoWarningThreshold = numberFormat.parse(thermoWarningThresholdParam).doubleValue();
                 double thermoCriticalThreshold = numberFormat.parse(thermoCriticalThresholdParam).doubleValue();
-                if (thermoLowerBound > thermoUpperBound) return;
-                if (thermoWarningThreshold < thermoLowerBound || thermoWarningThreshold > thermoUpperBound) return;
-                if (thermoCriticalThreshold < thermoLowerBound || thermoCriticalThreshold > thermoUpperBound) return;
-                if (thermoWarningThreshold > thermoCriticalThreshold) return;
+                if (thermoLowerBound > thermoUpperBound) return null;
+                if (thermoWarningThreshold < thermoLowerBound || thermoWarningThreshold > thermoUpperBound) return null;
+                if (thermoCriticalThreshold < thermoLowerBound || thermoCriticalThreshold > thermoUpperBound) return null;
+                if (thermoWarningThreshold > thermoCriticalThreshold) return null;
 
                 meterDisplayer.setThermoLowerBound(thermoLowerBound);
                 meterDisplayer.setWarningThermoThreshold(thermoWarningThreshold);
@@ -118,19 +119,19 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
                 String dialUpperBoundParam = request.getRequestObject().getParameter("dialUpperBound");
                 String maxTicksParam = request.getRequestObject().getParameter("maxTicks");
                 String minorTickCountParam = request.getRequestObject().getParameter("minorTickCount");
-                if (pointerTypeParam == null || "".equals(pointerTypeParam.trim())) return;
-                if (dialLowerBoundParam == null || "".equals(dialLowerBoundParam.trim())) return;
-                if (dialUpperBoundParam == null || "".equals(dialUpperBoundParam.trim())) return;
-                if (maxTicksParam == null || "".equals(maxTicksParam.trim())) return;
-                if (minorTickCountParam == null || "".equals(minorTickCountParam.trim())) return;
+                if (pointerTypeParam == null || "".equals(pointerTypeParam.trim())) return null;
+                if (dialLowerBoundParam == null || "".equals(dialLowerBoundParam.trim())) return null;
+                if (dialUpperBoundParam == null || "".equals(dialUpperBoundParam.trim())) return null;
+                if (maxTicksParam == null || "".equals(maxTicksParam.trim())) return null;
+                if (minorTickCountParam == null || "".equals(minorTickCountParam.trim())) return null;
 
                 double dialLowerBound = numberFormat.parse(dialLowerBoundParam).doubleValue();
                 double dialUpperBound = numberFormat.parse(dialUpperBoundParam).doubleValue();
                 int maxTicks = numberFormat.parse(maxTicksParam).intValue();
                 int minorTickCount = numberFormat.parse(minorTickCountParam).intValue();
-                if (dialLowerBound > dialUpperBound) return;
-                if (maxTicks < 0) return;
-                if (minorTickCount > 10) return;
+                if (dialLowerBound > dialUpperBound) return null;
+                if (maxTicks < 0) return null;
+                if (minorTickCount > 10) return null;
 
                 meterDisplayer.setDialLowerBound(dialLowerBound);
                 meterDisplayer.setDialUpperBound(dialUpperBound);
@@ -140,5 +141,6 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
         } catch (Exception e) {
             log.warn("Cannot parse number meter specific properties.");
         }
+        return null;
     }
 }

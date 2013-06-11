@@ -15,9 +15,17 @@
  */
 package org.jboss.dashboard.dataset;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.dashboard.DataProviderServices;
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.commons.filter.FilterByCriteria;
+import org.jboss.dashboard.dataset.index.DataSetIndex;
+import org.jboss.dashboard.dataset.index.DistinctValue;
+import org.jboss.dashboard.domain.CompositeInterval;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.label.LabelDomain;
+import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.domain.numeric.NumericDomain;
 import org.jboss.dashboard.function.ScalarFunctionManager;
 import org.jboss.dashboard.provider.DataProperty;
@@ -41,16 +49,25 @@ import org.w3c.dom.NodeList;
  */
 public abstract class AbstractDataSet implements DataSet {
 
+    /** Logger */
+    private transient static Log log = LogFactory.getLog(AbstractDataSet.class);
+
     protected DataProvider provider;
     protected DataProperty[] properties;
     protected List[] propertyValues;
-    protected List[] propertyValuesFiltered;
+    protected DataSetIndex index;
+
+    protected static Predicate NON_NULL_ELEMENTS = new Predicate() {
+        public boolean evaluate(Object o) {
+            return o != null;
+        }
+    };
 
     public AbstractDataSet(DataProvider provider) {
+        this.provider = provider;
         properties = null;
         propertyValues = null;
-        propertyValuesFiltered = null;
-        this.provider = provider;
+        index = new DataSetIndex(this);
     }
 
     public DataProvider getDataProvider() {
@@ -64,7 +81,7 @@ public abstract class AbstractDataSet implements DataSet {
     public void setPropertySize(int propSize) {
         properties = new DataProperty[propSize];
         propertyValues = new List[propSize];
-        propertyValuesFiltered = null;
+        index.clearAll();
     }
 
     public void clear() {
@@ -86,6 +103,10 @@ public abstract class AbstractDataSet implements DataSet {
         if (p == null) return -1;
         for (int column = 0; column < properties.length; column++) {
             DataProperty property = properties[column];
+            if (property == p) return column;
+        }
+        for (int column = 0; column < properties.length; column++) {
+            DataProperty property = properties[column];
             if (property.equals(p)) return column;
         }
         return -1;
@@ -100,22 +121,26 @@ public abstract class AbstractDataSet implements DataSet {
         return null;
     }
 
-    public DataProperty getPropertyByIndex(int column) {
+    public DataProperty getPropertyByColumn(int column) {
         if (column < 0 || column >= properties.length) {
             throw new ArrayIndexOutOfBoundsException("Column out of bounds: " + column + "(must be between 0 and " + (properties.length-1) + ")");
         }
         return properties[column];
     }
 
-    protected List[] getPropertyValues() {
-        if (propertyValuesFiltered != null) return propertyValuesFiltered;
+    public List[] getPropertyValues() {
         return propertyValues;
     }
 
+    public DataSetIndex getDataSetIndex() {
+        return index;
+    }
+
     public List getPropertyValues(DataProperty dp) {
-        int index = getPropertyColumn(dp);
-        if (index == -1) return new ArrayList();
-        return new ArrayList(getPropertyValues()[index]);
+        int column = getPropertyColumn(dp);
+        if (column == -1) return new ArrayList();
+
+        return new ArrayList(getPropertyValues()[column]);
     }
 
     public void addRowValue(int index, Object value) {
@@ -183,102 +208,230 @@ public abstract class AbstractDataSet implements DataSet {
         }
     }
 
-    public void filter(DataFilter filter) throws Exception {
-        // Reset the current filter.
-        propertyValuesFiltered = null;
+    public DataSet filter(DataFilter filter) throws Exception {
 
         // Filter only if required.
-        if (getRowCount() == 0 || getProperties().length == 0) return;
+        if (getRowCount() == 0 || getProperties().length == 0 || filter == null) return null;
         String[] filterPropertyIds = filter.getPropertyIds();
-        if (filterPropertyIds.length == 0) return;
+        if (filterPropertyIds.length == 0) return null;
 
-        // Get only those dataset's properties included into the filter criteria.
-        Set<String> dataSetPropertyIds = new HashSet<String>();
-        for (int i = 0; i < filterPropertyIds.length; i++) {
-            if (getPropertyById(filterPropertyIds[i]) != null) {
-                dataSetPropertyIds.add(filterPropertyIds[i]);
+        // Create a target filter containing only those properties belonging to this dataset.
+        FilterByCriteria targetFilter = filter.cloneFilter();
+        String[] remainingPropIds = filter.getPropertyIds();
+        for (String propId : remainingPropIds) {
+            if (getPropertyById(propId) == null) {
+                targetFilter.removeProperty(propId);
             }
         }
 
-        // Go ahead only if the filter contains at least one property belonging to this dataset.
-        if (dataSetPropertyIds.isEmpty()) {
-            return;
+        // Go ahead only if the target filter contains at least one property.
+        if (targetFilter.getPropertyIds().length == 0) {
+            return null;
         }
 
-        // Create an empty result set.
-        List[] results = new List[propertyValues.length];
-        for (int column = 0; column < results.length; column++) {
-            results[column] = new ArrayList();
+        // Create the result data set instance.
+        DefaultDataSet _result = new DefaultDataSet(provider);
+        _result.setPropertySize(propertyValues.length);
+        for (int j=0; j<propertyValues.length; j++) {
+            DataProperty dataProp = getPropertyByColumn(j);
+            DataProperty _prop = dataProp.cloneProperty();
+            _result.addProperty(_prop, j);
         }
 
-        // Filter the rows and build the results matrix.
-        Map rowMap = new HashMap();
-        Object[] rowArray = new Object[propertyValues.length];
-        for (int row = 0; row < getRowCount(); row++) {
-            fillMapWithRow(row, rowMap);
-            if (filter.pass(rowMap)) {
-                fillArrayWithRow(row, rowArray);
-                for (int column = 0; column < rowArray.length; column++) {
-                    results[column].add(rowArray[column]);
+        // Get only the subset of rows to be analyzed.
+        Set<Integer> targetRows = preProcessFilter(targetFilter);
+        if (targetRows.isEmpty() && targetFilter.getPropertyIds().length == 0) {
+            // Return an empty data set if there is no more criteria to filter for.
+            return _result;
+        }
+
+        // Filter the target rows and build the results matrix.
+        Iterator<Integer> _rowIt = targetRows.iterator();
+        Map _rowMap = new HashMap();
+        Object[] _rowArray = new Object[propertyValues.length];
+        boolean _continue = true;
+        int _index = 0;
+        int _row = 0;
+        while (_continue) {
+            // Iterate against the target rows or over the whole data set.
+            if (!targetRows.isEmpty()) _row = _rowIt.next();
+            else _row = _index++;
+
+            // If all properties has been processed then no additional filter is required.
+            if (targetFilter.getPropertyIds().length == 0) {
+                fillArrayWithRow(_row, _rowArray);
+                _result.addRowValues(_rowArray);
+            }
+            // Else, check every target row with the target filter.
+            else {
+                fillMapWithRow(_row, _rowMap);
+                if (targetFilter.pass(_rowMap)) {
+                    fillArrayWithRow(_row, _rowArray);
+                    _result.addRowValues(_rowArray);
                 }
             }
+            // Check loop finished.
+            if (!targetRows.isEmpty()) _continue = _rowIt.hasNext();
+            else _continue = _index < getRowCount();
         }
-
-        // Activate the filter once we got the filter results.
-        propertyValuesFiltered = results;
+        return _result;
     }
 
-    public DataSet groupBy(DataProperty groupByProperty, List<DataProperty> groupByProps, List<String> functionCodes) {
-        // Create the dataset instance.
-        DefaultDataSet groupByDataSet = new DefaultDataSet(null);
-        groupByDataSet.setPropertySize(groupByProps.size());
-        DataProperty pivotProp = null;
-        for (int i = 0; i < groupByProps.size(); i++) {
-            DataProperty grProp = groupByProps.get(i).cloneProperty();
-            groupByDataSet.addProperty(grProp, i);
-            if (pivotProp == null && grProp.equals(groupByProperty)) pivotProp = grProp;
-        }
-
-        // Populate the dataset with the calculations.
-        // For each group by interval add a row to the data set.
-        Predicate nonNullElements = new Predicate() { public boolean evaluate(Object o) { return o != null; }};
-        Interval[] groupByIntervals = groupByProperty.getDomain().getIntervals();
-        for (int i=0; i<groupByIntervals.length; i++) {
-            Interval groupByInterval = groupByIntervals[i];
-
-            // For each data set property calculate its grouped interval value.
-            for (int j=0; j<groupByProps.size(); j++) {
-
-                // The row value for the group by column is the own interval instance.
-                DataProperty grProp = groupByDataSet.getProperties()[j];
-                String grFunctionCode = functionCodes.get(j);
-                if (grProp == pivotProp) {
-                    groupByDataSet.addRowValue(j, groupByInterval);
-                }
-                // The value for the other columns is a scalar function applied over the column values belonging to the interval.
-                else {
-                    DataProperty dataSetProp = getPropertyById(grProp.getPropertyId());
-                    Collection dataSetValues = groupByInterval.getValues(dataSetProp);
-                    if (!CollectionUtils.exists(dataSetValues, nonNullElements)) {
-                        // If all the interval elements to group are null then set 0.
-                        groupByDataSet.addRowValue(j, new Double(0));
-                    } else {
-                        ScalarFunctionManager scalarFunctionManager = DataProviderServices.lookup().getScalarFunctionManager();
-                        ScalarFunction grFunction = scalarFunctionManager.getScalarFunctionByCode(grFunctionCode);
-                        double value = grFunction.scalar(dataSetValues);
-                        groupByDataSet.addRowValue(j, new Double(value));
+    /**
+     * Method that leverages the data set index information to boost the performance when filtering by label properties.
+     * @return A set of rows that matches one or more of the filter criteria.
+     * Also noticed that the criteria matched will be removed from the specified filter instance.
+     */
+    protected Set<Integer> preProcessFilter(FilterByCriteria filter) {
+        Set<Integer> targetRows = new HashSet<Integer>();
+        String[] remainingPropIds = filter.getPropertyIds();
+        for (String propId : remainingPropIds) {
+            List allowedValues = filter.getPropertyAllowedValues(propId);
+            if (allowedValues != null && allowedValues.size() == 1) {
+                for (Object allowedValue : allowedValues) {
+                    if (allowedValue instanceof LabelInterval) {
+                        LabelInterval labelInterval = (LabelInterval) allowedValue;
+                        targetRows.addAll(labelInterval.getHolder().rows);
+                        filter.removeProperty(propId);
+                    }
+                    else if (allowedValue instanceof CompositeInterval) {
+                        CompositeInterval compositeInterval = (CompositeInterval) allowedValue;
+                        if (compositeInterval.getDomain() instanceof LabelDomain) {
+                            LabelDomain labelDomain = (LabelDomain) compositeInterval.getDomain();
+                            Set<Integer> compositeRows = labelDomain.getRowNumbers(compositeInterval.getIntervals());
+                            targetRows.addAll(compositeRows);
+                            filter.removeProperty(propId);
+                        }
                     }
                 }
             }
         }
-        // After ending the group by calculations and populate the data set, set the domains.
-        DataProperty[] groupByProperties = groupByDataSet.getProperties();
-        for (int i = 0; i < groupByProperties.length; i++) {
-            DataProperty byProperty = groupByProperties[i];
-            if (byProperty.equals(groupByProperty)) byProperty.setDomain(new LabelDomain());
-            else byProperty.setDomain(new NumericDomain());
+        return targetRows;
+    }
+
+
+    public DataSet groupBy(DataProperty groupByProperty, int[] columns, String[] functionCodes) {
+        return groupBy(groupByProperty, columns, functionCodes, 0, 0);
+    }
+
+    public DataSet groupBy(DataProperty groupByProperty, int[] columns, String[] functionCodes, int sortIndex, int sortOrder) {
+        // For label-type properties use the high-performance groupByLabel method.
+        if (groupByProperty.getDomain() instanceof LabelDomain) {
+            return groupByLabel(groupByProperty, columns, functionCodes, sortIndex, sortOrder);
         }
-        return groupByDataSet;
+        // Get the intervals
+        List<Interval> intervals = groupByProperty.getDomain().getIntervals();
+
+        // Create the result data set instance.
+        DefaultDataSet _result = new DefaultDataSet(provider);
+        _result.setPropertySize(columns.length);
+
+        // Populate the dataset with the calculations.
+        int pivotColumn = -1;
+        for (int j=0; j<columns.length; j++) {
+
+            // Create a new data property for each target column.
+            DataProperty dataProp = getPropertyByColumn(columns[j]);
+            DataProperty _prop = dataProp.cloneProperty();
+            _result.addProperty(_prop, j);
+
+            if (pivotColumn == -1 && groupByProperty.equals(dataProp)) {
+                _prop.setDomain(new LabelDomain());
+                pivotColumn = j;
+
+                // The row values for the pivot column are the own interval instances.
+                for (Interval interval : intervals) {
+                    _result.addRowValue(j, interval);
+                }
+            } else {
+                // The values for other columns is a scalar function applied on the interval's values.
+                ScalarFunctionManager scalarFunctionManager = DataProviderServices.lookup().getScalarFunctionManager();
+                ScalarFunction function = scalarFunctionManager.getScalarFunctionByCode(functionCodes[j]);
+                for (Interval interval : intervals) {
+                    Double scalar = calculateScalar(interval, dataProp, function);
+                    _result.addRowValue(j, scalar);
+                }
+                // After calculations, ensure the new property domain is numeric.
+                _prop.setDomain(new NumericDomain());
+            }
+        }
+
+        // Sort the resulting data set according to the sort order specified.
+        if (sortOrder != 0) {
+            DataSetComparator comp = new DataSetComparator();
+            comp.addSortCriteria(Integer.toString(sortIndex), sortOrder);
+            sort(comp);
+        }
+
+        return _result;
+    }
+
+    public DataSet groupByLabel(DataProperty groupByProperty, int[] columns, String[] functionCodes, int sortIndex, int sortOrder) {
+        // Create the result data set instance.
+        DefaultDataSet _result = new DefaultDataSet(provider);
+        _result.setPropertySize(columns.length);
+        DataProperty _pivotProp = groupByProperty.cloneProperty();
+
+        // Get the pivot column
+        int pivotColumn = -1;
+        for (int j=0; j<columns.length; j++) {
+            DataProperty dataProp = getPropertyByColumn(columns[j]);
+            if (pivotColumn == -1 && groupByProperty.equals(dataProp)) {
+                pivotColumn = j;
+                break;
+            }
+        }
+
+        // Get the indexed labels
+        int groupByColumn = getPropertyColumn(groupByProperty);
+        List<DistinctValue> distinctValues = index.getDistinctValues(groupByColumn);
+        if (sortOrder != 0) {
+            if (sortIndex < 0 || sortIndex == pivotColumn) index.sortByValue(distinctValues, sortOrder);
+            else index.sortByScalar(distinctValues, functionCodes[sortIndex], columns[sortIndex], sortOrder);
+        }
+
+        // Build the label interval set from the sorted list of distinct values.
+        LabelDomain _pivotDomain = (LabelDomain) _pivotProp.getDomain();
+        List<Interval> intervals = _pivotDomain.getIntervals(distinctValues);
+
+        // Populate the dataset with the calculations.
+        for (int j=0; j<columns.length; j++) {
+            DataProperty dataProp = getPropertyByColumn(columns[j]);
+
+            if (j == pivotColumn) {
+                _result.addProperty(_pivotProp, j);
+
+                // The row values for the pivot column are the own interval instances.
+                for (Interval interval : intervals) {
+                    _result.addRowValue(j, interval);
+                }
+            } else {
+                DataProperty _prop = dataProp.cloneProperty();
+                _result.addProperty(_prop, j);
+
+                // The values for other columns is a scalar function applied on the interval's values.
+                ScalarFunctionManager scalarFunctionManager = DataProviderServices.lookup().getScalarFunctionManager();
+                ScalarFunction function = scalarFunctionManager.getScalarFunctionByCode(functionCodes[j]);
+                for (Interval interval : intervals) {
+                    Double scalar = calculateScalar(interval, dataProp, function);
+                    _result.addRowValue(j, scalar);
+                }
+                // After calculations, ensure the new property domain is numeric.
+                _prop.setDomain(new NumericDomain());
+            }
+
+        }
+        return _result;
+    }
+
+    protected Double calculateScalar(Interval interval, DataProperty property, ScalarFunction function) {
+        Collection values = interval.getValues(property);
+        if (!CollectionUtils.exists(values, NON_NULL_ELEMENTS)) {
+            return new Double(0);
+        } else {
+            double value = function.scalar(values);
+            return new Double(value);
+        }
     }
 
     public DataSet sort(ComparatorByCriteria comparator) {

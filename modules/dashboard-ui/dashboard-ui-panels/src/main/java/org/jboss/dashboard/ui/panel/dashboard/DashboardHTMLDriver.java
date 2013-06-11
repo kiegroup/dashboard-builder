@@ -62,11 +62,12 @@ import java.util.Set;
  *
  * <p><b>Function commands</b>. Apply an scalar function over the values loaded for a given property:
  * <ul>
- * <li>{dashboard_count, &lt;propertyId&gt;}   => The number of occurrences or values a given property has.
- * <li>{dashboard_max, &lt;propertyId&gt;}     => The maximum value for a given property.
- * <li>{dashboard_min, &lt;propertyId&gt;}     => The minimum value for a given property.
- * <li>{dashboard_average, &lt;propertyId&gt;} => The average value for a given property.
- * <li>{dashboard_sum, &lt;propertyId&gt;}     => The sum of all the values for a given property.
+ * <li>{dashboard_count, &lt;propertyId&gt;}    => The number of occurrences or values a given property has.
+ * <li>{dashboard_distinct, &lt;propertyId&gt;} => The number of different occurrences a given property has.
+ * <li>{dashboard_max, &lt;propertyId&gt;}      => The maximum value for a given property.
+ * <li>{dashboard_min, &lt;propertyId&gt;}      => The minimum value for a given property.
+ * <li>{dashboard_average, &lt;propertyId&gt;}  => The average value for a given property.
+ * <li>{dashboard_sum, &lt;propertyId&gt;}      => The sum of all the values for a given property.
  * </ul>
  * The last 4 commands can only be applied to numeric properties.<br>
  *

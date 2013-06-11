@@ -136,7 +136,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Free access</web-resource-name>
-            <url-pattern>/jb_logo.png</url-pattern>
+            <url-pattern>/images/jb_logo.png</url-pattern>
         </web-resource-collection>
     </security-constraint>
 
@@ -153,12 +153,16 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>Dashboard Builder Realm</realm-name>
         <form-login-config>
-            <form-login-page>/jlogin.html</form-login-page>
-            <form-error-page>/jerror.html</form-error-page>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/login_failed.jsp</form-error-page>
         </form-login-config>
     </login-config>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/not_authorized.jsp</location>
+    </error-page>
 
     <!-- Application main data source definition -->
 

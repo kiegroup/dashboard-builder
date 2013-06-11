@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.components;
+package org.jboss.dashboard.dataset.index;
 
-import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.controller.CommandResponse;
+import java.util.Collection;
+import java.util.List;
 
-public abstract class DataDisplayerEditor extends DataDisplayerViewer {
+public interface ColumnIndex {
 
-    public abstract CommandResponse actionSubmit(CommandRequest request) throws Exception;
-    public abstract CommandResponse actionCancel(CommandRequest request) throws Exception;
+    DataSetIndex getDataSetIndex();
+    void indexValues(List values);
+    int getNumberOfItems(Object value);
+    List<DistinctValue> getDistinctValues();
+    List getValues();
+    List getSiblingValues(Collection values, List targetValues);
 }

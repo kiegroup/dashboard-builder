@@ -15,6 +15,9 @@
  */
 package org.jboss.dashboard.domain.label;
 
+import org.jboss.dashboard.dataset.AbstractDataSet;
+import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.dataset.index.DistinctValue;
 import org.jboss.dashboard.domain.AbstractDomain;
 import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.domain.CompositeInterval;
@@ -25,6 +28,7 @@ import org.jboss.dashboard.LocaleManager;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.provider.DataProperty;
 
 /**
  * This domain is used for properties that contains string values (addresses, names, cities, products, ...).
@@ -34,14 +38,14 @@ public class LabelDomain extends AbstractDomain {
 
     public static final String I18N_PREFFIX = "labelDomain.";
 
-    protected List labelIntervals;
+    protected List<Interval> labelIntervals;
     protected Map<Locale, String> labelIntervalsToHideI18nMap;
     protected boolean convertedFromNumeric;
     protected String wildcard;
 
     public LabelDomain() {
         super();
-        labelIntervals = new ArrayList();
+        labelIntervals = null;
         labelIntervalsToHideI18nMap = new HashMap<Locale, String>();
         convertedFromNumeric = false;
         wildcard = "*";
@@ -79,24 +83,24 @@ public class LabelDomain extends AbstractDomain {
         return sf.isTypeSupported(String.class);
     }
 
-    public boolean isIntervalHidden(LabelInterval interval) {
+    public boolean isIntervalHidden(Interval interval) {
         // An interval is hidden if has been declared so for some locale. 
         for (Locale locale : labelIntervalsToHideI18nMap.keySet()) {
             String descrsToHide = labelIntervalsToHideI18nMap.get(locale);
-            if (descrsToHide == null || descrsToHide.trim().equals("")) continue;
+            if (StringUtils.isBlank(descrsToHide)) continue;
             String descr = interval.getDescription(locale);
-            if (descr == null || descr.trim().equals("")) continue;
+            if (StringUtils.isBlank(descr)) continue;
 
-            for (String descrToHide : StringUtils.split(descrsToHide, ",")) {
-                if (descrsToHide.indexOf("*") != -1) {
+            for (String intervalPattern : StringUtils.split(descrsToHide, ",")) {
+                if (intervalPattern.indexOf("*") != -1) {
                     // Wildcard comparison
-                    String target = StringUtils.replace(descrsToHide, wildcard, "");
-                    if (descrsToHide.startsWith(wildcard) && descrsToHide.endsWith(wildcard) && descr.indexOf(target) != -1) return true;
-                    if (descrsToHide.endsWith(wildcard) && descr.startsWith(target)) return true;
-                    if (descrsToHide.startsWith(wildcard) && descr.endsWith(target)) return true;
+                    String target = StringUtils.replace(intervalPattern, wildcard, "");
+                    if (intervalPattern.startsWith(wildcard) && intervalPattern.endsWith(wildcard) && descr.indexOf(target) != -1) return true;
+                    if (intervalPattern.endsWith(wildcard) && descr.startsWith(target)) return true;
+                    if (intervalPattern.startsWith(wildcard) && descr.endsWith(target)) return true;
                 } else {
                     // Match case comparison
-                    if (descr.equals(descrToHide)) {
+                    if (descr.equals(intervalPattern)) {
                         return true;
                     }
                 }
@@ -105,64 +109,97 @@ public class LabelDomain extends AbstractDomain {
         return false;
     }
 
-    public Interval[] getIntervals() {
-        labelIntervals.clear();
-        List domainValues = property.getValues();
-        if (domainValues != null && !domainValues.isEmpty()) {
-            for (int i = 0; i < domainValues.size(); i++) {
-                Object value = domainValues.get(i);
-                String label = value == null ? null : value.toString();
-                if (getInterval(label) == null) {
-                    LabelInterval lr = new LabelInterval();
-                    lr.setLabel(label);
-                    lr.setDomain(this);
-                    labelIntervals.add(lr);
-                }
-            }
-        }
-
-        // Don't show the label intervals to hide
-        List intervalsToShow = new ArrayList();
-        for (int i = 0; i < labelIntervals.size(); i++) {
-            LabelInterval labelInterval = (LabelInterval) labelIntervals.get(i);
-            if (!isIntervalHidden(labelInterval)) intervalsToShow.add(labelInterval);
-        }
-        // Don't exceed the maximum number of intervals.
-        // In case there are more intervals than the maximum number, group the rest in a new interval.
-        if (intervalsToShow.size() > maxNumberOfIntervals) {
-            Interval[] results = new Interval[maxNumberOfIntervals + 1];
-            for (int i = 0; i < maxNumberOfIntervals; i++) results[i] = (Interval) intervalsToShow.get(i);
-
-            // Create a composite interval with the rest values.
-            CompositeInterval compositeInterval = new CompositeInterval();
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
-            compositeInterval.setDescription(i18n.getString(AbstractDomain.I18N_PREFFIX + "finalInterval"), LocaleManager.currentLocale());
-            Set otherIntervals = new HashSet();
-            for (int i = maxNumberOfIntervals; i < intervalsToShow.size(); i++) otherIntervals.add(intervalsToShow.get(i));
-            compositeInterval.setIntervals(otherIntervals);
-            compositeInterval.setDomain(this);
-            results[maxNumberOfIntervals] = compositeInterval;
-            return results;
-        } else {
-            LabelInterval[] results = new LabelInterval[intervalsToShow.size()];
-            for (int i = 0; i < intervalsToShow.size(); i++) results[i] = (LabelInterval) intervalsToShow.get(i);
-            return results;
-        }
+    public List<Interval> getIntervals() {
+        AbstractDataSet dataSet = (AbstractDataSet) property.getDataSet();
+        int column = dataSet.getPropertyColumn(property);
+        List<DistinctValue> distinctValues = dataSet.getDataSetIndex().getDistinctValues(column);
+        return getIntervals(distinctValues);
     }
 
-    public LabelInterval getInterval(String label) {
-        Iterator it = labelIntervals.iterator();
-        while (it.hasNext()) {
-            LabelInterval interval = (LabelInterval) it.next();
-            if (interval.contains(label)) return interval;
+    public List<Interval> getIntervals(List<DistinctValue> distinctValues) {
+        if (labelIntervals == null) labelIntervals = buildIntervals(distinctValues);
+        return labelIntervals;
+    }
+
+    public List<Interval> buildIntervals(List<DistinctValue> distinctValues) {
+
+        // Get all the intervals
+        List<Interval> results = buildAllIntervals(distinctValues);
+
+        // Don't show the label intervals to hide
+        List<Interval> intervalsVisible = new ArrayList<Interval>();
+        for (int i = 0; i < results.size(); i++) {
+            LabelInterval labelInterval = (LabelInterval) results.get(i);
+            if (!isIntervalHidden(labelInterval)) intervalsVisible.add(labelInterval);
         }
-        return null;
+        // Make sure the maximum number of intervals is not exceeded .
+        results = cutIntervals(intervalsVisible);
+        return results;
+    }
+
+    public List<Interval> buildAllIntervals(List<DistinctValue> distinctValues) {
+        List<Interval> all = new ArrayList<Interval>();
+        if (distinctValues != null && !distinctValues.isEmpty()) {
+            for (DistinctValue distinctValue : distinctValues) {
+                LabelInterval interval = new LabelInterval();
+                interval.setDomain(this);
+                interval.setHolder(distinctValue);
+                all.add(interval);
+            }
+        }
+        return all;
+    }
+
+    public List<Interval> cutIntervals(List<Interval> intervals) {
+        List<Interval> results = new ArrayList<Interval>();
+        if (maxNumberOfIntervals < 1 || intervals.size() <= maxNumberOfIntervals) {
+            return intervals;
+        }
+
+        // Leave out the intervals that exceed the maximum.
+        for (int i = 0; i < maxNumberOfIntervals; i++) {
+            results.add(intervals.get(i));
+        }
+
+        // ... and group the rest in a new aggregated interval.
+        CompositeInterval compositeInterval = new CompositeInterval();
+        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
+        compositeInterval.setDescription(i18n.getString(AbstractDomain.I18N_PREFFIX + "finalInterval"), LocaleManager.currentLocale());
+        compositeInterval.setDomain(this);
+
+        // Include the aggregated interval only if visible.
+        if (!isIntervalHidden(compositeInterval)) {
+            Set otherIntervals = new HashSet();
+            for (int i = maxNumberOfIntervals; i < intervals.size(); i++) otherIntervals.add(intervals.get(i));
+            compositeInterval.setIntervals(otherIntervals);
+            results.add(compositeInterval);
+        }
+        return results;
     }
 
     public Domain cloneDomain() {
         LabelDomain clone = (LabelDomain) super.cloneDomain();
-        clone.labelIntervals = new ArrayList();
+        clone.labelIntervals = null;
         clone.labelIntervalsToHideI18nMap = new HashMap(labelIntervalsToHideI18nMap);
         return clone;
+    }
+
+    public List getValues(Set<Interval> intervals, DataProperty p) {
+        List results = new ArrayList();
+        List targetValues = p.getValues();
+        Set<Integer> targetRows = getRowNumbers(intervals);
+        for (Integer targetRow : targetRows) {
+            results.add(targetValues.get(targetRow));
+        }
+        return results;
+    }
+
+    public Set<Integer> getRowNumbers(Set<Interval> intervals) {
+        Set<Integer> results = new HashSet<Integer>();
+        for (Interval interval : intervals) {
+            LabelInterval labelInterval = (LabelInterval) interval;
+            results.addAll(labelInterval.holder.rows);
+        }
+        return results;
     }
 }

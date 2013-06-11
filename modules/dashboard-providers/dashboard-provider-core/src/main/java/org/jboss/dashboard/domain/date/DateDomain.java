@@ -105,7 +105,9 @@ public class DateDomain extends AbstractDomain {
         return intervalMode;
     }
 
-    public Interval[] getIntervals() {
+    public List<Interval> getIntervals() {
+        List<Interval> results = new ArrayList<Interval>();
+
         // Purge the null values that comes from the data (f.i: null values in a SQL column)
         List domainValues = property.getValues();
         Iterator it = domainValues.iterator();
@@ -123,8 +125,8 @@ public class DateDomain extends AbstractDomain {
         // Ranges can not be created if limits are not defined.
         Date minDateLimit = minDate != null ? minDate : absoluteMinDate;
         Date maxDateLimit = maxDate != null ? maxDate : absoluteMaxDate;
-        if (minDateLimit == null || maxDateLimit == null) return new Interval[] {};
-        if (minDateLimit.after(maxDateLimit)) return new Interval[] {};
+        if (minDateLimit == null || maxDateLimit == null) return new ArrayList<Interval>();
+        if (minDateLimit.after(maxDateLimit)) return new ArrayList<Interval>();
 
         // If min/max are equals then create a single interval.
         if (minDateLimit != null && minDateLimit.compareTo(maxDateLimit) == 0) {
@@ -134,11 +136,12 @@ public class DateDomain extends AbstractDomain {
             interval.setMinDateIncluded(true);
             interval.setMaxDateIncluded(true);
             interval.setDomain(this);
-            return new Interval[] {interval};
+            results.add(interval);
+            return results;
         }
 
         // Create the intervals according to the min/max dates specified.
-        if (maxNumberOfIntervals < 0) maxNumberOfIntervals = 10;
+        if (maxNumberOfIntervals < 1) maxNumberOfIntervals = 10;
         intervalMode = calculateDateIntervalMode(maxNumberOfIntervals, minDateLimit, maxDateLimit);
 
         // Ensure the interval mode obtained is always greater or equals than the preferred interval size set by the user.
@@ -148,7 +151,6 @@ public class DateDomain extends AbstractDomain {
         List<DateInterval> listOfIntervals = getListOfIntervals(intervalMode, minDateLimit, maxDateLimit);
 
         // If there are values before the minDate, create the initial composite interval.
-        List<Interval> intervals = new ArrayList<Interval>();
         if (minDate != null && absoluteMinDate != null && absoluteMinDate.before(minDate)) {
             // New date interval.
             DateInterval dateInterval = new DateInterval();
@@ -168,10 +170,10 @@ public class DateDomain extends AbstractDomain {
             listOfMinIntervals.add(dateInterval);
             compositeMinInterval.setIntervals(listOfMinIntervals);
             compositeMinInterval.setDomain(this);
-            intervals.add(compositeMinInterval);
+            results.add(compositeMinInterval);
         }
         // Add the list of intervals.
-        intervals.addAll(listOfIntervals);
+        results.addAll(listOfIntervals);
 
         // If there are values after the maxDate, create the final composite interval.
         if (maxDate != null && absoluteMaxDate != null && absoluteMaxDate.after(maxDate)) {
@@ -193,11 +195,8 @@ public class DateDomain extends AbstractDomain {
             listOfMaxIntervals.add(dateInterval);
             compositeMaxInterval.setIntervals(listOfMaxIntervals);
             compositeMaxInterval.setDomain(this);
-            intervals.add(compositeMaxInterval);
+            results.add(compositeMaxInterval);
         }
-
-        Interval[] results = new Interval[intervals.size()];
-        for (int i = 0; i < results.length; i++) results[i] = (Interval) intervals.get(i);
         return results;
     }
 
@@ -261,11 +260,11 @@ public class DateDomain extends AbstractDomain {
         return INTERVAL_DECADE;
     }
 
-    public String toString(Interval[] intervals) {
+    public String toString(List<Interval> intervals) {
         StringBuffer buf = new StringBuffer();
-        buf.append("Number of ranges=" + intervals.length).append("\r\n");
-        for (int i = 0; i < intervals.length; i++) {
-            DateInterval r = (DateInterval) intervals[i];
+        buf.append("Number of ranges=" + intervals.size()).append("\r\n");
+        for (int i = 0; i < intervals.size(); i++) {
+            DateInterval r = (DateInterval) intervals.get(i);
             buf.append("Interval ").append(i).append("=").append(r.getMinDate()).append(" TO ").append(r.getMaxDate()).append("\r\n");
         }
         return buf.toString();

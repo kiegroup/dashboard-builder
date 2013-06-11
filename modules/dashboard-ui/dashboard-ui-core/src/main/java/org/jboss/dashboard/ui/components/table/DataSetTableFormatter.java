@@ -59,7 +59,7 @@ public class DataSetTableFormatter extends TableFormatter {
         if (isColumnSortable(column)) {
             DataSetTableModel dsModel = (DataSetTableModel) dst.getModel();
             String modelIndex = Integer.toString(dsModel.getColumnPosition(column.getPropertyId()));
-            ComparatorByCriteria comparator = dsModel.getComparator();
+            ComparatorByCriteria comparator = tableHandler.getTableComparator();
             int order = 0;
             if (comparator.existCriteria(modelIndex)) order = comparator.getSortCriteriaOrdering(modelIndex);
             switch(order) {

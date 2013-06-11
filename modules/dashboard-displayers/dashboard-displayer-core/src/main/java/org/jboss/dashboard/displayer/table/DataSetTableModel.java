@@ -70,19 +70,10 @@ public class DataSetTableModel extends AbstractTableModel {
         return dataSet.getValueAt(rowIndex, columnIndex);
     }
 
-    public ComparatorByCriteria getComparator() {
-        if (comparator == null) {
-            this.comparator = new DataSetComparator();
-        }
-        return super.getComparator();
-    }
-
     public void sort(ComparatorByCriteria comparator) {
-        super.sort(comparator);
         dataSet = dataSet.sort(comparator);
     }
 
-    @Override
     public int getColumnPosition(String columnName) {
         for (int i = 0; i < getColumnCount(); i++) {
             if (dataSet.getProperties()[i].getPropertyId().equals(columnName)) return i;
@@ -90,7 +81,6 @@ public class DataSetTableModel extends AbstractTableModel {
         return super.getColumnPosition(columnName);
     }
 
-    @Override
     public String getColumnId(int index) {
         return dataSet.getProperties()[index].getPropertyId();
     }

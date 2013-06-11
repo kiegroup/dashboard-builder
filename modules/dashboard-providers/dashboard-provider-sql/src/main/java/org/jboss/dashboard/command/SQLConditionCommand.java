@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.command;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.commons.filter.SQLFilterByCriteria;
 import org.jboss.dashboard.provider.DataFilter;
 
@@ -22,7 +23,7 @@ import java.util.*;
 
 /**
  * SYNTAX: {sql_condition, required | optional, &lt;sqlColumn&gt;, &lt;filterPropertyId&gt;).<br>
- * ex: {sql_condition, optional, case_status, case_status), {sql_condition, required, case_status, case_status)
+ * ex: {sql_condition, optional, case_status)
  */
 public class SQLConditionCommand extends AbstractCommand {
 
@@ -49,12 +50,12 @@ public class SQLConditionCommand extends AbstractCommand {
         else throw new IllegalArgumentException("[" + name + ", argument " + requiredStr + " is not allowed. Expected: required or optional]");
 
         String sqlColumn = getArgument(1);
-        if (sqlColumn == null || sqlColumn.trim().length() == 0) {
+        if (StringUtils.isBlank(sqlColumn)) {
             throw new IllegalArgumentException("[" + name + ", argument sqlColumn cannot be empty]");
         }
         filterPropertyId = getArgument(2);
-        if (filterPropertyId == null || filterPropertyId.trim().length() == 0) {
-            throw new IllegalArgumentException("[" + name + ", argument filterPropertyId cannot be empty]");
+        if (StringUtils.isBlank(filterPropertyId)) {
+            filterPropertyId = sqlColumn.toLowerCase();
         }
 
         if (dataFilter != null) {

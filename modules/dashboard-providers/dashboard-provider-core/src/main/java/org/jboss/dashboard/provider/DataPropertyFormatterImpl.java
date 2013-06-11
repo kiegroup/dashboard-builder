@@ -18,6 +18,7 @@ package org.jboss.dashboard.provider;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.domain.CompositeInterval;
 import org.jboss.dashboard.domain.Interval;
 
 import javax.inject.Inject;
@@ -121,7 +122,11 @@ public class DataPropertyFormatterImpl implements DataPropertyFormatter {
         }
         if (value instanceof Collection) {
             if (((Collection) value).isEmpty()) return emptyValueString;
-            return formatCollection(propertyId, (Collection) value, ",", null, null, l);
+            return formatCollection(propertyId, (Collection) value, ", ", null, null, l);
+        }
+        if (value instanceof CompositeInterval) {
+            CompositeInterval ci = (CompositeInterval) value;
+            return formatCollection(propertyId, ci.getIntervals(), ", ", null, null, l);
         }
         if (value instanceof Interval) {
             Interval interval = (Interval) value;

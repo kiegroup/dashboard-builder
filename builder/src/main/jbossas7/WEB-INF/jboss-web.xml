@@ -32,6 +32,6 @@
         If you choose to use a custom security domain then you should define it into the
         <jboss-as7>/standalone/configuration/standalone.xml file.
      -->
-    <security-domain>other</security-domain>
+    <security-domain>kie-ide</security-domain>
 
 </jboss-web>

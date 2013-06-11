@@ -160,7 +160,7 @@ public class KPIImpl implements KPI {
 
     public void save() throws Exception {
         if (!getDataProvider().isReady()) {
-            log.warn("Cannot save KPI because data provider is not well configured.");
+            log.warn("Cannot save KPI because its data provider is not well configured.");
             return;
         }
         new HibernateTxFragment() {
@@ -185,19 +185,13 @@ public class KPIImpl implements KPI {
     protected void persist(final int op) throws Exception {
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
-            Object obj = KPIImpl.this;
             switch(op) {
-                case 0:
-                    session.save(obj);
-                    break;
-                case 1:
-                    boolean detached = !session.contains(obj);
-                    if (detached) session.merge(obj);
-                    else session.update(obj);
-                    break;
-                case 2:
-                    session.delete(obj);
-                    break;
+                case 0: session.save(KPIImpl.this);
+                        break;
+                case 1: session.update(KPIImpl.this);
+                        break;
+                case 2: session.delete(KPIImpl.this);
+                        break;
             }
             session.flush();
         }}.execute();

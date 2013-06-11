@@ -116,11 +116,9 @@ public class CSVProviderEditor extends DataProviderEditor {
             elapsedTime = crono.elapsedTime();
             nrows = 0;
             if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
-            dataProvider.setDataSet(ds);
 
         } catch (Exception e) {
             setLoadError(e.getMessage() != null ? e.getMessage() : "error5");
-            dataProvider.setDataSet(null);
         }
         return null;
     }
