@@ -39,7 +39,7 @@ public class SQLProviderEditor extends DataProviderEditor {
 
     public boolean isConfiguredOk() {
         try {
-            return getSQLDataLoader().getSQLQuery() != null && getQueryError() == null;
+            return !StringUtils.isBlank(getSQLDataLoader().getSQLQuery()) && getQueryError() == null;
         } catch (Exception e) {
             return false;
         }
@@ -70,20 +70,23 @@ public class SQLProviderEditor extends DataProviderEditor {
         SQLDataLoader sqlLoader = getSQLDataLoader();
         if (dataSource != null) sqlLoader.setDataSource(dataSource);
         if (sqlQuery != null) sqlLoader.setSQLQuery(sqlQuery);
-        try {
-            // Clear previous errors
-            setQueryError(null);
 
-            // Ensure data retrieved is refreshed.
-            Chronometer crono = new Chronometer(); crono.start();
-            DataSet ds = dataProvider.refreshDataSet();
-            crono.stop();
-            elapsedTime = crono.elapsedTime();
-            nrows = 0;
-            if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
-        } catch (Exception e) {
-            Throwable cause = ErrorManager.lookup().getRootCause(e);
-            setQueryError(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : "Unexpected error");
+        // Clear previous errors
+        setQueryError(null);
+
+        // Ensure data retrieved is refreshed.
+        if (isConfiguredOk()) {
+            try {
+                Chronometer crono = new Chronometer(); crono.start();
+                DataSet ds = dataProvider.refreshDataSet();
+                crono.stop();
+                elapsedTime = crono.elapsedTime();
+                nrows = 0;
+                if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
+            } catch (Exception e) {
+                Throwable cause = ErrorManager.lookup().getRootCause(e);
+                setQueryError(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : "Unexpected error");
+            }
         }
         return null;
     }

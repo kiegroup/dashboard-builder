@@ -23,6 +23,8 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.provider.sql.SQLDataLoader" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
@@ -67,36 +69,28 @@
 
 <%
     // Check if the result of the test has been correct or not.
-    boolean validDataset = editor.isConfiguredOk();
-    if (sqlQuery != null) {
-    if (validDataset) {
+    if (editor.isConfiguredOk()) {
 %>
             <br>
             <font color=green>
                 <i18n:message key="editor.dataSetOk">!!!Conjunto de datos correcto</i18n:message>
                 <br>
-                <%
-                    if (editor.getElapsedTime() > 0) {
-                %>
+                <% if (editor.getElapsedTime() > 0) { %>
                     <i18n:message key="editor.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
                     <br>
                     <i18n:message key="editor.numberOfResults"/>: <%=editor.getNrows()%>
-                <%
-                    }
-                %>
+                <% } %>
             </font>
-
-        </td>
-    </tr>
 <%
-        } else {
+    } else if (!StringUtils.isBlank(editor.getQueryError())) {
 %>
-    <br><font color=red> <i18n:message key="editor.invalidDataSet"/>
-    <br><%= editor.getQueryError() %></font>
+        <br><font color=red> <i18n:message key="editor.invalidDataSet"/>
+        <br><%= StringEscapeUtils.escapeHtml(editor.getQueryError()) %></font>
 <%
-        }
     }
 %>
+        </td>
+   </tr>
    <tr>
         <td align="center">
             <label>
