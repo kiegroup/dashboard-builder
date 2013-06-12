@@ -79,7 +79,7 @@ public class DashboardHandler {
     /**
      * Get the dashboard for the specified page.
      */
-    public Dashboard getDashboard(Section section) {
+    public synchronized Dashboard getDashboard(Section section) {
         if (section == null) return null;
 
         // Return an existent dashboard. 
@@ -89,16 +89,18 @@ public class DashboardHandler {
         // Initialize a dashboard instance for the section.
         Dashboard dashboard = new Dashboard();
         dashboard.setSection(section);
-        dashboard.init();
         dashboard.addListener(listener);
         dashboards.put(key, dashboard);
+
+        // Init the dashboard (the related data sets will be loaded).
+        dashboard.init();
         return dashboard;
     }
 
     /**
      * Get the dashboard for the current page.
      */
-    public Dashboard getCurrentDashboard() {
+    public synchronized Dashboard getCurrentDashboard() {
         NavigationManager navMgr = NavigationManager.lookup();
         Dashboard dashboard = getDashboard(navMgr.getCurrentSection());
         if (dashboard == null) return null;  // When a section is being deleted the current section is null.
@@ -107,7 +109,8 @@ public class DashboardHandler {
         if (dashboard.equals(currentDashboard)) return currentDashboard;
 
         // If the dashboard has been abandoned then re-initialize it when coming back.
+        currentDashboard = dashboard;
         dashboard.init();
-        return currentDashboard = dashboard;
+        return dashboard;
     }
 }
