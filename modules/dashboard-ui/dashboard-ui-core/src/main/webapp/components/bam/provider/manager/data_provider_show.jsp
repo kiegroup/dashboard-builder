@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataProviderHandler" %>
+<%@ page import="java.util.ResourceBundle" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -75,8 +76,10 @@
         <mvc:fragmentValue name="canEditProperties" id="canEditProperties">
         <mvc:fragmentValue name="code" id="code">
         <mvc:fragmentValue name="index" id="index">
-        <mvc:fragmentValue name="usedByOtherKpis" id="usedByOtherKpis">
+        <mvc:fragmentValue name="numberOfKPIs" id="numberOfKPIs">
+        <mvc:fragmentValue name="deleteMessage" id="deleteMessage">
             <%
+                int nkpis = numberOfKPIs == null ? 0 : (Integer) numberOfKPIs;
                 String className, altClass;
                 if (((Integer) index).intValue() % 2 == 0) {
                     className = "skn-even_row";
@@ -120,16 +123,15 @@
                     <td align="center" width="1">
                         <% if (((Boolean)canDelete).booleanValue()) { %>
                         <a title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>"
-                            href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="deleteDataProvider"> <factory:param name="<%=DataProviderHandler.PARAM_PROVIDER_CODE%>" value="<%=code%>"/></factory:url>"
-                            id="<factory:encode name='<%="dropLinks"+code%>'/>"
-                            <% if (usedByOtherKpis != null && ((Boolean)usedByOtherKpis).booleanValue()) { %>
-                                onclick="alert('<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "cannotDelete"%>'>!!!cannot delete</i18n:message>');return false;"
+                           id="<factory:encode name='<%="dropLinks"+code%>'/>"
+                            <% if (nkpis > 0) { %>
+                               href="#"
+                               onclick="alert('<%= deleteMessage %>');return false;"
                             <% } else { %>
-                                onclick="return confirm('<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "confirmDelete"%>'>!!!Sure to delete?</i18n:message>');"
+                               href="<factory:url bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="deleteDataProvider"> <factory:param name="<%=DataProviderHandler.PARAM_PROVIDER_CODE%>" value="<%=code%>"/></factory:url>"
+                               onclick="return confirm('<%= deleteMessage %>');"
                             <% } %> >
-
                                 <img style="border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>">
-
                            </a>
                         <% } else { %>
                                 <img style="opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 ); border:none; vertical-align:middle;" src="<static:image relativePath="general/16x16/ico-trash.png"/>" alt="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>" title="<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "deleteDataProvider"%>'>!!!Borrar</i18n:message>">
@@ -152,6 +154,7 @@
                     </td>
             </tr>
 
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

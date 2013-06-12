@@ -34,6 +34,7 @@ import org.jboss.dashboard.ui.components.DataProviderEditor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.MessageFormat;
 import java.util.*;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -196,27 +197,21 @@ public class DataProviderFormatter extends Formatter {
     }
 
     private void renderShow(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        Set kpis = null;
         try {
             KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
-            kpis = kpiManager.getAllKPIs();
-        } catch (Exception e) {
-            log.error("Cannot get all kpis.", e);
-            return;
-        }
+            Set kpis = kpiManager.getAllKPIs();
 
-        Set orderedDataProviders = new TreeSet(new DataProviderComparator());
-        Set dataProviders = null;
-        try {
             DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
-            dataProviders = dataProviderManager.getAllDataProviders();
-            // Memory ordering.
+            Set dataProviders = dataProviderManager.getAllDataProviders();
+            Set orderedDataProviders = new TreeSet(new DataProviderComparator());
             orderedDataProviders.addAll(dataProviders);
+
             if (dataProviders != null) {
                 renderFragment("outputStart");
                 renderFragment("outputNewDataProvider");
-                if (dataProviders.size() == 0) renderFragment("outputEmpty");
-                else {
+                if (dataProviders.size() == 0) {
+                    renderFragment("outputEmpty");
+                } else {
                     renderFragment("outputStartDataProviders");
                     int i = 0;
                     Iterator it = orderedDataProviders.iterator();
@@ -224,21 +219,31 @@ public class DataProviderFormatter extends Formatter {
                         DataProvider dataProvider = (DataProvider) it.next();
                         if (dataProvider == null) continue;
 
+                        int numberOfKPIs = 0;
                         setAttribute("usedByOtherKpis", Boolean.FALSE);
                         Iterator it1 = kpis.iterator();
                         while (it1.hasNext()) {
                             KPI kpi = (KPI) it1.next();
-                            if (kpi.getDataProvider().equals(dataProvider))
-                                setAttribute("usedByOtherKpis", Boolean.TRUE);
+                            if (kpi.getDataProvider().equals(dataProvider)) numberOfKPIs++;
                         }
+
+                        String providerType = dataProvider.getDataProviderType().getDescription(getLocale());
+                        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", getLocale());
+                        String deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "confirmDelete");
+                        if (numberOfKPIs > 0) {
+                            deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "cannotDelete");
+                            deleteMessage = MessageFormat.format(deleteMessage, numberOfKPIs);
+                        }
+
                         setAttribute("index", new Integer(i));
                         setAttribute("code", StringEscapeUtils.escapeHtml(dataProvider.getCode()));
                         setAttribute("dataProviderName", StringEscapeUtils.escapeHtml(dataProvider.getDescription(getLocale())));
-                        String providerType = dataProvider.getDataProviderType().getDescription(getLocale());
                         setAttribute("dataProviderType", StringEscapeUtils.escapeHtml(providerType));
                         setAttribute("canEdit", Boolean.valueOf(dataProvider.isCanEdit()));
                         setAttribute("canEditProperties", Boolean.valueOf(dataProvider.isCanEditProperties()));
                         setAttribute("canDelete", Boolean.valueOf(dataProvider.isCanDelete()));
+                        setAttribute("numberOfKPIs", numberOfKPIs);
+                        setAttribute("deleteMessage", deleteMessage);
                         renderFragment("outputDataProvider");
                         i++;
                     }
