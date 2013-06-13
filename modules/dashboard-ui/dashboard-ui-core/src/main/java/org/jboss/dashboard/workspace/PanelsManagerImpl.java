@@ -124,6 +124,29 @@ public class PanelsManagerImpl implements PanelsManager {
             session.setFlushMode(flushMode);
         }}.execute();
         if (results.size() > 0) return (Panel)results.get(0);
+        else log.debug("Does not exists panel with DB id: " + panelId);
+        return null;
+    }
+
+    public Panel getPaneltById(final Long panelId) throws Exception {
+        final List results = new ArrayList();
+        new HibernateTxFragment() {
+        protected void txFragment(Session session) throws Exception {
+            FlushMode flushMode = session.getFlushMode();
+            session.setFlushMode(FlushMode.COMMIT);
+
+            StringBuffer sql = new StringBuffer();
+            sql.append("select p ");
+            sql.append("from ").append(Panel.class.getName()).append(" as p ");
+            sql.append("where p.panelId = :panelId");
+
+            Query query = session.createQuery(sql.toString());
+            query.setLong("panelId", panelId);
+            query.setCacheable(true);
+            results.addAll(query.list());
+            session.setFlushMode(flushMode);
+        }}.execute();
+        if (results.size() > 0) return (Panel)results.get(0);
         else log.debug("Does not exists panel with id: " + panelId);
         return null;
     }

@@ -46,7 +46,7 @@ public class PanelParameter implements Serializable, Visitable {
             if (dbid == null) return false;
 
             PanelParameter that = (PanelParameter) o;
-            return dbid.equals(that.dbid);
+            return dbid.equals(that.getDbid());
         }
         catch (ClassCastException e) {
             return false;

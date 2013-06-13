@@ -188,7 +188,7 @@ public class WorkspaceImpl implements Workspace {
         if (id == null || obj == null || !(obj instanceof WorkspaceImpl)) return false;
 
         WorkspaceImpl other = (WorkspaceImpl) obj;
-        return id.equals(other.id);
+        return id.equals(other.getId());
     }
 
     public String getEnvelopeId() {

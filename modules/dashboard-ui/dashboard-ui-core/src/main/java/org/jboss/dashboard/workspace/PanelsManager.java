@@ -43,7 +43,12 @@ public interface PanelsManager extends ListenerQueue {
     void store(PanelInstance instance) throws Exception;
 
     /**
-     * Get a panel by id.
+     * Get a panel by its logical id.
+     */
+    Panel getPaneltById(Long panelId) throws Exception;
+
+    /**
+     * Get a panel by its database id.
      */
     Panel getPaneltByDbId(Long panelId) throws Exception;
 }

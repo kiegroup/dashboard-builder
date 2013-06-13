@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
+import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.ui.components.FactoryRequestHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
@@ -81,20 +82,22 @@ public class FactoryActionRequestExecutor extends RequestChainProcessor {
             return true;
         }
 
-
+        // Get the specified panel from the current page.
         Section currentPage = getNavigationManager().getCurrentSection();
-        if (currentPage == null) {
-            log.error("Cannot dispatch to panel " + idPanel + ". Page is null.");
-            return true;
-        }
-
         Panel panel = currentPage.getPanel(idPanel);
         if (panel == null) {
-            log.error("Cannot dispatch to panel " + idPanel + ". Panel not found in current page.");
-            return true;
+            // If not found then try to get the panel from wherever the request comes from.
+            panel = UIServices.lookup().getPanelsManager().getPaneltById(new Long(idPanel));
+            if (panel == null) {
+                log.error("Cannot dispatch to panel " + idPanel + ". Panel not found.");
+                return true;
+            }
+            // Ensure the panel's section is set as current.
+            // This is needed to support requests coming from pages reached after clicking the browser's back button.
+            NavigationManager.lookup().setCurrentSection(panel.getSection());
         }
 
-        CodeBlockTrace trace = new PanelActionTrace(currentPage, panel, pAction).begin();
+        CodeBlockTrace trace = new PanelActionTrace(panel, pAction).begin();
         try {
             WorkspacePermission workspacePerm = WorkspacePermission.newInstance(panel.getWorkspace(), WorkspacePermission.ACTION_LOGIN);
             if (UserStatus.lookup().hasPermission(workspacePerm)) {
@@ -125,11 +128,12 @@ public class FactoryActionRequestExecutor extends RequestChainProcessor {
 
         protected Map<String,Object> context;
 
-        public PanelActionTrace(Section section, Panel panel, String pAction) {
+        public PanelActionTrace(Panel panel, String pAction) {
             super(panel.getInstanceId().toString());
             LocaleManager localeManager = LocaleManager.lookup();
             String title = (String) localeManager.localize(panel.getInstance().getTitle());
             if (title == null) title = panel.getPanelId().toString();
+            Section section = panel.getSection();
             context = new LinkedHashMap<String,Object>();
             context.put("Workspace", localeManager.localize(section.getWorkspace().getTitle()));
             context.put("Section", localeManager.localize(section.getTitle()));

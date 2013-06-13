@@ -118,7 +118,7 @@ public class PanelInstance implements Cloneable, Visitable {
         try {
             PanelInstance other = (PanelInstance) obj;
             if (dbid == null || other.dbid == null) return false;
-            return dbid.longValue() == other.dbid.longValue();
+            return dbid.equals(other.getDbid());
         } catch (ClassCastException cce) {
             return false;
         }

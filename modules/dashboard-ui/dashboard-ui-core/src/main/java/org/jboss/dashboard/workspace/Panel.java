@@ -104,7 +104,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
         if (dbid == null || obj == null || !(obj instanceof Panel)) return false;
 
         Panel other = (Panel) obj;
-        return dbid.equals(other.dbid);
+        return dbid.equals(other.getDbid());
     }
 
     public int compareTo(Object obj) {

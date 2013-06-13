@@ -18,6 +18,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="org.jboss.dashboard.users.UserStatus" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
+<%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -29,12 +30,13 @@
 		<td valign="middle" align="left"><i18n:message key="ui.login.loggedAs">!!! Logged as</i18n:message>
 			<%= UserStatus.lookup().getUserLogin() %>
 		</td>
-		<td valign="middle" align="right" >
-			<a href="<factory:url action="logout" friendly="true"/>" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
-				<input type="button" class="skn-button"
+		<td valign="middle" align="right">
+            <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="logoutForm"/>">
+                <factory:handler bean="org.jboss.dashboard.ui.components.LogoutComponent" action="logout" />
+				<input type="submit" class="skn-button" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Do you want to sign off?</i18n:message>')"
 					   value="<i18n:message key="ui.logout">!!! Logout</i18n:message>"
 					   title="<i18n:message key="ui.logout"/>">
-			</a>
+			</form>
 		</td>
 	</tr>
 </table>

@@ -149,7 +149,7 @@ public class Section implements Comparable, Visitable {
         if (dbid == null || obj == null || !(obj instanceof Section)) return false;
 
         Section other = (Section) obj;
-        return dbid.equals(other.dbid);
+        return dbid.equals(other.getDbid());
     }
 
     public List getPathNumber() {
