@@ -211,16 +211,17 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         this.testQuery = testQuery;
     }
 
-    //get all tables of the datasource selected
-    public List getIntrospectedTables( String datasource ) throws Exception {
+    /**
+     * Get all tables of the datasource selected.
+     */
+    public List getIntrospectedTables( String datasource) throws Exception {
         List result = new ArrayList();
         Connection connection = getConnection();
-        DatabaseMetaData metadata = connection.getMetaData();
-        String catalog = getConnection().getCatalog();
-        String[] types = { "TABLE" };
-
         ResultSet tables = null;
         try {
+            DatabaseMetaData metadata = connection.getMetaData();
+            String catalog = connection.getCatalog();
+            String[] types = { "TABLE" };
             tables = metadata.getTables(catalog, null, "%", types);
             while (tables.next()) {
                 String schema = tables.getString(TABLE_SCHEMA);
@@ -231,39 +232,43 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                 dataSourceTableEntry.setName(tableName);
                 result.add( dataSourceTableEntry );
             }
-
         }
         finally {
-            if (tables != null) {
-                try {
-                    tables.close();
-                }
-                catch (SQLException ignore) {}
+            try {
+                if (tables != null) tables.close();
+                if (connection != null) connection.close();
             }
+            catch (SQLException ignore) {}
         }
         return result;
     }
 
-    // ESTE VA A LA DB REAL
     private List getTableColumns(String tableName) throws Exception {
         List result = new ArrayList();
         Connection connection = getConnection();
-        DatabaseMetaData metadata = connection.getMetaData();
-
         ResultSet columns = null;
-        columns = metadata.getColumns(null, "%", tableName , "%");
+        try {
+            DatabaseMetaData metadata = connection.getMetaData();
+            columns = metadata.getColumns(null, "%", tableName , "%");
 
-        while (columns.next()) {
-            DataSourceColumnEntry columnEntry = new DataSourceColumnEntry();
-            columnEntry.setDatasource( getName() );
-            columnEntry.setTableName(tableName);
-            columnEntry.setSqltype( columns.getShort(COLUMN_DATA_TYPE) );
-            columnEntry.setName( columns.getString(COLUMN_NAME) );
-            columnEntry.setIdentity("false");
-            columnEntry.setPrimaryKey("false");
-            result.add(columnEntry);
+            while (columns.next()) {
+                DataSourceColumnEntry columnEntry = new DataSourceColumnEntry();
+                columnEntry.setDatasource( getName() );
+                columnEntry.setTableName(tableName);
+                columnEntry.setSqltype( columns.getShort(COLUMN_DATA_TYPE) );
+                columnEntry.setName( columns.getString(COLUMN_NAME) );
+                columnEntry.setIdentity("false");
+                columnEntry.setPrimaryKey("false");
+                result.add(columnEntry);
+            }
+            return result;
+        } finally {
+            try {
+                if (columns != null) columns.close();
+                if (connection != null) connection.close();
+            }
+            catch (SQLException ignore) {}
         }
-        return result;
     }
 
     public Connection getConnection() throws Exception {
@@ -484,45 +489,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         }
     }
 
-    class MyPanelAjaxResponse extends PanelAjaxResponse {
-        protected String page;
-        protected String contentType = "text/html";
-        private Long panelId;
-
-        public MyPanelAjaxResponse(String jspRoute) {
-                page = jspRoute;
-                init();
-        }
-
-        private void init() {
-            RequestContext ctx = RequestContext.getCurrentContext();
-            Panel currentPanel = (Panel) ctx.getRequest().getRequestObject().getAttribute(Parameters.RENDER_PANEL);
-            if (currentPanel != null) {
-                panelId = currentPanel.getDbid();
-            }
-        }
-
-        public boolean execute(CommandRequest cmdReq) throws Exception {
-            cmdReq.getRequestObject().setAttribute(Parameters.RENDER_PANEL, getPanel());
-            RequestDispatcher rd = cmdReq.getRequestObject().getRequestDispatcher(page);
-            rd.include(cmdReq.getRequestObject(), cmdReq.getResponseObject());
-            cmdReq.getRequestObject().removeAttribute(Parameters.RENDER_PANEL);
-            return true;
-        }
-
-        protected Panel getPanel() throws Exception {
-            final Panel[] panel = new Panel[]{null};
-            if (panelId != null)
-                new HibernateTxFragment() {
-                    protected void txFragment(Session session) throws Exception {
-                        panel[0] = (Panel) session.load(Panel.class, panelId);
-                    }
-                }.execute();
-            return panel[0];
-        }
-    }
-
-    public void actionIntrospect(CommandRequest request) throws Exception{
+    public void actionIntrospect(CommandRequest request) throws Exception {
         clearTestParameters();
         clearIntrospectParameters();
         actionCheckDataSource(request);
@@ -531,7 +498,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         clearTestParameters();
     }
 
-    public void actionSaveChanges(CommandRequest request) throws Exception{
+    public void actionSaveChanges(CommandRequest request) throws Exception {
         //save datasourceEntry changes
         setSelectedTables(request.getRequestObject().getParameter("selectedTables"));
         actionCreateDatasource(request);
@@ -577,12 +544,13 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     public void actionCheckDataSource(CommandRequest request) {
         validate(getType());
         if (getFieldErrors().isEmpty()) {
+            Connection conn = null;
             try {
                 if (CUSTOM_TYPE.equals(getType()) && !getDataSourceManager().checkDriverClassAvailable(getDriverClass())) {
                     ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                     setTEST_RESULT(i18n.getString("datasource.driver.na"));
                 } else {
-                    Connection conn = getConnection();
+                    conn = getConnection();
                     if (conn != null) {
                         PreparedStatement s = conn.prepareStatement(getTestQuery());
                         s.executeQuery();
@@ -597,6 +565,10 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
             }
             finally {
                 setTEST_MODE(true);
+                try {
+                    if (conn != null) conn.close();
+                }
+                catch (SQLException ignore) {}
             }
         } else {
             setTEST_RESULT("");
