@@ -319,7 +319,10 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
             Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
             Collection values = new ArrayList();
             values.add(selectedValue);
-            dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY);
+            if (dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY)) {
+                // If drill-down then force the whole screen to be refreshed.
+                return new ShowCurrentScreenResponse();
+            }
         }
         return null;
     }
