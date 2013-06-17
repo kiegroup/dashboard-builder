@@ -19,8 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
+import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.UIBeanLocator;
+import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.ui.components.KPIViewer;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
@@ -37,6 +39,7 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
+import org.jboss.dashboard.workspace.PanelsManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -111,9 +114,16 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     protected void beforePanelInstanceRemove(PanelInstance instance) throws Exception {
         // Delete from persistence the KPI attached to the panel.
         KPI kpi = Dashboard.getKPI(instance);
+
+        // Only delete not null KPIs based on deleteable providers.
         if (kpi != null && kpi.getDataProvider().isCanDelete()) {
-            // Only delete not null KPIs based on deleteable providers.
-            kpi.delete();
+
+            // Only delete the KPI if not referred by other panels.
+            PanelsManager panelsManager = UIServices.lookup().getPanelsManager();
+            Set<PanelInstance> panels = panelsManager.getPanelsByParameter(Dashboard.KPI_CODE, kpi.getCode());
+            if (panels.size() == 1) {
+                kpi.delete();
+            }
         }
     }
 
@@ -129,6 +139,21 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
             log.error("Error: ",e);
         }
         return false;
+    }
+
+    public void replicateData(PanelInstance src, PanelInstance dest) throws Exception {
+        KPI kpiSrc = Dashboard.getKPI(src);
+        if (kpiSrc != null) {
+            // Clone the original KPI.
+            KPI kpiDest = DataDisplayerServices.lookup().getKPIManager().createKPI();
+            kpiDest.setDataProvider(kpiSrc.getDataProvider());
+            kpiDest.setDataDisplayer(kpiSrc.getDataDisplayer());
+            kpiDest.setDescriptionI18nMap(kpiSrc.getDescriptionI18nMap());
+            kpiDest.save();
+
+            // Link the destination panel instance with the newly created KPI.
+            dest.setParameterValue(Dashboard.KPI_CODE, kpiDest.getCode());
+        }
     }
 
     // Panel actions

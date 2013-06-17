@@ -17,6 +17,8 @@ package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.workspace.events.ListenerQueue;
 
+import java.util.Set;
+
 /**
 * PanelsManager, implements operations related to panels and panel instances.
 */
@@ -51,4 +53,9 @@ public interface PanelsManager extends ListenerQueue {
      * Get a panel by its database id.
      */
     Panel getPaneltByDbId(Long panelId) throws Exception;
+
+    /**
+     * Get a set of panels containing a parameter with a given value.
+     */
+    Set<PanelInstance> getPanelsByParameter(String paramId, String value) throws Exception;
 }

@@ -83,7 +83,7 @@ public class DashboardHandler {
         if (section == null) return null;
 
         // Return an existent dashboard. 
-        Long key = section.getId();
+        Long key = section.getDbid();
         if (dashboards.containsKey(key)) return dashboards.get(key);
 
         // Initialize a dashboard instance for the section.

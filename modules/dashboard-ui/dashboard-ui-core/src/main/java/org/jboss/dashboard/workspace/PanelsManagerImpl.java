@@ -27,6 +27,7 @@ import org.hibernate.Session;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -149,6 +150,28 @@ public class PanelsManagerImpl implements PanelsManager {
         if (results.size() > 0) return (Panel)results.get(0);
         else log.debug("Does not exists panel with id: " + panelId);
         return null;
+    }
+
+    public Set<PanelInstance> getPanelsByParameter(final String paramId, final String value) throws Exception {
+        final Set<PanelInstance> results = new HashSet<PanelInstance>();
+        new HibernateTxFragment() {
+        protected void txFragment(Session session) throws Exception {
+            FlushMode flushMode = session.getFlushMode();
+            session.setFlushMode(FlushMode.COMMIT);
+
+            StringBuffer sql = new StringBuffer();
+            sql.append("select p ");
+            sql.append("from ").append(PanelInstance.class.getName()).append(" as p join p.panelParams as param ");
+            sql.append("where param.idParameter = :paramId and param.value = :value");
+
+            Query query = session.createQuery(sql.toString());
+            query.setString("paramId", paramId);
+            query.setString("value", value);
+            query.setCacheable(true);
+            results.addAll(query.list());
+            session.setFlushMode(flushMode);
+        }}.execute();
+        return results;
     }
 
     /**
