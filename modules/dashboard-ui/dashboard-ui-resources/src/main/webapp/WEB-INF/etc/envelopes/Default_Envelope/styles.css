@@ -20,22 +20,22 @@
 	border-spacing: 0;
 }
 .Bg_Top-left{
-	background:url(images/Bg_Top-left.jpg) right;
+	background:url(images/Bg_Top-left.png) right;
 	height: 91px;
 	text-align: left;
 }
 .Bg_Top-right{
-	background:url(images/Bg_Top-right.jpg) no-repeat; 
+	background:url(images/Bg_Top-right.png) no-repeat; 
 	width: 1000px;
 	height: 91px;
 	text-align: right;
 }
 
 #General_Logo{
-	width: 169px;
-	height: 91px;
-	top: 1px;
-	left: 1px;
+	width: 400px;
+	height: 24px;
+	top: 20px;
+	left: 10px;
 	position:relative;
 	background:url(images/General_Logo.png) no-repeat;
 }
@@ -83,7 +83,7 @@ div.GlobalLang {
      margin-top: 1px;
 }
 .GlobalLang td, .GlobalLang td a:link, .GlobalLang td a:visited {
-     color: #FFFFFF;
+     color: #FFF;
 }
 div.GlobalBreadCrump {
 	 margin-top: -17px;
@@ -113,6 +113,6 @@ div.GlobalBreadCrump {
 }
 
 /* Chart related styles */
-.skn-chart-table {  padding:10px; margin:5px;border:1px solid #eeeeee; }
+.skn-chart-table {  padding:10px; margin:5px;border:1px solid #DDDDDD; }
 .skn-chart-title { text-align:center; font-size: 120%; font-weight: bold; }
 .skn-chart-tooltip { text-align:center; font-size: 100%; font-weight: bold; height:25px}
