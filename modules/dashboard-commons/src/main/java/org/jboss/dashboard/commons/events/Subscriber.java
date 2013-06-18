@@ -51,7 +51,7 @@ public interface Subscriber extends EventListener {
 
     /**
      * Specify the transaction context in which event notifications must be sent to this subscriber.
-     * @return See above <code>TXCTX_</code> constants defined.
+     * @return See above the <code>TXCONTEXT_</code> constants available.
      */
     int getTransactionContext();
 

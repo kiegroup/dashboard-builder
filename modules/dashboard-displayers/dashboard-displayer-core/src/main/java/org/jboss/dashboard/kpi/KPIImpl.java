@@ -185,13 +185,21 @@ public class KPIImpl implements KPI {
     protected void persist(final int op) throws Exception {
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
+            KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
             switch(op) {
-                case 0: session.save(KPIImpl.this);
-                        break;
-                case 1: session.update(KPIImpl.this);
-                        break;
-                case 2: session.delete(KPIImpl.this);
-                        break;
+                case 0:
+                    kpiManager.notifyKPIListener(KPIManager.EVENT_KPI_CREATED, KPIImpl.this);
+                    session.save(KPIImpl.this);
+                    kpiManager.notifyKPIListener(KPIManager.EVENT_KPI_SAVED, KPIImpl.this);
+                    break;
+                case 1:
+                    session.update(KPIImpl.this);
+                    kpiManager.notifyKPIListener(KPIManager.EVENT_KPI_SAVED, KPIImpl.this);
+                    break;
+                case 2:
+                    kpiManager.notifyKPIListener(KPIManager.EVENT_KPI_DELETED, KPIImpl.this);
+                    session.delete(KPIImpl.this);
+                    break;
             }
             session.flush();
         }}.execute();

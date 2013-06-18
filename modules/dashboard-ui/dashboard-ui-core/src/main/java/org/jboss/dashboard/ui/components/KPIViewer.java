@@ -15,10 +15,14 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.kpi.KPI;
+import org.jboss.dashboard.kpi.KPIListener;
+import org.jboss.dashboard.kpi.KPIListenerAdapter;
+import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.displayer.DataDisplayer;
 
@@ -35,9 +39,15 @@ public class KPIViewer extends UIComponentHandlerFactoryElement {
     protected DataDisplayerViewer displayerViewer;
     protected String componentIncludeJSP;
 
+    protected transient KPIListener kpiListener;
+
     public KPIViewer() {
         kpi = null;
         displayerViewer = null;
+        kpiListener = new KPIViewerListener();
+        KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
+        kpiManager.addKPIListener(kpiListener, KPIManager.EVENT_ALL);
+
     }
 
     public DataDisplayerViewer getDisplayerViewer() {
@@ -79,6 +89,24 @@ public class KPIViewer extends UIComponentHandlerFactoryElement {
         if (kpiDisplayer instanceof AbstractChartDisplayer) {
             AbstractChartDisplayer displayer = (AbstractChartDisplayer) kpiDisplayer;
             displayer.setTitle(kpi.getDescription(locale));
+        }
+    }
+
+    /**
+     * Listener that listen for changes made to the KPI instance.
+     */
+    private class KPIViewerListener extends KPIListenerAdapter {
+
+        public void kpiSaved(KPI other) {
+            if (kpi != null && kpi.getCode().equals(other.getCode())) {
+                setKpi(other);
+            }
+        }
+
+        public void kpiDeleted(KPI other) {
+            if (kpi != null && kpi.getCode().equals(other.getCode())) {
+                setKpi(null);
+            }
         }
     }
 }

@@ -15,14 +15,11 @@
  */
 package org.jboss.dashboard.kpi;
 
+import org.jboss.dashboard.commons.events.Publisher;
 import org.jboss.dashboard.provider.DataProviderManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,6 +38,15 @@ public class KPIManagerImpl implements KPIManager {
 
     @Inject
     protected DataProviderManager dataProviderManager;
+
+    /**
+     * Event publisher addressed to store those listeners interested in process events.
+     */
+    protected Publisher eventPublisher;
+
+    public KPIManagerImpl() {
+        eventPublisher = new Publisher();
+    }
 
     public KPI createKPI() {
         return new KPIImpl();
@@ -108,5 +114,31 @@ public class KPIManagerImpl implements KPIManager {
         KPIComparator comp = new KPIComparatorImpl();
         comp.addSortCriteria(KPIComparator.CRITERIA_DESCRIPTION, ascending ? KPIComparator.ORDER_ASCENDING : KPIComparator.ORDER_DESCENDING);
         Collections.sort(list, comp);
+    }
+
+    // Event handling
+
+    public Map<Integer,List<KPIListener>> getKPIListenerMap() {
+        return eventPublisher.getSubscribers();
+    }
+
+    public List<KPIListener> getKPIListeners(int eventId) {
+        return eventPublisher.getSubscribers(eventId);
+    }
+
+    public void addKPIListener(KPIListener kpiListener, int eventId) {
+        eventPublisher.subscribe(kpiListener, eventId);
+    }
+
+    public void removeKPIListener(KPIListener kpiListener, int eventId) {
+        eventPublisher.unsubscribe(kpiListener, eventId);
+    }
+
+    public void removeKPIListener(KPIListener kpiListener) {
+        eventPublisher.unsubscribe(kpiListener);
+    }
+
+    public void notifyKPIListener(int eventId, KPI kpi) {
+        eventPublisher.notifyEvent(eventId, kpi);
     }
 }
