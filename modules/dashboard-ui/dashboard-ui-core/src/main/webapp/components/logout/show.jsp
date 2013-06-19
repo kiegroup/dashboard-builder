@@ -25,7 +25,7 @@
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<table cellspacing="5px" cellpadding="1px" border="0" class="login-table">
+<table class="login-table">
 	<tr>
 		<td valign="middle" align="left"><i18n:message key="ui.login.loggedAs">!!! Logged as</i18n:message>
 			<%= UserStatus.lookup().getUserLogin() %>
