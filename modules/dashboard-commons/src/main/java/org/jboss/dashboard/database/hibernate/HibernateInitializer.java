@@ -233,13 +233,20 @@ public class HibernateInitializer implements Startable {
     }
 
     public String inferDatabaseName(DataSource ds) throws Exception {
-        Connection connection = ds.getConnection();
-        String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
-        if (dbProductName.contains("h2")) return DB_H2;
-        if (dbProductName.contains("postgre")) return DB_POSTGRES;
-        if (dbProductName.contains("mysql")) return DB_MYSQL;
-        if (dbProductName.contains("oracle")) return DB_ORACLE;
-        if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
+        Connection connection = null;
+        try {
+            connection = ds.getConnection();
+            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
+            if (dbProductName.contains("h2")) return DB_H2;
+            if (dbProductName.contains("postgre")) return DB_POSTGRES;
+            if (dbProductName.contains("mysql")) return DB_MYSQL;
+            if (dbProductName.contains("oracle")) return DB_ORACLE;
+            if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+        }
         return null;
     }
 

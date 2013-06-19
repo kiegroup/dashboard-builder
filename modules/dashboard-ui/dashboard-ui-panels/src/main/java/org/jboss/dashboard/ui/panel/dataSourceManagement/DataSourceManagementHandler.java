@@ -21,10 +21,6 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.controller.RequestContext;
-import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.ui.controller.responses.PanelAjaxResponse;
 import org.jboss.dashboard.database.DataSourceEntry;
 import org.jboss.dashboard.database.DataSourceManager;
 import org.jboss.dashboard.database.JDBCDataSourceEntry;
@@ -32,7 +28,6 @@ import org.jboss.dashboard.database.JNDIDataSourceEntry;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import javax.servlet.RequestDispatcher;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -303,7 +298,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         if (!getFieldErrors().isEmpty()) {
             return;
         }
-        DataSourceEntry dSource = getDataSourceManager().getDataSourceEntryByName(getName());
+        DataSourceEntry dSource = getDataSourceManager().getDataSourceEntry(getName());
         if (dSource != null && !isEDIT_MODE()) {
             addFieldError(new FactoryURL(getComponentName(), "name"), null, getName());
             return;
@@ -311,7 +306,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
 
         // Edit the DataSource
         if (isEDIT_MODE()) {
-            dSource = getDataSourceManager().getDataSourceEntryByName(getDS_EDIT());
+            dSource = getDataSourceManager().getDataSourceEntry(getDS_EDIT());
             if (dSource != null) {
                 if (dSource instanceof JNDIDataSourceEntry && getType().equals(CUSTOM_TYPE)) {
                     setJndiStatusError();
@@ -437,7 +432,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     public void actionDeleteDataSource(CommandRequest request) throws Exception {
         final String dsName = request.getRequestObject().getParameter(PARAM_DS_NAME);
         if (dsName != null && !"".equals(dsName)) {
-            final DataSourceEntry dSource = getDataSourceManager().getDataSourceEntryByName(dsName);
+            final DataSourceEntry dSource = getDataSourceManager().getDataSourceEntry(dsName);
             if (dSource != null) {
                 new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
@@ -467,7 +462,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         clearParametersHandler();
         String dsName = request.getRequestObject().getParameter(PARAM_DS_NAME);
         if (dsName != null && !"".equals(dsName)) {
-            DataSourceEntry dSource = getDataSourceManager().getDataSourceEntryByName(dsName);
+            DataSourceEntry dSource = getDataSourceManager().getDataSourceEntry(dsName);
             if (dSource != null) {
                 if (dSource instanceof JNDIDataSourceEntry) {
                     setJndiPath(dSource.getJndiPath());

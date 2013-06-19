@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
+import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -102,20 +103,27 @@ public class DataSourceManagementFormatter extends Formatter {
 
     protected String checkDataSource(DataSourceEntry entry) {
         try {
-            DataSource ds = getDataSourceManagementHandler().getDataSourceManager().getDatasource(entry.getName());
+            DataSource ds = getDataSourceManagementHandler().getDataSourceManager().getDataSource(entry.getName());
             if (!getDataSourceManagementHandler().getDataSourceManager().checkDriverClassAvailable(entry.getDriverClass())) {
                 ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                 return i18n.getString("datasource.driver.na");
             }
             if (ds == null) return "DataSource null";
 
-            Connection conn = ds.getConnection();
-            if (conn != null) {
-                Statement s = conn.createStatement();
-                ResultSet rs = s.executeQuery(entry.getTestQuery());
-                rs.close();
-                s.close();
-                return DataSourceManagementHandler.RESULT_OK;
+            Connection conn = null;
+            try {
+                conn = ds.getConnection();
+                if (conn != null) {
+                    Statement s = conn.createStatement();
+                    ResultSet rs = s.executeQuery(entry.getTestQuery());
+                    rs.close();
+                    s.close();
+                    return DataSourceManagementHandler.RESULT_OK;
+                }
+            } finally {
+                if (conn != null) {
+                    conn.close();
+                }
             }
             return "";
         } catch (Exception e) {

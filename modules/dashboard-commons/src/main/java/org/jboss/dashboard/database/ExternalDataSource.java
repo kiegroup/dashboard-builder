@@ -34,23 +34,9 @@ import java.util.logging.Logger;
  */
 public class ExternalDataSource implements DataSource {
 
-    /**
-     * Get an external data source instance.
-     * @param name The name to assign to the datasource.
-     * @param dsEntry The object containing the connection configuration for this datasource.
-     */
-    public static ExternalDataSource lookup(String name, DataSourceEntry dsEntry) {
-        ExternalDataSource ds = new ExternalDataSource();
-        ds.setName(name);
-        ds.setDataSourceEntry(dsEntry);
-        ds.setDisableAutoCommit(true);
-        return ds;
-    }
-
     protected static transient Log log = LogFactory.getLog(ExternalDataSource.class.getName());
     protected String name;
     protected DataSourceEntry dataSourceEntry;
-    protected transient Connection currentConnection;
     private PrintWriter printWriter = new PrintWriter(System.out);
     private int loginTimeOut = 0;
     private boolean disableAutoCommit;
@@ -58,7 +44,6 @@ public class ExternalDataSource implements DataSource {
     public ExternalDataSource() {
         this.name = null;
         this.dataSourceEntry = null;
-        this.currentConnection = null;
         this.disableAutoCommit = true;
     }
 
@@ -107,53 +92,14 @@ public class ExternalDataSource implements DataSource {
     }
 
     public Connection getConnection() throws SQLException {
-        if (currentConnection == null) initConnection();
-        return currentConnection;
-    }
-
-    public Logger getParentLogger() {
-        return null;
-    }
-
-    protected void initConnection() {
         try {
-            new HibernateTxFragment() {
-            protected void txFragment(Session session) throws Exception {
-                log.debug("Obtain data source connection: " + name);
-                // Bug Fix: under some circumstances, the dataSourceEntry attribute became out of sync with the Hibernate session.
-                dataSourceEntry = (DataSourceEntry) session.get(dataSourceEntry.getClass(), dataSourceEntry.getDbid());
-                Connection conn = dataSourceEntry.getConnection();
-                setAutoCommit(conn, !disableAutoCommit);
-                currentConnection = conn;
-                registerForCallbackNotifications();
-            }
-            protected void beforeRollback() throws Exception {
-                // Rollback asap.
-                completeConnection(false);
-            }
-            protected void afterRollback() throws Exception {
-                // Rollback if before commit fails.
-                completeConnection(false);
-            }
-            protected void afterCommit() throws Exception {
-                // Commit as late as possible.
-                completeConnection(true);
-            }}.execute();
+            log.debug("Obtain data source connection: " + name);
+            Connection conn = dataSourceEntry.getConnection();
+            setAutoCommit(conn, !disableAutoCommit);
+            return conn;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    protected void completeConnection(boolean commit) throws SQLException {
-        if (currentConnection != null && !currentConnection.isClosed()) {
-            if (!getAutoCommit(currentConnection)) {
-                log.debug(commit ? "Commit" : "Rollback" + " data source connection: " + name);
-                if (commit) currentConnection.commit();
-                else currentConnection.rollback();
-            }
-            currentConnection.close();
-        }
-        currentConnection = null;
     }
 
     protected boolean getAutoCommit(Connection conn) {
@@ -161,7 +107,6 @@ public class ExternalDataSource implements DataSource {
             return conn.getAutoCommit();
         } catch (SQLException e) {
             // Ignore problems when trying to get autocommit.
-            // In some environments (Presidencia - Informix) when trying to get autocommit an exception is thrown.
             log.debug("Can not get autocommit for datasource: " + name, e);
             return true;
         }
@@ -174,7 +119,6 @@ public class ExternalDataSource implements DataSource {
             }
         } catch (SQLException e) {
             // Ignore problems when trying to change autocommit.
-            // In some environments (Presidencia - Informix) when trying to set autocommit=true an exception is thrown.
             log.debug("Can not set autocommit for datasource: " + name, e);
         }
     }
@@ -186,5 +130,4 @@ public class ExternalDataSource implements DataSource {
     public <T> T unwrap(Class<T> c) {
         return null;
     }
-    
 }

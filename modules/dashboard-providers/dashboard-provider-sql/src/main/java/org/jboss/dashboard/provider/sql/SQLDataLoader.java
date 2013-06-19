@@ -69,7 +69,7 @@ public class SQLDataLoader extends AbstractDataLoader {
             if (dataSource != null) {
                 HibernateInitializer hbnInitializer = CoreServices.lookup().getHibernateInitializer();
                 DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
-                DataSource ds = dataSourceManager.getDatasource(dataSource);
+                DataSource ds = dataSourceManager.getDataSource(dataSource);
                 dataBaseName = hbnInitializer.inferDatabaseName(ds);
             }
         } catch (Exception e) {

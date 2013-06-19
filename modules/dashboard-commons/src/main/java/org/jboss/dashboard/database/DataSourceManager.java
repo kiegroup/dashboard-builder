@@ -28,9 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Manager used to access the DataSource instances configured in the current installation.
@@ -40,12 +38,6 @@ public class DataSourceManager {
 
     public static final String DEFAULT_DATASOURCE_NAME = "local";
     private static transient Log log = LogFactory.getLog(DataSourceManager.class.getName());
-
-    /**
-     * Set of data sources used by the current thread.
-     * this thread local is required to support distributed transactions. 
-     */
-    protected static transient ThreadLocal currentThreadDataSources = new ThreadLocal();
 
     @PostConstruct
     public void start() throws Exception {
@@ -100,7 +92,7 @@ public class DataSourceManager {
         return result;
     }
 
-    public DataSourceEntry getDataSourceEntryByName(final String name) throws Exception {
+    public DataSourceEntry getDataSourceEntry(final String name) throws Exception {
         if (name == null) return null;
 
         final List results = new ArrayList();
@@ -133,66 +125,19 @@ public class DataSourceManager {
     /**
      * Get a datasource given its name
      */
-    public DataSource getDatasource(final String name) throws Exception {
-        // Data sources are cached at a thread level because they are attached to the underlying thread distributed transaction.
-        DataSource ds = getCurrentThreadDataSource(name);
-        if (ds != null) return ds;
-
-        // Search the data source with the given name into the database.
-        final DataSourceEntry[] entryResult = new DataSourceEntry[] {null};
-        try {
-            new HibernateTxFragment() {
-            protected void txFragment(Session session) throws Exception {
-                Query query = session.createQuery(" from " + DataSourceEntry.class.getName() + " entry where entry.name = :entryName ");
-                FlushMode oldFlushMode = session.getFlushMode();
-                session.setFlushMode(FlushMode.COMMIT);
-                query.setString("entryName", name);
-                query.setCacheable(true);
-                List results = query.list();
-                if (results.size() == 1) entryResult[0] = (DataSourceEntry) results.get(0);
-                else log.warn("There are " + results.size() + " datasource entries with name " + name);
-                session.setFlushMode(oldFlushMode);
-            }}.execute();
-        } catch (Exception e) {
-            log.error("Error: ", e);
+    public DataSource getDataSource(String name) throws Exception {
+        // Check if the requested data source is the default local
+        if (DEFAULT_DATASOURCE_NAME.equals(name))  {
+            return CoreServices.lookup().getHibernateInitializer().getLocalDataSource();
         }
-        // Data source not found.
-        if (entryResult[0] == null) return null;
+        DataSourceEntry entry = getDataSourceEntry(name);
+        if (entry == null) return null;
 
-        // Add a proxy data source to the cache before returning.
-        ds = ExternalDataSource.lookup(name, entryResult[0]);
-        setCurrentThreadDataSource(name, ds);
+        ExternalDataSource ds = new ExternalDataSource();
+        ds.setName(name);
+        ds.setDataSourceEntry(entry);
+        ds.setDisableAutoCommit(true);
         return ds;
-    }
-
-    /**
-     * Retrieve a data sources being used by the current thread.
-     */
-    protected DataSource getCurrentThreadDataSource(String name) throws Exception {
-        Map<String, DataSource> dsMap = getCurrentThreadDataSources();
-        return dsMap.get(name);
-    }
-
-    /**
-     * Store a data source as used by the current thread.
-     */
-    protected void setCurrentThreadDataSource(String name, DataSource ds) throws Exception {
-        Map<String, DataSource> dsMap = getCurrentThreadDataSources();
-        dsMap.put(name, ds);
-    }
-
-    /**
-     * Retrieve the data sources being used by the current thread.
-     */
-    protected Map<String, DataSource> getCurrentThreadDataSources() throws Exception {
-        Map<String, DataSource> dsMap = (Map) currentThreadDataSources.get();
-        if (dsMap == null) {
-            dsMap = new HashMap();
-            DataSource localDataSource = CoreServices.lookup().getHibernateInitializer().getLocalDataSource();
-            dsMap.put(DEFAULT_DATASOURCE_NAME, localDataSource);
-            currentThreadDataSources.set(dsMap);
-        }
-        return dsMap;
     }
 }
 
