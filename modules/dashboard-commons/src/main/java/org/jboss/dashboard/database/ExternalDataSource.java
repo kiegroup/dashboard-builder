@@ -102,6 +102,10 @@ public class ExternalDataSource implements DataSource {
         }
     }
 
+    public Logger getParentLogger() {
+        return null;
+    }
+
     protected boolean getAutoCommit(Connection conn) {
         try {
             return conn.getAutoCommit();
