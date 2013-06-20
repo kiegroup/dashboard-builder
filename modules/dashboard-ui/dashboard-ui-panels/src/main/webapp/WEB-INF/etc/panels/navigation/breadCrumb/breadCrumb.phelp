@@ -25,9 +25,9 @@
 </about>
 <panel-id>navigation.bread_crumb</panel-id>
 <usage>
-<text lang="en">This panel offers the user a visual trail on his current whereabouts inside the portal.</text>
-<text lang="es">Este panel brinda al usuario una pista visual acerca de su situaci&#243;n actual en el portal.</text>
-<text lang="ca">Aquest panell ofereix a l&#39;usuari un rastre visual sobre la seva situaci&#243; actual al portal.</text>
+<text lang="en">This panel offers the user a visual trail on his current whereabouts inside the workspace.</text>
+<text lang="es">Este panel brinda al usuario una pista visual acerca de su situaci&#243;n actual en el workspace.</text>
+<text lang="ca">Aquest panell ofereix a l&#39;usuari un rastre visual sobre la seva situaci&#243; actual al workspace.</text>
 </usage>
 <panel-parameter name="initialTrimDepth">
 <text lang="en">Allows to define a number of initial crumbs that should not appear in the trail.</text>
