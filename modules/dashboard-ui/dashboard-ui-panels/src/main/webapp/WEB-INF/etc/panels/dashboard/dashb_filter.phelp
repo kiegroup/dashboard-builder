@@ -25,12 +25,15 @@
 </about>
 <panel-id>dashboard.filter</panel-id>
 <usage>
-<text lang="en">This panel allows the user to drill-down (narrow) or drill-up (broaden) in the data-set that
-a particular data-provider produces.</text>
-<text lang="es">Este panel permite al usuario hacer drill-down (reducir) o drill-up (ampliar) en el conjunto de datos que
-un proveedor de datos determinado produce.</text>
-<text lang="ca">Aquest panell permet a l'usuari fer drill-down (estret) o drill-up (ampliar) en el conjunt de dades que
-un prove&#239;dor de dades determinat produeix.</text>
+<text lang="en">This panel allows the user to filter the data-set that a particular data-provider produces, and that
+may be represented in one or more Key Performance Indicators in the current view. Optionally it can also be used for
+drilling down / up.</text>
+<text lang="es">Este panel permite al usuario filtrar el conjunto de datos que un determinado proveedor de datos produce,
+y que puede visualizarse en uno o varios Indicadores Clave de Rendimiento en la vista actual. Opcionalmente tambi&#233;n se
+puede usar para hacer &#39;drill-down&#39; / &#39;drill-up&#39;.</text>
+<text lang="ca">Aquest panell permet a l&#39;usuari filtrar el conjunt de dades que un determinat prove&#239;dor de dades produeix,
+i que pot visualitzar-se en un o diversos Indicadors Clau de Rendiment a la vista actual. Opcionalment tamb&#233; es pot
+fer servir per fer &#39;drill-down&#39; / &#39;drill-up&#39;.</text>
 </usage>
 <edit-usage>
 <text lang="en">The edit mode for this panel is used for configuring the way the filer panel will appear in terms of which
