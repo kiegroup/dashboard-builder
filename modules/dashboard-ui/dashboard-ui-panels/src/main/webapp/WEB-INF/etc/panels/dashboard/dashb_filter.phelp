@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<phelp>
+<about>
+<author></author>
+<company></company>
+<url></url>
+<license></license>
+</about>
+<panel-id>dashboard.filter</panel-id>
+<usage>
+<text lang="en">This panel allows the user to drill-down (narrow) or drill-up (broaden) in the data-set that
+a particular data-provider produces.</text>
+<text lang="es">Este panel permite al usuario hacer drill-down (reducir) o drill-up (ampliar) en el conjunto de datos que
+un proveedor de datos determinado produce.</text>
+<text lang="ca">Aquest panell permet a l'usuari fer drill-down (estret) o drill-up (ampliar) en el conjunt de dades que
+un prove&#239;dor de dades determinat produeix.</text>
+</usage>
+<edit-usage>
+<text lang="en">The edit mode for this panel is used for configuring the way the filer panel will appear in terms of which
+data-provider properties will be visualized, and if they will link to another page, as well as the behaviour of the panel itself.</text>
+<text lang="es">El modo de edici&#243;n de este panel se utiliza para configurar el panel de filtrado en cuanto a las propiedades
+del proveedor de datos que se visualizar&#225;n, y si &#233;stos enlazar&#225;n a otra p&#225;gina, as&#237; como el
+comportamiento del propio panel.</text>
+<text lang="ca">El mode d&#39;edici&#243; d&#39;aquest panell s&#39;utilitza per configurar el panell de filtrat pel que fa
+a les propietats del prove&#239;dor de dades que es visualitzaran, i aquests enllaçaran a una altra p&#224;gina, aix&#237;
+com el comportament del mateix panell.</text>
+</edit-usage>
+<panel-parameter name="handlercode">
+<text lang="en">This parameter allows defining a lookup-code for this panel&#39;s filter component, it&#39;s there strictly
+for development purposes, such as implementing custom filtering components.</text>
+<text lang="es">Este par&#225;metro permite definir un c&#243;digo de lookup para el componente de filtrado de este panel,
+y su uso se limita estrictamente al &#225;mbito de desarrollo, como puede ser la implementaci&#243;n de componentes de filtrado
+personalizados.</text>
+<text lang="ca">Aquest par&#224;metre permet definir un codi de lookup per al component de filtrat d&#39;aquest panell,
+i el seu &#250;s es limita estrictament a l&#39;&#224;mbit de desenvolupament, com pot ser l&#39;implementaci&#243; de
+components de filtrat personalitzats.</text></panel-parameter></phelp>
