@@ -306,17 +306,14 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
 
         DataSetTable dataSetTable = (DataSetTable) getTable();
         DataProperty selectedProperty = dataSetTable.getDataProperty(columnIndex);
-        DataProperty groupByProperty = dataSetTable.getGroupByProperty();
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
-        if (groupByProperty != null) {
-            // When the table is grouped then get the interval selected.
-            Interval selectedInterval = (Interval) dataSetTable.getDataSet().getValueAt(rowIndex, 0);
-            if (dashboard.filter(selectedProperty.getPropertyId(), selectedInterval, FilterByCriteria.ALLOW_ANY)) {
+        Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
+        if (selectedValue instanceof Interval) {
+            if (dashboard.filter(selectedProperty.getPropertyId(), (Interval) selectedValue, FilterByCriteria.ALLOW_ANY)) {
                 // If drill-down then force the whole screen to be refreshed.
                 return new ShowCurrentScreenResponse();
             }
         } else {
-            Object selectedValue = dataSetTable.getValueAt(rowIndex, columnIndex);
             Collection values = new ArrayList();
             values.add(selectedValue);
             if (dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY)) {
