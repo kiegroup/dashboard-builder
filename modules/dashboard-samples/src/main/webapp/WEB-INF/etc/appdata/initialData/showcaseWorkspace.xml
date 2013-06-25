@@ -72,7 +72,7 @@
         </panelInstance>
         <panelInstance serialization="" provider="system.workspace_import_export" id="2038">
             <param name="showImport" value="false" lang=" "/>
-            <param name="title" value="Export Workspace" lang="en"/>
+            <param name="title" value="Export Workspaces" lang="en"/>
             <param name="title" value="Exportaci&#243;n de workspaces" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.data_provider_management" id="2985">
@@ -729,7 +729,6 @@
                  idSkin="" friendlyUrl="import-export" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Import and export" lang="en"/>
             <param name="title" value="Importar y exportar" lang="es"/>
-            <panel position="-1" instanceId="2979" id="2980"/>
             <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2158"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2981" regionId="center_1" id="2982"/>
