@@ -27,7 +27,7 @@
     <!--
         Use by default the JBoss AS security domain.
         In order to access as superuser to the Dashboard Builder app you must create a user with login="root".
-        (Users can be registered using the bin/addUser.sh command)
+        (Users can be registered using the bin/add-user.sh command)
 
         If you choose to use a custom security domain then you should define it into the
         <jboss-as7>/standalone/configuration/standalone.xml file.
