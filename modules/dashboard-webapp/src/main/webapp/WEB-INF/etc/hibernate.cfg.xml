@@ -26,13 +26,12 @@ limitations under the License.
         <!-- Database connection settings -->
         <property name="connection.datasource">java:comp/env/jdbc/dashbuilder</property>
 
-        <!-- Use java.io> streams to read / write binary data from / to JDBC -->
+        <!-- Use java.io streams to read / write binary data from / to JDBC -->
         <property name="jdbc.use_streams_for_binary">true</property>
 
-        <!-- Cache settings: use EHCache by default -->
-        <property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-        <property name="cache.use_second_level_cache">true</property>
-        <property name="cache.use_query_cache">true</property>
+        <!-- 2L cache is disabled by default -->
+        <property name="cache.use_second_level_cache">false</property>
+        <property name="cache.use_query_cache">false</property>
 
         <!-- Context scoping for org.hibernate.SessionFactory#getCurrentSession() processing -->
         <property name="current_session_context_class">thread</property>
@@ -43,6 +42,12 @@ limitations under the License.
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
         <property name="format_sql">true</property>
+
+        <!--
+         Needed to avoid error the following error on AS 7.1.1 final:
+         org.hibernate.MappingException: Unable to create AuditStrategy[org.hibernate.envers.strategy.DefaultAuditStrategy] instance
+         -->
+        <property name="listeners.envers.autoRegister">false</property>
 
     </session-factory>
 </hibernate-configuration>
