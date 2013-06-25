@@ -39,7 +39,13 @@ public class CSVProviderEditor extends DataProviderEditor {
 
     public boolean isConfiguredOk() {
         try {
-            return getLoadError() == null;
+            return !StringUtils.isBlank(getCSVDataLoader().getFileURL()) &&
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvSeparatedBy()) &&
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvQuoteChar()) &&
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvEscapeChar()) &&
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvDatePattern()) &&
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvNumberPattern()) &&
+                   getLoadError() == null;
         } catch (Exception e) {
             return false;
         }

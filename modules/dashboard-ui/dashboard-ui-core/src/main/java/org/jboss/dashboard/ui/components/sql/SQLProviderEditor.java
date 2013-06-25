@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.components.sql;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
@@ -23,6 +24,8 @@ import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+
+import java.util.ResourceBundle;
 
 public class SQLProviderEditor extends DataProviderEditor {
 
@@ -66,13 +69,18 @@ public class SQLProviderEditor extends DataProviderEditor {
         String dataSource = request.getRequestObject().getParameter("dataSource");
         String sqlQuery = request.getRequestObject().getParameter("sqlQuery");
 
+        // Clear previous errors
+        setQueryError(null);
+
         // Set the SQL and try to load the new dataset.
         SQLDataLoader sqlLoader = getSQLDataLoader();
         if (dataSource != null) sqlLoader.setDataSource(dataSource);
-        if (sqlQuery != null) sqlLoader.setSQLQuery(sqlQuery);
-
-        // Clear previous errors
-        setQueryError(null);
+        if (!StringUtils.isBlank(sqlQuery)) sqlLoader.setSQLQuery(sqlQuery);
+        else {
+            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.sql.messages", LocaleManager.currentLocale());
+            setQueryError(i18n.getString("editor.query.blank"));
+            return null;
+        }
 
         // Ensure data retrieved is refreshed.
         if (isConfiguredOk()) {

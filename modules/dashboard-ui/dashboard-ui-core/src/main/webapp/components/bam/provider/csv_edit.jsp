@@ -20,6 +20,7 @@
 <%@ page import="org.jboss.dashboard.ui.components.csv.CSVProviderEditor" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.provider.csv.CSVDataLoader" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@taglib uri="factory.tld" prefix="factory" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
@@ -111,35 +112,32 @@
 
 			<%
 				// Check if the result of the test has been correct or not.
-				boolean validDataset = editor.isConfiguredOk();
-				if (validDataset) {
+				if (editor.isConfiguredOk()) {
 			%>
 			<br>
 			<font color=green>
 				<i18n:message key="editor.dataSetOk">!!! Data loaded correctly </i18n:message>
 				<br>
-				<%
+			<%
 					if (editor.getElapsedTime() > 0) {
-				%>
+			%>
 				<i18n:message key="editor.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
 				<br>
 				<i18n:message key="editor.numberOfResults"/>: <%=editor.getNrows()%>
-				<%
-					}
-				%>
 			</font>
+			<%
+					}
+				} else if (!StringUtils.isBlank(editor.getLoadError())) {
+			%>
+			<br><font color=red> <i18n:message key="editor.invalidDataSet"/>
+			<br> <i18n:message key='<%= "editor.csv."+editor.getLoadError() %>'>
+				<%= editor.getLoadError() %>
+			</i18n:message></font>
+			<%
+				}
+			%>
 		</td>
 	</tr>
-	<%
-	} else {
-	%>
-	<br><font color=red> <i18n:message key="editor.invalidDataSet"/>
-	<br> <i18n:message key='<%= "editor.csv."+editor.getLoadError() %>'>
-		<%= editor.getLoadError() %>
-	</i18n:message></font>
-	<%
-		}
-	%>
 	<tr>
 		<td align="center" colspan="2">
 			<label>

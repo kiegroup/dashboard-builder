@@ -46,7 +46,7 @@
     <tr>
         <td align="left" style="padding-left:20px; padding-right:20px;">
             <i18n:message key="editor.datasourceToUse">!!!Datasource a utilizar</i18n:message>: &nbsp;
-            <select name="dataSource" title="<%= currentDataSource %>" width="65px" class="skn-input" onChange="submitAjaxForm(this.form);">
+            <select name="dataSource" title="<%= currentDataSource %>" width="65px" class="skn-input">
             <%
                 DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
                 List dataSourcesList = dataSourceManager.getDataSourceNames();
