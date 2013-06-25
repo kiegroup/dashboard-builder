@@ -136,7 +136,7 @@ public class DataSourceManager {
         ExternalDataSource ds = new ExternalDataSource();
         ds.setName(name);
         ds.setDataSourceEntry(entry);
-        ds.setDisableAutoCommit(true);
+        ds.setDisableAutoCommit(false);
         return ds;
     }
 }
