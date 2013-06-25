@@ -80,7 +80,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             HTMLText htmlText = load(instance);
-            htmlText.delete();
+            if (htmlText != null) htmlText.delete();
         }}.execute();
     }
 
