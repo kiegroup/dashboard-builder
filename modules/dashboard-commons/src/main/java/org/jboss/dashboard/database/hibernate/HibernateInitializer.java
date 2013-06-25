@@ -67,21 +67,15 @@ public class HibernateInitializer implements Startable {
     @Inject
     protected DataSourceManager databaseSourceManager;
 
-    @Inject @Config("true")
-    protected boolean performNativeToHiloReplace;
-
-    @Inject @Config("true")
-    protected boolean enableDatabaseStructureVerification;
-
-    @Inject @Config("true")
-    protected boolean enableDatabaseAutoSynchronization;
-
-    @Inject @Config(DB_H2 +        "=org.jboss.dashboard.database.H2Dialect," +
+    @Inject @Config(DB_H2 +        "=org.hibernate.dialect.H2Dialect," +
                     DB_POSTGRES +  "=org.hibernate.dialect.PostgreSQLDialect," +
                     DB_ORACLE +    "=org.hibernate.dialect.Oracle10gDialect," +
                     DB_MYSQL +     "=org.hibernate.dialect.MySQLDialect," +
                     DB_SQLSERVER + "=org.hibernate.dialect.SQLServerDialect")
     protected Map<String,String> supportedDialects;
+
+    @Inject @Config("org.hibernate.dialect.H2Dialect")
+    protected String[] nativeToSequenceReplaceableDialects;
 
     @Inject @Config("org.hibernate.dialect.MySQLDialect," +
                     "org.hibernate.dialect.SQLServerDialect")
@@ -92,55 +86,11 @@ public class HibernateInitializer implements Startable {
                     "org.jboss.dashboard.ui.resources.Layout," +
                     "org.jboss.dashboard.ui.resources.ResourceGallery," +
                     "org.jboss.dashboard.ui.resources.GraphicElement")
-    protected String[] databaseStructureVerificationExcludedClassNames;
+    protected String[] verificationExcludedClassNames;
 
     protected Configuration hbmConfig;
     protected String databaseName;
     protected DataSource localDataSource;
-
-    public DatabaseAutoSynchronizer getDatabaseAutoSynchronizer() {
-        return databaseAutoSynchronizer;
-    }
-
-    public boolean isEnableDatabaseStructureVerification() {
-        return enableDatabaseStructureVerification;
-    }
-
-    public void setEnableDatabaseStructureVerification(boolean enableDatabaseStructureVerification) {
-        this.enableDatabaseStructureVerification = enableDatabaseStructureVerification;
-    }
-
-    public boolean isPerformNativeToHiloReplace() {
-        return performNativeToHiloReplace;
-    }
-
-    public void setPerformNativeToHiloReplace(boolean performNativeToHiloReplace) {
-        this.performNativeToHiloReplace = performNativeToHiloReplace;
-    }
-
-    public String[] getNativeToHiloReplaceableDialects() {
-        return nativeToHiloReplaceableDialects;
-    }
-
-    public void setNativeToHiloReplaceableDialects(String[] nativeToHiloReplaceableDialects) {
-        this.nativeToHiloReplaceableDialects = nativeToHiloReplaceableDialects;
-    }
-
-    public String[] getDatabaseStructureVerificationExcludedClassNames() {
-        return databaseStructureVerificationExcludedClassNames;
-    }
-
-    public void setDatabaseStructureVerificationExcludedClassNames(String[] databaseStructureVerificationExcludedClassNames) {
-        this.databaseStructureVerificationExcludedClassNames = databaseStructureVerificationExcludedClassNames;
-    }
-
-    public boolean isEnableDatabaseAutoSynchronization() {
-        return enableDatabaseAutoSynchronization;
-    }
-
-    public void setEnableDatabaseAutoSynchronization(boolean enableDatabaseAutoSynchronization) {
-        this.enableDatabaseAutoSynchronization = enableDatabaseAutoSynchronization;
-    }
 
     public SessionFactory getSessionFactory() {
         return hibernateSessionFactoryProvider.getSessionFactory();
@@ -173,14 +123,12 @@ public class HibernateInitializer implements Startable {
         hibernateSessionFactoryProvider.setSessionFactory(factory);
 
         // Synchronize the database schema.
-        if (isEnableDatabaseAutoSynchronization() && getDatabaseAutoSynchronizer() != null) {
-            getDatabaseAutoSynchronizer().synchronize(this);
+        if (databaseAutoSynchronizer != null) {
+            databaseAutoSynchronizer.synchronize(this);
         }
 
         // Verify the Hibernate mappings.
-        if (enableDatabaseStructureVerification) {
-            verifyHibernateConfig();
-        }
+        verifyHibernateConfig();
     }
 
     public String getDatabaseName() {
@@ -257,7 +205,7 @@ public class HibernateInitializer implements Startable {
             for (Iterator i = metadata.values().iterator(); i.hasNext();) {
                 final AbstractEntityPersister persister = (AbstractEntityPersister) i.next();
                 final String className = persister.getName();
-                if (!ArrayUtils.contains(getDatabaseStructureVerificationExcludedClassNames(), className)) {
+                if (!ArrayUtils.contains(verificationExcludedClassNames, className)) {
                     log.debug("Verifying: " + className);
                     new HibernateTxFragment(true) {
                     protected void txFragment(Session session) throws Exception {
@@ -288,7 +236,7 @@ public class HibernateInitializer implements Startable {
                 if (entryName.endsWith("hbm.xml") && !entry.isDirectory()) {
                     InputStream is = zf.getInputStream(entry);
                     String xml = readXMLForFile(entryName, is);
-                    xml = processXMLContents(entryName, xml);
+                    xml = processXMLContents(xml);
                     hbmConfig.addXML(xml);
                 }
             }
@@ -315,13 +263,16 @@ public class HibernateInitializer implements Startable {
         }
     }
 
-    protected String processXMLContents(String fileName, String fileContent) {
-        if (isPerformNativeToHiloReplace()) {
-            if (ArrayUtils.contains(getNativeToHiloReplaceableDialects(), hbmConfig.getProperty("hibernate.dialect"))) {
-                String line = "class=\"hilo\"><param name=\"table\">hibernate_unique_key</param><param name=\"column\">next_hi</param><param name=\"max_lo\">0</param></generator>";
-                fileContent = StringUtils.replace(fileContent, "class=\"native\"/>", line);
-                fileContent = StringUtils.replace(fileContent, "class=\"native\" />", line);
-            }
+    protected String processXMLContents(String fileContent) {
+        if (ArrayUtils.contains(nativeToSequenceReplaceableDialects, hbmConfig.getProperty("hibernate.dialect"))) {
+            String line = "class=\"sequence\" />";
+            fileContent = StringUtils.replace(fileContent, "class=\"native\"/>", line);
+            fileContent = StringUtils.replace(fileContent, "class=\"native\" />", line);
+        }
+        if (ArrayUtils.contains(nativeToHiloReplaceableDialects, hbmConfig.getProperty("hibernate.dialect"))) {
+            String line = "class=\"hilo\"><param name=\"table\">hibernate_unique_key</param><param name=\"column\">next_hi</param><param name=\"max_lo\">0</param></generator>";
+            fileContent = StringUtils.replace(fileContent, "class=\"native\"/>", line);
+            fileContent = StringUtils.replace(fileContent, "class=\"native\" />", line);
         }
         return fileContent;
     }
@@ -334,6 +285,5 @@ public class HibernateInitializer implements Startable {
         cache.evictQueryRegions();
         cache.evictEntityRegions();
         cache.evictCollectionRegions();
-        cache.evictNaturalIdRegions();
     }
 }
