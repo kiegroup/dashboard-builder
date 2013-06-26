@@ -593,6 +593,20 @@
             <param name="title" value="Logout panel" lang="en"/>
             <param name="title" value="Panel de logout" lang="es"/>
         </panelInstance>
+        <panelInstance serialization="" provider="dashboard.html_editor" id="2108">
+            <rawcontent>
+                rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAACdAACZW50ACQ8aDE+UGFnZSB0aXRsZSAoRWRpdCB0byBjaGFuZ2UpPC9oMT50AAJlc3QAMTxoMT5Uw610dWxvIGRlIHDDoWdpbmEgKEVkaXRhciBwYXJhIGNhbWJpYXIpPC9oMT54
+            </rawcontent>
+            <param name="title" value="Page Title" lang="en"/>
+            <param name="title" value="T&#237;tulo de la p&#225;gina" lang="es"/>
+        </panelInstance>
+        <panelInstance serialization="" provider="dashboard.html_editor" id="2114">
+            <rawcontent>
+                rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAACdAACZW50A388cD48aW1nIHdpZHRoPSI1NzAiIGhlaWdodD0iNDI1IiBzdHlsZT0iZmxvYXQ6IHJpZ2h0OyIgc3JjPSJpbWFnZXMvU2FtcGxlRGFzaGJvYXJkc0ltYWdlLmpwZyIgYWx0PSJKQm9zcyBCdXNpbmVzcyBBY3Rpdml0eSBNb25pdG9yaW5nIGFuZCBSZXBvcnRpbmciIHRpdGxlPSJKQm9zcyBCdXNpbmVzcyBBY3Rpdml0eSBNb25pdG9yaW5nIGFuZCBSZXBvcnRpbmciIC8+PC9wPg0KPHA+PGJyIC8+DQpJbiB0aGlzIHNlY3Rpb24geW91IHdpbGwgZmluZCBzb21lIHNhbXBsZSBkYXNoYm9hcmRzIHRoYXQgZGVtb25zdHJhdGUgc29tZSBvZiB0aGUgcHJvZHVjdCdzIGZ1bmN0aW9uYWxpdHkuPGJyIC8+DQombmJzcDs8L3A+DQo8YnIgLz4NCjxoMj5TYWxlcyBvcHBvcnR1bml0aWVzIGRhc2hib2FyZDo8L2gyPg0KJm5ic3A7DQo8dWw+DQogICAgPGxpPkV4YW1wbGUgb2YgQ1JNIHN0eWxlIGRhc2hib2FyZC48L2xpPg0KICAgIDxsaT5CYXNlZCBvbiBDU1YgZGF0YS48L2xpPg0KICAgIDxsaT5EcmlsbCBkb3duIHRvIG90aGVyIHNlY3Rpb25zLjwvbGk+DQogICAgPGxpPlJlcG9ydGluZyB0YWJsZXMuPC9saT4NCiAgICA8bGk+RmlsdGVyIGFuZCBzZWFyY2guPC9saT4NCjwvdWw+DQo8YnIgdHlwZT0iX21veiIgLz4NCjxiciB0eXBlPSJfbW96IiAvPg0KPGgyPkV4cGVuc2UgcmVwb3J0cyBkYXNoYm9hcmQ6PC9oMj4NCiZuYnNwOw0KPHVsPg0KICAgIDxsaT5FeGFtcGxlIG9mIGEgbWluaW1hbCBkYXNoYm9hcmQuPC9saT4NCiAgICA8bGk+RHJpbGwgZG93biB3aXRob3V0IGNoYW5naW5nIGNvbnRleHQuPC9saT4NCiAgICA8bGk+RHluYW1pYyB0aXRsZXMgZm9yIGRhc2hib2FyZCBzZWN0aW9ucy48L2xpPg0KPC91bD4NCjxiciB0eXBlPSJfbW96IiAvPg0KPGJyIHR5cGU9Il9tb3oiIC8+dAACZXN0BBs8cD48aW1nIHdpZHRoPSI1NzAiIGhlaWdodD0iNDI1IiBzdHlsZT0iZmxvYXQ6IHJpZ2h0OyIgc3JjPSJpbWFnZXMvU2FtcGxlRGFzaGJvYXJkc0ltYWdlLmpwZyIgYWx0PSJKQm9zcyBCdXNpbmVzcyBBY3Rpdml0eSBNb25pdG9yaW5nIGFuZCBSZXBvcnRpbmciIHRpdGxlPSJKQm9zcyBCdXNpbmVzcyBBY3Rpdml0eSBNb25pdG9yaW5nIGFuZCBSZXBvcnRpbmciIC8+PC9wPg0KPHA+PGJyIC8+DQpFbiBlc3RhIHNlY2NpJm9hY3V0ZTtuIGVuY29udHJhciZhYWN1dGU7IGFsZ3Vub3MgZWplbXBsb3MgZGUgY3VhZHJvcyBkZSBtYW5kbywgcXVlIGRlbXVlc3RyYW4gZWwgdXNvIGRlIGFsZ3VuYXMgZGUgbGFzIHByaW5jaXBhbGVzIGZ1bmNpb25hbGlkYWRlcyBkZWwgcHJvZHVjdG8uPGJyIC8+DQombmJzcDs8L3A+DQo8YnIgLz4NCjxoMj5DdWFkcm8gZGUgbWFuZG9zIGRlIG9wb3J0dW5pZGFkZXMgZGUgdmVudGE6PC9oMj4NCiZuYnNwOw0KPHVsPg0KICAgIDxsaT5FamVtcGxvIGRlIHVuIGN1YWRybyBkZSBtYW5kbyBzaW1pbGFyIGEgdW4gQ1JNLjwvbGk+DQogICAgPGxpPkJhc2FkbyBlbiBkYXRvcyBDU1YuPC9saT4NCiAgICA8bGk+PGVtPkRyaWxsIGRvd24gPC9lbT5hIG90cmEgc2VjY2kmb2FjdXRlO24uPC9saT4NCiAgICA8bGk+SW5mb3JtZXMgZGUgdGFibGEuPC9saT4NCiAgICA8bGk+RmlsdHJvIHkgYiZ1YWN1dGU7c3F1ZWRhLjwvbGk+DQo8L3VsPg0KPGJyIHR5cGU9Il9tb3oiIC8+DQo8YnIgdHlwZT0iX21veiIgLz4NCjxoMj5DdWFkcm8gZGUgbWFuZG9zIGRlIGdhc3Rvczo8L2gyPg0KJm5ic3A7DQo8dWw+DQogICAgPGxpPkVqZW1wbG8gZGUgdW4gY3VhZHJvIGRlIG1hbmRvcyBzZW5jaWxsby48L2xpPg0KICAgIDxsaT48ZW0+RHJpbGwgZG93bjwvZW0+IGRlbnRybyBkZSBsYSBtaXNtYSBwJmFhY3V0ZTtnaW5hLjwvbGk+DQogICAgPGxpPlQmaWFjdXRlO3R1bG9zIGRpbiZhYWN1dGU7bWljb3MgYmFzYWRvcyBlbiBlbCBmaWx0cm8gYWN0dWFsLi48L2xpPg0KPC91bD4NCjxiciB0eXBlPSJfbW96IiAvPg0KPGJyIHR5cGU9Il9tb3oiIC8+eA==
+            </rawcontent>
+            <param name="title" value="HTML Editor" lang="en"/>
+            <param name="title" value="Editor HTML" lang="es"/>
+        </panelInstance>
         <section id="1953" visible="true" panelSpacing="0" position="0" regionSpacing="0" idEnvelope="" idSkin=""
                  friendlyUrl="home" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Home" lang="en"/>
@@ -696,6 +710,9 @@
                  friendlyUrl="administration" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Administration" lang="en"/>
             <param name="title" value="Administraci&#243;n" lang="es"/>
+            <permission principalClass="org.jboss.dashboard.security.principals.ComplementaryRolePrincipal"
+                        permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="false"
+                        principal="!role-admin" actions="!view"/>
             <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2155"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2978" regionId="center_1" id="2979"/>
@@ -707,6 +724,9 @@
                  idSkin="" friendlyUrl="data-providers" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Data providers" lang="en"/>
             <param name="title" value="Proveedores de datos" lang="es"/>
+            <permission principalClass="org.jboss.dashboard.security.principals.ComplementaryRolePrincipal"
+                        permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="false"
+                        principal="!role-admin" actions="!view"/>
             <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2156"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2984" regionId="center_1" id="2985"/>
@@ -718,6 +738,9 @@
                  idSkin="" friendlyUrl="external-connections" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="External connections" lang="en"/>
             <param name="title" value="Conexiones externas" lang="es"/>
+            <permission principalClass="org.jboss.dashboard.security.principals.ComplementaryRolePrincipal"
+                        permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="false"
+                        principal="!role-admin" actions="!view"/>
             <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2157"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2306" regionId="center_1" id="2083"/>
@@ -729,12 +752,25 @@
                  idSkin="" friendlyUrl="import-export" idTemplate="Default_template_with_sliding_menu">
             <param name="title" value="Import and export" lang="en"/>
             <param name="title" value="Importar y exportar" lang="es"/>
+            <permission principalClass="org.jboss.dashboard.security.principals.ComplementaryRolePrincipal"
+                        permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="false"
+                        principal="!role-admin" actions="!view"/>
             <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2158"/>
             <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
             <panel position="0" instanceId="2981" regionId="center_1" id="2982"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3106"/>
             <panel position="0" instanceId="2036" regionId="center_3" id="2037"/>
             <panel position="1" instanceId="2038" regionId="center_3" id="2039"/>
+            <panel position="0" instanceId="2187" regionId="left_top" id="2188"/>
+        </section>
+        <section panelSpacing="0" position="4" idTemplate="Default_template_with_sliding_menu" idEnvelope=""
+                 regionSpacing="0" idSkin="" visible="true" id="2104">
+            <param name="title" value="Page template" lang="en"/>
+            <param name="title" value="P&#225;gina plantilla" lang="es"/>
+            <panel position="0" instanceId="2145" regionId="Header_Right-bottom" id="2148"/>
+            <panel position="0" instanceId="2074" regionId="Header_Right-top" id="2075"/>
+            <panel position="0" instanceId="2108" regionId="center_1" id="2083"/>
+            <panel position="1" instanceId="3053" regionId="center_1" id="3101"/>
             <panel position="0" instanceId="2187" regionId="left_top" id="2188"/>
         </section>
     </workspace>
