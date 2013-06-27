@@ -42,7 +42,7 @@
                     <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
                     <exclude>WEB-INF/web.xml</exclude>
                     <exclude>WEB-INF/classes/log4j.xml</exclude>
-                    <exclude>WEB-INF/lib/jboss-*.jar</exclude>
+                    <exclude>WEB-INF/lib/jboss-servlet-*.jar</exclude>
                     <exclude>WEB-INF/lib/servlet-*.jar</exclude>
                     <exclude>WEB-INF/lib/jsp-*.jar</exclude>
                 </excludes>

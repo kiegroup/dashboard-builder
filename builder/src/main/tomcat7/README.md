@@ -13,7 +13,7 @@ Open a terminal window, go to the root directory and execute the following Maven
 
     $ mvn clean install -Dfull -DskipTests
 
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-TOMCAT-7.0.war**.
+Go to the <code>builder/target</code> directory and get the file called **dashbuilder-tomcat-7.0.war**.
 
 Configure Apache Tomcat 7 server
 --------------------------------
@@ -33,14 +33,13 @@ users with them in order to be able to log in.
 
 In a default Tomcat installation, edit <code><tomcat_home>/conf/tomcat-users.xml</code> and customize and add the following lines:
 
-<code>
-    <role rolename="admin"/>
-    <role rolename="user"/>
-
-    <user username="<ADMIN USER>"     password="<PASSWORD>"  roles="admin"/>
-    <user username="root"             password="<PASSWORD>"  roles="admin"/>
-    <user username="<A REGULAR USER>" password="<PASSWORD>"  roles="user"/>
-</code>
+    <pre>
+         &lt;role rolename="admin"/&gt;
+         &lt;role rolename="user"/&gt;
+         &lt;user username="root"   password="root"  roles="admin"/&gt;
+         &lt;user username="admin"  password="admin"  roles="admin"/&gt;
+         &lt;user username="demo"   password="demo"  roles="user"/&gt;
+    </pre>
 
 The user with name 'root' is an special user that is granted all the permissions.
 
@@ -57,5 +56,7 @@ User Authentication
 --------------------------
 
 Once started, open a browser and type the following URL:
-<code>http://localhost:8080/dashbuilder-tomcat-7.0/</code>. A login dialog should be displayed.
+<code>http://localhost:8080/dashbuilder-tomcat-7.0/</code>. A login page should be displayed.
+
+You can sign in with any of the users defined above.
 

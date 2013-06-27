@@ -27,7 +27,15 @@
             <type>war</type>
         </dependency>
 
-        <!-- Dependencies for the demo-installer.zip -->
+        <!-- Dependencies for Tomcat 7 -->
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.1.0.GA</version>
+        </dependency>
+
+        <!-- Dependencies for Standalone Demo -->
 
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
