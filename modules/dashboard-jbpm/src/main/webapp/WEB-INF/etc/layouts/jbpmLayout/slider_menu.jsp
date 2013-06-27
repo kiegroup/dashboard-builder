@@ -151,6 +151,14 @@
 
 
 </style>
+<%
+    // Hide the logout stuff if we are working in embedded mode.
+    // This is the case when embedding the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
+    String embeddedMode = request.getParameter("embedded");
+    if (embeddedMode == null) embeddedMode = request.getParameter("embeddedMode");
+    if (embeddedMode == null) embeddedMode = request.getParameter("hideLogout");
+    if (embeddedMode == null || !embeddedMode.equals("true")) {
+%>
 <table border="0" cellpadding="0" cellspacing="0" class="top_row">
     <tr>
         <td align="left">
@@ -167,6 +175,9 @@
         </td>
     </tr>
 </table>
+<%
+    }
+%>
 <table width="99%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td style="vertical-align:top; text-align:left; width:1%;" class="left_column">
