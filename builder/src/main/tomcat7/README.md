@@ -33,19 +33,17 @@ users with them in order to be able to log in.
 
 In a default Tomcat installation, edit <code><tomcat_home>/conf/tomcat-users.xml</code> and customize and add the following lines:
 
-    <pre>
-         &lt;role rolename="admin"/&gt;
-         &lt;role rolename="user"/&gt;
-         &lt;user username="root"   password="root"  roles="admin"/&gt;
-         &lt;user username="admin"  password="admin"  roles="admin"/&gt;
-         &lt;user username="demo"   password="demo"  roles="user"/&gt;
-    </pre>
+         <role rolename="admin"/>
+         <role rolename="user"/>
+         <user username="root"   password="root"  roles="admin"/>
+         <user username="admin"  password="admin"  roles="admin"/>
+         <user username="demo"   password="demo"  roles="user"/>
 
-The user with name 'root' is an special user that is granted all the permissions.
+The <code>root</code> user is an special user that is granted all the permissions.
 
 Deploy the application
 --------------------------
-Get the proper war file (dashbuilder-tomcat-7.0.war) and copy it to <code><tomcat_home>/webapps</code>:
+Get the proper war file <code>dashbuilder-tomcat-7.0.war</code> and copy it to <code><tomcat_home>/webapps</code>:
 
 NOTE: when the application starts for the first time it may take some minutes due to the database initialization procedure.
 The configured database user must also have enough database grants to create the database objects.
