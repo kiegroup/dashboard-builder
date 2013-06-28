@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components.csv;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
 import org.jboss.dashboard.provider.csv.CSVDataLoader;
@@ -24,11 +25,18 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class CSVProviderEditor extends DataProviderEditor {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CSVProviderEditor.class.getName());
+
+    private ResourceBundle messages;
 
     protected int nrows;
     protected long elapsedTime;
-    protected String loadError;
+
+    public static final String CSV_BUNDLE_PREFIX = "editor.csv.";
 
     public CSVProviderEditor() {
     }
@@ -40,23 +48,15 @@ public class CSVProviderEditor extends DataProviderEditor {
     public boolean isConfiguredOk() {
         try {
             return !StringUtils.isBlank(getCSVDataLoader().getFileURL()) &&
-                   !StringUtils.isBlank(getCSVDataLoader().getCsvSeparatedBy()) &&
+                   !StringUtils.isEmpty(getCSVDataLoader().getCsvSeparatedBy()) &&
                    !StringUtils.isBlank(getCSVDataLoader().getCsvQuoteChar()) &&
                    !StringUtils.isBlank(getCSVDataLoader().getCsvEscapeChar()) &&
                    !StringUtils.isBlank(getCSVDataLoader().getCsvDatePattern()) &&
-                   !StringUtils.isBlank(getCSVDataLoader().getCsvNumberPattern()) &&
-                   getLoadError() == null;
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvNumberPattern());
         } catch (Exception e) {
+            log.error("Error: ", e);
             return false;
         }
-    }
-
-    public String getLoadError() {
-        return loadError;
-    }
-
-    public void setLoadError(String queryError) {
-        this.loadError = queryError;
     }
 
     public long getElapsedTime() {
@@ -76,29 +76,23 @@ public class CSVProviderEditor extends DataProviderEditor {
         String csvNumberPattern = request.getRequestObject().getParameter("csvNumberPattern");
         String csvUrlFile = request.getRequestObject().getParameter("csvUrlFile");
 
-        if (StringUtils.isEmpty(csvUrlFile)) {
-            setLoadError("error1");
-            return null;
+        if (StringUtils.isBlank(csvUrlFile)) {
+            throw new Exception( getErrorMessage("error1") );
         }
         if (StringUtils.isEmpty(csvSeparatedBy)) {
-            setLoadError("error2");
-            return null;
+            throw new Exception( getErrorMessage("error2") );
         }
-        if (StringUtils.isEmpty(csvQuoteChar)) {
-            setLoadError("error6");
-            return null;
+        if (StringUtils.isBlank(csvQuoteChar)) {
+            throw new Exception( getErrorMessage("error6") );
         }
-        if (StringUtils.isEmpty(csvEscapeChar)) {
-            setLoadError("error7");
-            return null;
+        if (StringUtils.isBlank(csvEscapeChar)) {
+            throw new Exception( getErrorMessage("error7") );
         }
-        if (StringUtils.isEmpty(csvDatePattern)) {
-            setLoadError("error3");
-            return null;
+        if (StringUtils.isBlank(csvDatePattern)) {
+            throw new Exception( getErrorMessage("error3") );
         }
-        if (StringUtils.isEmpty(csvNumberPattern)) {
-            setLoadError("error4");
-            return null;
+        if (StringUtils.isBlank(csvNumberPattern)) {
+            throw new Exception( getErrorMessage("error4") );
         }
 
         // Set the CSV file and try to load the new dataset.
@@ -111,9 +105,6 @@ public class CSVProviderEditor extends DataProviderEditor {
         csvLoader.setFileURL(csvUrlFile);
 
         try {
-            // Clear previous errors
-            setLoadError(null);
-
             // Ensure data retrieved is refreshed.
             Chronometer crono = new Chronometer();
             crono.start();
@@ -124,7 +115,7 @@ public class CSVProviderEditor extends DataProviderEditor {
             if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
 
         } catch (Exception e) {
-            setLoadError(e.getMessage() != null ? e.getMessage() : "error5");
+            throw new Exception(e.getMessage() != null ? e.getMessage() : getErrorMessage("error5") );
         }
         return null;
     }
@@ -138,6 +129,13 @@ public class CSVProviderEditor extends DataProviderEditor {
         super.clear();
         nrows = 0;
         elapsedTime = 0;
-        loadError = null;
+    }
+
+    protected String getErrorMessage(String key) {
+        if (key == null || "".equals(key)) return null;
+        Locale currentLocale = LocaleManager.currentLocale();
+        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.csv.messages", currentLocale);
+        String message = messages.getString(CSV_BUNDLE_PREFIX + key);
+        return (message == null || "".equals(message)) ? null : message;
     }
 }

@@ -64,6 +64,13 @@ public class DataProviderFormatter extends Formatter {
             renderFragment("outputStart");
             setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getDataProvider().getDescription(getLocale())));
             renderFragment("outputEditTitle");
+            if (handler.hasErrors()) {
+                setAttribute("message", handler.getProviderMessage());
+                renderFragment("outputError");
+            } else if (handler.hasWarnings()) {
+                setAttribute("message", handler.getProviderMessage());
+                renderFragment("outputWarning");
+            }
             renderFragment("outputTableStart");
             renderFragment("outputDataProviderTypes");
             DataProvider dataProvider = handler.getDataProvider();
@@ -91,6 +98,13 @@ public class DataProviderFormatter extends Formatter {
         try {
             renderFragment("outputStart");
             renderFragment("outputCreateTitle");
+            if (handler.hasErrors()) {
+                setAttribute("message", handler.getProviderMessage());
+                renderFragment("outputError");
+            } else if (handler.hasWarnings()) {
+                setAttribute("message", handler.getProviderMessage());
+                renderFragment("outputWarning");
+            }
             renderFragment("outputTableStart");
             renderFragment("outputDataProviderTypes");
             DataProviderType type = null;

@@ -15,10 +15,12 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.label.LabelDomain;
+import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.provider.*;
 import org.jboss.dashboard.LocaleManager;
@@ -26,13 +28,13 @@ import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Locale;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataProviderHandler.class.getName());
+
+    private ResourceBundle messages;
 
     protected String componentIncludeJSP;
     protected String componentIncludeJSPshow;
@@ -64,7 +66,10 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     protected Long dataProviderId;
     protected Map descriptions;
-    protected boolean isQueryError;
+
+    protected String providerMessage;
+    protected boolean hasErrors = false;
+    protected boolean hasWarnings = false;
 
     protected transient DataProvider newDataProvider;
 
@@ -140,6 +145,32 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     public void setDescriptions(Map descriptions) {
         this.descriptions = descriptions;
+    }
+
+    public String getProviderMessage() {
+        return providerMessage;
+    }
+
+    public void setProviderMessage(String providerMessage) {
+        this.providerMessage = providerMessage;
+    }
+
+    public boolean hasErrors() {
+        return hasErrors;
+    }
+
+    public void setHasErrors(boolean hasErrors) {
+        this.hasErrors = hasErrors;
+        // Errors prevail over warnings
+        if (hasErrors) setHasWarnings(false);
+    }
+
+    public boolean hasWarnings() {
+        return hasWarnings;
+    }
+
+    public void setHasWarnings(boolean hasWarnings) {
+        this.hasWarnings = hasWarnings;
     }
 
     public static DataProviderHandler lookup() {
@@ -320,10 +351,18 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
             DataProviderEditor editor = UIBeanLocator.lookup().getEditor(type);
             editor.setDataProvider(newDataProvider);
-            editor.actionSubmit(request);
+            try {
+                editor.actionSubmit(request);
+            } catch (Exception e) {
+                setProviderMessage(e.getMessage());
+                setHasErrors(true);
+                return;
+            }
+
+            checkConfig();
 
             // Save if requested and all is ok.
-            if (!checkErrors() && editor.isConfiguredOk() && isSaveButtonPressed()) {
+            if (!hasErrors() && editor.isConfiguredOk() && isSaveButtonPressed()) {
                 setProviderDescriptions(newDataProvider);
                 newDataProvider.save();
 
@@ -342,7 +381,13 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         try {
             // Catch changes on the provider configuration.
             DataProviderEditor editor = getDataProviderEditor();
-            editor.actionSubmit(request);
+            try {
+                editor.actionSubmit(request);
+            } catch (Exception e) {
+                setProviderMessage(e.getMessage());
+                setHasErrors(true);
+                return;
+            }
 
             // Merge property configurations.
             DataProvider dpDO = getDataProvider();
@@ -359,8 +404,10 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
                 }
             }
 
+            checkConfig();
+
             // Save if requested and all is ok.
-            if (!checkErrors() && editor.isConfiguredOk() && isSaveButtonPressed()) {
+            if (!hasErrors() && editor.isConfiguredOk() && isSaveButtonPressed()) {
                 setProviderDescriptions(dpDO);
                 dpDO.save();
                 clearAttributes();
@@ -382,6 +429,9 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
 
     public void actionEditCreateNewDataProvider(CommandRequest request) {
+        setProviderMessage(null);
+        setHasErrors(false);
+        setHasWarnings(false);
         if (currentLangProcessChange()) return;
         if (providerTypeChanged(request)) return;
 
@@ -432,6 +482,28 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         else descriptions.remove(new Locale(currentLang));
         providerName = (String) descriptions.get(new Locale(currentLang));
         oldCurrentLang = currentLang;
+
+        // Check for existing names
+        StringBuilder messagePart = new StringBuilder("");
+        for (Iterator descIt = descriptions.keySet().iterator(); descIt.hasNext(); ) {
+            Locale descLoc = (Locale) descIt.next();
+            String descName = (String) descriptions.get(descLoc);
+            DataProvider currentProvider = null;
+            try {
+                currentProvider = getDataProvider();
+            } catch (Exception e) {
+                log.error("Error: ", e);
+            }
+            if ( nameExists(currentProvider, descLoc , descName) ) {
+                if (messagePart.length() > 0) messagePart.append(", ");
+                messagePart.append( descLoc.getDisplayName(LocaleManager.currentLocale()) ).append(":").append(descName);
+            }
+        }
+        if (messagePart.length() > 0) {
+            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameExists"), messagePart.toString()) );
+            setHasWarnings(true);
+        }
+
         return currentLangChanged != null && "true".equals(currentLangChanged);
     }
 
@@ -456,17 +528,42 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         setEdit(false);
         setCreate(false);
         setEditProperties(false);
+        setProviderMessage(null);
+        setHasErrors(false);
+        setHasWarnings(false);
         clearFieldErrors();
     }
 
-    protected boolean checkErrors() {
-        // Name must exist.
-        if (descriptions.isEmpty()) {
-            addFieldError(new FactoryURL(getComponentName(), "providerName"), null, providerName);
-            return true;
+    protected void checkConfig() {
+        // Name must exist al least for the current locale.
+        Locale locale = LocaleManager.currentLocale();
+        String name = (String) descriptions.get(locale);
+        if (name == null || "".equals(name)) {
+            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameInvalid"), locale.getDisplayName(locale)) );
+            setHasErrors(true);
+            return;
         }
+    }
 
-        // Return false if no errors are found.
+    protected String getMessage(String key) {
+        if (key == null || "".equals(key)) return null;
+        Locale currentLocale = LocaleManager.currentLocale();
+        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", currentLocale);
+        String message = messages.getString(key);
+        return (message == null || "".equals(message)) ? null : message;
+    }
+
+    private boolean nameExists(DataProvider currentProvider, Locale locale, String name) {
+        try {
+            for (Iterator providerIt = dataProviderManager.getAllDataProviders().iterator(); providerIt.hasNext(); ) {
+                DataProvider provider = (DataProvider) providerIt.next();
+                if (currentProvider != null && currentProvider.getId() != null && currentProvider.equals(provider)) continue;
+                String localizedName = provider.getDescription(locale);
+                if (!StringUtils.isEmpty(localizedName) && localizedName.equalsIgnoreCase(name)) return true;
+            }
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
         return false;
     }
 }

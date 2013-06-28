@@ -45,7 +45,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td align="left" style="padding-left:20px; padding-right:20px;">
-            <i18n:message key="editor.datasourceToUse">!!!Datasource a utilizar</i18n:message>: &nbsp;
+            <i18n:message key="editor.sql.datasourceToUse">!!!Datasource a utilizar</i18n:message>: &nbsp;
             <select name="dataSource" title="<%= currentDataSource %>" width="65px" class="skn-input">
             <%
                 DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
@@ -64,7 +64,7 @@
         </td>
     </tr>
     <tr>
-        <td align="left"  style="padding-top:8px; padding-bottom:8px;padding-left:20px; padding-right:20px;"><i18n:message key="editor.query"/>: <br/>
+        <td align="left"  style="padding-top:8px; padding-bottom:8px;padding-left:20px; padding-right:20px;"><i18n:message key="editor.sql.query"/>: <br/>
         <textarea name="sqlQuery" rows="10" cols="90" style="width:100%;"><%= sqlQuery == null ? "" : sqlQuery %></textarea>
 
 <%
@@ -73,19 +73,14 @@
 %>
             <br>
             <font color=green>
-                <i18n:message key="editor.dataSetOk">!!!Conjunto de datos correcto</i18n:message>
+                <i18n:message key="editor.sql.dataSetOk">!!!Conjunto de datos correcto</i18n:message>
                 <br>
                 <% if (editor.getElapsedTime() > 0) { %>
-                    <i18n:message key="editor.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
+                    <i18n:message key="editor.sql.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
                     <br>
-                    <i18n:message key="editor.numberOfResults"/>: <%=editor.getNrows()%>
+                    <i18n:message key="editor.sql.numberOfResults"/>: <%=editor.getNrows()%>
                 <% } %>
             </font>
-<%
-    } else if (!StringUtils.isBlank(editor.getQueryError())) {
-%>
-        <br><font color=red> <i18n:message key="editor.invalidDataSet"/>
-        <br><%= StringEscapeUtils.escapeHtml(editor.getQueryError()) %></font>
 <%
     }
 %>
@@ -94,7 +89,7 @@
    <tr>
         <td align="center">
             <label>
-                <input class="skn-button" type="submit" value="<i18n:message key="editor.tryButton"/>"/>
+                <input class="skn-button" type="submit" value="<i18n:message key="editor.sql.tryButton"/>"/>
             </label>
         </td>
     </tr>

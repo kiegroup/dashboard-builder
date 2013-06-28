@@ -25,13 +25,18 @@ import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SQLProviderEditor extends DataProviderEditor {
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SQLProviderEditor.class.getName());
+
+    private ResourceBundle messages;
 
     protected int nrows;
     protected long elapsedTime;
-    protected String queryError;
+
+    public static final String SQL_BUNDLE_PREFIX = "editor.sql.";
 
     public SQLProviderEditor() {
     }
@@ -42,18 +47,11 @@ public class SQLProviderEditor extends DataProviderEditor {
 
     public boolean isConfiguredOk() {
         try {
-            return !StringUtils.isBlank(getSQLDataLoader().getSQLQuery()) && getQueryError() == null;
+            return !StringUtils.isBlank(getSQLDataLoader().getSQLQuery());
         } catch (Exception e) {
+            log.error("Error: ", e);
             return false;
         }
-    }
-
-    public String getQueryError() {
-        return queryError;
-    }
-
-    public void setQueryError(String queryError) {
-        this.queryError = queryError;
     }
 
     public long getElapsedTime() {
@@ -69,18 +67,14 @@ public class SQLProviderEditor extends DataProviderEditor {
         String dataSource = request.getRequestObject().getParameter("dataSource");
         String sqlQuery = request.getRequestObject().getParameter("sqlQuery");
 
-        // Clear previous errors
-        setQueryError(null);
+        if (StringUtils.isBlank(sqlQuery)) {
+            throw new Exception( getErrorMessage("query.blank") );
+        }
 
         // Set the SQL and try to load the new dataset.
         SQLDataLoader sqlLoader = getSQLDataLoader();
         if (dataSource != null) sqlLoader.setDataSource(dataSource);
-        if (!StringUtils.isBlank(sqlQuery)) sqlLoader.setSQLQuery(sqlQuery);
-        else {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.sql.messages", LocaleManager.currentLocale());
-            setQueryError(i18n.getString("editor.query.blank"));
-            return null;
-        }
+        sqlLoader.setSQLQuery(sqlQuery);
 
         // Ensure data retrieved is refreshed.
         if (isConfiguredOk()) {
@@ -93,7 +87,7 @@ public class SQLProviderEditor extends DataProviderEditor {
                 if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
             } catch (Exception e) {
                 Throwable cause = ErrorManager.lookup().getRootCause(e);
-                setQueryError(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : "Unexpected error");
+                throw new Exception(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : getErrorMessage("query.error") );
             }
         }
         return null;
@@ -108,6 +102,13 @@ public class SQLProviderEditor extends DataProviderEditor {
         super.clear();
         nrows = 0;
         elapsedTime = 0;
-        queryError = null;
+    }
+
+    protected String getErrorMessage(String key) {
+        if (key == null || "".equals(key)) return null;
+        Locale currentLocale = LocaleManager.currentLocale();
+        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.sql.messages", currentLocale);
+        String message = messages.getString(SQL_BUNDLE_PREFIX + key);
+        return (message == null || "".equals(message)) ? null : message;
     }
 }
