@@ -16,26 +16,23 @@
     limitations under the License.
 
 -->
-
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
-
 <taglib>
-  <tlibversion>1.0</tlibversion>
-  <jspversion>1.1</jspversion>
-  <shortname>panels</shortname>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.1</jsp-version>
+  <short-name>panels</short-name>
   <uri>bui_taglib.tld</uri>
 
   <tag>
       <name>defineObjects</name>
-      <tagclass>org.jboss.dashboard.ui.taglib.DefineObjectsTag</tagclass>
-      <teiclass>org.jboss.dashboard.ui.taglib.DefineObjectsTag$TEI</teiclass>
-      <bodycontent>empty</bodycontent>
+      <tag-class>org.jboss.dashboard.ui.taglib.DefineObjectsTag</tag-class>
+      <tei-class>org.jboss.dashboard.ui.taglib.DefineObjectsTag$TEI</tei-class>
+      <body-content>empty</body-content>
   </tag>
 
   <tag>
       <name>encode</name>
-      <tagclass>org.jboss.dashboard.ui.taglib.EncodeTag</tagclass>
-      <bodycontent>empty</bodycontent>
+      <tag-class>org.jboss.dashboard.ui.taglib.EncodeTag</tag-class>
+      <body-content>empty</body-content>
       <attribute>
         <name>name</name>
         <required>true</required>
@@ -45,10 +42,9 @@
 
   <tag>
     <name>link</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.LinkTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.LinkTag</tag-class>
+    <body-content>JSP</body-content>
+
     <attribute>
       <name>action</name>
       <required>false</required>
@@ -73,11 +69,9 @@
 
   <tag>
     <name>hidden</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.HiddenLinkTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-      Generates the necessary hidden parameters to perform a given action in a form
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.HiddenLinkTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>Generates the necessary hidden parameters to perform a given action in a form</description>
     <attribute>
       <name>action</name>
       <required>false</required>
@@ -97,10 +91,9 @@
 
   <tag>
     <name>resource</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.ResourceTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.ResourceTag</tag-class>
+    <body-content>JSP</body-content>
+
     <attribute>
       <name>key</name>
       <required>true</required>
@@ -120,10 +113,9 @@
 
   <tag>
     <name>section</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.LinkToSectionTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.LinkToSectionTag</tag-class>
+    <body-content>JSP</body-content>
+
     <attribute>
       <name>section</name>
       <required>true</required>
@@ -133,10 +125,9 @@
 
   <tag>
     <name>workspace</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.LinkToWorkspaceTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.LinkToWorkspaceTag</tag-class>
+    <body-content>JSP</body-content>
+
     <attribute>
       <name>workspace</name>
       <required>true</required>
@@ -146,10 +137,9 @@
 
   <tag>
     <name>region</name>
-    <tagclass>org.jboss.dashboard.ui.taglib.RegionTag</tagclass>
-    <bodycontent>JSP</bodycontent>
-    <info>
-    </info>
+    <tag-class>org.jboss.dashboard.ui.taglib.RegionTag</tag-class>
+    <body-content>JSP</body-content>
+
     <attribute>
       <name>region</name>
       <required>true</required>
@@ -159,8 +149,8 @@
 
     <tag>
         <name>localize</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.LocalizeTag</tagclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.LocalizeTag</tag-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>data</name>
             <required>true</required>
@@ -185,11 +175,10 @@
 
     <tag>
       <name>propertyRead</name>
-      <tagclass>org.jboss.dashboard.ui.taglib.PropertyReadTag</tagclass>
-      <teiclass>org.jboss.dashboard.ui.taglib.PropertyReadTag$TEI</teiclass>
-      <bodycontent>JSP</bodycontent>
-      <info>
-      </info>
+      <tag-class>org.jboss.dashboard.ui.taglib.PropertyReadTag</tag-class>
+      <tei-class>org.jboss.dashboard.ui.taglib.PropertyReadTag$TEI</tei-class>
+      <body-content>JSP</body-content>
+
         <attribute>
           <name>object</name>
           <required>true</required>
@@ -214,9 +203,9 @@
 
     <tag>
         <name>envelopeHead</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.EnvelopeHeadTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.EnvelopeHeadTag$TEI</teiclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.EnvelopeHeadTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.EnvelopeHeadTag$TEI</tei-class>
+        <body-content>empty</body-content>
         <attribute>
             <name>allowScripts</name>
             <required>false</required>
@@ -235,15 +224,15 @@
     </tag>
     <tag>
         <name>envelopeContent</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.EnvelopeContentTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.EnvelopeContentTag$TEI</teiclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.EnvelopeContentTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.EnvelopeContentTag$TEI</tei-class>
+        <body-content>empty</body-content>
     </tag>
     <tag>
         <name>envelopeFooter</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.EnvelopeFooterTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.EnvelopeFooterTag$TEI</teiclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.EnvelopeFooterTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.EnvelopeFooterTag$TEI</tei-class>
+        <body-content>empty</body-content>
     </tag>
 
 </taglib>

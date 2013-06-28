@@ -16,27 +16,18 @@
     limitations under the License.
 
 -->
-
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
-
-<!-- a tab library descriptor -->
 <taglib>
-    <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
-    <shortname>pane</shortname>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.1</jsp-version>
+    <short-name>pane</short-name>
     <uri>mvc_taglib.tld</uri>
-    <info>
-
-    </info>
 
     <tag>
         <name>pane</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.PaneTag</tagclass>
-        <bodycontent>JSP</bodycontent>
-        <info>
-            This tag allows to include a pane, inside a template JSP, as defined in
-            the config.xml file.
-        </info>
+        <tag-class>org.jboss.dashboard.ui.taglib.PaneTag</tag-class>
+        <body-content>JSP</body-content>
+        <description>This tag allows to include a pane, inside a template JSP, as defined in the config.xml file.</description>
+
         <attribute>
             <name>id</name>
             <required>true</required>
@@ -56,11 +47,10 @@
 
     <tag>
         <name>include</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.JSPIncludeTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info>
-            This tag adds both error handling and profiling instrumentation support to JSPs.
-        </info>
+        <tag-class>org.jboss.dashboard.ui.taglib.JSPIncludeTag</tag-class>
+        <body-content>empty</body-content>
+        <description>This tag adds both error handling and profiling instrumentation support to JSPs.</description>
+
         <attribute>
             <name>page</name>
             <required>true</required>
@@ -80,8 +70,8 @@
 
     <tag>
         <name>formatter</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.formatter.FormatterTag</tagclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.formatter.FormatterTag</tag-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
             <required>true</required>
@@ -91,8 +81,8 @@
 
     <tag>
         <name>formatterParam</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.formatter.FormatterParamTag</tagclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.formatter.FormatterParamTag</tag-class>
+        <body-content>empty</body-content>
         <attribute>
             <name>name</name>
             <required>true</required>
@@ -107,8 +97,8 @@
 
     <tag>
         <name>fragment</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.formatter.FragmentTag</tagclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.formatter.FragmentTag</tag-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
             <required>true</required>
@@ -118,9 +108,9 @@
 
     <tag>
         <name>fragmentValue</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.formatter.FragmentValueTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.formatter.FragmentValueTag$TEI</teiclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.formatter.FragmentValueTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.formatter.FragmentValueTag$TEI</tei-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
             <required>true</required>
@@ -135,12 +125,11 @@
 
     <tag>
         <name>context</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.ContextTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.ContextTag$TEI</teiclass>
-        <bodycontent>JSP</bodycontent>
-        <info>
-            This tag allows appending context path before a given uri
-        </info>
+        <tag-class>org.jboss.dashboard.ui.taglib.ContextTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.ContextTag$TEI</tei-class>
+        <body-content>JSP</body-content>
+        <description>This tag allows appending context path before a given uri</description>
+
         <attribute>
             <name>id</name>
             <required>false</required>

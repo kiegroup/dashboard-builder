@@ -16,22 +16,17 @@
     limitations under the License.
 
 -->
-
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
-
-<!-- a tab library descriptor -->
 <taglib>
-
-    <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
-    <shortname>panels</shortname>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.1</jsp-version>
+    <short-name>panels</short-name>
     <uri>resources.tld</uri>
 
     <tag>
         <name>link</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.ResourceLinkTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.ResourceLinkTag$TEI</teiclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.ResourceLinkTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.ResourceLinkTag$TEI</tei-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>category</name>
             <required>true</required>
@@ -81,9 +76,9 @@
 
     <tag>
         <name>page</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.ResourcePageLinkTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.ResourcePageLinkTag$TEI</teiclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.ResourcePageLinkTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.ResourcePageLinkTag$TEI</tei-class>
+        <body-content>empty</body-content>
         <attribute>
             <name>category</name>
             <required>true</required>
@@ -128,8 +123,8 @@
 
     <tag>
         <name>image</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.ResourceImageTag</tagclass>
-        <bodycontent>JSP</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.ResourceImageTag</tag-class>
+        <body-content>JSP</body-content>
         <attribute>
             <name>category</name>
             <required>true</required>

@@ -16,15 +16,12 @@
     limitations under the License.
 
 -->
-
-<taglib xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-        version="2.1">
-
+<taglib>
     <tlib-version>1.0</tlib-version>
+    <jsp-version>1.1</jsp-version>
     <short-name>static</short-name>
     <uri>static-resources.tld</uri>
+    <description>Static UI resources access tag lib</description>
 
     <tag>
         <name>image</name>

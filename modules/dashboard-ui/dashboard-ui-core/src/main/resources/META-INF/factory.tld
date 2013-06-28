@@ -16,19 +16,17 @@
     limitations under the License.
 
 -->
-<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
 <taglib>
-    <tlibversion>1.0</tlibversion>
-    <jspversion>1.1</jspversion>
-    <shortname>factory</shortname>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>1.1</jsp-version>
+    <short-name>factory</short-name>
     <uri>factory.tld</uri>
-    <info></info>
 
     <tag>
         <name>bean</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.BeanTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.BeanTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>bean</name>
             <required>false</required>
@@ -43,10 +41,10 @@
 
     <tag>
         <name>property</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.PropertyTag</tagclass>
-        <teiclass>org.jboss.dashboard.ui.taglib.factory.PropertyTag$TEI</teiclass>
-        <bodycontent>JSP</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.PropertyTag</tag-class>
+        <tei-class>org.jboss.dashboard.ui.taglib.factory.PropertyTag$TEI</tei-class>
+        <body-content>JSP</body-content>
+
         <attribute>
             <name>bean</name>
             <required>false</required>
@@ -71,9 +69,9 @@
 
     <tag>
         <name>setProperty</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.SetPropertyTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.SetPropertyTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>bean</name>
             <required>false</required>
@@ -93,9 +91,9 @@
 
     <tag>
         <name>handler</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.HandlerTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.HandlerTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>bean</name>
             <required>false</required>
@@ -110,9 +108,9 @@
 
     <tag>
         <name>url</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.URLTag</tagclass>
-        <bodycontent>JSP</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.URLTag</tag-class>
+        <body-content>JSP</body-content>
+
         <attribute>
             <name>bean</name>
             <required>false</required>
@@ -132,9 +130,9 @@
 
     <tag>
         <name>formUrl</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.FormURLTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.FormURLTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>friendly</name>
             <required>false</required>
@@ -144,9 +142,9 @@
 
     <tag>
         <name>param</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.ParamTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.ParamTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>name</name>
             <required>true</required>
@@ -161,9 +159,9 @@
 
     <tag>
         <name>useComponent</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.UseComponentTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.UseComponentTag</tag-class>
+        <body-content>empty</body-content>
+
         <attribute>
             <name>bean</name>
             <required>true</required>
@@ -173,15 +171,15 @@
 
     <tag>
         <name>currentComponent</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.CurrentComponentTag</tagclass>
-        <bodycontent>empty</bodycontent>
-        <info></info>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.CurrentComponentTag</tag-class>
+        <body-content>empty</body-content>
+
     </tag>
 
     <tag>
         <name>encode</name>
-        <tagclass>org.jboss.dashboard.ui.taglib.factory.EncodeTag</tagclass>
-        <bodycontent>empty</bodycontent>
+        <tag-class>org.jboss.dashboard.ui.taglib.factory.EncodeTag</tag-class>
+        <body-content>empty</body-content>
         <attribute>
             <name>name</name>
             <required>true</required>
