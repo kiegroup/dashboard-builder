@@ -53,8 +53,8 @@ public class ControllerServlet extends HttpServlet {
     private static transient Log log = LogFactory.getLog(ControllerServlet.class.getName());
 
     public final static String FACTORY_CONFIG_DIR = "factory";
-    public final static String INIT_PARAM_CFG_DIR = "base.cfg.dir";
-    public final static String INIT_PARAM_APP_DIR = "base.app.dir";
+    public final static String INIT_PARAM_CFG_DIR = "cfg.dir";
+    public final static String INIT_PARAM_APP_DIR = "app.dir";
 
     private static boolean initSuccess = true;
     private static Throwable initException;
@@ -65,7 +65,7 @@ public class ControllerServlet extends HttpServlet {
      * @throws javax.servlet.ServletException Description of the Exception
      */
     public void init() throws ServletException {
-        initServletDirectories();
+        initAppDirectories();
         initFactory();
         Factory.doWork(new FactoryWork() {
         public void doWork() {
@@ -106,7 +106,7 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-    protected void initServletDirectories() {
+    protected void initAppDirectories() {
         String baseAppDir = getInitParameter(INIT_PARAM_APP_DIR);
         if (baseAppDir == null) {
             baseAppDir = new File(getServletContext().getRealPath(".")).getPath();

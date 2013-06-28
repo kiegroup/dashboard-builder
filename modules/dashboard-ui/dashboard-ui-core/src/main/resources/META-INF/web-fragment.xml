@@ -1,0 +1,108 @@
+<!--
+
+    Copyright (C) 2012 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<web-fragment>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>org.jboss.dashboard.ui.controller.ControllerServlet</servlet-class>
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/workspace/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/Controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/Controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/fck_image/Controller</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/workspace/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/fck_image/workspace/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/fckeditor/editor/dialog/workspace/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>Cache Filter</filter-name>
+        <filter-class>org.jboss.dashboard.ui.controller.CacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.jpg</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.css</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.png</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.swf</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Cache Filter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+    </filter-mapping>
+</web-fragment>
