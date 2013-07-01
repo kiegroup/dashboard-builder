@@ -67,9 +67,6 @@ public class DataProviderFormatter extends Formatter {
             if (handler.hasErrors()) {
                 setAttribute("message", handler.getProviderMessage());
                 renderFragment("outputError");
-            } else if (handler.hasWarnings()) {
-                setAttribute("message", handler.getProviderMessage());
-                renderFragment("outputWarning");
             }
             renderFragment("outputTableStart");
             renderFragment("outputDataProviderTypes");
@@ -101,9 +98,6 @@ public class DataProviderFormatter extends Formatter {
             if (handler.hasErrors()) {
                 setAttribute("message", handler.getProviderMessage());
                 renderFragment("outputError");
-            } else if (handler.hasWarnings()) {
-                setAttribute("message", handler.getProviderMessage());
-                renderFragment("outputWarning");
             }
             renderFragment("outputTableStart");
             renderFragment("outputDataProviderTypes");

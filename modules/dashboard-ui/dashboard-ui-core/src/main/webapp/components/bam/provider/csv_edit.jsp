@@ -116,11 +116,11 @@
 			%>
 			<br>
 			<font color=green>
-				<i18n:message key="editor.csv.dataSetOk">!!! Data loaded correctly </i18n:message>
-				<br>
 			<%
 					if (editor.getElapsedTime() > 0) {
 			%>
+				<i18n:message key="editor.csv.dataSetOk">!!! Data loaded correctly </i18n:message>
+				<br>
 				<i18n:message key="editor.csv.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
 				<br>
 				<i18n:message key="editor.csv.numberOfResults"/>: <%=editor.getNrows()%>

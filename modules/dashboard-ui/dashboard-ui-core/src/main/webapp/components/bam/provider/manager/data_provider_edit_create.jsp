@@ -77,24 +77,6 @@
 		</mvc:fragmentValue>
 	</mvc:fragment>
 
-	<mvc:fragment name="outputWarning">
-		<mvc:fragmentValue name="message" id="message">
-			<tr>
-				<td>
-					<div style="vertical-align:middle; text-align:left;" class="skn-important">
-						<fieldset style="padding: 10px;">
-							<legend class="skn-important">
-								<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "warning"%>'>!!!Warning</i18n:message>
-							</legend>
-							<p class="skn-important"><%= message %></p>
-						</fieldset>
-						<br>
-					</div>
-				</td>
-			</tr>
-		</mvc:fragmentValue>
-	</mvc:fragment>
-
     <mvc:fragment name="outputTableStart">
         <tr>
             <td>
@@ -130,9 +112,7 @@
             %>
             <td width="15%"><span class="<%=strClass%>"><i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "providerName"%>'>!!!Nombre del proveedor de datos</i18n:message>:&nbsp;</span></td>
             <td width="64%">
-                <input size="65" class="skn-input" value="<factory:property property="providerName"/>" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="providerName"/>"
-					   onchange="document.getElementById('<factory:encode name="currentLangChangedInput"/>').value='true';
-						   submitAjaxForm(this.form);">
+                <input size="65" class="skn-input" value="<factory:property property="providerName"/>" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="providerName"/>" >
             </td>
             <td width="26%">
                 <select class="skn-input" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="currentLang"/>" onchange="

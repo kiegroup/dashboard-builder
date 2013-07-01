@@ -32,6 +32,7 @@ public class CSVProviderEditor extends DataProviderEditor {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CSVProviderEditor.class.getName());
 
     private ResourceBundle messages;
+    private boolean loadAttemptOk = false;
 
     protected int nrows;
     protected long elapsedTime;
@@ -52,7 +53,8 @@ public class CSVProviderEditor extends DataProviderEditor {
                    !StringUtils.isBlank(getCSVDataLoader().getCsvQuoteChar()) &&
                    !StringUtils.isBlank(getCSVDataLoader().getCsvEscapeChar()) &&
                    !StringUtils.isBlank(getCSVDataLoader().getCsvDatePattern()) &&
-                   !StringUtils.isBlank(getCSVDataLoader().getCsvNumberPattern());
+                   !StringUtils.isBlank(getCSVDataLoader().getCsvNumberPattern()) &&
+                   loadAttemptOk;
         } catch (Exception e) {
             log.error("Error: ", e);
             return false;
@@ -68,6 +70,8 @@ public class CSVProviderEditor extends DataProviderEditor {
     }
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
+        loadAttemptOk = false;
+
         // Get the parameters
         String csvSeparatedBy = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvSeparatedBy"));
         String csvQuoteChar = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvQuoteChar"));
@@ -113,7 +117,7 @@ public class CSVProviderEditor extends DataProviderEditor {
             elapsedTime = crono.elapsedTime();
             nrows = 0;
             if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
-
+            loadAttemptOk = true;
         } catch (Exception e) {
             throw new Exception(e.getMessage() != null ? e.getMessage() : getErrorMessage("error5") );
         }
@@ -129,6 +133,7 @@ public class CSVProviderEditor extends DataProviderEditor {
         super.clear();
         nrows = 0;
         elapsedTime = 0;
+        loadAttemptOk = false;
     }
 
     protected String getErrorMessage(String key) {

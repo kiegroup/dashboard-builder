@@ -73,9 +73,9 @@
 %>
             <br>
             <font color=green>
-                <i18n:message key="editor.sql.dataSetOk">!!!Conjunto de datos correcto</i18n:message>
-                <br>
                 <% if (editor.getElapsedTime() > 0) { %>
+					<i18n:message key="editor.sql.dataSetOk">!!!Conjunto de datos correcto</i18n:message>
+					<br>
                     <i18n:message key="editor.sql.elapsedTime"/>: <%=editor.getElapsedTime()%> ms
                     <br>
                     <i18n:message key="editor.sql.numberOfResults"/>: <%=editor.getNrows()%>

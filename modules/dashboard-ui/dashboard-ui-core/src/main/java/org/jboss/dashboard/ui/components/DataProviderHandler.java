@@ -69,7 +69,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     protected String providerMessage;
     protected boolean hasErrors = false;
-    protected boolean hasWarnings = false;
 
     protected transient DataProvider newDataProvider;
 
@@ -161,16 +160,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     public void setHasErrors(boolean hasErrors) {
         this.hasErrors = hasErrors;
-        // Errors prevail over warnings
-        if (hasErrors) setHasWarnings(false);
-    }
-
-    public boolean hasWarnings() {
-        return hasWarnings;
-    }
-
-    public void setHasWarnings(boolean hasWarnings) {
-        this.hasWarnings = hasWarnings;
     }
 
     public static DataProviderHandler lookup() {
@@ -431,7 +420,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     public void actionEditCreateNewDataProvider(CommandRequest request) {
         setProviderMessage(null);
         setHasErrors(false);
-        setHasWarnings(false);
         if (currentLangProcessChange()) return;
         if (providerTypeChanged(request)) return;
 
@@ -483,27 +471,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         providerName = (String) descriptions.get(new Locale(currentLang));
         oldCurrentLang = currentLang;
 
-        // Check for existing names
-        StringBuilder messagePart = new StringBuilder("");
-        for (Iterator descIt = descriptions.keySet().iterator(); descIt.hasNext(); ) {
-            Locale descLoc = (Locale) descIt.next();
-            String descName = (String) descriptions.get(descLoc);
-            DataProvider currentProvider = null;
-            try {
-                currentProvider = getDataProvider();
-            } catch (Exception e) {
-                log.error("Error: ", e);
-            }
-            if ( nameExists(currentProvider, descLoc , descName) ) {
-                if (messagePart.length() > 0) messagePart.append(", ");
-                messagePart.append( descLoc.getDisplayName(LocaleManager.currentLocale()) ).append(":").append(descName);
-            }
-        }
-        if (messagePart.length() > 0) {
-            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameExists"), messagePart.toString()) );
-            setHasWarnings(true);
-        }
-
         return currentLangChanged != null && "true".equals(currentLangChanged);
     }
 
@@ -530,7 +497,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         setEditProperties(false);
         setProviderMessage(null);
         setHasErrors(false);
-        setHasWarnings(false);
         clearFieldErrors();
     }
 
@@ -542,6 +508,27 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
             setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameInvalid"), locale.getDisplayName(locale)) );
             setHasErrors(true);
             return;
+        }
+
+        // Check for existing names
+        StringBuilder messagePart = new StringBuilder("");
+        for (Iterator descIt = descriptions.keySet().iterator(); descIt.hasNext(); ) {
+            Locale descLoc = (Locale) descIt.next();
+            String descName = (String) descriptions.get(descLoc);
+            DataProvider currentProvider = null;
+            try {
+                currentProvider = getDataProvider();
+            } catch (Exception e) {
+                log.error("Error: ", e);
+            }
+            if ( nameExists(currentProvider, descLoc , descName) ) {
+                if (messagePart.length() > 0) messagePart.append(", ");
+                messagePart.append( descLoc.getDisplayName(LocaleManager.currentLocale()) ).append(":").append(descName);
+            }
+        }
+        if (messagePart.length() > 0) {
+            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameExists"), messagePart.toString()) );
+            setHasErrors(true);
         }
     }
 

@@ -32,6 +32,7 @@ public class SQLProviderEditor extends DataProviderEditor {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SQLProviderEditor.class.getName());
 
     private ResourceBundle messages;
+    private boolean loadAttemptOk = false;
 
     protected int nrows;
     protected long elapsedTime;
@@ -47,7 +48,7 @@ public class SQLProviderEditor extends DataProviderEditor {
 
     public boolean isConfiguredOk() {
         try {
-            return !StringUtils.isBlank(getSQLDataLoader().getSQLQuery());
+            return loadAttemptOk && !StringUtils.isBlank(getSQLDataLoader().getSQLQuery());
         } catch (Exception e) {
             log.error("Error: ", e);
             return false;
@@ -63,6 +64,8 @@ public class SQLProviderEditor extends DataProviderEditor {
     }
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
+        loadAttemptOk = false;
+
         // Get the parameters
         String dataSource = request.getRequestObject().getParameter("dataSource");
         String sqlQuery = request.getRequestObject().getParameter("sqlQuery");
@@ -73,22 +76,22 @@ public class SQLProviderEditor extends DataProviderEditor {
 
         // Set the SQL and try to load the new dataset.
         SQLDataLoader sqlLoader = getSQLDataLoader();
-        if (dataSource != null) sqlLoader.setDataSource(dataSource);
-        sqlLoader.setSQLQuery(sqlQuery);
 
         // Ensure data retrieved is refreshed.
-        if (isConfiguredOk()) {
-            try {
-                Chronometer crono = new Chronometer(); crono.start();
-                DataSet ds = dataProvider.refreshDataSet();
-                crono.stop();
-                elapsedTime = crono.elapsedTime();
-                nrows = 0;
-                if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
-            } catch (Exception e) {
-                Throwable cause = ErrorManager.lookup().getRootCause(e);
-                throw new Exception(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : getErrorMessage("query.error") );
-            }
+        try {
+            if (dataSource != null) sqlLoader.setDataSource(dataSource);
+            sqlLoader.setSQLQuery(sqlQuery);
+
+            Chronometer crono = new Chronometer(); crono.start();
+            DataSet ds = dataProvider.refreshDataSet();
+            crono.stop();
+            elapsedTime = crono.elapsedTime();
+            nrows = 0;
+            if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
+            loadAttemptOk = true;
+        } catch (Exception e) {
+            Throwable cause = ErrorManager.lookup().getRootCause(e);
+            throw new Exception(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : getErrorMessage("query.error") );
         }
         return null;
     }
@@ -102,6 +105,7 @@ public class SQLProviderEditor extends DataProviderEditor {
         super.clear();
         nrows = 0;
         elapsedTime = 0;
+        loadAttemptOk = false;
     }
 
     protected String getErrorMessage(String key) {
