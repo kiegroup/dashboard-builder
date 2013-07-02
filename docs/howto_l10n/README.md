@@ -1,14 +1,14 @@
 How to localize to a given language
 ===========================================
 
-The following languages: <code>es</code>, <code>en</code> are pre-installed by default. If you want to localize all the
+The following languages: <code>es</code> <code>en</code> are pre-installed by default. If you want to localize all the
 static content to a different country/language then proceed as indicated:
 
 Bundles
 -----------------
 
 Bundle files can be found across all the modules and are usually located under the <code>src/main/resources</code> folders.
-Bundle file names stick to the following pattern: <code><bundleName>_<country>_<language>.properties</code>.
+Bundle file names stick to the following pattern: <code>&lt;bundleName&gt;_&lt;language&gt;_&lt;country&gt;.properties</pre>.
 
 All the files within the aplication source tree following the above file name pattern should be considered as a bundle.
 In order to localize to a given language a new version of each bundle must be created and its contents translated for the target language.
@@ -26,10 +26,10 @@ an attribute like <code>language="en"</code>, create a sibling entry for the tar
 
 Next is the list of current dashboards assets bundled with the application:
 
-       - dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseKPIs.xml
-       - dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseWorkspace.xml
-       - dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmKPIs.xml
-       - dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmWorkspace.xml
+       dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseKPIs.xml
+       dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseWorkspace.xml
+       dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmKPIs.xml
+       dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmWorkspace.xml
 
 UI Resources
 -----------------
@@ -42,14 +42,14 @@ The name for the target language must be inserted and the zip file must be repac
 
 Next is the list of current UI assets bundled with the application:
 
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/envelopes/Default_Envelope.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/skins/Default_Skin.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_Layout.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_template_with_sliding_menu.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_25-50-25.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_Layout.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_25-75.zip
-       - dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_75-25.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/envelopes/Default_Envelope.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/skins/Default_Skin.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_Layout.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_template_with_sliding_menu.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_25-50-25.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Default_Layout.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_25-75.zip
+       dashboard-builder/modules/dashboard-ui/dashboard-ui-resources/src/main/webapp/WEB-INF/etc/layouts/Template_75-25.zip
 
 
 
