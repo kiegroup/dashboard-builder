@@ -85,6 +85,6 @@ Subprojects
 * If you are a project developer o contributor read the
 [modules/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/modules/README.md) file.
 
-* If you want to generate a product distribution for the JBoss application server read the
-[builder/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/README.md) file.
+* If you want to generate a product distribution for the JBoss application server, please, take a look at
+the following [guide](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md).
 
