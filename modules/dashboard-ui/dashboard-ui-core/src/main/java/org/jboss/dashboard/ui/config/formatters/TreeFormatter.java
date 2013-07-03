@@ -72,8 +72,7 @@ public class TreeFormatter extends Formatter {
                 }
                 setAttribute("path_mainNode", mainNode.getPath());
                 setAttribute("id_mainNode", mainNode.getId());
-                String name = (String) mainNode.getName().get(getLang());
-                setAttribute("name_mainNode", StringEscapeUtils.escapeHtml((String) (name == null ? mainNode.getName().get(getDefaultLang()) : name)));
+                setAttribute("name_mainNode", StringEscapeUtils.escapeHtml(mainNode.getName(getLocale())));
                 setAttribute("icon_mainNode", mainNode.getIconId());
                 setAttribute("mainNode", mainNode);
                 setAttribute("level_mainNode", mainNode.getLevel());

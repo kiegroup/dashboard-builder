@@ -110,13 +110,11 @@ public class PanelInstancesGroupNode extends AbstractNode {
         return instanceNode;
     }
 
-    public Map getName() {
-        HashMap map = new HashMap();
-        map.put(SessionManager.getLang(), groupName);
-        return map;
+    public String getName(Locale l) {
+        return groupName;
     }
 
-    public Map getDescription() {
-        return getName();
+    public String getDescription(Locale l) {
+        return getName(l);
     }
 }

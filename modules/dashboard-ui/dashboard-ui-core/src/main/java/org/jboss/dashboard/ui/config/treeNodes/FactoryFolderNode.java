@@ -23,7 +23,6 @@ import org.jboss.dashboard.ui.config.AbstractNode;
 import java.util.*;
 
 public class FactoryFolderNode extends FactoryNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryFolderNode.class.getName());
 
     private Map mappings;
 
@@ -84,26 +83,14 @@ public class FactoryFolderNode extends FactoryNode {
         return false;
     }
 
-    public Map getName() {
+    public String getName(Locale l) {
         String nodeShortName = getNodeName();
         int lastIndex = nodeShortName.lastIndexOf(".");
-        if (lastIndex != -1) {
-            nodeShortName = nodeShortName.substring(1 + lastIndex);
-        }
-        Map m = new HashMap();
-        String[] langs = LocaleManager.lookup().getLangs();
-        for (int i = 0; i < langs.length; i++) {
-            m.put(langs[i], nodeShortName);
-        }
-        return m;
+        if (lastIndex != -1) nodeShortName = nodeShortName.substring(1 + lastIndex);
+        return nodeShortName;
     }
 
-    public Map getDescription() {
-        Map m = new HashMap();
-        String[] langs = LocaleManager.lookup().getLangs();
-        for (int i = 0; i < langs.length; i++) {
-            m.put(langs[i], getNodeName());
-        }
-        return m;
+    public String getDescription(Locale l) {
+        return getNodeName();
     }
 }

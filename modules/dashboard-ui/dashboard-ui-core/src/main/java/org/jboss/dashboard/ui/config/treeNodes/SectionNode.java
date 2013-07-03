@@ -24,12 +24,10 @@ import org.jboss.dashboard.ui.config.components.section.SectionPropertiesHandler
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class SectionNode extends AbstractNode {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionNode.class.getName());
@@ -123,20 +121,20 @@ public class SectionNode extends AbstractNode {
     }
 
     public Section getSection() throws Exception {
-        return ((WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId)).getSection(sectionId);
+        return UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId).getSection(sectionId);
     }
 
-    public Map getName() {
+    public String getName(Locale l) {
         try {
-            return getSection().getTitle();
+            return (String) LocaleManager.lookup().localize(getSection().getTitle());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Map getDescription() {
-        return getName();
+    public String getDescription(Locale l) {
+        return getName(l);
     }
 
     public boolean onEdit() {

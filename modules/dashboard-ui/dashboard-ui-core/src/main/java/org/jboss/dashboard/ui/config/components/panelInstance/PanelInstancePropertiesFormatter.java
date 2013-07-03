@@ -85,7 +85,7 @@ public abstract class PanelInstancePropertiesFormatter extends Formatter {
                     getPanelInstance().getProvider().getResource(
                             getPanelInstance().getProvider().getDescription())
                             + " - " +
-                            currentNode.getDescription().get(getLang()));
+                            currentNode.getDescription(getLocale()));
             renderFragment("output");
             renderFragment("outputEnd");
         } catch (Exception e) {

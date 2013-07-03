@@ -98,7 +98,7 @@ public class TreeNodeFormatter extends Formatter {
                             setAttribute("isEditable", subNode.isEditable());
                             setAttribute("path_Node", subNode.getPath());
                             setAttribute("id_Node", subNode.getId());
-                            setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString((String) getLocaleManager().localize(subNode.getName()))));
+                            setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString(subNode.getName(getLocale()))));
                             setAttribute("icon_Node", subNode.getIconId());
                             setAttribute("iconNodePath", subNode.getIconCategory());
                             setAttribute("parent_Node", subNode.getParent());

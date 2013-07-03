@@ -15,14 +15,12 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.ui.SessionManager;
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceHandler;
 import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
@@ -80,33 +78,27 @@ public class PanelNode extends AbstractNode {
         return ((WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId)).getPanelInstance(getPanel().getInstanceId());
     }
 
-    public Map getName() {
-        TreeNode grandFather = getParent().getParent();
+    public String getName(Locale l) {
         try {
+            TreeNode grandFather = getParent().getParent();
             Panel panel = getPanel();
             if (grandFather instanceof PanelInstanceNode) {
                 Map sectionTitle = panel.getSection().getTitle();
-                Map name = new HashMap();
-                for (Iterator it = sectionTitle.keySet().iterator(); it.hasNext();) {
-                    String lang = (String) it.next();
-                    String pageName = (String) sectionTitle.get(lang);
-                    pageName = (String) (pageName == null ? sectionTitle.get(SessionManager.getLang()) : pageName);
-
-                    if (panel.getRegion() != null) pageName += " (" + panel.getRegion().getId() + ")";
-
-                    name.put(lang, pageName);
-                }
-                return name;
-            } else//Use instance title
-                return panel.getTitle();
+                String pageName = (String) LocaleManager.lookup().localize(sectionTitle);
+                if (panel.getRegion() != null) pageName += " (" + panel.getRegion().getId() + ")";
+                return pageName;
+            } else {
+                // Use instance title
+                return (String) LocaleManager.lookup().localize(panel.getTitle());
+            }
         } catch (Exception e) {
             log.error("Error: ", e);
+            return "";
         }
-        return Collections.EMPTY_MAP;
     }
 
-    public Map getDescription() {
-        return getName();
+    public String getDescription(Locale l) {
+        return getName(l);
     }
 
     public boolean onEdit() {

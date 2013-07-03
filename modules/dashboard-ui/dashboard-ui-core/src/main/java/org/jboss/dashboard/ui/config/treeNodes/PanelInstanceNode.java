@@ -15,15 +15,15 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceHandler;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
-import java.util.Map;
+import java.util.Locale;
 
 public class PanelInstanceNode extends AbstractNode {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstanceNode.class.getName());
@@ -79,17 +79,17 @@ public class PanelInstanceNode extends AbstractNode {
         return ((WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId)).getPanelInstance(panelInstanceId);
     }
 
-    public Map getName() {
+    public String getName(Locale l) {
         try {
-            return getPanelInstance().getTitle();
+            return (String) LocaleManager.lookup().localize(getPanelInstance().getTitle());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Map getDescription() {
-        return getName();
+    public String getDescription(Locale l) {
+        return getName(l);
     }
 
     public boolean onEdit() {

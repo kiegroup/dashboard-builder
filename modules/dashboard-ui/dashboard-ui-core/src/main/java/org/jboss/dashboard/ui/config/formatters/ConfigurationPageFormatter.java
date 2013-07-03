@@ -53,11 +53,10 @@ public class ConfigurationPageFormatter extends Formatter {
             TreeNode editedNode = getTreeStatus().getLastEditedNode(getTree());
             if (editedNode != null) {
                 setAttribute("editPage", editedNode.getEditURI());
-                setAttribute("description", StringEscapeUtils.escapeHtml(getLocalizedValue(editedNode.getDescription())));
+                setAttribute("description", StringEscapeUtils.escapeHtml(editedNode.getDescription(getLocale())));
                 setAttribute("ajaxCompatible", editedNode.isEditURIAjaxCompatible());
                 setAttribute("path_Node", editedNode.getPath());
-                String name = (String) editedNode.getName().get(getLang());
-                setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString((String) (name == null ? editedNode.getName().get(getDefaultLang()) : name))));
+                setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString(editedNode.getName(getLocale()))));
                 setAttribute("icon_Node", editedNode.getIconId());
                 setAttribute("iconNodePath", editedNode.getIconCategory());
             }

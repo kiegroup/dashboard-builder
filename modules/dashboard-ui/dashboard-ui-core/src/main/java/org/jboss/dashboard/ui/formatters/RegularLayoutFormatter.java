@@ -40,7 +40,7 @@ public class RegularLayoutFormatter extends Formatter {
         renderFragment("outputStart");
         boolean userIsAdminInCurrentWorkspace = getNavigationManager().userIsAdminInCurrentWorkspace();
         // Check if request embedded parameter is set to true.
-        // This is the case when embedding the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
+        // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
         String embeddedMode = httpServletRequest.getParameter("embedded") ;
         if (embeddedMode == null) embeddedMode = httpServletRequest.getParameter("embeddedMode");
         if (userIsAdminInCurrentWorkspace && (embeddedMode == null || !embeddedMode.equals("true"))) {

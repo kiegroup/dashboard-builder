@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.config;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public interface TreeNode {
     /**
@@ -29,14 +29,14 @@ public interface TreeNode {
      *
      * @return The i18n node name
      */
-    Map getName();
+    String getName(Locale l);
 
     /**
      * Node description
      *
      * @return The i18n node description
      */
-    Map getDescription();
+    String getDescription(Locale l);
 
     /**
      * Icon identifier

@@ -19,10 +19,10 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.users.UserStatus;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class FactoryRootNode extends FactoryFolderNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryRootNode.class.getName());
 
     public String getId() {
         return "factory";
@@ -32,12 +32,12 @@ public class FactoryRootNode extends FactoryFolderNode {
         return Application.lookup().getGlobalFactory().getTree().getTreeMappings();
     }
 
-    public Map getName() {
-        return getI18nPropertiesMap("name");
+    public String getName(Locale l) {
+        return getI18nProperty("name");
     }
 
-    public Map getDescription() {
-        return getI18nPropertiesMap("description");
+    public String getDescription(Locale l) {
+        return getI18nProperty("description");
     }
 
     public boolean isExpandible() {

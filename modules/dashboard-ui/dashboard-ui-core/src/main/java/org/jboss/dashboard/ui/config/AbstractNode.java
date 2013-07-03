@@ -15,9 +15,8 @@
  */
 package org.jboss.dashboard.ui.config;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.factory.Factory;
-
 import java.util.*;
 
 public abstract class AbstractNode extends BasicFactoryElement implements TreeNode {
@@ -33,7 +32,6 @@ public abstract class AbstractNode extends BasicFactoryElement implements TreeNo
     private boolean last = false;
     private boolean editable = true;
     private boolean expandible = true;
-    private Properties nodeAttributes = (Properties) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.NodeAttributes");
 
     public boolean isEditable() {
         return editable;
@@ -59,25 +57,18 @@ public abstract class AbstractNode extends BasicFactoryElement implements TreeNo
         this.editURIAjaxCompatible = editURIAjaxCompatible;
     }
 
-    public Map getName() {
-        return getI18nPropertiesMap("name");
+    public String getName(Locale l) {
+        return getI18nProperty("name");
     }
 
-    public Map getDescription() {
-        return getI18nPropertiesMap("description");
+    public String getDescription(Locale l) {
+        return getI18nProperty("description");
     }
 
-    protected Map getI18nPropertiesMap(String name) {
-        Properties m = new Properties();
-        String propertyPreffix = getClass().getName() + "." + name + ".";
-        for (Enumeration en = nodeAttributes.keys(); en.hasMoreElements();) {
-            String propName = (String) en.nextElement();
-            if (propName.startsWith(propertyPreffix)) {
-                String lang = propName.substring(propertyPreffix.length());
-                m.setProperty(lang, nodeAttributes.getProperty(propName));
-            }
-        }
-        return m;
+    protected String getI18nProperty(String name) {
+        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.config.treeNodes.messages", LocaleManager.currentLocale());
+        String property = getClass().getName() + "." + name;
+        return i18n.getString(property);
     }
 
     public String getPath() {

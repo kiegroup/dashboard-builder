@@ -15,13 +15,13 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.workspace.WorkspacePropertiesHandler;
 import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.Workspace;
 
-import java.util.Map;
+import java.util.Locale;
 
 public class WorkspaceNode extends AbstractNode {
     private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspaceNode.class.getName());
@@ -53,22 +53,17 @@ public class WorkspaceNode extends AbstractNode {
         return workspaceId;
     }
 
-    public Map getName() {
+    public String getName(Locale l) {
         try {
-            return getWorkspace().getName();
+            return (String) LocaleManager.lookup().localize(getWorkspace().getName());
         } catch (Exception e) {
             log.error("Error: ", e);
         }
         return null;
     }
 
-    public Map getDescription() {
-        try {
-            return getName();
-        } catch (Exception e) {
-            log.error("Error: ", e);
-        }
-        return null;
+    public String getDescription(Locale l) {
+        return getName(l);
     }
 
     public boolean onEdit() {

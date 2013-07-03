@@ -52,15 +52,8 @@ public class PanelInstancesProvidersNode extends AbstractNode {
         this.providerName = providerName;
     }
 
-    public Map getName() {
-        try {
-            Map name = new HashMap();
-            name.put(SessionManager.getCurrentLocale().getLanguage(), StringEscapeUtils.unescapeHtml(providerName));
-            return name;
-        } catch (Exception e) {
-            log.error("Error: ", e);
-        }
-        return null;
+    public String getName(Locale l) {
+        return StringEscapeUtils.unescapeHtml(providerName);
     }
 
     protected List listChildren() {
