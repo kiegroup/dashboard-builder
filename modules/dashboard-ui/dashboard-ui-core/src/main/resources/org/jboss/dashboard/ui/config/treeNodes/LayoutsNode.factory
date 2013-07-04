@@ -20,5 +20,4 @@ $description=Tree LayoutsNode
 
 resourcesPropertiesHandler=org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler
 
-#iconId=SMALL_TEMPLATE
 iconId=16x16/ico-menu_template.png

@@ -23,6 +23,5 @@ subnodes+=org.jboss.dashboard.ui.config.treeNodes.SkinsNode,\
   org.jboss.dashboard.ui.config.treeNodes.LayoutsNode,\
   org.jboss.dashboard.ui.config.treeNodes.EnvelopesNode
 
-#iconId=SMALL_RESOURCES
-iconIs=16x16/ico-menu_resources.png
+iconId=16x16/ico-menu_resources.png
 editable=false

@@ -20,5 +20,4 @@ $description=GlobalPermissionsNode
 
 permissionsPropertiesHandler=org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandler
 editURIAjaxCompatible=false
-#iconId=PERMISSION
 iconId=22x22/ico-menu_permission.png

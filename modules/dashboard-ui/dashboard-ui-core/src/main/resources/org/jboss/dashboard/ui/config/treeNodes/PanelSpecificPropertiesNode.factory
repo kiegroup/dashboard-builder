@@ -21,5 +21,4 @@ $description=Tree PanelSpecificPropertiesNode
 handler=org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceSpecificPropertiesHandler
 
 editURIAjaxCompatible=false
-#iconId=PROPERTIES
 iconId=22x22/ico-menu_properties.png

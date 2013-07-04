@@ -20,7 +20,6 @@ $description=Tree PanelsNode
 
 panelsPropertiesHandler=org.jboss.dashboard.ui.config.components.panels.PanelsPropertiesHandler
 
-#iconId=SMALL_PANEL
 iconId=16x16/ico-menu_panel.png
 
 editURIAjaxCompatible=false

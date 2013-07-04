@@ -21,7 +21,6 @@ $description=Tree SectionPermissionsNode
 permissionsPropertiesHandler=org.jboss.dashboard.ui.config.components.permissions.Permissions\
   PropertiesHandler
 
-#iconId=SMALL_PERMISSION
 iconId=16x16/ico-menu_permission.png
 
 editURIAjaxCompatible=false

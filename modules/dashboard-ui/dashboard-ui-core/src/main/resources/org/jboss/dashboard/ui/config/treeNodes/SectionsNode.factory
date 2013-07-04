@@ -20,7 +20,6 @@ $description=Tree SectionsNode
 
 sectionsPropertiesHandler=org.jboss.dashboard.ui.config.components.sections.SectionsPropertiesHandler
 
-#iconId=SMALL_PAGE
 iconId=16x16/ico-menu_pages.png
 
 editURIAjaxCompatible=false

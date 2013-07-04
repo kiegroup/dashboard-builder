@@ -20,5 +20,4 @@ $description=Home pages node
 
 homePagesHandler=org.jboss.dashboard.ui.config.components.homePages.HomePagesHandler
 
-#iconId=SMALL_ROLE
 iconId=16x16/ico-menu_role.png

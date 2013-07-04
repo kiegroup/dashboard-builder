@@ -24,5 +24,4 @@ subnodes+=org.jboss.dashboard.ui.config.treeNodes.PanelsNode,\
   org.jboss.dashboard.ui.config.treeNodes.PanelAllPropertiesNode,\
   org.jboss.dashboard.ui.config.treeNodes.PanelI18nPropertiesNode
 
-#iconId=SMALL_PANEL
 iconId=16x16/ico-menu_panel.png

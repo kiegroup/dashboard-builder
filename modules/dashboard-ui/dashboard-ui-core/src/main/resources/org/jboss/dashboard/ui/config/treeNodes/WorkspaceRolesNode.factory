@@ -18,5 +18,4 @@ $class=org.jboss.dashboard.ui.config.treeNodes.WorkspaceRolesNode
 $scope=volatile
 $description=Tree WorkspaceRolesNode
 
-#iconId=SMALL_ROLE
 iconId=16x16/ico-menu_role.png

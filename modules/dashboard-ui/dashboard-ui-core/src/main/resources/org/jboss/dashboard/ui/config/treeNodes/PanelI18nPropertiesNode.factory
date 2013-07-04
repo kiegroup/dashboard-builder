@@ -22,5 +22,4 @@ handler=org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceI18n
 multilanguage=true
 
 editURIAjaxCompatible=false
-#iconId=SMALL_TRANSLATION
 iconId=16x16/ico-menu_translation.png

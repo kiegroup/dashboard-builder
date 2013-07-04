@@ -26,5 +26,4 @@ org.jboss.dashboard.ui.config.treeNodes.WorkspacePermissionsNode,\
 org.jboss.dashboard.ui.config.treeNodes.PanelsTypesNode,\
 org.jboss.dashboard.ui.config.treeNodes.HomePagesNode
 
-#iconId=SMALL_HOME
 iconId=16x16/ico-menu_go-home.png

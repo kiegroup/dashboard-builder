@@ -19,7 +19,6 @@ $scope=volatile
 $description=Tree PanelAllPropertiesNode
 
 editURIAjaxCompatible=false
-#iconId=SMALL_PROPERTIES
 iconId=16x16/ico-menu_properties.png
 
 handler=org.jboss.dashboard.ui.components.panelManagement.TreeShowPanelConfigComponent

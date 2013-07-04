@@ -18,5 +18,5 @@ $class=org.jboss.dashboard.ui.config.treeNodes.PanelInstancesGroupNode
 $scope=volatile
 $description=Tree PanelInstancesGroupNode
 
-iconId=SMALL_FOLDER
+iconId=16x16/ico-menu_panel.png
 editable=false

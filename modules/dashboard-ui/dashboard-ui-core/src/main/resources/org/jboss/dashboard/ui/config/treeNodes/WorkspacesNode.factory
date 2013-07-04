@@ -20,5 +20,4 @@ $description=Tree WorkspacesNode
 
 workspacesPropertiesHandler=org.jboss.dashboard.ui.config.components.workspace.WorkspacesPropertiesHandler
 
-#iconId=HOME
 iconId=22x22/ico-menu_go-home.png

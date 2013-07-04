@@ -20,5 +20,4 @@ $description=Tree ResourceGalleryNode
 
 resourcesPropertiesHandler=org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler
 
-#iconId=SMALL_GALLERY
 iconId=16x16/ico-menu_gallery.png

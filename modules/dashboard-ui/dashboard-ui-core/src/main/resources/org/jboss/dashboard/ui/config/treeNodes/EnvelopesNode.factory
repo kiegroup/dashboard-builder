@@ -20,5 +20,4 @@ $description=Tree EnvelopesNode
 
 resourcesPropertiesHandler=org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler
 
-#iconId=SMALL_ENVELOPE
 iconId=16x16/ico-menu_envelope.png

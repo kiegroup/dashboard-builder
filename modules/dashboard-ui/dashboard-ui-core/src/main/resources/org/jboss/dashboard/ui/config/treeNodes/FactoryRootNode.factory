@@ -18,5 +18,4 @@ $class=org.jboss.dashboard.ui.config.treeNodes.FactoryRootNode
 $scope=volatile
 $description=FactoryRootNode
 
-#iconId=TERMINAL
 iconId=22x22/ico-menu_terminal.png

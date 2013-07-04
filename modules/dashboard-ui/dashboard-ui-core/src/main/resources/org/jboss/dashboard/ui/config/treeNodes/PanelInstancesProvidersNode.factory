@@ -18,6 +18,5 @@ $class=org.jboss.dashboard.ui.config.treeNodes.PanelInstancesProvidersNode
 $scope=volatile
 $description=Tree panel instance providers node
 
-#iconId=SMALL_PANEL
 iconId=16x16/ico-menu_panel.png
 editable=false
