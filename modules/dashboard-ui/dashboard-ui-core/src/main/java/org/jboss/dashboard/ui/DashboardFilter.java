@@ -161,7 +161,8 @@ public class DashboardFilter extends AbstractFilter implements DataFilter {
         List results = new ArrayList();
         try {
             // Static properties.
-            results.addAll(Arrays.asList(getStaticProperties()));
+            DashboardFilterProperty[] staticProps = getStaticProperties();
+            if (staticProps != null) results.addAll(Arrays.asList(staticProps));
 
             // Dynamic properties.
             Iterator it = getDashboard().getDataProviders().iterator();
