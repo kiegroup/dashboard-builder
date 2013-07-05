@@ -23,14 +23,14 @@
     <parent>
         <groupId>org.drools</groupId>
         <artifactId>droolsjbpm-parent</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.0.Beta5</version>
         <!-- relativePath causes out-of-date problems on hudson slaves -->
         <!--<relativePath>../droolsjbpm-build-bootstrap/pom.xml</relativePath>-->
     </parent>
 
     <groupId>org.jboss.dashboard-builder</groupId>
     <artifactId>dashboard-builder</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>6.0.0.Beta5</version>
     <packaging>pom</packaging>
 
     <name>JBoss Dashboard Builder</name>
@@ -47,7 +47,7 @@
         <version.weld>1.1.13.Final</version.weld>
         <version.jetty>8.1.7.v20120910</version.jetty>
         <version.hibernate>4.2.0.Final</version.hibernate>
-        <version.dashbuilder>6.0.0-SNAPSHOT</version.dashbuilder>
+        <version.dashbuilder>6.0.0.Beta5</version.dashbuilder>
     </properties>
 
     <scm>
