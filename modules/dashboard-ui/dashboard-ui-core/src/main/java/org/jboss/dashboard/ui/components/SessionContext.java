@@ -21,6 +21,7 @@ import java.util.Locale;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.users.LogoutSurvivor;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
@@ -42,16 +43,31 @@ public class SessionContext implements LogoutSurvivor, Serializable {
         return currentEditLocale;
     }
 
-    public void setCurrentEditLocale(Locale currentEditLocale) {
-        this.currentEditLocale = currentEditLocale;
+    public void setCurrentEditLocale(Locale l) {
+        // Reset the locale to the default one.
+        LocaleManager lm = LocaleManager.lookup();
+        currentEditLocale = lm.getDefaultLocale();
+
+        // Check the target locale is available.
+        // Avoid setting a non supported locale.
+        if (currentEditLocale != null && lm.isPlatformAvailableLocale(l)) {
+            currentEditLocale = l;
+        }
     }
 
     public Locale getCurrentLocale() {
         return currentLocale;
     }
 
-    public void setCurrentLocale(Locale currentLocale) {
-        this.currentLocale = currentLocale;
-    }
+    public void setCurrentLocale(Locale l) {
+        // Reset the current locale to the default one.
+        LocaleManager lm = LocaleManager.lookup();
+        currentLocale = lm.getDefaultLocale();
 
+        // Check the target locale is available.
+        // Avoid setting a non supported locale.
+        if (currentLocale != null && lm.isPlatformAvailableLocale(l)) {
+            currentLocale = l;
+        }
+    }
 }

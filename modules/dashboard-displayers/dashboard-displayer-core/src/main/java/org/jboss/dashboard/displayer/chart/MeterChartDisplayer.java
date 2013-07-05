@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.displayer.chart;
 
+import org.jboss.dashboard.LocaleManager;
+
 import java.util.*;
 import java.awt.*;
 
@@ -203,7 +205,7 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     public String getDescripCriticalInterval(Locale l) {
         String result = (String) descripCriticalIntervalI18nMap.get(l);
         if (result == null) {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages");
+            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripCriticalIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.criticalDefault"));
         }
         return result;
@@ -235,7 +237,7 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     public String getDescripWarningInterval(Locale l) {
         String result = (String) descripWarningIntervalI18nMap.get(l);
         if (result == null) {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages");
+            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripWarningIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.warningDefault"));
         }
         return result;
@@ -267,7 +269,7 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     public String getDescripNormalInterval(Locale l) {
         String result = (String) descripNormalIntervalI18nMap.get(l);
         if (result == null) {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages");
+            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripNormalIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.normalDefault"));
         }
         return result;

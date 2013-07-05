@@ -54,10 +54,10 @@ public class LocaleManager {
     @Inject @Config("en")
     protected String defaultLocaleId;
 
-    private Locale[] availableLocales;
-    private Locale currentLocale;
-    private Locale currentEditLocale;
-    private Locale defaultLocale;
+    private transient Locale[] availableLocales;
+    private transient Locale currentLocale;
+    private transient Locale currentEditLocale;
+    private transient Locale defaultLocale;
 
     @PostConstruct
     public void init() {
@@ -116,21 +116,18 @@ public class LocaleManager {
     }
 
     /**
-     * Locales supported.
-     */
-    public Locale[] geLocales() {
-        return getPlatformAvailableLocales();
-    }
-
-    /**
      * Current locale for editing contents
      */
     public Locale getCurrentEditLocale() {
         return currentEditLocale == null ? defaultLocale : currentEditLocale;
     }
 
-    public void setCurrentEditLocale(Locale currentEditLocale) {
-        this.currentEditLocale = currentEditLocale;
+    public void setCurrentEditLocale(Locale l) {
+        currentEditLocale = l;
+        if (currentEditLocale != null && isPlatformAvailableLocale(l)) {
+            // Avoid setting a non supported locale.
+            currentEditLocale = l;
+        }
     }
 
     /**
@@ -140,8 +137,20 @@ public class LocaleManager {
         return currentLocale == null ? defaultLocale : currentLocale;
     }
 
-    public void setCurrentLocale(Locale currentLocale) {
-        this.currentLocale = currentLocale;
+    public void setCurrentLocale(Locale l) {
+        currentLocale = defaultLocale;
+        if (currentLocale != null && isPlatformAvailableLocale(l)) {
+            // Avoid setting a non supported locale.
+            currentLocale = l;
+        }
+    }
+
+    public boolean isPlatformAvailableLocale(Locale l) {
+        for (int i = 0; i < availableLocales.length; i++) {
+            Locale locale = availableLocales[i];
+            if (locale.equals(l)) return true;
+        }
+        return false;
     }
 
     /**
