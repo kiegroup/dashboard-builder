@@ -28,8 +28,6 @@ Next is the list of current dashboards assets bundled with the application:
 
        dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseKPIs.xml
        dashboard-builder/modules/dashboard-samples/src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseWorkspace.xml
-       dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmKPIs.xml
-       dashboard-builder/modules/dashboard-jbpm/src/main/webapp/WEB-INF/etc/appdata/initialData/jbpmWorkspace.xml
 
 UI Resources
 -----------------

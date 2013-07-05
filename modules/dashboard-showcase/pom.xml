@@ -44,12 +44,6 @@
             <type>war</type>
             <version>${version.dashbuilder}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-jbpm</artifactId>
-            <type>war</type>
-            <version>${version.dashbuilder}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -80,11 +74,6 @@
                             <!-- this empty overlay also let us define the order to copy current web application resources -->
                             <!-- in this case the current web application resources will be copied first -->
                             <!-- if this empty overlay is omitted current web application resources will be copied first by default -->
-                        </overlay>
-
-                        <overlay>
-                            <groupId>org.jboss.dashboard-builder</groupId>
-                            <artifactId>dashboard-jbpm</artifactId>
                         </overlay>
                         <overlay>
                             <groupId>org.jboss.dashboard-builder</groupId>

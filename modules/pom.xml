@@ -39,7 +39,6 @@
         <module>dashboard-ui</module>
         <module>dashboard-webapp</module>
         <module>dashboard-samples</module>
-        <module>dashboard-jbpm</module>
         <module>dashboard-showcase</module>
     </modules>
 

@@ -18,7 +18,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%
     // Hide the logout stuff if we are working in embedded mode.
-    // This is the case when embedding the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
+    // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
     String embeddedMode = request.getParameter("embedded");
     if (embeddedMode == null) embeddedMode = request.getParameter("embeddedMode");
     if (embeddedMode == null) embeddedMode = request.getParameter("hideLogout");

@@ -29,7 +29,7 @@
 
     <security-role>
         <description>End user</description>
-        <role-name>kie-user</role-name>
+        <role-name>user</role-name>
     </security-role>
 
     <security-constraint>
@@ -46,7 +46,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>
-            <role-name>kie-user</role-name>
+            <role-name>user</role-name>
         </auth-constraint>
     </security-constraint>
 

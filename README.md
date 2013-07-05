@@ -21,9 +21,7 @@ What is it?
 
 The Dashboard Builder is a full featured web application which allows non-technical users to visually create business dashboards.
 Dashboard data can be extracted from heterogeneous sources of information such as JDBC databases or regular text files.
-It also provides a generic process dashboard for the jBPM Human Task module. Such dashboard can display multiple key performance indicators regarding process instances, tasks and users.
-
-Some ready-to-use sample dashboards are provided as well, for demo and learning purposes.
+Some ready-to-use sample dashboards are provided for demo and learning purposes.
 
 **Key features**:
 * Visual configuration of dashboards (Drag'n'drop).
@@ -31,7 +29,6 @@ Some ready-to-use sample dashboards are provided as well, for demo and learning 
 * Configuration of interactive report tables.
 * Data export to Excel and CSV format.
 * Filtering and search, both in-memory or SQL based.
-* Process and tasks dashboards with jBPM.
 * Data extraction from external systems, through different protocols.
 * Granular access control for different user profiles.
 * Look'n'feel customization tools.
