@@ -812,21 +812,6 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
                     prop = new DashboardFilterProperty(parentProperty.getDataProviderCode(), propId, getFilter(), null, true);
                     properties.add(prop);
                 }
-
-                if (prop == null) {
-                    // Property is not currently in this dashboard's filter or in parent dashboards's filters.
-                    // See https://issues.jboss.org/browse/JBPM-4043
-                    DashboardFilterProperty[] allProps = filter.getAllFilterProperties();
-                    if (allProps != null && allProps.length > 0) {
-                        for (DashboardFilterProperty p : allProps) {
-                            if (propId.equals(p.getPropertyId())) {
-                                prop = new DashboardFilterProperty(p.getDataProviderCode(), p.getPropertyId(), getFilter(), null, true);
-                                properties.add(prop);
-                            }
-                        }
-                    }
-                }
-
             } else {
                 prop.setBeignFiltered(true);
             }
