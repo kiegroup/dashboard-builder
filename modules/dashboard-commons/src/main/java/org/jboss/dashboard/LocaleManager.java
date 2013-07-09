@@ -67,7 +67,10 @@ public class LocaleManager {
             if (locale != null) availableLocalesList.add(locale);
         }
         availableLocales = (Locale[]) availableLocalesList.toArray(new Locale[availableLocalesList.size()]);
-        defaultLocale = getLocaleById(defaultLocaleId);
+        defaultLocale = getPlatformLocale(Locale.getDefault());
+        if (defaultLocale == null) {
+            defaultLocale = getLocaleById(defaultLocaleId);
+        }
     }
 
     public String[] getInstalledLocaleIds() {
@@ -123,10 +126,11 @@ public class LocaleManager {
     }
 
     public void setCurrentEditLocale(Locale l) {
-        currentEditLocale = l;
-        if (currentEditLocale != null && isPlatformAvailableLocale(l)) {
+        currentEditLocale = defaultLocale;
+        Locale platformLocale = getPlatformLocale(l);
+        if (platformLocale != null) {
             // Avoid setting a non supported locale.
-            currentEditLocale = l;
+            currentEditLocale = platformLocale;
         }
     }
 
@@ -139,18 +143,20 @@ public class LocaleManager {
 
     public void setCurrentLocale(Locale l) {
         currentLocale = defaultLocale;
-        if (currentLocale != null && isPlatformAvailableLocale(l)) {
+        Locale platformLocale = getPlatformLocale(l);
+        if (platformLocale != null) {
             // Avoid setting a non supported locale.
-            currentLocale = l;
+            currentLocale = platformLocale;
         }
     }
 
-    public boolean isPlatformAvailableLocale(Locale l) {
+    public Locale getPlatformLocale(Locale l) {
         for (int i = 0; i < availableLocales.length; i++) {
             Locale locale = availableLocales[i];
-            if (locale.equals(l)) return true;
+            String lang = locale.getLanguage();
+            if (lang.equals(l.getLanguage())) return locale;
         }
-        return false;
+        return null;
     }
 
     /**

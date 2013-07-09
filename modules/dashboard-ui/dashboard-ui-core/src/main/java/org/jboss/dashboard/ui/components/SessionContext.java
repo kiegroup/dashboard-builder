@@ -50,8 +50,9 @@ public class SessionContext implements LogoutSurvivor, Serializable {
 
         // Check the target locale is available.
         // Avoid setting a non supported locale.
-        if (currentEditLocale != null && lm.isPlatformAvailableLocale(l)) {
-            currentEditLocale = l;
+        Locale platformLocale = lm.getPlatformLocale(l);
+        if (platformLocale != null) {
+            currentLocale = platformLocale;
         }
     }
 
@@ -66,8 +67,9 @@ public class SessionContext implements LogoutSurvivor, Serializable {
 
         // Check the target locale is available.
         // Avoid setting a non supported locale.
-        if (currentLocale != null && lm.isPlatformAvailableLocale(l)) {
-            currentLocale = l;
+        Locale platformLocale = lm.getPlatformLocale(l);
+        if (platformLocale != null) {
+            currentLocale = platformLocale;
         }
     }
 }
