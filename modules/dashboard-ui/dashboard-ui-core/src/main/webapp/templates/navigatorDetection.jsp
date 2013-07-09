@@ -16,6 +16,7 @@
 
 --%>
 var IE = false;
+var IE10 = false;
 var NS = false;
 var FX = false;
 var OP = false;
@@ -24,11 +25,18 @@ var DHTML_support = false;
 var navigatorVersion = 0;
 checkBrowser();
 
+function checkIEversion(v) {
+    var r = RegExp('msie' + (!isNaN(v) ? ('\\s' + v) : ''), 'i');
+    return r.test(navigator.userAgent);
+}
+
 function checkBrowser() {
     var userAgent = navigator.userAgent;
     if (userAgent.indexOf('Netscape') != -1) {
         navigatorVersion = parseFloat(userAgent.substring(userAgent.indexOf('Netscape') + 9, userAgent.length));
         NS = true;
+    } else if (checkIEversion(10)) {
+        IE10 = true;
     }
     else if (userAgent.indexOf('MSIE') != -1) {
         navigatorVersion = parseFloat(userAgent.substring(userAgent.indexOf('MSIE') + 4, userAgent.length));

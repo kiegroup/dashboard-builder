@@ -115,7 +115,7 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
                     newElement=null;
 
                     // Parsea Script elements y los coloca en el HEAD para evitar problema de Firefox 6/7 / Chrome
-                    if (FX || CH) {
+                    if (FX || CH || IE10) {
                         var ob = document.getElementById(targetElementId).getElementsByTagName("script");
                         var head = document.getElementsByTagName("head")[0];
                         // pasamos los elementos SCRIPT al HEAD
