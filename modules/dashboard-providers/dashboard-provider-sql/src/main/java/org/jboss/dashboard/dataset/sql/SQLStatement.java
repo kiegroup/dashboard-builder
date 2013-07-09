@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jboss.dashboard.domain.label.LabelInterval;
 
 /**
  * An SQL statement template.
@@ -121,6 +122,7 @@ public class SQLStatement {
             else if (param instanceof Double) preparedStatement.setDouble(psParamIndex, ((Double) param).doubleValue());
             else if (param instanceof Number) preparedStatement.setLong(psParamIndex, ((Number) param).longValue());
             else if (param instanceof Boolean) preparedStatement.setBoolean(psParamIndex, ((Boolean) param).booleanValue());
+            else if (param instanceof LabelInterval) preparedStatement.setString(psParamIndex, ((LabelInterval) param).getLabel());
             psParamIndex++;
         }
         return preparedStatement;
