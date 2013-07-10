@@ -37,6 +37,7 @@ function checkBrowser() {
         NS = true;
     } else if (checkIEversion(10)) {
         IE10 = true;
+        IE = true;
     }
     else if (userAgent.indexOf('MSIE') != -1) {
         navigatorVersion = parseFloat(userAgent.substring(userAgent.indexOf('MSIE') + 4, userAgent.length));

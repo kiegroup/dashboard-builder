@@ -669,7 +669,9 @@ function doDraggable(id){
                 document.selection.empty();
         },
         onStart: function(draggable, event){
-            doDraggableTimeout = setTimeout('showPanelDropZones();showRegionDropZones(); clearTimeout(doDraggableTimeout); doDraggableTimeout = null;',1);
+            // Bug fixing for IE9 and IE10. See https://prototype.lighthouseapp.com/projects/8887/tickets/343-ie9-triggers-ondragmousemove-event-when-clicking-a-draggable
+            // The timeout must be over 200ms. Otherwise, the click event for a draggable region is not read and there is no page change.
+            doDraggableTimeout = setTimeout('showPanelDropZones();showRegionDropZones(); clearTimeout(doDraggableTimeout); doDraggableTimeout = null;',200);
         },
         onEnd: function(draggable, event){
             if( doDraggableTimeout ) {

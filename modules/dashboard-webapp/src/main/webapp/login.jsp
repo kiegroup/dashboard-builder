@@ -110,7 +110,14 @@
             padding: 6px 10px;
             color: #fff;
             font-size: 14px;
-            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E05A6A), to(#E22434));
+            background: #E22434; /* Non CSS3 browsers. */
+            background: linear-gradient(top, #E05A6A 0%,#E22434 100%); /* W3C */
+            background: -webkit-gradient(linear, left top, left bottom, from(#E05A6A), to(#E22434)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #E05A6A 0%,#E22434 100%); /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top,  #E05A6A,  #E22434); /* FF */
+            background: -o-linear-gradient(top, #E05A6A 0%,#E22434 100%); /* Opera11.10+ */
+            filter: progid:DXImageTransform.Microsoft.Gradient(endColorstr='#E22434', startColorstr='#E05A6A', gradientType='0'); /* IE6-9 */
+            background: -ms-linear-gradient(top, #E05A6A 0%,#E22434 100%); /* IE10+ */
             text-shadow: #050505 0 -1px 0;
              background-color: #E22434;
             -moz-border-radius: 4px;
