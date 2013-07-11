@@ -30,6 +30,21 @@ public class DashbuilderRequestProcessor extends RequestChainProcessor {
     /** The refresh request parameter. */
     private static final String PARAM_REFRESH = "refresh";
 
+    /** The embedded request parameter. */
+    private static final String PARAM_EMBEDDED = "embedded";
+
+    /** The embedded request parameter. */
+    private static final String PARAM_EMBEDDED2 = "embeddedMode";
+
+    /** The embedded session parameter. */
+    public static final String PARAM_SESSION_EMBEDDED = "jBPM_dashbuilder_embedded";
+
+    /** The hide logout button parameter. */
+    private static final String PARAM_HIDE_LOGOUT = "hideLogout";
+
+    /** The hide logout session parameter. */
+    public static final String PARAM_SESSION_HIDE_LOGOUT= "jBPM_dashbuilder_hideLogout";
+
     /**
      * Process the current request and extract custom dasbuilder paramerters.
      *
@@ -44,6 +59,22 @@ public class DashbuilderRequestProcessor extends RequestChainProcessor {
             boolean isRefresh = toBoolean(refresh);
             if (isRefresh) dashboard.refresh();
         }
+
+        // Handle embedded mode.
+        String embedded = getRequest().getParameter(PARAM_EMBEDDED);
+        if (embedded == null) embedded = getRequest().getParameter(PARAM_EMBEDDED2);
+        if (embedded != null) {
+            // Set session embedded mode.
+            getRequest().getSession(true).setAttribute(PARAM_SESSION_EMBEDDED, Boolean.valueOf(embedded));
+        }
+
+        // Handle hide logout button mode.
+        String hideLogout = getRequest().getParameter(PARAM_HIDE_LOGOUT);
+        if (hideLogout != null) {
+            // Set session embedded mode.
+            getRequest().getSession(true).setAttribute(PARAM_SESSION_HIDE_LOGOUT, Boolean.valueOf(hideLogout));
+        }
+
         return true;
     }
 

@@ -1,3 +1,4 @@
+<%@ page import="org.jboss.dashboard.ui.controller.requestChain.DashbuilderRequestProcessor" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc
@@ -17,12 +18,11 @@
 --%>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%
-    // Hide the logout stuff if we are working in embedded mode.
     // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
-    String embeddedMode = request.getParameter("embedded");
-    if (embeddedMode == null) embeddedMode = request.getParameter("embeddedMode");
-    if (embeddedMode == null) embeddedMode = request.getParameter("hideLogout");
-    if (embeddedMode == null || !embeddedMode.equals("true")) {
+    // See org.jboss.dashboard.ui.controller.requestChain.DashbuilderRequestProcessor
+    Boolean embeddedMode = (Boolean) session.getAttribute("jBPM_dashbuilder_embedded");
+    if (embeddedMode == null || !embeddedMode) embeddedMode = (Boolean) session.getAttribute("jBPM_dashbuilder_hideLogout");
+    if (embeddedMode == null || !embeddedMode) {
 %>
 <factory:useComponent bean="org.jboss.dashboard.ui.components.LogoutComponent"/>
 <%
