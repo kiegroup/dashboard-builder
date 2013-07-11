@@ -28,6 +28,8 @@ import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.logging.Log;
 import org.hibernate.Session;
 
+import java.util.ResourceBundle;
+
 public class ShowPanelConfigComponent extends PanelManagementPanel {
     private static transient Log log = org.apache.commons.logging.LogFactory.getLog(ShowPanelConfigComponent.class.getName());
 
@@ -44,7 +46,8 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         formStatus = new FormStatus();
         clearFieldErrors();
 
-        title = panel.getProvider().getResource(panel.getProvider().getDescription()) + " (" + panel.getInstanceId() + ")";
+        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
+        title = i18n.getString("title.properties");
 
         ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).clearAll();
 
