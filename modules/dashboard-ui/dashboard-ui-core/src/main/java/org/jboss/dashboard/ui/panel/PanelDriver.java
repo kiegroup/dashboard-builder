@@ -30,14 +30,11 @@ import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
+import org.jboss.dashboard.ui.panel.parameters.*;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.components.panelManagement.ShowPanelConfigComponent;
 import org.jboss.dashboard.ui.components.panelManagement.ShowPanelPageComponent;
-import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
-import org.jboss.dashboard.ui.panel.parameters.IntParameter;
-import org.jboss.dashboard.ui.panel.parameters.StringParameter;
-import org.jboss.dashboard.ui.panel.parameters.TextAreaParameter;
 import org.jboss.dashboard.ui.controller.responses.PanelAjaxResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowJSPAjaxResponse;
 import org.jboss.dashboard.security.PanelPermission;
@@ -178,8 +175,8 @@ public class PanelDriver {
         log.debug("Init driver. Adding system parameters");
         addSystemParameter(new StringParameter(provider, PanelInstance.PARAMETER_GROUP, false, false));
         addSystemParameter(new StringParameter(provider, PanelInstance.PARAMETER_TITLE, true, true));
-        addParameter(new TextAreaParameter(provider, PanelInstance.PARAMETER_HTML_BEFORE, false, true));
-        addParameter(new TextAreaParameter(provider, PanelInstance.PARAMETER_HTML_AFTER, false, true));
+        addParameter(new HTMLTextAreaParameter(provider, PanelInstance.PARAMETER_HTML_BEFORE, false, true));
+        addParameter(new HTMLTextAreaParameter(provider, PanelInstance.PARAMETER_HTML_AFTER, false, true));
 
         // Probably will be deleted but not decided yet.
         //addSystemParameter(new IntParameter(provider, PanelInstance.PARAMETER_HEIGHT, true, "0"));

@@ -29,7 +29,7 @@
 var boundary = "AJAX_Boundary_" + new Date().getMilliseconds() * new Date().getMilliseconds() * new Date().getMilliseconds();
 var ajaxAlertsEnabled = false;
 var ajaxRequestNumber = 0;
-var ajaxMaxRequestNumber = <%=request.getParameter("maxAjaxRequestAllowed") != null ? request.getParameter("maxAjaxRequestAllowed") : 50%>;
+var ajaxMaxRequestNumber = <%=AjaxRefreshManager.lookup().getMaxAjaxRequests()%>;
 
 /**
 * Loads a given url into element with id tagId. If a body is specified, it uses multipart content-type

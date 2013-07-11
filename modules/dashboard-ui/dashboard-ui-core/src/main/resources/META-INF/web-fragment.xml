@@ -41,36 +41,6 @@
         <url-pattern>/workspace/*</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/Controller</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/dialog/Controller</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/dialog/fck_image/Controller</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/workspace/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/dialog/fck_image/workspace/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/fckeditor/editor/dialog/workspace/*</url-pattern>
-    </servlet-mapping>
-
     <filter>
         <filter-name>Cache Filter</filter-name>
         <filter-class>org.jboss.dashboard.ui.controller.CacheFilter</filter-class>

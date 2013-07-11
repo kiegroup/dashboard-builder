@@ -15,18 +15,28 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.panel.AjaxRefreshManager" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
+<%@ page import="org.jboss.dashboard.ui.UIServices" %>
+<%@ page import="org.jboss.dashboard.ui.components.js.JSIncluder" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%
-    AjaxRefreshManager ajaxRefreshManager = (AjaxRefreshManager) Factory.lookup("org.jboss.dashboard.ui.panel.AjaxRefreshManager");
+    JSIncluder jsIncluder = UIServices.lookup().getJsIncluder();
+    String[] jsFiles = jsIncluder.getJsFilesToIncludeInHeader();
+    for (int i = 0; i < jsFiles.length; i++) {
+        String jsFile = jsFiles[i];
 %>
-<factory:useComponent bean="org.jboss.dashboard.ui.components.js.HeadJSIncluder"/>
+    <script src='<mvc:context uri="<%= jsFile %>" />'></script>
+<%
+    }
+%>
 <script  language="Javascript" type="text/javascript">
-    <jsp:include page="/templates/navigatorDetection.jsp" flush="true"/>
-    <jsp:include page="/common/rs/ajax.jsp" flush="true">
-    <jsp:param name="maxAjaxRequestAllowed" value="<%=ajaxRefreshManager.getMaxAjaxRequests()%>"/>
-    </jsp:include>
+<%
+    String[] jspFiles = jsIncluder.getJspFilesToIncludeInHeader();
+    for (int i = 0; i < jspFiles.length; i++) {
+        String jspFile = jspFiles[i];
+%>
+    <jsp:include page="<%= jspFile %>" flush="true"/>
+<%
+    }
+%>
 </script>
- 

@@ -68,6 +68,14 @@ public class TreeMenuDriver extends PanelDriver {
         return true;
     }
 
+    public int getEditWidth(Panel panel, CommandRequest request) {
+        return 500;
+    }
+
+    public int getEditHeight(Panel panel, CommandRequest request) {
+        return 500;
+    }
+
     public String getPatternForPage(Section section, int level, Panel panel, boolean current) {
         level = level > 3 ? 3 : level;
         if (level < 1) {

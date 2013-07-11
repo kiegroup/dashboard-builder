@@ -16,16 +16,37 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
+<%@ page import="org.jboss.dashboard.ui.components.js.JSIncluder" %>
+<%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-<i18n:bundle baseName="org.jboss.dashboard.ui.messages"
-             locale="<%=LocaleManager.currentLocale()%>"/>
+<i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <div id="ajaxLoadingDiv" style="position:absolute;position: absolute; left: 50%; top: 50%; z-index: 6000; opacity: 0.6; display: none;">
     <img  src="<static:image relativePath="general/loading.gif"/>" title="<i18n:message key="ui.admin.configuration.tree.loading"/>">
 </div>
-<factory:useComponent bean="org.jboss.dashboard.ui.components.js.BottomJSIncluder"/>
-<factory:useComponent bean="org.jboss.dashboard.ui.components.XSSHandler"/>
+<%
+    JSIncluder jsIncluder = UIServices.lookup().getJsIncluder();
+    String[] jsFiles = jsIncluder.getJsFilesToIncludeInBottom();
+    for (int i = 0; i < jsFiles.length; i++) {
+        String jsFile = jsFiles[i];
+
+%>
+    <script src='<mvc:context uri="<%= jsFile %>" />'></script>
+<%
+    }
+%>
+<script  language="Javascript" type="text/javascript">
+<%
+    String[] jspFiles = jsIncluder.getJspFilesToIncludeInBottom();
+    for (int i = 0; i < jspFiles.length; i++) {
+        String jspFile = jspFiles[i];
+%>
+    <jsp:include page="<%= jspFile %>" flush="true"/>
+<%
+    }
+%>
+</script>

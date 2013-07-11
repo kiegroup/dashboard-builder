@@ -15,9 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.components.RedirectionHandler"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -27,7 +25,6 @@
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.panel.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <mvc:formatter name="org.jboss.dashboard.ui.panel.advancedHTML.HTMLDriverEditFormatter">
     <mvc:fragment name="outputStart">
-        <div style="width:100%"><center>
         <form name="<panel:encode name="htmlForm"/>" method="post" action="<mvc:fragmentValue name="url"/>">
     </mvc:fragment>
     <mvc:fragment name="languagesOutputStart">
@@ -48,27 +45,45 @@
         </table>
     </mvc:fragment>
     <mvc:fragment name="output">
-        <textarea id="<panel:encode name='Content_html' />" name="<mvc:fragmentValue name="contentParamName"/>"
-                  style="WIDTH: 100%; HEIGHT: 500px" rows="20" cols="60"><mvc:fragmentValue name="content"/></textarea>
-        <input class="skn-button" type="submit" name="submitInput"
-               value="<i18n:message key="ui.saveChanges"/>">
-        <script type="text/javascript" language="Javascript" defer>
+        <textarea id="<panel:encode name='htmlContent' />" name="<mvc:fragmentValue name="contentParamName"/>"><mvc:fragmentValue name="content"/></textarea>
+        <script type="text/javascript" language="Javascript" defer="true">
 
-            var sBasePath = '<%=request.getContextPath()%>/fckeditor/';
-            var oFCKeditor = new FCKeditor('<panel:encode name='Content_html' />', '100%', '500') ;
-            oFCKeditor.BasePath = sBasePath;
-            oFCKeditor.Config['CustomConfigurationsPath'] = '<factory:url bean="org.jboss.dashboard.ui.components.RedirectionHandler" action="redirectToSection" friendly="false"><factory:param name="<%=RedirectionHandler.PARAM_PAGE_TO_REDIRECT%>" value="/fckeditor/custom/fckConfig.jsp"/></factory:url>';
-            oFCKeditor.Config['minimizedToolbarSet']= 'miniForHTMLPanel';
-            oFCKeditor.Config['maximizedToolbarSet']= 'fullForHTMLPanel';
-            oFCKeditor.ToolbarSet = 'miniForHTMLPanel';
-            oFCKeditor.Config["DefaultLanguage"] = '<%=LocaleManager.currentLang()%>';
-            oFCKeditor.ReplaceTextarea();
-            if (document.<panel:encode name="htmlForm"/>.<mvc:fragmentValue name="contentParamName"/>.style.display == 'none')
-                document.<panel:encode name="htmlForm"/>.removeChild(document.<panel:encode name="htmlForm"/>.submitInput);
+            CKEDITOR.replace('<panel:encode name='htmlContent' />', {
+                language: '<%=LocaleManager.currentLang()%>',
+                contentsCss: '<resource:link category="skin" resourceId="CSS"/>',
+                extraPlugins: 'stylesheetparser',
+                customConfig: '',
+                width: '100%',
+                height: 500,
+                allowedContext: true,
+                baseFloatZIndex: 20000002, // greater than modal dialog's
+                resize_enabled: false,
+                startupMode: 'wysiwyg',
+                startupShowBorders: false,
+                startupFocus: true,
+                toolbarLocation: 'top',
+                toolbarCanCollapse: false,
+                toolbarStartupExpanded: true,
+                toolbarGroups: [
+                    { name: 'document',    groups: [ 'document', 'doctools' ] },
+                    { name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+                    { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+                    { name: 'forms'  },
+                    { name: 'tools'  },
+                    '/',
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                    { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ] },
+                    { name: 'insert',     groups: [ 'links', 'insert' ] },
+                    '/',
+                    { name: 'mode' },
+                    { name: 'styles' },
+                    { name: 'colors' },
+                    { name: 'others' }
+                ]
+            });
         </script>
     </mvc:fragment>
     <mvc:fragment name="outputEnd">
         </form>
-        </center></div>
     </mvc:fragment>
 </mvc:formatter>

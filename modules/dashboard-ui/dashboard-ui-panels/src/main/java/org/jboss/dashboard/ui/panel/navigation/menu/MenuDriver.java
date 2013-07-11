@@ -18,6 +18,7 @@ package org.jboss.dashboard.ui.panel.navigation.menu;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
+import org.jboss.dashboard.ui.panel.parameters.HTMLTextAreaParameter;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
@@ -85,10 +86,10 @@ public class MenuDriver extends PanelDriver {
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);
         addParameter(new ComboListParameter(provider, PARAMETER_TYPE_PANEL, true, MenuTypeListDataSupplier.PARAMETER_PAGE, new MenuTypeListDataSupplier(), false));
-        addParameter(new TextAreaParameter(provider, PARAMETER_START_HTML, false, "", false));
-        addParameter(new TextAreaParameter(provider, PARAMETER_END_HTML, false, "", false));
-        addParameter(new TextAreaParameter(provider, PARAMETER_BEFORE_LINK, false, "", false));
-        addParameter(new TextAreaParameter(provider, PARAMETER_AFTER_LINK, false, "&nbsp;", false));
+        addParameter(new HTMLTextAreaParameter(provider, PARAMETER_START_HTML, false, "", false));
+        addParameter(new HTMLTextAreaParameter(provider, PARAMETER_END_HTML, false, "", false));
+        addParameter(new HTMLTextAreaParameter(provider, PARAMETER_BEFORE_LINK, false, "", false));
+        addParameter(new HTMLTextAreaParameter(provider, PARAMETER_AFTER_LINK, false, "&nbsp;", false));
     }
 
     /**

@@ -91,6 +91,14 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         return true;
     }
 
+    public int getEditWidth(Panel panel, CommandRequest request) {
+        return 1000;
+    }
+
+    public int getEditHeight(Panel panel, CommandRequest request) {
+        return 695;
+    }
+
     /**
      * Defines the action to be taken when activating edit mode
      */
@@ -154,6 +162,12 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         try {
             HTMLText textToCreate = new HTMLText();
             textToCreate.setPanelInstance(panel.getInstance());
+            Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
+            for (int i = 0; i < locales.length; i++) {
+                Locale locale = locales[i];
+                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
+                textToCreate.setText(locale.getLanguage(), i18n.getString("defaultContent"));
+            }
             textToCreate.save();
         } catch (Exception e) {
             log.error("Error creating empty text for panel: ", e);
@@ -167,7 +181,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
     /**
      * Determine the editing language.
      *
-     * @param panel
      * @return The text shown, i18n.
      */
     public String getEditingLanguage(Panel panel) {
@@ -175,12 +188,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         return lang == null ? LocaleManager.lookup().getDefaultLang() : lang;
     }
 
-    /**
-     * @param panel
-     * @param request
-     * @return
-     * @throws Exception
-     */
     public CommandResponse actionChangeEditingLanguage(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
         Map text = (Map) SessionManager.getPanelSession(panel).getAttribute(ATTR_TEXT);
@@ -195,12 +202,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         return new ShowPanelPage();
     }
 
-    /**
-     * @param panel
-     * @param request
-     * @return
-     * @throws Exception
-     */
     public CommandResponse actionSaveChanges(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
         Map m = (Map) SessionManager.getPanelSession(panel).getAttribute(ATTR_TEXT);
@@ -212,7 +213,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         }
         text.setText(getEditingLanguage(panel), currentText);
         text.save();
-        activateEditMode(panel, request);
+        activateNormalMode(panel, request);
         return new ShowPanelPage();
     }
 
