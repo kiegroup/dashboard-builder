@@ -22,10 +22,10 @@ import org.jboss.dashboard.ui.components.DashboardHandler;
  * This is a request chain processor for dashbuilder.
  * It reads some request parameters and perform operations.
  */
-public class DashbuilderRequestProcessor extends RequestChainProcessor {
+public class EmbeddedRequestProcessor extends RequestChainProcessor {
 
     /** Class logger. */
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashbuilderRequestProcessor.class.getName());
+    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EmbeddedRequestProcessor.class.getName());
 
     /** The refresh request parameter. */
     private static final String PARAM_REFRESH = "refresh";
@@ -37,13 +37,13 @@ public class DashbuilderRequestProcessor extends RequestChainProcessor {
     private static final String PARAM_EMBEDDED2 = "embeddedMode";
 
     /** The embedded session parameter. */
-    public static final String PARAM_SESSION_EMBEDDED = "jBPM_dashbuilder_embedded";
+    public static final String PARAM_SESSION_EMBEDDED = "dashbuilder_embedded";
 
     /** The hide logout button parameter. */
     private static final String PARAM_HIDE_LOGOUT = "hideLogout";
 
     /** The hide logout session parameter. */
-    public static final String PARAM_SESSION_HIDE_LOGOUT= "jBPM_dashbuilder_hideLogout";
+    public static final String PARAM_SESSION_HIDE_LOGOUT= "dashbuilder_hideLogout";
 
     /**
      * Process the current request and extract custom dasbuilder paramerters.

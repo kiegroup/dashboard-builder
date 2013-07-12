@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-$class=org.jboss.dashboard.ui.controller.requestChain.DashbuilderRequestProcessor
+$class=org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor
 $scope=volatile
 
 nextStep=.FreeMemoryProcessor

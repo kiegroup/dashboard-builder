@@ -1,4 +1,4 @@
-<%@ page import="org.jboss.dashboard.ui.controller.requestChain.DashbuilderRequestProcessor" %>
+<%@ page import="org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc
@@ -19,9 +19,9 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%
     // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
-    // See org.jboss.dashboard.ui.controller.requestChain.DashbuilderRequestProcessor
-    Boolean embeddedMode = (Boolean) session.getAttribute("jBPM_dashbuilder_embedded");
-    if (embeddedMode == null || !embeddedMode) embeddedMode = (Boolean) session.getAttribute("jBPM_dashbuilder_hideLogout");
+    // See org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor
+    Boolean embeddedMode = (Boolean) session.getAttribute("dashbuilder_embedded");
+    if (embeddedMode == null || !embeddedMode) embeddedMode = (Boolean) session.getAttribute("dashbuilder_hideLogout");
     if (embeddedMode == null || !embeddedMode) {
 %>
 <factory:useComponent bean="org.jboss.dashboard.ui.components.LogoutComponent"/>

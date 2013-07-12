@@ -17,4 +17,4 @@
 $class=org.jboss.dashboard.ui.controller.requestChain.MultipartProcessor
 $scope=volatile
 
-nextStep=.DashbuilderRequestProcessor
+nextStep=.EmbeddedRequestProcessor
