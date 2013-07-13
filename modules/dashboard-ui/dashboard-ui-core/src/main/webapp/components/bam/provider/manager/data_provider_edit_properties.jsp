@@ -205,19 +205,16 @@
     <mvc:fragment name="outputFormEnd">
         </table>
         </form>
-        <script defer>
-            setAjax('<factory:encode name="editDataProviderPropertiesForm"/>');
-        </script>
-         </td>
-        </tr>
         <form action="<factory:formUrl friendly="false"/>" method="post" id="<factory:encode name="goToShowPageForm"/>">
             <factory:handler bean="org.jboss.dashboard.ui.components.DataProviderHandler" action="cancel"/>
         </form>
         <script defer>
+            setAjax('<factory:encode name="editDataProviderPropertiesForm"/>');
             setAjax('<factory:encode name="goToShowPageForm"/>');
         </script>
+         </td>
+        </tr>
     </mvc:fragment>
-
 
     <mvc:fragment name="outputEnd">
       </table>
