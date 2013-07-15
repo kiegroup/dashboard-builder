@@ -74,7 +74,7 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
             // only if "OK"
             if (status == 200) {
                 var targetElementId;
-                if (ajaxHandler.ajaxReq.responseText.indexOf("<html>")!=-1) {
+                if (ajaxHandler.ajaxReq.responseText.indexOf("</html>")!=-1) {
                     // Just refresh the current screen.
                     document.location.href = '<%=request.getContextPath()%>';
                 } else {
