@@ -27,6 +27,7 @@
             <module name="org.apache.commons.io" />
             <module name="org.apache.commons.collections" />
             <module name="org.apache.commons.codec" />
+            <module name="org.apache.xerces" />
             <module name="org.jboss.ironjacamar.jdbcadapters" />
         </dependencies>
 
