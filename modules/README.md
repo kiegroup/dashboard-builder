@@ -51,15 +51,6 @@ The parameters that you can configure are: db.url, db.user and db.password
         <db.password>dashbuilder</db.password>
 
 
-Log4j configuration
--------------------
-
-The log4j.xml file is located the following directory: <code>modules/dashboard-showcase/src/test/resources/log4j.xml</code>.
-
-Configure the following parameter to the desired file:
-
-    <param name="file" value="/tmp/dashbuilder-app.log"/>
-
 Compile and build
 ----------------------
 

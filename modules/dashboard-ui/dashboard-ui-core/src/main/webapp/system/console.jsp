@@ -43,7 +43,6 @@
     <li><a href="threadconsole.jsp">Thread profiler</a></li>
     <li><a href="schedulerconsole.jsp">Scheduler tasks</a></li>
     <li><a href="hibernateconsole.jsp">Hibernate stats</a></li>
-    <li><a href="log4jconsole.jsp">Log console</a></li>
 </ul>
 <br/><br/>
 <%= Application.lookup().getCopyright() %>

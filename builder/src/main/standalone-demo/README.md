@@ -57,7 +57,6 @@ Installation steps
                               start-demo.bat
                               realm.properties
                               /db
-                              /log
 
 * Open a command window and execute the start-demo.sh script for linux environments or start-demo.bat for windows
    environments.

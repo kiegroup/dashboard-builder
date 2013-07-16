@@ -211,7 +211,6 @@ public abstract class CodeBlockTrace {
                 CodeBlockTrace currentTrace = threadExec.codeBlockInProgress;
                 if (currentTrace != null) currentTrace.addChild(this);
                 threadExec.codeBlockInProgress = this;
-                threadExec.addCodeBlockBeginEvent(this);
             }
         }
         return this;
@@ -227,7 +226,6 @@ public abstract class CodeBlockTrace {
                 CodeBlockTrace runningParent = parent;
                 while (runningParent != null && !runningParent.isRunning()) runningParent = runningParent.parent;
                 threadExec.codeBlockInProgress = runningParent;
-                threadExec.addCodeBlockEndEvent(this);
             }
         }
     }

@@ -19,8 +19,6 @@ import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.error.ErrorReport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -83,15 +81,6 @@ public class ThreadProfile {
     /** All context property names that any thread profile can hold. */
     protected static List<String> contextPropertyNames = new ArrayList<String>();
 
-    /** The thread's logs */
-    protected List<LogEvent> logEvents;
-
-    /** The maximum log events to store. */
-    protected int maxLogEvents;
-
-    /** The log overflow flag. Enabled when the log size exceeds the max. events allowed. */
-    protected transient boolean logOverflow;
-
     /** An error occurred during the thread execution (if any). */
     protected ErrorReport errorReport;
 
@@ -114,9 +103,6 @@ public class ThreadProfile {
         this.maxThreadDurationInMillis = 120000;
         this.maxStackTraceLength = 500;
         this.contextProperties = Collections.synchronizedMap(new LinkedHashMap<String,Object>());
-        this.logEvents = null;
-        this.maxLogEvents = 10000;
-        this.logOverflow = false;
         this.errorReport = null;
         this.targetThread = false;
         clearStackTraces();
@@ -183,14 +169,6 @@ public class ThreadProfile {
 
     public CodeBlockTrace getRootCodeBlock() {
         return rootCodeBlock;
-    }
-
-    public int getMaxLogEvents() {
-        return maxLogEvents;
-    }
-
-    public void setMaxLogEvents(int maxLogEvents) {
-        this.maxLogEvents = maxLogEvents;
     }
 
     public ErrorReport getErrorReport() {
@@ -476,159 +454,6 @@ public class ThreadProfile {
         results.addAll(traces);
         for (TimeTrace trace : traces) {
             toPlainList(trace.getChildren(), results);
-        }
-    }
-
-    // Log4J support
-
-    public void addLog4JEvent(LoggingEvent event) {
-        addLogEvent(new Log4JEvent(codeBlockInProgress, event));
-    }
-
-    public void addCodeBlockBeginEvent(CodeBlockTrace trace) {
-        addLogEvent(new CodeBlockBeginEvent(trace));
-    }
-
-    public void addCodeBlockEndEvent(CodeBlockTrace trace) {
-        addLogEvent(new CodeBlockEndEvent(trace));
-    }
-
-    public void addLogEvent(LogEvent event) {
-        if (logEvents == null) logEvents = new ArrayList<LogEvent>();
-        logEvents.add(event);
-
-        // Avoid memory problems.
-        if (logOverflow) logEvents.remove(1);
-        else if (logOverflow = logEvents.size() > maxLogEvents) logEvents.add(0, createLogOverflowMessage());
-
-    }
-
-    protected MessageEvent createLogOverflowMessage() {
-        return new MessageEvent(codeBlockInProgress, "\n! AVOID MEMORY OVERFLOW. ONLY THE LOW " + maxLogEvents + " EVENTS RECORDED !\n");
-    }
-
-    public List<LogEvent> getLogEvents(boolean includeCodeBlockEvents, boolean removeCodeBlocksWithoutLogs) {
-        if (logEvents == null) return Collections.EMPTY_LIST;
-
-        List<LogEvent> result = new ArrayList<LogEvent>(logEvents);
-        if (!includeCodeBlockEvents) {
-            // Return only Log4J events.
-            Iterator<LogEvent> it = result.iterator();
-            while (it.hasNext()) {
-                LogEvent event = it.next();
-                if (!(event instanceof Log4JEvent)) it.remove();
-            }
-        } else if (removeCodeBlocksWithoutLogs) {
-            // Return all events but those code block begin/end events containing no logs.
-            int index = 0;
-            while (index < result.size()) {
-                // Look for two consecutive trace begin/end events (no log events between).
-                if (!(result.get(index++) instanceof CodeBlockBeginEvent)) continue;
-                if (index >= result.size()) continue;
-                if (!(result.get(index) instanceof CodeBlockEndEvent)) continue;
-
-                // Remove such begin/end events.
-                result.remove(index--);
-                result.remove(index--);
-                if (index < 0) index = 0;
-            }
-        } else {
-            // Return all the events.
-            return Collections.unmodifiableList(logEvents);
-        }
-        return result;
-    }
-
-    /**
-     * Base class for log events.
-     */
-    public static abstract class LogEvent {
-
-        CodeBlockTrace codeBlockTrace;
-        long timestamp;
-
-        protected LogEvent(CodeBlockTrace trace, long timestamp) {
-            this.codeBlockTrace = trace;
-            this.timestamp = timestamp;
-        }
-
-        public CodeBlockTrace getCodeBlockTrace() {
-            return codeBlockTrace;
-        }
-
-        public long getTimestamp() {
-            return timestamp;
-        }
-
-        public abstract String format(Map<String,Object> props);
-    }
-
-    /**
-     * The CodeBlockTrace begin event.
-     */
-    public static class CodeBlockBeginEvent extends LogEvent {
-
-        public CodeBlockBeginEvent(CodeBlockTrace trace) {
-            super(trace, trace.getBeginTimeMillis());
-        }
-
-        public String format(Map<String, Object> props) {
-            String traceTime = Chronometer.formatElapsedTime(codeBlockTrace.getElapsedTimeMillis());
-            String traceStr = codeBlockTrace.getType().getId() + " - " + codeBlockTrace.getDescription() + " - " + traceTime + "\n";
-            return "BEGIN " + traceStr;
-        }
-    }
-
-    /**
-     * The CodeBlockTrace end event.
-     */
-    public static class CodeBlockEndEvent extends LogEvent {
-
-        public CodeBlockEndEvent(CodeBlockTrace trace) {
-            super(trace, trace.getEndTimeMillis());
-        }
-
-        public String format(Map<String, Object> props) {
-            String traceTime = Chronometer.formatElapsedTime(codeBlockTrace.getElapsedTimeMillis());
-            String traceStr = codeBlockTrace.getType().getId() + " - " + codeBlockTrace.getDescription() + " - " + traceTime + "\n";
-            return "END " + traceStr;
-        }
-    }
-
-    /**
-     * Class that holds events generated by the Log4j.
-     */
-    public static class Log4JEvent extends LogEvent {
-
-        public static final String LAYOUT = "layout";
-
-        LoggingEvent log4jEvent;
-
-        private Log4JEvent(CodeBlockTrace codeBlockTrace, LoggingEvent log4jEvent) {
-            super(codeBlockTrace, log4jEvent.getTimeStamp());
-            this.log4jEvent = log4jEvent;
-        }
-
-        public String format(Map<String, Object> props) {
-            Layout layout = (Layout) props.get(LAYOUT);
-            return layout.format(log4jEvent);
-        }
-    }
-
-    /**
-     * A simple event holding a message.
-     */
-    public static class MessageEvent extends LogEvent {
-
-        protected String message;
-
-        private MessageEvent(CodeBlockTrace codeBlockTrace, String message) {
-            super(codeBlockTrace, System.currentTimeMillis());
-            this.message = message;
-        }
-
-        public String format(Map<String, Object> props) {
-            return message;
         }
     }
 }

@@ -23,7 +23,6 @@
 <%@ page import="org.jboss.dashboard.profiler.*" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
-<%@ page import="org.apache.log4j.PatternLayout" %>
 <%
     if (request.getSession().getAttribute("accessGranted") == null) {
         request.setAttribute("redirect", "threadconsole.jsp");
@@ -37,21 +36,7 @@
     static final String TAB_CONTEXT = "context";
     static final String TAB_CODETRACES = "code traces";
     static final String TAB_TIMETRACES = "time traces";
-    static final String TAB_LOGS = "logs";
-    static String[] TABS = new String[] {TAB_CONTEXT, TAB_CODETRACES, TAB_TIMETRACES, TAB_LOGS};
-
-    static String TRACE_EVENT_HEADER = "<span style=\"font-size:x-small;color:silver\">";
-    static String TRACE_EVENT_TAIL = "</span>";
-    static String LOG4J_EVENT_HEADER = "<span style=\"font-size:normal;color:lightskyblue\">";
-    static String LOG4J_EVENT_TAIL = "</span>";
-
-    static String formatEvent(ThreadProfile.LogEvent event, Map<String,Object> formatProps) {
-        String eventStr = event.format(formatProps);
-        if (event instanceof ThreadProfile.Log4JEvent) return LOG4J_EVENT_HEADER + eventStr + LOG4J_EVENT_TAIL;
-        if (event instanceof ThreadProfile.CodeBlockBeginEvent) return TRACE_EVENT_HEADER + eventStr + TRACE_EVENT_TAIL;
-        if (event instanceof ThreadProfile.CodeBlockEndEvent) return TRACE_EVENT_HEADER + eventStr + TRACE_EVENT_TAIL;
-        return eventStr;
-    }
+    static String[] TABS = new String[] {TAB_CONTEXT, TAB_CODETRACES, TAB_TIMETRACES};
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -131,30 +116,16 @@ try {
     <tr>
         <td align="left" width="120px" height="25px">Thread status</td>
         <td align="left">= <%= tp.isRunning() ? "RUNNING" : "COMPLETED" %></td>
-        <% if (currentTab.equals(TAB_LOGS)) { %>
-        <td width="30px">&nbsp;</td>
-        <td align="left">Show code traces</td>
-        <td align="left"><input class="skn-input" type="checkbox" name="showCodeBlocks" <%= showCodeBlockEvents ? "checked" : "" %> onchange="this.form.submit();"/></td>
-        <td width="50px">&nbsp;</td>
-        <% } %>
     </tr>
     <tr>
         <td align="left" height="25px">Thread length</td>
         <td align="left">= <%= Chronometer.formatElapsedTime(tp.getElapsedTime()) %></td>
-        <% if (currentTab.equals(TAB_LOGS) && showCodeBlockEvents) { %>
-        <td width="30px">&nbsp;</td>
-        <td align="left">Show empty traces</td>
-        <td align="left"><input class="skn-input" type="checkbox" name="showEmptyBlocks" <%= showEmptyCodeBlocks ? "checked" : "" %> onchange="this.form.submit();"/></td>
-        <% } %>
     </tr>
     <% if (!currentTab.equals(TAB_CONTEXT)) { %>
     <tr>
         <% if (currentTab.equals(TAB_CODETRACES) || currentTab.equals(TAB_TIMETRACES)) { %>
             <td align="left" height="25px">Min. trace time</td>
             <td align="left"><input name="traceLength" onchange="this.form.submit();" class="skn-input" style="width:100px" value="<%= traceLength %>">&nbsp;(&gt; 0 ms)</td>
-        <% } else if (currentTab.equals(TAB_LOGS)) { %>
-            <td align="left">Log pattern</td>
-            <td colspan="5" align="left"><input class="skn-input" type="text" name="logPattern" value="<%= logPattern %>" size="50" onchange="this.form.submit();"/></td>
         <% } %>
     </tr>
     <% } %>
@@ -273,24 +244,6 @@ try {
 <%
         }
 %>
-        </td>
-    </tr>
-</table>
-<%
-    // LOGS
-    } else {
-        List<ThreadProfile.LogEvent> events = tp.getLogEvents(showCodeBlockEvents, !showEmptyCodeBlocks);
-        Map<String,Object> formatProps = new HashMap<String, Object>();
-        formatProps.put(ThreadProfile.Log4JEvent.LAYOUT, new PatternLayout(logPattern));
-%>
-<table border="0" cellpadding="1" cellspacing="2" class="skn-table_border">
-    <tr>
-        <td valign="top" align="left">
-            <div id='logsDiv' style="background-color:black;color:skyblue;width:1250px;height:500px;overflow:auto;"><pre style="font:message-box;font-size:small;"><%
-                for (int i=0; i<events.size(); i++) {
-                    ThreadProfile.LogEvent event = events.get(i);
-                    String eventStr = formatEvent(event, formatProps); %><%= eventStr %><%
-                } %></pre></div>
         </td>
     </tr>
 </table>

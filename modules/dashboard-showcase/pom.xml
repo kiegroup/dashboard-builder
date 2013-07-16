@@ -294,16 +294,6 @@
                                     <resourcesAsCSV>${project.basedir}/target/dashboard-showcase</resourcesAsCSV>
                                 </resourceBases>
                             </webApp>
-                            <systemProperties>
-                                <systemProperty>
-                                    <name>log4j.configuration</name>
-                                    <value>file:${project.basedir}/src/test/resources/log4j.xml</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <name>Dslf4j</name>
-                                    <value>false</value>
-                                </systemProperty>
-                            </systemProperties>
                         </configuration>
                     </plugin>
 
@@ -318,7 +308,6 @@
                                     <includes>
                                         <include>**/realm.properties</include>
                                         <include>**/jetty-env.xml</include>
-                                        <include>**/log4j.xml</include>
                                     </includes>
                                 </resource>
                                 <resource>

@@ -39,6 +39,7 @@
 
     <properties>
         <hyear>2012</hyear>
+        <version.slf4j>1.7.2</version.slf4j>
         <version.junit>4.10</version.junit>
         <version.arquillian>1.0.3.Final</version.arquillian>
         <version.arquillian.container>1.0.0.CR5</version.arquillian.container>
@@ -100,16 +101,16 @@
     <dependencies>
 
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${version.slf4j}</version>
             <scope>compile</scope>
         </dependency>
 

@@ -43,7 +43,6 @@ public class DataProviderManagerTest {
                 .addPackage("org.jboss.dashboard")
                 .addPackage("org.jboss.dashboard.database")
                 .addPackage("org.jboss.dashboard.database.hibernate")
-                .addPackage("org.jboss.dashboard.log")
                 .addPackage("org.jboss.dashboard.profiler")
                 .addPackage("org.jboss.dashboard.scheduler")
                 .addPackage("org.jboss.dashboard.error")

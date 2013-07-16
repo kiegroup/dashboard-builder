@@ -40,7 +40,6 @@
                     <exclude>WEB-INF/web.xml</exclude>
                     <exclude>WEB-INF/jetty-*.xml</exclude>
                     <exclude>WEB-INF/lib/jetty-*.jar</exclude>
-                    <exclude>WEB-INF/classes/log4j.xml</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>

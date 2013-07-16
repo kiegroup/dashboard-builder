@@ -20,7 +20,6 @@ import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.filesystem.FileSystemManager;
 import org.jboss.dashboard.database.hibernate.HibernateSessionFactoryProvider;
 import org.jboss.dashboard.error.ErrorManager;
-import org.jboss.dashboard.log.Log4JManager;
 import org.jboss.dashboard.profiler.Profiler;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.scheduler.Scheduler;
@@ -42,9 +41,6 @@ public class CoreServices {
 
     @Inject
     protected HibernateSessionFactoryProvider hibernateSessionFactoryProvider;
-
-    @Inject
-    protected Log4JManager log4JManager;
 
     @Inject
     protected Profiler profiler;
@@ -75,14 +71,6 @@ public class CoreServices {
 
     public void setHibernateInitializer(HibernateInitializer hibernateInitializer) {
         this.hibernateInitializer = hibernateInitializer;
-    }
-
-    public Log4JManager getLog4JManager() {
-        return log4JManager;
-    }
-
-    public void setLog4JManager(Log4JManager log4JManager) {
-        this.log4JManager = log4JManager;
     }
 
     public Profiler getProfiler() {

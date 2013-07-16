@@ -41,7 +41,6 @@
                     <exclude>WEB-INF/jboss-web.xml</exclude>
                     <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
                     <exclude>WEB-INF/web.xml</exclude>
-                    <exclude>WEB-INF/classes/log4j.xml</exclude>
                     <exclude>WEB-INF/lib/jboss-*.jar</exclude>
                     <exclude>WEB-INF/lib/servlet-*.jar</exclude>
                     <exclude>WEB-INF/lib/jsp-*.jar</exclude>
@@ -57,7 +56,8 @@
                     <exclude>WEB-INF/lib/itext-*.jar</exclude>
                     <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
                     <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
-                    <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
+                    <exclude>WEB-INF/lib/slf4j-*.jar</exclude>
+                    <exclude>WEB-INF/lib/jcl-over-slf4j-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-lang-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-collections-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-io-*.jar</exclude>
