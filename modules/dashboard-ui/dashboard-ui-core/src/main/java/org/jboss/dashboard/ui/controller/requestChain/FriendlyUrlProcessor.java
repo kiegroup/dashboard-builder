@@ -41,7 +41,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
     private boolean showLoginBackDoorOnPermissionDenied = true;
 
     public static final String FRIENDLY_MAPPING = "/" + URLMarkupGenerator.FRIENDLY_PREFIX;
-
+    public static final String LOCALE_PARAMETER = "locale";
 
     public boolean isShowLoginBackDoorOnPermissionDenied() {
         return showLoginBackDoorOnPermissionDenied;
@@ -85,7 +85,15 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         // Empty URI -> nothing to do.
         if (StringUtils.isBlank(relativeUri)) return true;
 
-        /* ---- Apply locale information, --------------
+        // ---- Apply locale information, --------------
+        LocaleManager localeManager = LocaleManager.lookup();
+        // First check if a locale parameter is present in the URI query string.
+        Locale localeToSet = null;
+        String localeParam = getRequest().getParameter(LOCALE_PARAMETER);
+        if (localeParam != null && localeParam.trim().length() > 0)  localeToSet = localeManager.getLocaleById(localeParam);
+
+        /*
+        * Check if the locale information is in the URI value in order to consume it.
         * Locale information is expected in the URI after "/workspace".
         * Examples:
         * - /workspace/en/....
@@ -101,20 +109,21 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         int endLocaleUri = relativeUri.indexOf("/", startLocaleUri + 1);
         endLocaleUri = endLocaleUri > 0 ? endLocaleUri : relativeUri.length();
         String localeUri = relativeUri.substring(startLocaleUri + 1, endLocaleUri);
-        LocaleManager localeManager = LocaleManager.lookup();
-        Locale l = localeManager.getLocaleById(localeUri);
-        if (l != null) {
-            Locale[] possibleLocales = localeManager.getPlatformAvailableLocales();
-            for (Locale locale : possibleLocales) {
-                String localeName = locale.toString();
-                if (localeName.equalsIgnoreCase(localeUri)) {
-                    relativeUri = relativeUri.substring(localeName.length() + 1);
-                    LocaleManager.lookup().setCurrentLang(localeName);
-                    break;
-                }
-            }
+        Locale uriLocale = localeManager.getLocaleById(localeUri);
+        if (uriLocale != null) {
             getControllerStatus().consumeURIPart("/" + localeUri);
+            relativeUri = relativeUri.substring(localeUri.length() + 1);
+            // Use the locale specified in the URI value only if no locale specified in the qeury string.
+            if (localeToSet == null) localeToSet = uriLocale;
         }
+
+
+        // If locale is found on query string or on URI value, set the working locale.
+        if (localeToSet != null) {
+            localeManager.setCurrentLocale(localeToSet);
+        }
+
+
 
         // Tokenize the friendly URI.
         StringTokenizer tokenizer = new StringTokenizer(relativeUri, "/", false);
