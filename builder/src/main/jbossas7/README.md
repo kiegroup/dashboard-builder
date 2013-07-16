@@ -71,7 +71,7 @@ However, some extra configuration is needed before you can sign in:
 This means that the login itself is delegated to the application server.
 
 * First of all, in order to login as superuser, using the <code>[jboss-as7]/bin/add-user.sh</code> command utility,
-you must create a user with login=<code>root</code> and role=<whatever role has been defined in the web.xml file>.
+you must create a user with login=<code>root</code> and role=<code>admin</code>.
 This is just for container authentication purposes, as the root user's application privileges are not role-linked,
 but instead is granted with all permissions).
 
