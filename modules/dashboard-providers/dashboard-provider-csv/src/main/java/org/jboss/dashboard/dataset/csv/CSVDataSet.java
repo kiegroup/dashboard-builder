@@ -20,6 +20,9 @@ import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.date.DateDomain;
 import org.jboss.dashboard.domain.label.LabelDomain;
 import org.jboss.dashboard.domain.numeric.NumericDomain;
+import org.jboss.dashboard.profiler.CodeBlockTrace;
+import org.jboss.dashboard.profiler.CodeBlockType;
+import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.csv.CSVDataLoader;
 import org.jboss.dashboard.provider.csv.CSVDataProperty;
@@ -33,8 +36,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.*;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 /**
  * A data set implementation that holds as a matrix in-memory all the rows returned by a given SQL query executed
@@ -65,7 +69,9 @@ public class CSVDataSet extends AbstractDataSet {
     }
 
     public void load() throws Exception {
+        CodeBlockTrace trace = null;
         try {
+            trace = new CSVReadTrace(csvLoader).begin();
             File f = csvLoader.getCsvProviderFile();
             if (f == null || !f.exists() || !f.canRead()) {
                 throw new IOException("Can't load data from file : '" + f + "'");
@@ -110,6 +116,10 @@ public class CSVDataSet extends AbstractDataSet {
         } catch (Exception e) {
             log.error("Error loading CSV data.", e);
             throw e;
+        } finally {
+            if (trace != null) {
+                trace.end();
+            }
         }
     }
 
@@ -139,6 +149,37 @@ public class CSVDataSet extends AbstractDataSet {
             String msg = "Error parsing value: " + value + ", " + e.getMessage() + ". Check column\u0027s data type consistency!";
             log.error(msg);
             throw new Exception(msg);
+        }
+    }
+
+    public class CSVReadTrace extends CodeBlockTrace {
+
+        protected Map<String,Object> context;
+
+        public CSVReadTrace(CSVDataLoader dataLoader) {
+            super("csv-read" + dataLoader.getFileURL());
+            context = new HashMap<String,Object>();
+            context.put("Description", "CSV Read - " + csvLoader.getFileURL());
+            context.put("File URL", dataLoader.getFileURL());
+            context.put("Quote char", dataLoader.getCsvQuoteChar());
+            context.put("Separator", dataLoader.getCsvSeparatedBy());
+            context.put("Escape char", dataLoader.getCsvEscapeChar());
+            context.put("Date pattern", dataLoader.getCsvDatePattern());
+            context.put("Number pattern", dataLoader.getCsvNumberPattern());
+            context.put("Number decimal separator", dataLoader.getCsvNumberDecimalSeparator());
+            context.put("Number group separator", dataLoader.getCsvNumberGroupSeparator());
+        }
+
+        public CodeBlockType getType() {
+            return CoreCodeBlockTypes.CSV;
+        }
+
+        public String getDescription() {
+            return (String) context.get("Description");
+        }
+
+        public Map<String,Object> getContext() {
+            return context;
         }
     }
 }

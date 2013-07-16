@@ -15,6 +15,11 @@
  */
 package org.jboss.dashboard.dataset;
 
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.profiler.CodeBlockHelper;
+import org.jboss.dashboard.profiler.CodeBlockTrace;
+import org.jboss.dashboard.profiler.CodeBlockType;
+import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.jboss.dashboard.provider.DataFilter;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderImpl;
@@ -45,14 +50,20 @@ public class DataSetManagerImpl implements DataSetManager {
     }
 
     public DataSet filterDataSet(DataProvider dataProvider, DataFilter dataFilter) throws Exception {
-        // Clear current filter
-        DataSetHolder dataSetHolder = getDataSetHolder(dataProvider);
-        dataSetHolder.filteredDataSet = dataSetHolder.originalDataSet.filter(dataFilter);
-        if (dataSetHolder.filteredDataSet != null) {
-            ((DataProviderImpl)dataProvider).deserializeDataProperties(dataSetHolder.filteredDataSet);
+        CodeBlockTrace trace = CodeBlockHelper.newCodeBlockTrace(CoreCodeBlockTypes.DATASET_FILTER,
+                "dataset-filter-" + dataProvider.getCode(),
+                "Data set filter - " + dataProvider.getDescription(LocaleManager.currentLocale()),
+                createDataProviderContext(dataProvider)).begin();
+        try {
+            DataSetHolder dataSetHolder = getDataSetHolder(dataProvider);
+            dataSetHolder.filteredDataSet = dataSetHolder.originalDataSet.filter(dataFilter);
+            if (dataSetHolder.filteredDataSet != null) {
+                ((DataProviderImpl)dataProvider).deserializeDataProperties(dataSetHolder.filteredDataSet);
+            }
+            return dataSetHolder.getDataSet();
+        } finally {
+            trace.end();
         }
-        return dataSetHolder.getDataSet();
-
     }
 
     // Internal stuff
@@ -82,10 +93,25 @@ public class DataSetManagerImpl implements DataSetManager {
     }
 
     protected DataSet loadDataSet(DataProvider dataProvider) throws Exception {
-        DataSet dataSet = dataProvider.getDataLoader().load(dataProvider);
-        dataSet.setDataProvider(dataProvider);
-        ((DataProviderImpl)dataProvider).deserializeDataProperties(dataSet);
-        return dataSet;
+        CodeBlockTrace trace = CodeBlockHelper.newCodeBlockTrace(CoreCodeBlockTypes.DATASET_LOAD,
+                                "dataset-load-" + dataProvider.getCode(),
+                                "Data set load - " + dataProvider.getDescription(LocaleManager.currentLocale()),
+                                createDataProviderContext(dataProvider)).begin();
+        try {
+            DataSet dataSet = dataProvider.getDataLoader().load(dataProvider);
+            dataSet.setDataProvider(dataProvider);
+            ((DataProviderImpl)dataProvider).deserializeDataProperties(dataSet);
+            return dataSet;
+        } finally {
+            trace.end();
+        }
+    }
+
+    protected Map createDataProviderContext(DataProvider dataProvider) {
+        Map m = new HashMap();
+        m.put("Provider code", dataProvider.getCode());
+        m.put("Provider description", dataProvider.getDescription(LocaleManager.currentLocale()));
+        return m;
     }
 
     private class DataSetHolder {

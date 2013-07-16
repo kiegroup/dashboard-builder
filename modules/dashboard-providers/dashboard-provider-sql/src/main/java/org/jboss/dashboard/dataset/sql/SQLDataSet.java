@@ -16,8 +16,10 @@
 package org.jboss.dashboard.dataset.sql;
 
 import org.jboss.dashboard.CoreServices;
+import org.jboss.dashboard.database.hibernate.SQLStatementTrace;
 import org.jboss.dashboard.dataset.AbstractDataSet;
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.provider.sql.SQLDataProperty;
 import org.jboss.dashboard.provider.DataProvider;
@@ -87,12 +89,14 @@ public class SQLDataSet extends AbstractDataSet {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        CodeBlockTrace trace = null;
         try {
             // Get the connection.
             conn = targetDS.getConnection();
 
             // Execute the query.
             lastExecutedStmt = createSQLStatament();
+            trace = new SQLStatementTrace(lastExecutedStmt.getSQLSentence()).begin();
             log.debug("Load data set from datasource=" + dataSource + " SQL=" + lastExecutedStmt.getSQLSentence());
             stmt = lastExecutedStmt.getPreparedStatement(conn);
             rs = stmt.executeQuery();
@@ -142,6 +146,9 @@ public class SQLDataSet extends AbstractDataSet {
             }
             if (conn != null) {
                 conn.close();
+            }
+            if (conn != null) {
+                trace.end();
             }
         }
     }

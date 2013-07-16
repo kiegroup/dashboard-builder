@@ -30,8 +30,11 @@ public class CoreCodeBlockTypes {
     public static final CodeBlockType PANEL_ACTION = CodeBlockHelper.newCodeBlockType("PANEL ACTION", "Panel Action");
     public static final CodeBlockType JSP_PAGE = CodeBlockHelper.newCodeBlockType("JSP", "JSP Page");
     public static final CodeBlockType JSP_FORMATTER = CodeBlockHelper.newCodeBlockType("FORMATTER", "JSP Formatter");
-    public static final CodeBlockType SQL = CodeBlockHelper.newCodeBlockType("SQL", "SQL Statement");
 
+    public static final CodeBlockType SQL = CodeBlockHelper.newCodeBlockType("SQL", "SQL Statement");
+    public static final CodeBlockType CSV = CodeBlockHelper.newCodeBlockType("CSV", "CSV Read");
     public static final CodeBlockType SCALAR_FUNCTION = CodeBlockHelper.newCodeBlockType("SCALAR_FUNCTION", "Scalar Function");
-    public static final CodeBlockType DATASET_BUILD = CodeBlockHelper.newCodeBlockType("_DATASET_BUILD", "Data Set Build");
+    public static final CodeBlockType DATASET_LOAD = CodeBlockHelper.newCodeBlockType("DATASET_LOAD", "Data Set Load");
+    public static final CodeBlockType DATASET_BUILD = CodeBlockHelper.newCodeBlockType("DATASET_BUILD", "Data Set Build");
+    public static final CodeBlockType DATASET_FILTER = CodeBlockHelper.newCodeBlockType("DATASET_FILTER", "Data Set Filter");
 }
