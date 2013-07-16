@@ -45,7 +45,7 @@ public class LocaleManager {
     /**
      * The list of locales supported.
      */
-    @Inject @Config("en,es")
+    @Inject @Config("en,es,en_US,es_ES")
     protected String[] installedLocaleIds;
 
     /**

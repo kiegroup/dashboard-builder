@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class FriendlyUrlProcessor extends RequestChainProcessor {
@@ -84,17 +85,37 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         // Empty URI -> nothing to do.
         if (StringUtils.isBlank(relativeUri)) return true;
 
-        // Apply language information, if any.
-        String[] possibleLangs = LocaleManager.lookup().getPlatformAvailableLangs();
-        for (int i = 0; i < possibleLangs.length; i++) {
-            String lang = possibleLangs[i];
-            if (relativeUri.startsWith("/" + lang)) {
-                relativeUri = relativeUri.substring(lang.length() + 1);
-                LocaleManager.lookup().setCurrentLang(lang);
-                getControllerStatus().consumeURIPart("/" + lang);
-                break;
+        /* ---- Apply locale information, --------------
+        * Locale information is expected in the URI after "/workspace".
+        * Examples:
+        * - /workspace/en/....
+        * - /workspace/es/....
+        * - /workspace/en_ES/....
+        * NOTES:
+        * - Available locales matched in the URI parameter are obtained from JVM available locales.
+        * - If the locale is found as platform available, the locale is set.
+        * - Otherwise, do nothing, the locale used will be the last one set or default.
+        * - In both cases URI locale parameter will be consumed.
+        */
+        int startLocaleUri = relativeUri.indexOf("/");
+        int endLocaleUri = relativeUri.indexOf("/", startLocaleUri + 1);
+        endLocaleUri = endLocaleUri > 0 ? endLocaleUri : relativeUri.length();
+        String localeUri = relativeUri.substring(startLocaleUri + 1, endLocaleUri);
+        LocaleManager localeManager = LocaleManager.lookup();
+        Locale l = localeManager.getLocaleById(localeUri);
+        if (l != null) {
+            Locale[] possibleLocales = localeManager.getPlatformAvailableLocales();
+            for (Locale locale : possibleLocales) {
+                String localeName = locale.toString();
+                if (localeName.equalsIgnoreCase(localeUri)) {
+                    relativeUri = relativeUri.substring(localeName.length() + 1);
+                    LocaleManager.lookup().setCurrentLang(localeName);
+                    break;
+                }
             }
+            getControllerStatus().consumeURIPart("/" + localeUri);
         }
+
         // Tokenize the friendly URI.
         StringTokenizer tokenizer = new StringTokenizer(relativeUri, "/", false);
         List tokens = new ArrayList();
