@@ -13,7 +13,7 @@ Open a terminal window, go to the root directory and execute the following Maven
 
     $ mvn clean install -Dfull -DskipTests
 
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-tomcat-7.0.war**.
+Go to the <code>builder/target</code> directory and get the file called **dashbuilder-tomcat-7.war**.
 
 Configure Apache Tomcat 7 server
 --------------------------------
@@ -43,7 +43,7 @@ The <code>root</code> user is an special user that is granted all the permission
 
 Deploy the application
 --------------------------
-Get the proper war file <code>dashbuilder-tomcat-7.0.war</code> and copy it to <code><tomcat_home>/webapps</code>:
+Get the proper war file <code>dashbuilder-tomcat-7.war</code> and copy it to <code><tomcat_home>/webapps</code>:
 
 NOTE: when the application starts for the first time it may take some minutes due to the database initialization procedure.
 The configured database user must also have enough database grants to create the database objects.
@@ -54,7 +54,7 @@ User Authentication
 --------------------------
 
 Once started, open a browser and type the following URL:
-<code>http://localhost:8080/dashbuilder-tomcat-7.0/</code>. A login page should be displayed.
+<code>http://localhost:8080/dashbuilder-tomcat-7/</code>. A login page should be displayed.
 
 You can sign in with any of the users defined above.
 

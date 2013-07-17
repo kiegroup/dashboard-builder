@@ -12,18 +12,18 @@ Open a terminal window, go to the root directory and execute the following Maven
 
     $ mvn clean install -Dfull  -DskipTests
 
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.0.war**.
+Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.war**.
 
 Deploy the Dashboard Builder
 ----------------------------
 
-Get the proper WAR file (e.g. dashbuilder-jboss-as7.0.war) and execute the following command:
+Get the proper WAR file (e.g. dashbuilder-jboss-as7.war) and execute the following command:
 
     $ cd <jboss_home>/bin
     $ ./jboss-cli.sh --connect --command="deploy <path_to_war_file>"
 
     <path_to_war_file>: is the local path to the application war file.
-    e.g. $ ./jboss-cli.sh --connect --command="deploy /home/myuser/myfiles/dashbuilder-jboss-as7.0.war" )
+    e.g. $ ./jboss-cli.sh --connect --command="deploy /home/myuser/myfiles/dashbuilder-jboss-as7.war" )
 
 
 The application is configured to use a datasource with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.

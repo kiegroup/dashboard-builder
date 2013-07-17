@@ -11,13 +11,13 @@ type the following command:
 
 Currently, the following artifacts are generated:
 
-* **dashbuilder-jboss-as7.0.war:**  Product distribution for JBoss EAP 6.1 and JBoss AS 7.1 servers.
+* **dashbuilder-jboss-as7.war:**  Product distribution for JBoss EAP 6.1 and JBoss AS 7.1 servers.
 
   By the default the distribution is configured to use H2 hibernate dialect but database drivers aren't packaged with the distribution.
 
   Read the [src/main/dashbuilder-jbossas7/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md) file to get more information.
 
-* **dashbuilder-tomcat-7.0.war:**  Product distribution for Apache Tomcat 7 server.
+* **dashbuilder-tomcat-7.war:**  Product distribution for Apache Tomcat 7 server.
 
   By the default the distribution is configured to use H2 hibernate dialect.
 
