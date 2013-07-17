@@ -72,6 +72,18 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         HttpServletRequest request = getRequest();
         String servletPath = request.getServletPath();
 
+        // ---- Apply locale information, --------------
+        LocaleManager localeManager = LocaleManager.lookup();
+        // First check if a locale parameter is present in the URI query string.
+        Locale localeToSet = null;
+        String localeParam = getRequest().getParameter(LOCALE_PARAMETER);
+        if (localeParam != null && localeParam.trim().length() > 0)  {
+            localeToSet = localeManager.getLocaleById(localeParam);
+            if (localeToSet != null) {
+                localeManager.setCurrentLocale(localeToSet);
+            }
+        }
+
         // No friendly -> nothing to do.
         if (!servletPath.startsWith(FRIENDLY_MAPPING)) return true;
 
@@ -84,13 +96,6 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
 
         // Empty URI -> nothing to do.
         if (StringUtils.isBlank(relativeUri)) return true;
-
-        // ---- Apply locale information, --------------
-        LocaleManager localeManager = LocaleManager.lookup();
-        // First check if a locale parameter is present in the URI query string.
-        Locale localeToSet = null;
-        String localeParam = getRequest().getParameter(LOCALE_PARAMETER);
-        if (localeParam != null && localeParam.trim().length() > 0)  localeToSet = localeManager.getLocaleById(localeParam);
 
         /*
         * Check if the locale information is in the URI value in order to consume it.
@@ -114,16 +119,8 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
             getControllerStatus().consumeURIPart("/" + localeUri);
             relativeUri = relativeUri.substring(localeUri.length() + 1);
             // Use the locale specified in the URI value only if no locale specified in the qeury string.
-            if (localeToSet == null) localeToSet = uriLocale;
+            if (localeToSet == null) localeManager.setCurrentLocale(uriLocale);
         }
-
-
-        // If locale is found on query string or on URI value, set the working locale.
-        if (localeToSet != null) {
-            localeManager.setCurrentLocale(localeToSet);
-        }
-
-
 
         // Tokenize the friendly URI.
         StringTokenizer tokenizer = new StringTokenizer(relativeUri, "/", false);
