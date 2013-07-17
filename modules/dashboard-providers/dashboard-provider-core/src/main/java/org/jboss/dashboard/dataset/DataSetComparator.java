@@ -17,15 +17,15 @@ package org.jboss.dashboard.dataset;
 
 import org.jboss.dashboard.commons.comparator.AbstractComparatorByCriteria;
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class that can be used to compare two dataset rows by a given column index.
  */
 public class DataSetComparator extends AbstractComparatorByCriteria {
 
-    private static transient Log log = LogFactory.getLog(DataSetComparator.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(DataSetComparator.class.getName());
 
     public int compare(Object o1, Object o2) {
         try {

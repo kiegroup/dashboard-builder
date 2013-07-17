@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.components;
 
 public abstract class UIComponentHandlerFactoryElement extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UIComponentHandlerFactoryElement.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UIComponentHandlerFactoryElement.class.getName());
 
     public abstract String getComponentIncludeJSP();
 

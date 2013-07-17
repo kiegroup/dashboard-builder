@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.config.treeNodes;
 import org.jboss.dashboard.ui.config.AbstractNode;
 
 public class PageResourcesNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PageResourcesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PageResourcesNode.class.getName());
 
     public String getId() {
         return "resources";

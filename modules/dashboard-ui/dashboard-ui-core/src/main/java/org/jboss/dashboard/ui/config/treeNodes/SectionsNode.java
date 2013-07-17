@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionsNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionsNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsNode.class.getName());
     private String workspaceId;
     private SectionsPropertiesHandler sectionsPropertiesHandler;
 

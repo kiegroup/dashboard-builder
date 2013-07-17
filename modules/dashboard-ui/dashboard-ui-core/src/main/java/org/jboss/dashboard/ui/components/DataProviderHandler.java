@@ -32,7 +32,7 @@ import java.text.MessageFormat;
 import java.util.*;
 
 public class DataProviderHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataProviderHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataProviderHandler.class.getName());
 
     private ResourceBundle messages;
 

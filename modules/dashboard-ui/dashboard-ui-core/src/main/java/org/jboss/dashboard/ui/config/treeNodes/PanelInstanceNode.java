@@ -26,7 +26,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import java.util.Locale;
 
 public class PanelInstanceNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstanceNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceNode.class.getName());
 
     private PanelInstanceHandler instanceHandler;
     private String workspaceId;

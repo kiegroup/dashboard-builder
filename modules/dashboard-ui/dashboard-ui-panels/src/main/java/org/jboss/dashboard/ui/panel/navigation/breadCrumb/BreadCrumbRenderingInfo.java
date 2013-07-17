@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BreadCrumbRenderingInfo {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BreadCrumbRenderingInfo.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BreadCrumbRenderingInfo.class.getName());
 
     public static final String TOKEN_LINK = "{LINK}";
     public static final String TOKEN_NAME = "{NAME}";

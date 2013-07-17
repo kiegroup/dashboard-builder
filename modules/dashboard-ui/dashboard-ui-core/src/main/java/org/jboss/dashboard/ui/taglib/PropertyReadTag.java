@@ -32,7 +32,7 @@ import java.util.Map;
  *
  */
 public class PropertyReadTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PropertyReadTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PropertyReadTag.class.getName());
     private String object;
     private String property;
     private Boolean localize;
@@ -136,7 +136,6 @@ public class PropertyReadTag extends BodyTagSupport {
             return val;
         } catch (Exception e) {
             log.warn("Error accessing property " + property + " in " + object + "." + e);
-            log.debug(e);
             return null;
         }
     }

@@ -22,7 +22,7 @@ package org.jboss.dashboard.ui.taglib.formatter;
  * If it is SET_ATTRIBUTE, the name will be the attribute name, and value will be the attribute value.
  */
 public class ProcessingInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ProcessingInstruction.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ProcessingInstruction.class.getName());
 
     public static final int RENDER_FRAGMENT = 0;
     public static final int SET_ATTRIBUTE = 1;

@@ -25,7 +25,7 @@ import java.io.Writer;
  * Implementation of Workspaces export result.
  */
 public class ExportResult extends ImportExportResult {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ExportResult.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportResult.class.getName());
 
     private XMLNode node;
     private ExportManager exportManager;

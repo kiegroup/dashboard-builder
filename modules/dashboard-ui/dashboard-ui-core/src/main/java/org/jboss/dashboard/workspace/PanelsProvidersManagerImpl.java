@@ -29,8 +29,8 @@ import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
 import org.jboss.dashboard.ui.panel.help.PanelHelpManager;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -50,7 +50,7 @@ import java.util.*;
 @Named("panelsProvidersManager")
 public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Startable {
 
-    private static transient Log log = LogFactory.getLog(PanelsProvidersManagerImpl.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(PanelsProvidersManagerImpl.class.getName());
 
     @Inject @Config("WEB-INF/etc/panels")
     private String panelDriversDir;

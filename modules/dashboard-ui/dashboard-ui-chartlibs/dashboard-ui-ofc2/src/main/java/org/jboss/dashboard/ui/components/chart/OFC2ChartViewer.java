@@ -26,12 +26,12 @@ import org.jboss.dashboard.commons.filter.FilterByCriteria;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OFC2ChartViewer extends DataDisplayerViewer {
 
-    private static transient Log log = LogFactory.getLog(OFC2ChartViewer.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(OFC2ChartViewer.class.getName());
 
     public static final String PARAM_ACTION = "applyLink";
     public static final String PARAM_NSERIE = "serie";

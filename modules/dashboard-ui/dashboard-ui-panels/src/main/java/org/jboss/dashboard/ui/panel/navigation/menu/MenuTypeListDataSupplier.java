@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
  * Provides constant values for the menu panel: Workspace, page and panel
  */
 public class MenuTypeListDataSupplier implements ComboListParameterDataSupplier {
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MenuTypeListDataSupplier.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MenuTypeListDataSupplier.class);
 
     private List keys;
     private List values;

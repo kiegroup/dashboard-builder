@@ -34,7 +34,7 @@ import java.util.zip.ZipInputStream;
  * This class represents a graphic element, that is a Skin, an Envelope, a Layout or a Resource Gallery
  */
 public abstract class GraphicElement implements Cloneable, Serializable, ResourceHolder, Lifecycle, Visitable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(GraphicElement.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GraphicElement.class.getName());
 
     protected Long dbid;
     protected String id;

@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.panel.navigation.menu;
 
 public class LangMenuItem extends MenuItem {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LangMenuItem.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LangMenuItem.class.getName());
 
     public String getItemInputName() {
         return MenuDriver.ATTRIBUTE_SELECTED_LANG;

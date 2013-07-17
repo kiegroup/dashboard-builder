@@ -21,8 +21,8 @@ import org.jboss.dashboard.dataset.sql.SQLDataSet;
 import org.jboss.dashboard.provider.AbstractDataLoader;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.database.DataSourceManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.CoreServices;
 
 import javax.sql.DataSource;
@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class SQLDataLoader extends AbstractDataLoader {
 
-    private transient static Log log = LogFactory.getLog(SQLDataLoader.class);
+    private transient static Logger log = LoggerFactory.getLogger(SQLDataLoader.class);
 
     public static final String PARAM_DEFAULT_QUERY = "default";
     protected String dataSource;

@@ -21,8 +21,8 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 
 import java.util.*;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Session;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
@@ -34,7 +34,7 @@ import javax.inject.Inject;
 public class KPIManagerImpl implements KPIManager {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(KPIManagerImpl.class);
+    private transient static Logger log = LoggerFactory.getLogger(KPIManagerImpl.class);
 
     @Inject
     protected DataProviderManager dataProviderManager;

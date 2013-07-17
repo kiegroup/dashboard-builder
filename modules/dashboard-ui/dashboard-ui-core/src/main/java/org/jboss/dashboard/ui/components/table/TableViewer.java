@@ -28,7 +28,7 @@ public class TableViewer extends DataDisplayerViewer {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TableViewer.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TableViewer.class);
 
     /**
      * The table component handler.

@@ -22,7 +22,7 @@ import java.io.Serializable;
  *
  */
 public class ResourceGalleryPreview extends GraphicElementPreview implements Serializable, ResourceHolder {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourceGalleryPreview.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourceGalleryPreview.class.getName());
 
     public ResourceGalleryPreview(File f, String workspaceId, Long sectionId, Long panelId, String id) {
         super(f, workspaceId, sectionId, panelId, id);

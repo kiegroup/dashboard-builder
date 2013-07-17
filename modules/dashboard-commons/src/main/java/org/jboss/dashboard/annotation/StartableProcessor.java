@@ -16,8 +16,8 @@
 package org.jboss.dashboard.annotation;
 
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class StartableProcessor {
 
-    private static transient Log log = LogFactory.getLog(StartableProcessor.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(StartableProcessor.class.getName());
 
     @Inject
     protected Instance<Startable> startables;

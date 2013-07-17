@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * Renders the Modal Components
  */
 public class ModalDialogFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ModalDialogFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ModalDialogFormatter.class.getName());
 
     private ModalDialogComponent modalDialogComponent;
 

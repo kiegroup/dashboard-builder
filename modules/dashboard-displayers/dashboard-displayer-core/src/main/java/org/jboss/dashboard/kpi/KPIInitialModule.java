@@ -36,7 +36,7 @@ import java.util.Locale;
 public class KPIInitialModule extends InitialModule {
 
     /** Logger */
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(KPIInitialModule.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(KPIInitialModule.class.getName());
 
     /**
      * Represents the path of the XML file to import. A relative path to the application directory.

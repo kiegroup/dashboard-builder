@@ -19,7 +19,7 @@ package org.jboss.dashboard.ui.taglib.formatter;
  * Wrapper for exceptions thrown inside a formatter execution.
  */
 public class FormatterException extends Exception {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormatterException.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterException.class.getName());
 
     /**
      * Constructs a new exception with <code>null</code> as its detail message.

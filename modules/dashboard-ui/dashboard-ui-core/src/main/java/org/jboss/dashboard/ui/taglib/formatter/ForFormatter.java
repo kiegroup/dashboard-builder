@@ -49,7 +49,7 @@ import java.util.*;
  * </ul>
  */
 public class ForFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ForFormatter.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         log.debug("Servicing ForFormatter.");

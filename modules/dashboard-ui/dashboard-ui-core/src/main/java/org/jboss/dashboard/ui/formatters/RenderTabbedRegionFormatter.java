@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RenderTabbedRegionFormatter extends RegionFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RenderTabbedRegionFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderTabbedRegionFormatter.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         super.service(request, response);

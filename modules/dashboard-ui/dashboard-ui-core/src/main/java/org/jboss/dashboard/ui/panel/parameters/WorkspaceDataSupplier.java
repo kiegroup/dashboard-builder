@@ -32,7 +32,7 @@ import java.util.Set;
  * Supplies a list
  */
 public class WorkspaceDataSupplier implements ComboListParameterDataSupplier {
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspaceDataSupplier.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceDataSupplier.class.getName());
 
     public void init(PanelInstance instance) {
         //TODO: Implement construction of values and keys here

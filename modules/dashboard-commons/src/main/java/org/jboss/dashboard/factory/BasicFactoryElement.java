@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
  * Base class that any Factory bean must extends.
  */
 public abstract class BasicFactoryElement implements FactoryLifecycle, Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BasicFactoryElement.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BasicFactoryElement.class.getName());
 
     private String factoryComponentName;
     private String factoryComponentScope;

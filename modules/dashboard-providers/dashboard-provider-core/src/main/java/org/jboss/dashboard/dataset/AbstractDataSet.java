@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.dataset;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.filter.FilterByCriteria;
@@ -50,7 +50,7 @@ import org.w3c.dom.NodeList;
 public abstract class AbstractDataSet implements DataSet {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(AbstractDataSet.class);
+    private transient static Logger log = LoggerFactory.getLogger(AbstractDataSet.class);
 
     protected DataProvider provider;
     protected DataProperty[] properties;

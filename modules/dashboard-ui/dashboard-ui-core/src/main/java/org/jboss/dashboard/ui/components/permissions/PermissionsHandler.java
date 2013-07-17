@@ -31,7 +31,7 @@ import java.security.Principal;
 import java.util.*;
 
 public class PermissionsHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PermissionsHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsHandler.class.getName());
     private String componentIncludeJSP;
     private Class permissionClass;
     private String resourceName;

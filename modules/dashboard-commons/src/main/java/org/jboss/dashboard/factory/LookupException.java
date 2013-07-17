@@ -19,7 +19,7 @@ package org.jboss.dashboard.factory;
  * Raised by the Factory when a lookup problem occurs within a lookup call.
  */
 public class LookupException extends Exception {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LookupException.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LookupException.class.getName());
 
     
 

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class NavigationPoint {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NavigationPoint.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationPoint.class.getName());
 
     private String url;
     private String workspaceId = null;

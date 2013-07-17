@@ -36,7 +36,7 @@ import java.util.HashMap;
  * Implementation of a Workspace import result.
  */
 public class ImportResult extends ImportExportResult {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ImportResult.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ImportResult.class.getName());
 
     private XMLNode node;
     private String entryName;
@@ -64,7 +64,7 @@ public class ImportResult extends ImportExportResult {
     protected void load(InputStream is) throws IOException, ParserConfigurationException, SAXException, SAXNotRecognizedException {
         URL schemaUrl = getClass().getResource("workspace.xsd");
 
-        if (schemaUrl == null) log.fatal("Could not find [org.jboss.dashboard.workspace.export.workspace.xsd]. Used [" + getClass().getClassLoader() + "] class loader in the search.");
+        if (schemaUrl == null) log.error("Could not find [org.jboss.dashboard.workspace.export.workspace.xsd]. Used [" + getClass().getClassLoader() + "] class loader in the search.");
         else log.debug("URL to org.jboss.dashboard.workspace.export.workspace.xsd is [" + schemaUrl.toString() + "].");
         String schema = schemaUrl.toString();
 

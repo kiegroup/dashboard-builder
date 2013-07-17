@@ -26,8 +26,8 @@ import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.jboss.dashboard.security.principals.UserPrincipal;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.security.Permission;
@@ -50,7 +50,7 @@ public class UserStatus implements LogoutSurvivor, Serializable {
         return (UserStatus) CDIBeanLocator.getBeanByName("userStatus");
     }
 
-    private static transient Log log = LogFactory.getLog(UserStatus.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(UserStatus.class.getName());
 
     @Inject @Config("root")
     protected String rootLogin;

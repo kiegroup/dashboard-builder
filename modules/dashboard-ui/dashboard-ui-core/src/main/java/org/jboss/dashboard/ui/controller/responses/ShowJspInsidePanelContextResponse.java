@@ -25,7 +25,7 @@ import org.jboss.dashboard.workspace.Parameters;
 import org.hibernate.Session;
 
 public class ShowJspInsidePanelContextResponse extends ShowScreenResponse implements CommandResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowJspInsidePanelContextResponse.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowJspInsidePanelContextResponse.class.getName());
 
     private Long panelId;
 

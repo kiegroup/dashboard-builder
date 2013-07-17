@@ -28,8 +28,8 @@ import org.jboss.dashboard.provider.csv.CSVDataLoader;
 import org.jboss.dashboard.provider.csv.CSVDataProperty;
 import org.apache.commons.lang.StringUtils;
 import au.com.bytecode.opencsv.CSVReader;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,7 +52,7 @@ public class CSVDataSet extends AbstractDataSet {
     protected transient DecimalFormat _numberFormat;
 
     /** Logger */
-    protected transient static Log log = LogFactory.getLog(CSVDataSet.class);
+    protected transient static Logger log = LoggerFactory.getLogger(CSVDataSet.class);
 
     public CSVDataSet(DataProvider provider, CSVDataLoader loader) {
         super(provider);

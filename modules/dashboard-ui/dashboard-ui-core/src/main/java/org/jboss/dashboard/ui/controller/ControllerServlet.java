@@ -33,8 +33,8 @@ import org.jboss.dashboard.factory.PanelSessionComponentsStorage;
 import org.jboss.dashboard.factory.SessionComponentsStorage;
 import org.jboss.dashboard.error.ErrorReport;
 import org.jboss.dashboard.profiler.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Session;
 
 import javax.servlet.ServletException;
@@ -50,7 +50,7 @@ import java.io.*;
  */
 public class ControllerServlet extends HttpServlet {
 
-    private static transient Log log = LogFactory.getLog(ControllerServlet.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ControllerServlet.class.getName());
 
     public final static String FACTORY_CONFIG_DIR = "factory";
     public final static String INIT_PARAM_CFG_DIR = "cfg.dir";

@@ -28,7 +28,7 @@ import org.jboss.dashboard.factory.Factory;
 import java.util.*;
 
 public class DashboardFilterProperty {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardFilterProperty.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterProperty.class.getName());
 
     protected DashboardFilter filter;
     protected String dataProviderCode;

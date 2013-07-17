@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.users;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.ui.controller.RequestContext;
 
@@ -34,7 +34,7 @@ import java.util.Set;
 @ApplicationScoped @Install
 public class SessionClearerUserStatusListener implements UserStatusListener {
 
-    private static transient Log log = LogFactory.getLog(SessionClearerUserStatusListener.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SessionClearerUserStatusListener.class.getName());
 
     public void statusChanged(UserStatus us) {
         if (us.isAnonymous()) { // just logout

@@ -34,7 +34,7 @@ public class SendStreamResponse implements CommandResponse {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SendStreamResponse.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SendStreamResponse.class.getName());
 
     protected InputStream is;
     protected String contentDisposition;

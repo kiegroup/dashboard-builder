@@ -50,7 +50,7 @@ import java.util.zip.ZipOutputStream;
  *
  */
 public class ExportDriver extends PanelDriver {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ExportDriver.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportDriver.class.getName());
 
     public final static String PAGE_SHOW = "show";
     public final static String PAGE_EXPORT_RESULT = "exportResult";

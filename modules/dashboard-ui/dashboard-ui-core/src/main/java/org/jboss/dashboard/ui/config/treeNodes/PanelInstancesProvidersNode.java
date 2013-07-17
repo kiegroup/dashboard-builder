@@ -31,7 +31,7 @@ import java.util.*;
  * 
  */
 public class PanelInstancesProvidersNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancesProvidersNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesProvidersNode.class.getName());
 
     private String providerId;
     private String providerName;

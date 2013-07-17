@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.config.components.factory;
 import org.jboss.dashboard.factory.BasicFactoryElement;
 
 public class FactoryComponentHandler extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryComponentHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryComponentHandler.class.getName());
 
     private String factoryComponentName;
 

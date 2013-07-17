@@ -32,7 +32,7 @@ import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceHome;
 
 public class HomePagesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HomePagesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HomePagesHandler.class.getName());
 
     private String workspaceId;
 

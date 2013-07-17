@@ -25,13 +25,13 @@ import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.utils.forms.RenderUtils;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 import org.hibernate.Session;
 
 import java.util.ResourceBundle;
 
 public class ShowPanelConfigComponent extends PanelManagementPanel {
-    private static transient Log log = org.apache.commons.logging.LogFactory.getLog(ShowPanelConfigComponent.class.getName());
+    private static transient Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelConfigComponent.class.getName());
 
     private FormStatus formStatus;
     private String messagesComponentHandler;
@@ -166,7 +166,7 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
     }
 
     @Override
-    public Log getLog() {
+    public Logger getLogger() {
         return log;
     }
 }

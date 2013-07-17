@@ -22,7 +22,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  *
  */
 public class FormatterParamTag extends TagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormatterParamTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterParamTag.class.getName());
 
     protected String name;
     protected Object value;

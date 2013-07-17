@@ -34,7 +34,7 @@ import java.util.zip.ZipInputStream;
  *
  */
 public class Layout extends GraphicElement implements Comparable, Cloneable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Layout.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Layout.class.getName());
 
     public static final String DESCRIPTOR_FILENAME = "layout.properties";
     public static final Properties DEFAULT_PROPERTIES;

@@ -30,7 +30,7 @@ import java.util.*;
  * Request wrapper that handles multipart post and retrieves files and parameters
  */
 public class RequestMultipartWrapper extends HttpServletRequestWrapper {
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RequestMultipartWrapper.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RequestMultipartWrapper.class.getName());
 
     /**
      * Map of parameters which are uploaded files *

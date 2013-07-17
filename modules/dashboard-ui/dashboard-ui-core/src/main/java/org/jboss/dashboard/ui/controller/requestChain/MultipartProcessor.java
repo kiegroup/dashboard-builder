@@ -37,7 +37,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * in order to support files uploading.
  */
 public class MultipartProcessor extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MultipartProcessor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MultipartProcessor.class.getName());
 
     private String errorRedirectPage = "fileTooBig.jsp";
 

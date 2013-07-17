@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DataSourceManagementTableListFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataSourceManagementFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementFormatter.class.getName());
     private static String TR_ALT_CLASS = "skn-even_row";
     private static String TR_ON_CLASS = "skn-row_on";
 

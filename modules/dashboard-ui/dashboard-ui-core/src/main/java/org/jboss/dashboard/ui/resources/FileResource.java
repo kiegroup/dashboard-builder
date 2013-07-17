@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 public class FileResource extends Resource {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FileResource.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FileResource.class.getName());
     protected File file = null;
     protected ResourceName resName = null;
 

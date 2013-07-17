@@ -30,7 +30,7 @@ public class LocalizeTag extends javax.servlet.jsp.tagext.TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LocalizeTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LocalizeTag.class.getName());
 
     private Map data;
 

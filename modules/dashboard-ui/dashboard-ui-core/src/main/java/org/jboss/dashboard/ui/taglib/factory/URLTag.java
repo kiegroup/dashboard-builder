@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class URLTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(URLTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(URLTag.class.getName());
 
     private Map paramsMap = new HashMap();
 

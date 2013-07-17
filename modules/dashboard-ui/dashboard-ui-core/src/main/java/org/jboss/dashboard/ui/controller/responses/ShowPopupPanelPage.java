@@ -30,7 +30,7 @@ import javax.servlet.RequestDispatcher;
  *
  */
 public class ShowPopupPanelPage extends PanelAjaxResponse implements CommandResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowPopupPanelPage.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowPopupPanelPage.class.getName());
     protected Long panelId;
     protected String page;
     protected String jsp;

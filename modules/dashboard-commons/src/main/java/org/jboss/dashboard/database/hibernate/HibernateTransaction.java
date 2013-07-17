@@ -19,8 +19,8 @@ import org.hibernate.*;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.error.ErrorManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.CoreServices;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import java.util.List;
 public class HibernateTransaction {
 
     /** Logger */
-    private static transient Log log = LogFactory.getLog(HibernateTransaction.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(HibernateTransaction.class.getName());
 
     /** Current active transaction per thread */
     private static transient ThreadLocal<HibernateTransaction> activeTx = new ThreadLocal<HibernateTransaction>();

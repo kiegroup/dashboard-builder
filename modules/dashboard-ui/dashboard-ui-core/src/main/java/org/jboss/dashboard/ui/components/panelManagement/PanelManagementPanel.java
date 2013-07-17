@@ -27,6 +27,7 @@ import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 public abstract class PanelManagementPanel extends PanelComponent {
     public static final int DEFAULT_WIDTH = 800;
@@ -41,7 +42,7 @@ public abstract class PanelManagementPanel extends PanelComponent {
     private Long panelInstanceId;
     private Long panelId;
 
-    abstract org.apache.commons.logging.Log getLog();
+    abstract Logger getLogger();
 
     public boolean closeDialog(CommandRequest request) {
         ModalDialogComponent mdc = getModalDialogComponent();
@@ -76,7 +77,7 @@ public abstract class PanelManagementPanel extends PanelComponent {
                     try {
                         panel.getProvider().getDriver().activateNormalMode(panel, request);
                     } catch (Exception e) {
-                        getLog().warn("Error closing panel popup: ", e);
+                        getLogger().warn("Error closing panel popup: ", e);
                     }
                 }
             });
@@ -91,7 +92,7 @@ public abstract class PanelManagementPanel extends PanelComponent {
         try {
             RequestContext.getCurrentContext().getRequest().getRequestObject().setAttribute(Parameters.RENDER_PANEL, getPanel());
         } catch (Exception e) {
-            getLog().warn("Error setting current panel: ", e);
+            getLogger().warn("Error setting current panel: ", e);
         }
     }
 
@@ -101,7 +102,7 @@ public abstract class PanelManagementPanel extends PanelComponent {
         try {
             getPanel().getPanelSession().setAttribute(PanelDriver.PARAMETER_ACTION_EXECUTED_ENABLED, Boolean.TRUE);
         } catch (Exception e) {
-            getLog().warn("Error enabling ajax action execution: ", e);
+            getLogger().warn("Error enabling ajax action execution: ", e);
         }
     }
 

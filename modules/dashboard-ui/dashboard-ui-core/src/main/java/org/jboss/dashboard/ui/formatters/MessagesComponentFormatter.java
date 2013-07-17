@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MessagesComponentFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(MessagesComponentFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MessagesComponentFormatter.class.getName());
 
     private MessagesComponentHandler messagesComponentHandler;
 

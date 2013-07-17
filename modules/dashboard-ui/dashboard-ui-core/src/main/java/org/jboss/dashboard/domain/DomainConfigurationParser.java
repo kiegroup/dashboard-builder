@@ -22,7 +22,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 public class DomainConfigurationParser {
 
     /** Logger */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DomainConfigurationParser.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DomainConfigurationParser.class);
 
     protected DomainConfiguration config;
 

@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.panel.navigation.menu;
 
 public class WorkspaceMenuItem extends MenuItem {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspaceMenuItem.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceMenuItem.class.getName());
 
     public String getItemInputName() {
         return MenuDriver.ATTRIBUTE_SELECTED_WORKSPACE;

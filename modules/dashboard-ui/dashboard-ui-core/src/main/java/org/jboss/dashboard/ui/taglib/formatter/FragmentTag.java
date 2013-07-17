@@ -25,7 +25,7 @@ import java.util.Map;
  *
  */
 public class FragmentTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FragmentTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FragmentTag.class.getName());
     protected String name;
 
     public String getName() {

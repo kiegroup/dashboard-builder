@@ -25,7 +25,7 @@ import javax.servlet.RequestDispatcher;
  *
  */
 public class ShowPopupPage implements CommandResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowPopupPage.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowPopupPage.class.getName());
     protected String page;
     protected String contentType = "text/html";
 

@@ -23,7 +23,7 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.workspace.Workspace;
 
 public class WorkspacePermissionsNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspacePermissionsNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePermissionsNode.class.getName());
 
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
 

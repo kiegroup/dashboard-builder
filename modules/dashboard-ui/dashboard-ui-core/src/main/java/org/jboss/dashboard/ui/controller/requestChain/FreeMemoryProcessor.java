@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.controller.responses.SendErrorResponse;
 import org.jboss.dashboard.CoreServices;
 
 public class FreeMemoryProcessor extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FreeMemoryProcessor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FreeMemoryProcessor.class.getName());
 
     private long minMemorySize = 1000000; //Less than 1MB means memory is running low
     private float minMemoryPercentage = (float) 0.05; //Less than 5% free memory means memory is running low

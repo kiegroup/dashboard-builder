@@ -25,7 +25,7 @@ import java.util.Properties;
  *
  */
 public class Skin extends GraphicElement implements Comparable, Cloneable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Skin.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Skin.class.getName());
 
     public static final String DESCRIPTOR_FILENAME = "skin.properties";
     public static final Properties DEFAULT_PROPERTIES;

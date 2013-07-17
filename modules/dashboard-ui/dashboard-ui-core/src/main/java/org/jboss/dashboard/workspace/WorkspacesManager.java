@@ -27,8 +27,8 @@ import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.security.Policy;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -47,7 +47,7 @@ public class WorkspacesManager {
     /**
      * Logger
      */
-    private static Log log = LogFactory.getLog(WorkspacesManager.class.getName());
+    private static Logger log = LoggerFactory.getLogger(WorkspacesManager.class.getName());
 
     /**
      * Handles the management of event listeners

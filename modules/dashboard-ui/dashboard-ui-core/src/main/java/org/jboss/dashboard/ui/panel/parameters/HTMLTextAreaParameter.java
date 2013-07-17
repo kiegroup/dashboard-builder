@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.ui.panel.parameters;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.resources.Resource;
@@ -35,7 +35,7 @@ public class HTMLTextAreaParameter extends StringParameter {
     /**
      * Logger
      */
-    private static Log log = LogFactory.getLog(HTMLTextAreaParameter.class.getName());
+    private static Logger log = LoggerFactory.getLogger(HTMLTextAreaParameter.class.getName());
 
     public static final String CKEDITOR_TEMPLATE = "" +
             "<textarea id='param_ID' name='param_ID'>VALUE</textarea>\n" +
@@ -88,7 +88,7 @@ public class HTMLTextAreaParameter extends StringParameter {
             html = html.replaceAll("CSS_LINK", getResourceURL("skin", "CSS"));
             return html.toString();
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error getting skin URL", e);
             return "";
         }
     }

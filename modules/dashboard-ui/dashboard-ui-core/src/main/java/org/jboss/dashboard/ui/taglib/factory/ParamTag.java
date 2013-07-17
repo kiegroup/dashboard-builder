@@ -19,7 +19,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
 public class ParamTag extends javax.servlet.jsp.tagext.TagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ParamTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ParamTag.class.getName());
 
     private String name;
     private Object value;

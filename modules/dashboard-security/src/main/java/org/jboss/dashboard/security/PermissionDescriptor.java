@@ -24,7 +24,7 @@ import java.security.Principal;
 
 public class PermissionDescriptor {
 
-    private static final transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PermissionDescriptor.class);
+    private static final transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionDescriptor.class);
 
     // Constructor types
 

@@ -39,7 +39,7 @@ public class EnvelopeHeadTag extends TagSupport {
     private boolean allowPages = true;
     private boolean allowEnvelopes = true;
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EnvelopeHeadTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeHeadTag.class.getName());
 
     public static final String ENVELOPE_TOKEN = "envelopeHeadToken";
 

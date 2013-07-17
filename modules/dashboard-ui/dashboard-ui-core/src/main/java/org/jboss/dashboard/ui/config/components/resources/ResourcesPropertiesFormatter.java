@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 public class ResourcesPropertiesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourcesPropertiesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcesPropertiesFormatter.class.getName());
 
     private ResourcesPropertiesHandler handler;
 

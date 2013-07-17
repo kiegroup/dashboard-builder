@@ -25,7 +25,7 @@ import java.io.Serializable;
  *
  */
 public class LayoutPreview extends GraphicElementPreview implements Serializable, ResourceHolder {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LayoutPreview.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LayoutPreview.class.getName());
 
     public LayoutPreview(File f, String workspaceId, Long sectionId, Long panelId, String id) {
         super(f, workspaceId, sectionId, panelId, id);

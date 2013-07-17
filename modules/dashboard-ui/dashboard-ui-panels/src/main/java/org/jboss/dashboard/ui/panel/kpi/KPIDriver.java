@@ -51,7 +51,7 @@ import java.util.Set;
 public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     /** Logger */
-    protected static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(KPIDriver.class);
+    protected static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(KPIDriver.class);
 
     // i18n
     public static final String I18N_PREFFIX = "kpiDriver.";

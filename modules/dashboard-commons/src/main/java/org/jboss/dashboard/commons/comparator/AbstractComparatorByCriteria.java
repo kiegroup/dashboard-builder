@@ -16,8 +16,6 @@
 package org.jboss.dashboard.commons.comparator;
 
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,8 +25,6 @@ import java.util.Iterator;
  * Base class for the implementation of custom comparators.
  */
 public abstract class AbstractComparatorByCriteria implements ComparatorByCriteria {
-
-    private static transient Log log = LogFactory.getLog(AbstractComparatorByCriteria.class.getName());
 
     /**
      * Sort criteria list.

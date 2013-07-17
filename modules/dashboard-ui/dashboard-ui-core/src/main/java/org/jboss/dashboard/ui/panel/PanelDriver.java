@@ -75,7 +75,7 @@ public class PanelDriver {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelDriver.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelDriver.class.getName());
 
     /**
      * Parameters definitions to be supplied to the panel

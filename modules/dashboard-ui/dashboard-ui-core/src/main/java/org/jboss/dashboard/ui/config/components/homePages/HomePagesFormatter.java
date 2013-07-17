@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 public class HomePagesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HomePagesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HomePagesFormatter.class.getName());
 
     private HomePagesHandler homePagesHandler;
 

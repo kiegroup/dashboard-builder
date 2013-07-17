@@ -17,8 +17,8 @@ package org.jboss.dashboard.database.hibernate;
 
 import org.hibernate.jdbc.Work;
 import org.jboss.dashboard.profiler.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.Session;
 import org.jboss.dashboard.commons.misc.ReflectionUtils;
 
@@ -61,7 +61,7 @@ import java.util.Map;
  */
 public abstract class HibernateTxFragment {
 
-    private static transient Log log = LogFactory.getLog(HibernateTxFragment.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(HibernateTxFragment.class.getName());
 
     /**
      * Flag to prevent double execution

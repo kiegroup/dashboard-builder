@@ -24,7 +24,7 @@ import java.util.*;
  * directory.
  */
 public class ComponentsTree {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ComponentsTree.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ComponentsTree.class.getName());
     private List configurationFiles;
     private Map mappings;
     private Map treeMappings;

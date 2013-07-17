@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 import javax.servlet.jsp.PageContext;
 
 public abstract class FactoryUniqueIdEncoder extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryUniqueIdEncoder.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryUniqueIdEncoder.class.getName());
 
     public abstract String encodeFromContext(PageContext context, String name);
     public abstract String encode(Object panel, UIComponentHandlerFactoryElement factoryComponent, String name);

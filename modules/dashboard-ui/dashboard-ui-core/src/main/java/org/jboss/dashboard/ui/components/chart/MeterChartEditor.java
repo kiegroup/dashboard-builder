@@ -22,14 +22,14 @@ import org.jboss.dashboard.displayer.chart.MeterChartDisplayer;
 import org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
 public class MeterChartEditor extends AbstractChartDisplayerEditor {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(MeterChartEditor.class);
+    private transient static Logger log = LoggerFactory.getLogger(MeterChartEditor.class);
 
     // i18n
     public static final String I18N_METER = "meterChartDisplayer.";

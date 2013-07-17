@@ -38,7 +38,7 @@ import java.io.StringWriter;
 import java.util.*;
 
 public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardFilterHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterHandler.class.getName());
 
     // Component JSPs
     protected String componentIncludeJSP;

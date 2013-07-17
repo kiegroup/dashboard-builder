@@ -44,7 +44,7 @@ import org.jboss.dashboard.workspace.Section;
 public class Dashboard {
 
     /** Logger */
-    protected static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Dashboard.class);
+    protected static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Dashboard.class);
 
     /**
      * Dashboard section.
@@ -135,7 +135,7 @@ public class Dashboard {
             if (sectionDbid == null) return null;
             return UIServices.lookup().getSectionsManager().getSectionByDbId(sectionDbid);
         } catch (Throwable e) {
-            log.error(e);
+            log.error("Error getting section: " + sectionDbid, e);
             return null;
         }
     }

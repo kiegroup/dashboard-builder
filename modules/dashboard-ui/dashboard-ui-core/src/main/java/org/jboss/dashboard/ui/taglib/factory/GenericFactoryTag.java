@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.taglib.factory;
 import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 
 public class GenericFactoryTag extends javax.servlet.jsp.tagext.BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(GenericFactoryTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GenericFactoryTag.class.getName());
     private String bean;
     private String action;
     private String property;

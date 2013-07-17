@@ -29,7 +29,7 @@ import java.util.Arrays;
 /**
  */
 public class UnassignedPanelsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UnassignedPanelsFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UnassignedPanelsFormatter.class.getName());
 
     private NavigationManager navigationManager;
 

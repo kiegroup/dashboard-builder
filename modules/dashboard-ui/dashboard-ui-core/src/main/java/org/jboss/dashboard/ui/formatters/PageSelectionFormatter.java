@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PageSelectionFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PageSelectionFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PageSelectionFormatter.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         /*String numCols = (String) getParameter("numCols");

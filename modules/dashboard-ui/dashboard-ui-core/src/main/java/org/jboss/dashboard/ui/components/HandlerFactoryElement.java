@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class HandlerFactoryElement extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HandlerFactoryElement.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HandlerFactoryElement.class.getName());
 
     private List propertyErrors = new ArrayList();
     private Set wrongFields = new HashSet();

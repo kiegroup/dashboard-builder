@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class SectionNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionNode.class.getName());
     private String workspaceId;
     private Long sectionId;
     private SectionPropertiesHandler sectionPropertiesHandler;

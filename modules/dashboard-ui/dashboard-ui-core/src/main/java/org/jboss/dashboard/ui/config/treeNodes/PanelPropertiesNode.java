@@ -23,7 +23,7 @@ import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.Panel;
 
 public abstract class PanelPropertiesNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelPropertiesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelPropertiesNode.class.getName());
 
     private PanelInstancePropertiesHandler handler;
     private boolean multilanguage = false;

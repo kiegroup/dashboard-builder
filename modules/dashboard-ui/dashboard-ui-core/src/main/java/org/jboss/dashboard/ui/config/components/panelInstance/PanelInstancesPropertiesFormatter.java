@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PanelInstancesPropertiesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancesPropertiesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesPropertiesFormatter.class.getName());
 
     private PanelInstancesPropertiesHandler handler;
 

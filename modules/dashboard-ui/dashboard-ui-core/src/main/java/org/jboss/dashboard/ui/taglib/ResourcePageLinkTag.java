@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.VariableInfo;
 
 public class ResourcePageLinkTag extends ResourceLinkTag {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourcePageLinkTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcePageLinkTag.class.getName());
 
     public static class TEI extends TagExtraInfo {
         public VariableInfo[] getVariableInfo(TagData data) {

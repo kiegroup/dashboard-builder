@@ -31,7 +31,7 @@ import java.util.Properties;
  *
  */
 public class ResourceGallery extends GraphicElement implements Comparable, Cloneable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourceGallery.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourceGallery.class.getName());
 
     public static final String DESCRIPTOR_FILENAME = "gallery.properties";
     public static final Properties DEFAULT_PROPERTIES = new Properties();

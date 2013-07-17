@@ -51,7 +51,7 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         return (NavigationManager) Factory.lookup("org.jboss.dashboard.ui.NavigationManager");
     }
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NavigationManager.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationManager.class.getName());
 
     public static final String WORKSPACE_ID = "workspace";
     public static final String PAGE_ID = "page";

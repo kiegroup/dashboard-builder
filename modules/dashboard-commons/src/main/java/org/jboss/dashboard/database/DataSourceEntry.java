@@ -24,7 +24,7 @@ import java.sql.Connection;
  * A database connection definition either in plain JDBC or JNDI.
  */
 public abstract class DataSourceEntry implements Persistent {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataSourceEntry.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceEntry.class.getName());
 
     private Long dbid;
     private String name;

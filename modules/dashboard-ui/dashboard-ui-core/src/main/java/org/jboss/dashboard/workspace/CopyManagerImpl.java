@@ -40,7 +40,7 @@ public class CopyManagerImpl implements CopyManager {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CopyManagerImpl.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CopyManagerImpl.class.getName());
 
     public PanelInstance copy(final PanelInstance panelInstance, final WorkspaceImpl workspace) throws Exception {
 

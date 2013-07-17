@@ -23,7 +23,7 @@ public class JavaNamesFormatter {
     /**
      * log
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(JavaNamesFormatter.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JavaNamesFormatter.class.getName());
 
     /**
      * JavaFormatter constructor comment.

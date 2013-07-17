@@ -37,7 +37,7 @@ public class SQLDataSet extends AbstractDataSet {
     /**
      * Logger
      */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SQLDataSet.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SQLDataSet.class);
 
     /**
      * Where the data comes from.

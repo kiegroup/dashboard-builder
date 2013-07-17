@@ -24,8 +24,8 @@ import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.workspace.*;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -38,7 +38,7 @@ import java.util.Properties;
 @ApplicationScoped
 public class ResourceManagerImpl implements ResourceManager, Startable {
 
-    private static transient Log log = LogFactory.getLog(ResourceManagerImpl.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ResourceManagerImpl.class.getName());
 
     @Inject @Config("")
     protected Properties fileMappings;

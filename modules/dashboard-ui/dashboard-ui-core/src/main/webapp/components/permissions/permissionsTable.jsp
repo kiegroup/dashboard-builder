@@ -29,7 +29,7 @@
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.permissions.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
 <%
-	org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PermissionsHandler.class.getName());
+	org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsHandler.class.getName());
 	PermissionsHandler permissionsHandler = PermissionsHandler.lookup();
 
 	// Obtain actions for this permission class

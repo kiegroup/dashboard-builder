@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class HandlerMarkupGenerator extends BasicFactoryElement {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HandlerMarkupGenerator.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HandlerMarkupGenerator.class.getName());
 
     public String getMarkup(String bean, String property) {
         Panel panel = getCurrentPanel();

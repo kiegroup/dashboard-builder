@@ -19,7 +19,7 @@ import javax.servlet.jsp.JspException;
 
 public class ResourceImageTag extends ResourceLinkTag {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourceImageTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourceImageTag.class.getName());
 
     protected String alt = null;
     protected String name = null;

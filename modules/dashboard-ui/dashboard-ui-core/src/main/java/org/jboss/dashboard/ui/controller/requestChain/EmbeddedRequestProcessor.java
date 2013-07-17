@@ -25,7 +25,7 @@ import org.jboss.dashboard.ui.components.DashboardHandler;
 public class EmbeddedRequestProcessor extends RequestChainProcessor {
 
     /** Class logger. */
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EmbeddedRequestProcessor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EmbeddedRequestProcessor.class.getName());
 
     /** The refresh request parameter. */
     private static final String PARAM_REFRESH = "refresh";

@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CacheFilter implements Filter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CacheFilter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CacheFilter.class.getName());
 
     private FilterConfig filterConfig;
     private SimpleDateFormat sdf = new SimpleDateFormat("EE, dd MMM yyyy KK:mm:ss", Locale.ENGLISH);

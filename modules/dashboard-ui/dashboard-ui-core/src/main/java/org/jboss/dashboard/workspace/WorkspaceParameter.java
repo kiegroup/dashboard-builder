@@ -27,7 +27,7 @@ public class WorkspaceParameter implements Serializable, Visitable {
     /**
      * log
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspaceParameter.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceParameter.class);
 
     private String parameterId;
     private String language;

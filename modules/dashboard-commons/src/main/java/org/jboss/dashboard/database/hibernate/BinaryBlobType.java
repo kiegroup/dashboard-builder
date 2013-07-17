@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.database.hibernate;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
@@ -30,7 +30,7 @@ import java.util.Arrays;
 
 public class BinaryBlobType implements UserType, Serializable {
 
-    private static transient Log log = LogFactory.getLog(BinaryBlobType.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(BinaryBlobType.class.getName());
 
     public int[] sqlTypes() {
         return new int[]{Types.BLOB};

@@ -24,8 +24,8 @@ import java.util.Set;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -39,7 +39,7 @@ import javax.inject.Inject;
 public class DataProviderManagerImpl implements DataProviderManager {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(DataProviderManagerImpl.class);
+    private transient static Logger log = LoggerFactory.getLogger(DataProviderManagerImpl.class);
 
     protected DataProviderType[] dataProviderTypeArray;
     

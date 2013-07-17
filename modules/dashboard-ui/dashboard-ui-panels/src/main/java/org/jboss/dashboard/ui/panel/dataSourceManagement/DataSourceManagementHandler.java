@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 
 public class DataSourceManagementHandler extends HandlerFactoryElement {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataSourceManagementHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementHandler.class.getName());
 
     public static final String PARAM_DS_NAME = "_dsname";
     public static final String RESULT_OK = "_result_OK";

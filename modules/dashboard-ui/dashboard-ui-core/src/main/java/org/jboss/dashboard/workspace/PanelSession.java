@@ -31,7 +31,7 @@ public class PanelSession implements HttpSession {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelSession.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelSession.class.getName());
 
      // Panel status
 

@@ -26,7 +26,7 @@ import java.util.Properties;
  *
  */
 public class Envelope extends GraphicElement implements Comparable, Cloneable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Envelope.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Envelope.class.getName());
 
     public static final String DESCRIPTOR_FILENAME = "envelope.properties";
     public static final Properties DEFAULT_PROPERTIES;

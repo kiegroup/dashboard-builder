@@ -34,7 +34,7 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
 
     /** Logger */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AbstractChartDisplayerEditor.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AbstractChartDisplayerEditor.class);
 
     public static final String I18N_PREFFIX = "abstractChartDisplayer.";
     public static final String DOMAIN_SAVE_BUTTON_PRESSED = "updateDomainDetails";

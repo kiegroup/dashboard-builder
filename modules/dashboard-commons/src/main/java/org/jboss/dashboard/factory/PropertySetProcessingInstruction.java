@@ -19,7 +19,7 @@ package org.jboss.dashboard.factory;
  *
  */
 public class PropertySetProcessingInstruction extends PropertyChangeProcessingInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PropertySetProcessingInstruction.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PropertySetProcessingInstruction.class.getName());
 
     public PropertySetProcessingInstruction(Component component, String propertyName, String propertyValue) {
         super(component, propertyName, propertyValue);

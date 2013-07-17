@@ -23,8 +23,8 @@ import org.jboss.dashboard.workspace.export.structure.ExportResult;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.resources.GraphicElement;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ import java.util.zip.ZipInputStream;
 @ApplicationScoped
 public class ExportManager {
 
-    private static transient Log log = LogFactory.getLog(ExportManager.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ExportManager.class.getName());
 
     @Inject
     private WorkspaceBuilder workspaceBuilder;

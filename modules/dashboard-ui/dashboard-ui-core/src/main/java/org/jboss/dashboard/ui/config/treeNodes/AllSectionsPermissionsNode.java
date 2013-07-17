@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertie
 import org.jboss.dashboard.security.SectionPermission;
 
 public class AllSectionsPermissionsNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AllSectionsPermissionsNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AllSectionsPermissionsNode.class.getName());
 
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
 

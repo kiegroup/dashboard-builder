@@ -32,7 +32,7 @@ import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class FormatterTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FormatterTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterTag.class.getName());
 
     public static final int STAGE_READING_PARAMS = 1;
     public static final int STAGE_RENDERING_FRAGMENTS = 2;

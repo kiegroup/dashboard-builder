@@ -23,8 +23,8 @@ import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.error.ErrorReport;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -61,7 +61,7 @@ public class Profiler implements Runnable {
     }
 
     /** Logger */
-    private static transient Log log = LogFactory.getLog(Profiler.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(Profiler.class.getName());
 
     /**
      * Amount of time in milliseconds the profile will remain idle between two consecutive profiling snapshots.
@@ -269,7 +269,7 @@ public class Profiler implements Runnable {
                     // Make the profile wait before take a new snapshot.
                     Thread.sleep(idleTimeInMillis);
                 } catch (Throwable e) {
-                    log.error(e);
+                    log.error("Error dumping stack traces.", e);
                 }
             }}, false /* Do not profile the profiler itself */);
         }

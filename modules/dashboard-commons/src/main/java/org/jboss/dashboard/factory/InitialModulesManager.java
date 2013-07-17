@@ -32,7 +32,7 @@ import java.util.List;
  */
 @ApplicationScoped
 public class InitialModulesManager implements Startable {
-    public static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(InitialModulesManager.class.getName());
+    public static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(InitialModulesManager.class.getName());
 
     @Inject
     private InitialModuleRegistry initialModuleRegistry;

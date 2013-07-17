@@ -88,7 +88,7 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
     /**
      * Logger
      */
-    protected transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardHTMLDriver.class);
+    protected transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardHTMLDriver.class);
 
     /**
      * OVERWRITTEN in order to process commands embedded in the HTML.

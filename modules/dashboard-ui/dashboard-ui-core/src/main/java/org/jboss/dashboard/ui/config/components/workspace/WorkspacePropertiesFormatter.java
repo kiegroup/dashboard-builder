@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class WorkspacePropertiesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspacePropertiesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePropertiesFormatter.class.getName());
 
     private WorkspacePropertiesHandler workspacePropertiesHandler;
 
@@ -113,7 +113,6 @@ public class WorkspacePropertiesFormatter extends Formatter {
 
             renderFragment("outputEnd");
         } catch (Exception e) {
-            log.error(e);
             throw new FormatterException(e);
         }
     }

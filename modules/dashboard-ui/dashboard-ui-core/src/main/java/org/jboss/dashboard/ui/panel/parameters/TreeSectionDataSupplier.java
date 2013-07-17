@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeSectionDataSupplier implements ComboListParameterDataSupplier {
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TreeSectionDataSupplier.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TreeSectionDataSupplier.class);
 
     private List keys;
     private List values;

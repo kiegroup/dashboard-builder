@@ -15,11 +15,7 @@
  */
 package org.jboss.dashboard.database;
 
-import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Session;
-
+import org.slf4j.LoggerFactory;
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -34,7 +30,7 @@ import java.util.logging.Logger;
  */
 public class ExternalDataSource implements DataSource {
 
-    protected static transient Log log = LogFactory.getLog(ExternalDataSource.class.getName());
+    protected static transient org.slf4j.Logger log = LoggerFactory.getLogger(ExternalDataSource.class.getName());
     protected String name;
     protected DataSourceEntry dataSourceEntry;
     private PrintWriter printWriter = new PrintWriter(System.out);

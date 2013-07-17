@@ -22,7 +22,7 @@ import org.hibernate.Session;
  * A core component addressed to initialize/update an application artifact at system start-up.
  */
 public abstract class InitialModule {
-    public static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(InitialModule.class.getName());
+    public static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(InitialModule.class.getName());
 
     private String name;
     private long version = 1;

@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.components;
 import org.jboss.dashboard.factory.BasicFactoryElement;
 
 public class PaginationComponentHandlerCache extends BasicFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PaginationComponentHandlerCache.class);
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PaginationComponentHandlerCache.class);
 
     private Integer size;
     private PaginationContentProvider contentProvider;

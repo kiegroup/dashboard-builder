@@ -32,7 +32,7 @@ import java.util.*;
  * Such definition is usually implemented by means of a .properties file inside the etc/factory directory..
  */
 public class Component {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Component.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Component.class.getName());
     public static final String ALIAS_PROPERTY = "alias";
     public static final String CLASS_PROPERTY = "class";
     public static final String SCOPE_PROPERTY = "scope";

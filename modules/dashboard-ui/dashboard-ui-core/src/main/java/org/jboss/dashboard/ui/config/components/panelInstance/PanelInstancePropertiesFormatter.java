@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class PanelInstancePropertiesFormatter extends Formatter {
 
-    private static transient final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancePropertiesFormatter.class.getName());
+    private static transient final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesFormatter.class.getName());
     public static final String PANEL_INSTANCE_PROPERTIES = "_panelInstanceProperties";
     public static final String PANEL_INSTANCE = "_panelInstance";
     public static final String FORM_STATUS = "_formStatus";

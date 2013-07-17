@@ -32,7 +32,7 @@ import java.text.NumberFormat;
 public class DomainConfiguration {
 
     /** Logger */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DomainConfiguration.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DomainConfiguration.class);
 
     protected DataProperty domainProperty;
     protected String propertyId;

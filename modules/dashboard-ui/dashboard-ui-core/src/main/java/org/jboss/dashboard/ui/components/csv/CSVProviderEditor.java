@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CSVProviderEditor extends DataProviderEditor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CSVProviderEditor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CSVProviderEditor.class.getName());
 
     private ResourceBundle messages;
     private boolean loadAttemptOk = false;

@@ -27,7 +27,7 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import java.io.IOException;
 
 public class PropertyTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PropertyTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PropertyTag.class.getName());
 
     public static final String VALUE_NAME = "value";
 

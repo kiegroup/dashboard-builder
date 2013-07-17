@@ -27,7 +27,7 @@ import org.jboss.dashboard.workspace.Panel;
 import java.util.*;
 
 public class PanelsNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelsNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsNode.class.getName());
 
     private PanelsPropertiesHandler panelsPropertiesHandler;
 

@@ -24,7 +24,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 public class RangeConfigurationParser {
 
     /** Logger */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RangeConfigurationParser.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RangeConfigurationParser.class);
 
     protected RangeConfiguration config;
 

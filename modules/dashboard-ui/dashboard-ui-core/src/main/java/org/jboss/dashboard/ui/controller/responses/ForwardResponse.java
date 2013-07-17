@@ -23,7 +23,7 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
  */
 public class ForwardResponse implements CommandResponse {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForwardResponse.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ForwardResponse.class.getName());
 
     private String resource = null;
 

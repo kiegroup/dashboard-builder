@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class WorkspacePropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspacePropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePropertiesHandler.class.getName());
 
     private MessagesComponentHandler messagesComponentHandler;
     private String workspaceId;
@@ -220,7 +220,7 @@ public class WorkspacePropertiesHandler extends HandlerFactoryElement {
             WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
             if (workspace.getId().equals(p.getId())) return true;//It is my own workspace
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error getting workspace", e);
         }
         return false;
     }

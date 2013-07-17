@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 import javax.servlet.jsp.JspTagException;
 
 public class UseComponentTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UseComponentTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UseComponentTag.class.getName());
 
     public static final String COMPONENT_ATTR_NAME = "currentComponentBeingRendered";
 

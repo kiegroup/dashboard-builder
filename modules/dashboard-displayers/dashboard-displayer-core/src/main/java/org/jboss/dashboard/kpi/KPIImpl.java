@@ -36,7 +36,7 @@ import java.util.Map;
 public class KPIImpl implements KPI {
 
     /** Logger */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(KPIImpl.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(KPIImpl.class);
 
     protected Long id;
     protected String code;

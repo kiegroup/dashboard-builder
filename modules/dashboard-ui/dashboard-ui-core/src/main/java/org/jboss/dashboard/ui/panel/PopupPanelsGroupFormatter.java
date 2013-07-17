@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PopupPanelsGroupFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PopupPanelsGroupFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PopupPanelsGroupFormatter.class.getName());
 
     private PopupPanelsHandler handler;
 

@@ -22,7 +22,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 public class FactoryURL {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryURL.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryURL.class.getName());
 
     public static final String SCHEMA = "factory";
     public static final String NAME_FORMAT = SCHEMA + "://" + "{0}" + "/" + "{1}";

@@ -28,7 +28,7 @@ public class TableEditor extends DataDisplayerEditor {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TableEditor.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TableEditor.class);
 
     /**
      * The table component handler.

@@ -19,15 +19,15 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.factory.InitialModule;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
 
 public class ImportWorkspacesModule extends InitialModule {
 
-    private static transient Log log = LogFactory.getLog(ImportWorkspacesModule.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ImportWorkspacesModule.class.getName());
 
     /**
      * Represents the path of the XML file to import. A relative path to the application directory.

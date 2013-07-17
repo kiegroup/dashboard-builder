@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardFilterFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardFilterFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterFormatter.class.getName());
 
     public static final String PARAM_RENDER_TYPE = "renderType";
     public static final String PARAM_COMPONENT_CODE = "componentCode";

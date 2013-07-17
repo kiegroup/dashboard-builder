@@ -41,7 +41,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public abstract class GraphicElementManagerImpl implements GraphicElementManager, Startable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(GraphicElementManagerImpl.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GraphicElementManagerImpl.class.getName());
 
     protected Class classToHandle;
     protected String classToHandleName;

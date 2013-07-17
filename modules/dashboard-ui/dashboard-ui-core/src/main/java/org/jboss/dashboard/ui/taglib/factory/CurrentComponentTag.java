@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 import javax.servlet.jsp.JspTagException;
 
 public class CurrentComponentTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CurrentComponentTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CurrentComponentTag.class.getName());
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport

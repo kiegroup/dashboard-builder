@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.config.components.permissions;
 import org.jboss.dashboard.ui.components.permissions.PermissionsHandler;
 
 public class PermissionsPropertiesHandlerConnector extends PermissionsPropertiesHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PermissionsPropertiesHandlerConnector.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsPropertiesHandlerConnector.class.getName());
 
     private PermissionsHandler permissionsHandler;
 

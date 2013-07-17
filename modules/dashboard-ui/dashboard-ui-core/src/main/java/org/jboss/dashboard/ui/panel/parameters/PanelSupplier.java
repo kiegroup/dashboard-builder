@@ -35,7 +35,7 @@ import java.util.List;
  * PanelSupplier presents a list of panels for a given class or subclasses.
  */
 public class PanelSupplier implements ComboListParameterDataSupplier {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelSupplier.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelSupplier.class.getName());
 
     private PanelInstance instance = null;
     private Class panelProvider = null;

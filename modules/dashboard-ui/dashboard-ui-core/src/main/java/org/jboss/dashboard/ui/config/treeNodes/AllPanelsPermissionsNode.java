@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertie
 import org.jboss.dashboard.security.PanelPermission;
 
 public class AllPanelsPermissionsNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AllPanelsPermissionsNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AllPanelsPermissionsNode.class.getName());
 
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
 

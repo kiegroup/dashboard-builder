@@ -20,10 +20,10 @@ import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Panel;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.slf4j.Logger;
 
 public class ShowPanelPageComponent extends PanelManagementPanel {
-    private static transient Log log = org.apache.commons.logging.LogFactory.getLog(ShowPanelPageComponent.class.getName());
+    private static transient Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelPageComponent.class.getName());
 
     private String page;
 
@@ -70,7 +70,7 @@ public class ShowPanelPageComponent extends PanelManagementPanel {
     }
 
     @Override
-    public Log getLog() {
+    public Logger getLogger() {
         return log;
     }
 }

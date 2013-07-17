@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 public class SessionCounter implements ControllerListener {
 
     /** Logger */
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SessionCounter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SessionCounter.class.getName());
 
     private static SessionCounter singleton;
 

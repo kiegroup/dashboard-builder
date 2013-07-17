@@ -39,7 +39,7 @@ import java.util.*;
 public class DashboardFilterDriver extends PanelDriver implements DashboardDriver {
 
     /** The logger */
-    protected static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardFilterDriver.class.getName());
+    protected static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterDriver.class.getName());
 
     public DashboardFilterHandler getDashboardFilterHandler(Panel panel) {
         String code = panel.getParameterValue(DashboardFilter.FILTER_HANDLER_CODE);

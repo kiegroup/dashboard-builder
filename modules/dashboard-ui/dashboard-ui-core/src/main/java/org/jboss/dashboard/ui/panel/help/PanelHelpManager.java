@@ -36,7 +36,7 @@ import java.util.Map;
 
 @ApplicationScoped
 public class PanelHelpManager {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelHelpManager.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelHelpManager.class.getName());
 
     public static final String PHELP = "phelp";
 
@@ -171,7 +171,7 @@ public class PanelHelpManager {
         URL schemaUrl = getClass().getResource("help.xsd");
 
         if (schemaUrl == null)
-            log.fatal("Could not find org.jboss.dashboard.ui.panel.help.help.xsd]. Used [" + getClass().getClassLoader() + "] class loader in the search.");
+            log.error("Could not find org.jboss.dashboard.ui.panel.help.help.xsd]. Used [" + getClass().getClassLoader() + "] class loader in the search.");
         else
             log.debug("URL to org.jboss.dashboard.ui.panel.help.help.xsd is [" + schemaUrl.toString() + "].");
         String schema = schemaUrl.toString();

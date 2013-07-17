@@ -25,8 +25,8 @@ import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.*;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -36,7 +36,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class ExportManagerImpl implements ExportManager {
 
-    private transient static Log log = LogFactory.getLog(ExportManagerImpl.class);
+    private transient static Logger log = LoggerFactory.getLogger(ExportManagerImpl.class);
 
     public ExportOptions createExportOptions() {
         return new ExportOptionsImpl();

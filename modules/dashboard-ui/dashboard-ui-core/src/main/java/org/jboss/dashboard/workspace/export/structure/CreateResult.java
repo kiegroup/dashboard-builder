@@ -19,7 +19,7 @@ package org.jboss.dashboard.workspace.export.structure;
  * Implementation of a Workspace creation result, used on Import process.
  */
 public class CreateResult extends ImportExportResult {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CreateResult.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CreateResult.class.getName());
 
     private Object objectCreated;
 

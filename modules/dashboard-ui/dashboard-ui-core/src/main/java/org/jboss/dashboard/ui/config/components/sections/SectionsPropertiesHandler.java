@@ -40,7 +40,7 @@ import java.io.File;
 import java.util.*;
 
 public class SectionsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionsPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsPropertiesHandler.class.getName());
 
     public static final String ACTION_MOVE_UP = "action_move_up";
     public static final String ACTION_MOVE_DOWN = "action_move_down";
@@ -957,7 +957,7 @@ public class SectionsPropertiesHandler extends HandlerFactoryElement {
             WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
             if (workspace.getId().equals(p.getId())) return true;//It is my own workspace
         } catch (Exception e) {
-            SectionsPropertiesHandler.log.error(e);
+            log.error("Error getting workspace", e);
         }
         return false;
     }

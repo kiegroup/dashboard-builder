@@ -30,7 +30,7 @@ import org.hibernate.Session;
 import java.io.File;
 
 public class PanelsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelsPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsPropertiesHandler.class.getName());
 
     private String workspaceId;
     private Long sectionId;
@@ -301,7 +301,7 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
             WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
             if (workspace.getId().equals(p.getId())) return true;//It is my own workspace
         } catch (Exception e) {
-            PanelsPropertiesHandler.log.error(e);
+            PanelsPropertiesHandler.log.error("Error getting workspace", e);
         }
         return false;
     }

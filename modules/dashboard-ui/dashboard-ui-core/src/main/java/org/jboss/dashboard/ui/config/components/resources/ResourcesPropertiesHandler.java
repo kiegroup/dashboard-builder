@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResourcesPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResourcesPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcesPropertiesHandler.class.getName());
 
     private String resourceType;  //graphicElement
     private String workspaceId;

@@ -30,7 +30,7 @@ import java.io.InputStream;
  *
  */
 public class UrlResource extends Resource {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(UrlResource.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UrlResource.class.getName());
 
     private ResourceName resName;
     protected String url = null;

@@ -26,7 +26,7 @@ import java.io.Serializable;
  * Region description
  */
 public class LayoutRegion implements Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LayoutRegion.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LayoutRegion.class.getName());
 
     /* Region types */
     public static final int COLUMN = 0;

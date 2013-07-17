@@ -56,7 +56,7 @@ public class EncodeTag extends TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EncodeTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EncodeTag.class.getName());
 
     /**
      * Text to encode

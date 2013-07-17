@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  */
 public class FragmentValueTag extends BodyTagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FragmentValueTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FragmentValueTag.class.getName());
     public static final String VALUE_NAME = "value";
 
     public static class TEI extends TagExtraInfo {

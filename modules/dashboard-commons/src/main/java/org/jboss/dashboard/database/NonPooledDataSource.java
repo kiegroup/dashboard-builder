@@ -15,8 +15,7 @@
  */
 package org.jboss.dashboard.database;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -28,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class NonPooledDataSource implements DataSource {
 
-    private static transient Log log = LogFactory.getLog(NonPooledDataSource.class.getName());
+    private static transient org.slf4j.Logger log = LoggerFactory.getLogger(NonPooledDataSource.class.getName());
     protected PrintWriter printWriter;
     protected int loginTimeOut;
 

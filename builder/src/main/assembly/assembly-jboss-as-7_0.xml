@@ -57,7 +57,6 @@
                     <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
                     <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
                     <exclude>WEB-INF/lib/slf4j-*.jar</exclude>
-                    <exclude>WEB-INF/lib/jcl-over-slf4j-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-lang-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-collections-*.jar</exclude>
                     <exclude>WEB-INF/lib/commons-io-*.jar</exclude>

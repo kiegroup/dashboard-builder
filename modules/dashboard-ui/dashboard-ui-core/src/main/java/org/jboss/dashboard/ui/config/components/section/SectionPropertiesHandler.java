@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class SectionPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionPropertiesHandler.class.getName());
 
     private String workspaceId;
     private Long sectionId;
@@ -302,7 +302,7 @@ public class SectionPropertiesHandler extends HandlerFactoryElement {
             }
             return true;
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error checking URL: " + url, e);
         }
         return false;
     }

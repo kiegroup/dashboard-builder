@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 
 public class CompactTreeStatus extends DefaultTreeStatus implements TreeStatus {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(CompactTreeStatus.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CompactTreeStatus.class.getName());
 
 
     public boolean expand(TreeNode node) {

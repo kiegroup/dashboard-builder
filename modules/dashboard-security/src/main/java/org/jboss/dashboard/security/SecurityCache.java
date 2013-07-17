@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.security;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.factory.BasicFactoryElement;
 
 import javax.enterprise.context.SessionScoped;
@@ -28,7 +28,7 @@ import java.util.Map;
 @SessionScoped
 public class SecurityCache implements Serializable {
 
-    private static transient Log log = LogFactory.getLog(SecurityCache.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SecurityCache.class.getName());
 
     private boolean cacheEnabled = true;
     private Map cacheMappings = new HashMap();

@@ -32,7 +32,7 @@ public class LinkToSectionTag extends javax.servlet.jsp.tagext.TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LinkToSectionTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LinkToSectionTag.class.getName());
 
     /**
      * Action to execute
@@ -55,7 +55,7 @@ public class LinkToSectionTag extends javax.servlet.jsp.tagext.TagSupport {
                 try {
                     pageContext.getOut().print(StringEscapeUtils.escapeHtml(linkStr));
                 } catch (java.io.IOException ex) {
-                    log.error(ex);
+                    log.error("LinkToSectionTag error: " + linkStr, ex);
                 }
             } else {
                 log.error("Section '" + getSection() + "' not found");

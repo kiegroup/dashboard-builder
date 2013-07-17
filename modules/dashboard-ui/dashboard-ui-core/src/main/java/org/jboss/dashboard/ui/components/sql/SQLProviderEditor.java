@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SQLProviderEditor extends DataProviderEditor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SQLProviderEditor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SQLProviderEditor.class.getName());
 
     private ResourceBundle messages;
     private boolean loadAttemptOk = false;

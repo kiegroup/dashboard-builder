@@ -75,7 +75,7 @@ public class DefineObjectsTag extends TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DefineObjectsTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DefineObjectsTag.class.getName());
 
     public static class TEI extends TagExtraInfo {
 

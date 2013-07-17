@@ -24,7 +24,7 @@ import org.jboss.dashboard.workspace.WorkspacesManager;
 
 public abstract class PanelInstancePropertiesNode extends AbstractNode {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancePropertiesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesNode.class.getName());
     private PanelInstancePropertiesHandler handler;
     private WorkspacesManager workspacesManager;
     private boolean multilanguage = false;

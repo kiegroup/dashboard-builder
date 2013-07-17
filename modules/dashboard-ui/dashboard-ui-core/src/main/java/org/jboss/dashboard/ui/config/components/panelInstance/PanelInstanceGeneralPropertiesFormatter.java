@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.*;
 
 public class PanelInstanceGeneralPropertiesFormatter extends PanelInstancePropertiesFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstanceGeneralPropertiesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceGeneralPropertiesFormatter.class.getName());
 
     private PanelInstanceGeneralPropertiesHandler handler;
 

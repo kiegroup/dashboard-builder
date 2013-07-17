@@ -46,7 +46,7 @@ public class ExportTool {
     protected String dateFormatPattern = "dd/MM/yyyy HH:mm:ss";
     protected String numberFormatPattern = "#,###.##########";
 
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ExportTool.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportTool.class);
     private DecimalFormat decf = new DecimalFormat(numberFormatPattern);
     private DateFormat datef = new SimpleDateFormat(dateFormatPattern);
 

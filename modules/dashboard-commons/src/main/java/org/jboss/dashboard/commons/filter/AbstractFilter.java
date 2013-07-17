@@ -87,7 +87,7 @@ public abstract class AbstractFilter implements FilterByCriteria, Cloneable {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AbstractFilter.class);
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AbstractFilter.class);
 
     public AbstractFilter() {
         filterProperties = new ArrayList();

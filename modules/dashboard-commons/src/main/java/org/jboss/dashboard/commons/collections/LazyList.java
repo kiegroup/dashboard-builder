@@ -32,11 +32,6 @@ import java.util.List;
 public abstract class LazyList extends ArrayList {
 
     /**
-     * Logger
-     */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LazyList.class);
-
-    /**
      * List of instances already retrieved by the lazy calls.
      * It acts as an instance cache and an instance prefetch buffer.
      */

@@ -22,8 +22,8 @@ import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -38,7 +38,7 @@ public class ControllerStatus {
         return (ControllerStatus) CDIBeanLocator.getBeanByName("controllerStatus");
     }
 
-    private static transient Log log = LogFactory.getLog(ControllerStatus.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ControllerStatus.class.getName());
 
     @Inject @Config("/templates/standard_template.jsp")
     protected String showPage;

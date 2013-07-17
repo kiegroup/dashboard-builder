@@ -31,7 +31,7 @@ import org.jboss.dashboard.users.UserStatus;
 
 public abstract class PanelInstancePropertiesHandler extends HandlerFactoryElement {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancePropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesHandler.class.getName());
     private Long panelInstanceId;
     private String workspaceId;
     private FormStatus formStatus;

@@ -43,7 +43,7 @@ import org.apache.commons.lang.StringUtils;
 public class DashboardFilter extends AbstractFilter implements DataFilter {
 
     /** Logger */
-    protected static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DashboardFilter.class);
+    protected static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilter.class);
 
     /**
      * The dashboard.

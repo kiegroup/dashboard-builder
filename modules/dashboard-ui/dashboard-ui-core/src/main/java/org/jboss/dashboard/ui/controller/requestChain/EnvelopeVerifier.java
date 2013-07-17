@@ -19,7 +19,7 @@ import org.jboss.dashboard.ui.taglib.EnvelopeFooterTag;
 import org.jboss.dashboard.ui.taglib.EnvelopeHeadTag;
 
 public class EnvelopeVerifier extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EnvelopeVerifier.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeVerifier.class.getName());
 
     protected boolean processRequest() throws Exception {
         Boolean headToken = (Boolean) getRequest().getAttribute(EnvelopeHeadTag.ENVELOPE_TOKEN);

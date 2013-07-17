@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 public class SectionCopyFormatter extends SectionsPropertiesFormatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionCopyFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionCopyFormatter.class.getName());
 
     private SectionsPropertiesHandler sectionsPropertiesHandler;
 

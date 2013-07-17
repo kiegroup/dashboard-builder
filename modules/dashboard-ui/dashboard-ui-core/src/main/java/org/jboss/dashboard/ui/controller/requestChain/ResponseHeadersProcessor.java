@@ -25,7 +25,7 @@ import java.util.Locale;
  *
  */
 public class ResponseHeadersProcessor extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ResponseHeadersProcessor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResponseHeadersProcessor.class.getName());
 
     private boolean useRefreshHeader = false;
     private String responseContentType = "text/html";

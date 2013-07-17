@@ -36,7 +36,7 @@ public class RedirectToURLResponse implements CommandResponse {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RedirectToURLResponse.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RedirectToURLResponse.class.getName());
 
 
     public RedirectToURLResponse(String newURL, boolean relative) {

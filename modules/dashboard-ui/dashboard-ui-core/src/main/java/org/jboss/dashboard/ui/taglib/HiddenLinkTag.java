@@ -34,7 +34,7 @@ public class HiddenLinkTag extends javax.servlet.jsp.tagext.TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HiddenLinkTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HiddenLinkTag.class.getName());
 
     /**
      * Action to execute
@@ -65,7 +65,7 @@ public class HiddenLinkTag extends javax.servlet.jsp.tagext.TagSupport {
         try {
             pageContext.getOut().print(textToWrite);
         } catch (java.io.IOException ex) {
-            log.error(ex);
+            log.error("HiddenLinkTag error: " + textToWrite, ex);
         }
         return EVAL_PAGE;
     }

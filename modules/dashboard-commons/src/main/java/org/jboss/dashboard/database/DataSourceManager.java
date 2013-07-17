@@ -18,8 +18,8 @@ package org.jboss.dashboard.database;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -37,7 +37,7 @@ import java.util.List;
 public class DataSourceManager {
 
     public static final String DEFAULT_DATASOURCE_NAME = "local";
-    private static transient Log log = LogFactory.getLog(DataSourceManager.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(DataSourceManager.class.getName());
 
     @PostConstruct
     public void start() throws Exception {

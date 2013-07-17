@@ -36,7 +36,7 @@ public class LinkTag extends javax.servlet.jsp.tagext.TagSupport {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LinkTag.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LinkTag.class.getName());
 
 
     /**
@@ -78,7 +78,7 @@ public class LinkTag extends javax.servlet.jsp.tagext.TagSupport {
         try {
             pageContext.getOut().print(linkStr);
         } catch (java.io.IOException ex) {
-            log.error(ex);
+            log.error("LinkTag error: " + linkStr, ex);
         }
         return EVAL_PAGE;
     }

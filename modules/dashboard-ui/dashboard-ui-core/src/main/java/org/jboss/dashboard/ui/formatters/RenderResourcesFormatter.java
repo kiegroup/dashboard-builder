@@ -59,7 +59,7 @@ import java.util.List;
  * </ul>
  */
 public class RenderResourcesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RenderResourcesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderResourcesFormatter.class.getName());
 
     /**
      * Perform the required logic for this Formatter. Inside, the methods

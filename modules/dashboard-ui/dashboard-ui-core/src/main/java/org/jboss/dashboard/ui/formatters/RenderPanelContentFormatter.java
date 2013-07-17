@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  * This class extends Formatter to provide support for the rendering of a panel's content.
  */
 public class RenderPanelContentFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RenderPanelContentFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderPanelContentFormatter.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         Panel panel = (Panel) getParameter("panel");

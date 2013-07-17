@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.resources.Resource;
  * Representation of a document attached to an HTML document. It is just a reference to a resource in a gallery, normally.
  */
 public class HTMLAttachedFile {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLAttachedFile.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HTMLAttachedFile.class.getName());
     private Resource resource;
 
     public HTMLAttachedFile(Resource resource) {

@@ -25,7 +25,7 @@ import org.jboss.dashboard.workspace.Panel;
  */
 public class ShowPanelPage extends ShowCurrentScreenResponse {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowPanelPage.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelPage.class.getName());
 
     private Panel panel = null;
     private String pageId = null;

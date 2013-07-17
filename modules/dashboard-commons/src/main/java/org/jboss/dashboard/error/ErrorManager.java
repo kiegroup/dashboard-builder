@@ -17,8 +17,8 @@ package org.jboss.dashboard.error;
 
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.profiler.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.CoreServices;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,7 +35,7 @@ import java.util.LinkedList;
 public class ErrorManager {
 
     /** Logger */
-    private static transient Log log = LogFactory.getLog(ErrorManager.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ErrorManager.class.getName());
 
     /**
      * Get an ExceptionManager instance.
@@ -188,7 +188,7 @@ public class ErrorManager {
             // Store the report into the current thread.
             threadProfile.setErrorReport(report);
 
-            // Log the error.
+            // Logger the error.
             if (doLog) logError(report);
         } finally {
             trace.end();
@@ -197,10 +197,10 @@ public class ErrorManager {
     }
 
     /**
-     * Log the specified error report.
+     * Logger the specified error report.
      */
     public void logError(ErrorReport report) {
-        // Log only the non-application errors.
+        // Logger only the non-application errors.
         ApplicationError appError = getApplicationErrorCause(report.getException());
         if (appError == null) {
             // Print the report in the log.

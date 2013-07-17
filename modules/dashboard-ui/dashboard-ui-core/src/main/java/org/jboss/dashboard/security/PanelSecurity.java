@@ -21,7 +21,7 @@ import java.util.*;
  *
  */
 public class PanelSecurity {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelSecurity.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelSecurity.class.getName());
 
     /**
      * Stores method names pointing to HashTables of Permission objects.

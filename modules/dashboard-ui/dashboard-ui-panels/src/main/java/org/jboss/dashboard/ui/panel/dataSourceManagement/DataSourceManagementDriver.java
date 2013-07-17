@@ -18,6 +18,6 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 
 public class DataSourceManagementDriver extends PanelDriver {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataSourceManagementDriver.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementDriver.class.getName());
 
 }

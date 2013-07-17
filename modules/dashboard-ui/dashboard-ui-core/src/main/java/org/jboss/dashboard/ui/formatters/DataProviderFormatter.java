@@ -40,7 +40,7 @@ import java.util.*;
 import org.apache.commons.lang.StringEscapeUtils;
 
 public class DataProviderFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DataProviderFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataProviderFormatter.class.getName());
 
     protected DataProviderHandler handler;
 

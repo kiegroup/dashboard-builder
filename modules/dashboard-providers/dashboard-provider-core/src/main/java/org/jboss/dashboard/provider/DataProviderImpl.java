@@ -20,8 +20,8 @@ import org.jboss.dashboard.DataProviderServices;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.xerces.parsers.DOMParser;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.dataset.DataSetManager;
@@ -39,7 +39,7 @@ import org.hibernate.*;
 public class DataProviderImpl implements DataProvider {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(DataProviderImpl.class);
+    private transient static Logger log = LoggerFactory.getLogger(DataProviderImpl.class);
 
     protected Long id;
     protected String code;

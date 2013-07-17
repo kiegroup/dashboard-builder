@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Helper class that stores the import or export process result.
  */
 public class ExportSessionInfo implements Serializable {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ExportSessionInfo.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportSessionInfo.class.getName());
 
     private ExportResult exportResult;
     private ImportResult[] importResult;

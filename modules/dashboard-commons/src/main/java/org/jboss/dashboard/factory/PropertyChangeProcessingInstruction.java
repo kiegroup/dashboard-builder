@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  *
  */
 public abstract class PropertyChangeProcessingInstruction {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PropertyChangeProcessingInstruction.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PropertyChangeProcessingInstruction.class.getName());
     private String propertyName;
     private String propertyValue;
     private Component component;

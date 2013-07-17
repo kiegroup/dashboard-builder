@@ -22,7 +22,7 @@ import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
 
 public class PanelsTypesNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelsTypesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsTypesNode.class.getName());
 
     private PanelsTypesPropertiesHandler panelsTypesPropertiesHandler;
 

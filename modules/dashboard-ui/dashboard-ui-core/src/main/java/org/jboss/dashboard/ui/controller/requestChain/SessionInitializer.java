@@ -20,8 +20,8 @@ import org.jboss.dashboard.ui.controller.ControllerListener;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +32,7 @@ import java.util.StringTokenizer;
 
 public class SessionInitializer extends RequestChainProcessor {
 
-    private static transient Log log = LogFactory.getLog(SessionInitializer.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(SessionInitializer.class.getName());
 
     /**
      * Attributes to store in session

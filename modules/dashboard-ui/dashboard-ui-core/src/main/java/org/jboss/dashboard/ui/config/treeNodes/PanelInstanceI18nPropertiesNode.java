@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 public class PanelInstanceI18nPropertiesNode extends PanelInstancePropertiesNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstanceI18nPropertiesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceI18nPropertiesNode.class.getName());
 
     public String getId() {
         return "I18nProperties";

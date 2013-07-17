@@ -36,7 +36,7 @@ import java.util.*;
 
 public class JavascriptTree implements Comparable {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(JavascriptTree.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JavascriptTree.class.getName());
 
     protected String key = null;
     protected String val = null;

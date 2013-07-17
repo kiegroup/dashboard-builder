@@ -25,7 +25,7 @@ import java.util.*;
  * A permission inside the backoffice area.
  */
 public class BackOfficePermission extends UIPermission {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BackOfficePermission.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BackOfficePermission.class.getName());
 
     public static final String ACTION_USE_GRAPHIC_RESOURCES = "manageGraphicResources";
     public static final String ACTION_USE_PERMISSIONS = "managePermissions";

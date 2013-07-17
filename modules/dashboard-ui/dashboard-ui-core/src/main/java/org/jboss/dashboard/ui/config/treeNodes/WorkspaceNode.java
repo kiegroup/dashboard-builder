@@ -24,7 +24,7 @@ import org.jboss.dashboard.workspace.Workspace;
 import java.util.Locale;
 
 public class WorkspaceNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(WorkspaceNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceNode.class.getName());
     private String workspaceId;
     private WorkspacePropertiesHandler workspacePropertiesHandler;
 

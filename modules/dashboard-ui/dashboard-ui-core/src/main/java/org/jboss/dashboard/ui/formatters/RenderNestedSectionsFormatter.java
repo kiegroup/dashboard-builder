@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class RenderNestedSectionsFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(RenderNestedSectionsFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderNestedSectionsFormatter.class.getName());
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         List visibleIds = (List) getParameter("visibleIds");

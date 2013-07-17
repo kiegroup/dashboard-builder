@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class FactoryRequestHandler {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FactoryRequestHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryRequestHandler.class.getName());
 
     public CommandResponse handleRequest(CommandRequest request) throws Exception {
         // Set factory bean values

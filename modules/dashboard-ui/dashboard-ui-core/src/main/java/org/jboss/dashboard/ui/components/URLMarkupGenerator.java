@@ -41,7 +41,7 @@ import java.util.Map;
  */
 @ApplicationScoped
 public class URLMarkupGenerator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(URLMarkupGenerator.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(URLMarkupGenerator.class.getName());
 
     private String handler = "factory";
     private String action = "set";

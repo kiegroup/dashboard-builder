@@ -25,7 +25,7 @@ import javax.servlet.http.Cookie;
 import org.apache.commons.lang.StringUtils;
 
 public class NavigationCookieProcessor extends RequestChainProcessor {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(NavigationCookieProcessor.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationCookieProcessor.class.getName());
 
     private boolean useCookie = true;
     private String cookieName = "dashbuilderNavigationPoint";

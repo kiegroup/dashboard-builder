@@ -21,7 +21,7 @@ import java.util.*;
  *
  */
 public class PanelAboutImpl implements PanelAbout {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelAboutImpl.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelAboutImpl.class.getName());
 
     private Properties properties = new Properties();
 

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BreadCrumbDriver extends PanelDriver {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BreadCrumbDriver.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BreadCrumbDriver.class.getName());
 
     public static final String PARAM_INITIAL_TRIM_DEPTH = "initialTrimDepth";
     public static final String PARAM_ELEMENT_TEMPLATE = "elementTemplate";

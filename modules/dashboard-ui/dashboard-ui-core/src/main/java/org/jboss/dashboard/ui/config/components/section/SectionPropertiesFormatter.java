@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SectionPropertiesFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionPropertiesFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionPropertiesFormatter.class.getName());
 
     private SectionPropertiesHandler sectionPropertiesHandler;
 
@@ -186,7 +186,6 @@ public class SectionPropertiesFormatter extends Formatter {
             renderFragment("outputEnd");
 
         } catch (Exception e) {
-            SectionPropertiesFormatter.log.error(e);
             throw new FormatterException(e);
         }
     }

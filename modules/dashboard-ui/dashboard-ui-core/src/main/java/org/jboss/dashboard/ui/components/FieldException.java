@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.components;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 
 public class FieldException extends Exception {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FieldException.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FieldException.class.getName());
 
     private FactoryURL property;
     private Object propertyValue;

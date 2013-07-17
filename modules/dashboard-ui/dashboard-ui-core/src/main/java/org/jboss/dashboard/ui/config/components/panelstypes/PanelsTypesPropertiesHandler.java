@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 public class PanelsTypesPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelsTypesPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsTypesPropertiesHandler.class.getName());
 
     private String workspaceId;
 

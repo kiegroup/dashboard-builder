@@ -30,11 +30,6 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 public class Publisher {
 
     /**
-     * Logger
-     */
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Publisher.class);
-
-    /**
      * The event representing all events.
      * <p>NOTE: <code>EVENT_ALL=0</code> is a reserved identifier.
      */

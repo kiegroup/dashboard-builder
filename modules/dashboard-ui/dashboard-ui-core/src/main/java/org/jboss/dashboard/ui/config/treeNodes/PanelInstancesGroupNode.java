@@ -28,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class PanelInstancesGroupNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancesGroupNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesGroupNode.class.getName());
     public static final String GROUP_PREFFIX = "group_";
 
     private String workspaceId;

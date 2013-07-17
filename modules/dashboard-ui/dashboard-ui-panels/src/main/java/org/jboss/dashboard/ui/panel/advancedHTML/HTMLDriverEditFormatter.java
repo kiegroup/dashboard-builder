@@ -52,7 +52,7 @@ import java.util.Locale;
  * </ul>
  */
 public class HTMLDriverEditFormatter extends Formatter {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(HTMLDriverEditFormatter.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HTMLDriverEditFormatter.class.getName());
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         HTMLDriver htmlDriver = (HTMLDriver) getPanel().getProvider().getDriver();

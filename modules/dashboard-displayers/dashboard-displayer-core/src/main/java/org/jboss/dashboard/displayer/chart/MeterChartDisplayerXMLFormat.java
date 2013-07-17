@@ -26,8 +26,8 @@ import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.LocaleManager;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 public class MeterChartDisplayerXMLFormat extends ChartDisplayerXMLFormat {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(ChartDisplayerXMLFormat.class);
+    private transient static Logger log = LoggerFactory.getLogger(ChartDisplayerXMLFormat.class);
 
     protected void parseDisplayer(AbstractChartDisplayer displayer, Node item, ImportResults results) throws Exception {
         if (item.hasChildNodes() && (item.getNodeName().equals("meter") ||

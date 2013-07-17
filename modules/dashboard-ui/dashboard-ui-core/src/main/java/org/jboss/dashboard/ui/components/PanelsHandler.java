@@ -35,7 +35,7 @@ import java.util.Locale;
 
 
 public class PanelsHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelsHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsHandler.class.getName());
 
     /**
      * Moves a panel to the specified region

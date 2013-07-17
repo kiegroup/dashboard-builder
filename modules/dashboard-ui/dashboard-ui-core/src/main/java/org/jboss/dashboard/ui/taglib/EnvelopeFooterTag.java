@@ -27,7 +27,7 @@ import java.io.IOException;
  *
  */
 public class EnvelopeFooterTag extends TagSupport {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(EnvelopeFooterTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeFooterTag.class.getName());
 
     public static final String ENVELOPE_TOKEN = "envelopeFootToken";
 

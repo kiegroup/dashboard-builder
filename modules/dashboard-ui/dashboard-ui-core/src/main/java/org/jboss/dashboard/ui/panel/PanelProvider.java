@@ -40,7 +40,7 @@ public class PanelProvider extends BasicFactoryElement {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelProvider.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelProvider.class.getName());
 
     /**
      * Attributes

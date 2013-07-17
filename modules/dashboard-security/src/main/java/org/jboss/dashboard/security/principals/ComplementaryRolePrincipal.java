@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class ComplementaryRolePrincipal extends DefaultPrincipal {
 
-    private  transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ComplementaryRolePrincipal.class.getName());
+    private  transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ComplementaryRolePrincipal.class.getName());
 
     public ComplementaryRolePrincipal(String name) {
         super(name);

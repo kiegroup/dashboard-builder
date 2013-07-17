@@ -24,8 +24,8 @@ import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.principals.DefaultPrincipal;
 import org.jboss.dashboard.security.principals.RolePrincipal;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.workspace.*;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -42,7 +42,7 @@ import java.util.*;
  */
 @ApplicationScoped
 public class UIPolicy implements Policy, Startable {
-    private static final transient Log log = LogFactory.getLog(UIPolicy.class);
+    private static final transient Logger log = LoggerFactory.getLogger(UIPolicy.class);
 
     /**
      * Unspecified principal applies to all users.

@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.formatters.FactoryURL;
 import javax.servlet.jsp.JspTagException;
 
 public class BeanTag extends GenericFactoryTag {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(BeanTag.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BeanTag.class.getName());
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport

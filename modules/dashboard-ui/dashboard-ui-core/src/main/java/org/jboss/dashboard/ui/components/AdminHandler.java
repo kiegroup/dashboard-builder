@@ -32,7 +32,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 
 public class AdminHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(AdminHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminHandler.class.getName());
 
     public static final String PREVIEW_ATTRIBUTE = "attrPreview";
 

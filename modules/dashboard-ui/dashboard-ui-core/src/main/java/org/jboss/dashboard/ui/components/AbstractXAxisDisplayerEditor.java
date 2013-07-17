@@ -18,14 +18,14 @@ package org.jboss.dashboard.ui.components;
 import org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
 public class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(AbstractXAxisDisplayerEditor.class);
+    private transient static Logger log = LoggerFactory.getLogger(AbstractXAxisDisplayerEditor.class);
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) getDataDisplayer();

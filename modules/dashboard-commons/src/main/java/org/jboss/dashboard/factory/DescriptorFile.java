@@ -21,7 +21,7 @@ import java.util.Properties;
  * A Factory component definition file (the contents of its .factory file).
  */
 public class DescriptorFile {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(DescriptorFile.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DescriptorFile.class.getName());
     private String componentName;
     private Properties mappedProperties;
     private String source;

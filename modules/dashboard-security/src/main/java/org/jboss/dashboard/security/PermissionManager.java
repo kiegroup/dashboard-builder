@@ -18,8 +18,8 @@ package org.jboss.dashboard.security;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,7 +40,7 @@ public class PermissionManager {
         return (PermissionManager) CDIBeanLocator.getBeanByName("permissionManager");
     }
 
-    private static transient Log log = LogFactory.getLog(PermissionManager.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(PermissionManager.class.getName());
 
     public PermissionDescriptor createNewItem() {
         return new PermissionDescriptor();        

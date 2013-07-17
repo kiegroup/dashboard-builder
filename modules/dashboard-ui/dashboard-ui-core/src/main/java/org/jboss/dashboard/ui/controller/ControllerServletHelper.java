@@ -17,8 +17,8 @@ package org.jboss.dashboard.ui.controller;
 
 import org.jboss.dashboard.factory.FactoryLifecycle;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -34,7 +34,7 @@ public class ControllerServletHelper {
         return (ControllerServletHelper) CDIBeanLocator.getBeanByName("controllerServletHelper");
     }
 
-    private static transient Log log = LogFactory.getLog(ControllerServletHelper.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(ControllerServletHelper.class.getName());
 
     public CommandRequest initThreadLocal(HttpServletRequest request, HttpServletResponse response) {
         // Initialize threadLocal with request object

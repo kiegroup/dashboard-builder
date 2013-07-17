@@ -24,7 +24,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
  */
 public class ShowComponentAjaxResponse extends PanelAjaxResponse {
 
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ShowComponentAjaxResponse.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowComponentAjaxResponse.class.getName());
 
     protected UIComponentHandlerFactoryElement component;
 

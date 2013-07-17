@@ -30,8 +30,8 @@ import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ import java.util.*;
 public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     /** Logger */
-    private transient static Log log = LogFactory.getLog(AbstractChartDisplayer.class);
+    private transient static Logger log = LoggerFactory.getLogger(AbstractChartDisplayer.class);
 
     /**
      * The default unit value pattern.

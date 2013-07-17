@@ -38,7 +38,7 @@ import java.util.Locale;
  * The table component handler.
  */
 public class TableHandler extends UIComponentHandlerFactoryElement {
-    private transient static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TableHandler.class);
+    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TableHandler.class);
 
     protected Table table;
     protected ComparatorByCriteria tableComparator;

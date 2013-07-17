@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.database;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
@@ -39,7 +39,7 @@ import java.util.*;
 @ApplicationScoped
 public class DatabaseAutoSynchronizer {
 
-    private static transient Log log = LogFactory.getLog(DatabaseAutoSynchronizer.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(DatabaseAutoSynchronizer.class.getName());
 
     @Inject @Config("sql")
     protected String databaseConfigDir;

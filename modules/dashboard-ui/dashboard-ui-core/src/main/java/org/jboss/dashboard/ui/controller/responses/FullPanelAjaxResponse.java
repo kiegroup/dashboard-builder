@@ -30,7 +30,7 @@ import javax.servlet.RequestDispatcher;
  * Response that includes the full panel area including the buttons bar
  */
 public class FullPanelAjaxResponse extends PanelAjaxResponse {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(FullPanelAjaxResponse.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FullPanelAjaxResponse.class.getName());
     protected Long panelId;
     protected String page;
 

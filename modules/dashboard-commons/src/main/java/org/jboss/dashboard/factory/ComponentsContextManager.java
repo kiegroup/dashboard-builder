@@ -23,7 +23,7 @@ import java.util.Iterator;
  * Initializes thread context so that Component lookups can be performed.
  */
 public class ComponentsContextManager {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ComponentsContextManager.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ComponentsContextManager.class.getName());
 
     private static ThreadLocal thr = new ThreadLocal();
     private static Hashtable availableContexts = new Hashtable();
@@ -51,7 +51,7 @@ public class ComponentsContextManager {
             thr.set(createLookupHelper());
         } else {
             Exception e = new Exception();
-            log.fatal("Error starting context. Context already started, and nested contexts are not supported.", e);
+            log.error("Error starting context. Context already started, and nested contexts are not supported.", e);
         }
     }
 
@@ -76,7 +76,7 @@ public class ComponentsContextManager {
     public static LookupHelper getLookupHelper() {
         LookupHelper helper = (LookupHelper) thr.get();
         if (helper == null) {
-            log.fatal("Cannot perform Factory operations outside a valid context. " +
+            log.error("Cannot perform Factory operations outside a valid context. " +
                     "You must enclose all your Factory operations within a Factory.doWork() operation.");
         }
         return helper;
@@ -91,7 +91,7 @@ public class ComponentsContextManager {
             helper.clear();
             thr.set(null);
         } else {
-            log.fatal("Error clearing context. Context was not started.");
+            log.error("Error clearing context. Context was not started.");
         }
     }
 }

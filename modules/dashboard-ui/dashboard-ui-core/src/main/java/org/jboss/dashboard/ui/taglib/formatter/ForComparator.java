@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class ForComparator implements Comparator {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(ForComparator.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ForComparator.class.getName());
     private List sortTokens = new ArrayList();
 
     public ForComparator(String sortProperties) {

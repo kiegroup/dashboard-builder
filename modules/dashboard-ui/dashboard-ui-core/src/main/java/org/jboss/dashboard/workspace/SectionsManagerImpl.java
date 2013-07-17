@@ -35,7 +35,7 @@ public class SectionsManagerImpl implements SectionsManager {
     /**
      * Logger
      */
-    private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(SectionsManagerImpl.class.getName());
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsManagerImpl.class.getName());
 
     /**
      * Handles the management of event listeners

@@ -31,7 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PanelInstancesNode extends AbstractNode {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PanelInstancesNode.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesNode.class.getName());
 
     private WorkspacesManager workspacesManager;
     private PanelInstancesPropertiesHandler handler;

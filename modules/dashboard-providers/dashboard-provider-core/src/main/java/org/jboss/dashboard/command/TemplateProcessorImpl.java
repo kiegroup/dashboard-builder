@@ -18,8 +18,8 @@ package org.jboss.dashboard.command;
 import org.jboss.dashboard.annotation.config.Config;
 import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,7 +31,7 @@ import java.util.List;
 public class TemplateProcessorImpl implements TemplateProcessor {
 
     // Logger
-    protected static transient Log log = LogFactory.getLog(TemplateProcessorImpl.class);
+    protected static transient Logger log = LoggerFactory.getLogger(TemplateProcessorImpl.class);
 
     @Inject @Config("{")
     protected String commandStartTag;
@@ -102,7 +102,7 @@ public class TemplateProcessorImpl implements TemplateProcessor {
             });
             return results;
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error getting commands from template: " + template, e);
             return Collections.EMPTY_LIST;
         }
     }
@@ -120,7 +120,7 @@ public class TemplateProcessorImpl implements TemplateProcessor {
             });
             return result[0].booleanValue();
         } catch (Exception e) {
-            log.error(e);
+            log.error("Error processing template: " + template, e);
             return false;
         }
     }

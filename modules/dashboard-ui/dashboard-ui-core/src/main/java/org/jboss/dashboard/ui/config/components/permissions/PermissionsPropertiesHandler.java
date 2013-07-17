@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.config.components.permissions;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 
 public class PermissionsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(PermissionsPropertiesHandler.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsPropertiesHandler.class.getName());
 
 
     public void setWorkspaceId(String workspaceId) {

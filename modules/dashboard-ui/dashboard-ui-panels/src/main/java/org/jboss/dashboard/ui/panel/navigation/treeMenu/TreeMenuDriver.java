@@ -33,7 +33,7 @@ import org.jboss.dashboard.workspace.Section;
 import java.util.*;
 
 public class TreeMenuDriver extends PanelDriver {
-    private static transient org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(TreeMenuDriver.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TreeMenuDriver.class.getName());
 
     public static final String PARAM_PAGE_TEMPLATE_1 = "PageTemplate1";
     public static final String PARAM_CURRENT_PAGE_TEMPLATE_1 = "currentPageTemplate1";

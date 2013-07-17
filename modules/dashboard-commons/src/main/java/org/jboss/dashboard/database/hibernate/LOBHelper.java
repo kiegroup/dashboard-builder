@@ -18,8 +18,8 @@ package org.jboss.dashboard.database.hibernate;
 import com.mchange.v2.c3p0.C3P0ProxyConnection;
 import com.mchange.v2.c3p0.impl.NewProxyConnection;
 import org.apache.commons.dbcp.PoolableConnection;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.HibernateException;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
@@ -44,7 +44,7 @@ import java.sql.SQLException;
 @Named("LOBHelper")
 public class LOBHelper {
 
-    private static transient Log log = LogFactory.getLog(LOBHelper.class.getName());
+    private static transient Logger log = LoggerFactory.getLogger(LOBHelper.class.getName());
 
     private static final String ORACLE_CLASS = "oracle.sql.BLOB";
     private static final String ORACLE_TEMP_METHOD = "createTemporary";
