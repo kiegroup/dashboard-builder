@@ -50,6 +50,16 @@ The parameters that you can configure are: db.url, db.user and db.password
         <db.user>dashbuilder</db.user>
         <db.password>dashbuilder</db.password>
 
+* **DB2**
+
+  The DB2 database can be created with the following sql sentence:
+
+    <pre>CREATE DATABASE dashb PAGESIZE 16384</pre>
+
+  NOTE: The default pagesize for DB2 systems is 4k, not enought for dashbuilder table columns size, so force it to 16384 as the above example
+
+  (The currently tested DB2 version for development is 9.7)
+
 
 Compile and build
 ----------------------

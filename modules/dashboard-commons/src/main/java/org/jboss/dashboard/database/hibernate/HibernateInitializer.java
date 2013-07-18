@@ -57,6 +57,7 @@ public class HibernateInitializer implements Startable {
     public static final String DB_MYSQL = "mysql";
     public static final String DB_ORACLE = "oracle";
     public static final String DB_SQLSERVER = "sqlserver";
+    public static final String DB_DB2 = "db2";
 
     @Inject
     protected HibernateSessionFactoryProvider hibernateSessionFactoryProvider;
@@ -71,10 +72,12 @@ public class HibernateInitializer implements Startable {
                     DB_POSTGRES +  "=org.hibernate.dialect.PostgreSQLDialect," +
                     DB_ORACLE +    "=org.hibernate.dialect.Oracle10gDialect," +
                     DB_MYSQL +     "=org.hibernate.dialect.MySQLDialect," +
-                    DB_SQLSERVER + "=org.hibernate.dialect.SQLServerDialect")
+                    DB_SQLSERVER + "=org.hibernate.dialect.SQLServerDialect," +
+                    DB_DB2 + "=org.hibernate.dialect.DB2Dialect")
     protected Map<String,String> supportedDialects;
 
-    @Inject @Config("org.hibernate.dialect.H2Dialect")
+    @Inject @Config("org.hibernate.dialect.H2Dialect," +
+                    "org.hibernate.dialect.DB2Dialect")
     protected String[] nativeToSequenceReplaceableDialects;
 
     @Inject @Config("org.hibernate.dialect.MySQLDialect," +
@@ -155,6 +158,10 @@ public class HibernateInitializer implements Startable {
         return isDatabase(DB_H2);
     }
 
+    public boolean isDB2Database() {
+        return isDatabase(DB_DB2);
+    }
+
     protected boolean isDatabase(String dbId) {
         return dbId.equals(databaseName);
     }
@@ -190,6 +197,7 @@ public class HibernateInitializer implements Startable {
             if (dbProductName.contains("mysql")) return DB_MYSQL;
             if (dbProductName.contains("oracle")) return DB_ORACLE;
             if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
+            if (dbProductName.contains("db2")) return DB_DB2;
         } finally {
             if (connection != null) {
                 connection.close();
