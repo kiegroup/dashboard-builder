@@ -1,0 +1,4 @@
+Add in this directory third party jars not available in public maven repositories.
+
+NOTE: In order to run the showcase webapp using "db2" maven profile, you must copy the jdbc db2 driver JAR artifcat into
+this directory. You can download the "db2jcc.jar" from http://www-01.ibm.com/support/docview.wss?uid=swg21363866

@@ -186,6 +186,55 @@
             </properties>
         </profile>
 
+        <!-- NOTE that IBM DB2 JDBC driver is not present in public maven repositories due to copyright issues. -->
+        <profile>
+            <id>db2</id>
+            <properties>
+                <db.driverClass>org.jboss.dashboard.database.NonPooledDataSource</db.driverClass>
+                <db.url>jdbc:db2://localhost:50000/dashb</db.url>
+                <db.user>dashbuilder</db.user>
+                <db.password>dashbuilder</db.password>
+                <db.hibernate.use_second_level_cache>true</db.hibernate.use_second_level_cache>
+                <db.driver>com.ibm.db2.jcc.DB2Driver</db.driver>
+                <db.isolation>2</db.isolation>
+            </properties>
+            <!--
+            In order to use the DB2 profile, as DB2 driver is IBM propietary and not available in public repositories,
+            uou must download it, put the jar in "lib" direcoty and enable this profile dependency and build.
+            @See lib/.readme
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.ibm</groupId>
+                    <artifactId>db2</artifactId>
+                    <version>9.7</version>
+                    <scope>system</scope>
+                    <systemPath>${basedir}/lib/db2jcc.jar</systemPath>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources combine.children="append">
+                                <resource>
+                                    <directory>${basedir}/lib/</directory>
+                                    <includes>
+                                        <include>db2jcc.jar</include>
+                                    </includes>
+                                    <targetPath>WEB-INF/lib</targetPath>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            -->
+        </profile>
+
         <profile>
             <id>sqlserver</id>
             <dependencies>
