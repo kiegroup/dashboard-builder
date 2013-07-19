@@ -28,12 +28,12 @@ import java.util.*;
 public class AbstractDataProperty implements DataProperty {
 
     protected String id;
-    protected Map nameI18nMap;
+    protected Map<Locale,String> nameI18nMap;
     protected DataSet dataSet;
     protected Domain domain;
 
     public AbstractDataProperty() {
-        nameI18nMap = new HashMap();
+        nameI18nMap = new HashMap<Locale,String>();
         dataSet = null;
         domain = null;
     }
@@ -106,11 +106,11 @@ public class AbstractDataProperty implements DataProperty {
             return dataSet.getPropertyValues(this);
     }
 
-    public Map getNameI18nMap() {
+    public Map<Locale,String> getNameI18nMap() {
         return nameI18nMap;
     }
 
-    public void setNameI18nMap(Map nameI18nMap) {
+    public void setNameI18nMap(Map<Locale,String> nameI18nMap) {
         this.nameI18nMap = nameI18nMap;
     }
 
@@ -118,7 +118,7 @@ public class AbstractDataProperty implements DataProperty {
         try {
             AbstractDataProperty clone = (AbstractDataProperty) super.clone();
             clone.setDomain(domain.cloneDomain());
-            clone.setNameI18nMap(new HashMap());
+            clone.setNameI18nMap(new HashMap<Locale,String>());
             Iterator it = nameI18nMap.keySet().iterator();
             while (it.hasNext()) {
                 Locale locale = (Locale) it.next();

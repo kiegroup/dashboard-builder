@@ -35,8 +35,8 @@ public interface DataProperty extends Cloneable {
     void setPropertyId(String id);
     String getName(Locale l);
     void setName(String name, Locale l);
-    Map getNameI18nMap();
-    void setNameI18nMap(Map nameI18nMap);
+    Map<Locale,String> getNameI18nMap();
+    void setNameI18nMap(Map<Locale,String> nameI18nMap);
 
     Domain getDomain();
     void setDomain(Domain domain);

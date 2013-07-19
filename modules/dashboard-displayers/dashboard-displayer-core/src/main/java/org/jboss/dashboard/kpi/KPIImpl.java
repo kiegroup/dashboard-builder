@@ -131,7 +131,7 @@ public class KPIImpl implements KPI {
         this.descriptions.putAll(descriptions);
     }
 
-    public Map getDescriptionI18nMap() {
+    public Map<String,String> getDescriptionI18nMap() {
         Map results = new HashMap();
         for (String locale : descriptions.keySet()) {
             results.put(locale, descriptions.get(locale));

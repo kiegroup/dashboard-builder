@@ -59,7 +59,7 @@ public interface DataProvider {
      * The localized descriptions.
      * @return A map of (Locale instance, localized description).
      */
-    Map getDescriptionI18nMap();
+    Map<Locale,String> getDescriptionI18nMap();
 
     /**
      * Check if the provider is deleteable.

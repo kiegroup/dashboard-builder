@@ -43,7 +43,7 @@ public class DataProviderImpl implements DataProvider {
 
     protected Long id;
     protected String code;
-    protected Map descriptions;
+    protected Map<String,String> descriptions;
     public boolean canEdit;
     public boolean canEditProperties;
     public boolean canDelete;
@@ -55,7 +55,7 @@ public class DataProviderImpl implements DataProvider {
     public DataProviderImpl() {
         id = null;
         code = null;
-        descriptions = new HashMap();
+        descriptions = new HashMap<String,String>();
         dataLoader = null;
         dataProviderUid = null;
         dataProviderXML = null;
@@ -139,13 +139,13 @@ public class DataProviderImpl implements DataProvider {
     }
 
     public String getDescription(Locale l) {
-        String result = (String) descriptions.get(l.toString());
+        String result = descriptions.get(l.toString());
         if (result == null) {
             // Try to get the first not null value.
             Iterator it = descriptions.keySet().iterator();
             while (it.hasNext()) {
                 String lang = (String) it.next();
-                result = (String) descriptions.get(lang);
+                result = descriptions.get(lang);
                 if (result != null) return result;
             }
         }
@@ -158,8 +158,8 @@ public class DataProviderImpl implements DataProvider {
         else descriptions.put(l.toString(), descr);
     }
 
-    public Map getDescriptionI18nMap() {
-        Map results = new HashMap();
+    public Map<Locale,String> getDescriptionI18nMap() {
+        Map<Locale,String> results = new HashMap<Locale,String>();
         Iterator it = descriptions.keySet().iterator();
         while (it.hasNext()) {
             String language = (String) it.next();
@@ -306,11 +306,11 @@ public class DataProviderImpl implements DataProvider {
         this.dataPropertiesXML = dataPropertiesXML;
     }
 
-    protected Map getDescriptions() {
+    protected Map<String,String> getDescriptions() {
         return this.descriptions;
     }
 
-    protected void setDescriptions(Map descriptionI18nMap) {
+    protected void setDescriptions(Map<String,String> descriptionI18nMap) {
         this.descriptions = descriptionI18nMap;
     }
 }
