@@ -271,7 +271,7 @@ public class WorkspaceBuilder {
         String paramValue = node.getAttributes().getProperty(ExportVisitor.PARAMETER_ATTR_VALUE);
         String paramLang = node.getAttributes().getProperty(ExportVisitor.PARAMETER_ATTR_LANG);
         if (paramLang != null && paramLang.trim().equals("")) paramLang = null;
-        log.info("Insertando parámetro de workspace: " + paramName + "=" + paramValue + " (" + paramLang + ")");
+        log.debug("Adding workspace parameter: " + paramName + "=" + paramValue + " (" + paramLang + ")");
         if (paramValue != null && paramValue.trim().length() > 0) {
             workspace.getWorkspaceParams().add(new WorkspaceParameter(paramName, workspace, paramLang, paramValue));
         }
@@ -283,7 +283,7 @@ public class WorkspaceBuilder {
         String paramValue = node.getAttributes().getProperty(ExportVisitor.PARAMETER_ATTR_VALUE);
         String paramLang = node.getAttributes().getProperty(ExportVisitor.PARAMETER_ATTR_LANG);
         if (paramLang == null || (paramLang.trim().equals(""))) paramLang = " ";
-        log.info("Insertando parámetro de panelInstance: " + paramName + "=" + paramValue + " (" + paramLang + ")");
+        log.debug("Adding panel instance parameter: " + paramName + "=" + paramValue + " (" + paramLang + ")");
         if (paramValue != null && paramValue.trim().length() > 0) {
             pi.setParameterValue(paramName, paramValue, paramLang);
         }
