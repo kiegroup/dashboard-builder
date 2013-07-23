@@ -15,15 +15,7 @@
  */
 package org.jboss.dashboard.i18n;
 
-import org.jboss.dashboard.Application;
-import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.jboss.dashboard.commons.text.Base64;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
-
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.ObjectInputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -35,24 +27,17 @@ import java.util.Properties;
 public class ShowcaseBundleExtractor {
 
     public static void main(String[] args) throws Exception {
-        // First of all, init the CDI container.
-        WeldContainer weldContainer = new Weld().initialize();
-        CDIBeanLocator.beanManager = weldContainer.getBeanManager();
-
-        // Mock up the app directories.
         String rootDir = System.getProperty("user.dir") + "/modules/dashboard-samples";
-        Application.lookup().setBaseAppDirectory(rootDir + "/src/main/webapp");
-        Application.lookup().setBaseCfgDirectory(rootDir + "/src/main/webapp/WEB-INF/etc");
 
         // Process the Showcase KPIs file
-        XmlToBundleConverter converter = (XmlToBundleConverter) CDIBeanLocator.getBeanByType(KpisFileConverter.class);
+        XmlToBundleConverter converter = new KpisFileConverter();
         converter.bundleDir = new File(rootDir, "src/main/resources/org/jboss/dashboard/showcase/kpis");
         converter.xmlFile = new File(rootDir, "src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseKPIs.xml");
         Map<Locale,Properties> bundles = converter.extract(); // Extract bundles from source XML
         converter.write(bundles); // Write literals to bundle files.
 
         // Process the Showcase Workspace file
-        converter = (XmlToBundleConverter) CDIBeanLocator.getBeanByType(WorkspaceFileConverter.class);
+        converter = new WorkspaceFileConverter();
         converter.bundleDir = new File(rootDir, "src/main/resources/org/jboss/dashboard/showcase/workspace");
         converter.xmlFile = new File(rootDir, "src/main/webapp/WEB-INF/etc/appdata/initialData/showcaseWorkspace.xml");
         bundles = converter.extract(); // Extract bundles from source XML
