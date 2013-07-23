@@ -36,9 +36,9 @@ public class DomainConfiguration {
 
     protected DataProperty domainProperty;
     protected String propertyId;
-    protected Map propertyNameI18nMap;
+    protected Map<Locale,String> propertyNameI18nMap;
     protected String maxNumberOfIntervals;
-    protected Map labelIntervalsToHideI18nMap;
+    protected Map<Locale,String> labelIntervalsToHideI18nMap;
     protected String dateTamInterval;
     protected String dateMinDate;
     protected String dateMaxDate;
@@ -50,8 +50,8 @@ public class DomainConfiguration {
     protected transient NumberFormat numberFormat;
 
     public DomainConfiguration() {
-        propertyNameI18nMap = new HashMap();
-        labelIntervalsToHideI18nMap = new HashMap();
+        propertyNameI18nMap = new HashMap<Locale,String>();
+        labelIntervalsToHideI18nMap = new HashMap<Locale,String>();
         dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         numberFormat = NumberFormat.getInstance(new Locale("es"));
     }
@@ -73,11 +73,11 @@ public class DomainConfiguration {
         this.propertyId = propertyId;
     }
 
-    public Map getPropertyNameI18nMap() {
+    public Map<Locale,String> getPropertyNameI18nMap() {
         return propertyNameI18nMap;
     }
 
-    public void setPropertyNameI18nMap(Map domainPropDisplayNameI18nMap) {
+    public void setPropertyNameI18nMap(Map<Locale,String> domainPropDisplayNameI18nMap) {
         propertyNameI18nMap.clear();
         propertyNameI18nMap.putAll(domainPropDisplayNameI18nMap);
     }
@@ -93,11 +93,11 @@ public class DomainConfiguration {
         propertyNameI18nMap.put(l, description);
     }
 
-    public Map getLabelIntervalsToHideI18nMap() {
+    public Map<Locale,String> getLabelIntervalsToHideI18nMap() {
         return labelIntervalsToHideI18nMap;
     }
 
-    public void setLabelIntervalsToHideI18nMap(Map labelIntervalsToHideMap) {
+    public void setLabelIntervalsToHideI18nMap(Map<Locale,String> labelIntervalsToHideMap) {
         labelIntervalsToHideI18nMap.clear();
         labelIntervalsToHideI18nMap.putAll(labelIntervalsToHideMap);
     }
@@ -186,7 +186,7 @@ public class DomainConfiguration {
         if (domain instanceof LabelDomain) {
             if (labelIntervalsToHideI18nMap != null) {
                 LabelDomain labelDomain = (LabelDomain) domain;
-                labelDomain.setLabelIntervalsToHideI18nMap(new HashMap(labelIntervalsToHideI18nMap));
+                labelDomain.setLabelIntervalsToHideI18nMap(new HashMap<Locale,String>(labelIntervalsToHideI18nMap));
             }
         }
         // Date domain specifics.
@@ -247,7 +247,7 @@ public class DomainConfiguration {
         maxNumberOfIntervals = String.valueOf(domain.getMaxNumberOfIntervals());
         if (domain instanceof LabelDomain) {
             LabelDomain labelDomain = (LabelDomain) domain;
-            labelIntervalsToHideI18nMap = new HashMap(labelDomain.getLabelIntervalsToHideI18nMap());
+            labelIntervalsToHideI18nMap = new HashMap<Locale,String>(labelDomain.getLabelIntervalsToHideI18nMap());
         }
         else if (domain instanceof DateDomain) {
             DateDomain dateDomain = (DateDomain) domain;

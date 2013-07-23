@@ -27,8 +27,8 @@ public class TableColumn {
 
     protected String propertyId;
     protected Table table;
-    protected Map nameI18nMap;
-    protected Map hintI18nMap;
+    protected Map<Locale,String> nameI18nMap;
+    protected Map<Locale,String> hintI18nMap;
     protected String headerHtmlStyle;
     protected String cellHtmlStyle;
     protected String htmlValue;
@@ -38,8 +38,8 @@ public class TableColumn {
     public TableColumn() {
         super();
         table = null;
-        nameI18nMap = new HashMap();
-        hintI18nMap = new HashMap();
+        nameI18nMap = new HashMap<Locale,String>();
+        hintI18nMap = new HashMap<Locale,String>();
         htmlValue = null;
         headerHtmlStyle = null;
         cellHtmlStyle = null;
@@ -57,7 +57,7 @@ public class TableColumn {
 
     public String getName(Locale l) {
         // Get name from view.
-        if (nameI18nMap.containsKey(l)) return (String) nameI18nMap.get(l);
+        if (nameI18nMap.containsKey(l)) return nameI18nMap.get(l);
         LocaleManager i18n = LocaleManager.lookup();
         String result = (String) i18n.localize(nameI18nMap);
         if (result != null) return result;
@@ -69,16 +69,16 @@ public class TableColumn {
         nameI18nMap.put(l, name);
     }
 
-    public Map getNameI18nMap() {
+    public Map<Locale,String> getNameI18nMap() {
         return nameI18nMap;
     }
 
-    public void setNameI18nMap(Map nameI18nMap) {
+    public void setNameI18nMap(Map<Locale,String> nameI18nMap) {
         this.nameI18nMap = nameI18nMap;
     }
 
     public String getHint(Locale l) {
-        if (hintI18nMap.containsKey(l)) return (String) hintI18nMap.get(l);
+        if (hintI18nMap.containsKey(l)) return hintI18nMap.get(l);
         LocaleManager i18n = LocaleManager.lookup();
         String result = (String) i18n.localize(hintI18nMap);
         if (result != null) return result;
@@ -90,11 +90,11 @@ public class TableColumn {
         hintI18nMap.put(l, name);
     }
 
-    public Map getHintI18nMap() {
+    public Map<Locale,String> getHintI18nMap() {
         return hintI18nMap;
     }
 
-    public void setHintI18nMap(Map hintI18nMap) {
+    public void setHintI18nMap(Map<Locale,String> hintI18nMap) {
         this.hintI18nMap = hintI18nMap;
     }
 
