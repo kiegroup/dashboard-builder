@@ -64,7 +64,8 @@
       <dataproperty id="creation date">
         <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
         <name language="en">Creation date</name>
-        <name language="es">Fecha creaci&#195;&#179;n</name>
+        <name language="es">Fecha creaci&#243;n</name>
+        <name language="es">Fecha creaci&#243;n</name>
       </dataproperty>
       <dataproperty id="closing date">
         <domain>org.jboss.dashboard.domain.date.DateDomain</domain>
