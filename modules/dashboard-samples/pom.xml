@@ -50,5 +50,33 @@
             <version>${version.dashbuilder}</version>
             <classifier>classes</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.dashboard-builder</groupId>
+            <artifactId>dashboard-ui-nvd3</artifactId>
+            <version>${version.dashbuilder}</version>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.dashboard-builder</groupId>
+            <artifactId>dashboard-ui-ofc2</artifactId>
+            <version>${version.dashbuilder}</version>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.dashboard-builder</groupId>
+            <artifactId>dashboard-ui-gauge</artifactId>
+            <version>${version.dashbuilder}</version>
+            <classifier>classes</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core</artifactId>
+            <version>${version.weld}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+            <version>${version.weld}</version>
+        </dependency>
     </dependencies>
 </project>
