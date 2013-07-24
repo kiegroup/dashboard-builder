@@ -39,10 +39,16 @@
 
     <mvc:fragment name="outputCreateTitle">
         <tr>
-            <td nowrap="nowrap">
-               <div style="vertical-align:middle; text-align:left;" class="skn-title3">
-                   <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "creatingDataProvider"%>'>!!!Crear nuevo</i18n:message><br><br>
-               </div>
+            <td width="800px">
+                <table align="center" width="800px" cellspacing="1" cellpadding="4" border="0">
+                    <tr style="display:table-row; width:12px;">
+                        <td class="skn-table_border" colspan="2">
+                            <div style="vertical-align:middle; text-align:left;">
+                                <i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "creatingDataProvider"%>'>!!!Crear nuevo</i18n:message>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </mvc:fragment>
