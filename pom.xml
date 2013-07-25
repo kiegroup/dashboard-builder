@@ -314,6 +314,19 @@
 
     <build>
         <plugins>
+            <!-- Zanata - translations -->
+            <plugin>
+                <groupId>org.zanata</groupId>
+                <artifactId>zanata-maven-plugin</artifactId>
+                <version>2.3.0</version>
+                <configuration>
+                    <projectConfig>${session.executionRootDirectory}/zanata.xml</projectConfig>
+                    <srcDir>src/main/resources/</srcDir>
+                    <transDir>src/main/resources/</transDir>
+                    <includes>**/*_en.properties</includes>
+                </configuration>
+            </plugin>
+
             <!-- Header plugin. Check out http://code.google.com/p/maven-license-plugin for more info -->
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
