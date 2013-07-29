@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>dashboard-builder</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>builder</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>6.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Dashboard Distributions Builder</name>
