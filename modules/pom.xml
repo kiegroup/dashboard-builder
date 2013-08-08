@@ -47,7 +47,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
                 <configuration>
                     <!--
                          global configuration to achieve that web module compiled classes and resources
@@ -58,7 +57,6 @@
                     <classesClassifier>classes</classesClassifier>
                     <attachClasses>true</attachClasses>
                     <packagingExcludes>WEB-INF/lib/*-classes.jar</packagingExcludes>
-
                 </configuration>
             </plugin>
         </plugins>
