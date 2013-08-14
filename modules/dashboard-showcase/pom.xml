@@ -99,7 +99,7 @@
                 <dependency>
                     <groupId>postgresql</groupId>
                     <artifactId>postgresql</artifactId>
-                    <version>8.4-702.jdbc4</version>
+                    <!--<version>8.4-702.jdbc4</version>-->
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
@@ -120,7 +120,6 @@
                 <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
-                    <version>1.3.168</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
@@ -141,8 +140,6 @@
                 <dependency>
                     <groupId>com.oracle</groupId>
                     <artifactId>ojdbc14</artifactId>
-                    <version>10.2.0.4.0</version>
-                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -162,8 +159,6 @@
                 <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
-                    <version>5.1.22</version>
-                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -232,8 +227,6 @@
                 <dependency>
                     <groupId>org.tranql</groupId>
                     <artifactId>tranql-connector-sqlserver2005</artifactId>
-                    <version>1.3</version>
-                    <scope>compile</scope>
                 </dependency>
             </dependencies>
             <properties>
@@ -254,22 +247,18 @@
                 <dependency>
                     <groupId>org.jboss.weld</groupId>
                     <artifactId>weld-spi</artifactId>
-                    <version>${version.weld.spi}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld</groupId>
                     <artifactId>weld-core</artifactId>
-                    <version>${version.weld}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld.se</groupId>
                     <artifactId>weld-se-core</artifactId>
-                    <version>${version.weld}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld.servlet</groupId>
                     <artifactId>weld-servlet-core</artifactId>
-                    <version>${version.weld}</version>
                 </dependency>
 
                 <!-- The following deps are required in order to enable the CDI injection in servlets. If not the following error is thrown: -->
@@ -279,7 +268,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-server</artifactId>
-                    <version>${version.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
@@ -299,7 +287,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-servlet</artifactId>
-                    <version>${version.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
@@ -311,7 +298,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-util</artifactId>
-                    <version>${version.jetty}</version>
                 </dependency>
             </dependencies>
 
@@ -320,7 +306,6 @@
                     <plugin>
                         <groupId>org.mortbay.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
-                        <version>${version.jetty}</version>
                         <configuration>
                             <scanIntervalSeconds>3</scanIntervalSeconds>
                             <stopPort>9966</stopPort>
