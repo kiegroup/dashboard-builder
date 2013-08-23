@@ -39,6 +39,7 @@
     <properties>
         <hyear>2012</hyear>
         <version.dashbuilder>6.1.0-SNAPSHOT</version.dashbuilder>
+        <version.teiid>8.4.0.Final</version.teiid>
     </properties>
 
     <scm>
@@ -230,6 +231,18 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Teiid support. -->
+        <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid-client</artifactId>
+            <version>${version.teiid}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid-hibernate-dialect</artifactId>
+            <version>${version.teiid}</version>
         </dependency>
 
     </dependencies>
