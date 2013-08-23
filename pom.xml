@@ -236,15 +236,6 @@
 
     <build>
         <plugins>
-            <!-- Zanata - translations -->
-            <plugin>
-                <groupId>org.zanata</groupId>
-                <artifactId>zanata-maven-plugin</artifactId>
-              <configuration>
-                <includes>**/*_en.properties</includes><!-- TODO Remove (standardize on **/*Constants.properties) -->
-              </configuration>
-            </plugin>
-
             <!-- Header plugin. Check out http://code.google.com/p/maven-license-plugin for more info -->
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
