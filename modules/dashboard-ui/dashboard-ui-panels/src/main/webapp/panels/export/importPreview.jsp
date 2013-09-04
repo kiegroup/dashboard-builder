@@ -172,9 +172,6 @@
                     <mvc:fragment name="outputEnd">
                         </table>
                         </form>
-                        <script type="text/javascript" defer>
-                            setAjax('<panel:encode name="importForm"/>');
-                        </script>
                     </mvc:fragment>
                     <%------------------------------------------------------------------------------------------------------------------------%>
                 </mvc:formatter>
