@@ -18,6 +18,7 @@ package org.jboss.dashboard.ui;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
@@ -143,7 +144,11 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         Workspace currentWorkspace = getCurrentWorkspace();
         if (currentWorkspace == null) return false;
         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_ADMIN);
-        return getUserStatus().hasPermission(workspacePerm);
+
+        BackOfficePermission backofficePerm = BackOfficePermission.newInstance(currentWorkspace,
+                BackOfficePermission.ACTION_CREATE_WORKSPACE + "," + BackOfficePermission.ACTION_USE_GRAPHIC_RESOURCES + "," + BackOfficePermission.ACTION_USE_PERMISSIONS);
+        return (getUserStatus().hasPermission(workspacePerm)|| getUserStatus().hasPermission(backofficePerm));
+
     }
 
     public synchronized void setCurrentSection(Section section) {
