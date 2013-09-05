@@ -159,6 +159,10 @@ public abstract class PanelManagementPanel extends PanelComponent {
         this.panelInstanceId = panelInstanceId;
     }
 
+    public void setPanelId(Long panelId) {
+        this.panelId = panelId;
+    }
+
     public String getWorkspaceId() {
         return workspaceId;
     }

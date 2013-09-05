@@ -31,10 +31,10 @@ public class PanelAllPropertiesNode extends AbstractNode {
         try {
             if (getParent() instanceof PanelNode) {
                 PanelNode parent = (PanelNode) getParent();
-                initHandler(parent.getWorkspaceId(), parent.getPanel().getInstanceId());
+                initHandler(parent.getWorkspaceId(), parent.getPanel().getDbid(), parent.getPanel().getInstanceId());
             } else {
                 PanelInstanceNode parent = (PanelInstanceNode) getParent();
-                initHandler(parent.getWorkspaceId(), parent.getPanelInstanceId());
+                initHandler(parent.getWorkspaceId(), null, parent.getPanelInstanceId());
             }
         } catch (Exception e) {
             log.error("Error: ", e);
@@ -43,10 +43,11 @@ public class PanelAllPropertiesNode extends AbstractNode {
         return true;
     }
 
-    protected void initHandler(String workspaceId, Long panelInstanceId) {
+    protected void initHandler(String workspaceId, Long panelId, Long panelInstanceId) {
         FormStatus formStatus = new FormStatus();
         formStatus.setValue("lang", LocaleManager.lookup().getCurrentLang());
         getHandler().setWorkspaceId(workspaceId);
+        getHandler().setPanelId(panelId);
         getHandler().setPanelInstanceId(panelInstanceId);
         getHandler().clearFieldErrors();
         getHandler().setFormStatus(formStatus);

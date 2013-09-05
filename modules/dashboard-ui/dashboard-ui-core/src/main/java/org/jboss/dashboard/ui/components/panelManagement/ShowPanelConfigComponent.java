@@ -54,6 +54,16 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         return super.openDialog(panel, request, title, width, height);
     }
 
+    @Override
+    public void afterRenderComponent() {
+        try {
+            Panel panel = getPanel();
+            if (panel != null) super.afterRenderComponent();
+        } catch (Exception e) {
+            getLogger().warn("Error: ", e);
+        }
+    }
+
     public void actionSaveProperties(CommandRequest request) throws Exception {
         Workspace workspace = getWorkspace();
         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_ADMIN);
