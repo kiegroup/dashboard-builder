@@ -214,6 +214,7 @@ public class TreeShortcutHandler extends HandlerFactoryElement {
         getUserStatus().checkPermission(sectionPerm);
         setWorkspaceValues(request);
         sectionsPropertiesHandler.setCreateSection(Boolean.TRUE);
+        sectionsPropertiesHandler.setDuplicateSection(Boolean.FALSE);
         navigateToConfigPath(getParsedValue(newPagePath));
     }
 
@@ -222,6 +223,7 @@ public class TreeShortcutHandler extends HandlerFactoryElement {
         WorkspacePermission sectionPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_CREATE_PAGE);
         getUserStatus().checkPermission(sectionPerm);
         setWorkspaceValues(request);
+        sectionsPropertiesHandler.setCreateSection(Boolean.FALSE);
         sectionsPropertiesHandler.setDuplicateSection(Boolean.TRUE);
         sectionsPropertiesHandler.setSelectedSectionId(getNavigationManager().getCurrentSection().getId().toString());
         navigateToConfigPath(getParsedValue(newPagePath));
