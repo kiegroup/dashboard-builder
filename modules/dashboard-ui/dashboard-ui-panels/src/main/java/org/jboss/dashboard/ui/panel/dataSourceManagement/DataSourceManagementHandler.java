@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.commons.security.password.PasswordObfuscator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
@@ -398,7 +399,11 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         polyDS.setDriverClass(getDriverClass());
         polyDS.setUrl(getUrl());
         polyDS.setUserName(getUserName());
-        polyDS.setPassword(getPassword());
+
+        if(!PasswordObfuscator.lookup().obfuscate(polyDS.getPassword()).equals(getPassword())){
+            polyDS.setPassword(getPassword());
+        }
+
         polyDS.setTestQuery(getTestQuery());
     }
 
@@ -471,7 +476,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                     setUrl(dSource.getUrl());
                     setDriverClass(dSource.getDriverClass());
                     setUserName(dSource.getUserName());
-                    setPassword(dSource.getPassword());
+                    setPassword(PasswordObfuscator.lookup().obfuscate(dSource.getPassword()));
                     setType(CUSTOM_TYPE);
                 }
 
