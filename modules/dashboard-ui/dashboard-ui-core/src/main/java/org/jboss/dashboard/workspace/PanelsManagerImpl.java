@@ -107,25 +107,27 @@ public class PanelsManagerImpl implements PanelsManager {
     }
 
     public Panel getPaneltByDbId(final Long panelId) throws Exception {
-        final List results = new ArrayList();
-        new HibernateTxFragment() {
-        protected void txFragment(Session session) throws Exception {
-            FlushMode flushMode = session.getFlushMode();
-            session.setFlushMode(FlushMode.COMMIT);
+        if (panelId != null) {
+            final List results = new ArrayList();
+            new HibernateTxFragment() {
+            protected void txFragment(Session session) throws Exception {
+                FlushMode flushMode = session.getFlushMode();
+                session.setFlushMode(FlushMode.COMMIT);
 
-            StringBuffer sql = new StringBuffer();
-            sql.append("select p ");
-            sql.append("from ").append(Panel.class.getName()).append(" as p ");
-            sql.append("where p.dbid = :dbid");
+                StringBuffer sql = new StringBuffer();
+                sql.append("select p ");
+                sql.append("from ").append(Panel.class.getName()).append(" as p ");
+                sql.append("where p.dbid = :dbid");
 
-            Query query = session.createQuery(sql.toString());
-            query.setLong("dbid", panelId);
-            query.setCacheable(true);
-            results.addAll(query.list());
-            session.setFlushMode(flushMode);
-        }}.execute();
-        if (results.size() > 0) return (Panel)results.get(0);
-        else log.debug("Does not exists panel with DB id: " + panelId);
+                Query query = session.createQuery(sql.toString());
+                query.setLong("dbid", panelId);
+                query.setCacheable(true);
+                results.addAll(query.list());
+                session.setFlushMode(flushMode);
+            }}.execute();
+            if (results.size() > 0) return (Panel)results.get(0);
+            else log.debug("Does not exists panel with DB id: " + panelId);
+        }
         return null;
     }
 
