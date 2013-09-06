@@ -73,7 +73,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         featuresSupported.add(DataDisplayerFeature.ALIGN_CHART);
         featuresSupported.add(DataDisplayerFeature.SHOW_TITLE);
         featuresSupported.add(DataDisplayerFeature.SHOW_HIDE_LABELS);
-        //featuresSupported.add(DataDisplayerFeature.ROUND_TO_INTEGER);
+        featuresSupported.add(DataDisplayerFeature.ROUND_TO_INTEGER);
         //featuresSupported.add(DataDisplayerFeature.SET_CHART_TYPE);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_WIDTH);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_HEIGHT);
