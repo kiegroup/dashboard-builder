@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
@@ -131,9 +132,9 @@ public class PropertyReadTag extends BodyTagSupport {
         try {
             Object val = JXPathContext.newContext(subjectOfTheGetter).getValue(property);
             if (localize != null && localize.booleanValue() && val instanceof Map) {
-                return (localize((Map) val));
+                return StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)(localize((Map) val))));
             }
-            return val;
+            return StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)val));
         } catch (Exception e) {
             log.warn("Error accessing property " + property + " in " + object + "." + e);
             return null;
