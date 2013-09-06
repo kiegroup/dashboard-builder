@@ -15,6 +15,10 @@
     limitations under the License.
 
 --%>
+<%
+    int decimalPrecision = 2;
+    if (displayer.isAxisInteger()) decimalPrecision = 0;
+%>
 <script type="text/javascript" defer="defer">
     chartData<%=chartId%> = [
         {
@@ -56,6 +60,7 @@
                    });
 
             chart.yAxis
+                    .tickFormat(d3.format(',.<%=decimalPrecision%>f'))
                     .axisLabel("<%= rangeProperty.getName(locale) %>");
 
             chart.xAxis
@@ -87,18 +92,18 @@
   <% } %>
 
    graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = graph.xAxis.tickFormat()(graph.lines.x()(e.point, e.pointIndex));
-              y = graph.yAxis.tickFormat()(graph.lines.y()(e.point, e.pointIndex));
-              n = e.pointIndex;
+       x = e.point.label;
+       y = graph.yAxis.tickFormat()(graph.lines.y()(e.point, e.pointIndex));
+       n = e.pointIndex;
 
-              if( n >= 0 && n < <%=xvalues.size()%> ) {
-                 content = chartLabels<%=chartId%>[n] + " : " + y;
-              } else {
-                 content = "";
-              }
+       if( n >= 0 && n < <%=xvalues.size()%> ) {
+           content = chartLabels<%=chartId%>[n] + " : " + y;
+       } else {
+           content = "";
+       }
 
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-          });
+       document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+     });
   }
   });
 </script>

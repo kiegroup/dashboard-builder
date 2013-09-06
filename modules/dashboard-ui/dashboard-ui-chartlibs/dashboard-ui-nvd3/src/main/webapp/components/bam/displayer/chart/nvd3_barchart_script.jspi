@@ -15,6 +15,10 @@
     limitations under the License.
 
 --%>
+<%
+    int decimalPrecision = 2;
+    if (displayer.isAxisInteger()) decimalPrecision = 0;
+%>
 <script type="text/javascript" defer="defer">
     chartData<%=chartId%> = [
         {
@@ -50,6 +54,7 @@
               });
 
                chart.yAxis
+                    .tickFormat(d3.format(',.<%=decimalPrecision%>f'))
                     .axisLabel("<%= rangeProperty.getName(locale) %>");
 
                chart.xAxis
@@ -77,7 +82,7 @@
        <% } %>
 
           graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = graph.xAxis.tickFormat()(graph.discretebar.x()(e.point, e.pointIndex)),
+              x = e.point.label;
               y = graph.yAxis.tickFormat()(graph.discretebar.y()(e.point, e.pointIndex)),
               content = x + " : " + y;
 

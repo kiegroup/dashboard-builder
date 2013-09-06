@@ -15,6 +15,10 @@
     limitations under the License.
 
 --%>
+<%
+    int decimalPrecision = 2;
+    if (displayer.isAxisInteger()) decimalPrecision = 0;
+%>
 <script type="text/javascript" defer="defer">
     chartData<%=chartId%> = [
         {
@@ -63,9 +67,13 @@
 
         graph.dispatch.on('tooltipShow', function(e, offsetElement) {
         <% if(enableTooltips) { %>
-              content = e.label + " : " + e.value;
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-        <% } %>
+            x = e.label;
+            y = d3.format(',.<%=decimalPrecision%>f')(e.value);
+
+            content = x + " : " + y;
+            document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+
+            <% } %>
           });
       }
   });
