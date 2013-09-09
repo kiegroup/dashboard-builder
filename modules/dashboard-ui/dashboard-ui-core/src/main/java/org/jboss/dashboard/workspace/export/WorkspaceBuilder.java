@@ -134,7 +134,14 @@ public class WorkspaceBuilder {
                 createPermission(result, workspace, workspace, child, attributes);
             }
         }
-        workspacesManager.store(workspace);
+
+        if (!onStartup) {
+            synchronized (workspacesManager) {
+                Map names = workspacesManager.generateUniqueWorkspaceName(workspace);
+                workspace.setName(names);
+            }
+        }
+
         //Save the policy, as probably everybody modified it...
         Policy securityPolicy = SecurityServices.lookup().getSecurityPolicy();
         securityPolicy.save();
