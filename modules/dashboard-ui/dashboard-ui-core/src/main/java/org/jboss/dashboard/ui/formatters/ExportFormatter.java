@@ -124,7 +124,8 @@ public class ExportFormatter extends Formatter {
             public int compare(Object o1, Object o2) {
                 WorkspaceImpl s1 = (WorkspaceImpl) o1;
                 WorkspaceImpl s2 = (WorkspaceImpl) o2;
-                return getLocalizedValue(s1.getName()).compareTo(getLocalizedValue(s2.getName()));
+                String s1_loc = getLocalizedValue(s1.getName());
+                return s1_loc != null ? s1_loc.compareTo(getLocalizedValue(s2.getName())) : -1;
             }
         };
     }
@@ -134,7 +135,8 @@ public class ExportFormatter extends Formatter {
             public int compare(Object o1, Object o2) {
                 Section s1 = (Section) o1;
                 Section s2 = (Section) o2;
-                return getLocalizedValue(s1.getTitle()).compareTo(getLocalizedValue(s2.getTitle()));
+                String s1_loc = getLocalizedValue(s1.getTitle());
+                return s1_loc != null ? s1_loc.compareTo(getLocalizedValue(s2.getTitle())) : -1;
             }
         };
     }
