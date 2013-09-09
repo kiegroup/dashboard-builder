@@ -49,6 +49,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     private static final int   TABLE_TYPE = 4;
 
     public static final String PARAM_PASSW_CHANGED = "passChanged";
+    public static final String PARAM_DEFAULT_PASS_VALUE = "!///--/!";
     private static final int   COLUMN_TABLE_NAME = 3;
     private static final int   COLUMN_NAME = 4;
     private static final int   COLUMN_DATA_TYPE = 5;
@@ -322,7 +323,9 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                 } else if (dSource instanceof JDBCDataSourceEntry && getType().equals(CUSTOM_TYPE)) {
                     JDBCDataSourceEntry polyDS = (JDBCDataSourceEntry) dSource;
                     fillValues(polyDS);
-                    if(polyDS.getPassword()==null || (passwordChanged!=null && "true".equals(passwordChanged))){
+                    if(polyDS.getPassword()==null ||
+                            (passwordChanged!=null && "true".equals(passwordChanged))||
+                            !PARAM_DEFAULT_PASS_VALUE.equals(getPassword())){
                         polyDS.setPassword(getPassword());
                     }
                     polyDS.save();
@@ -477,7 +480,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                     setUrl(dSource.getUrl());
                     setDriverClass(dSource.getDriverClass());
                     setUserName(dSource.getUserName());
-                    setPassword("******");
+                    setPassword(PARAM_DEFAULT_PASS_VALUE);
                     setType(CUSTOM_TYPE);
                 }
 
@@ -551,12 +554,24 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                     ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                     setTEST_RESULT(i18n.getString("datasource.driver.na"));
                 } else {
+                    String passwordChanged = request.getRequestObject().getParameter(PARAM_PASSW_CHANGED);
+                    if(!(passwordChanged!=null && "true".equals(passwordChanged))){
+                        try {
+                            DataSourceEntry dSource = getDataSourceManager().getDataSourceEntry(getName());
+                            setPassword(dSource.getPassword());
+                        } catch (Exception e){
+
+                        }
+                    }
                     conn = getConnection();
                     if (conn != null) {
                         PreparedStatement s = conn.prepareStatement(getTestQuery());
                         s.executeQuery();
                         s.close();
                         setTEST_RESULT(RESULT_OK);
+                    }
+                    if(!(passwordChanged!=null && "true".equals(passwordChanged))){
+                        setPassword(PARAM_DEFAULT_PASS_VALUE);
                     }
                 }
             } catch (Exception e) {
