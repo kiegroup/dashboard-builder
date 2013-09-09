@@ -17,7 +17,7 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.commons.security.password.PasswordObfuscator;
+
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
@@ -48,6 +48,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     private static final int   TABLE_NAME = 3;
     private static final int   TABLE_TYPE = 4;
 
+    public static final String PARAM_PASSW_CHANGED = "passChanged";
     private static final int   COLUMN_TABLE_NAME = 3;
     private static final int   COLUMN_NAME = 4;
     private static final int   COLUMN_DATA_TYPE = 5;
@@ -291,6 +292,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
 
     public void actionCreateDatasource(CommandRequest request) throws Exception {
         String checkingDS = request.getRequestObject().getParameter("checkingDS");
+        String passwordChanged = request.getRequestObject().getParameter(PARAM_PASSW_CHANGED);
         if (checkingDS != null && "true".equals(checkingDS)) {
             actionCheckDataSource(request);
             return;
@@ -320,6 +322,9 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                 } else if (dSource instanceof JDBCDataSourceEntry && getType().equals(CUSTOM_TYPE)) {
                     JDBCDataSourceEntry polyDS = (JDBCDataSourceEntry) dSource;
                     fillValues(polyDS);
+                    if(polyDS.getPassword()==null || (passwordChanged!=null && "true".equals(passwordChanged))){
+                        polyDS.setPassword(getPassword());
+                    }
                     polyDS.save();
                 }
             }
@@ -334,6 +339,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
             } else if (getType().equals(CUSTOM_TYPE)) {
                 JDBCDataSourceEntry polyDS = new JDBCDataSourceEntry();
                 fillValues(polyDS);
+                polyDS.setPassword(getPassword());
                 polyDS.save();
             }
         }
@@ -399,11 +405,6 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         polyDS.setDriverClass(getDriverClass());
         polyDS.setUrl(getUrl());
         polyDS.setUserName(getUserName());
-
-        if(!PasswordObfuscator.lookup().obfuscate(polyDS.getPassword()).equals(getPassword())){
-            polyDS.setPassword(getPassword());
-        }
-
         polyDS.setTestQuery(getTestQuery());
     }
 
@@ -476,7 +477,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                     setUrl(dSource.getUrl());
                     setDriverClass(dSource.getDriverClass());
                     setUserName(dSource.getUserName());
-                    setPassword(PasswordObfuscator.lookup().obfuscate(dSource.getPassword()));
+                    setPassword("******");
                     setType(CUSTOM_TYPE);
                 }
 
