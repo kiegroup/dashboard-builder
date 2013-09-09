@@ -213,6 +213,7 @@
             <td align="left">
                 <input type="hidden" name="<%=DataSourceManagementHandler.PARAM_PASSW_CHANGED%>"  value="false">
                 <input type="password"  onchange="this.form['passChanged'].value='true';"
+                       onclick="if(this.form['passChanged'].value == 'false'){this.value='';this.form['passChanged'].value='true';};"
                        class="skn-input"
                        name="<factory:bean bean="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" property="password"/>"
                        value="<mvc:fragmentValue name="Passw"/>">
