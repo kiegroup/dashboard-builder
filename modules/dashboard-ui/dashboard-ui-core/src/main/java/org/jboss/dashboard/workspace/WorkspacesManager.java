@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.workspace;
 
-import org.jboss.dashboard.factory.Factory;
+import org.apache.commons.collections.CollectionUtils;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.panel.PanelProvider;
@@ -93,6 +93,40 @@ public class WorkspacesManager {
         };
         txFragment.execute();
         return exists[0];
+    }
+
+    public Map generateUniqueWorkspaceName( Workspace workspace ) throws Exception {
+        return generateUniqueWorkspaceName( 1,
+                workspace,
+                null );
+    }
+
+    private Map generateUniqueWorkspaceName(int index, Workspace workspace, Map<String, String> newProposed) throws Exception {
+        if (workspace == null) return null;
+        Map<String, String> toEval = new HashMap<String, String>();
+        toEval.putAll( newProposed != null ? newProposed : workspace.getName() );
+        if ( existsWorkspaceName(workspace, toEval) ) {
+            Map originalNames = workspace.getName();
+            for (Map.Entry<String, String> entry : toEval.entrySet()) {
+                entry.setValue(originalNames.get(entry.getKey()) + " (" + index + ")");
+            }
+            return generateUniqueWorkspaceName(++index, workspace, toEval);
+        }
+        return toEval;
+    }
+
+    private boolean existsWorkspaceName( Workspace workspace, Map proposedNames ) {
+        boolean found = false;
+        Workspace[] workspaces = getWorkspaces();
+        int i = 0;
+        while (i < workspaces.length && !found) {
+            if ( !workspace.getId().equals(workspaces[i].getId()) ) {
+                Map<String, String> wnames = workspaces[i].getName();
+                found = CollectionUtils.containsAny(wnames.values(), proposedNames.values());
+            }
+            i++;
+        }
+        return found;
     }
 
     /**

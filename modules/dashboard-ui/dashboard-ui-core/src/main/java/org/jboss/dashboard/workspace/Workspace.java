@@ -60,6 +60,8 @@ public interface Workspace extends Visitable {
 
     Map getName();
 
+    void setName(Map name);
+
     void setTitle(Map description);
 
     void setTitle(String title, String lang);
