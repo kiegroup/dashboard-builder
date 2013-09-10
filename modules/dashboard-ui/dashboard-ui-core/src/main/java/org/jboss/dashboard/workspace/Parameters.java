@@ -57,5 +57,10 @@ public interface Parameters {
      * Enables the AJAX behaviour on actions
      */
     public static final String AJAX_ACTION = "ajaxAction";
+
+    /**
+     * The embedded request parameter.
+     */
+    public static final String PARAM_EMBEDDED = "embedded";
 }
 

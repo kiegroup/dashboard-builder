@@ -91,26 +91,7 @@ public class URLMarkupGenerator {
         } catch (ClassCastException cce) {
             log.error("Bean " + bean + " is not a HandlerFactoryElement.");
         }
-        return sb.toString();
-    }
-
-    /**
-     * Get a permanent link to a given action on a bean
-     *
-     * @param bean     Factory component that will perform the action
-     * @param property Component's property (method) that will be invoked
-     * @param params   Extra parameters for link
-     * @return a link url to a factory component action, independent on the page
-     */
-    public String getRemotePermanentLink(String baseUrl, String bean, String property, Map params) {
-        if (!baseUrl.endsWith("/")) baseUrl += "/";
-        return baseUrl + getPermanentLink(bean, property, params);
-    }
-
-    public String getRemoteLink(String baseUrl, String path, Map params) {
-        path = StringUtils.defaultIfEmpty(path, "");
-        if (!baseUrl.endsWith("/") && !path.startsWith("/")) baseUrl += "/";
-        return baseUrl + path + "?" + getParamsMarkup(params);
+        return postProcessURL(sb).toString();
     }
 
     /**
@@ -140,7 +121,7 @@ public class URLMarkupGenerator {
         // Avoid an extra Controller in URL when it is already friendly
         Panel panel = getCurrentPanel();
         if (panel != null) {  // There will be a friendly url here
-            return getRelativeLinkToPage(panel.getSection(), true);
+            return getLinkToPage(panel.getSection(), true);
         }
         return getServletMapping();
     }
@@ -174,7 +155,7 @@ public class URLMarkupGenerator {
         } catch (ClassCastException cce) {
             log.error("Bean " + bean + " is not a HandlerFactoryElement.");
         }
-        return sb.toString();
+        return postProcessURL(sb).toString();
     }
 
     /**
@@ -189,8 +170,9 @@ public class URLMarkupGenerator {
             String paramName = (String) it.next();
             Object paramValue = params.get(paramName);
             sb.append(getParameterMarkup(paramName, paramValue));
-            if (it.hasNext())
+            if (it.hasNext()) {
                 sb.append("&amp;");
+            }
         }
         return sb.toString();
     }
@@ -206,27 +188,17 @@ public class URLMarkupGenerator {
         return sb.toString();
     }
 
-    /**
-     * @param request
-     * @return the context this application is running in, preceded by "/", or just "/" if the context is empty
-     */
-    public String getContext(ServletRequest request) {
-        String context = ((HttpServletRequest) request).getContextPath();
-        return context.length() > 0 ? context : "/";
-    }
-
     public String getContextHost(ServletRequest request) {
         StringBuffer sb = new StringBuffer();
         String context = ((HttpServletRequest) request).getContextPath();
         String protocol = request.getScheme();
         while (context.startsWith("/")) context = context.substring(1);
         sb.append(protocol.toLowerCase()).append("://").append(request.getServerName());
-        if (request.getServerPort() != 80)
+        if (request.getServerPort() != 80) {
             sb.append(":").append(request.getServerPort());
+        }
         return sb.toString();
     }
-
-
 
     /**
      * Get the base href for current request
@@ -238,13 +210,17 @@ public class URLMarkupGenerator {
         StringBuffer sb = new StringBuffer();
         String context = ((HttpServletRequest) request).getContextPath();
         String protocol = request.getScheme();
-        while (context.startsWith("/")) context = context.substring(1);
+        while (context.startsWith("/")) {
+            context = context.substring(1);
+        }
         sb.append(protocol.toLowerCase()).append("://").append(request.getServerName());
-        if (request.getServerPort() != 80)
+        if (request.getServerPort() != 80) {
             sb.append(":").append(request.getServerPort());
+        }
         sb.append("/");
-        if (!StringUtils.isEmpty(context))
+        if (!StringUtils.isEmpty(context)) {
             sb.append(context).append("/");
+        }
         return sb.toString();
     }
 
@@ -266,7 +242,7 @@ public class URLMarkupGenerator {
      * @return an url that leads to a given workspace
      */
     public String getLinkToWorkspace(WorkspaceImpl workspace, boolean allowFriendly) {
-        return getRelativeLinkToWorkspace(workspace, allowFriendly);
+        return getLinkToWorkspace(workspace, allowFriendly, LocaleManager.currentLang());
     }
 
     /**
@@ -277,7 +253,8 @@ public class URLMarkupGenerator {
      * @return an url that leads to a given workspace
      */
     public String getLinkToWorkspace(WorkspaceImpl workspace, boolean allowFriendly, String lang) {
-        return getRelativeLinkToWorkspace(workspace, allowFriendly, lang);
+        StringBuffer link = getRelativeLinkToWorkspace(workspace, allowFriendly, lang);
+        return postProcessURL(link).toString();
     }
 
     /**
@@ -300,39 +277,29 @@ public class URLMarkupGenerator {
      * @return an url that leads to a given workspace
      */
     public String getLinkToPage(Section page, boolean allowFriendly, String lang) {
+        StringBuffer link = getRelativeLinkToPage(page, allowFriendly, lang);
+        return postProcessURL(link).toString();
+    }
+
+    protected StringBuffer getRelativeLinkToPage(Section page, boolean allowFriendly, String lang) {
         StringBuffer sb = new StringBuffer();
-        sb.append(getLinkToWorkspace(page.getWorkspace(), allowFriendly, lang));
+        sb.append(getRelativeLinkToWorkspace(page.getWorkspace(), allowFriendly, lang));
         String pageFriendlyUrl = page.getId().toString();
         if (allowFriendly) {
             pageFriendlyUrl = StringUtils.defaultIfEmpty(page.getFriendlyUrl(), page.getId().toString());
         }
         sb.append("/").append(pageFriendlyUrl);
-        return sb.toString();
+        return sb;
     }
 
-    protected String getRelativeLinkToPage(Section page, boolean allowFriendly) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(getRelativeLinkToWorkspace(page.getWorkspace(), allowFriendly));
-        String pageFriendlyUrl = page.getId().toString();
-        if (allowFriendly) {
-            pageFriendlyUrl = StringUtils.defaultIfEmpty(page.getFriendlyUrl(), page.getId().toString());
-        }
-        sb.append("/").append(pageFriendlyUrl);
-        return sb.toString();
-    }
-
-    protected String getRelativeLinkToWorkspace(WorkspaceImpl workspace, boolean allowFriendly) {
-        return getRelativeLinkToWorkspace(workspace, allowFriendly, LocaleManager.currentLang());
-    }
-
-    protected String getRelativeLinkToWorkspace(WorkspaceImpl workspace, boolean allowFriendly, String lang) {
+    protected StringBuffer getRelativeLinkToWorkspace(WorkspaceImpl workspace, boolean allowFriendly, String lang) {
         StringBuffer sb = new StringBuffer();
         String friendlyUrl = workspace.getId();
         if (allowFriendly) {
             friendlyUrl = StringUtils.defaultIfEmpty(workspace.getFriendlyUrl(), workspace.getId());
         }
         sb.append(RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
-        return sb.toString();
+        return sb;
     }
 
     /**
@@ -349,13 +316,14 @@ public class URLMarkupGenerator {
         Map paramsMap = new HashMap();
         paramsMap.put(Parameters.DISPATCH_IDPANEL, panel.getPanelId());
         paramsMap.put(Parameters.DISPATCH_ACTION, action);
-        sb.append(getLinkToPage(panel.getSection(), allowFriendly));
+        sb.append(getRelativeLinkToPage(panel.getSection(), allowFriendly, LocaleManager.currentLang()));
         sb.append("?");
         String paramsMarkup = getParamsMarkup(paramsMap);
         sb.append(paramsMarkup);
-        if (extraParams != null)
+        if (extraParams != null) {
             sb.append("&amp;").append(extraParams);
-        return sb.toString();
+        }
+        return postProcessURL(sb).toString();
     }
 
     /**
@@ -368,5 +336,23 @@ public class URLMarkupGenerator {
      */
     public String getLinkToPanelAction(Panel panel, String action, boolean allowFriendly) {
         return getLinkToPanelAction(panel, action, null, allowFriendly);
+    }
+
+    /**
+     * Apply a final post-processing on generated URLs in order to add some extra information such as CSRF tokens or
+     * propagate some behavioural parameters via URL-rewriting.
+     */
+    protected StringBuffer postProcessURL(StringBuffer url) {
+        // Keep the embedded mode using URL rewriting.
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
+        if( request != null ) {
+            boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
+            String embeddedParam = Parameters.PARAM_EMBEDDED + "=true";
+            if (embeddedMode && url.indexOf(embeddedParam) == -1) {
+                url.append(url.indexOf("?") != -1 ? "&amp;" : "?");
+                url.append(embeddedParam);
+            }
+        }
+        return url;
     }
 }

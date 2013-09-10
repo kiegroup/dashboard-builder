@@ -15,10 +15,10 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.NavigationManager;
+import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,10 +39,11 @@ public class RegularLayoutFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         renderFragment("outputStart");
         boolean userIsAdminInCurrentWorkspace = getNavigationManager().userIsAdminInCurrentWorkspace();
+
         // Check if request embedded parameter is set to true.
         // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
-        Boolean embeddedMode = (Boolean) httpServletRequest.getSession().getAttribute(EmbeddedRequestProcessor.PARAM_SESSION_EMBEDDED);
-        if (userIsAdminInCurrentWorkspace && (embeddedMode == null || !embeddedMode)) {
+        boolean embeddedMode = Boolean.parseBoolean(httpServletRequest.getParameter(Parameters.PARAM_EMBEDDED));
+        if (userIsAdminInCurrentWorkspace && !embeddedMode) {
             renderFragment("administrationBar");
         }
         Section page = getNavigationManager().getCurrentSection();
