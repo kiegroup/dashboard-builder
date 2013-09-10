@@ -1,4 +1,3 @@
-<%@ page import="org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor" %>
 <%--
 
     Copyright (C) 2012 JBoss Inc
@@ -16,13 +15,13 @@
     limitations under the License.
 
 --%>
+<%@ page import="org.jboss.dashboard.workspace.Parameters" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%
+    // Check if request embedded parameter is set to true.
     // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
-    // See org.jboss.dashboard.ui.controller.requestChain.EmbeddedRequestProcessor
-    Boolean embeddedMode = (Boolean) session.getAttribute("dashbuilder_embedded");
-    if (embeddedMode == null || !embeddedMode) embeddedMode = (Boolean) session.getAttribute("dashbuilder_hideLogout");
-    if (embeddedMode == null || !embeddedMode) {
+    boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
+    if (!embeddedMode) {
 %>
 <factory:useComponent bean="org.jboss.dashboard.ui.components.LogoutComponent"/>
 <%
