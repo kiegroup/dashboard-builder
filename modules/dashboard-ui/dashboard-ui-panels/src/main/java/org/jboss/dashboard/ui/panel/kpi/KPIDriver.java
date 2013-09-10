@@ -28,7 +28,7 @@ import org.jboss.dashboard.ui.components.KPIViewer;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
-import org.jboss.dashboard.workspace.Panel;
+import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.parameters.ComboListParameter;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.components.KPIEditor;
@@ -37,9 +37,6 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.PanelSession;
-import org.jboss.dashboard.workspace.PanelsManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -116,12 +113,27 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         KPI kpi = Dashboard.getKPI(instance);
 
         // Only delete not null KPIs based on deleteable providers.
-        if (kpi != null && kpi.getDataProvider().isCanDelete()) {
+        if (kpi != null && kpi.getDataProvider().isCanDelete() && kpi.getCode()!=null ) {
 
             // Only delete the KPI if not referred by other panels.
             PanelsManager panelsManager = UIServices.lookup().getPanelsManager();
-            Set<PanelInstance> panels = panelsManager.getPanelsByParameter(Dashboard.KPI_CODE, kpi.getCode());
-            if (panels.size() == 1) {
+
+            // Retrieves the panel instances with kpicode parameter to check if there are another panel that uses the same kpi
+            Set<PanelInstance> panels = panelsManager.getPanelsByParameter(Dashboard.KPI_CODE);
+            int count = 0;
+
+            // Iterates along the PanelIntances to count how many has the kpicode configured
+            for(PanelInstance panelInstance : panels){
+                Set<PanelParameter> panelParams= panelInstance.getPanelParams();
+                for(PanelParameter panelParameter : panelParams){
+                    if( Dashboard.KPI_CODE.equals(panelParameter.getIdParameter()) &&
+                        kpi.getCode().equals(panelParameter.getValue())){
+                        count++;
+                    }
+                }
+            }
+            if (count == 1) {
+                //In this case only one panel instance has the kpicode configured and it can be deleted
                 kpi.delete();
             }
         }
