@@ -154,7 +154,13 @@ public class PanelsManagerImpl implements PanelsManager {
         return null;
     }
 
-    public Set<PanelInstance> getPanelsByParameter(final String paramId, final String value) throws Exception {
+    /**
+     * Retrieves the panel instances with the given paramId as a panelParameter.
+     * @param paramId
+     * @return
+     * @throws Exception
+     */
+    public Set<PanelInstance> getPanelsByParameter(final String paramId) throws Exception {
         final Set<PanelInstance> results = new HashSet<PanelInstance>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
@@ -164,11 +170,11 @@ public class PanelsManagerImpl implements PanelsManager {
             StringBuffer sql = new StringBuffer();
             sql.append("select p ");
             sql.append("from ").append(PanelInstance.class.getName()).append(" as p join p.panelParams as param ");
-            sql.append("where param.idParameter = :paramId and param.value = :value");
+            sql.append("where param.idParameter = :paramId ");
 
             Query query = session.createQuery(sql.toString());
             query.setString("paramId", paramId);
-            query.setString("value", value);
+
             query.setCacheable(true);
             results.addAll(query.list());
             session.setFlushMode(flushMode);

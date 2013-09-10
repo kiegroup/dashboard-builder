@@ -55,7 +55,7 @@ public interface PanelsManager extends ListenerQueue {
     Panel getPaneltByDbId(Long panelId) throws Exception;
 
     /**
-     * Get a set of panels containing a parameter with a given value.
+     * Get a set of panels containing a parameter with the id paramId.
      */
-    Set<PanelInstance> getPanelsByParameter(String paramId, String value) throws Exception;
+    Set<PanelInstance> getPanelsByParameter(String paramId) throws Exception;
 }
