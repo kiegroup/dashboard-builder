@@ -16,6 +16,7 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelsManager;
@@ -160,8 +161,10 @@ public class PanelsManagerImpl implements PanelsManager {
      * @return
      * @throws Exception
      */
-    public Set<PanelInstance> getPanelsByParameter(final String paramId) throws Exception {
+    public Set<PanelInstance> getPanelsByParameter(final String paramId, final String value) throws Exception {
         final Set<PanelInstance> results = new HashSet<PanelInstance>();
+        if(value ==null || paramId==null) return results;
+
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -179,7 +182,18 @@ public class PanelsManagerImpl implements PanelsManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        return results;
+
+        Set<PanelInstance> matchPanel = new HashSet<PanelInstance>();
+        for(PanelInstance panelInstance : results){
+            Set<PanelParameter> panelParams= panelInstance.getPanelParams();
+            for(PanelParameter panelParameter : panelParams){
+                if( Dashboard.KPI_CODE.equals(panelParameter.getIdParameter()) &&
+                    value.equals(panelParameter.getValue())){
+                    matchPanel.add(panelInstance);
+                }
+            }
+        }
+        return matchPanel;
     }
 
     /**
