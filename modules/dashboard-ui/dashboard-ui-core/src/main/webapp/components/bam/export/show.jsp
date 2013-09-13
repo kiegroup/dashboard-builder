@@ -16,7 +16,13 @@
 
 --%>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<%
+		ExportHandler handler = ExportHandler.lookup();
+	%>
     <tr class="skn-odd_row">
+		<%
+			if (handler.isExportMode()) {
+		%>
         <td width="250px" valign="top" class="skn-table_border">
             <%@ include file="dashboardsSelectionForm.jsp" %>
         </td>
@@ -24,5 +30,14 @@
         <td valign="top" class="skn-table_border" style="padding:1px">
            <%@ include file="previewKPIsPerProvider.jsp" %>
         </td>
+		<%
+			} else if (handler.isImportMode()) {
+		%>
+		<td valign="top">
+			<%@ include file="kpiImport.jsp" %>
+		</td>
+		<%
+			}
+		%>
     </tr>
 </table>

@@ -15,6 +15,11 @@
  */
 package org.jboss.dashboard.ui.components.export;
 
+import org.jboss.dashboard.commons.message.AbstractMessage;
+import org.jboss.dashboard.commons.message.Message;
+import org.jboss.dashboard.commons.message.MessageList;
+import org.jboss.dashboard.export.ImportManager;
+import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.DataDisplayerServices;
@@ -23,24 +28,29 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
 import org.jboss.dashboard.export.ExportManager;
 import org.jboss.dashboard.export.ExportOptions;
-import org.jboss.dashboard.workspace.*;
+import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
  * The export handler.
  */
 public class ExportHandler extends UIComponentHandlerFactoryElement {
+
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportHandler.class.getName());
 
     /**
      * Get the instance for the current session.
@@ -49,12 +59,25 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
         return (ExportHandler) Factory.lookup("org.jboss.dashboard.ui.components.ExportHandler");
     }
 
+    public static final String MODE_EXPORT = "export";
+    public static final String MODE_IMPORT = "import";
+
     public static final String PARAM_WORKSPACE_ID = "workspaceId";
     public static final String PARAM_SECTION_ID = "sectionId";
 
     protected String componentIncludeJSP;
+    protected String kpiImportResultJSP;
     protected String selectedWorkspaceId;
     protected Map<String,Set<Long>> selectedSectionIds = new HashMap<String,Set<Long>>();
+    protected String mode;
+
+    private String initJSP;
+
+    @Override
+    public void start() throws Exception {
+        super.start();
+        this.initJSP = getComponentIncludeJSP();
+    }
 
     // Accessors
 
@@ -66,12 +89,28 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
         this.componentIncludeJSP = componentIncludeJSP;
     }
 
+    public String getKpiImportResultJSP() {
+        return kpiImportResultJSP;
+    }
+
+    public void setKpiImportResultJSP(String kpiImportResultJSP) {
+        this.kpiImportResultJSP = kpiImportResultJSP;
+    }
+
     public String getSelectedWorkspaceId() {
         return selectedWorkspaceId;
     }
 
     public void setSelectedWorkspaceId(String selectedWorkspaceId) {
         this.selectedWorkspaceId = selectedWorkspaceId;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public WorkspaceImpl getSelectedWorkspace() throws Exception {
@@ -108,6 +147,14 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
             if (sectionIds.contains(sectionId)) return true;
         }
         return false;
+    }
+
+    public boolean isExportMode() {
+        return mode != null && MODE_EXPORT.equalsIgnoreCase(mode);
+    }
+
+    public boolean isImportMode() {
+        return mode != null && MODE_IMPORT.equalsIgnoreCase(mode);
     }
 
     public Set<Section> getSelectedSections(WorkspaceImpl workspace) throws Exception {
@@ -233,5 +280,59 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
         int id = xml.hashCode();
         if (id < 0) id = id*-1;
         return new SendStreamResponse(new ByteArrayInputStream(xml.getBytes()), "inline;filename=kpiExport_" + id + ".xml");
+    }
+
+    public CommandResponse actionImportKPIs(CommandRequest request) {
+        MessagesComponentHandler messagesHandler = (MessagesComponentHandler) Factory.lookup("org.jboss.dashboard.ui.components.MessagesComponentHandler");
+        messagesHandler.clearAll();
+        if (request.getUploadedFilesCount() > 0) {
+            File file = (File) request.getFilesByParamName().get("importFile");
+            try {
+
+                // Parse the file.
+                ImportManager importMgr = DataDisplayerServices.lookup().getImportManager();
+                ImportResults importResults = importMgr.parse(new FileInputStream(file));
+
+                // Save the imported results.
+                importMgr.update(importResults);
+
+                // Show import messages.
+                MessageList messages = importResults.getMessages();
+                Locale locale = LocaleManager.currentLocale();
+                Iterator it = messages.iterator();
+                while (it.hasNext()) {
+                    Message message = (Message) it.next();
+                    switch (message.getMessageType()) {
+                        case Message.ERROR: messagesHandler.addError(message.getMessage(locale)); break;
+                        case Message.WARNING: messagesHandler.addWarning(message.getMessage(locale)); break;
+                        case Message.INFO: messagesHandler.addMessage(message.getMessage(locale)); break;
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Error importing KPIs from file (" + file + ")", e);
+                messagesHandler.addError(new ExportHandlerMessage("import.kpis.importAbortedError", new Object[] {}).getMessage(LocaleManager.currentLocale()));
+            }
+            setComponentIncludeJSP(getKpiImportResultJSP());
+        }
+        return new ShowCurrentScreenResponse();
+    }
+
+    public void actionGoBack(CommandRequest request) {
+        if (initJSP != null && !"".equals(initJSP)) setComponentIncludeJSP(initJSP);
+    }
+
+    private class ExportHandlerMessage extends AbstractMessage {
+        public ExportHandlerMessage(String messageCode, Object[] elements) {
+            super(messageCode, elements);
+        }
+        @Override
+        public String getMessage(String messageCode, Locale l) {
+            try {
+                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.export.messages", l);
+                return i18n.getString(messageCode);
+            } catch (Exception e) {
+                return messageCode;
+            }
+        }
     }
 }

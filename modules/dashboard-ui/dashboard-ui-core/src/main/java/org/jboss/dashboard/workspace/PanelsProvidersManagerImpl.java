@@ -73,6 +73,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                     "dashboard.filter," +
                     "dashboard.kpi," +
                     "dashboard.export," +
+                    "dashboard.import," +
                     "system.workspace_import_export," +
                     "system.data_source_manager")
     private String[] basePanelsIds;

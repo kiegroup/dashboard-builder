@@ -1,6 +1,6 @@
 <%--
 
-    Copyright (C) 2012 JBoss Inc
+    Copyright (C) 2013 JBoss Inc
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
     <tr>
         <td valign="top" align="left" class="skn-table_border" style="padding:1px">
 			<factory:setProperty bean="org.jboss.dashboard.ui.components.ExportHandler"
-								 property="mode" propValue="<%= ExportHandler.MODE_EXPORT %>" />
+								 property="mode" propValue="<%= ExportHandler.MODE_IMPORT %>" />
             <factory:useComponent bean="org.jboss.dashboard.ui.components.ExportHandler" />
         </td>
     </tr>
