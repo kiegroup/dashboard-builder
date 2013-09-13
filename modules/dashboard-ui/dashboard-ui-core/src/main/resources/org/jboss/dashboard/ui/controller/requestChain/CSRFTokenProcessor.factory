@@ -14,8 +14,7 @@
 # limitations under the License.
 #
 
-$class=org.jboss.dashboard.ui.controller.requestChain.StartingProcessor
+$class=org.jboss.dashboard.ui.controller.requestChain.CSRFTokenProcessor
 $scope=volatile
-$description=Starting request processing step.
 
-nextStep=.CSRFTokenProcessor
+nextStep=.HttpSSOProcessor

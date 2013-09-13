@@ -18,6 +18,7 @@ Request processing
 -------------------------
 
 StartingProcessor ->
+CSRFTokenProcessor ->
 HttpSSOProcessor ->
 ModalDialogStatusSaver ->
 ResponseHeadersProcessor ->

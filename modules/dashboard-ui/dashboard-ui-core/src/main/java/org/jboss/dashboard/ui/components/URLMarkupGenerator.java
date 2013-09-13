@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenGenerator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
@@ -101,6 +102,11 @@ public class URLMarkupGenerator {
      * @return the base URI for any markup
      */
     public String getServletMapping() {
+        StringBuffer buf = new StringBuffer(_getServletMapping());
+        return postProcessURL(buf).toString();
+    }
+
+    protected String _getServletMapping() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
         if( request != null ) {
             return request.getContextPath()+"/"+COMMAND_RUNNER;
@@ -143,7 +149,7 @@ public class URLMarkupGenerator {
         }
 
         StringBuffer sb = new StringBuffer();
-        sb.append(getServletMapping()).append("?");
+        sb.append(_getServletMapping()).append("?");
         String alias = Factory.getAlias(bean);
         HandlerFactoryElement component = (HandlerFactoryElement) Factory.lookup(bean);
         params.put(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean);
@@ -353,6 +359,11 @@ public class URLMarkupGenerator {
                 url.append(embeddedParam);
             }
         }
+        // Add the CSRF protection token
+        CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
+        String token = csrfTokenGenerator.getLastToken();
+        url.append(url.indexOf("?") != -1 ? "&amp;" : "?");
+        url.append(csrfTokenGenerator.getTokenName()).append("=").append(token);
         return url;
     }
 }

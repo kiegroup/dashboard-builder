@@ -19,8 +19,6 @@ package org.jboss.dashboard.ui.controller.requestChain;
  * First processor. Default implementation does nothing.
  */
 public class StartingProcessor extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(StartingProcessor.class.getName());
-
 
     /**
      * Make required processing of request.
