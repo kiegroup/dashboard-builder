@@ -2,17 +2,17 @@
 <workspaceExport>
     <workspace envelopeId="Default_Envelope" friendlyUrl="showcase" skinId="Default_Skin" homeMode="0" id="1">
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-admin"
-                    actions="login,admin,createPage,edit,delete,edit perm,admin providers" readonly="true"/>
+                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" readonly="true"
+                    principal="role-admin" actions="login,admin,createPage,edit,delete,edit perm,admin providers"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.PanelPermission" principal="role-admin"
-                    actions="view,edit,edit perm" readonly="true"/>
+                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" readonly="false"
+                    principal="role-user" actions="login"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.SectionPermission" principal="role-admin"
-                    actions="view,edit,delete,edit perm" readonly="true"/>
+                    permissionClass="org.jboss.dashboard.security.PanelPermission" readonly="true"
+                    principal="role-admin" actions="view,edit,edit perm"/>
         <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal"
-                    permissionClass="org.jboss.dashboard.security.WorkspacePermission" principal="role-user"
-                    actions="login"/>
+                    permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="true"
+                    principal="role-admin" actions="view,edit,delete,edit perm"/>
         <param name="title" value="Dashboards Showcase" lang="es"/>
         <param name="title" value="Dashboards Showcase" lang="en"/>
         <param name="name" value="Showcase" lang="es"/>
@@ -185,7 +185,8 @@
         <panelInstance serialization="" provider="dashboard.kpi" id="2974">
             <param name="group" value="Sales demo" lang=" "/>
             <param name="htmlAfterPanel" value="&lt;/div&gt;" lang="en"/>
-            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;" lang="en"/>
+            <param name="htmlBeforePanel" value="&lt;div style=&quot;margin:5px;border:1px solid #eeeeee&quot;&gt;"
+                   lang="en"/>
             <param name="kpicode" value="kpi_29761353668431694" lang=" "/>
             <param name="title" value="Sales report table" lang="en"/>
             <param name="title" value="Informe de ventas (tabla)" lang="es"/>
@@ -193,7 +194,7 @@
         <panelInstance serialization="" provider="system.workspace_import_export" id="2979">
             <param name="showExport" value="false" lang=" "/>
             <param name="title" value="Import Workspace" lang="en"/>
-            <param name="title" value="Importaci&#243;n/Exportaci&#243;n de Workspaces" lang="es"/>
+            <param name="title" value="Importaci&#243;n de Workspaces" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.html_editor" id="2981">
             <rawcontent>
@@ -494,16 +495,12 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6388">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_63901223772516707" lang=" "/>
             <param name="title" value="Expenses by office USD" lang="en"/>
             <param name="title" value="Expenses by office" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6391">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_63931223772633377" lang=" "/>
             <param name="title" value="Expenses by department USD" lang="en"/>
             <param name="title" value="Indicador clave de rendimiento" lang="es"/>
@@ -524,16 +521,12 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6399">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_64011223773089901" lang=" "/>
             <param name="title" value="Expense evolution" lang="en"/>
             <param name="title" value="Evoluci&#243;n del gasto" lang="es"/>
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="6402">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_64061223773274641" lang=" "/>
             <param name="title" value="Expense reports table" lang="en"/>
             <param name="title" value="Listado de gastos" lang="es"/>
@@ -553,8 +546,6 @@
         </panelInstance>
         <panelInstance serialization="" provider="dashboard.kpi" id="3044">
             <param name="group" value="Expenses demo" lang=" "/>
-            <param name="htmlAfterPanel" value="" lang="en"/>
-            <param name="htmlBeforePanel" value="" lang="en"/>
             <param name="kpicode" value="kpi_30461354643057084" lang=" "/>
             <param name="title" value="Expenses by user" lang="en"/>
             <param name="title" value="Gastos por usuario" lang="es"/>
@@ -606,6 +597,10 @@
             </rawcontent>
             <param name="title" value="HTML Editor" lang="en"/>
             <param name="title" value="Editor HTML" lang="es"/>
+        </panelInstance>
+        <panelInstance serialization="" provider="dashboard.import" id="1561">
+            <param name="title" value="Import dashboards" lang="en"/>
+            <param name="title" value="Importaci&#243;n de cuadros de mando" lang="es"/>
         </panelInstance>
         <section id="1953" visible="true" panelSpacing="0" position="0" regionSpacing="0" idEnvelope="" idSkin=""
                  friendlyUrl="home" idTemplate="Default_template_with_sliding_menu">
@@ -760,7 +755,9 @@
             <panel position="0" instanceId="2981" regionId="center_1" id="2982"/>
             <panel position="1" instanceId="3053" regionId="center_1" id="3106"/>
             <panel position="0" instanceId="2036" regionId="center_3" id="2037"/>
-            <panel position="1" instanceId="2038" regionId="center_3" id="2039"/>
+            <panel position="1" instanceId="1561" regionId="center_3" id="1564"/>
+            <panel position="2" instanceId="2038" regionId="center_3" id="2039"/>
+            <panel position="3" instanceId="2979" regionId="center_3" id="1560"/>
             <panel position="0" instanceId="2187" regionId="left_top" id="2188"/>
         </section>
         <section panelSpacing="0" position="4" idTemplate="Default_template_with_sliding_menu" idEnvelope=""
