@@ -41,13 +41,13 @@ public class KpisFileConverter extends XmlToBundleConverter {
 
             String parentKey = null;
             Element node = doc.getRootElement();
-            processNode(node, parentKey, bundles);
+            extractNode(node, parentKey, bundles);
         }
         return bundles;
     }
 
-    protected void processNode(Element node, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        String key = updateKey(node, parentKey);
+    protected void extractNode(Element node, String parentKey, Map<Locale, Properties> bundles) throws Exception {
+        String key = calculateKey(node, parentKey);
         Attribute langAttr = node.getAttribute("language");
         if (langAttr != null && !StringUtils.isBlank(langAttr.getValue())) {
             Locale l = new Locale(langAttr.getValue());
@@ -57,11 +57,11 @@ public class KpisFileConverter extends XmlToBundleConverter {
         Iterator it = node.getChildren().iterator();
         while (it.hasNext()) {
             Element child = (Element) it.next();
-            processNode(child, key, bundles);
+            extractNode(child, key, bundles);
         }
     }
 
-    protected String updateKey(Element node, String parentKey) {
+    protected String calculateKey(Element node, String parentKey) {
         String nodeName = node.getName();
         if (nodeName.equals("dataprovider")) {
             String id = node.getAttribute("code").getValue();
@@ -85,7 +85,62 @@ public class KpisFileConverter extends XmlToBundleConverter {
         return parentKey;
     }
 
-    public void inject(Map<Locale,Properties> bundles) throws Exception {
+    public List<Element> lookupNodes(Element node, List<String> path) throws Exception {
+        if (path.isEmpty()) return new ArrayList<Element>();
 
+        Iterator it = node.getChildren().iterator();
+        while (it.hasNext()) {
+            Element child = (Element) it.next();
+            Attribute lang = child.getAttribute("language");
+
+            if (child.getName().equals("dataprovider") || child.getName().equals("kpi")) {
+                String targetCode = path.get(0);
+                String code = child.getAttributeValue("code");
+                if (targetCode.equals(code)) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("dataproperty")) {
+                String propId = path.get(0);
+                String id = child.getAttributeValue("id");
+                if (propId.equals(id)) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("domain") ||
+                    child.getName().equals("range") ||
+                    child.getName().equals("groupby")) {
+                String propId = path.get(0);
+                if (propId.equals(child.getName())) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("column")) {
+                String propId = path.get(0);
+                if (propId.equals(child.getName())) {
+                    String columnIdx = path.get(1);
+                    Element viewIndexEl = child.getChild("viewindex");
+                    if (columnIdx.equals(viewIndexEl.getTextTrim())) {
+                        path.remove(0);
+                        path.remove(0);
+                        return lookupNodes(child, path);
+                    }
+                }
+            } else if (lang != null) {
+                String nodeName = path.get(0);
+                if (nodeName.equals(child.getName())) {
+                    path.remove(0);
+                    return child.getParentElement().getChildren(nodeName);
+                }
+            } else if (child.getName().equals("displayer") ||
+                       child.getName().equals("dataproperties")) {
+                return lookupNodes(child, path);
+            }
+        }
+        return new ArrayList<Element>();
+    }
+
+    public void injectNode(Element node, Locale locale, String value) throws Exception {
+        node.setText(value);
     }
 }

@@ -24,6 +24,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="java.util.*" %>
+<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%
     LocaleManager lm = LocaleManager.lookup();
     Locale current = lm.getCurrentLocale();
@@ -37,7 +38,7 @@
         Locale locale = locales[i];
 %>
     <option value="<%= locale.getLanguage() %>" <%= locale.getLanguage().equals(current.getLanguage()) ? "selected" : "" %>>
-        <%= locale.getDisplayName(current) %>
+        <%= StringUtils.capitalize(locale.getDisplayName(locale)) %>
     </option>
 <%
    }

@@ -25,7 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -44,17 +46,15 @@ public class WorkspaceFileConverter extends XmlToBundleConverter {
 
             String parentKey = null;
             Element node = doc.getRootElement();
-            processNode(node, parentKey, bundles);
+            extractNode(node, parentKey, bundles);
         }
         return bundles;
     }
 
-    protected void processNode(Element node, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        String key = updateKey(node, parentKey);
+    protected void extractNode(Element node, String parentKey, Map<Locale, Properties> bundles) throws Exception {
+        String key = calculateKey(node, parentKey);
         if (node.getName().equals("rawcontent")) {
-            ByteArrayInputStream is = new ByteArrayInputStream(Base64.decode(node.getText().trim()));
-            ObjectInputStream ois = new ObjectInputStream(is);
-            Map<String,String> map = (Map<String,String>) ois.readObject();
+            Map<String,String> map = parseRawContent(node);
             for (String lang : map.keySet()) {
                 String value = map.get(lang);
                 getBundle(bundles, new Locale(lang)).setProperty(key, value);
@@ -72,12 +72,12 @@ public class WorkspaceFileConverter extends XmlToBundleConverter {
             Iterator it = node.getChildren().iterator();
             while (it.hasNext()) {
                 Element child = (Element) it.next();
-                processNode(child, key, bundles);
+                extractNode(child, key, bundles);
             }
         }
     }
 
-    protected String updateKey(Element node, String parentKey) {
+    protected String calculateKey(Element node, String parentKey) {
         String nodeName = node.getName();
         if (nodeName.equals("workspace")) {
             String id = node.getAttributeValue("id");
@@ -101,7 +101,88 @@ public class WorkspaceFileConverter extends XmlToBundleConverter {
         return parentKey;
     }
 
-    public void inject(Map<Locale,Properties> bundles) throws Exception {
+    public List<Element> lookupNodes(Element node, List<String> path) throws Exception {
+        if (path.isEmpty()) return new ArrayList<Element>();
 
+        Iterator it = node.getChildren().iterator();
+        while (it.hasNext()) {
+            Element child = (Element) it.next();
+
+            if (child.getName().equals("workspaceExport")) {
+                return lookupNodes(child, path);
+            }
+            else if (child.getName().equals("workspace") ||
+                    child.getName().equals("panelInstance") ||
+                    child.getName().equals("section")) {
+
+                String nodeName = path.get(0);
+                if (nodeName.equals(child.getName())) {
+                    String targetId = path.get(1);
+                    String id = child.getAttributeValue("id");
+                    if (targetId.equals(id)) {
+                        path.remove(0);
+                        path.remove(0);
+                        return lookupNodes(child, path);
+                    }
+                }
+            }
+            else if (child.getName().equals("param")) {
+                String nodeName = path.get(0);
+                if (nodeName.equals(child.getName())) {
+                    String param = path.get(1);
+                    String targetParam = child.getAttributeValue("name");
+                    if (param.equals(targetParam)) {
+                        path.remove(0);
+                        path.remove(0);
+                        List<Element> results = new ArrayList<Element>();
+                        Iterator it2 = node.getChildren(nodeName).iterator();
+                        while (it2.hasNext()) {
+                            Element child2 = (Element) it2.next();
+                            String id = child2.getAttributeValue("name");
+                            if (id.equals(targetParam)) results.add(child);
+                        }
+                        return results;
+                    }
+                }
+            }
+            else if (child.getName().equals("rawcontent")) {
+                String nodeName = path.get(0);
+                if (nodeName.equals(child.getName())) {
+                    path.remove(0);
+                    List<Element> results = new ArrayList<Element>();
+                    results.add(child);
+                    return results;
+                }
+            }
+        }
+        return new ArrayList<Element>();
+    }
+
+    public void injectNode(Element node, Locale locale, String value) throws Exception {
+        if (node.getName().equals("rawcontent")) {
+            Map<String,String> map = parseRawContent(node);
+            map.put(locale.getLanguage(), value);
+            node.setText(formatRawContent(map));
+        }
+        else if (node.getName().equals("param")) {
+            Attribute targetAttrValue = node.getAttribute("value");
+            targetAttrValue.setValue(value);
+        }
+    }
+
+    protected Map<String,String> parseRawContent(Element element) throws Exception {
+        if (!element.getName().equals("rawcontent")) throw new RuntimeException("XML node is not <rawcontent> " + element);
+
+        ByteArrayInputStream is = new ByteArrayInputStream(Base64.decode(element.getTextTrim()));
+        ObjectInputStream ois = new ObjectInputStream(is);
+        return (Map<String,String>) ois.readObject();
+    }
+
+    protected String formatRawContent(Map<String,String> map) throws Exception {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(map);
+        byte[] content = bos.toByteArray();
+        return Base64.encode(content);
     }
 }

@@ -45,7 +45,7 @@ public class LocaleManager {
     /**
      * The list of locales supported.
      */
-    @Inject @Config("en,es")
+    @Inject @Config("en,es,de,fr,pt,ja,zh")
     protected String[] installedLocaleIds;
 
     /**
@@ -67,10 +67,7 @@ public class LocaleManager {
             if (locale != null) availableLocalesList.add(locale);
         }
         availableLocales = (Locale[]) availableLocalesList.toArray(new Locale[availableLocalesList.size()]);
-        defaultLocale = getPlatformLocale(Locale.getDefault());
-        if (defaultLocale == null) {
-            defaultLocale = getLocaleById(defaultLocaleId);
-        }
+        defaultLocale = getLocaleById(defaultLocaleId);
     }
 
     public String[] getInstalledLocaleIds() {

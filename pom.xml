@@ -243,7 +243,15 @@
                 <groupId>org.zanata</groupId>
                 <artifactId>zanata-maven-plugin</artifactId>
               <configuration>
-                <includes>**/*_en.properties</includes><!-- TODO Remove (standardize on **/*Constants.properties) -->
+                <includes>**/messages.properties</includes>
+                <includes>**/org/jboss/dashboard/export/errors.properties</includes>
+                <includes>**/org/jboss/dashboard/login.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_kpi.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_providermgr.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_htmleditor.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_filter.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/system/dashboardExport/dashb_export.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/navigation/breadCrumb/breadCrumb.properties</includes>
               </configuration>
             </plugin>
 

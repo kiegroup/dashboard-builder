@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class SessionInitializer extends RequestChainProcessor {
@@ -116,6 +117,10 @@ public class SessionInitializer extends RequestChainProcessor {
             ControllerListener listener = listeners[i];
             listener.initSession(getRequest(), getResponse());
         }
+        // Catch the user preferred language.
+        PreferredLocale preferredLocale =  getPreferredLocale();
+        LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
+
         // Store a HttpBindingListener object to detect session expiration
         getRequest().getSession().setAttribute(SESSION_ATTRIBUTE_BIND_LISTENER, new HttpSessionBindingListener() {
             public void valueBound(HttpSessionBindingEvent httpSessionBindingEvent) {
@@ -225,5 +230,59 @@ public class SessionInitializer extends RequestChainProcessor {
         if (index != 3) //Incorrect cookie value
             return null;
         return s;
+    }
+
+    protected PreferredLocale getPreferredLocale() {
+        String headerLang = getRequest().getHeader("Accept-Language"); // f.i: "en-GB, sv;q=0.7, en;q=0.9"
+
+        // Return the locale with the highest quality.
+        String[] headerLocales = StringUtils.split(headerLang, ",");
+        PreferredLocale result = null;
+        for (int i = 0; i < headerLocales.length; i++) {
+            String headerLocale = headerLocales[i];
+            PreferredLocale preferredLocale = new PreferredLocale(headerLocale);
+            if (result == null || preferredLocale.quality > result.quality) {
+                result = preferredLocale;
+            }
+        }
+        return result;
+    }
+
+    public static class PreferredLocale {
+
+        String language = null;
+        String country = null;
+        float quality = 1;
+
+        public PreferredLocale(String locale) {
+            String[] temp = StringUtils.split(locale, ";");
+            if (temp.length == 1) {
+                parseLocale(temp[0]);
+            }
+            else if (temp.length == 2) {
+                parseLocale(temp[0]);
+                parseQuality(temp[1]);
+            }
+        }
+
+        public Locale asLocale() {
+            if (country == null) return new Locale(language);
+            return new Locale(language, country);
+        }
+
+        protected void parseLocale(String locale) {
+            String[] temp = StringUtils.split(locale, "-");
+            this.language = temp[0];
+            if (temp.length == 2) {
+                this.country = temp[1];
+            }
+        }
+
+        protected void parseQuality(String q) {
+            String[] temp = StringUtils.split(q, "=");
+            if (temp.length == 2) {
+                this.quality = Float.parseFloat(temp[1]);
+            }
+        }
     }
 }
