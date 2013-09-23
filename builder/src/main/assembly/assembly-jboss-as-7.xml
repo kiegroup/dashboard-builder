@@ -78,8 +78,8 @@
 
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/src/main/jbossas7/WEB-INF</directory>
-            <outputDirectory>WEB-INF</outputDirectory>
+            <directory>${project.basedir}/src/main/jbossas7/</directory>
+            <outputDirectory>.</outputDirectory>
         </fileSet>
     </fileSets>
 

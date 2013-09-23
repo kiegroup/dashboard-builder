@@ -15,27 +15,14 @@
  */
 package org.jboss.dashboard.i18n;
 
-import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.commons.message.Message;
-import org.jboss.dashboard.commons.message.MessageList;
-import org.jboss.dashboard.displayer.DataDisplayer;
-import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
-import org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer;
-import org.jboss.dashboard.displayer.table.DataSetTable;
-import org.jboss.dashboard.displayer.table.TableColumn;
-import org.jboss.dashboard.displayer.table.TableDisplayer;
-import org.jboss.dashboard.domain.DomainConfiguration;
-import org.jboss.dashboard.domain.RangeConfiguration;
-import org.jboss.dashboard.export.ImportManager;
-import org.jboss.dashboard.export.ImportResults;
-import org.jboss.dashboard.kpi.KPI;
-import org.jboss.dashboard.provider.DataProperty;
-import org.jboss.dashboard.provider.DataProvider;
+import org.apache.commons.lang.StringUtils;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -46,144 +33,114 @@ public class KpisFileConverter extends XmlToBundleConverter {
     /** Logger */
     protected Logger log = LoggerFactory.getLogger(KpisFileConverter.class);
 
-    @Inject
-    protected ImportManager importManager;
-
     public Map<Locale,Properties> extract() throws Exception {
         Map<Locale,Properties> bundles = new HashMap<Locale, Properties>();
         if (xmlFile != null && xmlFile.exists()) {
-            ImportResults importResults = importManager.parse(new FileInputStream(xmlFile));
+            SAXBuilder builder = new SAXBuilder();
+            Document doc = builder.build(xmlFile);
 
-            // Check parsing results.
-            MessageList messages = importResults.getMessages();
-            Locale locale = LocaleManager.currentLocale();
-            Iterator it = messages.iterator();
-            while (it.hasNext()) {
-                Message message = (Message) it.next();
-                switch (message.getMessageType()) {
-                    case Message.ERROR: throw new Exception(message.getMessage(locale));
-                    case Message.WARNING: log.warn(message.getMessage(locale)); break;
-                    case Message.INFO: log.info(message.getMessage(locale)); break;
-                }
-            }
-
-            // Extract i18n literals from data providers
-            Set<DataProvider> dataProviders = importResults.getDataProviders();
-            for (DataProvider dataProvider : dataProviders) {
-                processDataProvider(dataProvider, bundles);
-            }
-
-            // Extract i18n literals from KPIs
-            Set<KPI> kpis = importResults.getKPIs();
-            for (KPI kpi : kpis) {
-                processKPI(kpi, bundles);
-            }
+            String parentKey = null;
+            Element node = doc.getRootElement();
+            extractNode(node, parentKey, bundles);
         }
         return bundles;
     }
 
-    protected void processDataProvider(DataProvider dataProvider, Map<Locale,Properties> bundles) throws Exception {
-        Map<Locale,String> descrMap = dataProvider.getDescriptionI18nMap();
-        for (Locale l : descrMap.keySet()) {
-            String value = descrMap.get(l);
-            String key = dataProvider.getCode() + ".description";
-            getBundle(bundles, l).setProperty(key, value);
+    protected void extractNode(Element node, String parentKey, Map<Locale, Properties> bundles) throws Exception {
+        String key = calculateKey(node, parentKey);
+        Attribute langAttr = node.getAttribute("language");
+        if (langAttr != null && !StringUtils.isBlank(langAttr.getValue())) {
+            Locale l = new Locale(langAttr.getValue());
+            String value = node.getText();
+            getBundle(bundles, l).setProperty(key + "." + node.getName(), value);
+        }
+        Iterator it = node.getChildren().iterator();
+        while (it.hasNext()) {
+            Element child = (Element) it.next();
+            extractNode(child, key, bundles);
+        }
+    }
 
-            DataProperty[] dataProps = dataProvider.getDataSet().getProperties();
-            for (DataProperty dataProp : dataProps) {
-                processDataProperty(dataProp, dataProvider.getCode(), bundles);
+    protected String calculateKey(Element node, String parentKey) {
+        String nodeName = node.getName();
+        if (nodeName.equals("dataprovider")) {
+            String id = node.getAttribute("code").getValue();
+            return (parentKey == null ? "" : parentKey + ".") + id;
+        }
+        if (nodeName.equals("dataproperty")) {
+            String id = node.getAttribute("id").getValue();
+            return (parentKey == null ? "" : parentKey + ".") + id;
+        }
+        if (nodeName.equals("kpi")) {
+            String id = node.getAttribute("code").getValue();
+            return (parentKey == null ? "" : parentKey + ".") + id;
+        }
+        if (nodeName.equals("domain") || nodeName.equals("range") || nodeName.equals("groupby")) {
+            return (parentKey == null ? "" : parentKey + ".") + nodeName;
+        }
+        if (nodeName.equals("column")) {
+            String id = node.getChild("viewindex").getText();
+            return (parentKey == null ? "" : parentKey + ".") + "column." + id;
+        }
+        return parentKey;
+    }
+
+    public List<Element> lookupNodes(Element node, List<String> path) throws Exception {
+        if (path.isEmpty()) return new ArrayList<Element>();
+
+        Iterator it = node.getChildren().iterator();
+        while (it.hasNext()) {
+            Element child = (Element) it.next();
+            Attribute lang = child.getAttribute("language");
+
+            if (child.getName().equals("dataprovider") || child.getName().equals("kpi")) {
+                String targetCode = path.get(0);
+                String code = child.getAttributeValue("code");
+                if (targetCode.equals(code)) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("dataproperty")) {
+                String propId = path.get(0);
+                String id = child.getAttributeValue("id");
+                if (propId.equals(id)) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("domain") ||
+                    child.getName().equals("range") ||
+                    child.getName().equals("groupby")) {
+                String propId = path.get(0);
+                if (propId.equals(child.getName())) {
+                    path.remove(0);
+                    return lookupNodes(child, path);
+                }
+            } else if (child.getName().equals("column")) {
+                String propId = path.get(0);
+                if (propId.equals(child.getName())) {
+                    String columnIdx = path.get(1);
+                    Element viewIndexEl = child.getChild("viewindex");
+                    if (columnIdx.equals(viewIndexEl.getTextTrim())) {
+                        path.remove(0);
+                        path.remove(0);
+                        return lookupNodes(child, path);
+                    }
+                }
+            } else if (lang != null) {
+                String nodeName = path.get(0);
+                if (nodeName.equals(child.getName())) {
+                    path.remove(0);
+                    return child.getParentElement().getChildren(nodeName);
+                }
+            } else if (child.getName().equals("displayer") ||
+                    child.getName().equals("dataproperties")) {
+                return lookupNodes(child, path);
             }
         }
+        return new ArrayList<Element>();
     }
 
-    protected void processDataProperty(DataProperty dataProperty, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        Map<Locale,String> nameMap = dataProperty.getNameI18nMap();
-        for (Locale l : nameMap.keySet()) {
-            String value = nameMap.get(l);
-            String key = parentKey + "." + dataProperty.getPropertyId() + ".name";
-            getBundle(bundles, l).setProperty(key, value);
-        }
-    }
-
-    protected void processKPI(KPI kpi, Map<Locale,Properties> bundles) throws Exception {
-        Map<String,String> descrMap = kpi.getDescriptionI18nMap();
-        for (String lang : descrMap.keySet()) {
-            String value = descrMap.get(lang);
-            getBundle(bundles, new Locale(lang)).setProperty(kpi.getCode() + ".description", value);
-
-            DataDisplayer dataDisplayer = kpi.getDataDisplayer();
-            if (dataDisplayer instanceof TableDisplayer) {
-                TableDisplayer tableDisplayer = (TableDisplayer) dataDisplayer;
-                processTableDisplayer(tableDisplayer, kpi.getCode(), bundles);
-            }
-            if (dataDisplayer instanceof AbstractChartDisplayer) {
-                AbstractChartDisplayer chartDisplayer = (AbstractChartDisplayer) dataDisplayer;
-                processChartDisplayer(chartDisplayer, kpi.getCode(), bundles);
-            }
-        }
-    }
-
-    protected void processChartDisplayer(AbstractChartDisplayer chartDisplayer, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        DomainConfiguration domainConfig = new DomainConfiguration(chartDisplayer.getDomainProperty());
-        processDomain(domainConfig, parentKey + ".domain", bundles);
-
-        RangeConfiguration rangeConfig = new RangeConfiguration(chartDisplayer.getRangeProperty(), chartDisplayer.getRangeScalarFunction(), chartDisplayer.getUnitI18nMap());
-        processRange(rangeConfig, parentKey + ".range", bundles);
-    }
-
-    protected void processDomain(DomainConfiguration domainConfig, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        Map<Locale,String> namesI18nMap = domainConfig.getPropertyNameI18nMap();
-        for (Locale l: namesI18nMap.keySet()) {
-            String value = namesI18nMap.get(l);
-            getBundle(bundles, l).setProperty(parentKey + ".name", value);
-        }
-        Map<Locale,String> hideI18nMap = domainConfig.getLabelIntervalsToHideI18nMap();
-        for (Locale l: hideI18nMap.keySet()) {
-            String value = hideI18nMap.get(l);
-            getBundle(bundles, l).setProperty(parentKey + ".labelsToHide", value);
-        }
-    }
-
-    protected void processRange(RangeConfiguration rangeConfig, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        Map<Locale,String> namesI18nMap = rangeConfig.getNameI18nMap();
-        for (Locale l: namesI18nMap.keySet()) {
-            String value = namesI18nMap.get(l);
-            getBundle(bundles, l).setProperty(parentKey + ".name", value);
-        }
-        Map<Locale,String> unitsI18nMap = rangeConfig.getUnitI18nMap();
-        for (Locale l: unitsI18nMap.keySet()) {
-            String value = unitsI18nMap.get(l);
-            getBundle(bundles, l).setProperty(parentKey + ".unit", value);
-        }
-    }
-
-    protected void processTableDisplayer(TableDisplayer tableDisplayer, String parentKey, Map<Locale,Properties> bundles) throws Exception {
-        DataSetTable table = tableDisplayer.getTable();
-        DataProperty groupByProp = table.getGroupByProperty();
-        if (groupByProp != null) {
-            DomainConfiguration domainConfig = new DomainConfiguration(groupByProp);
-            processDomain(domainConfig, parentKey + ".groupBy", bundles);
-        }
-        for (int columnIndex=0; columnIndex<table.getColumnCount(); columnIndex++) {
-            DataProperty columnProperty = table.getOriginalDataProperty(columnIndex);
-            if (columnProperty == null) continue;
-
-            TableColumn column = table.getColumn(columnIndex);
-            Map<Locale,String> columnName = column.getNameI18nMap();
-            for (Locale l : columnName.keySet()) {
-                String value = columnName.get(l);
-                getBundle(bundles, l).setProperty(parentKey + ".column."+ columnIndex + ".name", value);
-            }
-
-            Map<Locale,String> columnHint = column.getHintI18nMap();
-            for (Locale l : columnHint.keySet()) {
-                String value = columnHint.get(l);
-                getBundle(bundles, l).setProperty(parentKey + ".column."+ columnIndex + ".hint", value);
-            }
-        }
-    }
-
-    public void inject(Map<Locale,Properties> bundles) throws Exception {
-
+    public void injectNode(Element node, Locale locale, String value) throws Exception {
+        node.setText(value);
     }
 }

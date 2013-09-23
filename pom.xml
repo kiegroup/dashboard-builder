@@ -238,6 +238,24 @@
 
     <build>
         <plugins>
+
+            <!-- Zanata - translations -->
+            <plugin>
+                <groupId>org.zanata</groupId>
+                <artifactId>zanata-maven-plugin</artifactId>
+              <configuration>
+                <includes>**/messages.properties</includes>
+                <includes>**/org/jboss/dashboard/export/errors.properties</includes>
+                <includes>**/org/jboss/dashboard/login.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_kpi.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_providermgr.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_htmleditor.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/dashboard/dashb_filter.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/system/dashboardExport/dashb_export.properties</includes>
+                <includes>**/webapp/WEB-INF/etc/panels/navigation/breadCrumb/breadCrumb.properties</includes>
+              </configuration>
+            </plugin>
+
             <!-- Header plugin. Check out http://code.google.com/p/maven-license-plugin for more info -->
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>

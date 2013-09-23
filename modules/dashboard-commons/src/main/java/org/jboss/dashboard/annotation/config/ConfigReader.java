@@ -28,9 +28,13 @@ import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class ConfigReader {
+
+    private static transient Logger log = LoggerFactory.getLogger(ConfigReader.class.getName());
 
     private volatile Properties globalProperties;
     private volatile Map<String, Properties> beanPropertyMap;
@@ -73,6 +77,13 @@ public class ConfigReader {
             configKey = ((Class)type).getName() + "." + p.getMember().getName();
             configValue = globalProperties.getProperty(configKey);
             if (configValue != null) return configValue;
+
+            // Read also from System.properties
+            configValue = System.getProperty(configKey);
+            if (configValue != null) {
+                log.info(String.format("System property: %s=%s", configKey, configValue));
+                return configValue;
+            }
         }
 
         // Read from global - only by the field name

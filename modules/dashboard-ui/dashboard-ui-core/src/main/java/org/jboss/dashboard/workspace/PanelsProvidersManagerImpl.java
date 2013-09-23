@@ -462,13 +462,11 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                 for (int i = 0; i < locales.length; i++) {
                     String locale = locales[i];
                     File localeFile = new File(f.getParent() + "/" + bundleName + "_" + locale + ".properties");
-                    if (!localeFile.exists() || !localeFile.isFile()) {
-                        log.error("Bundle file '" + localeFile.getName() + "' not found for the panel provider with id=" + p.getId());
-                        continue;
+                    if (localeFile.exists() && localeFile.isFile()) {
+                        File bundleFile = new File(f.getParent() + "/" + bundleName + ".properties");
+                        p.getBundles().add(bundleFile);
                     }
-                    File bundleFile = new File(f.getParent() + "/" + bundleName + ".properties");
-                    p.getBundles().add(bundleFile);
-                }                
+                }
             }
         }
 
