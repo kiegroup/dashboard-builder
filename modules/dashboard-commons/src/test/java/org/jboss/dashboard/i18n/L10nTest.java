@@ -67,21 +67,21 @@ public class L10nTest {
 
     @Test
     public void checkDefaultLocale() {
-        Locale.setDefault(Locale.ENGLISH);
+        localeManager.setDefaultLocale(Locale.ENGLISH);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(Locale.ENGLISH)).isTrue();
     }
 
     @Test
     public void checkUnsupportedLocale() {
-        Locale.setDefault(Locale.CANADA_FRENCH);
+        localeManager.setDefaultLocale(Locale.ITALY);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(Locale.ENGLISH)).isTrue();
     }
 
     @Test
     public void checkSupportedVariant() {
-        Locale.setDefault(Locale.UK);
+        localeManager.setDefaultLocale(Locale.UK);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(Locale.ENGLISH)).isTrue();
         ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
@@ -91,7 +91,7 @@ public class L10nTest {
 
     @Test
     public void checkSupportedByDefault() {
-        Locale.setDefault(LOCALE_ES_AR);
+        localeManager.setDefaultLocale(LOCALE_ES_AR);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(LOCALE_ES)).isTrue();
         ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
