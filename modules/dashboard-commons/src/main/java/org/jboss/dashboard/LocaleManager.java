@@ -83,8 +83,16 @@ public class LocaleManager {
     }
 
     public void setDefaultLocaleId(String defaultLocale) {
-        this.defaultLocaleId = defaultLocale;
-        this.defaultLocale = getLocaleById(defaultLocale);
+        Locale l = getLocaleById(defaultLocale);
+        if (l != null) setDefaultLocale(l);
+    }
+
+    public void setDefaultLocale(Locale defaultLocale) {
+        Locale l = getPlatformLocale(defaultLocale);
+        if (l != null) {
+            this.defaultLocaleId = l.toString();
+            this.defaultLocale = l;
+        }
     }
 
     /**
