@@ -84,6 +84,7 @@ public class DataSourceManagementFormFormatter extends Formatter {
                     setAttribute("selectedOracle", getDataSourceManagementHandler().getDriverClass().equals("oracle.jdbc.driver.OracleDriver") ? "selected" : "");
                     setAttribute("selectedSQLServer", getDataSourceManagementHandler().getDriverClass().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver") ? "selected" : "");
                     setAttribute("selectedH2", getDataSourceManagementHandler().getDriverClass().equals("org.h2.Driver") ? "selected" : "");
+                    setAttribute("selectedTeiid", getDataSourceManagementHandler().getDriverClass().equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
                 }
                 setAttribute("DriverClassName", driverClass != null ? StringEscapeUtils.escapeHtml(driverClass) : "");
 
@@ -99,8 +100,6 @@ public class DataSourceManagementFormFormatter extends Formatter {
             if (getDataSourceManagementHandler().isCreating() || getDataSourceManagementHandler().isEDIT_MODE()) {
                 renderFragment("outputRowButtonsBegin");
                 renderFragment("outputTryButton");
-//                if (getDataSourceManagementHandler().getEDIT_MODE())
-//                    renderFragment("outputIntrospectButton");
                 renderFragment("outputSubmitButton");
 
                 if (!getDataSourceManagementHandler().getINTROSPECT_MODE())
