@@ -62,6 +62,6 @@ public class CSRFTokenGenerator implements Serializable {
     }
 
     public synchronized boolean isValidToken(String token) {
-        return token.contains(token);
+        return tokenList.contains(token);
     }
 }
