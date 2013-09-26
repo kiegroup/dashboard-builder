@@ -6,7 +6,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ns="http://docbook.org/ns/docbook">
 
   <info>
-    <title>JBoss Dashboard builder documentation.</title>
+    <title>JBoss Dashboard builder - Documentation.</title>
     <releaseinfo>Version &project.version;</releaseinfo>
     <authorgroup>
       <author>
@@ -32,6 +32,6 @@
     </mediaobject>
   </preface>
 
-  <xi:include href="Getting_started.xml" />
+  <xi:include href="Quick_start.xml" />
 
 </book>

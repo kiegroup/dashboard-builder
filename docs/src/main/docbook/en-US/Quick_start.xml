@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd http://www.w3.org/1999/xlink http://www.docbook.org/xml/5.0/xsd/xlink.xsd"
+         xml:base="./" xml:id="welcome" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:ns="http://docbook.org/ns/docbook">
+    <title>JBoss Dashboard builder - Quick Start guide</title>
+
+    <itemizedlist>
+        <listitem>
+            <para><xref linkend="What_is_it"/>What is JBoss Dashboard Builder?</para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="How_to_install"/>How to install and run it?</para>
+        </listitem>
+        <listitem>
+            <para><xref linkend="First_steps"/>First steps</para>
+        </listitem>
+        <orderedlist>
+            <listitem>
+                <para><xref linkend="Setup_data_connections"/>Setup data connections (data providers)</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Adding_new_indicator"/>Adding a new indicator to a page</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Creating_new_dashboard"/>Creating a new dashboard page</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Duplicating_page"/>Duplicating a page</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Configuring_filter"/>Configuring filter and drill-down</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Managing_dashboards"/>Managing dashboards</para>
+            </listitem>
+            <listitem>
+                <para><xref linkend="Customizing_lookNfeel"/>Customizing look'n'feel</para>
+            </listitem>
+        </orderedlist>
+    </itemizedlist>
+
+    <section id="What_is_it">
+        <title>What is JBoss Dashboard Builder?</title>
+        <para>The Dashboard Builder is a full featured web application which allows non-technical users
+            to visually create business dashboards. Dashboard data can be extracted from heterogeneous
+            sources of information such as JDBC databases or regular text files.</para>
+        <para>Some ready-to-use sample dashboards are provided for demo and learning
+            purposes.</para>
+        <section>
+
+            <title>Key features:</title>
+            <itemizedlist spacing="compact">
+                <listitem>
+                    <para>Visual configuration of dashboards (Drag'n'drop).</para>
+                </listitem>
+                <listitem>
+                    <para>Graphical representation of KPIs (Key Performance Indicators).</para>
+                </listitem>
+                <listitem>
+                    <para>Configuration of interactive report tables.</para>
+                </listitem>
+                <listitem>
+                    <para>Data export to Excel and CSV format.</para>
+                </listitem>
+                <listitem>
+                    <para>Filtering and search, both in-memory or SQL based.</para>
+                </listitem>
+                <listitem>
+                    <para>Data extraction from external systems, through different protocols.</para>
+                </listitem>
+                <listitem>
+                    <para>Granular access control for different user profiles.</para>
+                </listitem>
+                <listitem>
+                    <para>Look'n'feel customization tools.</para>
+                </listitem>
+                <listitem>
+                    <para>Pluggable chart library architecture.</para>
+                </listitem>
+                <listitem>
+                    <para>Chart libraries provided: NVD3 &amp; OFC2.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Target users:</title>
+            <itemizedlist spacing="compact">
+                <listitem>
+                    <para>Managers / Business owners. Consumer of dashboards and reports.</para>
+                </listitem>
+                <listitem>
+                    <para>IT / System architects. Connectivity and data extraction.</para>
+                </listitem>
+                <listitem>
+                    <para>Analysts. Dashboard composition &amp; configuration.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Distribution:</title>
+            <itemizedlist spacing="compact">
+                <listitem>
+                    <para>Independent application to deploy in WAR format.</para>
+                </listitem>
+
+            </itemizedlist>
+        </section>
+    </section>
+
+    <section id="How_to_install">
+        <title>How to install and run it</title>
+
+        <para>TODO:</para>
+    </section>
+
+    <section id="First_steps">
+        <title>First steps</title>
+
+        <para>The purpose of this document is not to provide a full detailed
+            explanation of the module, but to guide you through the key steps to get
+            your first dashboards created. The following chapters will provide basic
+            information about how to configure the system to retrieve information from
+            existing databases or files, create new indicators and manage different
+            dashboards.</para>
+
+        <para>For this guide, it's assumed the simple installation has been done,
+            with the standard set of examples and user and role configuration. It's
+            important to notice this configuration <emphasis role="bold">MUST NOT be
+                used in production</emphasis>, since it provides default security
+            credentials.</para>
+    </section>
+
+    <section id="Setup_data_connections">
+        <title>Connecting to data</title>
+
+        <para>To start we enter the following address in any browser:</para>
+
+        <para><link linkend="http://localhost:8080/dashbuilder/">http://localhost:8080/dashbuilder/</link></para>
+
+        <para>The login screen will appear. Login as user <emphasis role="bold">demo</emphasis> and password <emphasis role="bold">demo</emphasis>. You'll gain access to the initial dashboard,
+            but you will NOT be able to modify it yet. Dashboards Showcase, where we
+            find different pages.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/m7889832e.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>The first thing to do, after you have accessed the web application,
+            is to create a <emphasis role="bold">data provider</emphasis>. On the left
+            menu, click on the Administration page and then in the Data providers.
+            Once there, select the option "Create new data provider".</para>
+
+        <para>The purpose of data providers is to gather information from any
+            system, either a database, a file or any other, and transform it to the
+            internal in-memory representation for building dashboards.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/m62551576.png"/>
+            </imageobject>
+        </mediaobject>
+    </section>
+
+    <section id="Adding_new_indicator">
+        <title>Retrieving data from a file</title>
+
+        <para>Click on 'Create new data provider'. The following fields will be
+            shown in the form, with some sensible defaults:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Type: in this case - choose the CSV File</para>
+            </listitem>
+
+            <listitem>
+                <para>Name: Write the name you want to give to our data provider (this
+                    field is multi-language).</para>
+            </listitem>
+
+            <listitem>
+                <para>CSV file URL: Here write the path where the CSV file is
+                    located.</para>
+            </listitem>
+
+            <listitem>
+                <para>Data separator:</para>
+            </listitem>
+
+            <listitem>
+                <para>Quoting symbol:</para>
+            </listitem>
+
+            <listitem>
+                <para>Date format: Where we can define different date formats or even
+                    hour.</para>
+            </listitem>
+
+            <listitem>
+                <para>Number format: Where we can define the number format.</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>Once you have filled all the fields, click on 'Try', to check that
+            everything works properly. The application will give you a message
+            "Correct data set ..." and we continue by pressing 'Save'.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/454df96.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Next, a screen is shown with all the fields found while parsing the
+            file, giving us the option to change your name or even type.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/m2e53ddb4.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>After this last step, you can save you will have your new Data
+            Provider in the list.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/m26dfec79.png"/>
+            </imageobject>
+        </mediaobject>
+    </section>
+
+    <section>
+        <title>Connecting to a database</title>
+
+        <para>You can create a data provider to query a JDBC data base. Go to
+            Administration &gt; Data providers and click on 'Create new data
+            provider'. Choose the 'SQL Query', fill the form with the data provider
+            name and the SQL query to retrieve the data.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/select_query_00.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Once the query is typed in, you can click on 'Try', and if the query
+            is successful you will get a message.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/select_query_01.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>TODO: <emphasis role="bold">Explain sql_condition
+            command.</emphasis></para>
+
+        <para>After the query is correct, you can rename the name of the
+            properties to provide a more user friendly name.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/select_query_02.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>The data provider has been set:</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/select_query_03.png"/>
+            </imageobject>
+        </mediaobject>
+    </section>
+
+    <section>
+        <title>Adding new indicator to an existing page</title>
+
+        <para>Once the necessary data providers have been created, we'll continue
+            by adding a new indicator to an existing page. All dashboards are created
+            by adding indicators and other types of panels to pages, until you can
+            compose any page similar to the following:</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Admin_01.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>To be able to modify pages that you need administrator privileges
+            onto that page or dashboard. Logout first, and then login as user 'admin'
+            with password 'admin'</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Admin_02.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Pages can be created from scratch, or duplicating an existing one.
+            Both options will be explained in the following sections, meanwhile we
+            will assume the page already exists and we want to add an
+            indicator.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Admin_03.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Indicators are a special type of panels, which are the widgets that
+            can be placed around the page. To add a panel or indicator:</para>
+
+        <para>Click on the icon "Add panel to the current page" <mediaobject>
+            <imageobject>
+                <imagedata align="left" fileref="images/quick_start/ico_AddPanel.png" width="18"/>
+            </imageobject>
+        </mediaobject>. This will make a popup be shown with all the available
+            panels</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/m329db37b.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>To add a new 'Key Performance Indicator', click on <emphasis role="bold">Dashboard</emphasis> &gt;&gt; <emphasis role="bold">Key
+            Perfomance Indicator</emphasis>. Drag the '<emphasis role="bold">Create
+            panel</emphasis>' option and drop it into any of the page regions. You
+            will see that they are being highlighted while you move the mouse over
+            them, then simply drop the panel.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Admin_04.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Once dropped, the first step is to select the Data Provider we need
+            to use, as configured before, to feed data to the charts and reports.
+            Select any of the data provider and then you can start creating a new
+            indicator.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/49009e80.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Now, you must see the chart edition panel. It's an intuitive
+            environment which helps you configure different type of charts and
+            reports...</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Domain (X Axis): Data that will be shown in the X axis. In this
+                    example, we choose the property 'Country'.</para>
+            </listitem>
+
+            <listitem>
+                <para>Range (Y Axis): Information to be grouped and aggregated for
+                    every value in the Domain. For example, 'Amount'.</para>
+            </listitem>
+
+            <listitem>
+                <para>Renderer: Graphical library that can be used. Each one will
+                    provide different features and visualization style. We can choose
+                    'NVD3'.</para>
+            </listitem>
+
+            <listitem>
+                <para>Sort intervals by: It's how the domain values can be sorted, for
+                    example, according to the Range value.</para>
+            </listitem>
+
+            <listitem>
+                <para>Sort order: It can be ascending or descending.</para>
+            </listitem>
+        </itemizedlist>
+
+        <table align="center" border="0" floatstyle="">
+            <tr>
+                <td>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="center" fileref="images/quick_start/Admin_06.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </td>
+
+                <td valign="top">
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="left" fileref="images/quick_start/Bar_chart.png"/>
+                        </imageobject>
+                    </mediaobject>
+
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="left" fileref="images/quick_start/Line_chart.png"/>
+                        </imageobject>
+                    </mediaobject>
+
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="left" fileref="images/quick_start/Data_table.png"/>
+                        </imageobject>
+                    </mediaobject>
+
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="left" fileref="images/quick_start/Pie_chart.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </td>
+            </tr>
+        </table>
+
+        <para>Once dropped, the first step is to select the Data Provider we need
+            to use, as configured before, to feed data to the charts and reports.
+            Select any of the data provider and then you can start creating a new
+            indicator.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Admin_05.png"/>
+            </imageobject>
+        </mediaobject>
+    </section>
+
+    <section id="Creating_new_dashboard">
+        <title>Creating a new page</title>
+
+        <para>There are two different ways of creating a page:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Starting as a blank page<mediaobject>
+                    <imageobject>
+                        <imagedata align="left" fileref="images/quick_start/ico_NewPage.png"/>
+                    </imageobject>
+                </mediaobject></para>
+            </listitem>
+
+            <listitem>
+                <para>Duplicating an existing page <mediaobject>
+                    <imageobject>
+                        <imagedata align="left" fileref="images/quick_start/ico_ClonePage.png"/>
+                    </imageobject>
+                </mediaobject></para>
+
+                <para>You will find these icons at the top of the page, in the
+                    administration bar.</para>
+            </listitem>
+        </itemizedlist>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/NewPage_01.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>To create a new page, click on the 'Create new page'
+            icon<mediaobject>
+                <imageobject>
+                    <imagedata align="left" fileref="images/quick_start/ico_NewPage.png"/>
+                </imageobject>
+            </mediaobject>a new screen will be shown to fill in some
+            parameters:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Page title.</para>
+            </listitem>
+
+            <listitem>
+                <para>Parent page: Pages are organized in a hierarchical way. This is
+                    the parent page.</para>
+            </listitem>
+
+            <listitem>
+                <para>Skin: This will select and specific look'n'feel and CSS
+                    stylesheet for this page. You can leave the default value.</para>
+            </listitem>
+
+            <listitem>
+                <para>Envelope: Defines which kind of HTML template will be placed
+                    around the page layout.</para>
+            </listitem>
+
+            <listitem>
+                <para>Region layout: This is the template, that is, how regions are
+                    organized to place the panels inside the page. We can choose any of
+                    the installed types, for example, "Demo - Default template with
+                    sliding".</para>
+            </listitem>
+        </itemizedlist>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/NewPage_02.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Most of these properties will be discussed in the chapter about
+            'Changing look'n'feel'</para>
+
+        <para>When back to the dashboard, you might realize the page is still not
+            accessible from the left menu. You can see it in the combo list in the
+            administration toolbar:</para>
+
+        <para>TODO: IMAGE OF ADMINISTRATION BAR</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/NewPage_04.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>If you want this page to be shown in the left menu, you can click on
+            'Edit content' and then add the newly created page to the list of options
+            displayed in the menu.</para>
+
+        <table border="0">
+            <tr>
+                <td valign="top">
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="center" fileref="images/quick_start/NewPage_05.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </td>
+
+                <td valign="top">
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="center" fileref="images/quick_start/NewPage_06.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </td>
+
+                <td valign="top">
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata align="center" fileref="images/quick_start/NewPage_07.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </td>
+            </tr>
+        </table>
+
+        <para>We can click on the page that has been created. It has the same
+            look'n'feel as the rest of the dashboard, due to the fact it's sharing the
+            same skin and envelope setting. Now we can start adding panels to it to
+            compose its content. As described above, all you need to do is use the
+            "Add panel to the current page" feature<mediaobject>
+                <imageobject>
+                    <imagedata align="left" fileref="images/quick_start/ico_AddPanel.png"/>
+                </imageobject>
+            </mediaobject>panel and from that we displayed, go dragging each and
+            every one of the panels that we need.</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/NewPage_08.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Repeat until the page has all the content and panels
+            required.</para>
+
+        <para>The page template is divided in regions, and these can be of three
+            different types:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Columns.</para>
+            </listitem>
+
+            <listitem>
+                <para>Rows.</para>
+            </listitem>
+
+            <listitem>
+                <para>Tabbed regions.</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>After dropping the panels in the right regions and configuring them,
+            you might be able to create the following page:</para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/NewPage_09.png"/>
+            </imageobject>
+        </mediaobject>
+        <section id="Duplicating_page">
+            <title>Duplicating a page</title>
+
+            <para>As we had mentioned earlier, another way to create new pages, is
+                from one we already have, and we do that from clone icon, this way is much
+                faster, and the only thing we have to take into account are those panels
+                that we want to keep and those who want to duplicate.</para>
+
+            <para>At the moment we access the utility to clone page, we appear in a
+                page similar to the image below, which as I said before, we want to select
+                those instances duplicate and those desamos maintain.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/NewPage_10.png"/>
+                </imageobject>
+            </mediaobject>
+
+            <para>Once done, select Duplicate page and we have our new page
+                created.</para>
+        </section>
+    </section>
+
+    <section id="Configuring_filter">
+        <title>Configuring filter and drill-down</title>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/EditDataFilter_01.png"/>
+            </imageobject>
+        </mediaobject>
+    </section>
+
+    <section id="Managing_dashboards">
+        <title>Managing dashboards</title>
+        <section>
+            <title>Permits portal</title>
+
+            <para>From here you manage permissions for different users and roles
+                created in place to act on the selected portal. You can also set
+                permissions at the level of pages and portlets that will apply at all on
+                site.</para>
+
+            <para>As can be seen in the figure below, at the top displays a list of
+                permissions that are currently defined on the portal, while the bottom of
+                the screen is devoted to the assignment of permissions itself. Thus, in
+                succession, individual users will be assigned specific permissions to
+                access the portal, to manage, create pages, edit its properties, delete,
+                and edit permissions and change the portlets that can be displayed in him.
+                These can be selected in the popup window (shown in Figure 8) that appears
+                by clicking on the link ’Choose to whom’.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Permissions_01.png" valign="top"/>
+                </imageobject>
+            </mediaobject>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Permissions_02.png" valign="top"/>
+                </imageobject>
+            </mediaobject>
+        </section>
+        <section>
+            <title>Role-default page</title>
+
+            <para>Each role can be assigned a default page for portal, so that when a
+                user with this role are identified and enter the portal, this will be your
+                home page.</para>
+
+            <para>This option is activated only when the site has configured its home
+                page as property the role assigned page.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Permissions_03.png" valign="top"/>
+                </imageobject>
+            </mediaobject>
+        </section>
+    </section>
+
+    <section id="Customizing_lookNfeel">
+        <title>Customizing look'n'feel</title>
+
+        <para>The components for graphical configuration of the portal are:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Skins: Style sheets, images and predefined icons that serve to
+                    change the look of the portal.</para>
+            </listitem>
+
+            <listitem>
+                <para>Region Layouts: Format the available predefined regions of a
+                    page, where you can place portlets.</para>
+            </listitem>
+
+            <listitem>
+                <para>Envelopes: Defines which kind of HTML template will be placed
+                    around the page layout</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>Each chart has a field component of validity (portal or page), and
+            is packaged in a file. Zip file that contains a property that varies with
+            the type of component.</para>
+
+        <para>You can access the administration of these components from the
+            management console (from the portal or page), select the node ’Graphic
+            resources.’</para>
+
+        <para>The structure of the administration screen is the same for each area
+            (portal or page) and graphic component (skin, wrapper, or gallery
+            staff):</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Form to register new components with the following
+                    fields:</para>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>ID: It must be unique, different from all discharged so far
+                            as an existing or in case you want to overwrite.</para>
+                    </listitem>
+
+                    <listitem>
+                        <para>File. Zip: Path of the file containing the definition of the
+                            component and its resources.</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+
+            <listitem>
+                <para>List of components such discharge.</para>
+            </listitem>
+        </itemizedlist>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/quick_start/Graphics_component_01.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>At the time to validate a component, verify that consist only jsp
+            code and html tags themselves. This control is done to prevent malicious
+            java code.</para>
+        <section>
+            <title>Facilities for independent management</title>
+
+            <para>This application is a content management solution agile, flexible
+                and easy to use. Offers users the ability to manage all graphic resources,
+                as well as style sheets, templates and wrappers from any computer with an
+                Internet connection. With this, the content manager, developer, etc. Shall
+                not require the presence of a technician to do their job.</para>
+        </section>
+        <section>
+            <title>Structure of the *. zip and *. properties</title>
+
+            <para>Each zip file has a file of statements from the elements. Depending
+                on the type of component would be: envelope.properties (envelope),
+                skin.properties (skin), layout.properties (template) and
+                gallery.properties (gallery of resources).</para>
+
+            <para>These files. Properties have two distinct parts:</para>
+
+            <itemizedlist>
+                <listitem>
+                    <para>Name of the item in different languages, to which is added a
+                        line in the following format:</para>
+
+                    <para>name.&lt;idiom abbreviation(es, en, ca)&gt; = Name of the
+                        resource in that language</para>
+                </listitem>
+
+                <listitem>
+                    <para>Definition of the component associated with:</para>
+
+                    <para>resource.&lt;resource_id&gt;= Path relative to the zip
+                        file.</para>
+                </listitem>
+            </itemizedlist>
+
+            <para>Before detailing what each resource, it is important that these four
+                graphic resources can ’jump' at different levels from the page, via the
+                portal (a given) to reach the global level (all portals).</para>
+        </section>
+        <section>
+            <title>Skins</title>
+
+            <para>You may see the skins added to the resource library. You can check,
+                using the preview, look &amp; feel that will be applied to any of them.
+                You can download the skin you want, clicking the icon.</para>
+
+            <para>Also add a new skin for our library resources. You only need the zip
+                file containing all the elements for the correct update Library resources
+                and assign an identifier.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Graphics_component_02.png"/>
+                </imageobject>
+            </mediaobject>
+
+            <para>The modification of the skins (all styles, images and icons
+                predefined) has an effect on the appearance of the elements
+                contained.</para>
+
+            <para>The easiest way to create a new skin is to lower one of which has by
+                default application. It amended by adding unwanted changes in appearance
+                and saved with a different name. If you only want to modify a default
+                skin, will have to save after the changes, with the same name.</para>
+        </section>
+        <section>
+            <title>Region layouts</title>
+
+            <para>You can display the list of all the templates installed on your
+                portal. The preview lets you see the layout of the parts to be created in
+                a page. Any of these templates can be downloaded by clicking on the
+                icon.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Graphics_component_03.png"/>
+                </imageobject>
+            </mediaobject>
+
+            <para>The form is located before the list of templates, allows us to add
+                templates. To do this you must create a zip file containing all the
+                elements required for the upgrade and, finally, assign an identifier
+                name.</para>
+        </section>
+        <section>
+            <title>Envelopes</title>
+
+            <para>You can display the list of all the envelopes installed on your
+                portal. The preview lets you see the envelopes of the parts to be created
+                in a page. Any of these envelopes can be downloaded by clicking on the
+                icon.</para>
+
+            <mediaobject>
+                <imageobject>
+                    <imagedata align="center" fileref="images/quick_start/Graphics_component_04.png"/>
+                </imageobject>
+            </mediaobject>
+
+            <para>The form is located before the list of envelopes, allows us to add
+                envelopes. To do this you must create a zip file containing all the
+                elements required for the upgrade and, finally, assign an identifier
+                name.</para>
+        </section>
+    </section>
+
+</chapter>
