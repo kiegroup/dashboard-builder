@@ -313,6 +313,7 @@
             </activation>
             <modules>
                 <module>builder</module>
+                <module>docs</module>
             </modules>
         </profile>
     </profiles>
