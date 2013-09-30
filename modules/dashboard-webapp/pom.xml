@@ -35,43 +35,36 @@
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-commons</artifactId>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-core</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-panels</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-resources</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-ofc2</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-nvd3</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-gauge</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
     </dependencies>
 

@@ -36,7 +36,6 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-api</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
     </dependencies>
 </project>

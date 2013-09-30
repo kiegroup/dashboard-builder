@@ -36,13 +36,11 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-webapp</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-samples</artifactId>
             <type>war</type>
-            <version>${version.dashbuilder}</version>
         </dependency>
     </dependencies>
 
@@ -267,7 +265,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-server</artifactId>
-                    <version>${version.org.eclipse.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
@@ -287,7 +284,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-servlet</artifactId>
-                    <version>${version.org.eclipse.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
@@ -299,7 +295,6 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-util</artifactId>
-                    <version>${version.org.eclipse.jetty}</version>
                 </dependency>
             </dependencies>
 

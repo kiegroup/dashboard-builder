@@ -22,7 +22,6 @@
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-showcase</artifactId>
-            <version>${version.dashbuilder}</version>
             <type>war</type>
         </dependency>
 

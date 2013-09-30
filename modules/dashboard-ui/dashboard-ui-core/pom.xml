@@ -36,31 +36,26 @@
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-security</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-csv</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-provider-sql</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-displayer-core</artifactId>
             <scope>compile</scope>
-            <version>${version.dashbuilder}</version>
         </dependency>
     </dependencies>
 </project>

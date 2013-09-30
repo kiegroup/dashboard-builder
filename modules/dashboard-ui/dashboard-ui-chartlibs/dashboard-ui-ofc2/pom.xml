@@ -35,7 +35,6 @@
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-core</artifactId>
-            <version>${version.dashbuilder}</version>
             <classifier>classes</classifier>
         </dependency>
     </dependencies>
