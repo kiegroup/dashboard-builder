@@ -265,6 +265,7 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-server</artifactId>
+                    <version>${version.org.eclipse.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
@@ -284,6 +285,7 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-servlet</artifactId>
+                    <version>${version.org.eclipse.jetty}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>org.eclipse.jetty</groupId>
