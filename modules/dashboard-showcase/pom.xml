@@ -297,6 +297,7 @@
                 <dependency>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-util</artifactId>
+                    <version>${version.org.eclipse.jetty}</version>
                 </dependency>
             </dependencies>
 
