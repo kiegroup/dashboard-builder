@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd http://www.w3.org/1999/xlink http://www.docbook.org/xml/5.0/xsd/xlink.xsd"
+         xml:base="./" xml:id="sect-quick_start-first_steps-create_dashboard"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:ns="http://docbook.org/ns/docbook">
+    <title>Building a dashboard</title>
+
+    <para>A dashboard is basically a page with some KPIs placed on it (plus some
+        other additional widgets as we will see later on). There are two different
+        ways of creating a page:
+    </para>
+
+    <para>Starting as a blank page:
+        <mediaobject>
+            <imageobject>
+                <imagedata align="left" fileref="images/ico_NewPage.png"/>
+            </imageobject>
+        </mediaobject>
+    </para>
+
+    <para>Duplicating an existing page:
+        <mediaobject>
+            <imageobject>
+                <imagedata align="left" fileref="images/ico_ClonePage.png"/>
+            </imageobject>
+        </mediaobject>
+    </para>
+
+    <para>You will find these icons at the top of the page, in the
+        administration bar:
+    </para>
+
+    <mediaobject>
+        <imageobject>
+            <imagedata align="center" fileref="images/NewPage_01.png"/>
+        </imageobject>
+    </mediaobject>
+
+    <para>To create a new page, click on the '<emphasis>Create new
+        page</emphasis>' icon:
+        <mediaobject>
+            <imageobject>
+                <imagedata align="left" fileref="images/ico_NewPage.png"/>
+            </imageobject>
+        </mediaobject>
+    </para>
+
+    <para>A form will be shown to fill in some parameters:</para>
+
+    <mediaobject>
+        <imageobject>
+            <imagedata align="center" fileref="images/NewPage_02.png"/>
+        </imageobject>
+    </mediaobject>
+
+    <itemizedlist>
+        <listitem>
+            <para>Page title.</para>
+        </listitem>
+
+        <listitem>
+            <para>Parent page: Pages are organized in a hierarchical way. This is
+                the parent page.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>Skin: This will select and specific look'n'feel and CSS stylesheet
+                for this page. You can leave the default value.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>Envelope: Defines which kind of HTML template will be placed
+                around the page layout.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>Region layout: This is the template, that is, how regions are
+                organized to place the panels inside the page. We can choose any of the
+                installed types, for example, "Demo - Default template with
+                sliding".
+            </para>
+        </listitem>
+    </itemizedlist>
+
+    <para>Most of these properties will be discussed in the chapter about
+        '<emphasis>Customing look'n'feel</emphasis>'. After creating the page, you
+        might realize the page is still not accessible from the left menu but you
+        can see it in the combo list in the administration toolbar:
+    </para>
+
+    <para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/toolbar.png"/>
+            </imageobject>
+        </mediaobject>
+    </para>
+
+    <para>If you want this page to be shown in the left menu, you can click on
+        'Edit content' and then add the newly created page to the list of options
+        displayed in the menu.
+    </para>
+
+    <table border="0">
+        <tr>
+            <td valign="top">
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="images/NewPage_05.png"/>
+                    </imageobject>
+                </mediaobject>
+            </td>
+
+            <td valign="top">
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="images/NewPage_06.png"/>
+                    </imageobject>
+                </mediaobject>
+            </td>
+
+            <td valign="top">
+                <mediaobject>
+                    <imageobject>
+                        <imagedata align="center" fileref="images/NewPage_07.png"/>
+                    </imageobject>
+                </mediaobject>
+            </td>
+        </tr>
+    </table>
+
+    <para>Repeat until the page has all the content and panels required. After
+        dropping the panels into the right regions and configuring them, you might
+        be able to create dashboards that look like the following one:
+    </para>
+
+    <mediaobject>
+        <imageobject>
+            <imagedata align="center" fileref="images/dashboard_panels.png"/>
+        </imageobject>
+    </mediaobject>
+
+    <para>As you can see, a dashboard is usually composed by one or more
+        instances of the following panel types:
+    </para>
+
+    <itemizedlist>
+        <listitem>
+            <para>Dashboard &gt; Key Performance Indicator</para>
+        </listitem>
+
+        <listitem>
+            <para>Dashboard &gt; Filter &amp; Drill-down</para>
+        </listitem>
+
+        <listitem>
+            <para>Navigation &gt; Tree menu</para>
+        </listitem>
+
+        <listitem>
+            <para>Navigation &gt; Language menu</para>
+        </listitem>
+
+        <listitem>
+            <para>Navigation &gt; Logout panel</para>
+        </listitem>
+    </itemizedlist>
+
+    <section xml:id="sect-quick_start-first_steps-duplicate_page">
+        <title>Duplicating a page</title>
+
+        <para>As mentioned earlier, another way to create new pages is to copy an
+            existing one. We can do that via the '<emphasis>Duplicate current
+                page</emphasis>' icon which is a much faster way to create pages. After
+            clicking on the clone icon located at the toolbar, a page similar to the
+            image below will be shown. From there we can select those instances we
+            want to duplicate and those we want to keep as is (to reuse).
+        </para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/NewPage_10.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>Once finished, press the '<emphasis>Duplicate page</emphasis>'
+            button and a brand new page will be created with the same name as the
+            original one but starting with the prefix '<emphasis>Copy of</emphasis>'.
+            Notice that if a panel instance is reused then any changes made to it will
+            be reflected on all the pages where such instance is being used. this is a
+            cool feature when we are defining for instance our navigation menus since
+            we can define a single<emphasis>'Tree menu'</emphasis>panel and then
+            configure all the pages to display the same menu instance.
+        </para>
+    </section>
+
+    <section xml:id="sect-quick_start-first_steps-filter">
+        <title>Configuring filter and drill-down</title>
+
+        <para>The '<emphasis>Filter &amp; Drill-down</emphasis>' panel allows for
+            the quick definition of dynamic forms that will allow us to navigate
+            troughout the data displayed by the dashboard. Once an instance of the
+            '<emphasis>Filter &amp; Drill-down</emphasis>' panel is dropped on the
+            oage we just have to select the '<emphasis>Edit content</emphasis>' option
+            from the panel menu. After that, a popup window similar to the following
+            will be displayed:
+        </para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/EditDataFilter_01.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>This is a filter configuration panel where we can set the filter
+            behaviour. Let's focus first on the middle bottom part of the screen: the
+            <emphasis>Data provider's property table</emphasis>, which lists the
+            properties of ALL the data providers referred by the KPIs on the page. For
+            example, if we are building a sales dashboard and all its KPIs are built
+            on top of the same data provider called '<emphasis>Sales dasboard
+                demo</emphasis>' then the system lists all the
+            <emphasis><emphasis>data
+                properties of the '</emphasis>Sales dashboard demo
+            </emphasis>
+            ' provider.
+            Hence, only the properties we select as '<emphasis>Visible</emphasis>'
+            will be part of the filter form. Aditionally, we can enable the drill-down
+            feature for each property. If enabled then the system will redirect to the
+            target page when the property is selected on the filter form. Below is an
+            screenshot of the filter panel of the '<emphasis>Sales dashboard
+                demo</emphasis>'.
+        </para>
+
+        <mediaobject>
+            <imageobject>
+                <imagedata align="center" fileref="images/sales_dashboard_filter.png"/>
+            </imageobject>
+        </mediaobject>
+
+        <para>As you can see the form is composed by all the visible properties
+            selected. For each property the system reads its configuration by asking
+            the underlying data provider. For label type properties a drop-down list
+            is displayed, containing as options all the disctinct values of the data
+            provider's column. When the user submits a change on the filter form then
+            the following operations are carried out by the dashboard visualization
+            engine:
+        </para>
+
+        <orderedlist>
+            <listitem>
+                <para>It reads the data sets for the target data providers. A data
+                    provider is in the target set if it contains the selected filter
+                    property.
+                </para>
+            </listitem>
+
+            <listitem>
+                <para>It applies a filtering algorithm in memory on the target data.</para>
+            </listitem>
+
+            <listitem>
+                <para>If drill-down is enabled for the selected property then the
+                    target page is set as current and the steps #1 and #2 are repeated
+                    again.
+                </para>
+            </listitem>
+
+            <listitem>
+                <para>Finally, after filtering, all the sensible KPIs are updated in order to
+                    display the filtered data. By sensible, we mean a KPI which is
+                    displaying data that is being filtered.
+                </para>
+            </listitem>
+        </orderedlist>
+
+        <para/>
+    </section>
+
+</section>
