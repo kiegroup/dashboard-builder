@@ -21,28 +21,28 @@
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.PieChartViewer_nvd3");
-
     AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
 
-<%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
-<% if( editor != null ) {
-    // Use session to pass parameters to JSP
-    session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
+<%-- EDIT MODE --%>
 
+<% if( editor != null ) {
+    session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
     String basehref = UIServices.lookup().getUrlMarkupGenerator().getBaseHref(request);
 %>
+     <%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
      <iframe
-          width="<%= displayer.getWidth() +50 %>"
-          style="border:0px;overflow-y: hidden;overflow-x: hidden; height:400px;"
-          scrolling="no"
+         width="680px" height="450px"
+         style="border:0px;overflow: auto;"
           src="<%=basehref %>components/bam/displayer/chart/nvd3_piechart_viewer_iframe.jsp?chartId=<%=chartId%>">
      </iframe>
-<% } // End of preview mode
+<% }
    else {
-     //
 %>
+
+<%-- DISPLAY MODE --%>
+
 <% if( enableDrillDown ) { %>
 <!-- Form for drill down action -->
 <form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
@@ -56,5 +56,5 @@
 <%@include file="nvd3_chart_wrapper.jspi"%>
 <%@include file="nvd3_piechart_script.jspi"%>
 <%
-   } // END of regular mode
+   }
 %>
