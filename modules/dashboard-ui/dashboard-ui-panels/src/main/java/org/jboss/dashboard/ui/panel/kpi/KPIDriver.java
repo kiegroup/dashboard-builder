@@ -77,7 +77,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     }
 
     public int getEditHeight(Panel panel, CommandRequest request) {
-        return 500;
+        return 600;
     }
 
     public void init(PanelProvider provider) throws Exception {

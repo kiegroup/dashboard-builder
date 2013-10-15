@@ -470,6 +470,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setShowTitle(source.isShowTitle());
             setIntervalsSortCriteria(source.getIntervalsSortCriteria());
             setIntervalsSortOrder(source.getIntervalsSortOrder());
+            setShowLabelsXAxis(source.isShowLabelsXAxis());
         } catch (ClassCastException e) {
             // Ignore wrong types
         }

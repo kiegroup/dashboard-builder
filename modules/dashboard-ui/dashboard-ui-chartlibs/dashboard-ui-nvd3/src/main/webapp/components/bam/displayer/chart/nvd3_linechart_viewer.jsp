@@ -15,12 +15,33 @@
     limitations under the License.
 
 --%>
+<%@ page import="org.jboss.dashboard.factory.Factory" %>
+<%@ page import="org.jboss.dashboard.ui.UIServices" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
+<%@ page import="org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer" %>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.LineChartViewer_nvd3");
-
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
+
+<%-- EDIT MODE --%>
+
+<% if( editor != null ) {
+  session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
+  String basehref = UIServices.lookup().getUrlMarkupGenerator().getBaseHref(request);
+%>
+<%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
+<iframe
+    width="680px" height="450px"
+    style="border:0px;overflow: auto;"
+    src="<%=basehref %>components/bam/displayer/chart/nvd3_linechart_viewer_iframe.jsp?chartId=<%=chartId%>">
+</iframe>
+<%
+  } else {
+%>
+
+<%-- DISPLAY MODE --%>
 
 <% if( enableDrillDown ) { %>
 <!-- Form for drill down action -->
@@ -29,10 +50,11 @@
   <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
 <script defer="true">
-    setAjax('<%="form"+chartId%>');
+  setAjax('<%="form"+chartId%>');
 </script>
-<% } %>
-
+<%  } %>
 <%@include file="nvd3_chart_wrapper.jspi"%>
 <%@include file="nvd3_linechart_script.jspi"%>
-
+<%
+  }
+%>
