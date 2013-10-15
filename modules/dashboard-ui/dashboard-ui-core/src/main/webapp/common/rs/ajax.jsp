@@ -20,6 +20,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.HTTPSettings" %>
 <%@ page import="org.jboss.dashboard.ui.panel.AjaxRefreshManager" %>
+<%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%= LocaleManager.currentLocale() %>"/>
 
@@ -76,7 +77,7 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
                 var targetElementId;
                 if (ajaxHandler.ajaxReq.responseText.indexOf("</html>")!=-1) {
                     // Just refresh the current screen.
-                    document.location.href = '<%=request.getContextPath()%>';
+                    document.location.href = '<%=UIServices.lookup().getUrlMarkupGenerator().getBaseURI().replace("&amp;","&")%>';
                 } else {
                     var element;
                     if (ajaxHandler.ajaxReq.responseText.indexOf("modal_component_")!=-1){
