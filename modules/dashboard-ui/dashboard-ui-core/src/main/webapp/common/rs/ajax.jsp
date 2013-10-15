@@ -77,7 +77,7 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
                 var targetElementId;
                 if (ajaxHandler.ajaxReq.responseText.indexOf("</html>")!=-1) {
                     // Just refresh the current screen.
-                    document.location.href = '<%=UIServices.lookup().getUrlMarkupGenerator().getBaseURI().replace("&amp;","&")%>';
+                    document.location.href = '<%=UIServices.lookup().getUrlMarkupGenerator().getBaseURI()%>';
                 } else {
                     var element;
                     if (ajaxHandler.ajaxReq.responseText.indexOf("modal_component_")!=-1){
