@@ -48,6 +48,7 @@ public class URLMarkupGenerator {
     private String action = "set";
     public static final String COMMAND_RUNNER = "Controller";
     public static final String FRIENDLY_PREFIX = "workspace";
+    public static final String PARAM_SEPARATOR = "\u0026";
 
     public String getHandler() {
         return handler;
@@ -177,7 +178,7 @@ public class URLMarkupGenerator {
             Object paramValue = params.get(paramName);
             sb.append(getParameterMarkup(paramName, paramValue));
             if (it.hasNext()) {
-                sb.append("&amp;");
+                sb.append(PARAM_SEPARATOR);
             }
         }
         return sb.toString();
@@ -327,7 +328,7 @@ public class URLMarkupGenerator {
         String paramsMarkup = getParamsMarkup(paramsMap);
         sb.append(paramsMarkup);
         if (extraParams != null) {
-            sb.append("&amp;").append(extraParams);
+            sb.append(PARAM_SEPARATOR).append(extraParams);
         }
         return postProcessURL(sb).toString();
     }
@@ -355,14 +356,14 @@ public class URLMarkupGenerator {
             boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
             String embeddedParam = Parameters.PARAM_EMBEDDED + "=true";
             if (embeddedMode && url.indexOf(embeddedParam) == -1) {
-                url.append(url.indexOf("?") != -1 ? "&amp;" : "?");
+                url.append(url.indexOf("?") != -1 ? PARAM_SEPARATOR : "?");
                 url.append(embeddedParam);
             }
         }
         // Add the CSRF protection token
         CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
         String token = csrfTokenGenerator.getLastToken();
-        url.append(url.indexOf("?") != -1 ? "&amp;" : "?");
+        url.append(url.indexOf("?") != -1 ? PARAM_SEPARATOR : "?");
         url.append(csrfTokenGenerator.getTokenName()).append("=").append(token);
         return url;
     }
