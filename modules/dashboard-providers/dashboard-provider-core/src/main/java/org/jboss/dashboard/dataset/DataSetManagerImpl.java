@@ -25,11 +25,19 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderImpl;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@ApplicationScoped
-public class DataSetManagerImpl implements DataSetManager {
+/**
+ * In memory based implementation which holds a session scoped cache of all the datasets loaded and filtered within
+ * the user's session. This is not a highly scalable implementation since memory usage is not optimized at all.
+ *
+ * TODO: provide production-ready optimized DataSetManager implementations.
+ */
+@SessionScoped
+public class DataSetManagerImpl implements DataSetManager, Serializable {
 
     protected Map<String, DataSetHolder> dataSetMap = new HashMap<String, DataSetHolder>();
 
