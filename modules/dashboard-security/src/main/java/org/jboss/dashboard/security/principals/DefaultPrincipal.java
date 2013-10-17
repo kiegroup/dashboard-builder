@@ -46,7 +46,7 @@ public class DefaultPrincipal implements Principal, Serializable {
     public String toString() {
         String desc = "";
         Role role = SecurityServices.lookup().getRolesManager().getRoleById(this.getName().substring(this.getName().indexOf('-') + 1));
-        if (role != null) desc = role.getDescription(LocaleManager.currentLocale());
+        if (role != null) desc = role.getName();
         return StringUtils.isNotBlank(desc) ? desc : this.getName();
     }
 

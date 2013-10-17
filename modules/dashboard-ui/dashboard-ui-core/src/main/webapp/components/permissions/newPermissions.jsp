@@ -64,7 +64,7 @@
 										for (Iterator<Role> rIt = rolesManager.getAllRoles().iterator(); rIt.hasNext(); ) {
 											Role role = rIt.next();
 									%>
-									<option value="<%= role.getName() %>"><%= role.getDescription(LocaleManager.currentLocale()) %></option>
+									<option value="<%= role.getName() %>" title="<%= role.getDescription(LocaleManager.currentLocale()) %>"><%= role.getName() %></option>
 									<%
 										}
 									%>

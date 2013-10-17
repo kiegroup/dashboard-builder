@@ -34,8 +34,8 @@
     </mvc:fragment>
     <mvc:fragment name="outputRoleStart">
                 <tr class="<mvc:fragmentValue name="className"/>">
-                    <td>
-                        <mvc:fragmentValue name="roleDescription"/>
+                    <td title="<mvc:fragmentValue name="roleDescription"/>">
+                        <mvc:fragmentValue name="roleName"/>
                     </td>
     </mvc:fragment>
 
