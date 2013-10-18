@@ -26,6 +26,7 @@ import org.jboss.dashboard.provider.DataProviderImpl;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ import java.util.Map;
  * TODO: provide production-ready optimized DataSetManager implementations.
  */
 @SessionScoped
+@Named("sessionScopedDataSetManager")
 public class DataSetManagerImpl implements DataSetManager, Serializable {
 
     protected Map<String, DataSetHolder> dataSetMap = new HashMap<String, DataSetHolder>();

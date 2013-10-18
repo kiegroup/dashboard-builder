@@ -224,6 +224,15 @@ public class ThreadProfile {
         this.targetThread = targetThread;
     }
 
+    public boolean containsCodeBlockType(CodeBlockType type) {
+        CodeBlockTrace trace = codeBlockInProgress;
+        while (trace != null) {
+            if (trace.getType().equals(type)) return true;
+            trace = trace.getParent();
+        }
+        return false;
+    }
+
     // Lifecycle
 
     public void begin() {
