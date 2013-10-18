@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
@@ -82,6 +83,11 @@ public class SessionInitializer extends RequestChainProcessor {
         this.listeners = listeners;
     }
 
+    public static boolean isNewSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        return !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
+    }
+
     /**
      * Make required processing of request.
      *
@@ -90,9 +96,7 @@ public class SessionInitializer extends RequestChainProcessor {
     protected boolean processRequest() throws Exception {
         // Retrieve session
         HttpSession session = getRequest().getSession(true);
-        boolean isNewSession = !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
-
-        if (isNewSession) initSession();
+        if (isNewSession(getRequest())) initSession();
 
         // Check session expiration
         if (getRequest().getRequestedSessionId() != null && !getRequest().getRequestedSessionId().equals(session.getId())) {
