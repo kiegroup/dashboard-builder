@@ -21,6 +21,9 @@ import org.jboss.dashboard.command.CommandProcessorFactory;
 import org.jboss.dashboard.command.TemplateProcessor;
 import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.function.ScalarFunctionManager;
+import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
+import org.jboss.dashboard.profiler.Profiler;
+import org.jboss.dashboard.profiler.ThreadProfile;
 import org.jboss.dashboard.provider.DataProviderManager;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
@@ -42,9 +45,6 @@ public class DataProviderServices {
     protected DataProviderManager dataProviderManager;
 
     @Inject
-    protected DataSetManager dataSetManager;
-
-    @Inject
     protected ScalarFunctionManager scalarFunctionManager;
 
     @Inject
@@ -61,7 +61,12 @@ public class DataProviderServices {
     }
 
     public DataSetManager getDataSetManager() {
-        return dataSetManager;
+        ThreadProfile tp = Profiler.lookup().getCurrentThreadProfile();
+        if (tp.containsCodeBlockType(CoreCodeBlockTypes.CONTROLLER_REQUEST)) {
+            return (DataSetManager) CDIBeanLocator.getBeanByName("sessionScopedDataSetManager");
+        } else {
+            return (DataSetManager) CDIBeanLocator.getBeanByName("appScopedDataSetManager");
+        }
     }
 
     public ScalarFunctionManager getScalarFunctionManager() {
