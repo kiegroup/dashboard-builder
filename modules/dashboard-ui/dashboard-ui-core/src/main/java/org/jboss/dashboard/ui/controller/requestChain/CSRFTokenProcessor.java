@@ -29,6 +29,10 @@ public class CSRFTokenProcessor extends RequestChainProcessor {
 
     @Override
     protected boolean processRequest() throws Exception {
+        if (SessionInitializer.isNewSession(getRequest())) {
+            // If the session is being created then the CSRF control it makes no sense.
+            return true;
+        }
         CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
         String token = getRequest().getParameter(csrfTokenGenerator.getTokenName());
         if (token != null) {
