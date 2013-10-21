@@ -273,3 +273,11 @@ CREATE TABLE dashb_data_provider_i18n (
 ) ENGINE = INNODB;
 -- CUSTOM_DELIMITER
 
+CREATE TABLE dashb_cluster_node (
+   id_node bigint(28) NOT NULL,
+   node_address varchar(50) NOT NULL,
+   startup_time datetime NOT NULL,
+   node_status varchar(100),
+   PRIMARY KEY (id_node)
+) ENGINE = INNODB;
+-- CUSTOM_DELIMITER

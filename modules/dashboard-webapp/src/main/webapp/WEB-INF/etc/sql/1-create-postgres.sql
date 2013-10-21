@@ -214,3 +214,10 @@ CREATE TABLE dashb_data_provider_i18n (
    FOREIGN KEY (id_data_provider) REFERENCES dashb_data_provider(id)
 );
 
+CREATE TABLE dashb_cluster_node (
+   id_node NUMERIC(28,0) NOT NULL,
+   node_address VARCHAR(50) NOT NULL,
+   startup_time TIMESTAMP NOT NULL,
+   node_status VARCHAR(100),
+   PRIMARY KEY (id_node)
+);

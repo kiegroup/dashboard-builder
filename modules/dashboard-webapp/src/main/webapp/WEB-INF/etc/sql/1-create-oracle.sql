@@ -213,3 +213,10 @@ CREATE TABLE dashb_data_provider_i18n (
    constraint  dashb_data_provider_i18n_fk FOREIGN KEY (id_data_provider) REFERENCES dashb_data_provider(id)
 );
 
+CREATE TABLE dashb_cluster_node (
+   id_node NUMBER(28,0) NOT NULL,
+   node_address varchar2(50) NOT NULL,
+   startup_time DATE NOT NULL,
+   node_status varchar2(100),
+   constraint  dashb_cluster_node_pk PRIMARY KEY (id_node)
+);
