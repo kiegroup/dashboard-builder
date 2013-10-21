@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.panel.export;
 
 import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
@@ -115,6 +116,9 @@ public class ExportDriver extends PanelDriver {
         final String entryName = panel.getParameterValue(EXPORT_ENTRY_NAME) + "." + getExportManager().getAllowedEntryExtensions()[0];
         final boolean useBlanks = BooleanParameter.value(panel.getParameterValue(PARAM_USE_BLANKS), false);
         final ExportResult exportResult = getSessionInfo().getExportResult();
+
+        super.fireAfterRenderPanel(panel,request.getRequestObject(), null);
+
         return new CommandResponse() {
             public boolean execute(CommandRequest cmdReq) throws Exception {
                 HttpServletResponse response = cmdReq.getResponseObject();
@@ -128,6 +132,7 @@ public class ExportDriver extends PanelDriver {
                 return true;
             }
         };
+
     }
 
     public CommandResponse actionStartExport(Panel panel, CommandRequest request) throws Exception {
