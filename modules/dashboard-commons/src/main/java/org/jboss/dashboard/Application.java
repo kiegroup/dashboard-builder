@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard;
 
+import org.jboss.dashboard.annotation.DestroyableProcessor;
 import org.jboss.dashboard.annotation.StartableProcessor;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.factory.Factory;
@@ -40,6 +41,9 @@ public class Application {
 
     @Inject
     protected StartableProcessor startupProcessor;
+
+    @Inject
+    protected DestroyableProcessor destroyableProcessor;
 
     protected boolean upAndRunning = false;
     protected String libDirectory = null;
@@ -101,7 +105,10 @@ public class Application {
         setUpAndRunning(true);
     }
 
-    public void shutdown() {
+    public void shutdown()  {
+        // NOTE: BZ-1014612 - Deregister cluster node.
+        destroyableProcessor.destroyBeans();
+
         setUpAndRunning(false);
 
         // Destroy the Factory configuration.
