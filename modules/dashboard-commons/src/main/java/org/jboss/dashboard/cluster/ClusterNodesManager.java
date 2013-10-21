@@ -187,7 +187,6 @@ public class ClusterNodesManager implements Startable, Destroyable {
             while(addresses.hasMoreElements()) {
                 InetAddress addr = addresses.nextElement();
                 ip = addr.getHostAddress();
-                System.out.println(iface.getDisplayName() + " " + ip);
             }
         }
 
