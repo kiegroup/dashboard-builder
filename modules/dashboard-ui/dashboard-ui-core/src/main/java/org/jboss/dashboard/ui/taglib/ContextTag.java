@@ -29,8 +29,10 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.factory.Factory;
 
-public class ContextTag extends BodyTagSupport {
+public class ContextTag extends BaseTag {
+
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ContextTag.class.getName());
+
     public static final String INCLUDE_HOST = "org.jboss.dashboard.ui.taglib.ContextTag/includeHost";
 
     private String uri;

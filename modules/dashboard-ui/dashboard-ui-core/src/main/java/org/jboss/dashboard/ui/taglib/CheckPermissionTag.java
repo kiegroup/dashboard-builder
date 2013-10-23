@@ -24,12 +24,7 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.security.Permission;
 
-public class CheckPermissionTag extends BodyTagSupport {
-
-    /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CheckPermissionTag.class.getName());
+public class CheckPermissionTag extends BaseTag {
 
     /**
      * The permission to check

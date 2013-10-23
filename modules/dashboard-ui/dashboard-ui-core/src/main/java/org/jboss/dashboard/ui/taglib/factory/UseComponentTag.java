@@ -16,6 +16,8 @@
 package org.jboss.dashboard.ui.taglib.factory;
 
 import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.profiler.CodeBlockTrace;
+import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 
 import javax.servlet.jsp.JspTagException;
@@ -32,20 +34,23 @@ public class UseComponentTag extends GenericFactoryTag {
         Object bean = Factory.lookup(getBean());
         if (bean != null) {
             if (bean instanceof UIComponentHandlerFactoryElement) {
-                String page = ((UIComponentHandlerFactoryElement) bean).getComponentIncludeJSP();
-                if (page == null)
-                    log.error("Page for component " + getBean() + " is null.");
+                UIComponentHandlerFactoryElement uiBean = (UIComponentHandlerFactoryElement) bean;
+                String page = uiBean.getComponentIncludeJSP();
+                if (page == null) log.error("Page for component " + getBean() + " is null.");
+
+                CodeBlockTrace trace = new HandlerFactoryElement.HandlerTrace(uiBean, null).begin();
                 Object previousComponent = pageContext.getRequest().getAttribute(COMPONENT_ATTR_NAME);
                 try {
-                    ((UIComponentHandlerFactoryElement) bean).beforeRenderComponent();
+                    uiBean.beforeRenderComponent();
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, bean);
-                    pageContext.include(page);
+                    jspInclude(page);
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
-                    ((UIComponentHandlerFactoryElement) bean).afterRenderComponent();
+                    uiBean.afterRenderComponent();
                 } catch (Exception e) {
                     throw new JspTagException("Error rendering UI bean '" + getBean() + "'", e);
                 } finally {
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
+                    trace.end();
                 }
             } else {
                 log.error("Bean " + getBean() + " is not a UIComponentHandlerFactoryElement");

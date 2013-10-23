@@ -52,7 +52,7 @@
                 </td>
             </tr>
         </table>
-        <form action="<factory:formUrl friendly="false"/>" id="<factory:encode name="tableViewForm"/>">
+        <form method="post" action="<factory:formUrl friendly="false"/>" id="<factory:encode name="tableViewForm"/>">
         <factory:handler action="submitViewer"/>
         <table  border="0" style="solid: #000000; padding:0; text-align:center;" class="skn-table_border" cellpadding="2" cellspacing="1">
     </mvc:fragment>

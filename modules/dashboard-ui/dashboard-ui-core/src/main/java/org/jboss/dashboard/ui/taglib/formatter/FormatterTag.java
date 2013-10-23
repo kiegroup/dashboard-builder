@@ -22,6 +22,7 @@ import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
+import org.jboss.dashboard.ui.taglib.BaseTag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,7 +32,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
-public class FormatterTag extends BodyTagSupport {
+public class FormatterTag extends BaseTag {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterTag.class.getName());
 
     public static final int STAGE_READING_PARAMS = 1;
@@ -156,7 +157,7 @@ public class FormatterTag extends BodyTagSupport {
                                 Map.Entry entry = (Map.Entry) it.next();
                                 pageContext.getRequest().setAttribute((String) entry.getKey(), entry.getValue());
                             }
-                            pageContext.include(pi.getName());
+                            jspInclude(pi.getName());
                             for (Iterator it = fragmentParams.entrySet().iterator(); it.hasNext();) {
                                 Map.Entry entry = (Map.Entry) it.next();
                                 pageContext.getRequest().removeAttribute((String) entry.getKey());

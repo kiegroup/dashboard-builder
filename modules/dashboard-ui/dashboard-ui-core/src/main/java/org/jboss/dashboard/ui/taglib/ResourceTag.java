@@ -29,7 +29,7 @@ import java.util.Locale;
 /**
  * Custom Tag which is used to render a resource defined for a panel
  */
-public class ResourceTag extends javax.servlet.jsp.tagext.TagSupport {
+public class ResourceTag extends BaseTag {
 
     /**
      * Logger
@@ -94,7 +94,7 @@ public class ResourceTag extends javax.servlet.jsp.tagext.TagSupport {
                     log.error("Resource " + key + " for panel " + panel.getId() + " not found!");
                 } else if (res.toLowerCase().indexOf(".jsp") != -1) {
                     // It's a JSP to include
-                    pageContext.include(res);
+                    jspInclude(res);
                 } else {
                     // Just output resource value
                     pageContext.getOut().print(res);

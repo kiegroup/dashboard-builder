@@ -29,8 +29,7 @@ import javax.servlet.jsp.tagext.VariableInfo;
 /**
  *
  */
-public class EnvelopeContentTag extends TagSupport {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeContentTag.class.getName());
+public class EnvelopeContentTag extends BaseTag {
 
     public static class TEI extends TagExtraInfo {
         public VariableInfo[] getVariableInfo(TagData tagData) {
@@ -43,12 +42,12 @@ public class EnvelopeContentTag extends TagSupport {
         try {
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Throwable {
-                pageContext.include("/templates/content.jsp");
+                jspInclude("/templates/content.jsp");
                 EnvelopesManager envelopesManager = UIServices.lookup().getEnvelopesManager();
                 if (envelopesManager.getFinalBodyIncludePages() != null) {
                     for (int i = 0; i < envelopesManager.getFinalBodyIncludePages().length; i++) {
                         String page = envelopesManager.getFinalBodyIncludePages()[i];
-                        pageContext.include(page);
+                        jspInclude(page);
                     }
                 }
             }}.execute();

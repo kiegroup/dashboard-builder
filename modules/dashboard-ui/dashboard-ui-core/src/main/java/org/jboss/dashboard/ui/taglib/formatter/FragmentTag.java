@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.taglib.formatter;
 
 import org.apache.commons.jxpath.JXPathContext;
+import org.jboss.dashboard.ui.taglib.BaseTag;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  *
  */
-public class FragmentTag extends BodyTagSupport {
+public class FragmentTag extends BaseTag {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FragmentTag.class.getName());
     protected String name;
 

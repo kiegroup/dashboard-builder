@@ -22,7 +22,7 @@ import javax.servlet.jsp.JspTagException;
  * Outputs the content of a pane defined for a given template, screen and view. This information
  * is retrieved from the ViewsManager object.
  */
-public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
+public class PaneTag extends BaseTag {
     /**
      * Logger
      */
@@ -35,11 +35,7 @@ public class PaneTag extends javax.servlet.jsp.tagext.TagSupport {
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspException {
-        try {
-             pageContext.include("/configuration/show.jsp");
-         } catch (Exception e) {
-             log.error("Error Including envelope content :", e);
-         }
+         jspInclude("/configuration/show.jsp");
         return EVAL_PAGE;
     }
 

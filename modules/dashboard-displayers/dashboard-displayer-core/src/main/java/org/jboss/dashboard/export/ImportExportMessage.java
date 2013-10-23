@@ -76,10 +76,12 @@ public class ImportExportMessage extends AbstractMessage {
         ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", l);
 
         if (element instanceof DataProvider) {
-            return i18n.getString("element.dataprovider") + "=" + ((DataProvider) element).getCode();
+            DataProvider dp = (DataProvider) element;
+            return dp.getCode() + ", " + dp.getDescription(l);
         }
         if (element instanceof KPI) {
-            return i18n.getString("element.kpi") + "=" + ((KPI) element).getCode();
+            KPI kpi = (KPI) element;
+            return kpi.getCode() + ", " + kpi.getDescription(l);
         }
         return element.toString();
     }

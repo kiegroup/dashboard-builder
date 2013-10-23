@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  *
  */
-public class PropertyReadTag extends BodyTagSupport {
+public class PropertyReadTag extends BaseTag {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PropertyReadTag.class.getName());
     private String object;
     private String property;
