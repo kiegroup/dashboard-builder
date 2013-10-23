@@ -15,28 +15,12 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.error.ErrorManager;
-import org.jboss.dashboard.error.ErrorReport;
-import org.jboss.dashboard.ui.components.ErrorReportHandler;
-import org.jboss.dashboard.profiler.CodeBlockTrace;
-import org.jboss.dashboard.profiler.CodeBlockType;
-import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A tag that adds error handling support and profiling instrumentation to JSPs.
  */
-public class JSPIncludeTag extends TagSupport {
-
-    /** Logger */
-    private static transient Logger log = LoggerFactory.getLogger(JSPIncludeTag.class.getName());
+public class JSPIncludeTag extends BaseTag {
 
     /** The JSP to include. */
     protected String page = null;
@@ -44,23 +28,12 @@ public class JSPIncludeTag extends TagSupport {
     /** The JSP flush flag. */
     protected Boolean flush = false;
 
-    /** The JSP to render if an error occurs. */
-    protected String errorPage = "/error.jsp";
-
     public String getPage() {
         return page;
     }
 
     public void setPage(String page) {
         this.page = page;
-    }
-
-    public String getErrorPage() {
-        return errorPage;
-    }
-
-    public void setErrorPage(String errorPage) {
-        this.errorPage = errorPage;
     }
 
     public Boolean getFlush() {
@@ -72,64 +45,11 @@ public class JSPIncludeTag extends TagSupport {
     }
 
     public int doStartTag() throws JspException {
-        CodeBlockTrace trace = new JSPIncludeTrace(page).begin();
-        try {
-            pageContext.include(page);
-        } catch (Throwable t) {
-            handleError(t);
-        } finally {
-            trace.end();
-        }
+        super.jspInclude(page);
         return SKIP_BODY;
     }
 
     public int doEndTag() throws JspException {
         return EVAL_PAGE;
-    }
-
-    protected void handleError(Throwable t) {
-        ErrorReport errorReport = ErrorManager.lookup().notifyError(t, true);
-        try {
-            // Display the error page.
-            ErrorReportHandler errorHandler = (ErrorReportHandler) Factory.lookup("org.jboss.dashboard.error.JSPIncludeErrorHandler");
-            errorHandler.setErrorReport(errorReport);
-            errorHandler.setCloseEnabled(false);
-            pageContext.getRequest().setAttribute("errorHandlerName", "org.jboss.dashboard.error.JSPIncludeErrorHandler");
-            pageContext.include(errorPage);
-        } catch (Throwable t1) {
-            log.error("JSP error processing failed.", t1);
-            try {
-                // If the error JSP rendering fails then print a simple error message.
-                String errorStr = errorReport.printErrorMessage() + "\n\n" + errorReport.printContext(0);
-                pageContext.getOut().println("<span class=\"skn-error\"><pre>" + errorStr + "</pre></span>");
-            } catch (Throwable t2) {
-                log.error("Cannot print a JSP error message.", t2);
-            }
-        }
-    }
-
-    /** The JSPInclude tag profiling trace */
-    public static class JSPIncludeTrace extends CodeBlockTrace {
-
-        protected String jsp;
-
-        public JSPIncludeTrace(String jsp) {
-            super(jsp);
-            this.jsp = jsp;
-        }
-
-        public CodeBlockType getType() {
-            return CoreCodeBlockTypes.JSP_PAGE;
-        }
-
-        public String getDescription() {
-            return jsp;
-        }
-
-        public Map<String,Object> getContext() {
-            Map<String,Object> m =  new HashMap<String, Object>();
-            m.put("JSP", jsp);
-            return m;
-        }
     }
 }

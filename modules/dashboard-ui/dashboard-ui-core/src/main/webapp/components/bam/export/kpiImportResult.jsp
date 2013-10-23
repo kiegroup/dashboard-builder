@@ -32,7 +32,7 @@
 	</tr>
 	<tr>
 		<td align="center">
-			<form style="margin:0px;" id="<panel:encode name="back"/>" action="<factory:formUrl friendly="false"/>" >
+			<form method="post" style="margin:0px;" id="<panel:encode name="back"/>" action="<factory:formUrl friendly="false"/>" >
 				<factory:handler action="goBack"/>
 				<input style="bottom:100%; vertical-align:bottom; margin-bottom:10px;" type="submit" class="skn-button" value="<i18n:message key="import.kpis.back"> !!!Back</i18n:message>">
 			</form>

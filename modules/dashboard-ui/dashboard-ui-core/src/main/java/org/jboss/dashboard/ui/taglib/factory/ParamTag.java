@@ -18,8 +18,9 @@ package org.jboss.dashboard.ui.taglib.factory;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.Tag;
 
-public class ParamTag extends javax.servlet.jsp.tagext.TagSupport {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ParamTag.class.getName());
+import org.jboss.dashboard.ui.taglib.BaseTag;
+
+public class ParamTag extends BaseTag {
 
     private String name;
     private Object value;

@@ -31,7 +31,7 @@ import javax.servlet.jsp.JspTagException;
 /**
  * Custom Tag which is used to provide URLs to invoke panels actions
  */
-public class LinkTag extends javax.servlet.jsp.tagext.TagSupport {
+public class LinkTag extends BaseTag {
 
     /**
      * Logger

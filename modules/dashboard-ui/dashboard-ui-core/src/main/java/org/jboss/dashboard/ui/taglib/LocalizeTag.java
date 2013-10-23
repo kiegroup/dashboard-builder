@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  */
-public class LocalizeTag extends javax.servlet.jsp.tagext.TagSupport {
+public class LocalizeTag extends BaseTag {
 
     /**
      * Logger

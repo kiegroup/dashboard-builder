@@ -31,7 +31,7 @@ import javax.servlet.jsp.tagext.TagData;
 /**
  * Custom Tag which is used to render a resource defined for a panel
  */
-public class ResourceLinkTag extends BodyTagSupport {
+public class ResourceLinkTag extends BaseTag {
 
     /**
      * Logger

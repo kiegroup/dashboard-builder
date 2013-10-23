@@ -18,7 +18,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
     <tr>
         <td>
-            <form action="<factory:formUrl/>">
+            <form action="<factory:formUrl/>" method="post">
                 <factory:handler action="updateMax"/>
                 <input type="text" name="elements" value="" class="skn-input"/>
                 <input type="submit" value="submit!" class="skn-button"/>

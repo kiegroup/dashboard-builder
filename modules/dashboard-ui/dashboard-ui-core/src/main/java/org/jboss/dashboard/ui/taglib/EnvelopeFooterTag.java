@@ -26,8 +26,7 @@ import java.io.IOException;
 /**
  *
  */
-public class EnvelopeFooterTag extends TagSupport {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeFooterTag.class.getName());
+public class EnvelopeFooterTag extends BaseTag {
 
     public static final String ENVELOPE_TOKEN = "envelopeFootToken";
 
@@ -39,15 +38,8 @@ public class EnvelopeFooterTag extends TagSupport {
     }
 
     public int doStartTag() throws JspException {
-        try {
-            pageContext.getRequest().setAttribute(ENVELOPE_TOKEN, Boolean.TRUE);
-            this.pageContext.include("/templates/footer.jsp");
-         } catch (IOException e) {
-            log.error("Error: ", e);
-        } catch (ServletException e) {
-            log.error("Error: ", e);
-        }
+        pageContext.getRequest().setAttribute(ENVELOPE_TOKEN, Boolean.TRUE);
+        jspInclude("/templates/footer.jsp");
         return SKIP_BODY;
     }
-
 }

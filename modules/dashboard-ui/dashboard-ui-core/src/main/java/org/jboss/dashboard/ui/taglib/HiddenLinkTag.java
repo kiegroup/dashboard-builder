@@ -29,7 +29,7 @@ import javax.servlet.jsp.JspTagException;
 /**
  * Custom Tag which is used to provide URLs to invoke panels actions
  */
-public class HiddenLinkTag extends javax.servlet.jsp.tagext.TagSupport {
+public class HiddenLinkTag extends BaseTag {
 
     /**
      * Logger

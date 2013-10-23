@@ -181,7 +181,7 @@ public abstract class HandlerFactoryElement extends BasicFactoryElement {
     public void actionVoid(CommandRequest request) {
     }
 
-    static class HandlerTrace extends CodeBlockTrace {
+    public static class HandlerTrace extends CodeBlockTrace {
 
         protected String bean;
         protected String action;
@@ -201,7 +201,7 @@ public abstract class HandlerFactoryElement extends BasicFactoryElement {
         }
 
         public String getDescription() {
-            return bean + "." + action + "()";
+            return bean + (StringUtils.isBlank(action) ? "" : "." + action + "()");
         }
 
         public Map<String,Object> getContext() {
@@ -212,7 +212,9 @@ public abstract class HandlerFactoryElement extends BasicFactoryElement {
             Map<String,Object> ctx = new LinkedHashMap<String,Object>();
             ctx.put("Bean name", bean);
             ctx.put("Bean scope", scope);
-            ctx.put("Bean action", action);
+            if (!StringUtils.isBlank(action)) {
+                ctx.put("Bean action", action);
+            }
 
             ThreadProfile threadProfile = Profiler.lookup().getCurrentThreadProfile();
             if (threadProfile != null) threadProfile.addContextProperties(ctx);                        

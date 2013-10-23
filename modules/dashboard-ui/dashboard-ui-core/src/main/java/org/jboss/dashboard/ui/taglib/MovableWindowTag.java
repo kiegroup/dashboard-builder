@@ -21,17 +21,17 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 /**
  *
  */
-public class MovableWindowTag extends BodyTagSupport {
+public class MovableWindowTag extends BaseTag {
+
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MovableWindowTag.class.getName());
+
     public static String WINDOW_ID_ATTRIBUTE = "WINDOW_POPUP_ID_ATTR";
     public static String WINDOW_TITLE_ATTRIBUTE = "WINDOW_POPUP_TITLE_ATTR";
-    /**
-     * window id.
-     */
+
+    /** window id */
     private String windowId = null;
-    /**
-     * window title.
-     */
+
+    /** window title */
     private String windowTitle = "";
 
     public String getId() {
@@ -50,33 +50,21 @@ public class MovableWindowTag extends BodyTagSupport {
         this.windowTitle = windowTitle;
     }
 
-    public final int doStartTag() {
-        if (windowId == null)
-            windowId = "_" + Math.random() + "_";
-        try {
-            pageContext.getRequest().setAttribute(WINDOW_ID_ATTRIBUTE, windowId);
-            pageContext.getRequest().setAttribute(WINDOW_TITLE_ATTRIBUTE, windowTitle);
-            pageContext.include("/templates/popupWindowStart.jsp");
-            pageContext.getRequest().removeAttribute(WINDOW_ID_ATTRIBUTE);
-            pageContext.getRequest().removeAttribute(WINDOW_TITLE_ATTRIBUTE);
-        } catch (Exception e) {
-            log.error("Error Including popup window head :", e);
-        }
+    public final int doStartTag() throws JspException {
+        if (windowId == null) windowId = "_" + Math.random() + "_";
+        pageContext.getRequest().setAttribute(WINDOW_ID_ATTRIBUTE, windowId);
+        pageContext.getRequest().setAttribute(WINDOW_TITLE_ATTRIBUTE, windowTitle);
+        jspInclude("/templates/popupWindowStart.jsp");
+        pageContext.getRequest().removeAttribute(WINDOW_ID_ATTRIBUTE);
+        pageContext.getRequest().removeAttribute(WINDOW_TITLE_ATTRIBUTE);
         return EVAL_BODY_INCLUDE;
     }
 
     public int doEndTag() throws JspException {
-        if (windowId == null)
-            windowId = "_" + Math.random() + "_";
-        try {
-            pageContext.getRequest().setAttribute(WINDOW_ID_ATTRIBUTE, windowId);
-            pageContext.include("/templates/popupWindowEnd.jsp");
-            pageContext.getRequest().removeAttribute(WINDOW_ID_ATTRIBUTE);
-        } catch (Exception e) {
-            log.error("Error Including popup window end :", e);
-        }
+        if (windowId == null) windowId = "_" + Math.random() + "_";
+        pageContext.getRequest().setAttribute(WINDOW_ID_ATTRIBUTE, windowId);
+        jspInclude("/templates/popupWindowEnd.jsp");
+        pageContext.getRequest().removeAttribute(WINDOW_ID_ATTRIBUTE);
         return EVAL_PAGE;
     }
-
-
 }

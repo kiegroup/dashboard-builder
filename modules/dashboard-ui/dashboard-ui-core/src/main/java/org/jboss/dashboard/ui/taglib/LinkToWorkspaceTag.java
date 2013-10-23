@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspTagException;
 
-public class LinkToWorkspaceTag extends javax.servlet.jsp.tagext.TagSupport {
+public class LinkToWorkspaceTag extends BaseTag {
 
     /**
      * Logger

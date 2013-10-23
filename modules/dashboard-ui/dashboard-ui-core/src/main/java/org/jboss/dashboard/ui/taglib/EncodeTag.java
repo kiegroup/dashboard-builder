@@ -38,20 +38,20 @@ import javax.servlet.jsp.tagext.TagSupport;
  * <p/>
  * The following required attribute is defined for this tag:
  * <li>
- * name (Type: String, required) � the name of the String that should be encoded
+ * name (Type: String, required): the name of the String that should be encoded
  * into the namespace of the panel. <br>
  * </li>
  * <p/>
  * An example of a JSP using the encode tag could be:
  * <p/>
  * <CODE>
- * <A HREF=�javascript:<panel:encode name=�doFoo()�/>�/>Foo</A>
+ * &lt;a onclick='&lt;panel:encode name=&quot;doFoo()&quot;/&gt;'&gt;Foo&lt;/a&gt;
  * </CODE>
  * <p/>
- * The example references a JavaScript function with the name �doFoo�, which is encoded
+ * The example references a JavaScript function with the name <code>doFoo</code>, which is encoded
  * to ensure uniqueness on the workspace page.
  */
-public class EncodeTag extends TagSupport {
+public class EncodeTag extends BaseTag {
 
     /**
      * Logger

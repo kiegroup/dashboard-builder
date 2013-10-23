@@ -34,7 +34,8 @@ import java.util.List;
 /**
  *
  */
-public class EnvelopeHeadTag extends TagSupport {
+public class EnvelopeHeadTag extends BaseTag {
+
     private boolean allowScripts = true;
     private boolean allowPages = true;
     private boolean allowEnvelopes = true;
@@ -71,24 +72,12 @@ public class EnvelopeHeadTag extends TagSupport {
                     if (envelopesManager.getBeforeHeaderIncludePages() != null)
                         for (int i = 0; i < envelopesManager.getBeforeHeaderIncludePages().length; i++) {
                             String page = envelopesManager.getBeforeHeaderIncludePages()[i];
-                            try {
-                                pageContext.include(page);
-                            } catch (ServletException e) {
-                                log.error("Error including " + page + " : ", e);
-                            } catch (IOException e) {
-                                log.error("Error including " + page + " : ", e);
-                            }
+                            jspInclude(page);
                         }
                 }
 
-                try {
-                    if (allowScripts) {
-                        pageContext.include(envelopesManager.getScriptsIncludePage());
-                    }
-                } catch (ServletException e) {
-                    log.error("Error including " + envelopesManager.getScriptsIncludePage() + " : ", e);
-                } catch (IOException e) {
-                    log.error("Error including " + envelopesManager.getScriptsIncludePage() + " : ", e);
+                if (allowScripts) {
+                    jspInclude(envelopesManager.getScriptsIncludePage());
                 }
 
                 List headers;
@@ -97,13 +86,7 @@ public class EnvelopeHeadTag extends TagSupport {
                     if (headers != null)
                         for (int i = 0; i < headers.size(); i++) {
                             String page = (String) headers.get(i);
-                            try {
-                                pageContext.include(page);
-                            } catch (ServletException e) {
-                                log.error("Error including " + page + " : ", e);
-                            } catch (IOException e) {
-                                log.error("Error including " + page + " : ", e);
-                            }
+                            jspInclude(page);
                         }
                 }
             }

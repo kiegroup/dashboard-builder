@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspTagException;
 
-public class LinkToSectionTag extends javax.servlet.jsp.tagext.TagSupport {
+public class LinkToSectionTag extends BaseTag {
 
     /**
      * Logger

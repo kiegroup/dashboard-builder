@@ -18,10 +18,12 @@ package org.jboss.dashboard.ui.taglib.formatter;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.jboss.dashboard.ui.taglib.BaseTag;
+
 /**
  *
  */
-public class FormatterParamTag extends TagSupport {
+public class FormatterParamTag extends BaseTag {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterParamTag.class.getName());
 
     protected String name;

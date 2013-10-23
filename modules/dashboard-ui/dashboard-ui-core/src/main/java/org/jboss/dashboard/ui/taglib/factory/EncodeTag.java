@@ -23,8 +23,9 @@ import javax.servlet.jsp.JspTagException;
 import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
 import org.jboss.dashboard.ui.formatters.FactoryUniqueIdEncoder;
 import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.ui.taglib.BaseTag;
 
-public class EncodeTag extends TagSupport {
+public class EncodeTag extends BaseTag {
     /**
      * Logger
      */

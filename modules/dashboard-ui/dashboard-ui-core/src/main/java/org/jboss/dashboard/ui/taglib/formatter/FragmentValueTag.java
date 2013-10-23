@@ -19,10 +19,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.*;
 import java.io.IOException;
 
+import org.jboss.dashboard.ui.taglib.BaseTag;
+
 /**
  *
  */
-public class FragmentValueTag extends BodyTagSupport {
+public class FragmentValueTag extends BaseTag {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FragmentValueTag.class.getName());
     public static final String VALUE_NAME = "value";
 

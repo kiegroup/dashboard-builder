@@ -32,7 +32,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import java.util.Properties;
 
-public class RegionTag extends javax.servlet.jsp.tagext.TagSupport {
+public class RegionTag extends BaseTag {
 
     /**
      * Logger
@@ -65,7 +65,7 @@ public class RegionTag extends javax.servlet.jsp.tagext.TagSupport {
                     int dotIndex = pageStr.lastIndexOf('.');
                     pageStr = pageStr.substring(0, dotIndex) + "_preview" + pageStr.substring(dotIndex, pageStr.length());
                     pageContext.getRequest().setAttribute("layoutRegion", layoutRegion);
-                    pageContext.include(pageStr);
+                    jspInclude(pageStr);
                     pageContext.getRequest().removeAttribute("layoutRegion");
                 } else {
                     // NORMAL DISPLAY
@@ -75,7 +75,7 @@ public class RegionTag extends javax.servlet.jsp.tagext.TagSupport {
                         if (layoutRegion != null) {
                             String pageStr = displayConfiguration.getProperty("regionRenderPage");
                             log.debug("REGION TAG: INCLUDING (" + layoutRegion.getId() + ") " + pageStr);
-                            pageContext.include(pageStr);
+                            jspInclude(pageStr);
                         }
                     }
                 }

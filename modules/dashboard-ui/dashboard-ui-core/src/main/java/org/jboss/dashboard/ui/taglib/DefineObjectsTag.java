@@ -70,7 +70,7 @@ import java.util.Locale;
  * @deprecated This class enforces use of JAVA blocks inside JSP's. Use of formatters avoids this incorrect pattern.
  */
 
-public class DefineObjectsTag extends TagSupport {
+public class DefineObjectsTag extends BaseTag {
 
     /**
      * Logger
