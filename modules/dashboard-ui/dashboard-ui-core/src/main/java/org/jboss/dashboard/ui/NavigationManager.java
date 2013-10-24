@@ -19,6 +19,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.security.BackOfficePermission;
+import org.jboss.dashboard.security.UIPermission;
 import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
@@ -143,12 +144,41 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
         if (getUserStatus().isRootUser()) return true;
         Workspace currentWorkspace = getCurrentWorkspace();
         if (currentWorkspace == null) return false;
+
         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_ADMIN);
+        return getUserStatus().hasPermission(workspacePerm);
 
-        BackOfficePermission backofficePerm = BackOfficePermission.newInstance(currentWorkspace,
-                BackOfficePermission.ACTION_CREATE_WORKSPACE + "," + BackOfficePermission.ACTION_USE_GRAPHIC_RESOURCES + "," + BackOfficePermission.ACTION_USE_PERMISSIONS);
-        return (getUserStatus().hasPermission(workspacePerm)|| getUserStatus().hasPermission(backofficePerm));
+    }
 
+    public boolean isAdminBarVisible() {
+        if (getUserStatus().isRootUser()) return true;
+
+        Workspace currentWorkspace = getCurrentWorkspace();
+        if (currentWorkspace == null) return false;
+
+        UserStatus us = getUserStatus();
+        UIPermission perm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_ADMIN);
+        if (us.hasPermission(perm)) return true;
+
+        perm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_CREATE_PAGE);
+        if (us.hasPermission(perm)) return true;
+
+        perm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_EDIT);
+        if (us.hasPermission(perm)) return true;
+
+        perm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_DELETE);
+        if (us.hasPermission(perm)) return true;
+
+        perm = BackOfficePermission.newInstance(currentWorkspace, BackOfficePermission.ACTION_CREATE_WORKSPACE);
+        if (us.hasPermission(perm)) return true;
+
+        perm  = BackOfficePermission.newInstance(currentWorkspace, BackOfficePermission.ACTION_USE_GRAPHIC_RESOURCES);
+        if (us.hasPermission(perm)) return true;
+
+        perm = BackOfficePermission.newInstance(currentWorkspace, BackOfficePermission.ACTION_USE_PERMISSIONS);
+        if (us.hasPermission(perm)) return true;
+
+        return false;
     }
 
     public synchronized void setCurrentSection(Section section) {
