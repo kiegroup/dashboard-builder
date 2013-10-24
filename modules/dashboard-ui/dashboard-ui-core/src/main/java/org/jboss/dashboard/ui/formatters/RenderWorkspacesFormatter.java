@@ -34,15 +34,10 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * This formatter iterates through the workspaces available to an user, and displays
- * them.
+ * This formatter iterates through the workspaces available to the user, and displays them.
  * <p/>
  * This class extends Formatter to provide support for iterating through the
  * workspaces available to an user, and display them.
- * <p/>
- * It expects the following input parameters:
- * <ul>
- * <li> actions. By default, workspaces where user can ADMIN, or specify your own list of actions.
  * <p/>
  * It serves the following output fragments, with given output attributes:
  * <ul>
@@ -61,7 +56,6 @@ import java.util.TreeSet;
  * </ul>
  */
 public class RenderWorkspacesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderWorkspacesFormatter.class.getName());
 
     private NavigationManager navigationManager;
 
@@ -74,21 +68,24 @@ public class RenderWorkspacesFormatter extends Formatter {
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        String actions = (String) getParameter("actions");
-        actions = actions == null ? WorkspacePermission.ACTION_ADMIN : actions;
         List availableWorkspaces = new ArrayList();
         try {
             TreeSet workspaceIds = new TreeSet(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
             for (Iterator it = workspaceIds.iterator(); it.hasNext();) {
                 String workspaceId = (String) it.next();
                 Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
-                Permission perm = WorkspacePermission.newInstance(workspace, actions);
-                if (UserStatus.lookup().hasPermission(perm)) {
-                    availableWorkspaces.add(workspace);
+
+                boolean finish = false;
+                int index = 0;
+                while (!finish && index < WorkspacePermission.LIST_OF_ACTIONS.size()) {
+                    Permission perm = WorkspacePermission.newInstance(workspace, WorkspacePermission.LIST_OF_ACTIONS.get(index++));
+                    if (UserStatus.lookup().hasPermission(perm)) {
+                        availableWorkspaces.add(workspace);
+                        finish = true;
+                    }
                 }
             }
         } catch (Exception e) {
-            log.error("Error:", e);
             renderFragment("error");
             throw new FormatterException("Error in formatter: ", e);
         }

@@ -63,9 +63,8 @@
     </mvc:fragment>
 </mvc:formatter>
 <%
-    if (adminMode) {
-        WorkspacePermission createPerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_CREATE_PAGE);
-
+    WorkspacePermission adminPerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_ADMIN);
+    WorkspacePermission createPerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_CREATE_PAGE);
 %>
 <security:checkpermission permission="<%= createPerm %>">
     <i18n:message key="ui.sections.createNew" id="newSectionMsg"/>
@@ -95,14 +94,15 @@
     <a target=_top href="<factory:url bean="org.jboss.dashboard.ui.config.TreeShortcutHandler" friendly="false" action="duplicatePage"/><%="&id=" + currentSection.getId() %>"><img src="<static:image relativePath="adminHeader/duplicate-section.png"/>" title="<%=duplicateSectionMsg%>"></a>
 </security:checkpermission>
 
-<a title="<i18n:message key="ui.panels.createNewInstanceInSection"/>" id="<factory:encode name="addNewComponentToSection"/>" href="<factory:url bean="org.jboss.dashboard.ui.panel.PopupPanelsHandler" action="getPanelsPopupPage" friendly="false"/>">
-    <img src="<static:image relativePath="adminHeader/new-panel.png"/>" border=0>
-</a>
-<script type="text/javascript" defer="defer">
-    setAjax("<factory:encode name="addNewComponentToSection"/>");
-</script>
+<security:checkpermission permission="<%= adminPerm %>">
+    <a title="<i18n:message key="ui.panels.createNewInstanceInSection"/>" id="<factory:encode name="addNewComponentToSection"/>" href="<factory:url bean="org.jboss.dashboard.ui.panel.PopupPanelsHandler" action="getPanelsPopupPage" friendly="false"/>">
+        <img src="<static:image relativePath="adminHeader/new-panel.png"/>" border=0>
+    </a>
+    <script type="text/javascript" defer="defer">
+        setAjax("<factory:encode name="addNewComponentToSection"/>");
+    </script>
+</security:checkpermission>
 <%
-        }
     }
 %>
 </form>

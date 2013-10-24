@@ -44,10 +44,10 @@ public class WorkspacePermission extends UIPermission {
     /**
      * Actions supported by this permission.
      */
-    public static final List LIST_OF_ACTIONS;
+    public static final List<String> LIST_OF_ACTIONS;
 
     static {
-        List actionList = new ArrayList();
+        List<String> actionList = new ArrayList<String>();
         actionList.add(ACTION_LOGIN);
         actionList.add(ACTION_ADMIN);
         actionList.add(ACTION_CREATE_PAGE);

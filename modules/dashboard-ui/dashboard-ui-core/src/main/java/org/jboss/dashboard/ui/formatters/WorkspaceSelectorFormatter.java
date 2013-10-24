@@ -46,7 +46,7 @@ public class WorkspaceSelectorFormatter extends Formatter {
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         renderFragment("outputStart");
         renderFragment("workspacesSelect");
-        if (getNavigationManager().userIsAdminInCurrentWorkspace()) try {
+        if (getNavigationManager().isAdminBarVisible()) try {
             Workspace currentWorkspace = getNavigationManager().getCurrentWorkspace();
             BackOfficePermission createPerm = BackOfficePermission.newInstance(null, BackOfficePermission.ACTION_CREATE_WORKSPACE);
             WorkspacePermission editPerm = WorkspacePermission.newInstance(currentWorkspace, WorkspacePermission.ACTION_EDIT);

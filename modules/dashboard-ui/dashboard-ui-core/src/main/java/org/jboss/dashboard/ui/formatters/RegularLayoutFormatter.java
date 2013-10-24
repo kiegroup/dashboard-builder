@@ -38,12 +38,13 @@ public class RegularLayoutFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         renderFragment("outputStart");
-        boolean userIsAdminInCurrentWorkspace = getNavigationManager().userIsAdminInCurrentWorkspace();
+        boolean userIsAdmin = getNavigationManager().userIsAdminInCurrentWorkspace();
+        boolean adminBarVisible = getNavigationManager().isAdminBarVisible();
 
         // Check if request embedded parameter is set to true.
         // This is the case when embedding, for instance, the jBPM process dashboard as an UF panel because the login/logout is handled by the J2EE container & UF.
         boolean embeddedMode = Boolean.parseBoolean(httpServletRequest.getParameter(Parameters.PARAM_EMBEDDED));
-        if (userIsAdminInCurrentWorkspace && !embeddedMode) {
+        if (adminBarVisible && !embeddedMode) {
             renderFragment("administrationBar");
         }
         Section page = getNavigationManager().getCurrentSection();
@@ -53,7 +54,7 @@ public class RegularLayoutFormatter extends Formatter {
             renderFragment("page");
         }
         renderFragment("outputEnd");
-        if (userIsAdminInCurrentWorkspace) {
+        if (userIsAdmin) {
             renderFragment("unassignedPanels");
         }
     }
