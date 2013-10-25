@@ -186,10 +186,17 @@ public class LabelDomain extends AbstractDomain {
 
     public List getValues(Set<Interval> intervals, DataProperty p) {
         List results = new ArrayList();
-        List targetValues = p.getValues();
-        Set<Integer> targetRows = getRowNumbers(intervals);
-        for (Integer targetRow : targetRows) {
-            results.add(targetValues.get(targetRow));
+        if (p.equals(getProperty())) {
+            for (Interval interval : intervals) {
+                LabelInterval li = (LabelInterval) interval;
+                results.add(li.getLabel());
+            }
+        } else {
+            List targetValues = p.getValues();
+            Set<Integer> targetRows = getRowNumbers(intervals);
+            for (Integer targetRow : targetRows) {
+                results.add(targetValues.get(targetRow));
+            }
         }
         return results;
     }
