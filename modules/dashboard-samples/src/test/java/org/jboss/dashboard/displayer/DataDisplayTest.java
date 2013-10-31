@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer;
 
+import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayer;
@@ -91,20 +92,19 @@ public class DataDisplayTest {
     protected DataProviderManager dataProviderManager;
 
     @Inject
-    protected DataSetManager dataSetManager;
-
-    @Inject
     protected ScalarFunctionManager scalarFunctionManager;
 
     @Inject
     protected DataDisplayerManager dataDisplayerManager;
 
+    protected DataSetManager dataSetManager;
     protected DataSet dataSet;
     protected DataProviderType dataPoviderType;
 
     @Before
     public void setUp() throws Exception {
         CDIBeanLocator.beanManager = beanManager;
+        dataSetManager = DataProviderServices.lookup().getDataSetManager();
 
         dataPoviderType = dataProviderManager.getProviderTypeByUid(CSVDataProviderType.UID);
         DataProvider dataProvider = dataProviderManager.createDataProvider();
