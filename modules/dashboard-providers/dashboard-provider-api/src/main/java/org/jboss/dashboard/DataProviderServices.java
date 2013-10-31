@@ -62,11 +62,10 @@ public class DataProviderServices {
 
     public DataSetManager getDataSetManager() {
         ThreadProfile tp = Profiler.lookup().getCurrentThreadProfile();
-        if (tp == null || tp.containsCodeBlockType(CoreCodeBlockTypes.CONTROLLER_REQUEST)) {
+        if (tp != null && tp.containsCodeBlockType(CoreCodeBlockTypes.CONTROLLER_REQUEST)) {
             return (DataSetManager) CDIBeanLocator.getBeanByName("sessionScopedDataSetManager");
-        } else {
-            return (DataSetManager) CDIBeanLocator.getBeanByName("appScopedDataSetManager");
         }
+        return (DataSetManager) CDIBeanLocator.getBeanByName("appScopedDataSetManager");
     }
 
     public ScalarFunctionManager getScalarFunctionManager() {

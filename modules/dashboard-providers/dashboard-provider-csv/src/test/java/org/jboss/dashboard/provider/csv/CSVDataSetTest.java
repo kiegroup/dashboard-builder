@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.provider.csv;
 
+import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.DataSetManager;
 import org.jboss.dashboard.provider.DataProvider;
@@ -75,15 +76,14 @@ public class CSVDataSetTest {
     @Inject
     protected DataProviderManager dataProviderManager;
 
-    @Inject
     protected DataSetManager dataSetManager;
-
     protected DataSet dataSet;
     protected DataProviderType dataPoviderType;
 
     @Before
     public void setUp() throws Exception {
         CDIBeanLocator.beanManager = beanManager;
+        dataSetManager = DataProviderServices.lookup().getDataSetManager();
 
         dataPoviderType = dataProviderManager.getProviderTypeByUid(CSVDataProviderType.UID);
         DataProvider dataProvider = dataProviderManager.createDataProvider();
