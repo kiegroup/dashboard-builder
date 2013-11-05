@@ -17,6 +17,7 @@
 --%>
 <%
     request.getSession().invalidate();
-    String redirectURL = request.getContextPath()  +"/login.jsp?message=login.invalid_credentials";
+    // BZ-1025763: Redirect to the context path, not login.jsp page.
+    String redirectURL = request.getContextPath()  +"?message=login.invalid_credentials";
     response.sendRedirect(redirectURL);
 %>
