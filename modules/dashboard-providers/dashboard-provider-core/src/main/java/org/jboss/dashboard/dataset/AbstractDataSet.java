@@ -15,10 +15,10 @@
  */
 package org.jboss.dashboard.dataset;
 
+import org.jboss.dashboard.commons.misc.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.DataProviderServices;
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.filter.FilterByCriteria;
 import org.jboss.dashboard.dataset.index.DataSetIndex;
 import org.jboss.dashboard.dataset.index.DistinctValue;
@@ -145,7 +145,7 @@ public abstract class AbstractDataSet implements DataSet {
 
     public void addRowValue(int index, Object value) {
         List values = getPropertyValues()[index];
-        if (values != null) values.add(value);
+        if (values != null) values.add(_transformValue(value));
     }
 
     public void addRowValues(Object[] row) {
@@ -154,7 +154,7 @@ public abstract class AbstractDataSet implements DataSet {
         }
         for (int i = 0; i < row.length; i++) {
             // TODO: There is a problem if more than one column has the same name. The length of the row and the number of properties doesn't match.
-            getPropertyValues()[i].add(row[i]);
+            getPropertyValues()[i].add(_transformValue(row[i]));
         }
     }
 
@@ -517,5 +517,18 @@ public abstract class AbstractDataSet implements DataSet {
         for (int i = 0; i < indent; i++) {
             out.print("  ");
         }
+    }
+
+    protected static final String ORACLE_TIMESTAMP = "oracle.sql.TIMESTAMP";
+
+    protected Object _transformValue(Object value) {
+        if (value == null) return value;
+        Class valueClass = value.getClass();
+        if (!Comparable.class.isAssignableFrom(valueClass)) {
+            if (ORACLE_TIMESTAMP.equals(valueClass.getName())) {
+                return ReflectionUtils.invokeMethod(value, "dateValue", null);
+            }
+        }
+        return value;
     }
 }
