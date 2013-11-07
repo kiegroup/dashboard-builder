@@ -34,6 +34,7 @@ import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.security.Permission;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -260,11 +261,8 @@ public class Panel implements Cloneable, Comparable, Visitable {
     }
 
     public PanelProvider getProvider() {
+        if (getInstance() == null) return null;
         return getInstance().getProvider();
-    }
-
-    public void setProvider(PanelProvider provider) {
-        getInstance().setProvider(provider);
     }
 
     public WorkspaceImpl getWorkspace() {
@@ -272,39 +270,45 @@ public class Panel implements Cloneable, Comparable, Visitable {
     }
 
     public Serializable getContentData() {
+        if (getInstance() == null) return null;
         return getInstance().getContentData();
     }
 
     public void setContentData(Serializable data) {
-        getInstance().setContentData(data);
+        if (getInstance() == null) {
+            getInstance().setContentData(data);
+        }
     }
 
     public Map getTitle() {
+        if (getInstance() == null) return Collections.EMPTY_MAP;
         return getInstance().getTitle();
     }
 
     public String getTitle(String language) {
+        if (getInstance() == null) return "";
         return getInstance().getTitle(language);
     }
 
     public void setTitle(Map title) {
-        getInstance().setTitle(title);
+        if (getInstance() == null) {
+            getInstance().setTitle(title);
+        }
     }
 
     public void setTitle(String title, String language) {
-        getInstance().setTitle(title, language);
+        if (getInstance() == null) {
+            getInstance().setTitle(title, language);
+        }
     }
 
     public int getHeight() {
+        if (getInstance() == null) return 0;
         return getInstance().getHeight();
     }
 
     public int getCacheTime() {
         return 0;
-    }
-
-    public void setHeight(int height) {
-        getInstance().setHeight(height);
     }
 
     public boolean isMaximizable() {
@@ -328,61 +332,20 @@ public class Panel implements Cloneable, Comparable, Visitable {
     }
 
     public String getParameterValue(String id) {
+        if (getInstance() == null) return null;
         return getInstance().getParameterValue(id);
     }
 
     public String getParameterValue(String id, String language) {
+        if (getInstance() == null) return null;
         return getInstance().getParameterValue(id, language);
-    }
-
-    public void setParameterValue(String id, String value) {
-        getInstance().setParameterValue(id, value);
-    }
-
-    public void setParameterValue(String id, String value, String language) {
-        getInstance().setParameterValue(id, value, language);
-    }
-
-    /**
-     * Returns all parameters defined for this panel, regardless of their types
-     *
-     * @return all parameters defined for this panel, regardless of their types
-     */
-    public PanelProviderParameter[] getAllParameters() {
-        return getInstance().getAllParameters();
-    }
-
-    /**
-     * Returns all system parameters defined for this panel
-     *
-     * @return all system parameters defined for this panel
-     */
-    public PanelProviderParameter[] getSystemParameters() {
-        return getInstance().getSystemParameters();
-    }
-
-    /**
-     * Returns all custom parameters defined for this panel
-     *
-     * @return all custom parameters defined for this panel
-     */
-    public PanelProviderParameter[] getCustomParameters() {
-        return getInstance().getCustomParameters();
-    }
-
-    /**
-     * Returns all internationalizable parameters defined for this panel
-     *
-     * @return all internationalizable parameters defined for this panel
-     */
-    public PanelProviderParameter[] getI18nParameters() {
-        return getInstance().getI18nParameters();
     }
 
     /**
      * Returns if this panel has been successfully configured
      */
     public boolean isWellConfigured() {
+        if (getInstance() == null) return false;
         return getInstance().isWellConfigured();
     }
 
@@ -398,6 +361,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
      * Return the all the properties defined for this kind of panels. It's a shortcut for getProvider().getProperties();
      */
     public Properties getProperties() {
+        if (getInstance() == null) new Properties();
         return getInstance().getProperties();
     }
 
@@ -405,6 +369,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
      * Return the resource defined for this kind of panels. It's a shortcut for getProvider().getResource();
      */
     public String getResource(String key) {
+        if (getInstance() == null) return null;
         return getInstance().getResource(key);
     }
 
@@ -412,6 +377,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
      * Return the resource defined for this kind of panels. It's a shortcut for getProvider().getResource();
      */
     public String getResource(String key, Locale locale) {
+        if (getInstance() == null) return null;
         return getInstance().getResource(key, locale);
     }
 
@@ -451,9 +417,9 @@ public class Panel implements Cloneable, Comparable, Visitable {
     public String getFullDescription() {
         LocaleManager localeManager = LocaleManager.lookup();
         StringBuffer buf = new StringBuffer();
-        buf.append(localeManager.localize(getSection().getWorkspace().getTitle())).append(" \u003E ");
-        buf.append(localeManager.localize(getSection().getTitle())).append(" \u003E ");
-        buf.append(localeManager.localize(getInstance().getTitle())).append(" [id=").append(getPanelId()).append("]");
+        if (getSection() != null) buf.append(localeManager.localize(getSection().getWorkspace().getTitle())).append(" \u003E ");
+        if (getSection() != null) buf.append(localeManager.localize(getSection().getTitle())).append(" \u003E ");
+        if (getInstance() != null) buf.append(localeManager.localize(getInstance().getTitle())).append(" [id=").append(getPanelId()).append("]");
         return buf.toString();
     }
 
@@ -469,7 +435,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
             log.warn("Ignoring page left for panel with dbid=" + getDbid());
             return;
         }
-        if (!getInstance().isSessionAliveAfterPageLeft()) {
+        if (getInstance() != null && !getInstance().isSessionAliveAfterPageLeft()) {
             PanelSession pSession = getPanelSession();
             RequestContext reqCtx = RequestContext.getCurrentContext();
             HttpSession session = reqCtx.getRequest().getSessionObject();
