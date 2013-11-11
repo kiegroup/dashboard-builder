@@ -275,7 +275,7 @@ public class Panel implements Cloneable, Comparable, Visitable {
     }
 
     public void setContentData(Serializable data) {
-        if (getInstance() == null) {
+        if (getInstance() != null) {
             getInstance().setContentData(data);
         }
     }
