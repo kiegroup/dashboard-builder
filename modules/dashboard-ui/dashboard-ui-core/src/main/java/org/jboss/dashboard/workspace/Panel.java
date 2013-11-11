@@ -291,13 +291,13 @@ public class Panel implements Cloneable, Comparable, Visitable {
     }
 
     public void setTitle(Map title) {
-        if (getInstance() == null) {
+        if (getInstance() != null) {
             getInstance().setTitle(title);
         }
     }
 
     public void setTitle(String title, String language) {
-        if (getInstance() == null) {
+        if (getInstance() != null) {
             getInstance().setTitle(title, language);
         }
     }
