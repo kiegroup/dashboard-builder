@@ -109,6 +109,7 @@
 
 	<tr>
 		<td align="left" style="padding-top:8px; padding-bottom:8px;padding-left:20px; padding-right:20px;" colspan="2">
+			<input id="<factory:encode name="testProviderConfigPressed"/>" type="hidden" value="false" name="<factory:bean property="testConfigButtonPressed" bean="org.jboss.dashboard.ui.components.DataProviderHandler"/>"/>
 
 			<%
 				// Check if the result of the test has been correct or not.
@@ -134,7 +135,8 @@
 	<tr>
 		<td align="center" colspan="2">
 			<label>
-				<input class="skn-button" type="submit" value="<i18n:message key="editor.csv.tryButton"/>"/>
+				<input class="skn-button" type="button" value="<i18n:message key="editor.csv.tryButton"/>" onclick="document.getElementById('<factory:encode name="testProviderConfigPressed"/>').value='true';
+					submitAjaxForm(this.form);"/>
 			</label>
 		</td>
 	</tr>

@@ -43,6 +43,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     public static final String I18N_PREFFIX = "dataProviderComponent.";
     public static final String PARAM_PROVIDER_CODE = "dataProviderCode";
+    public static final String PARAM_PROVIDER_NAME = "dataProviderName";
     public static final String PARAM_PROPERTY_ID = "propertyId";
     public static final String PARAM_PROPERTY_TYPE = "propertyType";
     public static final String PARAM_PROPERTY_TITLE = "propertyTitle";
@@ -51,10 +52,8 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     protected String currentProviderTypeUid;
     protected String currentProviderTypeChanged;
     protected String providerName;
-    protected String oldCurrentLang;
-    protected String currentLang;
-    protected String currentLangChanged;
     protected String saveButtonPressed;
+    protected String testConfigButtonPressed;
 
     protected DataProviderManager dataProviderManager;
 
@@ -98,6 +97,14 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         this.saveButtonPressed = saveButtonPressed;
     }
 
+    public String getTestConfigButtonPressed() {
+        return testConfigButtonPressed;
+    }
+
+    public void setTestConfigButtonPressed( String testConfigButtonPressed ) {
+        this.testConfigButtonPressed = testConfigButtonPressed;
+    }
+
     public boolean isCreate() {
         return isCreate;
     }
@@ -130,14 +137,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         this.currentProviderTypeChanged = currentProviderTypeSelectedChanged;
     }
 
-    public String getOldCurrentLang() {
-        return oldCurrentLang;
-    }
-
-    public void setOldCurrentLang(String oldCurrentLang) {
-        this.oldCurrentLang = oldCurrentLang;
-    }
-
     public Map getDescriptions() {
         return descriptions;
     }
@@ -164,22 +163,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     public static DataProviderHandler lookup() {
         return (DataProviderHandler) Factory.lookup(DataProviderHandler.class.getName());
-    }
-
-    public String getCurrentLangChanged() {
-        return currentLangChanged;
-    }
-
-    public void setCurrentLangChanged(String currentLangChanged) {
-        this.currentLangChanged = currentLangChanged;
-    }
-
-    public String getCurrentLang() {
-        return currentLang;
-    }
-
-    public void setCurrentLang(String currentLang) {
-        this.currentLang = currentLang;
     }
 
     public String getProviderName() {
@@ -231,7 +214,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     }
 
     // --------------------------------
-    // Acion methods.
+    // Action methods.
     // --------------------------------
 
     public void actionEditDataProvider(CommandRequest request) {
@@ -347,6 +330,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
                 setHasErrors(true);
                 return;
             }
+            if (isTestConfigButtonPressed()) return;
 
             checkConfig();
 
@@ -377,6 +361,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
                 setHasErrors(true);
                 return;
             }
+            if (isTestConfigButtonPressed()) return;
 
             // Merge property configurations.
             DataProvider dpDO = getDataProvider();
@@ -416,12 +401,23 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         }
     }
 
-
     public void actionEditCreateNewDataProvider(CommandRequest request) {
         setProviderMessage(null);
         setHasErrors(false);
-        if (currentLangProcessChange()) return;
         if (providerTypeChanged(request)) return;
+
+        // Find all parameters whose name starts with "dataProviderName".
+        Map parameters = request.getRequestObject().getParameterMap();
+        Iterator it = parameters.keySet().iterator();
+        while (it.hasNext()) {
+            String param_name = (String) it.next();
+            String param_value = request.getRequestObject().getParameter(param_name);
+            if (param_name.startsWith(PARAM_PROVIDER_NAME + "/")) {
+                String lang = param_name.substring(param_name.lastIndexOf("/") + 1, param_name.length());
+                if (!"".equals(param_value)) descriptions.put(new Locale(lang), param_value);
+                else descriptions.remove(new Locale(lang));
+            }
+        }
 
         if (isEdit) updateDataProvider(request);
         else createDataProvider(request);
@@ -462,20 +458,12 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         return currentProviderTypeChanged != null && "true".equals(currentProviderTypeChanged);
     }
 
-    // Current language combo value has changed.
-    protected boolean currentLangProcessChange() {
-        if (currentLang == null) return false;
-        if (oldCurrentLang == null) oldCurrentLang = LocaleManager.currentLang();
-        if (providerName != null && providerName.trim().length() > 0) descriptions.put(new Locale(oldCurrentLang), providerName);
-        else descriptions.remove(new Locale(currentLang));
-        providerName = (String) descriptions.get(new Locale(currentLang));
-        oldCurrentLang = currentLang;
-
-        return currentLangChanged != null && "true".equals(currentLangChanged);
-    }
-
     protected boolean isSaveButtonPressed() {
         return saveButtonPressed != null && "true".equals(saveButtonPressed);
+    }
+
+    protected boolean isTestConfigButtonPressed() {
+        return testConfigButtonPressed != null && "true".equals(testConfigButtonPressed);
     }
 
     // --------------------------------
@@ -488,9 +476,6 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         setCurrentProviderTypeUid(null);
         setCurrentProviderTypeChanged(null);
         setProviderName(null);
-        oldCurrentLang = LocaleManager.currentLang();
-        setCurrentLang(null);
-        setCurrentLangChanged(null);
         setDescriptions(new HashMap());
         setEdit(false);
         setCreate(false);

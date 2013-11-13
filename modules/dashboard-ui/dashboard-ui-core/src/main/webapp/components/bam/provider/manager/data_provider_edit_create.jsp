@@ -110,6 +110,7 @@
     </mvc:fragment>
 
     <mvc:fragment name="outputProviderName">
+		<mvc:fragmentValue name="value" id="value">
         <mvc:fragmentValue name="error" id="error">
         <tr>
             <%
@@ -118,37 +119,56 @@
             %>
             <td width="15%"><span class="<%=strClass%>"><i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "providerName"%>'>!!!Nombre del proveedor de datos</i18n:message>:&nbsp;</span></td>
             <td width="64%">
-                <input size="65" class="skn-input" value="<factory:property property="providerName"/>" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="providerName"/>" >
+				<%
+					Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
+					for (int i = 0; i < locales.length; i++) {
+						Locale locale = locales[i];
+				%>
+				<input id="<factory:encode name="providerNameId"/><%= "_" + locale.toString()%>"
+					   name="<%=DataProviderHandler.PARAM_PROVIDER_NAME + "/" + locale.toString()%>"
+					   value="<%=StringUtils.defaultString((value == null || "".equals(value)) ? "" : (String)((Map) value).get(locale))%>"
+					   style='<%="width:250px;"+ (locale.getLanguage().equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>'
+					   class="skn-input"
+					   size="65" >
+				<% } %>
             </td>
             <td width="26%">
-                <select class="skn-input" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="currentLang"/>" onchange="
-                    document.getElementById('<factory:encode name="currentLangChangedInput"/>').value='true';
-                    submitAjaxForm(this.form);">
-<%
-                    Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-                    for (int i = 0; i < locales.length; i++) {
-                      Locale locale = locales[i];
-%>
-                  <factory:property property="currentLang" id="currentLang">
-                  <option <%=locale.getLanguage().equals(currentLang) ? "selected" : ""%> value="<%=locale%>">
-                    <%=StringUtils.capitalize(locale.getDisplayName(locale))%>
-                  </option>
-                  </factory:property>
-<%
-                    }
-%>
+				<select class="skn-input" onchange="
+					var elements = this.form.elements;
+					var selectedOption = this.options[this.selectedIndex];
+					for( i =0 ; i<elements.length; i++ ){
+						var element = elements[i];
+						if ( element.tagName.toUpperCase() == 'INPUT' && element.type.toUpperCase()=='TEXT' ) {
+							if ( element.id.substring(0,element.id.lastIndexOf('_')) == '<factory:encode name="providerNameId"/>' ) {
+								if( element.id == '<factory:encode name="providerNameId"/>' + '_' + selectedOption.value ){
+									element.style.display= 'inline';
+								} else {
+									element.style.display= 'none';
+								}
+							}
+						}
+					}">
+
+					<%
+						for (int i = 0; i < locales.length; i++) {
+							Locale locale = locales[i];
+					%>
+					<option <%= locale.getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%> value="<%=locale%>">
+						<%=StringUtils.capitalize(locale.getDisplayName(locale))%>
+					</option>
+					<% } %>
                 </select>
-                <input id="<factory:encode name="currentLangChangedInput"/>" type = "hidden" value="false" name="<factory:bean bean="org.jboss.dashboard.ui.components.DataProviderHandler" property="currentLangChanged"/>">
             </td>
         </tr>
+		</mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
 
     <mvc:fragment name="outputEditProviderPage">
         <mvc:fragmentValue name="componentPath" id="componentPath">
         <tr>
-            <td colspan="3">
-                <br><div style="padding: 15px; border: solid #a9a9a9; border-style: ridge"> <factory:useComponent bean="<%= (String) componentPath%>"/> </div><br>
+            <td colspan="3" style="background-color:#ededed;">
+                <br><div style="padding: 15px;"> <factory:useComponent bean="<%= (String) componentPath%>"/> </div><br>
             </td>
         </tr>
         </mvc:fragmentValue>

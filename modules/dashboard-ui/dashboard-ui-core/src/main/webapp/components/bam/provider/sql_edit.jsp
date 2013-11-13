@@ -66,7 +66,7 @@
     <tr>
         <td align="left"  style="padding-top:8px; padding-bottom:8px;padding-left:20px; padding-right:20px;"><i18n:message key="editor.sql.query"/>: <br/>
         <textarea name="sqlQuery" rows="10" cols="90" style="width:100%;"><%= sqlQuery == null ? "" : sqlQuery %></textarea>
-
+		<input id="<factory:encode name="testProviderConfigPressed"/>" type="hidden" value="false" name="<factory:bean property="testConfigButtonPressed" bean="org.jboss.dashboard.ui.components.DataProviderHandler"/>"/>
 <%
     // Check if the result of the test has been correct or not.
     if (editor.isConfiguredOk()) {
@@ -89,7 +89,8 @@
    <tr>
         <td align="center">
             <label>
-                <input class="skn-button" type="submit" value="<i18n:message key="editor.sql.tryButton"/>"/>
+                <input class="skn-button" type="button" value="<i18n:message key="editor.sql.tryButton"/>" onclick="document.getElementById('<factory:encode name="testProviderConfigPressed"/>').value='true';
+					submitAjaxForm(this.form);"/>
             </label>
         </td>
     </tr>
