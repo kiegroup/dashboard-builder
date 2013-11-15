@@ -74,8 +74,10 @@ public class DataProviderFormatter extends Formatter {
             if (dataProvider != null) {
                 // Provider type selected, show type editor page.
                 DataProviderEditor editor = UIBeanLocator.lookup().getEditor(dataProvider.getDataProviderType());
-                if (editor.getDataProvider() == null) editor.setDataProvider(dataProvider);
+                editor.setDataProvider(dataProvider);
                 setAttribute("error", Boolean.valueOf(handler.getFieldErrors().size() > 0));
+
+                setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
                 setAttribute("componentPath", editor.getName());
                 renderFragment("outputEditProviderPage");
@@ -116,6 +118,7 @@ public class DataProviderFormatter extends Formatter {
                     editor.setDataProvider(dataProvider);
                 }
                 setAttribute("error", Boolean.valueOf(handler.getFieldErrors().size() > 0));
+                setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
                 setAttribute("componentPath", editor.getName());
                 renderFragment("outputEditProviderPage");
@@ -179,7 +182,7 @@ public class DataProviderFormatter extends Formatter {
                     setAttribute("propertyId", property.getPropertyId());
                     // To print property names is necessary to call property.getName for each locale and create a i18n Map.
                     // Use of method property.getNameI18nMap() is not correct. This does not apply DataPropertyFormatter pattern,
-                    // just returns the Map, althought it's empty. Method getName uses DataPropertyFormatter pattern.
+                    // just returns the Map, although it's empty. Method getName uses DataPropertyFormatter pattern.
                     Map names = new HashMap();
                     Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
                     for (int j = 0; j < locales.length; j++) {
