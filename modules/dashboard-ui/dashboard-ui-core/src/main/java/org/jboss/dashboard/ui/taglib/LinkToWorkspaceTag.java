@@ -45,7 +45,7 @@ public class LinkToWorkspaceTag extends BaseTag {
         try {
             pageContext.getOut().print(getLink((HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse(), workspace));
         } catch (Exception e) {
-            log.error("Error en doEndTag", e);
+            handleError(e);
         }
         return EVAL_PAGE;
     }

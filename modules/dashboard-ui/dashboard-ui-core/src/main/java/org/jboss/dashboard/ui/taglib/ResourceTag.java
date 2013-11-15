@@ -100,8 +100,8 @@ public class ResourceTag extends BaseTag {
                     pageContext.getOut().print(res);
                 }
 
-            } catch (Exception ex) {
-                log.error("Error rendering resource " + key + " for panel " + panel.getId(), ex);
+            } catch (Exception e) {
+                handleError(e);
             }
         }
 

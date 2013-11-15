@@ -102,9 +102,8 @@ public class PropertyReadTag extends BaseTag {
                     super.pageContext.getOut().print(value);
                 }
             }
-        } catch (Exception ex) {
-            log.error("Error: ", ex);
-            throw new JspException("Exception ", ex);
+        } catch (Exception e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

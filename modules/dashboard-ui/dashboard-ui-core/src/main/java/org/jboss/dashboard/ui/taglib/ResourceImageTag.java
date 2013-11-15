@@ -95,9 +95,8 @@ public class ResourceImageTag extends ResourceLinkTag {
                 log.debug("Link URL is " + linkUrl);
                 super.pageContext.getOut().print(getImageHtml(linkUrl));
             }
-        } catch (Exception ex) {
-            log.error("Error: ", ex);
-            throw new JspException("Exception ", ex);
+        } catch (Exception e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

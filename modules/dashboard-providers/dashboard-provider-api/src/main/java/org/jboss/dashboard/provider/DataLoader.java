@@ -34,4 +34,41 @@ public interface DataLoader {
      * Load the data set.
      */
     DataSet load(DataProvider provider) throws Exception;
+
+    /**
+     * Maximum memory in bytes a data set load operation may consume.
+     */
+    Long getMaxMemoryUsedInDataLoad();
+    void setMaxMemoryUsedInDataLoad(Long maxMemoryUsedInDataLoad);
+
+    /**
+     * Maximum size in bytes a data set may have.
+     */
+    Long getMaxDataSetSizeInBytes();
+    void setMaxDataSetSizeInBytes(Long maxDataSetSizeInBytes);
+
+    /**
+     * Maximum time in milliseconds a data set load operation may last.
+     */
+    Long getMaxDataSetLoadTimeInMillis();
+    void setMaxDataSetLoadTimeInMillis(Long maxDataSetLoadTimeInMillis);
+
+    /**
+     * Maximum time in milliseconds a data set filter operation may last.
+     */
+    Long getMaxDataSetFilterTimeInMillis();
+    void setMaxDataSetFilterTimeInMillis(Long maxDataSetLoadTimeInMillis);
+
+    /**
+     * Maximum time in milliseconds a data set group operation may last.
+     */
+    Long getMaxDataSetGroupTimeInMillis();
+    void setMaxDataSetGroupTimeInMillis(Long maxDataSetLoadTimeInMillis);
+
+    /**
+     * Maximum time in milliseconds a data set sort operation may last.
+     */
+    Long getMaxDataSetSortTimeInMillis();
+    void setMaxDataSetSortTimeInMillis(Long maxDataSetSortTimeInMillis);
+
 }

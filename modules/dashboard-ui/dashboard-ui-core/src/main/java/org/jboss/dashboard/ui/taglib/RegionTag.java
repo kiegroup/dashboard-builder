@@ -82,7 +82,8 @@ public class RegionTag extends BaseTag {
             }}.execute();
             return EVAL_PAGE;
         } catch (Throwable e) {
-            throw new JspException(e);
+            handleError(e);
+            return EVAL_PAGE;
         }
     }
 

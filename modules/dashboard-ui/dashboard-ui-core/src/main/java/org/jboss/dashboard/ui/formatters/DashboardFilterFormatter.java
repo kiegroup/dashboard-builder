@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.jboss.dashboard.ui.DashboardSettings;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.ui.DashboardFilter;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -26,9 +27,9 @@ import org.jboss.dashboard.provider.DataProvider;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.workspace.Section;
 
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -76,12 +77,18 @@ public class DashboardFilterFormatter extends Formatter {
 
                 // Get the property allowed values.
                 String allowedValue = null;
-                List allowedValues = dashboardFilterProperty.getPropertyDistinctValues();
                 if (filter != null && filter.containsProperty(dashboardFilterProperty.getPropertyId())) {
                     List filterAllowedValues = filter.getPropertyAllowedValues(dashboardFilterProperty.getPropertyId());
                     if (filterAllowedValues.size() == 1) allowedValue = (String) filterAllowedValues.get(0);
                 }
 
+                // Get the list of distinct values for this label property. In order to avoid performance issues,
+                // no combos of more than a given number of entries are allowed. In such cases the only way to enter
+                // filter values is via the custom entry option.
+                List allowedValues = dashboardFilterProperty.getPropertyDistinctValues();
+                if (allowedValues.size() > DashboardSettings.lookup().getMaxEntriesInFilters()) allowedValues = new ArrayList();
+
+                // Build the filter combo options.
                 String[] keys = new String[allowedValues.size()+2];
                 String[] values = new String[allowedValues.size()+2];
                 keys[0] = DashboardFilterHandler.PARAM_NULL_VALUE;

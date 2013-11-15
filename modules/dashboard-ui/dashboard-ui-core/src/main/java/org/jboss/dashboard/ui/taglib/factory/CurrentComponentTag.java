@@ -31,7 +31,7 @@ public class CurrentComponentTag extends GenericFactoryTag {
             String componentClass = currentComponent.getName();
             pageContext.getOut().print(componentClass != null ? componentClass : "");
         } catch (java.io.IOException ex) {
-            log.error("Error: ", ex);
+            handleError(ex);
         }
         return EVAL_PAGE;
     }

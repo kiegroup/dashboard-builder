@@ -64,8 +64,8 @@ public class HiddenLinkTag extends BaseTag {
         String textToWrite = markupGenerator.getMarkupToPanelAction(thePanel, action);
         try {
             pageContext.getOut().print(textToWrite);
-        } catch (java.io.IOException ex) {
-            log.error("HiddenLinkTag error: " + textToWrite, ex);
+        } catch (java.io.IOException e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

@@ -48,7 +48,7 @@ public class SetPropertyTag extends GenericFactoryTag {
             try {
                 component.setProperty(getProperty(), new String[]{getPropValue()});
             } catch (Exception e) {
-                log.error("Error: ", e);
+                handleError(e);
             }
         }
         return EVAL_PAGE;

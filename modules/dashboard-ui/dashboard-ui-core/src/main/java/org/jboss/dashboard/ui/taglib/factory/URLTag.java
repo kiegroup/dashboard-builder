@@ -49,7 +49,7 @@ public class URLTag extends GenericFactoryTag {
         try {
             pageContext.getOut().print(markup);
         } catch (java.io.IOException ex) {
-            log.error("Error: ", ex);
+            handleError(ex);
         }
         return EVAL_PAGE;
     }

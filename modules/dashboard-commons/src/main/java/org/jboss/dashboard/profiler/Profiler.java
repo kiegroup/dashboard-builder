@@ -23,6 +23,7 @@ import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.error.ErrorReport;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.profiler.memory.LowMemoryConstraints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,12 +53,6 @@ public class Profiler implements Runnable {
 
     public static Profiler lookup() {
         return (Profiler) CDIBeanLocator.getBeanByName("profiler");
-    }
-
-    public static String printCurrentContext() {
-        ThreadProfile threadProfile = Profiler.lookup().getCurrentThreadProfile();
-        CodeBlockTrace blockInProgress = threadProfile.getCodeBlockInProgress();
-        return blockInProgress.printContext(true);
     }
 
     /** Logger */
@@ -143,6 +138,13 @@ public class Profiler implements Runnable {
      * The thread profile for the current thread.
      */
     protected ThreadLocal currentThreadProfile;
+
+    /**
+     * Low memory runtime constraints are always added to the root trace of every thread profile
+     * in order to ensure the system never runs out of memory.
+     */
+    @Inject
+    protected LowMemoryConstraints lowMemoryConstraints;
 
     public Profiler() {
         runOnStart = false;
@@ -324,6 +326,7 @@ public class Profiler implements Runnable {
         activeThreads.add(newT);
         currentThreadProfile.set(newT);
         newT.begin();
+        newT.getCodeBlockInProgress().addRuntimeConstraint(lowMemoryConstraints);
         log.debug("Thread execution begin. Id=" + newT.getId() + " (active=" + activeThreads.size() + ")");
         return newT;
     }

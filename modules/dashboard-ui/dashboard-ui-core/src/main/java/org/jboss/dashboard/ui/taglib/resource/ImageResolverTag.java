@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.resource;
 
+import org.jboss.dashboard.ui.taglib.BaseTag;
 import org.jboss.dashboard.ui.taglib.ContextTag;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +28,7 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 
-public class ImageResolverTag extends BodyTagSupport {
+public class ImageResolverTag extends BaseTag {
     /**
      * Logger
      */
@@ -72,9 +73,8 @@ public class ImageResolverTag extends BodyTagSupport {
                     super.pageContext.getOut().print(imageURL);
                 }
             }
-        } catch (Exception ex) {
-            log.error("Error building imageURL: ", ex);
-            throw new JspException("Exception ", ex);
+        } catch (Exception e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

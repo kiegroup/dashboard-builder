@@ -33,7 +33,7 @@ public class HandlerTag extends GenericFactoryTag {
         try {
             pageContext.getOut().print(textToWrite);
         } catch (java.io.IOException ex) {
-            log.error("HandlerTag error: " + textToWrite, ex);
+            handleError(ex);
         }
         return EVAL_PAGE;
     }

@@ -123,9 +123,8 @@ public class ResourceLinkTag extends BaseTag {
                     super.pageContext.getOut().print(linkUrl);
                 }
             }
-        } catch (Exception ex) {
-            log.error("Error: ", ex);
-            throw new JspException("Exception ", ex);
+        } catch (Exception e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

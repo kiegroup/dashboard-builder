@@ -54,8 +54,8 @@ public class LinkToSectionTag extends BaseTag {
                 String linkStr = getLink((HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse(), section);
                 try {
                     pageContext.getOut().print(StringEscapeUtils.escapeHtml(linkStr));
-                } catch (java.io.IOException ex) {
-                    log.error("LinkToSectionTag error: " + linkStr, ex);
+                } catch (java.io.IOException e) {
+                    handleError(e);
                 }
             } else {
                 log.error("Section '" + getSection() + "' not found");

@@ -62,32 +62,30 @@ public class FragmentValueTag extends BaseTag {
             while (parentTag instanceof FragmentValueTag) {
                 parentTag = parentTag.getParent();
             }
-            if (!(parentTag instanceof FragmentTag))
+            if (!(parentTag instanceof FragmentTag)) {
                 throw new JspException("Wrong nesting: fragmentValue named " + name + " must be inside a fragment.");
+            }
             FragmentTag parentFragment = (FragmentTag) parentTag;
             value = parentFragment.getParam(name);
 
             String valueName = id == null ? VALUE_NAME : id;
-            if (value == null)
-                pageContext.removeAttribute(valueName);
-            else
-                pageContext.setAttribute(valueName, value);
+            if (value == null) pageContext.removeAttribute(valueName);
+            else pageContext.setAttribute(valueName, value);
         } catch (Exception e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         return EVAL_BODY_AGAIN;
     }
 
     public int doEndTag() throws JspException {
         try {
-            if (super.bodyContent == null)
+            if (super.bodyContent == null) {
                 pageContext.getOut().print(value == null ? "" : value);
-            else
+            } else {
                 pageContext.getOut().print(bodyContent.getString());
+            }
         } catch (IOException e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         return EVAL_PAGE;
     }

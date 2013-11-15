@@ -43,8 +43,8 @@ public class EncodeTag extends BaseTag {
         String encodedName = getFactoryUniqueIdEncoder().encodeFromContext(pageContext, name);
         try {
             pageContext.getOut().print(encodedName);
-        } catch (Exception ex) {
-            log.error("Error encoding name [" + name + "]");
+        } catch (Exception e) {
+            handleError(e);
         }
         return SKIP_BODY;
     }

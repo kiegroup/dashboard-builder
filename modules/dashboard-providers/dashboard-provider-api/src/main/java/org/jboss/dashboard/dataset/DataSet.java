@@ -98,6 +98,12 @@ public interface DataSet {
     Map getRowAsMap(int row);
 
     /**
+     * Return the estimated memory (in bytes) this data set is consuming.
+     * @return The number of bytes
+     */
+    int sizeOf();
+
+    /**
      * Filter the dataset.
      * @return A filtered data set or null if there is nothing to do with the filter specified,
      * because it's empty or does not contains properties belonging to this data set.

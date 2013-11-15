@@ -77,8 +77,8 @@ public class LinkTag extends BaseTag {
         String linkStr = markupGenerator.getLinkToPanelAction(panel, getAction(), params, Boolean.valueOf(useFriendlyUrl).booleanValue());
         try {
             pageContext.getOut().print(linkStr);
-        } catch (java.io.IOException ex) {
-            log.error("LinkTag error: " + linkStr, ex);
+        } catch (java.io.IOException e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }
