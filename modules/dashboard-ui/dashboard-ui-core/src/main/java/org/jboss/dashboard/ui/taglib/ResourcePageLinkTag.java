@@ -44,7 +44,7 @@ public class ResourcePageLinkTag extends ResourceLinkTag {
             return null;
         if (!(resource instanceof UrlResource)) {
             log.error("Cannot use resource as a page. Must be UrlResource.");
-            throw new Exception("Cannot use resource as a page. Must be UrlResource.");
+            handleError(new Exception("Cannot use resource as a page. Must be UrlResource."));
         }
         String url = ((UrlResource) resource).getResourcePage(pageContext.getRequest(), pageContext.getResponse());
         log.debug("Generated resource url: " + url);

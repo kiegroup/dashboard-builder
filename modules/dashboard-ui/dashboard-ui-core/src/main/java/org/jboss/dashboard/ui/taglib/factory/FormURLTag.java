@@ -43,8 +43,8 @@ public class FormURLTag extends GenericFactoryTag {
         String markup = friendly ? urlMarkupGenerator.getBaseURI() : urlMarkupGenerator.getServletMapping();
         try {
             pageContext.getOut().print(markup);
-        } catch (java.io.IOException ex) {
-            log.error("Error: ", ex);
+        } catch (java.io.IOException e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

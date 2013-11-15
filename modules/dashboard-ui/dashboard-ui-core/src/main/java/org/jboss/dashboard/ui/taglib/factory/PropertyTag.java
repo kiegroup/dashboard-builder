@@ -61,11 +61,11 @@ public class PropertyTag extends GenericFactoryTag {
                 Object value = getValue();
                 String textValue = value == null ? "" : value.toString();
                 pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.escapeHtml(textValue));
-            } else
+            } else {
                 pageContext.getOut().print(bodyContent.getString());
+            }
         } catch (IOException e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         value = null;
         return EVAL_PAGE;
@@ -94,13 +94,10 @@ public class PropertyTag extends GenericFactoryTag {
         try {
             Object value = getValue();
             String valueName = id == null ? VALUE_NAME : id;
-            if (value == null)
-                pageContext.removeAttribute(valueName);
-            else
-                pageContext.setAttribute(valueName, value);
+            if (value == null) pageContext.removeAttribute(valueName);
+            else pageContext.setAttribute(valueName, value);
         } catch (Exception e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         return EVAL_BODY_AGAIN;
     }

@@ -15,7 +15,13 @@
  */
 package org.jboss.dashboard.dataset;
 
+import org.jboss.dashboard.commons.comparator.RuntimeConstrainedComparator;
 import org.jboss.dashboard.commons.misc.ReflectionUtils;
+import org.jboss.dashboard.dataset.profiler.DataSetFilterConstraints;
+import org.jboss.dashboard.dataset.profiler.DataSetGroupByConstraints;
+import org.jboss.dashboard.dataset.profiler.DataSetSortConstraints;
+import org.jboss.dashboard.profiler.ProfilerHelper;
+import org.jboss.dashboard.profiler.memory.SizeEstimations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.DataProviderServices;
@@ -88,6 +94,29 @@ public abstract class AbstractDataSet implements DataSet {
         setPropertySize(0);
     }
 
+    public int sizeOf() {
+        int nrows = getRowCount();
+        if (nrows == 0) return 0;
+
+        SizeEstimations sizeEstimator = SizeEstimations.lookup();
+        int ncells = nrows * getProperties().length;
+        int result = ncells * 4;
+        DataProperty[] props = getProperties();
+        for (int i = 0; i < props.length; i++) {
+            Object firstRowValue = getValueAt(0, i);
+            if (firstRowValue instanceof String) {
+                for (int j = 0; j < nrows; j++) {
+                    String stringValue = (String) getValueAt(j, i);
+                    result += sizeEstimator.sizeOfString(stringValue);
+                }
+            } else {
+                int singleValueSize = sizeEstimator.sizeOf(firstRowValue);
+                result += nrows * singleValueSize;
+            }
+        }
+        return result;
+    }
+
     public DataProperty[] getProperties() {
         if (properties == null) return new DataProperty[] {};
         return properties;
@@ -112,7 +141,7 @@ public abstract class AbstractDataSet implements DataSet {
         return -1;
     }
 
-    public DataProperty getPropertyById(String id){
+    public DataProperty getPropertyById(String id) {
         if (id == null) return null;
         for (int i = 0; properties != null && i < properties.length; i++) {
             DataProperty property = properties[i];
@@ -229,6 +258,9 @@ public abstract class AbstractDataSet implements DataSet {
             return null;
         }
 
+        // Add filter constraints to the current thread.
+        ProfilerHelper.addRuntimeConstraint(new DataSetFilterConstraints(this));
+
         // Create the result data set instance.
         DefaultDataSet _result = new DefaultDataSet(provider);
         _result.setPropertySize(propertyValues.length);
@@ -252,6 +284,7 @@ public abstract class AbstractDataSet implements DataSet {
         boolean _continue = true;
         int _index = 0;
         int _row = 0;
+        int _nrows = 0;
         while (_continue) {
             // Iterate against the target rows or over the whole data set.
             if (!targetRows.isEmpty()) _row = _rowIt.next();
@@ -269,6 +302,11 @@ public abstract class AbstractDataSet implements DataSet {
                     fillArrayWithRow(_row, _rowArray);
                     _result.addRowValues(_rowArray);
                 }
+            }
+            // Check filter constraints (every 1000 rows)
+            if (++_nrows > 1000) {
+                _nrows = 0;
+                ProfilerHelper.checkRuntimeConstraints();
             }
             // Check loop finished.
             if (!targetRows.isEmpty()) _continue = _rowIt.hasNext();
@@ -315,6 +353,9 @@ public abstract class AbstractDataSet implements DataSet {
     }
 
     public DataSet groupBy(DataProperty groupByProperty, int[] columns, String[] functionCodes, int sortIndex, int sortOrder) {
+        // Group by operations are time constrained.
+        ProfilerHelper.addRuntimeConstraint(new DataSetGroupByConstraints(this));
+
         // For label-type properties use the high-performance groupByLabel method.
         if (groupByProperty.getDomain() instanceof LabelDomain) {
             return groupByLabel(groupByProperty, columns, functionCodes, sortIndex, sortOrder);
@@ -430,6 +471,10 @@ public abstract class AbstractDataSet implements DataSet {
             return new Double(0);
         } else {
             double value = function.scalar(values);
+
+            // Check constraints every time an scalar calculation is carried out.
+            ProfilerHelper.checkRuntimeConstraints();
+
             return new Double(value);
         }
     }
@@ -442,8 +487,10 @@ public abstract class AbstractDataSet implements DataSet {
             sortedPropertyValues.add(rowMap);
         }
 
-        // Sort the rows.
-        Collections.sort(sortedPropertyValues, comparator);
+        // Sort the rows using a runtime constrained comparator.
+        ProfilerHelper.addRuntimeConstraint(new DataSetSortConstraints(this));
+        RuntimeConstrainedComparator _comp = new RuntimeConstrainedComparator(comparator, 10000);
+        Collections.sort(sortedPropertyValues, _comp);
 
         // Update the internal data set matrix.
         List[] propertyValues = getPropertyValues();

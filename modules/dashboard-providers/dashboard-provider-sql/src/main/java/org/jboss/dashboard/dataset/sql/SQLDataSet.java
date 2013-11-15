@@ -19,6 +19,7 @@ import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.SQLStatementTrace;
 import org.jboss.dashboard.dataset.AbstractDataSet;
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.dataset.profiler.DataSetLoadConstraints;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.provider.sql.SQLDataProperty;
@@ -97,6 +98,8 @@ public class SQLDataSet extends AbstractDataSet {
             // Execute the query.
             lastExecutedStmt = createSQLStatament();
             trace = new SQLStatementTrace(lastExecutedStmt.getSQLSentence()).begin();
+            trace.addRuntimeConstraint(new DataSetLoadConstraints(this));
+
             log.debug("Load data set from datasource=" + dataSource + " SQL=" + lastExecutedStmt.getSQLSentence());
             stmt = lastExecutedStmt.getPreparedStatement(conn);
             rs = stmt.executeQuery();
@@ -115,10 +118,17 @@ public class SQLDataSet extends AbstractDataSet {
             }
 
             // Get rows and populate the data set values.
+            int index = 0;
             while (rs.next()) {
                 Object[] row = new Object[propsSize];
                 for (int i = 0; i < propsSize; i++) row[i] = rs.getObject(i + 1);
                 SQLDataSet.this.addRowValues(row);
+
+                // Check load constraints (every 10,000 rows)
+                if (++index == 10000) {
+                    trace.checkRuntimeConstraints();
+                    index = 0;
+                }
             }
 
             // Once we got the dataset initialized then calculate the domain for each property.

@@ -69,7 +69,7 @@ public class LocalizeTag extends BaseTag {
         try {
             pageContext.getOut().print(valueIsHTML ? result : StringEscapeUtils.escapeHtml(result));
         } catch (IOException e) {
-            log.error("", e);
+            handleError(e);
         }
 
         setData(null);

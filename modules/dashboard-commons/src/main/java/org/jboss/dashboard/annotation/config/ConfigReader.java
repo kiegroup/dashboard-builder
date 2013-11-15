@@ -98,6 +98,16 @@ public class ConfigReader {
         return null;
     }
 
+    public @Produces @Config byte readPrimitiveByte(InjectionPoint p) {
+        String val= readConfig(p);
+        return Byte.parseByte(val);
+    }
+
+    public @Produces @Config short readPrimitiveShort(InjectionPoint p) {
+        String val= readConfig(p);
+        return Short.parseShort(val);
+    }
+
     public @Produces @Config int readPrimitiveInt(InjectionPoint p) {
         String val= readConfig(p);
         return Integer.parseInt(val);
@@ -111,6 +121,11 @@ public class ConfigReader {
     public @Produces @Config boolean readPrimitiveBoolean(InjectionPoint p) {
         String val= readConfig(p);
         return Boolean.parseBoolean(val);
+    }
+
+    public @Produces @Config float readPrimitiveFloat(InjectionPoint p) {
+        String val= readConfig(p);
+        return Float.parseFloat(val);
     }
 
     public @Produces @Config double readPrimitiveDouble(InjectionPoint p) {

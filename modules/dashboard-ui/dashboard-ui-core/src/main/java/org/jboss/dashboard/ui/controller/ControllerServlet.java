@@ -187,7 +187,7 @@ public class ControllerServlet extends HttpServlet {
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 // Process the request.
-                if (log.isDebugEnabled()) log.debug("Processing request\n" + Profiler.printCurrentContext());
+                if (log.isDebugEnabled()) log.debug("Processing request\n" + ProfilerHelper.printCurrentContext());
                 RequestChainProcessor requestProcessor = (RequestChainProcessor) Factory.lookup("org.jboss.dashboard.ui.controller.requestChain.StartingProcessor");
                 requestProcessor.doRequestProcessing();
 

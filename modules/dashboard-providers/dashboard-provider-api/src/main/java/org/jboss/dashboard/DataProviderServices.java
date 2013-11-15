@@ -16,10 +16,10 @@
 package org.jboss.dashboard;
 
 import org.jboss.dashboard.command.CommandFactory;
-import org.jboss.dashboard.command.CommandProcessor;
 import org.jboss.dashboard.command.CommandProcessorFactory;
 import org.jboss.dashboard.command.TemplateProcessor;
 import org.jboss.dashboard.dataset.DataSetManager;
+import org.jboss.dashboard.dataset.DataSetSettings;
 import org.jboss.dashboard.function.ScalarFunctionManager;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.jboss.dashboard.profiler.Profiler;
@@ -29,7 +29,6 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.New;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -43,6 +42,9 @@ public class DataProviderServices {
 
     @Inject
     protected DataProviderManager dataProviderManager;
+
+    @Inject
+    protected DataSetSettings dataSetSettings;
 
     @Inject
     protected ScalarFunctionManager scalarFunctionManager;
@@ -82,6 +84,10 @@ public class DataProviderServices {
 
     public CommandProcessorFactory getCommandProcessorFactory() {
         return commandProcessorFactory;
+    }
+
+    public DataSetSettings getDataSetSettings() {
+        return dataSetSettings;
     }
 }
 

@@ -43,6 +43,7 @@ public abstract class CodeBlockTrace {
     protected long endTimeMillis;
     protected long childrenElapsedTimeMillis;
     protected Set<CodeBlockType> ancestorTypes;
+    protected List<RuntimeConstraint> runtimeConstraints;
 
     public CodeBlockTrace(String id) {
         this.threadProfile = null;
@@ -284,5 +285,24 @@ public abstract class CodeBlockTrace {
             buf.append(value != null ? value.toString() : "null");
         }
         return buf.toString();
+    }
+
+    // Runtime constraints handling
+
+    public void addRuntimeConstraint(RuntimeConstraint runtimeConstraint) {
+        if (runtimeConstraints == null) runtimeConstraints = new ArrayList<RuntimeConstraint>();
+        runtimeConstraints.add(runtimeConstraint);
+    }
+
+    public void checkRuntimeConstraints() throws Exception {
+        CodeBlockTrace _trace = this;
+        while (_trace != null) {
+            if (_trace.runtimeConstraints != null) {
+                for (RuntimeConstraint runtimeConstraint : _trace.runtimeConstraints) {
+                    runtimeConstraint.validate();
+                }
+            }
+            _trace = _trace.parent;
+        }
     }
 }

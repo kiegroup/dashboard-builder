@@ -529,94 +529,78 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         }
     }
 
-    public CommandResponse actionFilter(CommandRequest request) {
-        try {
-            // Init attributes for start applying the filter.
-            filterPropertyErrors.clear();
+    public CommandResponse actionFilter(CommandRequest request) throws Exception {
+        // Init attributes for start applying the filter.
+        filterPropertyErrors.clear();
 
-            // Parse parameters and set the filter.
-            Iterator visiblePropertiesIt = properties.iterator();
-            while (visiblePropertiesIt.hasNext()) {
-                DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) visiblePropertiesIt.next();
+        // Parse parameters and set the filter.
+        Iterator visiblePropertiesIt = properties.iterator();
+        while (visiblePropertiesIt.hasNext()) {
+            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) visiblePropertiesIt.next();
 
-                // Is property already in the dashboard filter?. Then is not possible to filter by this property, it's already added to dashboard filter.
-                if (dashboardFilterProperty.isBeingFiltered()) continue;
-                if (!dashboardFilterProperty.isPropertyAlive()){
-                    log.warn("Trying to filter by " + dashboardFilterProperty.getPropertyId() + ". This property is not in any dataset.");
-                    continue;
-                }
-                if (!dashboardFilterProperty.isVisible()) continue;
-
-                Object[] result;
-                try {
-                    result = requestProcessor.parseDashboardProperty(request.getRequestObject(), dashboardFilterProperty);
-                } catch (Exception e) {
-                    log.error("Error parsing property " + dashboardFilterProperty.getPropertyId() + ".", e);
-                    continue;
-                }
-
-                if (result.length != 3) {
-                    log.error("Error parsing property: '" + dashboardFilterProperty.getPropertyId() + "' for dataProvider: '"
-                            + dashboardFilterProperty.getDataProviderCode() + "'");
-                    continue;
-                }
-
-                Collection allowedValues = (Collection) result[0];
-                Object minValue = result[1];
-                Object maxValue = result[2];
-                if (allowedValues == null && minValue == null && maxValue == null) continue;
-
-                // Set the filter with this property.
-                Dashboard currentDashboard = DashboardHandler.lookup().getCurrentDashboard();
-                if (currentDashboard.filter(dashboardFilterProperty.getPropertyId(), minValue, true, maxValue, true, allowedValues, FilterByCriteria.ALLOW_ANY)) {
-                    return new ShowCurrentScreenResponse();
-                }
+            // Is property already in the dashboard filter?. Then is not possible to filter by this property, it's already added to dashboard filter.
+            if (dashboardFilterProperty.isBeingFiltered()) continue;
+            if (!dashboardFilterProperty.isPropertyAlive()){
+                log.warn("Trying to filter by " + dashboardFilterProperty.getPropertyId() + ". This property is not in any dataset.");
+                continue;
             }
-        } catch (Exception e) {
-            log.error("Error trying to filter properties for dashboard", e);
-        }
-        return null;
-    }
+            if (!dashboardFilterProperty.isVisible()) continue;
 
-    public void actionRefresh(CommandRequest request) {
-        try {
-            String timeOutValue = request.getRequestObject().getParameter("refreshTimeOut");
-            if (!StringUtils.isBlank(timeOutValue)) {
-                try {
-                    autoRefreshTimeout = Integer.decode(timeOutValue).intValue();
-                } catch (NumberFormatException e) {
-                    log.warn("Cannot parse auto refresh value as a number.");
-                }
+            Object[] result;
+            try {
+                result = requestProcessor.parseDashboardProperty(request.getRequestObject(), dashboardFilterProperty);
+            } catch (Exception e) {
+                log.error("Error parsing property " + dashboardFilterProperty.getPropertyId() + ".", e);
+                continue;
             }
-            getDashboard().refresh();
-        } catch (Exception e) {
-            log.error("Cannot refresh dashboard.",e);
-        }
-    }
 
-    public CommandResponse actionClear(CommandRequest request) {
-        try {
-            Dashboard dashboard = getDashboard();
-            if (dashboard.unfilter()) {
+            if (result.length != 3) {
+                log.error("Error parsing property: '" + dashboardFilterProperty.getPropertyId() + "' for dataProvider: '"
+                        + dashboardFilterProperty.getDataProviderCode() + "'");
+                continue;
+            }
+
+            Collection allowedValues = (Collection) result[0];
+            Object minValue = result[1];
+            Object maxValue = result[2];
+            if (allowedValues == null && minValue == null && maxValue == null) continue;
+
+            // Set the filter with this property.
+            Dashboard currentDashboard = DashboardHandler.lookup().getCurrentDashboard();
+            if (currentDashboard.filter(dashboardFilterProperty.getPropertyId(), minValue, true, maxValue, true, allowedValues, FilterByCriteria.ALLOW_ANY)) {
                 return new ShowCurrentScreenResponse();
             }
-        } catch (Exception e) {
-            log.error("Cannot refresh dashboard.",e);
         }
         return null;
     }
 
-    public CommandResponse actionDeleteFilteredProperty(CommandRequest request) {
+    public void actionRefresh(CommandRequest request) throws Exception {
+        String timeOutValue = request.getRequestObject().getParameter("refreshTimeOut");
+        if (!StringUtils.isBlank(timeOutValue)) {
+            try {
+                autoRefreshTimeout = Integer.decode(timeOutValue).intValue();
+            } catch (NumberFormatException e) {
+                log.warn("Cannot parse auto refresh value as a number.");
+            }
+        }
+        getDashboard().refresh();
+    }
+
+    public CommandResponse actionClear(CommandRequest request) throws Exception {
+        Dashboard dashboard = getDashboard();
+        if (dashboard.unfilter()) {
+            return new ShowCurrentScreenResponse();
+        }
+        return null;
+    }
+
+    public CommandResponse actionDeleteFilteredProperty(CommandRequest request) throws Exception {
         String propertyToDelete = request.getRequestObject().getParameter("filteredPropertyToDelete");
         if (propertyToDelete == null || propertyToDelete.trim().length() == 0) return null;
 
-        try {
-            Dashboard dashboard = getDashboard();
-            if (dashboard.unfilter(propertyToDelete)) {
-                return new ShowCurrentScreenResponse();
-            }
-        } catch (Exception e) {
-            log.error("Cannot remove filter property.",e);
+        Dashboard dashboard = getDashboard();
+        if (dashboard.unfilter(propertyToDelete)) {
+            return new ShowCurrentScreenResponse();
         }
         return null;
     }

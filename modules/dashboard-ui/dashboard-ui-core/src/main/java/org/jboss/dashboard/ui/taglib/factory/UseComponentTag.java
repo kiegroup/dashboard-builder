@@ -47,7 +47,7 @@ public class UseComponentTag extends GenericFactoryTag {
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
                     uiBean.afterRenderComponent();
                 } catch (Exception e) {
-                    throw new JspTagException("Error rendering UI bean '" + getBean() + "'", e);
+                    handleError(e);
                 } finally {
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
                     trace.end();

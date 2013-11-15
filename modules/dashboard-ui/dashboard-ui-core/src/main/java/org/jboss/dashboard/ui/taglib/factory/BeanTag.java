@@ -29,8 +29,8 @@ public class BeanTag extends GenericFactoryTag {
         String linkStr = new FactoryURL(getBean(), getProperty()).toString();
         try {
             pageContext.getOut().print(linkStr);
-        } catch (java.io.IOException ex) {
-            log.error("Error: ", ex);
+        } catch (java.io.IOException e) {
+            handleError(e);
         }
         return EVAL_PAGE;
     }

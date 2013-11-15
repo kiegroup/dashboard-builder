@@ -18,5 +18,3 @@ $class=org.jboss.dashboard.ui.controller.requestChain.FreeMemoryProcessor
 $scope=volatile
 
 nextStep=.SessionInitializer
-minMemorySize=100000
-minMemoryPercentage=0.01 

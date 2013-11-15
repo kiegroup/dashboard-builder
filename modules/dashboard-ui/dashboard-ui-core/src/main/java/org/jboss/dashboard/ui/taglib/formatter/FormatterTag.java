@@ -179,7 +179,7 @@ public class FormatterTag extends BaseTag {
                 formatter.afterRendering((HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse());
             }}.execute();
         } catch (Throwable e) {
-            throw new JspException(e);
+            handleError(e);
         } finally {
             // Finish the trace.
             trace.end();

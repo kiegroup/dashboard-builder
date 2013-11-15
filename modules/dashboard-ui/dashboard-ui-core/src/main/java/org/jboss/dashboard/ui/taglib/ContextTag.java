@@ -73,8 +73,7 @@ public class ContextTag extends BaseTag {
                 pageContext.setAttribute(id, value);
             }
         } catch (Exception e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         return EVAL_BODY_AGAIN;
     }
@@ -86,11 +85,11 @@ public class ContextTag extends BaseTag {
                 if (includeHost || isGlobalIncludeHost())
                     pageContext.getOut().print(getContextHost());
                 pageContext.getOut().print(value == null ? "" : value);
-            } else
+            } else {
                 pageContext.getOut().print(bodyContent.getString());
+            }
         } catch (IOException e) {
-            log.error("Error:", e);
-            throw new JspException(e);
+            handleError(e);
         }
         return EVAL_PAGE;
     }

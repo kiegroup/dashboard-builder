@@ -16,6 +16,7 @@
 package org.jboss.dashboard.dataset.csv;
 
 import org.jboss.dashboard.dataset.AbstractDataSet;
+import org.jboss.dashboard.dataset.profiler.DataSetLoadConstraints;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.date.DateDomain;
 import org.jboss.dashboard.domain.label.LabelDomain;
@@ -23,6 +24,7 @@ import org.jboss.dashboard.domain.numeric.NumericDomain;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
+import org.jboss.dashboard.profiler.memory.MemoryProfiler;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.csv.CSVDataLoader;
 import org.jboss.dashboard.provider.csv.CSVDataProperty;
@@ -37,7 +39,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,23 +70,26 @@ public class CSVDataSet extends AbstractDataSet {
     }
 
     public void load() throws Exception {
-        CodeBlockTrace trace = null;
+        CSVReadTrace trace = new CSVReadTrace(csvLoader);
+        trace.addRuntimeConstraint(new DataSetLoadConstraints(this));
+        trace.begin();
         try {
-            trace = new CSVReadTrace(csvLoader).begin();
+            // Check file existence.
             File f = csvLoader.getCsvProviderFile();
             if (f == null || !f.exists() || !f.canRead()) {
-                throw new IOException("Can't load data from file : '" + f + "'");
+                throw new IOException("Can't load data from file: '" + f + "'");
             }
 
             // Read the header
             FileReader fileReader = new FileReader(f);
             BufferedReader br = new BufferedReader(fileReader);
             csvReader = new CSVReader(br, csvLoader.getCsvSeparatedBy().charAt(0), csvLoader.getCsvQuoteChar().charAt(0), csvLoader.getCsvEscapeChar().charAt(0));
-            List<String[]> lines = csvReader.readAll();
-            String[] header = lines.get(0);
-            String[] firstRow = lines.get(1);
+            String[] header = csvReader.readNext();
+            String[] firstRow = csvReader.readNext();
+            if (header == null) throw new IOException("The CSV file has no header: '" + f + "'");
+            if (firstRow == null) throw new IOException("The CSV file has no entries: '" + f + "'");
 
-            // Build the CSV data set properties
+            // Build the data set properties
             setPropertySize(header.length);
             for (int i = 0; i < firstRow.length; i++) {
                 String token = header[i];
@@ -98,29 +102,37 @@ public class CSVDataSet extends AbstractDataSet {
             }
 
             // Load the CSV rows
-            for (int lc = 1; lc < lines.size(); lc++) {
-                String[] line = lines.get(lc);
-                Object[] row = new Object[header.length];
-                for (int i = 0; i < line.length; i++) {
-                    String valueStr = line[i];
-                    CSVDataProperty prop = (CSVDataProperty) getProperties()[i];
-                    if (!StringUtils.isBlank(valueStr)){
-                        row[i] = parseValue(prop, valueStr);
-                    } else {
-                        row[i] = null;
-                    }
+            Object[] row = processLine(firstRow);
+            this.addRowValues(row);
+            String[] line = csvReader.readNext();
+            while (line != null) {
+                // Read 10,000 lines
+                for (int i=0; line!=null && i<10000; i++) {
+                    row = processLine(line);
+                    this.addRowValues(row);
+                    line = csvReader.readNext();
                 }
-                this.addRowValues(row);
+                // Check load constraints (every 10,000 rows)
+                trace.update(this);
+                trace.checkRuntimeConstraints();
             }
-
-        } catch (Exception e) {
-            log.error("Error loading CSV data.", e);
-            throw e;
         } finally {
-            if (trace != null) {
-                trace.end();
+            trace.end();
+        }
+    }
+
+    protected Object[] processLine(String[] line) throws Exception {
+        Object[] row = new Object[line.length];
+        for (int j=0; j<line.length; j++) {
+            String valueStr = line[j];
+            CSVDataProperty prop = (CSVDataProperty) getProperties()[j];
+            if (!StringUtils.isBlank(valueStr)){
+                row[j] = parseValue(prop, valueStr);
+            } else {
+                row[j] = null;
             }
         }
+        return row;
     }
 
     public Domain calculateDomain(String value) {
@@ -180,6 +192,12 @@ public class CSVDataSet extends AbstractDataSet {
 
         public Map<String,Object> getContext() {
             return context;
+        }
+
+        public void update(CSVDataSet dataSet) {
+            context.put("Data set #columns", dataSet.getProperties().length);
+            context.put("Data set #rows", dataSet.getRowCount());
+            context.put("Data set size", MemoryProfiler.formatSize(dataSet.sizeOf()));
         }
     }
 }

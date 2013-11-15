@@ -72,8 +72,8 @@ public class EncodeTag extends BaseTag {
         String encodedName = encode(panel, factoryComponent, name);
         try {
             pageContext.getOut().print(encodedName);
-        } catch (Exception ex) {
-            log.error("Error encoding panel name [" + name + "] for panel " + panel.getId(), ex);
+        } catch (Exception e) {
+            handleError(e);
         }
         return SKIP_BODY;
     }

@@ -54,9 +54,9 @@ public class CheckPermissionTag extends BaseTag {
         try {
             boolean hasPerm = getUserStatus().hasPermission(permission);
             if (hasPerm) getPreviousOut().print(html);
-            return SKIP_BODY;
-        } catch (Exception ex) {
-            throw new JspException("I/O exception " , ex);
+        } catch (Exception e) {
+            handleError(e);
         }
+        return SKIP_BODY;
     }
 }

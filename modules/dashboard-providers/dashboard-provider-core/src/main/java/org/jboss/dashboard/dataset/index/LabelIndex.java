@@ -16,6 +16,7 @@
 package org.jboss.dashboard.dataset.index;
 
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
+import org.jboss.dashboard.profiler.ProfilerHelper;
 
 import java.util.*;
 
@@ -35,8 +36,13 @@ public class LabelIndex implements ColumnIndex {
     }
 
     public synchronized void indexValues(List values) {
+        int index = 0;
         for (int row = 0; row < values.size(); row++) {
             indexValue(values.get(row), row);
+            if (++index == 1000) {
+                index = 0;
+                ProfilerHelper.checkRuntimeConstraints();
+            }
         }
     }
 

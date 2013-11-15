@@ -52,7 +52,7 @@ public class EnvelopeContentTag extends BaseTag {
                 }
             }}.execute();
         } catch (Exception e) {
-            throw new JspException(e);
+            handleError(e);
         }
         return SKIP_BODY;
     }
