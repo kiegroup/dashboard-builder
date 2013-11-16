@@ -17,12 +17,11 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DashboardFilterHandler" %>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
 <%@ page import="org.jboss.dashboard.ui.NavigationManager" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.workspace.Section" %>
 <%@ page import="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter" %>
 <%@ page import="org.jboss.dashboard.workspace.Section" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -126,9 +125,10 @@
                                     <%
                                         for (int i = 0; i < sections.length; i++) {
                                             Section section = sections[i];
+                                            String sectionTitle = StringEscapeUtils.escapeHtml((String) localeManager.localize(section.getTitle()));
 
                                     %>
-                                        <option title="<%=localeManager.localize(section.getTitle())%>" value="<%=section.getId()%>" <%=section.getId().equals(sectionId) ? "selected" : ""%>><%=localeManager.localize(section.getTitle())%></option>
+                                      <option title="<%=sectionTitle%>" value="<%=section.getId()%>" <%=section.getId().equals(sectionId) ? "selected" : ""%>><%=sectionTitle%></option>
                                     <%
                                         }
                                     %>

@@ -60,7 +60,6 @@ public class PanelsPropertiesFormatter extends Formatter {
         int n = 0;
         WorkspaceImpl workspace;
         Section section;
-        boolean canAdminWorkspace = false;
         try {
             workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(getPanelsPropertiesHandler().getWorkspaceId());
             Panel[] panels;
@@ -76,32 +75,30 @@ public class PanelsPropertiesFormatter extends Formatter {
                 renderFragment("empty");
             }
 
-            WorkspacePermission adminPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_ADMIN);
-
             for (int i = 0; i < panels.length; i++) {
                 String estilo;
                 if (n % 2 == 0) estilo = "skn-odd_row";
-                else
-                    estilo = "skn-even_row";
+                else estilo = "skn-even_row";
                 renderFragment("outputStartRow");
                 setAttribute("dbid", String.valueOf(panels[i].getDbid()));
                 setAttribute("estilo", estilo);
                 if (section == null) setAttribute("sectionId", String.valueOf(panels[i].getSection().getId()));
-                else
-                    setAttribute("sectionId", PanelsPropertiesHandler.PARAM_NO_SECTION);
+                else setAttribute("sectionId", PanelsPropertiesHandler.PARAM_NO_SECTION);
                 renderFragment("outputDelete");
-                setAttribute("value", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(panels[i].getTitle())));
+
+                setAttribute("value", StringEscapeUtils.escapeHtml(getLocalizedValue(panels[i].getTitle())));
                 setAttribute("estilo", estilo);
                 renderFragment("outputTitle");
                 if (section == null) {
-                    setAttribute("value", panels[i].getSection().getTitle().get(SessionManager.getLang()));
+                    setAttribute("value", StringEscapeUtils.escapeHtml(getLocalizedValue(panels[i].getSection().getTitle())));
                     setAttribute("estilo", estilo);
                     renderFragment("outputSection");
                 }
-                if (panels[i].getRegion() != null)
+                if (panels[i].getRegion() != null) {
                     setAttribute("value", panels[i].getRegion().getDescription());
-                else
+                } else {
                     setAttribute("value", "");
+                }
                 setAttribute("estilo", estilo);
                 renderFragment("outputRegion");
                 renderFragment("outputEndRow");

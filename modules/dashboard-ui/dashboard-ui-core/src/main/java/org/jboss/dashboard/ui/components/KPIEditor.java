@@ -83,7 +83,9 @@ public class KPIEditor extends KPIViewer {
 
         // Update the kpi description.
         String kpiDescr = request.getRequestObject().getParameter(PARAM_KPI_DESCRIPTION);
-        if (!StringUtils.isBlank(kpiDescr)) kpi.setDescription(kpiDescr, locale);
+        if (!StringUtils.isBlank(kpiDescr) && !kpiDescr.contains("<script>")) {
+            kpi.setDescription(kpiDescr, locale);
+        }
 
         // Check for change of locale and update LocaleManager if necessary.
         localeChanged(request);

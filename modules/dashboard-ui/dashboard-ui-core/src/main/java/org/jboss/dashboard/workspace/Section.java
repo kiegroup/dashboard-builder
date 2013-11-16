@@ -92,7 +92,7 @@ public class Section implements Comparable, Visitable {
     /**
      * Panels stored by their ID
      */
-    private Set panels = new HashSet();
+    private Set<Panel> panels = new HashSet();
 
     /**
      * Position of the section inside workspace
@@ -471,6 +471,7 @@ public class Section implements Comparable, Visitable {
     }
 
     public void assignPanel(Panel panel, String layoutRegionId) {
+        if (panel == null || panel.getInstance() == null) return;
 
         // Remove from its current region (if needed)
         if (panel.getRegion() != null) {
@@ -549,11 +550,19 @@ public class Section implements Comparable, Visitable {
         return getPanel(id) != null;
     }
 
-    public Set getPanels() {
+    public Set<Panel> getPanels() {
+        Iterator<Panel> it = panels.iterator();
+        while (it.hasNext()) {
+            Panel panel = it.next();
+            if (panel == null || panel.getInstance() == null) {
+                // Discard rubbish
+                it.remove();
+            }
+        }
         return panels;
     }
 
-    public void setPanels(Set panels) {
+    public void setPanels(Set<Panel> panels) {
         this.panels = panels;
     }
 
@@ -561,7 +570,8 @@ public class Section implements Comparable, Visitable {
      * Returns all panels
      */
     public Panel[] getAllPanels() {
-        return (Panel[]) panels.toArray(new Panel[panels.size()]);
+        Set<Panel> set = getPanels();
+        return set.toArray(new Panel[set.size()]);
     }
 
     /**

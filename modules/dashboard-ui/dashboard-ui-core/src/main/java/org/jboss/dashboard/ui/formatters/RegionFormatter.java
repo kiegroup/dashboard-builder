@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.SessionManager;
@@ -125,6 +126,8 @@ public class RegionFormatter extends Formatter {
     }
 
     protected void renderPanel(Panel panel, boolean canEditPanel) {
+        if (!isPanelOk(panel)) return;
+
         setAttribute("panel", panel);
         setAttribute("recommendedWidth", panelRecommendedWidth + "%");
         renderFragment("panelOutputStart");
@@ -134,7 +137,7 @@ public class RegionFormatter extends Formatter {
                 (panel.getProvider().getDriver().supportsEditMode(panel) && canEditPanel)) {
             setAttribute("panel", panel);
             setAttribute("administratorMode", userAdmin);
-            setAttribute("panelTitle", LocaleManager.lookup().localize(panel.getTitle()));
+            setAttribute("panelTitle", StringEscapeUtils.escapeHtml(getLocalizedValue(panel.getTitle())));
             setAttribute("recommendedWidth", panelRecommendedWidth + "%");
             setAttribute("editMode", panel.getPanelSession().isEditMode());
             renderFragment("panelContentWithMenu");
@@ -145,6 +148,13 @@ public class RegionFormatter extends Formatter {
         }
         setAttribute("panel", panel);
         renderFragment("panelOutputEnd");
+    }
+
+    protected boolean isPanelOk(Panel panel) {
+        if (panel == null) return false;
+        if (panel.getInstance() == null) return false;
+        if (panel.getProvider() == null) return false;
+        return true;
     }
 
     private List<Panel> getRegionPanels() {

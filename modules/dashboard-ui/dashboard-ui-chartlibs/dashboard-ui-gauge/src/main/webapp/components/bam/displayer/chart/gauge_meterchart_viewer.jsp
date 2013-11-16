@@ -30,6 +30,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
@@ -79,7 +80,7 @@
 <% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
     <tr>
        <td colspan="<%=nCols%>">
-            <div id="title<%="gauge" + suffix%>" class="skn-chart-title"><%=displayer.getTitle()%></div>
+            <div id="title<%="gauge" + suffix%>" class="skn-chart-title"><%=StringEscapeUtils.escapeHtml(displayer.getTitle())%></div>
         </td>
     </tr>
 <% } %>

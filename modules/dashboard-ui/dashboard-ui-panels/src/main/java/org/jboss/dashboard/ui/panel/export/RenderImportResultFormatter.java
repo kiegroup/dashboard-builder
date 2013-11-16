@@ -15,14 +15,12 @@
  */
 package org.jboss.dashboard.ui.panel.export;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.export.ExportSessionInfo;
 import org.jboss.dashboard.workspace.export.structure.CreateResult;
-import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.taglib.LinkToWorkspaceTag;
-import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 
 import javax.servlet.http.HttpServletRequest;
@@ -97,7 +95,7 @@ public class RenderImportResultFormatter extends RenderImportPreviewFormatter {
                 renderFragment("abortedEnd");
             } else if (objectCreated instanceof Workspace) {
                 Workspace p = (Workspace) objectCreated;
-                setAttribute("name", LocalizeTag.getLocalizedValue(p.getTitle(), SessionManager.getLang(), true));
+                setAttribute("name", StringEscapeUtils.escapeHtml(getLocalizedValue(p.getTitle())));
                 setAttribute("url", LinkToWorkspaceTag.getLink(request, response, p.getId()));
                 if (anyErrors) {
                     renderFragment("abortedSuccessMessageStart");
@@ -109,7 +107,7 @@ public class RenderImportResultFormatter extends RenderImportPreviewFormatter {
 
             } else if (objectCreated instanceof GraphicElement) {
                 GraphicElement element = (GraphicElement) objectCreated;
-                setAttribute("name", LocalizeTag.getLocalizedValue(element.getDescription(), SessionManager.getLang(), true));
+                setAttribute("name", StringEscapeUtils.escapeHtml(getLocalizedValue(element.getDescription())));
                 setAttribute("category", element.getCategoryName());
                 //renderFragment(anyErrors ? "abortedSuccessMessage" : "resourceSuccess");
                 if (anyErrors) {

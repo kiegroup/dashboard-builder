@@ -15,14 +15,13 @@
  */
 package org.jboss.dashboard.ui.panel.navigation.treeMenu;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +61,7 @@ public class TreeMenuFormatter extends Formatter {
                     Section rootSection = rootSections[i];
                     setAttribute("pageId", rootSection.getId());
                     setAttribute("checked", isChecked(rootSection));
-                    setAttribute("sectionName", getLocalizedValue(rootSection.getTitle()));
+                    setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(rootSection.getTitle())));
                     renderFragment("pageStart");
                     renderSectionEditionMode(rootSection, 1);
                     renderFragment("pageEnd");
@@ -89,7 +88,7 @@ public class TreeMenuFormatter extends Formatter {
                 for (int i = 0; i < children.size(); i++) {
                     Section childSection = (Section) children.get(i);
                     setAttribute("checked", isChecked(childSection));
-                    setAttribute("sectionName", getLocalizedValue(childSection.getTitle()));
+                    setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(childSection.getTitle())));
                     setAttribute("pageId", childSection.getId());
                     renderFragment("childrenStart");
                     renderSectionEditionMode(childSection, level + 1);
@@ -129,7 +128,8 @@ public class TreeMenuFormatter extends Formatter {
     protected void printSection(Section section, int level) {
         TreeMenuDriver driver = (TreeMenuDriver) getPanel().getProvider().getDriver();
         String sectionPattern = driver.getPatternForPage(section, level, getPanel(), openedPages.contains(section.getDbid()));
-        String sectionText = driver.performReplacementsInPattern(sectionPattern, section, getLocalizedValue(section.getTitle()));
+        String sectionName = StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle()));
+        String sectionText = driver.performReplacementsInPattern(sectionPattern, section, sectionName);
         writeToOut(sectionText);
     }
 

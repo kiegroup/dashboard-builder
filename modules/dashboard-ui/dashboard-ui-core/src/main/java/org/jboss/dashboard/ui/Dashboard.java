@@ -156,6 +156,7 @@ public class Dashboard {
      */
     public KPI getKPI(Panel panel) {
         if (!belongsToDashboard(panel)) return null;
+        if (panel.getInstance() == null) return null;
         if (!(panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver"))) return null;
 
         return getKPI(panel.getInstance());

@@ -293,8 +293,6 @@ public final class Factory {
 
         try {
             work.doWork();
-        } catch (Throwable t) {
-            log.error("Error: ", t);
         } finally {
             if (profile && profileOwner) Profiler.lookup().finishThreadProfile(threadProfile);
             if (contextOwner) ComponentsContextManager.clearContext();

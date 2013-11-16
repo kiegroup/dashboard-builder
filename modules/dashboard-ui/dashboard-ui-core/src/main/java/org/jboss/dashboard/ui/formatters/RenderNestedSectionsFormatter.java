@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
@@ -78,7 +79,7 @@ public class RenderNestedSectionsFormatter extends Formatter {
         boolean current = section.equals(NavigationManager.lookup().getCurrentSection());
         setAttribute("current", current);
         renderFragment("sectionStart");
-        setAttribute("name", LocaleManager.lookup().localize(section.getTitle()));
+        setAttribute("name", StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle())));
         setAttribute("url", UIServices.lookup().getUrlMarkupGenerator().getLinkToPage(section, true));
         setAttribute("id", section.getId());
         setAttribute("current", current);
