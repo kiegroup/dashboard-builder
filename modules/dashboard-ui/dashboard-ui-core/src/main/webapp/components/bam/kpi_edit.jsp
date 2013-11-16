@@ -32,6 +32,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     // Get the selected tab
@@ -53,7 +54,7 @@
                 <i18n:message key='<%= KPIEditor.I18N_PREFFIX + "providerSelected"%>'>!!Proveedor de datos</i18n:message>:
             </td>
             <td align="left">
-                <select name="providerSelected" title="<%= provider.getDescription(locale) %>" id="<factory:encode name="providerSelected"/>" class="skn-input"
+                <select name="providerSelected" title="<%= StringEscapeUtils.escapeHtml(provider.getDescription(locale)) %>" id="<factory:encode name="providerSelected"/>" class="skn-input"
                         style="width:150px;" onChange="return bam_kpiedit_submitProperties(this);">
                 <%
                     Set dataProviders = DataDisplayerServices.lookup().getDataProviderManager().getAllDataProviders();
@@ -62,7 +63,7 @@
 
                     for (DataProvider dataProvider : dataProviderList) {
                         String selected = "";
-                        String providerDescrip = dataProvider.getDescription(locale);
+                        String providerDescrip = StringEscapeUtils.escapeHtml(dataProvider.getDescription(locale));
                         String providerCode = dataProvider.getCode();
                         if (providerCode != null && providerCode.equals(provider.getCode())) selected = "selected";
                 %>
@@ -80,7 +81,7 @@
                <i18n:message key='<%= KPIEditor.I18N_PREFFIX + "kpiName"%>'>!!KPI name</i18n:message>:
              </td>
              <td align="left">
-               <input size="22" class="skn-input" name="<%=KPIEditor.PARAM_KPI_DESCRIPTION%>" type="text" value="<%= kpiEditor.getKpi().getDescription(locale) %>"
+               <input size="22" class="skn-input" name="<%=KPIEditor.PARAM_KPI_DESCRIPTION%>" type="text" value="<%= StringEscapeUtils.escapeHtml(kpiEditor.getKpi().getDescription(locale)) %>"
                       onChange="return bam_kpiedit_submitProperties(this);">
              </td>
              <td align="left">

@@ -168,7 +168,8 @@ public class DashboardFilterFormatter extends Formatter {
                     setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
                     setAttribute("index", new Integer(i));
                     if (dashboardFilterProperty.isLabelProperty()) {
-                        setAttribute("propertyValue", dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertySelectedValues(), getLocale()));
+                        String filterValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertySelectedValues(), getLocale());
+                        setAttribute("propertyValue", StringEscapeUtils.escapeHtml(filterValue));
                         renderFragment("outputLegendStringProperty");
                     } else {
                         String minValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMinValue(), getLocale());
@@ -243,7 +244,7 @@ public class DashboardFilterFormatter extends Formatter {
                         dataProviderName = getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "staticProperty");
                     else {
                         DataProvider provider = getDashboardFilterHandler().getDashboard().getDataProviderByCode(property.getDataProviderCode());
-                        dataProviderName = StringEscapeUtils.escapeHtml(provider.getDescription(getLocale()));
+                        dataProviderName = provider.getDescription(getLocale());
                     }
                 } catch (Exception e) {
                     log.error("Cannot get data provider with code " + property.getDataProviderCode());
@@ -258,9 +259,9 @@ public class DashboardFilterFormatter extends Formatter {
                 // Drill down page title.
                 String currentSectionTitle = "-- " + getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "select") + " --";
                 Section section = property.getDrillDownPage();
-                if (section != null) currentSectionTitle = (String) getLocaleManager().localize(section.getTitle());
-                setAttribute("currentSectionTitle", currentSectionTitle);
-                setAttribute("dataProviderName", dataProviderName);
+                if (section != null) currentSectionTitle = getLocalizedValue(section.getTitle());
+                setAttribute("currentSectionTitle", StringEscapeUtils.escapeHtml(currentSectionTitle));
+                setAttribute("dataProviderName", StringEscapeUtils.escapeHtml(dataProviderName));
                 setAttribute("propertyName",StringEscapeUtils.escapeHtml(property.getPropertyName(getLocale())));
                 renderFragment("outputTableElement");
             }

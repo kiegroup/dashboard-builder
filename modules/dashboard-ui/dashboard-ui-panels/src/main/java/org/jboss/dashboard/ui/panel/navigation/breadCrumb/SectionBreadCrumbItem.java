@@ -15,13 +15,12 @@
  */
 package org.jboss.dashboard.ui.panel.navigation.breadCrumb;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.Section;
 
 public class SectionBreadCrumbItem implements BreadCrumbItem {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionBreadCrumbItem.class.getName());
 
     private Section section;
     private URLMarkupGenerator urlMarkupGenerator;
@@ -38,6 +37,6 @@ public class SectionBreadCrumbItem implements BreadCrumbItem {
     }
 
     public String getName() {
-        return (String) localeManager.localize(section.getTitle());
+        return StringEscapeUtils.escapeHtml((String) localeManager.localize(section.getTitle()));
     }
 }

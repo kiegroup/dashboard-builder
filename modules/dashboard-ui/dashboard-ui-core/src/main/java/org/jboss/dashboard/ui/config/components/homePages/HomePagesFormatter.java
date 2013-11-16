@@ -15,15 +15,13 @@
  */
 package org.jboss.dashboard.ui.config.components.homePages;
 
-import org.jboss.dashboard.LocaleManager;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.users.Role;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +75,7 @@ public class HomePagesFormatter extends Formatter {
             Section section = sections[i];
             setAttribute("selected", section.getId().equals(selectedOption));
             setAttribute("sectionId", section.getId());
-            setAttribute("sectionName", LocaleManager.lookup().localize(section.getTitle()));
+            setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle())));
             renderFragment("outputPageSelectOption");
         }
         renderFragment("outputSelectEnd");

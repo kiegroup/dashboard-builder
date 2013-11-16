@@ -21,6 +21,7 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="org.jboss.dashboard.provider.DataProvider" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
@@ -70,7 +71,7 @@
                                     String providerDescrip = dataProvider.getDescription(LocaleManager.currentLocale());
                         %>
                                     <option value="<%= dataProvider.getCode() %>">
-                                        <%= providerDescrip %>
+                                        <%= StringEscapeUtils.escapeHtml(providerDescrip) %>
                                     </option>
                         <%
                                 }

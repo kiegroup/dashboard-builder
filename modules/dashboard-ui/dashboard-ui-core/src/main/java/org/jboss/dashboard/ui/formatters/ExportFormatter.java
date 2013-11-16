@@ -15,14 +15,13 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.ui.components.export.ExportHandler;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +73,7 @@ public class ExportFormatter extends Formatter {
                 setAttribute("expandAction", getExpandAction(workspace));
                 setAttribute("expandIcon", getExpandIcon(workspace));
                 setAttribute("workspaceId", workspace.getId());
-                setAttribute("workspaceName", getLocalizedValue(workspace.getName()));
+                setAttribute("workspaceName", StringEscapeUtils.escapeHtml(getLocalizedValue(workspace.getName())));
                 setAttribute("thumbnail", thumbnail);
                 renderFragment("workspaceSelector");
 
@@ -88,7 +87,7 @@ public class ExportFormatter extends Formatter {
                     for (Section section: sections) {
                         Long sectionId = section.getId();
                         setAttribute("sectionId", sectionId);
-                        setAttribute("sectionName", getLocalizedValue(section.getTitle()));
+                        setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle())));
                         setAttribute("checked", exportHandler.isSectionSelected(sectionId));
                         renderFragment("workspaceSection");
                     }
