@@ -40,6 +40,7 @@ public class OFC2RendererTest {
                 .addPackage("org.jboss.dashboard.database")
                 .addPackage("org.jboss.dashboard.database.hibernate")
                 .addPackage("org.jboss.dashboard.profiler")
+                .addPackage("org.jboss.dashboard.profiler.memory")
                 .addPackage("org.jboss.dashboard.scheduler")
                 .addPackage("org.jboss.dashboard.error")
                 .addPackage("org.jboss.dashboard.filesystem")
