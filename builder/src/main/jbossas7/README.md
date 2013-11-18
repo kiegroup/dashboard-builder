@@ -54,6 +54,23 @@ If you want to deploy on a database different from H2 like Oracle, MySQL, Postgr
             <module name="jdbcDriverModuleName" />
         </dependencies>
 
+* If the database user has several schemas available, you must specify the schema to use.
+
+  There are three options:
+
+  - Specify the default schema in <code>dashboard-builder/modules/dashboard-webapp/src/main/webapp/WEB-INF/etc/hibernate.cfg.xml</code>
+  file using the property named <code>default_schema</code>. Usually this option is used when you are going to build the
+  application from sources and package it into a WAR file.
+
+  - If the application is already packaged, you can modify the property <code>default_schema</code> in
+  <code>WEB-INF/etc/hibernate.cfg.xml</code> file and re-assembly the WAR.
+
+   - If the application is already packaged and you don't want to re-assembly the WAR, you can set the default schema to
+   use via command line - Java environment variable.
+
+   Example: <code>-Dorg.jboss.dashboard.database.hibernate.HibernateInitializer.defaultSchema=schema1</code>
+
+   NOTE: The java environment variable has priority over the hibernate configuration property.
 
 Languages supported
 ------------------------

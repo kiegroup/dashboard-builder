@@ -98,6 +98,8 @@ public class HibernateInitializer implements Startable {
     protected Configuration hbmConfig;
     protected String databaseName;
     protected DataSource localDataSource;
+
+    @Inject  @Config
     protected String defaultSchema;
 
     public SessionFactory getSessionFactory() {
@@ -130,8 +132,17 @@ public class HibernateInitializer implements Startable {
         SessionFactory factory = hbmConfig.buildSessionFactory(serviceRegistry);
         hibernateSessionFactoryProvider.setSessionFactory(factory);
 
-        // Set the default schema if specified.
-        defaultSchema = hbmConfig.getProperty(Environment.DEFAULT_SCHEMA);
+        // Set the default schema if specified via system property or via hibernate configuration.
+        // NOTE: To set the default schema via hibernate configuration, the hibernate.cfg.xml file must be modified.
+        //       This file is located inside the geneated webapp. So, if the user wants to change the working schema,
+        //       the fastest way is to add a System property when starting the application server to modify the
+        //       defaultSchema bean property, instead of opening the war, modifying the file and reassembling it.
+        if (StringUtils.isBlank(defaultSchema)) {
+            String _defaultSchema = hbmConfig.getProperty(Environment.DEFAULT_SCHEMA);
+            if (!StringUtils.isBlank(_defaultSchema)) defaultSchema = _defaultSchema;
+        } else {
+            hbmConfig.setProperty(Environment.DEFAULT_SCHEMA, defaultSchema);
+        }
 
         // Synchronize the database schema.
         if (databaseAutoSynchronizer != null) {
@@ -144,6 +155,10 @@ public class HibernateInitializer implements Startable {
 
     public String getDatabaseName() {
         return databaseName;
+    }
+
+    public void setDefaultSchema(String defaultSchema) {
+        this.defaultSchema = defaultSchema;
     }
 
     public String getDefaultSchema() {
