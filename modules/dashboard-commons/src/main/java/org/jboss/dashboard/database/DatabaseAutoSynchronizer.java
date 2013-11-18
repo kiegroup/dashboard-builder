@@ -58,7 +58,7 @@ public class DatabaseAutoSynchronizer {
 
     public void synchronize(HibernateInitializer hibernateInitializer) throws Exception {
         String databaseName = hibernateInitializer.getDatabaseName();
-        boolean tableExists = existsModulesTable();
+        boolean tableExists = existsModulesTable(hibernateInitializer.getDefaultSchema());
         if (!tableExists) {
             createDatabase(databaseName);
         }
@@ -171,7 +171,16 @@ public class DatabaseAutoSynchronizer {
         return sb.toString().trim();
     }
 
-    protected boolean existsModulesTable() throws Exception {
+    /**
+     * Check if the dashbuilder installed modules table exist.
+     *
+     * BZ-1030424: Added <code>default_schema</code> argument to allow finding tables only for a given database schema.
+     *
+     * @param default_schema If specified, look up the table only for the specified schema.
+     * @return If exist dashbuilder installed modules table
+     * @throws Exception
+     */
+    protected boolean existsModulesTable(final String default_schema) throws Exception {
         final boolean[] returnValue = {false};
         new HibernateTxFragment(true) {
         protected void txFragment(Session session) throws Exception {
@@ -179,9 +188,11 @@ public class DatabaseAutoSynchronizer {
             public void execute(Connection connection) throws SQLException {
                 // IMPORTANT NOTE: SQL Server driver closes the previous result set. So it's very important to read the
                 // data from the first result set before opening a new one. If not an exception is thrown.
+
                 DatabaseMetaData metaData = connection.getMetaData();
-                returnValue[0] = metaData.getTables(null, null, installedModulesTable.toLowerCase(), null).next();
-                if (!returnValue[0]) returnValue[0] = metaData.getTables(null, null, installedModulesTable.toUpperCase(), null).next();
+                String schema = default_schema != null && default_schema.trim().length() > 0 ? default_schema : null;
+                returnValue[0] = metaData.getTables(null, schema, installedModulesTable.toLowerCase(), null).next();
+                if (!returnValue[0]) returnValue[0] = metaData.getTables(null, schema, installedModulesTable.toUpperCase(), null).next();
             }};
             session.doWork(w);
         }}.execute();

@@ -49,5 +49,15 @@ limitations under the License.
          -->
         <property name="listeners.envers.autoRegister">false</property>
 
+        <!--
+          BZ-1030424: Depending on database schema configuration for connection user, some jdbc drivers
+                      metadata returns all tables for all schemas if the schema parameter is null.
+                      To avoid this behaviour, user can set the default schema used by dashbuilder application here.
+
+          **IMPORTANT NOTE**: If you don't wont to set the default_schema property, comment the following line, but
+                              DO NOT leave it blank.
+        -->
+        <!--<property name="default_schema"></property>-->
+
     </session-factory>
 </hibernate-configuration>
