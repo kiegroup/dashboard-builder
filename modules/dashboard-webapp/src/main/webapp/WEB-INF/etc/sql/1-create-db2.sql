@@ -73,11 +73,13 @@ CREATE TABLE dashb_workspace (
    id_workspace VARCHAR(40) NOT NULL,
    look VARCHAR(100),
    envelope VARCHAR(100),
-   url varchar(3000) NOT NULL,
+   -- BZ-1030407: url column - DB2 unique constraint must be inserted in a not-null column,
+   -- but when duplicating a workspace the url is initially null. So, in DB2 case (not other dbms) the url
+   -- column cannot contain a unique constraint.
+   url varchar(3000),
    default_workspace smallint NOT NULL,
    home_search_mode DECIMAL(4,0) NOT NULL DEFAULT 0,
-   PRIMARY KEY (id_workspace),
-   unique(url)
+   PRIMARY KEY (id_workspace)
 );
 
 
