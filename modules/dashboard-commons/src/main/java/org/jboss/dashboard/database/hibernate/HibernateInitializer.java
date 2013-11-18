@@ -16,6 +16,7 @@
 package org.jboss.dashboard.database.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.jboss.dashboard.Application;
@@ -97,6 +98,7 @@ public class HibernateInitializer implements Startable {
     protected Configuration hbmConfig;
     protected String databaseName;
     protected DataSource localDataSource;
+    protected String defaultSchema;
 
     public SessionFactory getSessionFactory() {
         return hibernateSessionFactoryProvider.getSessionFactory();
@@ -128,6 +130,9 @@ public class HibernateInitializer implements Startable {
         SessionFactory factory = hbmConfig.buildSessionFactory(serviceRegistry);
         hibernateSessionFactoryProvider.setSessionFactory(factory);
 
+        // Set the default schema if specified.
+        defaultSchema = hbmConfig.getProperty(Environment.DEFAULT_SCHEMA);
+
         // Synchronize the database schema.
         if (databaseAutoSynchronizer != null) {
             databaseAutoSynchronizer.synchronize(this);
@@ -139,6 +144,10 @@ public class HibernateInitializer implements Startable {
 
     public String getDatabaseName() {
         return databaseName;
+    }
+
+    public String getDefaultSchema() {
+        return defaultSchema;
     }
 
     public boolean isOracleDatabase() {
