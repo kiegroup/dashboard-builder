@@ -43,6 +43,11 @@ public class SQLStatement {
     protected transient String SQLSentence;
 
     /**
+     * The SQL commands.
+     */
+    protected transient List<Command> SQLCommands;
+
+    /**
      * The SQL parameters.
      */
     protected transient List SQLParameters;
@@ -60,10 +65,10 @@ public class SQLStatement {
 
         // Get the parameters used to generate the SQL sentence.
         SQLParameters = new ArrayList();
-        Iterator commandIt = cp.getSuccessfulCommands().iterator();
-        while (commandIt.hasNext()) {
+        SQLCommands = cp.getSuccessfulCommands();
+        for (Command command : SQLCommands) {
             try {
-                SQLConditionCommand sqlCommand = (SQLConditionCommand) commandIt.next();
+                SQLConditionCommand sqlCommand = (SQLConditionCommand) command;
                 SQLParameters.addAll(sqlCommand.getPreparedStatementParameters());
             } catch (ClassCastException e) {
                 // Ignore the non-SQL condition commands encountered into the SQL.
@@ -105,6 +110,19 @@ public class SQLStatement {
         catch (ClassCastException e) {
             return false;
         }
+    }
+
+    public List<String> getFilterPropertyIds() {
+        List<String> results = new ArrayList<String>();
+        for (Command command : SQLCommands) {
+            try {
+                SQLConditionCommand sqlCommand = (SQLConditionCommand) command;
+                results.add(sqlCommand.getFilterPropertyId());
+            } catch (ClassCastException e) {
+                // Ignore the non-SQL condition commands encountered into the SQL.
+            }
+        }
+        return results;
     }
 
     /**

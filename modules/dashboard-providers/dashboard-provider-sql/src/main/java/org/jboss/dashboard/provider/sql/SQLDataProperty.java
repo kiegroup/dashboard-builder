@@ -68,7 +68,7 @@ public class SQLDataProperty extends AbstractDataProperty {
                 setDomain(new LabelDomain());
                 break;
 
-             // Mumber-like columns.
+             // Number-like columns.
             case Types.BIGINT:
             case Types.INTEGER:
             case Types.BOOLEAN:
