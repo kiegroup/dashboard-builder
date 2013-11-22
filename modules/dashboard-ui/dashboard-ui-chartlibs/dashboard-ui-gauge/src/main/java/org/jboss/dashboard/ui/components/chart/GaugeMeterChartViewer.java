@@ -36,19 +36,15 @@ public class GaugeMeterChartViewer extends DataDisplayerViewer {
     public static final String PARAM_ACTION = "applyLink";
     public static final String PARAM_NSERIE = "serie";
 
-    public CommandResponse actionApplyLink(CommandRequest request) {
-        try {
-            AbstractChartDisplayer abstractChartDisplayer = (AbstractChartDisplayer) getDataDisplayer();
-            DataProperty property = abstractChartDisplayer.getDomainProperty();
-            Integer series = Integer.decode(request.getRequestObject().getParameter(PARAM_NSERIE));
-            DataSet dataSet = abstractChartDisplayer.buildXYDataSet();
-            Interval interval = (Interval) dataSet.getValueAt(series, 0);
-            Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
-            if (dashboard.filter(property.getPropertyId(), interval, FilterByCriteria.ALLOW_ANY)) {
-                return new ShowCurrentScreenResponse();
-            }
-        } catch (Exception e) {
-            log.error("Cannot apply filter.",e);
+    public CommandResponse actionApplyLink(CommandRequest request) throws Exception {
+        AbstractChartDisplayer abstractChartDisplayer = (AbstractChartDisplayer) getDataDisplayer();
+        DataProperty property = abstractChartDisplayer.getDomainProperty();
+        Integer series = Integer.decode(request.getRequestObject().getParameter(PARAM_NSERIE));
+        DataSet dataSet = abstractChartDisplayer.buildXYDataSet();
+        Interval interval = (Interval) dataSet.getValueAt(series, 0);
+        Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
+        if (dashboard.filter(property.getPropertyId(), interval, FilterByCriteria.ALLOW_ANY)) {
+            return new ShowCurrentScreenResponse();
         }
         return null;
     }

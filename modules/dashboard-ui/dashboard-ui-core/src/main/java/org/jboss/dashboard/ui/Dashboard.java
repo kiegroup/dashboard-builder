@@ -157,6 +157,7 @@ public class Dashboard {
     public KPI getKPI(Panel panel) {
         if (!belongsToDashboard(panel)) return null;
         if (panel.getInstance() == null) return null;
+        if (panel.getRegion() == null) return null;
         if (!(panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver"))) return null;
 
         return getKPI(panel.getInstance());
@@ -261,7 +262,7 @@ public class Dashboard {
             // Refresh all the dashboard panels.
             refreshPanels(null);
         } catch (Exception e) {
-            log.error("Filter error after refresh the dashboard.");
+            throw new RuntimeException("Filter error after refresh the dashboard.", e);
         }
     }
 
