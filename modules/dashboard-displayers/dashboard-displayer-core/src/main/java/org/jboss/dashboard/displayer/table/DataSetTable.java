@@ -217,11 +217,10 @@ public class DataSetTable extends Table {
 
     public boolean isNonGroupByColumn(int columnIndex) {
         if (groupByProperty == null) return true;
-         if (columnIndex > getColumnCount()) return true;
 
-        DataSetTableModel model = (DataSetTableModel) super.getModel();
-        DataSet groupByDataSet = model.getDataSet();
-        DataProperty prop = groupByDataSet.getProperties()[columnIndex];
+        DataProperty prop = getDataProperty(columnIndex);
+        if (prop == null) return true;
+
         return !groupByProperty.equals(prop);
     }
 
@@ -229,11 +228,11 @@ public class DataSetTable extends Table {
         if (groupByProperty == null) return new int[] {};
 
         List temp = new ArrayList();
-        DataSetTableModel model = (DataSetTableModel) super.getModel();
-        DataSet groupByDataSet = model.getDataSet();
-        DataProperty[] tableProps = groupByDataSet.getProperties();
         for (int i=0; i<getColumnCount(); i++) {
-            if (!groupByProperty.equals(tableProps[i])) temp.add(new Integer(i));
+            DataProperty prop = getDataProperty(i);
+            if (prop != null && !groupByProperty.equals(prop)) {
+                temp.add(new Integer(i));
+            }
         }
         int [] results = new int[temp.size()];
         for (int i = 0; i < results.length; i++) results[i] = ((Integer) temp.get(i)).intValue();

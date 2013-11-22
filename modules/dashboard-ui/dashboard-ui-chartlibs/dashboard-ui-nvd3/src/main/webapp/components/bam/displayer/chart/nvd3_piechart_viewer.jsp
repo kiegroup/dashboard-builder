@@ -33,7 +33,7 @@
 %>
      <%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
      <iframe
-         width="680px" height="450px"
+         width="650px" height="450px"
          style="border:0px;overflow: auto;"
           src="<%=basehref %>components/bam/displayer/chart/nvd3_piechart_viewer_iframe.jsp?chartId=<%=chartId%>">
      </iframe>

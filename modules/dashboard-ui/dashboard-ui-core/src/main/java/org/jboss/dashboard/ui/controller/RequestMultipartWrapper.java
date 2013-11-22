@@ -85,7 +85,6 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
         }
 
         ServletFileUpload upload = new ServletFileUpload(factory);
-
         upload.setSizeMax(maxPostSize);
 
         List items = null;
@@ -110,6 +109,13 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
                     }
                 }
             }
+        }
+
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String paramName = paramNames.nextElement();
+            List<String> paramValues = Arrays.asList(request.getParameter(paramName));
+            requestParameters.put(paramName, paramValues);
         }
     }
 
