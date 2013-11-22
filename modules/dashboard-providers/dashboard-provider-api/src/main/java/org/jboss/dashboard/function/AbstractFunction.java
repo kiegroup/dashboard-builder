@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.function;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
@@ -28,17 +29,21 @@ public abstract class AbstractFunction implements ScalarFunction {
 
     protected int precission;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public AbstractFunction() {
         precission = -1;
+        localeManager = LocaleManager.lookup();
     }
 
     public String getName(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", l);
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", l);
         return i18n.getString("function." + getCode() + ".name");
     }
 
     public String getDescription(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", l);
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", l);
         return i18n.getString("function." + getCode() + ".description");
     }
 

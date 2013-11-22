@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.ui.SessionManager"%>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"></i18n:bundle>
 <div style="padding:10px; text-align:center" class="skn-important">
 <i18n:message key="ui.admin.welcome"></i18n:message>

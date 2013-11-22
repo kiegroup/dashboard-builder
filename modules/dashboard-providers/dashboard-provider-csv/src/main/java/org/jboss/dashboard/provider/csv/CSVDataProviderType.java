@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.provider.csv;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.export.DataLoaderXMLFormat;
@@ -47,6 +48,9 @@ public class CSVDataProviderType implements DataProviderType {
     @Inject @Config("#,###.##")
     protected String csvNumberPattern;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     protected CSVDataLoaderXMLFormat xmlFormat;
 
     public CSVDataProviderType() {
@@ -62,7 +66,7 @@ public class CSVDataProviderType implements DataProviderType {
     }
 
     public String getDescription(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.provider.messages", l);
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.provider.messages", l);
         return i18n.getString("provider.csv.description");
     }
 

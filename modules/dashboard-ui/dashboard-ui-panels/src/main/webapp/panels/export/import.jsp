@@ -19,7 +19,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.panel.export.messages"
              locale="<%=SessionManager.getCurrentLocale()%>"/>
 <div style="height:auto;">

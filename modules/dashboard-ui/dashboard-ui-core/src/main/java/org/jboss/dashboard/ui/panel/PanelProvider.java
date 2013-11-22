@@ -114,7 +114,11 @@ public class PanelProvider extends BasicFactoryElement {
     private String panelsUrlMapping = "/WEB-INF/data/panels";
     private String invalidDriverPage = "/panels/panelNotFound.jsp";
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public PanelProvider() {
+        localeManager = LocaleManager.lookup();
     }
 
     public PanelProvider(PanelDriver newDriver) {
@@ -272,7 +276,7 @@ public class PanelProvider extends BasicFactoryElement {
                 ResourceBundle bundle = null;
                 String fileName = bundleFile.getName().substring(0, bundleFile.getName().indexOf(".properties"));
                 try {
-                    bundle = ResourceBundle.getBundle(fileName, locale, loader);
+                    bundle = localeManager.getBundle(fileName, locale, loader);
                 } catch (MissingResourceException e) {
                     log.error("Error trying to get the panel driver resource bundle: " + fileName, e);
                     continue;

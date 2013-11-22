@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -36,7 +36,7 @@
     MeterChartDisplayer displayer = (MeterChartDisplayer) editor.getDataDisplayer();
     DataDisplayerRenderer renderer = displayer.getDataDisplayerRenderer();
     Locale locale = LocaleManager.currentLocale();
-    ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", locale);
+    ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.displayer.messages", locale);
     if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_CHART_TYPE)) {
         List<String> chartTypes = renderer.getAvailableChartTypes(displayer);
 %>

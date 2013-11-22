@@ -19,7 +19,7 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ page import="org.jboss.dashboard.domain.date.DateDomain" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
@@ -46,7 +46,7 @@
                 </option>
             <%
                 // i18n
-                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
+                ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
                 String[] dateIntervals = new String[] {
                         i18n.getString(DateDomain.I18N_PREFFIX + "seconds"),
                         i18n.getString(DateDomain.I18N_PREFFIX + "minutes"),

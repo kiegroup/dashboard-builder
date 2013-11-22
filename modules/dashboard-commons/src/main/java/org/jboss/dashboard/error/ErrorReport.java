@@ -48,12 +48,16 @@ public class ErrorReport extends BasicFactoryElement {
     /** The code block where the exception occurs. */
     protected CodeBlockTrace codeBlock;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     protected static transient DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
     public ErrorReport() {
         date = new Date();
         id = null;
         exception = null;
+        localeManager = LocaleManager.lookup();
     }
 
     public Date getDate() {
@@ -129,12 +133,12 @@ public class ErrorReport extends BasicFactoryElement {
     }
 
     protected String getUnexpectedErrorTitle() {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.error.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.error.messages", LocaleManager.currentLocale());
         return i18n.getString("errorTitle");
     }
 
     protected String getUnexpectedErrorMessage() {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.error.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.error.messages", LocaleManager.currentLocale());
         return i18n.getString("errorMessage");
     }
 

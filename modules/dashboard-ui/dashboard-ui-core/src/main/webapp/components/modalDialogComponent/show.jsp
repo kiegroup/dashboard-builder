@@ -21,7 +21,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="resources.tld" prefix="resource"%>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-<%@ taglib prefix="i18n" uri="http://jakarta.apache.org/taglibs/i18n-1.0" %>
+<%@ taglib prefix="i18n" uri="http://dashboard.jboss.org/taglibs/i18n-1.0" %>
 
 <link rel="StyleSheet" media="screen" type="text/css" href="<mvc:context uri="/components/modalDialogComponent/css/PopUps.css" />" />
 

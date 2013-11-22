@@ -43,12 +43,16 @@ public class LabelDomain extends AbstractDomain {
     protected boolean convertedFromNumeric;
     protected String wildcard;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public LabelDomain() {
         super();
         labelIntervals = null;
         labelIntervalsToHideI18nMap = new HashMap<Locale, String>();
         convertedFromNumeric = false;
         wildcard = "*";
+        localeManager = LocaleManager.lookup();
     }
 
     public boolean isConvertedFromNumeric() {
@@ -163,7 +167,7 @@ public class LabelDomain extends AbstractDomain {
 
         // ... and group the rest in a new aggregated interval.
         CompositeInterval compositeInterval = new CompositeInterval();
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
         compositeInterval.setDescription(i18n.getString(AbstractDomain.I18N_PREFFIX + "finalInterval"), LocaleManager.currentLocale());
         compositeInterval.setDomain(this);
 

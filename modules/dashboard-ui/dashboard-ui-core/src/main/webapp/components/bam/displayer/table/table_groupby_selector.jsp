@@ -18,7 +18,7 @@
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.displayer.table.DataSetTable" %>
 <%@ page import="org.jboss.dashboard.provider.DataProperty" %>
@@ -37,7 +37,7 @@
     DataProperty groupByDataProperty = table.getGroupByProperty();
 
     // i18n
-    ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.table.messages", locale);
+    ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.displayer.table.messages", locale);
     String groupTitle = i18n.getString("tableDisplayer.groupByHint");
     if (groupByDataProperty != null) groupTitle = groupByDataProperty.getName(locale);
 %>

@@ -73,6 +73,13 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
 
     private String initJSP;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public ExportHandler() {
+        localeManager = LocaleManager.lookup();
+    }
+
     @Override
     public void start() throws Exception {
         super.start();
@@ -328,7 +335,7 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
         @Override
         public String getMessage(String messageCode, Locale l) {
             try {
-                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.export.messages", l);
+                ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.components.export.messages", l);
                 return i18n.getString(messageCode);
             } catch (Exception e) {
                 return messageCode;

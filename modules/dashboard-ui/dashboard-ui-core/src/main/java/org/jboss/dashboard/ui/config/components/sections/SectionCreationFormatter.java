@@ -34,6 +34,13 @@ public class SectionCreationFormatter extends SectionsPropertiesFormatter {
 
     private SectionsPropertiesHandler sectionsPropertiesHandler;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public SectionCreationFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public SectionsPropertiesHandler getSectionsPropertiesHandler() {
         return sectionsPropertiesHandler;
     }
@@ -48,7 +55,7 @@ public class SectionCreationFormatter extends SectionsPropertiesFormatter {
         try {
             WorkspacePermission sectionPerm = WorkspacePermission.newInstance(getSectionsPropertiesHandler().getWorkspace(), WorkspacePermission.ACTION_CREATE_PAGE);
 
-            ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.ui.messages", getLocale());
+            ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.messages", getLocale());
             if (UserStatus.lookup().hasPermission(sectionPerm)) {
 
                 setAttribute("error", getSectionsPropertiesHandler().hasError("title"));

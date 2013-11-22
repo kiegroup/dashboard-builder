@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.components.section;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -39,6 +40,13 @@ public class SectionPropertiesFormatter extends Formatter {
 
     private SectionPropertiesHandler sectionPropertiesHandler;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public SectionPropertiesFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public SectionPropertiesHandler getSectionPropertiesHandler() {
         return sectionPropertiesHandler;
     }
@@ -49,7 +57,7 @@ public class SectionPropertiesFormatter extends Formatter {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         try {
-            ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.ui.messages", SessionManager.getCurrentLocale());
+            ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.messages", SessionManager.getCurrentLocale());
 
             renderFragment("outputStart");
 

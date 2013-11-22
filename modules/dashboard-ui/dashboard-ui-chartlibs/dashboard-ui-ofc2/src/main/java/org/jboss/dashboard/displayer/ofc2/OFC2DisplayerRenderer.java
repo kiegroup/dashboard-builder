@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer.ofc2;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
@@ -56,7 +57,10 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
     List<DataDisplayerFeature> featuresSupported;
     Map<String,List<String>> availableChartTypes;
     Map<String,String> defaultChartTypes;
-    
+
+    @Inject
+    protected LocaleManager localeManager;
+
     @PostConstruct
     protected void init() {
         // Define the displaying features supported.
@@ -90,7 +94,7 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public String getDescription(Locale l) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.ofc2.messages", l);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.ofc2.messages", l);
             return i18n.getString("ofc2.name");
         } catch (Exception e) {
             return "Open Flash Chart 2";
@@ -118,7 +122,7 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public String getChartTypeDescription(String chartType, Locale locale) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.ofc2.messages", locale);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.ofc2.messages", locale);
             return i18n.getString("ofc2.type." + chartType);
         } catch (Exception e) {
             return chartType;

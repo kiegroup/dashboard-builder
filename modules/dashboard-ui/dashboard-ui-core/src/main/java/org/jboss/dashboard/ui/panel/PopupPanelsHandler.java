@@ -51,6 +51,13 @@ public class PopupPanelsHandler extends PanelComponent {
 
     private NavigationManager navigationManager;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public PopupPanelsHandler() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public String getShowedPanelInstanceId() {
         return showedPanelInstanceId;
     }
@@ -91,7 +98,7 @@ public class PopupPanelsHandler extends PanelComponent {
             return;
         }
 
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.messages", LocaleManager.currentLocale());
         modalDialog.setTitle(i18n.getString("ui.panels.popup.title"));
         modalDialog.setCurrentComponent(this);
         modalDialog.setModal(false);

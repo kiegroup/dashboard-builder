@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer.gauge;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.displayer.annotation.MeterChart;
 
 import org.jboss.dashboard.annotation.Install;
@@ -44,13 +45,16 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
     Map<String,List<String>> availableChartTypes;
     Map<String,String> defaultChartTypes;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     public String getUid() {
         return uid;
     }
 
     public String getDescription(Locale l) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.gauge.messages", l);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.gauge.messages", l);
             return i18n.getString("gauge.name");
         } catch (Exception e) {
             return "Gauge";
@@ -73,7 +77,7 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public String getChartTypeDescription(String chartType, Locale locale) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.gauge.messages", locale);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.gauge.messages", locale);
             return i18n.getString("gauge.type." + chartType);
         } catch (Exception e) {
             return chartType;

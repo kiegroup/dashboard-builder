@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
 <%@ page import="java.util.Locale" %>

@@ -21,7 +21,7 @@
 <%@ page import="java.util.Locale"%>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>

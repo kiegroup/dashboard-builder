@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.provider.sql;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.export.DataLoaderXMLFormat;
@@ -33,6 +34,9 @@ public class SQLDataProviderType implements DataProviderType {
     @Inject @Config(UID)
     protected String uid;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     protected SQLDataLoaderXMLFormat xmlFormat;
 
     public SQLDataProviderType() {
@@ -48,7 +52,7 @@ public class SQLDataProviderType implements DataProviderType {
     }
 
     public String getDescription(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.provider.messages", l);
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.provider.messages", l);
         return i18n.getString("provider.sql.description");
     }
 

@@ -41,9 +41,13 @@ public class MessagesComponentHandler extends PanelComponent {
 
     private String messagesComponentFormatter;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public MessagesComponentHandler() {
         width = 600;
         height = 200;
+        localeManager = LocaleManager.lookup();
     }
 
     public int getWidth() {
@@ -201,7 +205,7 @@ public class MessagesComponentHandler extends PanelComponent {
     }
 
     protected String getStringFromBundle(String bundle, String key) {
-        ResourceBundle rb = ResourceBundle.getBundle(bundle, LocaleManager.currentLocale());
+        ResourceBundle rb = localeManager.getBundle(bundle, LocaleManager.currentLocale());
         return rb.getString(key);
     }
 }

@@ -20,10 +20,7 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -59,8 +56,14 @@ public class LocaleManager {
     private transient Locale currentEditLocale;
     private transient Locale defaultLocale;
 
+    /** The fallback locale control.*/
+    private ResourceBundle.Control fallbackControl;
+
     @PostConstruct
     public void init() {
+
+        fallbackControl =  ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT);
+
         List availableLocalesList = new ArrayList();
         for (int i = 0; i < installedLocaleIds.length; i++) {
             Locale locale = getLocaleById(installedLocaleIds[i]);
@@ -283,5 +286,26 @@ public class LocaleManager {
      */
     public static String currentLang() {
         return LocaleManager.lookup().getCurrentLang();
+    }
+
+
+    /**
+     * ==================================================================
+     * BZ-1031080: RESOURCE BUNDLE CUSTOM HANDLING
+     * Use another NoFallbackControl implementation than the default one.
+     * ==================================================================
+     * **/
+
+    public ResourceBundle getBundle(String baseName) {
+        return ResourceBundle.getBundle(baseName, fallbackControl);
+    }
+
+    public ResourceBundle getBundle(String baseName, Locale targetLocale) {
+        return ResourceBundle.getBundle(baseName, targetLocale, fallbackControl);
+    }
+
+    public ResourceBundle getBundle(String baseName, Locale targetLocale,
+                                    ClassLoader loader) {
+        return ResourceBundle.getBundle(baseName, targetLocale, loader, fallbackControl);
     }
 }

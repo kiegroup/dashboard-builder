@@ -28,7 +28,7 @@
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
-<%@taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.sql.messages"
         locale="<%=LocaleManager.currentLocale()%>"/>
 <panel:defineObjects/>

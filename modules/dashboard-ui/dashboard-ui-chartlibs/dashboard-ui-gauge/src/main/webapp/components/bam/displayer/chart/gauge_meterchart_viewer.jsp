@@ -32,7 +32,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
-<%@taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <panel:defineObjects/>

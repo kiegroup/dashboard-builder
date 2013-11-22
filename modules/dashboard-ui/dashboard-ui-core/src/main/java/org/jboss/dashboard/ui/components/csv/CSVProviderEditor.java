@@ -37,9 +37,13 @@ public class CSVProviderEditor extends DataProviderEditor {
     protected int nrows;
     protected long elapsedTime;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public static final String CSV_BUNDLE_PREFIX = "editor.csv.";
 
     public CSVProviderEditor() {
+        localeManager = LocaleManager.lookup();
     }
 
     public CSVDataLoader getCSVDataLoader() {
@@ -139,7 +143,7 @@ public class CSVProviderEditor extends DataProviderEditor {
     protected String getErrorMessage(String key) {
         if (key == null || "".equals(key)) return null;
         Locale currentLocale = LocaleManager.currentLocale();
-        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.csv.messages", currentLocale);
+        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = localeManager.getBundle("org.jboss.dashboard.ui.components.csv.messages", currentLocale);
         String message = messages.getString(CSV_BUNDLE_PREFIX + key);
         return (message == null || "".equals(message)) ? null : message;
     }

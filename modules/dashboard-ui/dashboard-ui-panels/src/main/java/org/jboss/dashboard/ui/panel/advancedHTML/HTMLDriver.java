@@ -60,6 +60,13 @@ public class HTMLDriver extends PanelDriver implements Exportable {
     private static final String ATTR_TEXT = "text";
     private static final String ATTR_EDITING_LANGUAGE = "lang";
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public HTMLDriver() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);
         addParameter(new BooleanParameter(provider, PARAMETER_USE_DEFAULTS, false, true));
@@ -165,7 +172,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
             for (int i = 0; i < locales.length; i++) {
                 Locale locale = locales[i];
-                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
+                ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
                 textToCreate.setText(locale.getLanguage(), i18n.getString("defaultContent"));
             }
             textToCreate.save();

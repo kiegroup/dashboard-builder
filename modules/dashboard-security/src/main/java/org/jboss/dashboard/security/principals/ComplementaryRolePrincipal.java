@@ -24,8 +24,12 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
 
     private  transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ComplementaryRolePrincipal.class.getName());
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public ComplementaryRolePrincipal(String name) {
         super(name);
+        localeManager = LocaleManager.lookup();
     }
 
     public ComplementaryRolePrincipal(Role role) {
@@ -33,7 +37,7 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
     }
 
     public String toString() {
-        ResourceBundle rb = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.permissions.messages", LocaleManager.currentLocale());
+        ResourceBundle rb = localeManager.getBundle("org.jboss.dashboard.ui.components.permissions.messages", LocaleManager.currentLocale());
         return rb.getString("permissions.inverted.role") + " " + super.toString();
     }
 }

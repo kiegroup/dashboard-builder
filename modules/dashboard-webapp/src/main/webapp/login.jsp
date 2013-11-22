@@ -17,6 +17,8 @@
 --%>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
+<%@ page import="org.jboss.dashboard.ui.controller.requestChain.SessionInitializer" %>
+<%@ page import="java.util.Locale" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -157,7 +159,11 @@
 
     <div id="login-content">
         <%
-            ResourceBundle i18nBundle = ResourceBundle.getBundle("org.jboss.dashboard.login", LocaleManager.currentLocale());
+            LocaleManager localeManager = LocaleManager.lookup();
+            Locale currentLocale =  localeManager.getCurrentLocale();
+            SessionInitializer.PreferredLocale preferredLocale =  SessionInitializer.getPreferredLocale(request);
+            if (preferredLocale != null) currentLocale = preferredLocale.asLocale();
+            ResourceBundle i18nBundle = LocaleManager.lookup().getBundle("org.jboss.dashboard.login", currentLocale);
             String messageKey = request.getParameter("message");
             if (messageKey == null) messageKey = "login.hint";
         %>

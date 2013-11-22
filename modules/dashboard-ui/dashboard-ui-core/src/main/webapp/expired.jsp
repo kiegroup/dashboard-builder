@@ -17,7 +17,7 @@
 --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%= LocaleManager.lookup().getDefaultLocale()%>"/>
 <html>
 <head>
