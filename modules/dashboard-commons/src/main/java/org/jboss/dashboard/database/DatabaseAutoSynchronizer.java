@@ -56,11 +56,16 @@ public class DatabaseAutoSynchronizer {
     @Inject @Config("-- ENABLE_CUSTOM_DELIMITER")
     protected String customDelimiterEnabler;
 
+    @Inject  @Config("true")
+    private boolean createDatabase;
+
     public void synchronize(HibernateInitializer hibernateInitializer) throws Exception {
-        String databaseName = hibernateInitializer.getDatabaseName();
-        boolean tableExists = existsModulesTable(hibernateInitializer.getDefaultSchema());
-        if (!tableExists) {
-            createDatabase(databaseName);
+        if (createDatabase) {
+            String databaseName = hibernateInitializer.getDatabaseName();
+            boolean tableExists = existsModulesTable(hibernateInitializer.getDefaultSchema());
+            if (!tableExists) {
+                createDatabase(databaseName);
+            }
         }
     }
 
