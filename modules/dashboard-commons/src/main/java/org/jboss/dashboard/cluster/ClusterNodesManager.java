@@ -66,7 +66,7 @@ public class ClusterNodesManager implements Startable, Destroyable {
         log.info("Registering cluster node with ip address " + ip);
 
         final ClusterNode[] result = new ClusterNode[1];
-        new HibernateTxFragment(true) {
+        new HibernateTxFragment(true, true) {
             protected void txFragment(Session session) throws Exception {
 
                 // Create the cluster node instance.
@@ -80,6 +80,13 @@ public class ClusterNodesManager implements Startable, Destroyable {
 
                 result[0] = node;
             }
+
+            @Override
+            protected void afterRollback() throws Throwable {
+                super.afterRollback();
+                log.error("This cluster node cannot be registered.");
+            }
+
         }.execute();
 
         if (result[0] != null) this.currentNodeId = result[0].getId();
@@ -96,9 +103,14 @@ public class ClusterNodesManager implements Startable, Destroyable {
     public void destroy() throws Exception {
         final Long nodeId = currentNodeId;
 
+        if (nodeId == null) {
+            log.error("This cluster node was not previously registered.");
+            return;
+        }
+
         log.info("Deregistering cluster node with id " + nodeId);
 
-        new HibernateTxFragment(true) {
+        new HibernateTxFragment(true, true) {
             protected void txFragment(Session session) throws Exception {
                 // Delete the cluster node register.
                 Query query = session.createQuery("delete from " + ClusterNode.class.getName() +" cn  where cn.id = :idNode");
@@ -107,6 +119,13 @@ public class ClusterNodesManager implements Startable, Destroyable {
 
                 session.flush();
             }
+
+            @Override
+            protected void afterRollback() throws Throwable {
+                super.afterRollback();
+                log.error("This cluster node cannot be deregistered.");
+            }
+
         }.execute();
 
         this.currentNodeId = null;
