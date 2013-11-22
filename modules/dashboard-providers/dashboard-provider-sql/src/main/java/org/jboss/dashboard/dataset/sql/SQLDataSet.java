@@ -28,6 +28,7 @@ import org.jboss.dashboard.provider.DataFilter;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 /**
  * A data set implementation that holds as a matrix in-memory all the rows returned by a given SQL query executed
@@ -164,6 +165,10 @@ public class SQLDataSet extends AbstractDataSet {
     }
 
     public DataSet filter(DataFilter filter) throws Exception {
+        return _filterInDB(filter);
+    }
+
+    public DataSet _filterInDB(DataFilter filter) throws Exception {
         // Check if the SQL changes when filtering is requested. If so then reload the full dataset.
         SQLStatement currentStatement = createSQLStatament();
         if (!lastExecutedStmt.equals(currentStatement)) {
@@ -171,13 +176,16 @@ public class SQLDataSet extends AbstractDataSet {
             sqlDataSet.load();
 
             // Apply the in-memory filter in order to cover all the filter properties non specified as SQL conditions.
-            DataSet result = sqlDataSet.filter(filter);
+            DataFilter _remainingFilter = (DataFilter) filter.cloneFilter();
+            List<String> propIds = currentStatement.getFilterPropertyIds();
+            for (String propId : propIds) _remainingFilter.removeProperty(propId);
+            DataSet result = sqlDataSet._filterInMemory(_remainingFilter);
 
             // If the in-memory filter applies then return it.
             if (result != null) return result;
             return sqlDataSet;
         }
         // Apply the in-memory filter by default.
-        return super.filter(filter);
+        return super._filterInMemory(filter);
     }
 }

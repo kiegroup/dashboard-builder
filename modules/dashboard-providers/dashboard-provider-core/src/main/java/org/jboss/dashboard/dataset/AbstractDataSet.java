@@ -238,6 +238,10 @@ public abstract class AbstractDataSet implements DataSet {
     }
 
     public DataSet filter(DataFilter filter) throws Exception {
+        return _filterInMemory(filter);
+    }
+
+    protected DataSet _filterInMemory(DataFilter filter) throws Exception {
 
         // Filter only if required.
         if (getRowCount() == 0 || getProperties().length == 0 || filter == null) return null;
