@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.GaugeMeterChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
-<%@taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%

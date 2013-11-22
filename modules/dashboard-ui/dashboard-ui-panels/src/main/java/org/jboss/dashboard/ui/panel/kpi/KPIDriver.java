@@ -61,6 +61,13 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     public static final String PAGE_EDIT = "edit";
     public static final String PAGE_PROVIDER_SELECTION = "provider_selection";
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public KPIDriver() {
+        localeManager = LocaleManager.lookup();
+    }
+
     // Panel accessors
 
     /**
@@ -184,7 +191,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
         for (int i=0; i<locales.length; i++) {
             Locale locale = locales[i];
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.kpi.messages", locale);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.kpi.messages", locale);
             kpi.setDescription(i18n.getString("kpiDriver.newKpi"), locale);
         }
 

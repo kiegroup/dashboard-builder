@@ -20,7 +20,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableHandler" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>

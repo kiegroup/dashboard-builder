@@ -18,7 +18,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="security_taglib.tld" prefix="security" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 
 <%@ page import="org.jboss.dashboard.ui.SessionManager,                 org.jboss.dashboard.workspace.*,

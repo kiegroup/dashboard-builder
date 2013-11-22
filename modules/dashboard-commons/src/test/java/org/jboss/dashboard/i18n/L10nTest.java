@@ -84,7 +84,7 @@ public class L10nTest {
         localeManager.setDefaultLocale(Locale.UK);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(Locale.ENGLISH)).isTrue();
-        ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
+        ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
         String string1 = bundle.getString("string1");
         assertThat(string1.equals(STRING1_EN));
     }
@@ -94,7 +94,7 @@ public class L10nTest {
         localeManager.setDefaultLocale(LOCALE_ES_AR);
         localeManager.init();
         assertThat(localeManager.getDefaultLocale().equals(LOCALE_ES)).isTrue();
-        ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
+        ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
         String string1 = bundle.getString("string1");
         assertThat(string1.equals(STRING1_ES));
     }

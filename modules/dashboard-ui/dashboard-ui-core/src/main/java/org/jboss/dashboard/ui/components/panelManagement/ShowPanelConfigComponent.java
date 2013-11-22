@@ -41,12 +41,19 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
 
     private String showPanelConfigComponentFormatter;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public ShowPanelConfigComponent() {
+        localeManager = LocaleManager.lookup();
+    }
+
     @Override
     public boolean openDialog(Panel panel, CommandRequest request, String title, int width, int height) {
         formStatus = new FormStatus();
         clearFieldErrors();
 
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
         title = i18n.getString("title.properties");
 
         ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).clearAll();

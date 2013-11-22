@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.security;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
@@ -33,11 +34,15 @@ public class UIPermission extends DefaultPermission implements Visitable {
     private String actions;
     private boolean readOnly;
 
+    /** The locale manager. */
+    protected static LocaleManager localeManager;
+
     public UIPermission(String resourceName, String actions) {
         super(resourceName, actions);
         this.resourceName = resourceName;
         this.actions = actions;
         readOnly = false;
+        localeManager = LocaleManager.lookup();
     }
 
     /**
@@ -86,7 +91,7 @@ public class UIPermission extends DefaultPermission implements Visitable {
 
     public static String getActionName(String permissionClass, String action, Locale locale) {
         try {
-            ResourceBundle messages = ResourceBundle.getBundle("org.jboss.dashboard.security.messages", locale);
+            ResourceBundle messages = localeManager.getBundle("org.jboss.dashboard.security.messages", locale);
             return messages.getString(permissionClass+".action." + action.replace(' ','_'));
         }
         catch (MissingResourceException mse) {

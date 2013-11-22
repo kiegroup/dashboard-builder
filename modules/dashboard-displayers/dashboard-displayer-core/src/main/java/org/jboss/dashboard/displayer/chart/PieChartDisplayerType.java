@@ -49,6 +49,9 @@ public class PieChartDisplayerType extends AbstractChartDisplayerType {
 
     protected ChartDisplayerXMLFormat xmlFormat;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     @PostConstruct
     protected void init() {
         xmlFormat = new ChartDisplayerXMLFormat();
@@ -71,7 +74,7 @@ public class PieChartDisplayerType extends AbstractChartDisplayerType {
     }
 
     public String getDescription(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
         return i18n.getString("pieChartDisplayer.pieDescription");
     }
 

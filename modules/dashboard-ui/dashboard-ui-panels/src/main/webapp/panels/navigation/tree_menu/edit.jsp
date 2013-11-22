@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib prefix="mvc" uri="mvc_taglib.tld"%>
 <%@ taglib prefix="panel" uri="bui_taglib.tld"%>
-<%@ taglib prefix="i18n" uri="http://jakarta.apache.org/taglibs/i18n-1.0"%>
+<%@ taglib prefix="i18n" uri="http://dashboard.jboss.org/taglibs/i18n-1.0"%>
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.panel.navigation.treeMenu.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 

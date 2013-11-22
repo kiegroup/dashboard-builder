@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.export;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.message.AbstractMessage;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.kpi.KPI;
@@ -52,8 +53,12 @@ public class ImportExportMessage extends AbstractMessage {
 
     private static List INFOS = Arrays.asList(new String[] {PROVIDER_CREATED, KPI_CREATED, PROVIDER_UPDATED, KPI_UPDATED});
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public ImportExportMessage(String messageCode, Object[] elements) {
         super(messageCode, elements);
+        localeManager = LocaleManager.lookup();
     }
 
     public int getMessageType() {
@@ -64,7 +69,7 @@ public class ImportExportMessage extends AbstractMessage {
 
     public String getMessage(String messageCode, Locale l) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.export.errors", l);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.export.errors", l);
             return messageCode + " - " + i18n.getString(messageCode);
         } catch (Exception e) {
             return messageCode;
@@ -73,7 +78,7 @@ public class ImportExportMessage extends AbstractMessage {
 
     public String toString(Object element, Locale l) {
         if (element == null) return "";
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", l);
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", l);
 
         if (element instanceof DataProvider) {
             DataProvider dp = (DataProvider) element;

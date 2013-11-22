@@ -21,7 +21,7 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 

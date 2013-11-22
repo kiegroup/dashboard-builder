@@ -33,6 +33,13 @@ public abstract class AbstractNode extends BasicFactoryElement implements TreeNo
     private boolean editable = true;
     private boolean expandible = true;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    protected AbstractNode() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public boolean isEditable() {
         return editable;
     }
@@ -66,7 +73,7 @@ public abstract class AbstractNode extends BasicFactoryElement implements TreeNo
     }
 
     protected String getI18nProperty(String name) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.config.treeNodes.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.config.treeNodes.messages", LocaleManager.currentLocale());
         String property = getClass().getName() + "." + name;
         return i18n.getString(property);
     }

@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0"  prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0"  prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.permissions.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <p style="padding-left:10px;" class="skn-important">
     <i18n:message key="defaultPanelsPolicy">!!Default panels policy</i18n:message>

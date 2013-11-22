@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.security;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.ui.UIServices;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.workspace.*;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.security.auth.Subject;
 import java.lang.reflect.Method;
 import java.security.Permission;
@@ -69,6 +71,9 @@ public class UIPolicy implements Policy, Startable {
     // Persistent operations (save, load and delete) flush these buffers.
     private List updateBuffer = new ArrayList();
     private List deleteBuffer = new ArrayList();
+
+    @Inject
+    protected LocaleManager localeManager;
 
     public Priority getPriority() {
         return Priority.HIGH;
@@ -246,7 +251,7 @@ public class UIPolicy implements Policy, Startable {
 
     public String describeActionName(String permissionClass, String action, Locale locale) {
         try {
-            ResourceBundle messages = ResourceBundle.getBundle("org.jboss.dashboard.security.messages", locale);
+            ResourceBundle messages = localeManager.getBundle("org.jboss.dashboard.security.messages", locale);
             return messages.getString("action." + permissionClass + "." + action.replace(' ', '_'));
         }
         catch (MissingResourceException mre) {

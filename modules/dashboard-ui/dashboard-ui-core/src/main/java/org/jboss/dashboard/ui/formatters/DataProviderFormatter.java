@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.formatters;
 
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.DataProviderServices;
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.provider.*;
@@ -43,6 +44,13 @@ public class DataProviderFormatter extends Formatter {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataProviderFormatter.class.getName());
 
     protected DataProviderHandler handler;
+
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public DataProviderFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
 
     public DataProviderHandler getHandler() {
         return handler;
@@ -239,7 +247,7 @@ public class DataProviderFormatter extends Formatter {
                         }
 
                         String providerType = dataProvider.getDataProviderType().getDescription(getLocale());
-                        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", getLocale());
+                        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", getLocale());
                         String deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "confirmDelete");
                         if (numberOfKPIs > 0) {
                             deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "cannotDelete");

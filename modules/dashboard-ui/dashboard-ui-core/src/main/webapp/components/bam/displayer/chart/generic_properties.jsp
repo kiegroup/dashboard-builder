@@ -26,11 +26,11 @@
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
-<%@taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     Locale locale = LocaleManager.currentLocale();
-    ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", locale);
+    ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.displayer.messages", locale);
 
     AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
     AbstractChartDisplayer displayer = (AbstractChartDisplayer) editor.getDataDisplayer();

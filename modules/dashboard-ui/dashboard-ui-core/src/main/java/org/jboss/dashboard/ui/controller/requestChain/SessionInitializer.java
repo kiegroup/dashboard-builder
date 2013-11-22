@@ -122,7 +122,7 @@ public class SessionInitializer extends RequestChainProcessor {
             listener.initSession(getRequest(), getResponse());
         }
         // Catch the user preferred language.
-        PreferredLocale preferredLocale =  getPreferredLocale();
+        PreferredLocale preferredLocale =  getPreferredLocale(getRequest());
         LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
 
         // Store a HttpBindingListener object to detect session expiration
@@ -236,17 +236,23 @@ public class SessionInitializer extends RequestChainProcessor {
         return s;
     }
 
-    protected PreferredLocale getPreferredLocale() {
-        String headerLang = getRequest().getHeader("Accept-Language"); // f.i: "en-GB, sv;q=0.7, en;q=0.9"
+    public static PreferredLocale getPreferredLocale(HttpServletRequest request) {
+        if (request == null) return null;
 
-        // Return the locale with the highest quality.
-        String[] headerLocales = StringUtils.split(headerLang, ",");
+        String headerLang = request.getHeader("Accept-Language"); // f.i: "en-GB, sv;q=0.7, en;q=0.9"
+
         PreferredLocale result = null;
-        for (int i = 0; i < headerLocales.length; i++) {
-            String headerLocale = headerLocales[i];
-            PreferredLocale preferredLocale = new PreferredLocale(headerLocale);
-            if (result == null || preferredLocale.quality > result.quality) {
-                result = preferredLocale;
+        if (headerLang != null) {
+            // Return the locale with the highest quality.
+            String[] headerLocales = StringUtils.split(headerLang, ",");
+            if (headerLocales != null) {
+                for (int i = 0; i < headerLocales.length; i++) {
+                    String headerLocale = headerLocales[i];
+                    PreferredLocale preferredLocale = new PreferredLocale(headerLocale);
+                    if (result == null || preferredLocale.quality > result.quality) {
+                        result = preferredLocale;
+                    }
+                }
             }
         }
         return result;

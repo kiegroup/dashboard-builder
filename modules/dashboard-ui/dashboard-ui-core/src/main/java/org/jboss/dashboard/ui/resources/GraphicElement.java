@@ -51,7 +51,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
 
     protected static final String JSPS_PREFIX =
             "<%@ include file=\"/common/global.jsp\" %>" +
-                    "<%@ taglib uri=\"http://jakarta.apache.org/taglibs/i18n-1.0\" prefix=\"i18n\" %>" +
+                    "<%@ taglib uri=\"http://dashboard.jboss.org/taglibs/i18n-1.0\" prefix=\"i18n\" %>" +
                     "<%@ taglib uri=\"resources.tld\" prefix=\"resource\" %>" +
                     "<%@ taglib uri=\"mvc_taglib.tld\" prefix=\"mvc\" %>" +
                     "<%@ taglib uri=\"factory.tld\" prefix=\"factory\" %>" +

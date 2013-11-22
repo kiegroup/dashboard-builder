@@ -40,6 +40,13 @@ public class MessagesComponentFormatter extends Formatter {
     private String classForWarnings;
     private String classForErrors;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public MessagesComponentFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public MessagesComponentHandler getMessagesComponentHandler() {
         return messagesComponentHandler;
     }
@@ -154,7 +161,7 @@ public class MessagesComponentFormatter extends Formatter {
     protected String localizeMessage(String message) {
         try {
             if (messagesComponentHandler.getI18nBundle() != null) {
-                ResourceBundle bundle = ResourceBundle.getBundle(messagesComponentHandler.getI18nBundle(), LocaleManager.currentLocale());
+                ResourceBundle bundle = localeManager.getBundle(messagesComponentHandler.getI18nBundle(), LocaleManager.currentLocale());
                 message = bundle.getString(message);
             }
         } catch (Exception e) {

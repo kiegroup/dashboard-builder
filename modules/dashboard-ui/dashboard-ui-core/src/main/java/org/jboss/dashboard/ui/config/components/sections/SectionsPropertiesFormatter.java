@@ -207,7 +207,7 @@ public class SectionsPropertiesFormatter extends Formatter {
      SectionPermission sectionPerm;
      try {
 
-     ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.ui.messages", getCurrentLocale());
+     ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.messages", getCurrentLocale());
 
      workspace = (WorkspaceImpl) getSectionsPropertiesHandler().getCurrentWorkspace();
      Section[] sections = workspace.getAllSections();

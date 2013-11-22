@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.DashboardSettings;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.ui.DashboardFilter;
@@ -43,6 +44,13 @@ public class DashboardFilterFormatter extends Formatter {
     public static final String RENDER_TYPE_EDIT_PROPERTIES = "renderEditProperties";
 
     protected static final String I18N_BUNDLE_NAME = "org.jboss.dashboard.ui.components.filter.messages";
+
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public DashboardFilterFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
 
     public DashboardFilterHandler getDashboardFilterHandler() {
         return DashboardFilterHandler.lookup((String) getParameter(PARAM_COMPONENT_CODE));
@@ -289,7 +297,7 @@ public class DashboardFilterFormatter extends Formatter {
     }
 
     protected ResourceBundle getBundle() {
-        return ResourceBundle.getBundle(I18N_BUNDLE_NAME, getLocale());
+        return localeManager.getBundle(I18N_BUNDLE_NAME, getLocale());
     }
 
     protected void renderPropertyName(DashboardFilterProperty property) {

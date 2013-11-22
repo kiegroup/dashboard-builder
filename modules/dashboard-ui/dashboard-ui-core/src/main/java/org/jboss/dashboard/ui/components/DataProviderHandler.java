@@ -71,8 +71,12 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     protected transient DataProvider newDataProvider;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
     public DataProviderHandler() {
         this.dataProviderManager = DataDisplayerServices.lookup().getDataProviderManager();
+        localeManager = LocaleManager.lookup();
         clearAttributes();
     }
 
@@ -520,7 +524,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     protected String getMessage(String key) {
         if (key == null || "".equals(key)) return null;
         Locale currentLocale = LocaleManager.currentLocale();
-        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = ResourceBundle.getBundle("org.jboss.dashboard.displayer.messages", currentLocale);
+        if (messages == null || !messages.getLocale().equals(currentLocale)) messages = localeManager.getBundle("org.jboss.dashboard.displayer.messages", currentLocale);
         String message = messages.getString(key);
         return (message == null || "".equals(message)) ? null : message;
     }

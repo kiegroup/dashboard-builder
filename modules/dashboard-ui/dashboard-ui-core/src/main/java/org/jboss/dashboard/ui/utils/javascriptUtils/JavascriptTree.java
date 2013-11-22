@@ -429,7 +429,7 @@ public class JavascriptTree implements Comparable {
             return null;
         Map groups = new HashMap();
         String newPanelMessage = "!!!Nuevo Panel";
-        ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.ui.messages", currentLocale);
+        ResourceBundle bundle = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.messages", currentLocale);
         try {
             newPanelMessage = bundle.getString("ui.panel.new");
         } catch (MissingResourceException mre) {

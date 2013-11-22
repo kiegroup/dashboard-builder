@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer.nvd3;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
@@ -66,6 +67,9 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
     Map<String, List<String>> availableChartTypes;
     Map<String, String> defaultChartTypes;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     @PostConstruct
     protected void init() {
         // Define the displaying features supported.
@@ -104,7 +108,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public String getDescription(Locale l) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.nvd3.messages", l);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.nvd3.messages", l);
             return i18n.getString("nvd3.name");
         } catch (Exception e) {
             return "SVG Charts (NVD3)";
@@ -138,7 +142,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public String getChartTypeDescription(String chartType, Locale locale) {
         try {
-            ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.nvd3.messages", locale);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.nvd3.messages", locale);
             return i18n.getString("nvd3.type." + chartType);
         } catch (Exception e) {
             return chartType;

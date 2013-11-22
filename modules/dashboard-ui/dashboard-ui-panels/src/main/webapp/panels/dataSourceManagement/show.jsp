@@ -23,7 +23,7 @@
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib prefix="mvc" uri="mvc_taglib.tld" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.panel.dataSourceManagement.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%try {%>
 <mvc:formatter name="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementFormatter">

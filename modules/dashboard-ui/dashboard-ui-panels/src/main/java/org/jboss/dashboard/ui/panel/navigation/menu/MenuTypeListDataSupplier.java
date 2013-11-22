@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.navigation.menu;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.ui.panel.parameters.ComboListParameterDataSupplier;
@@ -39,6 +40,13 @@ public class MenuTypeListDataSupplier implements ComboListParameterDataSupplier 
     public static final String PARAMETER_PAGE = "page";
     public static final String PARAMETER_WORKSPACE = "workspace";
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public MenuTypeListDataSupplier() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public void init(PanelInstance instance) {
         if (keys == null) {
             keys = new ArrayList();
@@ -47,7 +55,7 @@ public class MenuTypeListDataSupplier implements ComboListParameterDataSupplier 
             keys.add(PARAMETER_WORKSPACE);
         }
         if (values == null) {
-            ResourceBundle bundle = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.navigation.menu.messages", SessionManager.getCurrentLocale());
+            ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.panel.navigation.menu.messages", SessionManager.getCurrentLocale());
             values = new ArrayList();
             values.add(bundle.getString("advanced.menu.language"));
             values.add(bundle.getString("advanced.menu.page"));

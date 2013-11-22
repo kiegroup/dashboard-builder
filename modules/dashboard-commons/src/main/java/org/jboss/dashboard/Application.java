@@ -45,6 +45,9 @@ public class Application {
     @Inject
     protected DestroyableProcessor destroyableProcessor;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     protected boolean upAndRunning = false;
     protected String libDirectory = null;
     protected String baseCfgDirectory = null;
@@ -138,7 +141,7 @@ public class Application {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(new Date());
         String currentYear = Integer.toString(cal.get(Calendar.YEAR));
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.messages", LocaleManager.currentLocale());
         return MessageFormat.format(i18n.getString("config.copyright"), currentYear);
     }
 }

@@ -70,6 +70,9 @@ public class TableDisplayerType extends AbstractDataDisplayerType {
     @Inject @Install @Table
     protected Instance<DataDisplayerRenderer> tableRenderers;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     @PostConstruct
     protected void init() {
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
@@ -91,7 +94,7 @@ public class TableDisplayerType extends AbstractDataDisplayerType {
     }
 
     public String getDescription(Locale l) {
-        ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.displayer.table.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.table.messages", LocaleManager.currentLocale());
         return i18n.getString("tableDisplayer.description");
     }
 

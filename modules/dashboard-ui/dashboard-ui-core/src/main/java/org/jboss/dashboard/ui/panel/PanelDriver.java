@@ -87,6 +87,13 @@ public class PanelDriver {
      */
     protected PanelSecurity panelSecurity;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public PanelDriver() {
+        localeManager = LocaleManager.lookup();
+    }
+
     /**
      * Returns all the parameters this panel driver allows to configure.
      */
@@ -577,7 +584,7 @@ public class PanelDriver {
     }
 
     public ResourceBundle getActionsBundle() {
-        return ResourceBundle.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
+        return localeManager.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.security;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 
 import java.security.Permission;
@@ -37,11 +38,15 @@ public class BackOfficePermission extends UIPermission {
      */
     public static final List LIST_OF_ACTIONS = new ArrayList();
 
+    /** The locale manager. */
+    protected static LocaleManager localeManager;
+
     static {
         LIST_OF_ACTIONS.add(ACTION_USE_GRAPHIC_RESOURCES);
         LIST_OF_ACTIONS.add(ACTION_CREATE_WORKSPACE);
         LIST_OF_ACTIONS.add(ACTION_USE_PERMISSIONS);
         LIST_OF_ACTIONS.add(ACTION_USE_FACTORY);
+        localeManager = LocaleManager.lookup();
     }
 
     // Factory method(s)
@@ -120,7 +125,7 @@ public class BackOfficePermission extends UIPermission {
 
     public static String getActionName(String action, Locale locale) {
         try {
-            ResourceBundle messages = ResourceBundle.getBundle("org.jboss.dashboard.security.messages", locale);
+            ResourceBundle messages = localeManager.getBundle("org.jboss.dashboard.security.messages", locale);
             return messages.getString("action." + action);
         }
         catch (MissingResourceException mse) {

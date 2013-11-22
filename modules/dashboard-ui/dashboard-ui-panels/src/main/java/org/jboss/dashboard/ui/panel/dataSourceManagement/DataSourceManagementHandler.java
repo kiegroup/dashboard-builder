@@ -74,6 +74,13 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     private String type;
     private String selectedTables;
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public DataSourceManagementHandler() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public boolean isCreating() {
         return isCreating;
     }
@@ -551,7 +558,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
             Connection conn = null;
             try {
                 if (CUSTOM_TYPE.equals(getType()) && !getDataSourceManager().checkDriverClassAvailable(getDriverClass())) {
-                    ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
+                    ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                     setTEST_RESULT(i18n.getString("datasource.driver.na"));
                 } else {
                     String passwordChanged = request.getRequestObject().getParameter(PARAM_PASSW_CHANGED);
@@ -576,7 +583,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
                 }
             } catch (Exception e) {
                 if (log.isDebugEnabled()) log.debug(e.getMessage());
-                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
+                ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                 setTEST_RESULT(i18n.getString("datasource.connection.failed"));
             }
             finally {

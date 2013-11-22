@@ -40,6 +40,13 @@ public class DataSourceManagementFormatter extends Formatter {
     public static final String JDBC_DATA_SOURCE_ENTRY = "JDBCDataSourceEntry";
     public static final String JNDI_DATA_SOURCE_ENTRY = "JNDIDataSourceEntry";
 
+    /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    public DataSourceManagementFormatter() {
+        localeManager = LocaleManager.lookup();
+    }
+
     public DataSourceManagementHandler getDataSourceManagementHandler() {
         return dataSourceManagementHandler;
     }
@@ -105,7 +112,7 @@ public class DataSourceManagementFormatter extends Formatter {
         try {
             DataSource ds = getDataSourceManagementHandler().getDataSourceManager().getDataSource(entry.getName());
             if (!getDataSourceManagementHandler().getDataSourceManager().checkDriverClassAvailable(entry.getDriverClass())) {
-                ResourceBundle i18n = ResourceBundle.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
+                ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                 return i18n.getString("datasource.driver.na");
             }
             if (ds == null) return "DataSource null";

@@ -22,7 +22,7 @@
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayer" %>
 <%@ page import="org.jboss.dashboard.kpi.KPI" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/i18n-1.0" prefix="i18n"%>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     KPIViewer kpiViewer = KPIViewer.lookup();
