@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.dataset.sql;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.SQLStatementTrace;
 import org.jboss.dashboard.dataset.AbstractDataSet;
@@ -111,7 +112,9 @@ public class SQLDataSet extends AbstractDataSet {
             SQLDataSet.this.setPropertySize(propsSize);
             for (int i = 0; i < propsSize; i++) {
                 SQLDataProperty dp = createSQLProperty();
-                dp.setPropertyId(meta.getColumnName(i + 1).toLowerCase());
+                String propId = StringUtils.isNotBlank(meta.getColumnLabel(i + 1)) ? meta.getColumnLabel(i + 1) : meta.getColumnName(i + 1);
+                dp.setPropertyId(propId.toLowerCase());
+//                dp.setPropertyId(meta.getColumnName(i + 1).toLowerCase());
                 dp.setType(meta.getColumnType(i + 1));
                 dp.setTableName(meta.getTableName(i + 1));
                 dp.setColumnName(meta.getColumnName(i + 1));
