@@ -35,6 +35,8 @@ public abstract class CodeBlockTrace {
 
     protected static DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
+    public static boolean RUNTIME_CONTRAINTS_ENABLED = true;
+
     ThreadProfile threadProfile;
     protected CodeBlockTrace parent;
     protected CodeBlockTraces children;
@@ -295,6 +297,8 @@ public abstract class CodeBlockTrace {
     }
 
     public void checkRuntimeConstraints() throws Exception {
+        if (!RUNTIME_CONTRAINTS_ENABLED) return;
+
         CodeBlockTrace _trace = this;
         while (_trace != null) {
             if (_trace.runtimeConstraints != null) {
