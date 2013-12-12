@@ -117,7 +117,7 @@ public class MemoryProfiler {
         long newTotal = getTotalMemoryInBytes();
         float percentage = (float) (newFree * 100.0/ (newTotal * 1.0));
         long freed = newFree - freeMemory;
-        log.info("Freed " + formatSize(freed) + " bytes. Total = " + formatSize(newTotal)  + ". Free = " + formatSize(newFree) + " (" + percentage + "%)");
+        log.debug("Freed " + formatSize(freed) + " bytes. Total = " + formatSize(newTotal)  + ". Free = " + formatSize(newFree) + " (" + percentage + "%)");
         return this;
     }
 
@@ -130,11 +130,6 @@ public class MemoryProfiler {
 
     public long getMemoryUsedInBytes() {
         return ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed();
-        /*collectGarbage();
-        long totalMemory = Runtime.getRuntime().totalMemory();
-        collectGarbage();
-        long freeMemory = Runtime.getRuntime().freeMemory();
-        return (totalMemory - freeMemory);*/
     }
 
     private void collectGarbage() {
