@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.dataset;
 
+import java.util.Iterator;
+
 import org.jboss.dashboard.commons.comparator.AbstractComparatorByCriteria;
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
 import org.slf4j.Logger;
@@ -29,22 +31,27 @@ public class DataSetComparator extends AbstractComparatorByCriteria {
 
     public int compare(Object o1, Object o2) {
         try {
-            // Check criteria.
-            String[] criteriaIds = getCriteriaIds();
-            if (criteriaIds.length == 0) return 0;
-            if (criteriaIds.length > 1) log.warn("Sorting by multiple criterias is not supported. Sorting by first criteria only.");
-            String columnIndex = criteriaIds[0];
-
             // Objects must be not null arrays.
             if (o1 == null && o2 != null) return -1;
             else if (o1 != null && o2 == null) return 1;
             else if (o1 == null && o2 == null) return 0;
 
             // Compare the two rows.
-            int column = Integer.parseInt(columnIndex);
             Object[] row1 = (Object[]) o1;
             Object[] row2 = (Object[]) o2;
-            return ComparatorUtils.compare(row1[column], row2[column], getSortCriteriaOrdering(columnIndex));
+
+            Iterator it = sortCriterias.iterator();
+            while (it.hasNext()) {
+                Object[] criteriaProps =  (Object[]) it.next();
+                String criteriaId = (String) criteriaProps[0];
+                int column = Integer.parseInt(criteriaId);
+                int ordering = ((Integer)criteriaProps[1]).intValue();
+                int compById = ComparatorUtils.compare(row1[column], row2[column], ordering);
+                if (compById != 0) return compById;
+            }
+            // Comparison gives equality.
+            return 0;
+
         } catch (ClassCastException e) {
             log.warn("Cannot compare the given objects for the data set.");
             return 0;

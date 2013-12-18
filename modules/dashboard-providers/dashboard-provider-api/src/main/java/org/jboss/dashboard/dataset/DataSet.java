@@ -22,6 +22,7 @@ import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.w3c.dom.NodeList;
 
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -135,10 +136,10 @@ public interface DataSet {
     /**
      * Sorts this data set.
      * NOTE: Implemented for single column sorting.
-     * @param comparator Comparator used to compare elements.
+     * @param comparator Used to compare rows (Object[] instances).
      * @return Sorted data set.
      */
-    DataSet sort(ComparatorByCriteria comparator);
+    DataSet sort(Comparator comparator);
 
     /**
      * Returns an XML string with the definition of the data set properties.

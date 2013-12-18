@@ -69,6 +69,10 @@ public abstract class AbstractDataSet implements DataSet {
         }
     };
 
+    public AbstractDataSet() {
+        this(null);
+    }
+
     public AbstractDataSet(DataProvider provider) {
         this.provider = provider;
         properties = null;
@@ -429,15 +433,16 @@ public abstract class AbstractDataSet implements DataSet {
 
         // Get the indexed labels
         int groupByColumn = getPropertyColumn(groupByProperty);
-        List<DistinctValue> distinctValues = index.getDistinctValues(groupByColumn);
+        List<DistinctValue> _distinctValues = index.getDistinctValues(groupByColumn);
+        List<DistinctValue> _sortedValues = new ArrayList(_distinctValues);
         if (sortOrder != 0) {
-            if (sortIndex < 0 || sortIndex == pivotColumn) index.sortByValue(distinctValues, sortOrder);
-            else index.sortByScalar(distinctValues, functionCodes[sortIndex], columns[sortIndex], sortOrder);
+            if (sortIndex < 0 || sortIndex == pivotColumn) index.sortByValue(_sortedValues, sortOrder);
+            else index.sortByScalar(_sortedValues, functionCodes[sortIndex], columns[sortIndex], sortOrder);
         }
 
         // Build the label interval set from the sorted list of distinct values.
         LabelDomain _pivotDomain = (LabelDomain) _pivotProp.getDomain();
-        List<Interval> intervals = _pivotDomain.getIntervals(distinctValues);
+        List<Interval> intervals = _pivotDomain.getIntervals(_sortedValues);
 
         // Populate the dataset with the calculations.
         for (int j=0; j<columns.length; j++) {
@@ -464,7 +469,6 @@ public abstract class AbstractDataSet implements DataSet {
                 // After calculations, ensure the new property domain is numeric.
                 _prop.setDomain(new NumericDomain());
             }
-
         }
         return _result;
     }
@@ -483,7 +487,7 @@ public abstract class AbstractDataSet implements DataSet {
         }
     }
 
-    public DataSet sort(ComparatorByCriteria comparator) {
+    public DataSet sort(Comparator comparator) {
         // Get the list of rows to sort.
         List sortedPropertyValues = new ArrayList();
         for (int row = 0; row < getRowCount(); row++) {
