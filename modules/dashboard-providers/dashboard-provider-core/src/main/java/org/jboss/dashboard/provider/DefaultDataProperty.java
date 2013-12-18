@@ -13,21 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.dataset;
+package org.jboss.dashboard.provider;
 
+public class DefaultDataProperty extends AbstractDataProperty {
 
-import org.jboss.dashboard.provider.DataProvider;
-
-/**
- * Data set that holds data in memory.
- */
-public class DefaultDataSet extends AbstractDataSet {
-
-    public DefaultDataSet() {
+    public DefaultDataProperty() {
         super();
-    }
-
-    public DefaultDataSet(DataProvider provider) {
-        super(provider);
     }
 }

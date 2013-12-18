@@ -21,6 +21,7 @@ import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.DataSetException;
 import org.jboss.dashboard.profiler.RuntimeConstraint;
+import org.jboss.dashboard.provider.DataProvider;
 
 /**
  * Runtime constraints addressed to guarantee that data set filter operations never exceed the max. time set.
@@ -40,8 +41,11 @@ public class DataSetFilterConstraints implements RuntimeConstraint {
      */
     public void validate() throws Exception {
         DataSet dataSet = dataSetRef.get();
+        DataProvider dataProvider = dataSet.getDataProvider();
+        if (dataProvider == null) return;
+
         long elapsedTime = System.currentTimeMillis() - startTime;
-        long maxTime = dataSet.getDataProvider().getDataLoader().getMaxDataSetFilterTimeInMillis();
+        long maxTime = dataProvider.getDataLoader().getMaxDataSetFilterTimeInMillis();
 
         if (maxTime > 0 && elapsedTime > maxTime) {
             String time = Chronometer.formatElapsedTime(maxTime);

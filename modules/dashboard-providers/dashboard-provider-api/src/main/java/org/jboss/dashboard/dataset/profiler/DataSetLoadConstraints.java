@@ -22,6 +22,7 @@ import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.DataSetException;
 import org.jboss.dashboard.profiler.RuntimeConstraint;
 import org.jboss.dashboard.profiler.memory.MemoryProfiler;
+import org.jboss.dashboard.provider.DataProvider;
 
 /**
  * Runtime constraints addressed to guarantee that data set load operations never exceed the max memory/time thresholds set.
@@ -44,13 +45,16 @@ public class DataSetLoadConstraints implements RuntimeConstraint {
      */
     public void validate() throws Exception {
         DataSet dataSet = dataSetRef.get();
+        DataProvider dataProvider = dataSet.getDataProvider();
+        if (dataProvider == null) return;
+
         MemoryProfiler memoryProfiler = MemoryProfiler.lookup().freeMemory();
         long memoryUsed = memoryProfiler.getMemoryUsedInBytes() - startMemory;
         long elapsedTime = System.currentTimeMillis() - startTime;
         long sizeInBytes = dataSet.sizeOf();
-        long maxSize = dataSet.getDataProvider().getDataLoader().getMaxDataSetSizeInBytes();
-        long maxTime = dataSet.getDataProvider().getDataLoader().getMaxDataSetLoadTimeInMillis();
-        long maxMemUsed = dataSet.getDataProvider().getDataLoader().getMaxMemoryUsedInDataLoad();
+        long maxSize = dataProvider.getDataLoader().getMaxDataSetSizeInBytes();
+        long maxTime = dataProvider.getDataLoader().getMaxDataSetLoadTimeInMillis();
+        long maxMemUsed = dataProvider.getDataLoader().getMaxMemoryUsedInDataLoad();
 
         if (maxMemUsed > 0 && memoryUsed > maxMemUsed) {
             String total = MemoryProfiler.formatSize(maxMemUsed);
