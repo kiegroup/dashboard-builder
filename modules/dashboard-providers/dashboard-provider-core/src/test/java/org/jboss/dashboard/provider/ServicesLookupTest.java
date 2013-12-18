@@ -15,11 +15,15 @@
  */
 package org.jboss.dashboard.provider;
 
-import org.jboss.dashboard.DataProviderServices;
-import org.jboss.dashboard.annotation.Install;
-import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.dashboard.DataProviderServices;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.function.ScalarFunction;
+import org.jboss.dashboard.function.ScalarFunctionManager;
 import org.jboss.dashboard.test.ShrinkWrapHelper;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -27,14 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
-
-import static org.fest.assertions.api.Assertions.assertThat;
-
 @RunWith(Arquillian.class)
-public class DataProviderManagerTest {
+public class ServicesLookupTest {
 
     @Deployment
     public static Archive<?> createTestArchive()  {
@@ -45,8 +43,11 @@ public class DataProviderManagerTest {
     @Inject
     protected BeanManager beanManager;
 
-    @Inject @Install
-    Instance<DataProviderType> dataProviderTypes;
+    @Inject
+    protected DataProviderManager dataProviderManager;
+
+    @Inject
+    protected ScalarFunctionManager scalarFunctionManager;
 
     @Before
     public void setUp() throws Exception {
@@ -54,12 +55,23 @@ public class DataProviderManagerTest {
     }
 
     @Test
-    public void checkTypes() {
-        DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
-        assertThat(dataProviderManager).isNotNull();
-        assertThat(dataProviderManager.getDataProviderTypes().length>0);
-        for (DataProviderType dataProviderType : dataProviderTypes) {
-            System.out.println(dataProviderType.getUid());
+    public void listBeans() {
+        DataProviderServices providerServices = DataProviderServices.lookup();
+
+        System.out.println("\nData provider types");
+        System.out.println("-----------------------");
+        DataProviderType[] dataProviders = providerServices.getDataProviderManager().getDataProviderTypes();
+        for (int i = 0; i < dataProviders.length; i++) {
+            DataProviderType providerType = dataProviders[i];
+            System.out.println(providerType.getUid());
+        }
+
+        System.out.println("Scalar functions");
+        System.out.println("------------------------");
+        ScalarFunction[] scalarFunctions = providerServices.getScalarFunctionManager().getAllScalarFunctions();
+        for (int i = 0; i < scalarFunctions.length; i++) {
+            ScalarFunction scalarFunction = scalarFunctions[i];
+            System.out.println(scalarFunction.getCode());
         }
     }
 }

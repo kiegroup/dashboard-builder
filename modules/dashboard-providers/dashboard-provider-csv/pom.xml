@@ -37,5 +37,12 @@
             <artifactId>dashboard-provider-core</artifactId>
             <scope>compile</scope>
         </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-commons</artifactId>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
 </project>

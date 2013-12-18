@@ -18,29 +18,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jboss.dashboard-builder</groupId>
-        <artifactId>dashboard-displayers</artifactId>
-        <version>6.1.0-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>org.jboss.dashboard-builder</groupId>
+    <artifactId>dashboard-displayers</artifactId>
+    <version>6.1.0-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>dashboard-displayer-core</artifactId>
-    <packaging>jar</packaging>
-    <name>Dashboard Builder Data Displayer Core</name>
-    <description>Data displayer API implementation + Core displayers</description>
+  <artifactId>dashboard-displayer-core</artifactId>
+  <packaging>jar</packaging>
+  <name>Dashboard Builder Data Displayer Core</name>
+  <description>Data displayer API implementation + Core displayers</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-displayer-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-provider-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-displayer-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-provider-core</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Unit testing -->
+
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-commons</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 </project>

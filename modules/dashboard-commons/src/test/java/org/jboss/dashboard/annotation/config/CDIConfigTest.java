@@ -19,9 +19,9 @@ import org.jboss.dashboard.pojo.Bean;
 import org.jboss.dashboard.pojo.BeanExt;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.dashboard.test.ShrinkWrapHelper;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import javax.inject.Inject;
@@ -32,11 +32,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class CDIConfigTest {
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addPackage("org.jboss.dashboard.pojo")
-                .addPackage("org.jboss.dashboard.annotation")
-                .addPackage("org.jboss.dashboard.annotation.config")
+    public static Archive<?> createTestArchive()  {
+        return ShrinkWrapHelper.createJavaArchive()
                 .addAsManifestResource(EmptyAsset.INSTANCE, "org.jboss.dashboard.annotation.config.Bean.config")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "org.jboss.dashboard.annotation.config.BeanExt.config")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.config")

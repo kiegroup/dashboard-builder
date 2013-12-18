@@ -31,9 +31,9 @@ import org.jboss.dashboard.profiler.memory.MemoryProfiler;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderManager;
 import org.jboss.dashboard.provider.DataProviderType;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.dashboard.test.ShrinkWrapHelper;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,32 +48,8 @@ public class CSVPerformanceTest {
     private static transient Logger log = LoggerFactory.getLogger(CSVPerformanceTest.class.getName());
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addPackage("org.jboss.dashboard.commons.message")
-                .addPackage("org.jboss.dashboard.database")
-                .addPackage("org.jboss.dashboard.database.hibernate")
-                .addPackage("org.jboss.dashboard.profiler")
-                .addPackage("org.jboss.dashboard.profiler.memory")
-                .addPackage("org.jboss.dashboard.scheduler")
-                .addPackage("org.jboss.dashboard.error")
-                .addPackage("org.jboss.dashboard.filesystem")
-                .addPackage("org.jboss.dashboard")
-                .addPackage("org.jboss.dashboard.command")
-                .addPackage("org.jboss.dashboard.dataset")
-                .addPackage("org.jboss.dashboard.domain")
-                .addPackage("org.jboss.dashboard.domain.date")
-                .addPackage("org.jboss.dashboard.domain.label")
-                .addPackage("org.jboss.dashboard.domain.numeric")
-                .addPackage("org.jboss.dashboard.export")
-                .addPackage("org.jboss.dashboard.function")
-                .addPackage("org.jboss.dashboard.kpi")
-                .addPackage("org.jboss.dashboard.provider")
-                .addPackage("org.jboss.dashboard.provider.csv")
-                .addPackage("org.jboss.dashboard.provider.sql")
-                .addPackage("org.jboss.dashboard.annotation")
-                .addPackage("org.jboss.dashboard.annotation.config")
-                .addPackage("org.jboss.dashboard.pojo")
+    public static Archive<?> createTestArchive()  {
+        return ShrinkWrapHelper.createJavaArchive()
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

@@ -13,14 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.provider.csv;
+package org.jboss.dashboard.displayer;
 
-import org.jboss.dashboard.DataProviderServices;
-import org.jboss.dashboard.dataset.DataSet;
-import org.jboss.dashboard.dataset.DataSetManager;
-import org.jboss.dashboard.provider.DataProvider;
-import org.jboss.dashboard.provider.DataProviderManager;
-import org.jboss.dashboard.provider.DataProviderType;
+import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -34,12 +29,10 @@ import org.junit.runner.RunWith;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 
-import java.io.InputStream;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(Arquillian.class)
-public class CSVDataSetTest {
+public class ServicesLookupTest {
 
     @Deployment
     public static Archive<?> createTestArchive()  {
@@ -51,34 +44,30 @@ public class CSVDataSetTest {
     protected BeanManager beanManager;
 
     @Inject
-    protected DataProviderManager dataProviderManager;
-
-    protected DataSetManager dataSetManager;
-    protected DataSet dataSet;
-    protected DataProviderType dataPoviderType;
+    protected DataDisplayerManager dataDisplayerManager;
 
     @Before
     public void setUp() throws Exception {
         CDIBeanLocator.beanManager = beanManager;
-        dataSetManager = DataProviderServices.lookup().getDataSetManager();
-
-        dataPoviderType = dataProviderManager.getProviderTypeByUid(CSVDataProviderType.UID);
-        DataProvider dataProvider = dataProviderManager.createDataProvider();
-        CSVDataLoader csvDataLoader = (CSVDataLoader) dataPoviderType.createDataLoader();
-
-        InputStream dataStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("data.csv");
-        dataSet = csvDataLoader.load(dataProvider, dataStream);
-        dataSetManager.registerDataSet(dataProvider, dataSet);
     }
 
     @Test
-    public void checkDataSet() {
-        assertThat(dataSet).isNotNull();
-        assertThat(dataProviderManager).isNotNull();
-        assertThat(dataProviderManager.getDataProviderTypes().length > 0);
-        assertThat(dataPoviderType).isNotNull();
+    public void listBeans() {
+        DataDisplayerServices displayerServices = DataDisplayerServices.lookup();
 
-        assertThat(dataSet.getProperties().length>0);
-        assertThat(dataSet.getRowCount()==50);
+        System.out.println("\nData displayer types");
+        System.out.println("-------------------------");
+        DataDisplayerType[] displayerType = displayerServices.getDataDisplayerManager().getDataDisplayerTypes();
+        for (int i = 0; i < displayerType.length; i++) {
+            DataDisplayerType dataDisplayerType = displayerType[i];
+            System.out.println(dataDisplayerType.getUid());
+        }
+        System.out.println("\nDisplayer renderers");
+        System.out.println("------------------------");
+        DataDisplayerRenderer[] displayerRenderers = displayerServices.getDataDisplayerManager().getDataDisplayerRenderers();
+        for (int i = 0; i < displayerRenderers.length; i++) {
+            DataDisplayerRenderer renderer = displayerRenderers[i];
+            System.out.println(renderer.getUid());
+        }
     }
 }

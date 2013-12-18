@@ -22,9 +22,9 @@ import org.jboss.dashboard.pojo.CellPhone;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.dashboard.test.ShrinkWrapHelper;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,11 +39,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class CDILookupTest {
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addPackage("org.jboss.dashboard.pojo")
-                .addPackage("org.jboss.dashboard.annotation")
-                .addPackage("org.jboss.dashboard.annotation.config")
+    public static Archive<?> createTestArchive()  {
+        return ShrinkWrapHelper.createJavaArchive()
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
