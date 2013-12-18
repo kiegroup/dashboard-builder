@@ -32,6 +32,7 @@ public interface ImportResults {
     void addKPI(KPI k);
     void removeKPI(KPI k);
     void replaceKPI(KPI oldKPI, KPI newKPI);
+    KPI getKPIByCode(String code);
 
     Set<DataProvider> getDataProviders();
     void addDataProvider(DataProvider p);

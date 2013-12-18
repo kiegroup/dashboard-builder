@@ -65,9 +65,7 @@ public class ImportResultsImpl implements ImportResults {
     public void replaceDataProvider(DataProvider oldProv, DataProvider newProv) {
         if (dataProviders.remove(oldProv)) {
             // Update KPIs references if needed
-            Iterator it = KPIs.iterator();
-            while (it.hasNext()) {
-                KPI kpi = (KPI) it.next();
+            for (KPI kpi : KPIs) {
                 if (kpi.getDataProvider().equals(oldProv)) {
                     kpi.setDataProvider(newProv);
                 }
@@ -81,11 +79,21 @@ public class ImportResultsImpl implements ImportResults {
         KPIs.add(newKPI);
     }
 
+    public KPI getKPIByCode(String code) {
+        for (KPI kpi : KPIs) {
+            if (kpi.getCode().equals(code)) {
+                return kpi;
+            }
+        }
+        return null;
+    }
+
+
     public DataProvider getDataProviderByCode(String code) {
-        Iterator it = dataProviders.iterator();
-        while (it.hasNext()) {
-            DataProvider provider = (DataProvider) it.next();
-            if (provider.getCode().equals(code)) return provider;
+        for (DataProvider provider : dataProviders) {
+            if (provider.getCode().equals(code)) {
+                return provider;
+            }
         }
         return null;
     }
