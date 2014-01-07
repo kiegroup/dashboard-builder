@@ -57,7 +57,7 @@
             <directory>${project.basedir}/target</directory>
             <outputDirectory>dashbuilder-demo</outputDirectory>
             <includes>
-                <include>dashbuilder-demo.war</include>
+                <include>dashbuilder-${project.version}-demo.war</include>
             </includes>
         </fileSet>
 

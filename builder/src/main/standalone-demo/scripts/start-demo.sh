@@ -64,4 +64,4 @@ echo "*"
 echo "*"
 echo "*****************************************************************************"
 
-$JAVA $JAVA_OPTIONS -jar jetty-runner.jar dashbuilder-demo.war
+$JAVA $JAVA_OPTIONS -jar jetty-runner.jar dashbuilder-${project.version}-demo.war
