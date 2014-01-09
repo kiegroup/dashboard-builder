@@ -45,7 +45,7 @@ public class ClusterNode {
      * </ul>
      */
     public enum ClusterNodeStatus {
-        INSTALLING_MODULES, RUNNING;
+        INSTALLING_MODULES, REGISTERED;
     }
 
     public Long getId() {

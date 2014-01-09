@@ -37,11 +37,14 @@ import java.util.List;
  * NOTE: BZ-1014612
  */
 @ApplicationScoped
-public class ClusterNodesManager implements Startable, Destroyable {
+public class ClusterNodesManager implements Startable {
     public static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ClusterNodesManager.class.getName());
 
     /** The id for this node. **/
     private Long currentNodeId;
+
+    /** The IP address for the node. **/
+    private String currentNodeIpAddress;
 
     /**
      * Use highest priority to register the nodes and their statuses as quick as possible on startup.
@@ -61,19 +64,24 @@ public class ClusterNodesManager implements Startable, Destroyable {
     @Override
     public void start() throws Exception {
         // Obtain node IP address from system.
-        final String ip = getIPAddress();
+        currentNodeIpAddress = getIPAddress();
 
-        log.info("Registering cluster node with ip address " + ip);
+        log.info("Registering cluster node with ip address " + currentNodeIpAddress);
 
         final ClusterNode[] result = new ClusterNode[1];
         new HibernateTxFragment(true, true) {
             protected void txFragment(Session session) throws Exception {
 
-                // Create the cluster node instance.
-                ClusterNode node = new ClusterNode();
-                node.setNodeAddress(ip);
+                // Check if the node is already regisitered from a previous execution.
+                ClusterNode node = getNodeByIpAddress(currentNodeIpAddress);
+
+                if (node == null) {
+                    // Create the cluster node instance.
+                    node = new ClusterNode();
+                }
+                node.setNodeAddress(currentNodeIpAddress);
                 node.setStartupTime(new Date());
-                node.setNodeStatus(ClusterNode.ClusterNodeStatus.RUNNING.name());
+                node.setNodeStatus(ClusterNode.ClusterNodeStatus.REGISTERED.name());
                 session.saveOrUpdate(node);
 
                 session.flush();
@@ -91,7 +99,7 @@ public class ClusterNodesManager implements Startable, Destroyable {
 
         if (result[0] != null) this.currentNodeId = result[0].getId();
 
-        log.info("Successfuly resgister cluster node with ip address " + ip + " and identifier " + this.currentNodeId);
+        log.info("Successfuly resgister cluster node with ip address " + currentNodeIpAddress + " and identifier " + this.currentNodeId);
     }
 
     /**
@@ -99,10 +107,7 @@ public class ClusterNodesManager implements Startable, Destroyable {
      *
      * @throws Exception Error deregistering node.
      */
-    @Override
-    public void destroy() throws Exception {
-        final Long nodeId = currentNodeId;
-
+    public void deregister(final Long nodeId) throws Exception {
         if (nodeId == null) {
             log.error("This cluster node was not previously registered.");
             return;
@@ -127,8 +132,6 @@ public class ClusterNodesManager implements Startable, Destroyable {
             }
 
         }.execute();
-
-        this.currentNodeId = null;
 
         log.info("Successfully deregistered cluster node with id " + nodeId);
     }
@@ -188,6 +191,31 @@ public class ClusterNodesManager implements Startable, Destroyable {
     }
 
     /**
+     * Returns a cluster node instance for a given IP address.
+     *
+     * @param ip The ip address for the node.
+     * @return The cluster node or <code>null</code> if there is no match.
+     * @throws Exception Error searching for a cluster node by ip address.
+     */
+    public ClusterNode getNodeByIpAddress(final String ip) throws  Exception {
+        final ClusterNode[] result = new ClusterNode[1];
+        if (ip != null) {
+            new HibernateTxFragment() {
+                protected void txFragment(Session session) throws Exception {
+                    Query query = session.createQuery("from " + ClusterNode.class.getName() +"  cn  where cn.nodeAddress = :ipToSearch");
+                    query.setString("ipToSearch", ip);
+                    List queryResult = query.list();
+
+                    if (queryResult.size() > 1) log.error("There is more than one cluster node resgistered for IP address: " + ip + ".");
+                    if (!queryResult.isEmpty()) result[0] = (ClusterNode) queryResult.get(0);
+                }
+            }.execute();
+        }
+
+        return result[0];
+    }
+
+    /**
      * Return the IP address for the default interface.
      *
      * @return The IP address for the default interface.
@@ -235,6 +263,50 @@ public class ClusterNodesManager implements Startable, Destroyable {
     }
 
     /**
+     * Check if another node is currently installing initial modules.
+     * If no other node is installing initial modules, install the modules and register node status to state: installing_modules.
+     * If another node is installing initial modules, skip initial modules installation from this node.
+     *
+     * IMPORTANT NOTE: Perform the change node status in bbdd in a new transaction.
+     *
+     * NOTE: BZ-1014612
+     *
+     * @return If this node should install initial modules.
+     */
+    public boolean shouldInstallModules() throws Exception {
+        final Boolean[] result = new Boolean[1];
+        result[0] = true;
+        new HibernateTxFragment(true, true) {
+            protected void txFragment(Session session) throws Exception {
+                List<ClusterNode> installingModulesNodes = getNodeByStatus(ClusterNode.ClusterNodeStatus.INSTALLING_MODULES);
+                if (installingModulesNodes != null && !installingModulesNodes.isEmpty()) {
+                    if (installingModulesNodes.size() > 1) {
+                        log.warn("More than one cluster node status is INSTALLING_MODULES. This situation can be produced due to a failured previous installation.");
+                    }
+                    ClusterNode node = installingModulesNodes.get(0);
+
+                    if (node.getNodeAddress() != null && node.getNodeAddress().equals(getCurrentNodeIpAddress())) {
+                        // BZ-1047123
+                        // If the node with status INSTALLING_MODULES is this one, probably the last installation was failed.
+                        // So show a warning and re-install modules.
+                        result[0] = true;
+                    } else {
+                        // Other node is installing. This node should NOT be the installer.
+                        result[0] = false;
+                    }
+                } else {
+                    // No other node is installing. This node should be the installer.
+                    result[0] = true;
+                    setCurrentNodeStatus(ClusterNode.ClusterNodeStatus.INSTALLING_MODULES);
+                }
+            }
+
+        }.execute();
+
+        return result[0];
+    }
+
+    /**
      * Sets a status for current node.
      *
      * @param newStatus The new status to set.
@@ -243,5 +315,11 @@ public class ClusterNodesManager implements Startable, Destroyable {
         setNodeStatus(this.currentNodeId, newStatus);
     }
 
+    public Long getCurrentNodeId() {
+        return currentNodeId;
+    }
 
+    public String getCurrentNodeIpAddress() {
+        return currentNodeIpAddress;
+    }
 }

@@ -56,7 +56,7 @@ public class InitialModulesManager implements Startable {
         if (initialModulesEnabled) {
 
             // BZ-1014612: First check if another node is currently installing modules. If it is, do nothing, Otherwise, install initial modules.
-            boolean doTheInstall = shouldInstallModules();
+            boolean doTheInstall = clusterNodesManager.shouldInstallModules();
             if (!doTheInstall) {
                 log.info("Skipping initial modules installation as other node is currenly installing.");
                 return;
@@ -114,39 +114,6 @@ public class InitialModulesManager implements Startable {
     }
 
     /**
-     * Check if another module is currently installing initial modules.
-     * If any module is installing initial modules, install it and register node status to installing_modules.
-     * If another module is installing initial modules, skip initial modules installation for this node.
-     *
-     * IMPORTANT NOTE: Perform the change node status in bbdd in a new transaction.
-     *
-     * NOTE: BZ-1014612
-     *
-     * @return If this node should install initial modules.
-     */
-    protected boolean shouldInstallModules() throws Exception {
-        final Boolean[] result = new Boolean[1];
-        result[0] = true;
-        new HibernateTxFragment(true, true) {
-            protected void txFragment(Session session) throws Exception {
-                List<ClusterNode> installingModulesNodes = clusterNodesManager.getNodeByStatus(ClusterNode.ClusterNodeStatus.INSTALLING_MODULES);
-                if (installingModulesNodes != null && !installingModulesNodes.isEmpty()) {
-                    // Other node is installing. This node should NOT be the installer.
-                    result[0] = false;
-                } else {
-                    // No other node is installing. This node should be the installer.
-                    result[0] = true;
-                    clusterNodesManager.setCurrentNodeStatus(ClusterNode.ClusterNodeStatus.INSTALLING_MODULES);
-                }
-            }
-
-        }.execute();
-
-        return result[0];
-    }
-
-
-    /**
      * Finished node installing modules. Change node status into bbdd.
      *
      * IMPORTANT NOTE: Perform the change node status in bbdd in a new transaction.
@@ -156,8 +123,7 @@ public class InitialModulesManager implements Startable {
     protected void finishInstallation() throws Exception {
         new HibernateTxFragment(true) {
             protected void txFragment(Session session) throws Exception {
-                // TODO: Set status to previous one before INSTALLING_MODULES. Do not hardbode RUNNING status.
-                clusterNodesManager.setCurrentNodeStatus(ClusterNode.ClusterNodeStatus.RUNNING);
+                clusterNodesManager.setCurrentNodeStatus(ClusterNode.ClusterNodeStatus.REGISTERED);
             }
 
         }.execute();
