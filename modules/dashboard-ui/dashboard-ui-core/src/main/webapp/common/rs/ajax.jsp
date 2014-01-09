@@ -765,7 +765,7 @@ function doCenterModalDiv() {
     element.style.left = (vpWidth / 2) - (width / 2) + 'px';
 
     var vpHeight = $(document).viewport.getHeight();
-    var height = element.getLayout().get('margin-box-height');
+	var height = element.getHeight();
     var scrollTop = $(document).viewport.getScrollOffsets().top;
 
     var avTop = (vpHeight / 2) - (height / 2) + scrollTop;
