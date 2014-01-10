@@ -211,7 +211,7 @@ public class ControllerServlet extends HttpServlet {
                 renderingProcessor.doRequestProcessing();
             }}.execute();
         } catch (Throwable e) {
-            log.error("Error painting response. User might have seen something ugly in the browser if he is still there.");
+            log.error("Error painting response.");
         }
     }
 
