@@ -5,14 +5,14 @@
     <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal" permissionClass="org.jboss.dashboard.security.WorkspacePermission" readonly="false" principal="role-user" actions="login" />
     <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal" permissionClass="org.jboss.dashboard.security.PanelPermission" readonly="true" principal="role-admin" actions="view,edit,edit perm" />
     <permission principalClass="org.jboss.dashboard.security.principals.RolePrincipal" permissionClass="org.jboss.dashboard.security.SectionPermission" readonly="true" principal="role-admin" actions="view,edit,delete,edit perm" />
-    <param name="title" value="Dashboards Showcase" lang="es" />
+    <param name="title" value="Demostraci&#243;n de cuadros de mando" lang="es" />
     <param name="title" value="D&#233;mo de tableaux de bord" lang="fr" />
     <param name="title" value="Dashboards Schaufenster" lang="de" />
     <param name="title" value="Apresenta&#231;&#227;o de Pain&#233;is" lang="pt" />
     <param name="title" value="&#12480;&#12483;&#12471;&#12517;&#12508;&#12540;&#12489;&#12471;&#12519;&#12540;&#12465;&#12540;&#12473;" lang="ja" />
     <param name="title" value="&#20202;&#34920;&#26495;&#38472;&#21015;&#26588;" lang="zh" />
     <param name="title" value="Dashboards Showcase" lang="en" />
-    <param name="name" value="Showcase" lang="es" />
+    <param name="name" value="Demostraci&#243;n" lang="es" />
     <param name="name" value="D&#233;mo" lang="fr" />
     <param name="name" value="Schaufenster" lang="de" />
     <param name="name" value="Demonstra&#231;&#227;o" lang="pt" />
