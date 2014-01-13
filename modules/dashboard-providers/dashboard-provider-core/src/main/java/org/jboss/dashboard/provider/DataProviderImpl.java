@@ -140,15 +140,7 @@ public class DataProviderImpl implements DataProvider {
 
     public String getDescription(Locale l) {
         String result = descriptions.get(l.toString());
-        if (result == null) {
-            // Try to get the first not null value.
-            Iterator it = descriptions.keySet().iterator();
-            while (it.hasNext()) {
-                String lang = (String) it.next();
-                result = descriptions.get(lang);
-                if (result != null) return result;
-            }
-        }
+        if (result == null) result = (String) LocaleManager.lookup().localize(descriptions);
         return result;
     }
 

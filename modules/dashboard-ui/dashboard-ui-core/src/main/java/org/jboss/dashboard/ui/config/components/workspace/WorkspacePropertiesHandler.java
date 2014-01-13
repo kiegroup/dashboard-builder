@@ -180,12 +180,12 @@ public class WorkspacePropertiesHandler extends HandlerFactoryElement {
 
     protected boolean validate() {
         boolean valid = true;
-        if (name == null || name.get(LocaleManager.lookup().getDefaultLang()) == null) {
+        if (name == null || name.isEmpty()) {
             addFieldError(new FactoryURL(getComponentName(), "name"), null, name);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
             valid = false;
         }
-        if (title == null || title.get(LocaleManager.lookup().getDefaultLang()) == null) {
+        if (title == null || title.isEmpty()) {
             addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
             valid = false;

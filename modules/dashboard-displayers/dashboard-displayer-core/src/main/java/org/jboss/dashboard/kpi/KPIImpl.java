@@ -102,13 +102,7 @@ public class KPIImpl implements KPI {
 
     public String getDescription(Locale l) {
         String result = descriptions.get(l.toString());
-        if (result == null) {
-            // Try to get the first not null value.
-            for (String locale : descriptions.keySet()) {
-                result = descriptions.get(locale);
-                if (result != null) return result;
-            }
-        }
+        if (result == null) result = (String) LocaleManager.lookup().localize(descriptions);
         return result;
     }
 

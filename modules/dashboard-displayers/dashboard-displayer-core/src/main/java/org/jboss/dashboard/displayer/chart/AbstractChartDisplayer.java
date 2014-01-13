@@ -476,14 +476,20 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         }
     }
 
-    // For internal implementation use.
-
-    void setDomainConfiguration(DomainConfiguration config) {
+    public void setDomainConfiguration(DomainConfiguration config) {
         domainConfig = config;
     }
 
-    void setRangeConfiguration(RangeConfiguration config) {
+    public void setRangeConfiguration(RangeConfiguration config) {
         rangeConfig = config;
+    }
+
+    public DomainConfiguration getDomainConfiguration() {
+        return domainConfig;
+    }
+
+    public RangeConfiguration getRangeConfiguration() {
+        return rangeConfig;
     }
 
     class BuildXYDataSetTrace extends CodeBlockTrace {

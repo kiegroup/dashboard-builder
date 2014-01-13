@@ -719,7 +719,7 @@ public class SectionsPropertiesHandler extends HandlerFactoryElement {
 
     protected boolean validate() {
         try {
-            if (!titleMap.containsKey(LocaleManager.lookup().getDefaultLang())) {
+            if (titleMap == null || titleMap.isEmpty()) {
                 addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
                 getMessagesComponentHandler().addError("ui.alert.sectionErrors.title");
             }

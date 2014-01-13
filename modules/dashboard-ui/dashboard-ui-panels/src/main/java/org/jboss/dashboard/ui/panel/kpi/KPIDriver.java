@@ -188,12 +188,9 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         kpi.save(); // The KPI's id and code are auto-generated here.
 
         // Set a default description
-        Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-        for (int i=0; i<locales.length; i++) {
-            Locale locale = locales[i];
-            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.kpi.messages", locale);
-            kpi.setDescription(i18n.getString("kpiDriver.newKpi"), locale);
-        }
+        Locale locale = LocaleManager.currentLocale();
+        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.kpi.messages", locale);
+        kpi.setDescription(i18n.getString("kpiDriver.newKpi"), locale);
 
         // Save the relationship between the panel and the KPI.
         panel.getInstance().setParameterValue(Dashboard.KPI_CODE, kpi.getCode());
