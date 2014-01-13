@@ -177,9 +177,7 @@ public class DomainConfiguration {
         Domain domain = property.getDomain();
 
         if (propertyId != null) property.setPropertyId(propertyId);
-        Locale locale = LocaleManager.currentLocale();
-        String name = getPropertyName(locale);
-        if (name != null) property.setName(name, locale);
+        property.setNameI18nMap(new HashMap<Locale,String>(propertyNameI18nMap));
         if (maxNumberOfIntervals != null) domain.setMaxNumberOfIntervals(Integer.parseInt(maxNumberOfIntervals));
 
         // Label domain specifics.

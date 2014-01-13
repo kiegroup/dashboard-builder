@@ -248,30 +248,41 @@ public class LocaleManager {
 
     /**
      * Given a map of locale->value or language->value, it returns the
-     * appropiate value for the current locale. If such value doesn't exist,
+     * appropriate value for the current locale. If such value doesn't exist,
      * it uses the default locale.
      *
-     * @param localizedData
-     * @return appropiate value for given locale.
+     * @return Appropriate value for given locale.
      */
     public Object localize(Map localizedData) {
-        if (localizedData == null) return null;
-        String lang = getCurrentLang();
+        if (localizedData == null || localizedData.isEmpty()) {
+            return null;
+        }
 
-        Object data = localizedData.get(lang);
-        if (data != null && (!(data instanceof String) || !"".equals(data)))
+        // Get the entry (if any) for the current language.
+        Object data = localizedData.get(getCurrentLang());
+        if (data != null && (!(data instanceof String) || !"".equals(data))) {
             return data;
+        }
 
-        Locale locale = getCurrentLocale();
-        data = localizedData.get(locale);
-        if (null != data && (!(data instanceof String) || !"".equals(data)))
+        data = localizedData.get(getCurrentLocale());
+        if (null != data && (!(data instanceof String) || !"".equals(data))) {
             return data;
+        }
 
+        // Get the entry (if any) for the default system language.
         data = localizedData.get(getDefaultLang());
-        if (null != data && (!(data instanceof String) || !"".equals(data)))
+        if (null != data && (!(data instanceof String) || !"".equals(data))) {
             return data;
+        }
 
-        return localizedData.get(getDefaultLocale());
+        data = localizedData.get(getDefaultLocale());
+        if (null != data && (!(data instanceof String) || !"".equals(data))) {
+            return data;
+        }
+
+        // Get the first entry in the map.
+        Set<Map.Entry> entries = localizedData.entrySet();
+        return entries.iterator().next().getValue();
     }
 
     /**

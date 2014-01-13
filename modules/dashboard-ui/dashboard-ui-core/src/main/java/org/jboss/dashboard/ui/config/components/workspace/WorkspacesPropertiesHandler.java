@@ -175,17 +175,15 @@ public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
 
     public boolean validate() {
         boolean valid = true;
-        if (name != null && title != null) {
-            if (name.get(LocaleManager.lookup().getDefaultLang()) == null) {
-                addFieldError(new FactoryURL(getComponentName(), "name"), null, name);
-                getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
-                valid = false;
-            }
-            if (title.get(LocaleManager.lookup().getDefaultLang()) == null) {
-                addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
-                getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
-                valid = false;
-            }
+        if (name == null || name.isEmpty()) {
+            addFieldError(new FactoryURL(getComponentName(), "name"), null, name);
+            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
+            valid = false;
+        }
+        if (title == null || title.isEmpty()) {
+            addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
+            valid = false;
         }
         return valid;
     }

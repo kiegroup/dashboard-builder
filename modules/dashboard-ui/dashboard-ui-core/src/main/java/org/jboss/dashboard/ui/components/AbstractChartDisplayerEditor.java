@@ -64,10 +64,9 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
             String domainSaveButtonPressed = request.getRequestObject().getParameter(DOMAIN_SAVE_BUTTON_PRESSED);
             boolean updateDomainDetails =  (domainSaveButtonPressed != null) && Boolean.valueOf(domainSaveButtonPressed).booleanValue();
             if (updateDomainDetails) {
-                DomainConfiguration domainConfig = new DomainConfiguration();
+                DomainConfiguration domainConfig = displayer.getDomainConfiguration();
                 DomainConfigurationParser parser = new DomainConfigurationParser(domainConfig);
                 parser.parse(request);
-                domainConfig.setPropertyId(idDomainDetails);
                 domainConfig.apply(displayer.getDomainProperty());
             }
         }
@@ -84,10 +83,9 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
             boolean updateRangeDetails =  (rangeSaveButtonPressed != null) && Boolean.valueOf(rangeSaveButtonPressed).booleanValue();
             // TODO: Also save if the enter key has been pressed.
             if (updateRangeDetails) {
-                RangeConfiguration rangeConfig = new RangeConfiguration();
+                RangeConfiguration rangeConfig = displayer.getRangeConfiguration();
                 RangeConfigurationParser parser = new RangeConfigurationParser(rangeConfig);
                 parser.parse(request);
-                rangeConfig.setPropertyId(idRangeDetails);
                 rangeConfig.apply(displayer.getRangeProperty());
                 displayer.setRangeScalarFunction(DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(rangeConfig.getScalarFunctionCode()));
                 displayer.setUnitI18nMap(rangeConfig.getUnitI18nMap());
