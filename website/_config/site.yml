@@ -1,0 +1,19 @@
+encoding: UTF-8
+title: KIE Group
+description: KIE Group Organization
+keywords: open source, software
+canonicalBaseUrl: http://www.kiegroup.org
+
+asciidoctor:
+  :safe: safe
+  :attributes:
+    imagesdir: ''
+
+profiles:
+  development:
+    developmentMode: true
+  production:
+    developmentMode: false
+    deploy:
+      host: kiegroup@filemgmt.jboss.org
+      path: /www_htdocs/kiegroup/
