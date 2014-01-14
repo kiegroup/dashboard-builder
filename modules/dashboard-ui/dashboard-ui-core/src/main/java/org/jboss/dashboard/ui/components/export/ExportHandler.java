@@ -286,7 +286,7 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
         // Send XML bytes as a stream response.
         int id = xml.hashCode();
         if (id < 0) id = id*-1;
-        return new SendStreamResponse(new ByteArrayInputStream(xml.getBytes()), "inline;filename=kpiExport_" + id + ".xml");
+        return new SendStreamResponse(new ByteArrayInputStream(xml.getBytes()), "inline;filename=kpiExport_" + id + ".kpiex");
     }
 
     public CommandResponse actionImportKPIs(CommandRequest request) {
