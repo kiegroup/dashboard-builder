@@ -1,5 +1,5 @@
 !!!
-%html(lang="en" itemscope="" itemtype="http://schema.org/Product")
+%html(lang="en" itemscope="" itemtype="http://schema.org/Product" xmlns="http://www.w3.org/1999/xhtml")
   %head
     %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -15,34 +15,40 @@
     %link{:href => "http://static.jboss.org/example/images/apple-touch-icon-114x114-precomposed.png", :rel => "apple-touch-icon-precomposed", :sizes => "114x114"}/
     %link{:href => "http://static.jboss.org/example/images/apple-touch-icon-72x72-precomposed.png", :rel => "apple-touch-icon-precomposed", :sizes => "72x72"}/
     %link{:href => "http://static.jboss.org/example/images/apple-touch-icon-precomposed.png", :rel => "apple-touch-icon-precomposed"}/
-
+    %link{:rel => "shortcut icon", :href => relative("/favicon.ico")}
+    
     :css
       @media (min-width: 980px) {
-      .banner {
-      	background-image: url(../images/banner-1180px.png);
-      	height: 110px;
+          .banner {
+              background-image: url(../images/banner-1180px.png);
+              height: 110px;
+          }
       }
+
+      @media (max-width: 979px) {
+          .banner {
+              background-image: url(../images/logo.png);
+              background-repeat: no-repeat;
+              height: 60px;
+          }
       }
-       @media (max-width: 979px) {
-      .banner {
-      	background-image: url(../images/logo.png);
-      	background-repeat: no-repeat;
-      	height: 60px;
-      }
-      }
-       @media (max-width: 650px) {
-      .banner {
-      	width: 200px;
-      	margin: 0px auto;
-      }
+
+      @media (max-width: 650px) {
+          .banner {
+              width: 200px;
+              margin: 0px auto;
+          }
       }
     %script{:async => "", :src => "../js/elqCfg.min.js", :type => "text/javascript"}
     %script{:src => "../js/jquery-1.9.1.min.js"}
-    %script{:src => "../jss/opt_content.js"}
+    %script{:src => "../js/opt_content.js"}
     %script{:src => "../js/base_single_icon.js", :type => "text/JavaScript"}
     %script{:src => "../js/dojo.xd.js", :type => "text/JavaScript"}
     %script{:src => "../js/get.jsp", :type => "text/JavaScript"}
   %body
+    .forkMeOnGithub
+      %a{:href => "https://github.com/droolsjbpm/dashboard-builder", :target => "blank"}
+        %img{:alt => "Fork me on GitHub", :src => "../images/forkMeOnGithub.png",}/
     #tabnav-panel.tabnav-closed
       #tabnav.tabnavclearfix
         .tabcontent
@@ -54,7 +60,7 @@
             projects. Learn more about Red Hat and our open source communities:
           .row-fluid
             %span.span4.middlewarelogo
-              %img{:alt => "Red Hat JBoss MIDDLEWARE", :src => "../images/RHJB_Middleware_Logotype.png"}/
+              %img{:title => "Red Hat JBoss MIDDLEWARE", :src => "../images/RHJB_Middleware_Logotype.png"}/
             %span.span4
             %ul.level1
               %li.leaf
@@ -78,7 +84,7 @@
           navigation
       %li
         %a{:accesskey => "c", :href => "http://example.jboss.org/index.html#page", :title => "Skip to content"} Skip to content
-    .container
+    #content.container
       .dropup
         %a#tab.tabnav-closed{:href => "https://www.jboss.org/"} Red Hat
       .banner
@@ -147,9 +153,7 @@
               %ul.nav.pull-right
                 %li
                   / <form class="navbar-search"> <input class="search-query" id="projectsearch" placeholder="Search" type="text"></form>
-
       ~ content
-
     %footer.container{:style => "text-align:center;padding-top: 5px; padding-bottom: 5px;"}
       %div{:style => "color: #FFF !important;font-size: 80%;"} Dashbuilder is part of the
       %a{:href => "http://www.jboss.org/", :target => "_blank"}
@@ -170,7 +174,7 @@
             \-
             %a{:href => "http://www.redhat.com/legal/privacy_statement.html"} Privacy policy
             \-
-            %a{:href => "../website_info.html"} Website info
+            %a{:href => "website_info.html"} Website info
     %span.backToTop{:style => "display: none;"}
       %a{:href => "http://example.jboss.org/index.html#top"}
         back to
