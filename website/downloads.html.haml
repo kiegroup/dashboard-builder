@@ -1,0 +1,108 @@
+---
+title: Downloads
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/
+  %a.breadcrumb_anchor.active{:href => "downloads.html"} Downloads
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Dashbuilder Downloads
+        .sect1
+          %h3 Distribution zip
+          .sectionbody
+            .paragraph
+              %p The Dashbuilder distribution zip includes binaries, documentation, examples and sources.
+            .ulist
+              %ul
+                %li
+                  %p
+                    %span.icon-cloud-download
+                    %strong
+                      %a{:href => "http://download.jboss.org/drools/release/6.0.0.Final/Dashbuilder-distribution-6.0.0.Final.zip"} Download Dashbuilder 6.0.0.Final
+                  .ulist
+                    %ul
+                      %li
+                        %a{:href => "releaseNotes/releaseNotes6.0.html"} Release notes 6.0
+                      %li
+                        License:
+                        %a{:href => "code/license.html"} ASL 2.0
+                      %li
+                        Release date:
+                        %span.label.label-success 2013-11-20
+                      %li Download size: Large (over 90% is due to examples, data sets and documentation)
+                %li
+                  %strong Older community releases:
+                  Check
+                  = succeed "." do
+                    %a{:href => "http://download.jboss.org/drools/release/"} the release archive
+                %li
+                  %strong Red Hat subscription releases:
+                  Check
+                  = succeed "." do
+                    %a{:href => "http://www.jboss.com/downloads/"} the product download site
+              %h3 Maven, Gradle, Ivy or Buildr
+              .sectionbody
+                .paragraph
+                  %p
+                    The Dashbuilder jars are also available in
+                    %a{:href => "http://search.maven.org/#search|ga|1|org.Dashbuilder"} the central maven repository
+                    (and also in
+                    = succeed ")." do
+                      %a{:href => "https://repository.jboss.org/nexus/index.html#nexus-search;gav~org.Dashbuilder\\~~\\~\\~"} the JBoss maven repository
+                .paragraph
+                  %p
+                    If you use Maven, just add a dependency in your
+                    = succeed ":" do
+                      %code pom.xml
+                .listingblock
+                  .content
+                    %pre.highlight
+                      %code.xml.language-xml
+                        %span.tag
+                          \&lt;
+                          %span.title> dependency
+                          \&gt;
+                        = succeed "org.Dashbuilder" do
+                          %span.tag
+                            \&lt;
+                            %span.title> groupId
+                            \&gt;
+                        %span.tag
+                          \&lt;/
+                          %span.title> groupId
+                          \&gt;
+                        = succeed "Dashbuilder-core" do
+                          %span.tag
+                            \&lt;
+                            %span.title> artifactId
+                            \&gt;
+                        %span.tag
+                          \&lt;/
+                          %span.title> artifactId
+                          \&gt;
+                        = succeed "6.0.0.Final" do
+                          %span.tag
+                            \&lt;
+                            %span.title> version
+                            \&gt;
+                        %span.tag
+                          \&lt;/
+                          %span.title> version
+                          \&gt;
+                        %span.tag
+                          \&lt;/
+                          %span.title> dependency
+                          \&gt;
+                .paragraph
+                  %p This is similar for Gradle, Ivy and Buildr.
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

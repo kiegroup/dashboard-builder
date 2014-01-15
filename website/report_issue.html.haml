@@ -1,0 +1,42 @@
+---
+title: Report_an_issue
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/ Source Code /
+  %a.breadcrumb_anchor.active{:href => "report_issue.html"} Report an issue
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Report an issue
+        %h2 Issue tracker
+        %p We welcome issue reports (bugs, improvements, new feature requests, …) in our issue tracker:
+        %p
+          %strong
+            Show
+            = succeed "." do
+              %a{:href => "#"} the JIRA issue tracker
+        %p
+          Log in and click on the button
+          %em Create Issue
+          to report a bug, improvement or feature request.
+        %h2 Pull requests on GitHub
+        %p
+          Want to fix the issue yourself? Fork
+          %a{:href => "#"} the git repository
+          and send in a pull request.
+          We usually process all pull requests within a few days.
+        %p
+          %strong
+            Show
+            = succeed "." do
+              %a{:href => "#"} the open pull requests
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

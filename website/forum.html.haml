@@ -1,0 +1,66 @@
+---
+title: Forum
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/ Community /
+  %a.breadcrumb_anchor.active{:href => "forum.html"} Forum (free support)
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Forum (free support)
+        %h2 Usage questions
+        %p If you have a question about Dashbuilder, just ask our friendly community:
+        %ul
+          %li
+            %p
+              Ask on
+              %a{:href => "http://www.jboss.org/drools/lists", :target => "_blank"} the Drools user mailing list
+              (recommended).
+          %li
+            %p
+              Or ask on
+              = succeed "." do
+                %a{:href => "#"} StackOverflow
+        %p Please follow these recommendations when posting a question:
+        %ul
+          %li
+            %p Get to the point. Keep it as short as possible.
+          %li
+            %p
+              Include
+              %em relevant
+              technical details (stacktrace, short code snippet, …).
+          %li
+            %p Be polite, friendly and clear. Reread your question before posting it.
+          %li
+            %p
+              Be patient. This isn’t
+              = succeed "." do
+                %a{:href => "paid_support.html"} paid support
+        %h2 Development discussions
+        %p
+          If you’ve
+          %a{:href => "source_code.html"} build Dashbuilder from source
+          and you would like to improve it,
+          then come talk with us:
+        %ul
+          %li
+            %p
+              Join us on
+              = succeed "." do
+                %a{:href => "http://www.jboss.org/drools/lists", :target => "_blank"} the Drools developer mailing list
+          %li
+            %p
+              And
+              %a{:href => "chat.html"} chat with us
+              (recommended).
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

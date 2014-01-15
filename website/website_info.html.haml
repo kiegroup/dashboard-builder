@@ -1,0 +1,49 @@
+---
+title: Website_info
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/
+  %a.breadcrumb_anchor.active{:href => "website_info.html"} Website Info
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Website Info
+        %h2 Website technology
+        %p This website uses:
+        %ul
+          %li
+            %p
+              %a{:href => "http://awestruct.org/"} Awestruct
+          %li
+            %p
+              %a{:href => "http://asciidoctor.org"} Asciidoctor
+              (AsciiDoc)
+          %li
+            %p
+              %a{:href => "http://twitter.github.com/bootstrap/"} Twitter Bootstrap
+          %li
+            %p
+              %a{:href => "http://tango.freedesktop.org/"} Tango Desktop Project icons
+        %p
+          This website was generated on
+          = succeed "." do
+            %em 2013-11-25 20:38:28 CET
+        %h2 Website feedback
+        %p
+          We welcome any feedback about this website on the
+          = succeed "," do
+            %a{:href => "forum.html"} forum
+          %a{:href => "chat.html"} chat
+          or
+          = succeed "." do
+            %a{:href => "report_issue.html"} issue tracker
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

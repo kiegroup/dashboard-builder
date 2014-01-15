@@ -1,0 +1,32 @@
+<h1 id="developing-drools-and-jbpm">Developing Drools and jBPM</h1>
+
+<p><strong>If you want to build or contribute to a droolsjbpm project, <a href="https://github.com/droolsjbpm/droolsjbpm-build-bootstrap/blob/master/README.md">read this document</a>.</strong></p>
+
+<p><strong>It will save you and us a lot of time by setting up your development environment correctly.</strong>
+It solves all known pitfalls that can disrupt your development.
+It also describes all guidelines, tips and tricks.
+If you want your pull requests (or patches) to be merged into master, please respect those guidelines.</p>
+
+<h1 id="how-to-build-with-awestruct">How to build with Awestruct</h1>
+
+<p>Follow the instructions of Awestruct's <a href="http://awestruct.org/getting_started/">getting started guide</a>.</p>
+
+<p>First set up your environment correctly:</p>
+
+<pre><code>$ curl -L https://get.rvm.io | bash -s stable --ruby=1.9.3
+$ gem install awestruct bundler
+$ rake setup
+</code></pre>
+
+<p>Then build the website (before and after your changes):</p>
+
+<pre><code>$ rake clean build
+$ firefox _site/index.html
+</code></pre>
+
+<p>And publish your changes:</p>
+
+<pre><code>$ rake publish
+
+Note: this doesn't work, use `./build.sh publish` instead.
+</code></pre>

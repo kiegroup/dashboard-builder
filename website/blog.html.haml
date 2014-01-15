@@ -1,0 +1,29 @@
+---
+title: Blog
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/ Community /
+  %a.breadcrumb_anchor.active{:href => "blog.html"} Blog
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Dashbuilder Blog
+        %p
+          We regularly write articles on
+          = succeed "." do
+            %a{:href => "#"} the Dashbuilder blog
+        %p
+          Each blog article also posted on
+          = succeed "." do
+            %a{:href => "social_media.html"} our social media streams
+          That’s the easiest way to get notified when a new blog article has been posted.
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

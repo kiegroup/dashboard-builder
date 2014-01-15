@@ -1,0 +1,113 @@
+---
+title: Documentation
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/ Learn /
+  %a.breadcrumb_anchor.active{:href => "documentation.html"} Documentation
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Dashbuilder Documentation
+        %h2 Final releases
+        %ul
+          %li
+            %span.icon-book.icon
+            %strong Documentation for Dashbuilder 6.0.0.Final
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th Version
+              %th User Guide
+          %tbody
+            %tr
+              %td Dashbuilder reference manual 6.0.0.Final
+              %td
+                %a HTML Single
+                |
+                %a HTML
+                |
+                %a PDF
+            %tr
+              %td Dashbuilder javadocs 6.0.0.Final
+              %td
+                HTML Single |
+                %a HTML
+                | PDF
+            %tr
+              %td Drools Expert reference manual
+              %td
+                %a HTML Single
+                |
+                %a HTML
+                |
+                %a PDF
+        %ul
+          %li
+            %span.icon-book
+            %strong Older community documentation:
+            Check
+            = succeed "." do
+              %a{:href => "http://docs.jboss.org/drools/release/"} the documentation archive
+          %li
+            %span.icon-book
+            %strong Red Hat subscription documentation:
+            Check
+            = succeed "." do
+              %a{:href => "https://access.redhat.com/knowledge/docs/"} the customer portal
+        %h2 Non-Final releases
+        %p Alpha’s, Beta’s and CR’s
+        %ul
+          %li
+            %span.icon-book
+            %strong Documentation for Dashbuilder 6.0.0.Final
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th Version
+              %th User Guide
+          %tbody
+            %tr
+              %td Dashbuilder reference manual 6.0.0.Final
+              %td
+                %a HTML Single
+                |
+                %a HTML
+                |
+                %a PDF
+            %tr
+              %td Dashbuilder javadocs 6.0.0.Final
+              %td
+                HTML Single |
+                %a HTML
+                | PDF
+            %tr
+              %td Drools Expert reference manual
+              %td
+                %a HTML Single
+                |
+                %a HTML
+                |
+                %a PDF
+        %h3 Nightly snapshots
+        %p
+          Nightly snapshots are build by
+          = succeed "." do
+            %a{:href => "#"} our build server
+        %ul
+          %li
+            %span.icon-book
+            %strong Documentation for Dashbuilder 6.1.0-SNAPSHOT
+            %ul
+              %li
+                Dashbuilder reference manual 6.1.0-SNAPSHOT:
+                %a{:href => "#"} HTML Single
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

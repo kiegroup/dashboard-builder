@@ -1,0 +1,54 @@
+---
+title: Slides
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/ Learn /
+  %a.breadcrumb_anchor.active{:href => "slides.html"} Slides
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Dashbuilder Slides
+        %h2 Watch the slides
+        %p These slides are viewable in your browser:
+        %p
+          %strong
+            %a{:href => "#"} Show the Dashbuilder presentation
+        %h2 Reuse these slides
+        %p Feel free to reuse any of these materials as you see fit to present Dashbuilder (for example to your local JUG):
+        %ol.arabic
+          %li
+            %p
+              Download
+              = succeed "." do
+                %a{:href => "https://github.com/droolsjbpm/Dashbuilder-website/tree/master/learn/slides/"} the source of these HTML slides
+            %ul
+              %li
+                %p
+                  Do you prefer
+                  %code ODP
+                  or
+                  %code PPT
+                  slides instead?
+                  %br/
+                  Most slides are a single, big
+                  %code png
+                  image: simply copy the image as a new slide in your deck.
+          %li
+            %p Don’t forget to change the presenter name in the first and the last slide.
+          %li
+            %p
+              If it’s a public event,
+              %a{:href => "../community/socialMedia.html"} let us know
+              and we might share it on
+              = succeed "." do
+                %a{:href => "../community/socialMedia.html"} our social media
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now
