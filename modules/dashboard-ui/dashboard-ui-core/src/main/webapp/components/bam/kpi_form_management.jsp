@@ -26,13 +26,8 @@
         // Set a variable to the form.
         var isRequestInProgress = element.isRequestInProgress;
         if (!isRequestInProgress) {
-          element.isRequestInProgress = 'true';
-          //  //IE: variable defined in -> /templates/navigatorDetection.jsp
-            if(IE){
-                element.submit();
-            }else{
-                submitAjaxForm(element);
-            }
+			element.isRequestInProgress = 'true';
+			submitAjaxForm(element);
         }
         return false;
     }
