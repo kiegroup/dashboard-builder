@@ -1,8 +1,8 @@
 encoding: UTF-8
-title: KIE Group
-description: KIE Group Organization
+title: JBoss Dashbuilder
+description: Open source dashboards and reporting platform
 keywords: open source, software
-canonicalBaseUrl: http://www.kiegroup.org
+canonicalBaseUrl: http://www.dashbuilder.org
 
 asciidoctor:
   :safe: safe
