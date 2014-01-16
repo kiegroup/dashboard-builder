@@ -12,9 +12,17 @@ layout: default
     #maincol.span9
       .row-fluid
         %h1 Continous integration
+        %p
+          We use Jenkins for continuous integration.
+        %p
+          Show the
+          = succeed "." do
+            %a{:href => "https://hudson.jboss.org/hudson/job/dashboard-builder/", :target => "_blank"} Jenkins job
+        %p Keep the build blue!
         %hr/
     #rightcol.span3.well
       %h2 Right Col h2
       %p Prefer to use this to download? We do!
       %p
         %a.btn.btn-primary Button Now
+

@@ -13,39 +13,13 @@ layout: default
       .row-fluid
         %h1 Dashbuilder Slides
         %h2 Watch the slides
-        %p These slides are viewable in your browser:
-        %p
+        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "356", :marginheight => "0", :marginwidth => "0", :scrolling => "no", :src => "http://www.slideshare.net/slideshow/embed_code/30092087", :style => "border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px", :width => "427"}
+        %div{:style => "margin-bottom:5px"}
           %strong
-            %a{:href => "#"} Show the Dashbuilder presentation
-        %h2 Reuse these slides
-        %p Feel free to reuse any of these materials as you see fit to present Dashbuilder (for example to your local JUG):
-        %ol.arabic
-          %li
-            %p
-              Download
-              = succeed "." do
-                %a{:href => "https://github.com/droolsjbpm/Dashbuilder-website/tree/master/learn/slides/"} the source of these HTML slides
-            %ul
-              %li
-                %p
-                  Do you prefer
-                  %code ODP
-                  or
-                  %code PPT
-                  slides instead?
-                  %br/
-                  Most slides are a single, big
-                  %code png
-                  image: simply copy the image as a new slide in your deck.
-          %li
-            %p Don’t forget to change the presenter name in the first and the last slide.
-          %li
-            %p
-              If it’s a public event,
-              %a{:href => "../community/socialMedia.html"} let us know
-              and we might share it on
-              = succeed "." do
-                %a{:href => "../community/socialMedia.html"} our social media
+            %a{:href => "https://www.slideshare.net/dashbuilder/dashbuilder-introduction-30092087", :target => "_blank", :title => "Dashbuilder Introduction"} Dashbuilder Introduction
+          from
+          %strong
+            %a{:href => "http://www.slideshare.net/dashbuilder", :target => "_blank"} dashbuilder
         %hr/
     #rightcol.span3.well
       %h2 Right Col h2
