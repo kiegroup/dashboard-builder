@@ -1,0 +1,126 @@
+---
+title: Quick Start Demo
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/  Downloads  /
+  %a.breadcrumb_anchor.active{:href => "downloads_quick_start.html"} Quick Start Demo
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Quick Start Demo
+        .sect1
+          .sectionbody
+            .paragraph
+              %p For those who want to get straight to the point and start playing with the tooling from the minute 0 please read next how to install & run a demo installation in less than 5 minutes.
+              %h3 Prerequisites
+              %p The only prerequisite to run the demo application is to have the JDK 1.6+ installed in your machine.
+              %p
+                If you don't have the JDK 1.6 installed in your system please use the following
+                %a{:href => "http://www.oracle.com/technetwork/java/javase/downloads/index.html", :target => "_blank"} download
+                and follow
+                the installation instructions. (go the "Java SE 6 Update XX" section to select the last available update).
+              %h3 Installation steps
+              %ul
+                %li
+                  Check your JDK installation:
+                  %blockquote
+                    Open a shell window a type the following command:
+                    %br/
+                    %code $ java -version
+                %li
+                  You should see an output like this:
+                  %blockquote
+                    "java version "1.6.0_35"
+                    %br/
+                    Java(TM) SE Runtime Environment (build 1.6.0_35-b10)
+                    %br/
+                    Java HotSpot(TM) 64-Bit Server VM (build 20.10-b01, mixed mode)"
+                %li
+                  Set the JAVA_HOME environment variable pointing to the JDK installation directory:
+                  %blockquote
+                    %code $ export JAVA_HOME=/usr/java/jdk1.6.0
+                %li
+                  Unzip the Dashbuilder demo zip file:
+                  %blockquote
+                    (
+                    %a{:href => "http://downloads.jboss.org/dashbuilder/dashbuilder-demo.zip", :target => "_blank"}> http://downloads.jboss.org/dashbuilder/dashbuilder-demo.zip
+                    ) to a given directory (the [target_directory]).
+                    %br>/
+                    You should get a directory structure like this:
+                    %code
+                      [target_directory]/dashbuilder-demo
+                      %br/
+                      README.md
+                      %br/
+                      start-demo.sh
+                      %br/
+                      start-demo.bat
+                      %br/
+                      realm.properties
+                      %br/
+                      dashbuilder-demo.war
+                      %br/
+                      \/db
+                %li
+                  Open a command window and execute the start-demo.sh script for linux or start-demo.bat for windows:
+                  %blockquote
+                    %code
+                      $ cd
+                      %target_directory
+                        \/dashbuilder-demo
+                        %br/
+                        $ ./start-demo.sh
+                    %br/
+                    or
+                    %br/
+                    %code
+                      C:\ cd
+                      %target_directory
+                        \\dashbuilder-demo
+                        start-demo.bat
+                    %br/
+                    NOTE: The application uses an auto-deployable embedded H2 database which it's automatically created when you start
+                    the app for the very first time. The database initialization procedure it takes a few minutes. Furthermore, you should
+                    take into account that the H2 database downgrades the application performance compared with other databases like
+                    PostgreSQL, MySQL, normally used in production environments.
+                %li
+                  Once the application is started, open a browser and type the URL:
+                  %blockquote
+                    %code http://localhost:8080/dashbuilder
+                    = succeed "The" do
+                      %br/
+                    following user(s)/password(s) are available by default:
+                    %br/
+                    = succeed ":" do
+                      %strong root/root
+                    to sign-in as the superuser
+                    %br/
+                    = succeed ":" do
+                      %strong demo/demo
+                    to sign-in as an end user
+                    %br>/
+                    On start-up, the application installs automatically some ready-to-use sample dashboards, for demo and learning purposes.
+                    %br/
+                    \.
+                %li To stop the application close the terminal window or type the "Ctrl + C" command.
+              %h3 Application database
+              %p The demo application database will be generated automatically when you start the application for the first time.
+              %p
+                If you want to restore the application to its initial state you can:
+              %ol
+                %li Stop the application (if running).
+                %li
+                  Delete the database files in the
+                  %code /db
+                  directory.
+                %li Start the application.
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now

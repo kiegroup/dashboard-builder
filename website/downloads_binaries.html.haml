@@ -1,0 +1,63 @@
+---
+title: Binaries Download
+layout: default
+---
+
+.breadcrumb
+  %a.breadcrumb_anchor{:href => "index.html"} Home
+  \/  Downloads  /
+  %a.breadcrumb_anchor.active{:href => "downloads_binaries.html"} Binaries Download
+.row-fluid
+  #equalHeightsLayout
+    #maincol.span9
+      .row-fluid
+        %h1 Binaries Download
+        .sect1
+          .sectionbody
+            .paragraph
+              %p Dashbuilder deployable WAR archives for Tomcat 7 and JBoss AS 7.1.1.
+              %table.table.table-bordered.table-striped
+                %thead
+                  %tr
+                    %th Version
+                    %th Date
+                    %th Description
+                    %th License
+                    %th Size
+                    %th Format
+                %tbody
+                  %tr
+                    %td 6.0.1.Final
+                    %td 2013-12-20
+                    %td JBoss AS 7.1.1 distribution
+                    %td ASL 2.0
+                    %td 20 MB
+                    %td
+                      %a{:href => "http://downloads.jboss.org/dashbuilder/release/6.0.1.Final/dashbuilder-6.0.1.Final-jboss-as7.war", :target => "_blank"}
+                        %i.icon-download-alt>
+                        ZIP
+                  %tr
+                    %td &nbsp;
+                    %td &nbsp;
+                    %td Tomcat 7.0.x distribution
+                    %td ASL 2.0
+                    %td 31 MB
+                    %td
+                      %a{:href => "http://downloads.jboss.org/dashbuilder/release/6.0.1.Final/dashbuilder-6.0.1.Final-tomcat-7.war", :target => "_blank"}
+                        %i.icon-download-alt>
+                        ZIP
+              %ul
+                %li
+                  Older community releases: Check the
+                  = succeed "." do
+                    %a{:href => "http://download.jboss.org/dashbuilder/release/", :target => "_blank"} release archive
+                %li
+                  Red Hat subscription releases: Check the BPMS product on the
+                  = succeed "." do
+                    %a{:href => "https://access.redhat.com/site/downloads/", :target => "_blank"} download site
+        %hr/
+    #rightcol.span3.well
+      %h2 Right Col h2
+      %p Prefer to use this to download? We do!
+      %p
+        %a.btn.btn-primary Button Now
