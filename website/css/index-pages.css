@@ -85,4 +85,5 @@ H1, H2, H3, H4 {
     max-width: 20%;
     position: absolute;
     right: 0;
+    z-index: 100;
 }
