@@ -6,13 +6,133 @@ layout: default
 .breadcrumb
   %a.breadcrumb_anchor{:href => "index.html"} Home
   \/ Community /
-  %a.breadcrumb_anchor.active{:href => "team.html"} Team
+  %a.breadcrumb_anchor.active{:href => "team.html"} Project contributors
 .row-fluid
   #equalHeightsLayout
     #maincol.span9
-      .row-fluid
+      .row-fluid.team
         %h1 Project contributors
         %p Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+        %h3 Project Leaders
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/NoPhoto.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Pedro Zapata
+                %ul
+                  %li Project coordinator
+                  %li IRC nickname: pzapataf
+                  %li Email: pzapataf at redhat.com
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/DavidGutierrez.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong David Gutiérrez
+                %ul
+                  %li Technical leadership
+                  %li IRC nickname: dgutierr
+                  %li Email: dgutierr at redhat.com
+        %h3 Design & Usability
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/JuanmaGonzalez.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Juanma González
+                %ul
+                  %li Design, Usability & Integration
+                  %li IRC nick name: JuanmaGonzalez
+        %h3 Quality Assurance
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/NoPhoto.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Jan Hreck
+                %ul
+                  %li IRC nick name: jhrcek
+        %h3 Release Management
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/MiguelBiarnes.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Michael Biarnes
+                %ul
+                  %li IRC nickname: mbiarnes
+        %h3 Core developers
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/PereFernandez.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Pere Fernàndez
+                %ul
+                  %li Core developer
+                  %li IRC&nbsp;nickname: sr_pere
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/RogerMartinez.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Roger Martínez
+                %ul
+                  %li Core developer
+                  %li IRC&nbsp;nickname: roger600
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/WalterMedvedeo.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Walter Medvedeo
+                %ul
+                  %li Core developer
+                  %li IRC nickname: wmedvede
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/NeusMiras.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Neus Miras
+                %ul
+                  %li Core developer
+                  %li IRC&nbsp;nickname: neus
+        %table
+          %tbody
+            %tr
+              %td
+                %img{:alt => "", :height => "128", :src => "images/team/JanSchatteman.jpg", :style => "margin:0 auto;", :width => "128"}/
+              %td
+                %p
+                  %strong Jan Schatteman
+                %ul
+                  %li Core developer
+                  %li IRC&nbsp;nickname: jrenaat
+        %h3 Historic contributors
+        %p
+          See all contributors on
+          = succeed "." do
+            %a{:href => "https://www.ohloh.net/p/dashbuilder/contributors/summary", :target => "_blank"} Ohlho
         %h5 Contributors
         %p Thanks to all our contributors, listed from past to present:
         %hr/

@@ -98,3 +98,7 @@ H1, H2, H3, H4 {
     text-align: center;
     width: 120px;
 }
+
+.team table td{
+    padding: 2px 4px;
+}
