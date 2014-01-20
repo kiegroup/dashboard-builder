@@ -44,7 +44,7 @@
     %script{:src => "../js/get.jsp", :type => "text/JavaScript"}
   %body
     .forkMeOnGithub
-      %a{:href => "https://github.com/droolsjbpm/dashboard-builder", :target => "_blank"}
+      %a{:href => "https://github.com/droolsjbpm/optaplanner"}
         %img{:alt => "Fork me on GitHub", :src => "../images/forkMeOnGithub.png"}/
     #tabnav-panel.tabnav-closed
       #tabnav.tabnavclearfix
@@ -82,81 +82,85 @@
       %li
         %a{:accesskey => "c", :href => "http://example.jboss.org/index.html#page", :title => "Skip to content"} Skip to content
     #content.container
-      .dropup
-        %a#tab.tabnav-closed{:href => "https://www.jboss.org/"} Red Hat
-      .banner
-        %a{:href => "http://example.jboss.org/index.html#"}
-        .taglinelight.visible-desktop Open source dashboards and reporting platform
-      #navbar-fix.navbar.navbar-inverse
-        .navbar-inner
-          .container
-            %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
-              %span.icon-bar
-              %span.icon-bar
-              %span.icon-bar
-            .nav-collapse.collapse
-              %ul.nav
-                %li
-                  %a{:href => "index.html"} Home
-                %li.dropdown
-                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                    Downloads
-                    %b.caret
-                  %ul.dropdown-menu
-                    %li
-                      %a{:href => "downloads_binaries.html"} Binaries Download
-                    %li
-                      %a{:href => "downloads_quick_start.html"} Quick Start Demo
-                %li.dropdown
-                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                    Learn
-                    %b.caret
-                  %ul.dropdown-menu
-                    %li
-                      %a{:href => "documentation.html"} Documentation
-                    / <li><a href="videos.html">Video's</a></li>
-                    %li
-                      %a{:href => "slides.html"} Slides
-                    / <li><a href="testimonials.html">Testimonials and Case Studies</a></li>
-                %li.dropdown
-                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                    Community
-                    %b.caret
-                  %ul.dropdown-menu
-                    %li
-                      %a{:href => "forum.html"} Forum (free support)
-                    %li
-                      %a{:href => "chat.html"} Chat real-time
-                    %li
-                      %a{:href => "paid_support.html"} Paid support
-                    %li
-                      %a{:href => "social_media.html"} Social media
-                    %li
-                      %a{:href => "blog.html"} Blog
-                    %li
-                      %a{:href => "team.html"} Project contributors
-                    %li
-                      %a{:href => "research.html"} Research
-                %li.dropdown
-                  %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                    Source Code
-                    %b.caret
-                  %ul.dropdown-menu
-                    %li
-                      %a{:href => "report_issue.html"} Report an issue
-                    %li
-                      %a{:href => "source_code.html"} Source code
-                    %li
-                      %a{:href => "continous_integration.html"} Continous integration
-                    %li
-                      %a{:href => "license.html"} License
-                %li
-                  / %a{:href => "website_info.html"} Website Info
-                %li.divider
-              %ul.nav.pull-right
-                %li
-                  / <form class="navbar-search"> <input class="search-query" id="projectsearch" placeholder="Search" type="text"></form>
-      ~ content
+      <div class=" socialIcons"">
+      = succeed "&nbsp;" do
+        %a{:href => "https://twitter.com/@dashbuilder", :target => "_blank"}
+          %img{:src => "../images/twiter_icon.png", :title => "@dashbuilder"}/
+      %a{:href => "#"}
+        %img{:src => "../images/google+_icon.png", :title => "Google+"}/
+    .dropup
+      %a#tab.tabnav-closed{:href => "https://www.jboss.org/"} Red Hat
+    .banner
+      %a{:href => "http://example.jboss.org/index.html#"}
+      .taglinelight.visible-desktop Open source dashboards and reporting platform
+    #navbar-fix.navbar.navbar-inverse
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          .nav-collapse.collapse
+            %ul.nav
+              %li
+                %a{:href => "index.html"} Home
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  Downloads
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "downloads_binaries.html"} Binaries Download
+                  %li
+                    %a{:href => "downloads_quick_start.html"} Quick Start Demo
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  Learn
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "documentation.html"} Documentation
+                  / <li><a href="videos.html">Video's</a></li>
+                  %li
+                    %a{:href => "slides.html"} Slides
+                  / <li><a href="testimonials.html">Testimonials and Case Studies</a></li>
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  Community
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "forum.html"} Forum (free support)
+                  %li
+                    %a{:href => "chat.html"} Chat real-time
+                  %li
+                    %a{:href => "paid_support.html"} Paid support
+                  %li
+                    %a{:href => "social_media.html"} Social media
+                  %li
+                    %a{:href => "blog.html"} Blog
+                  %li
+                    %a{:href => "team.html"} Project contributors
+                  %li
+                    %a{:href => "research.html"} Research
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  Source Code
+                  %b.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "report_issue.html"} Report an issue
+                  %li
+                    %a{:href => "source_code.html"} Source code
+                  %li
+                    %a{:href => "continous_integration.html"} Continous integration
+                  %li
+                    %a{:href => "license.html"} License
+              %li.divider
+            %ul.nav.pull-right
+              %li
+                / <form class="navbar-search"> <input class="search-query" id="projectsearch" placeholder="Search" type="text"></form>
+    ~ content
     %footer.container{:style => "text-align:center;padding-top: 5px; padding-bottom: 5px;"}
       %div{:style => "color: #FFF !important;font-size: 80%;"} Dashbuilder is part of the
       %a{:href => "http://www.jboss.org/", :target => "_blank"}

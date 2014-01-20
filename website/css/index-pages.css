@@ -87,3 +87,14 @@ H1, H2, H3, H4 {
     right: 0;
     z-index: 100;
 }
+
+.socialIcons{
+    height: 37px;
+    background-color: transparent;
+    position: absolute;
+    right: 140px;
+    margin-bottom: -40px;
+    z-index: 999;
+    text-align: center;
+    width: 120px;
+}
