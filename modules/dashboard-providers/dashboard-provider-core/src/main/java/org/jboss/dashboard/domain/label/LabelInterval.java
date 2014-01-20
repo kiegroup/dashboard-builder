@@ -60,6 +60,7 @@ public class LabelInterval extends AbstractInterval {
     }
 
     public String getLabel() {
+        if (holder.value == null) return null;
         return holder.value.toString();
     }
 
