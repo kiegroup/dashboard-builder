@@ -6,6 +6,7 @@
     %title #{escape_once(site.title + " - " + page.title)}
     %meta(name="description"){:content => page.description ? page.description : site.description}
     %meta(name="keywords"){:content => page.keywords ? page.keywords : site.keywords}
+    %link{:href => "../css/bootstrap.min.css", :media => "screen", :rel => "stylesheet"}/
     %link{:href => "../css/bootstrap-community.min.css", :media => "screen", :rel => "stylesheet"}/
     %link{:href => "../css/index-pages.css", :media => "screen", :rel => "stylesheet"}/
     /[if lt IE 9]

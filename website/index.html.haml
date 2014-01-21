@@ -3,11 +3,22 @@ title: Home
 layout: default
 ---
 
-.BannerHome
-  %h1 Dashbuilder
-  %p JBoss BPM Sneak Previewa new Business Activity Monitoring (BAM) Component Dashbuilder
-  %p
-    %a.btn.btn-primary.btn-large{:href => "http://example.jboss.org/swatch.html"} View the Swatches »
+#myCarousel.carousel.slide
+  / Carousel items
+  .carousel-inner
+    .active.item
+      %img{:src => "images/carousel/carousel_image_01.jpg"}/
+    .item
+      %img{:src => "images/carousel/carousel_image_02.jpg"}/
+    .item
+      %img{:src => "images/carousel/carousel_image_03.jpg"}/
+    .item
+      %img{:src => "images/carousel/carousel_image_04.jpg"}/
+    .item
+      %img{:src => "images/carousel/carousel_image_05.jpg"}/
+  / Carousel nav
+  %a.carousel-control.left{"data-slide" => "prev", :href => "#myCarousel"} &lsaquo;
+  %a.carousel-control.right{"data-slide" => "next", :href => "#myCarousel"} &rsaquo;
 .row
   .span4
     %h2 About Dashbuilder
@@ -26,8 +37,6 @@ layout: default
          
         %br/
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat....
-        %br/
-        %br/
       %li
         Lorem Ipsum (NOV 21, 2013)
         %a{:href => "#"}>
@@ -37,9 +46,9 @@ layout: default
         %br/
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat....
     %p
-      %a.btn{:href => "http://dashbuilder.blogspot.com.es/" , :target => "_blank"} More »
+      %a.btn{:href => "#"} More »
   .span4
     %h2 Social Stream
-    %a.twitter-timeline{"data-widget-id" => "425304260503273474", :href => "https://twitter.com/search?q=%40dashbuilder"} Tweets about "@dashbuilder"
+    %a.twitter-timeline{"data-widget-id" => "408210859253456896", :href => "https://twitter.com/search?q=%40jbossjbpm+OR+%40uberfire_org+OR+%40optaplanner+OR+%40droolsguvnor+OR+%40dashbuilder"} Tweets about "@jbossjbpm OR @uberfire_org OR @optaplanner OR @droolsguvnor OR @dashbuilder"
     :javascript
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
