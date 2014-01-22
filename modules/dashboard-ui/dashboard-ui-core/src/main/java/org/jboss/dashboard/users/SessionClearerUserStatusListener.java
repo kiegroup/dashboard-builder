@@ -15,13 +15,10 @@
  */
 package org.jboss.dashboard.users;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.ui.controller.RequestContext;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -33,8 +30,6 @@ import java.util.Set;
  */
 @ApplicationScoped @Install
 public class SessionClearerUserStatusListener implements UserStatusListener {
-
-    private static transient Logger log = LoggerFactory.getLogger(SessionClearerUserStatusListener.class.getName());
 
     public void statusChanged(UserStatus us) {
         if (us.isAnonymous()) { // just logout
@@ -53,12 +48,7 @@ public class SessionClearerUserStatusListener implements UserStatusListener {
                 String attrName = (String) iterator.next();
                 session.removeAttribute(attrName);
             }
-            try {
-                ctx.getRequest().getRequestObject().logout();
-                ctx.getRequest().getRequestObject().getSession().invalidate();
-            } catch (ServletException e) {
-                log.error("Error logging out", e);
-            }
+            ctx.getRequest().getRequestObject().getSession().invalidate();
         }
     }
 }
