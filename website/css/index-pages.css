@@ -102,3 +102,7 @@ H1, H2, H3, H4 {
 .team table td{
     padding: 2px 4px;
 }
+
+.navbar {
+    z-index: 1000 !important;
+}
