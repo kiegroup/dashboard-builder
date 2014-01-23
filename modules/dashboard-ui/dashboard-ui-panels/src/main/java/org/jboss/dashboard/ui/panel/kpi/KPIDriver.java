@@ -225,7 +225,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     public Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception {
         Set<DataProvider> results = new HashSet<DataProvider>();
         KPI kpi = getKPI(panel);
-        results.add(kpi.getDataProvider());
+        if (kpi != null) results.add(kpi.getDataProvider());
         return results;
     }
 }
