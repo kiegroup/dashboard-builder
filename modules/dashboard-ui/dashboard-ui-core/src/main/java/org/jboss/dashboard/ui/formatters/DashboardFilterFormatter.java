@@ -275,7 +275,7 @@ public class DashboardFilterFormatter extends Formatter {
             }
         }
 
-        // Render not allowed proeprties.
+        // Render not allowed properties.
         List notAllowedProps = getDashboardFilterHandler().getNotAllowedProperties();
         if (!notAllowedProps.isEmpty()) {
             renderFragment("outputNotAllowedPropertiesStart");
@@ -290,7 +290,7 @@ public class DashboardFilterFormatter extends Formatter {
             }
             renderFragment("outputNotAllowedPropertiesEnd");
         }
-        getDashboardFilterHandler().getNotAllowedProperties().clear();
+        getDashboardFilterHandler().clearNotAllowedProperties();
 
         renderFragment("outputTableEnd");
         renderFragment("outputEnd");

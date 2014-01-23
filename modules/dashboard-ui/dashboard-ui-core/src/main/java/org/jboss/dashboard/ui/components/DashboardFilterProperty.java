@@ -23,7 +23,6 @@ import org.jboss.dashboard.ui.DashboardFilter;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.factory.Factory;
 
 import java.util.*;
 
@@ -35,7 +34,7 @@ public class DashboardFilterProperty {
     protected String propertyId;
     protected Long sectionId;
     protected boolean visible;
-    protected boolean isBeignFiltered;
+    protected boolean isBeingFiltered;
     protected boolean global;
 
     public static final String STATIC_PROPERTY_CODE = "staticProperty";
@@ -57,7 +56,7 @@ public class DashboardFilterProperty {
         this.dataProviderCode = dataProviderCode;
         this.propertyId = propertyId;
         this.sectionId = sectionId;
-        this.isBeignFiltered = isBeignFiltered;
+        this.isBeingFiltered = isBeignFiltered;
         this.visible = false;
     }
 
@@ -112,11 +111,11 @@ public class DashboardFilterProperty {
     }
 
     public boolean isBeingFiltered() {
-        return isBeignFiltered;
+        return isBeingFiltered;
     }
 
-    public void setBeignFiltered(boolean isBeignFiltered) {
-        this.isBeignFiltered= isBeignFiltered;
+    public void setBeingFiltered(boolean isBeignFiltered) {
+        this.isBeingFiltered = isBeignFiltered;
     }
 
     public boolean equals(Object obj) {

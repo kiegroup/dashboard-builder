@@ -159,12 +159,14 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
     public void setShowAutoRefresh(boolean showAutoRefresh) {
         this.showAutoRefresh = showAutoRefresh;
     }
+
     public List getNotAllowedProperties() {
+        // Return a copy of the array to avoid concurrent issues.
         return notAllowedProperties;
     }
 
-    public void setNotAllowedProperties(List notAllowedProperties) {
-        this.notAllowedProperties = notAllowedProperties;
+    public void clearNotAllowedProperties() {
+        notAllowedProperties.clear();
     }
 
     public boolean isShowSubmitOnChange() {
@@ -224,11 +226,8 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
     }
 
     public List getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List properties) {
-        this.properties = properties;
+        // Return a copy of the array to avoid concurrent issues.
+        return new ArrayList(properties);
     }
 
     public DashboardHandler getDashboardHandler() {
@@ -377,7 +376,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         this.serializedProperties = serializedProperties;
     }
 
-    public DashboardFilterProperty getDashboardFilterPropertyForCurrentFilter(String dataProviderCode, String propertyId) {
+    public synchronized DashboardFilterProperty getDashboardFilterPropertyForCurrentFilter(String dataProviderCode, String propertyId) {
         Iterator it = properties.iterator();
         while (it.hasNext()) {
             DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
@@ -387,7 +386,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return null;
     }
 
-    public DashboardFilterProperty getDashboardFilterProperty(String propertyId) {
+    public synchronized DashboardFilterProperty getDashboardFilterProperty(String propertyId) {
         Iterator it = properties.iterator();
         while (it.hasNext()) {
             DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
@@ -435,7 +434,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return (DashboardFilterProperty[]) results.toArray(new DashboardFilterProperty[results.size()]);
     }
 
-    public DashboardFilterProperty[] getBeingFilteredProperties() {
+    public synchronized DashboardFilterProperty[] getBeingFilteredProperties() {
         List results = new ArrayList();
         Iterator it = properties.iterator();
         while (it.hasNext()) {
@@ -446,7 +445,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return (DashboardFilterProperty[]) results.toArray(new DashboardFilterProperty[results.size()]);
     }
 
-    public List<DashboardFilterProperty> getVisibleProperties() {
+    public synchronized List<DashboardFilterProperty> getVisibleProperties() {
         List<DashboardFilterProperty> results = new ArrayList<DashboardFilterProperty>();
         Iterator it = properties.iterator();
         while (it.hasNext()) {
@@ -464,7 +463,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
 
     // --------------- START ACTIONS ------------------------------- //
     
-    public void actionStore(CommandRequest request) {
+    public synchronized void actionStore(CommandRequest request) {
         Map parameters = request.getRequestObject().getParameterMap();
 
         // Initialize parameters and properties to default.
@@ -523,13 +522,13 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
             properties.add(prop);
 
             // Set property parameters
-            prop.setBeignFiltered(false);
+            prop.setBeingFiltered(false);
             prop.setVisible(isVisible);
             prop.setSectionId(sectionId);
         }
     }
 
-    public CommandResponse actionFilter(CommandRequest request) throws Exception {
+    public synchronized CommandResponse actionFilter(CommandRequest request) throws Exception {
         // Init attributes for start applying the filter.
         filterPropertyErrors.clear();
 
@@ -617,7 +616,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
 
     // --------- SERIALIZATION / DESERIALIZATION -------------- //
 
-    public String serializeComponentData() throws Exception {
+    public synchronized String serializeComponentData() throws Exception {
         // Serialize visible properties and options.
         StringWriter sw = new StringWriter();
         PrintWriter out = new PrintWriter(sw);
@@ -676,7 +675,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
 
     // Return if is needed to serialize and save properties after this call because properties that does not exist on current filter or data providers must be deleted from persistence.
     // return: must clear serialized trash properties after deserialize process saving this data.
-    public boolean deserializeComponentData(String serializedData) throws Exception {
+    public synchronized boolean deserializeComponentData(String serializedData) throws Exception {
         // Load options and visible properties
         if (serializedData == null || serializedData.trim().length() == 0) {
             log.info("No data to deserialize.");
@@ -761,7 +760,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return needsToSerializeAfter;
     }
 
-    public void beforeRenderComponent() {
+    public synchronized void beforeRenderComponent() {
         super.beforeRenderComponent();
 
         // Initialize the dashboard (loads all its kpi panels)
@@ -782,7 +781,7 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         for (int i = 0; i < beingFilteredProps.length; i++) {
             List dfProperties = Arrays.asList(filter.getPropertyIds());
             DashboardFilterProperty beignFilteredProp = beingFilteredProps[i];
-            if (!dfProperties.contains(beignFilteredProp.getPropertyId())) beignFilteredProp.setBeignFiltered(false);
+            if (!dfProperties.contains(beignFilteredProp.getPropertyId())) beignFilteredProp.setBeingFiltered(false);
         }
 
         // Check filtered properties and hide from available filter properties (set property not visible)
@@ -797,9 +796,8 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
                     properties.add(prop);
                 }
             } else {
-                prop.setBeignFiltered(true);
+                prop.setBeingFiltered(true);
             }
         }
-
     }
 }
