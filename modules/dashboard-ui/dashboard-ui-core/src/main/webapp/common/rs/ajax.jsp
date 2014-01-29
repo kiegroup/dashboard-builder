@@ -24,25 +24,18 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%= LocaleManager.currentLocale() %>"/>
 
-// JBoss Inc. All rights reserved.
-
-// Boundary for multipart forms.  DO NOT CHANGE IT !!!
-var boundary = "AJAX_Boundary_" + new Date().getMilliseconds() * new Date().getMilliseconds() * new Date().getMilliseconds();
 var ajaxAlertsEnabled = false;
 var ajaxRequestNumber = 0;
 var ajaxMaxRequestNumber = <%=AjaxRefreshManager.lookup().getMaxAjaxRequests()%>;
+var value;
+
+// Boundary for multipart forms.  DO NOT CHANGE IT !!!
+var boundary = "AJAX_Boundary_" + new Date().getMilliseconds() * new Date().getMilliseconds() * new Date().getMilliseconds();
 
 /**
-* Loads a given url into element with id tagId. If a body is specified, it uses multipart content-type
-* to POST to the url.
-*/
-
-var value;
-function ajaxRequest(url, body, tagId) {
-    return ajaxRequest(url, body, tagId, null, null);
-};
-
-function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript) {
+ * Loads a given url into element with id tagId. If a body is specified, it uses multipart content-type to POST to the url.
+ */
+function doAjaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript) {
     var ajaxHandler = new Object();
     url = url.replace(/&amp;/g,'&');
     ajaxHandler.ajaxRequestScript = onAjaxRequestScript;
@@ -115,29 +108,25 @@ function ajaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScript
                     element = null;
                     newElement=null;
 
-                    // Parsea Script elements y los coloca en el HEAD para evitar problema de Firefox 6/7 / Chrome
-                    if (FX || CH || IE10) {
-                        var ob = document.getElementById(targetElementId).getElementsByTagName("script");
-                        var head = document.getElementsByTagName("head")[0];
-                        // pasamos los elementos SCRIPT al HEAD
-                        for(var i=0; i < ob.length; i++){
-                                script = document.createElement('script');
-                                script.type = 'text/javascript';
-                                if(ob[i].src != "" && ob[i].src != null){
-                                    script.src = ob[i].src;
-                                }else{
-                                    script.text = ob[i].text;
-                                }
-                                head.appendChild(script);
-                        }
-                        // borramos los elementos SCRIPT del target original
-                        for(var i=0; i < ob.length; i++){
-                            ob[i].parentNode.removeChild(ob[i]);
-                        }
+                    // Move 'script' elements into the 'head' section to avoid issues with some browsers which ignore them.
+                    var ob = document.getElementById(targetElementId).getElementsByTagName("script");
+                    var head = document.getElementsByTagName("head")[0];
+                    for(var i=0; i < ob.length; i++){
+                            script = document.createElement('script');
+                            script.type = 'text/javascript';
+                            if(ob[i].src != "" && ob[i].src != null){
+                                script.src = ob[i].src;
+                            }else{
+                                script.text = ob[i].text;
+                            }
+                            head.appendChild(script);
+                    }
+                    // Remove the 'script' elements once moved.
+                    for(var i=0; i < ob.length; i++){
+                        ob[i].parentNode.removeChild(ob[i]);
                     }
                 }
             }
-
 
             afterAjaxRequest();
             ajaxHandler.ajaxTarget = '';
@@ -242,10 +231,6 @@ function getFormBody(form, addAjaxParameter) {
 };
 
 var ajaxPreviousHandlers = new Object();
-
-function setAjaxTarget(element, targetId) {
-    return setAjaxTarget(element, targetId,  null,  null);
-};
 
 function submitAjaxForm(form) {
     if (form) {
@@ -353,7 +338,7 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
             if (clickReturn != false) {
                 // Check max consecutive ajax request.
                 if (ajaxRequestNumber >= ajaxMaxRequestNumber) return true;
-                eval("ret = ajaxRequest('" + destination + "&ajaxAction=true', null, '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "')");
+                eval("ret = doAjaxRequest('" + destination + "&ajaxAction=true', null, '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "')");
                 element=null;
                 return ret;
             } else {
@@ -405,7 +390,7 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
                 var ret = false;
                 // Check max consecutive ajax request.
                 if (ajaxRequestNumber >= ajaxMaxRequestNumber) return true;
-                eval("ret = ajaxRequest(this.action?this.action:'Controller', getFormBody(this, true), '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "');");
+                eval("ret = doAjaxRequest(this.action?this.action:'Controller', getFormBody(this, true), '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "');");
                 return ret;
             } else {
                 element=null;
@@ -420,14 +405,8 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
 };
 
 /**
-* Modifies an item (form or anchor), so if it is inside a panel, it loads inside the panel area.
-*/
-function doSetAjax(elementId) {
-    return doSetAjax(elementId, null, null);
-};
-/**
-* Modifies an item (form or anchor), so if it is inside a panel, it loads inside the panel area.
-*/
+ * Modifies an item (form or anchor), so if it is inside a panel, it loads inside the panel area.
+ */
 function doSetAjax(elementId, onAjaxRequestScript, onAjaxResponseScript) {
     if (window.XMLHttpRequest || window.ActiveXObject) {
         if (ajaxAlertsEnabled) alert("Looking for panel enclosing " + elementId)
@@ -456,12 +435,8 @@ function doSetAjax(elementId, onAjaxRequestScript, onAjaxResponseScript) {
 };
 
 function setAjax(elementId) {
-    return setAjax(elementId, null, null);
-};
-
-function setAjax(elementId, onAjaxRequestScript, onAjaxResponseScript) {
     if (ajaxRequestNumber > ajaxMaxRequestNumber) return false;
-    if (NS || IE || OP || FX || CH) setTimeout("doSetAjax('" + elementId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "')", 1);
+    setTimeout("doSetAjax('" + elementId + "', null, null)", 1);
 };
 
 function isFileUploadSupported() {
