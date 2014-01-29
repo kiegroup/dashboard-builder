@@ -88,7 +88,7 @@
         %a{:href => "https://twitter.com/@dashbuilder", :target => "_blank"}
           %img{:src => "../images/twiter_icon.png", :title => "@dashbuilder"}/
       %a{:href => "#"}
-        %img{:src => "../images/google+_icon.png", :title => "Google+"}/
+        / %img{:src => "../images/google+_icon.png", :title => "Google+"}/
     .dropup
       %a#tab.tabnav-closed{:href => "https://www.jboss.org/"} Red Hat
     .banner
@@ -123,10 +123,10 @@
                 %ul.dropdown-menu
                   %li
                     %a{:href => "documentation.html"} Documentation
-                  / <li><a href="videos.html">Video's</a></li>
                   %li
                     %a{:href => "slides.html"} Slides
-                  / <li><a href="testimonials.html">Testimonials and Case Studies</a></li>
+                  %li
+                    %a{:href => "screenshots.html"} Screenshots
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                   Get Help
@@ -152,9 +152,7 @@
                   %li
                     %a{:href => "team.html"} Team
                   %li
-                    %a{:href => "license.html"} License
-                  %li
-                    %a{:href => "research.html"} Research
+                    / %a{:href => "research.html"} Research
               %li.divider
             %ul.nav.pull-right
               %li
@@ -169,13 +167,13 @@
         .span6{:style => "white-space:nowrap; float:right; color: #FFF !important;"}
           © Copyright 2006-2013,
           Red Hat, Inc. or third-party contributors
-          %a{:href => "http://www.redhat.com/legal/legal_statement.html"}
+          %a{:href => "http://www.redhat.com/legal/legal_statement.html", :style => "color: #FFF !important; text-decoration:underline;"}
             Terms
             of use
           \-
-          %a{:href => "http://www.redhat.com/legal/privacy_statement.html"} Privacy policy
+          %a{:href => "http://www.redhat.com/legal/privacy_statement.html", :style => "color: #FFF !important; text-decoration:underline;"} Privacy policy
           \-
-          %a{:href => "website_info.html"} Website info
+          %a{:href => "website_info.html", :style => "color: #FFF !important; text-decoration:underline;"} Website info
       %center{:style => "color: #FFF !important;"}
         Dashbuilder is part of the
         %br/
