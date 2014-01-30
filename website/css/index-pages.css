@@ -92,12 +92,19 @@ H1, H2, H3, H4 {
     height: 37px;
     background-color: transparent;
     position: absolute;
-    right: 140px;
+    right: 104px;
     margin-bottom: -40px;
     z-index: 999;
     text-align: center;
     width: 120px;
 }
+
+@media (max-width: 767px){
+.socialIcons{
+        right: 56px;
+}
+}
+
 
 .team table td{
     padding: 2px 4px;
