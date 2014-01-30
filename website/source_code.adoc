@@ -11,7 +11,7 @@ https://github.com/droolsjbpm/dashbuilder-website[dashbuilder-website, role=lead
 
 The source code for this website.
 
-https://github.com/droolsjbpm/dashboard-builder[dashbuilder, role=lead]
+https://github.com/droolsjbpm/dashboard-builder[dashboard-builder, role=lead]
 
 The source code for Dashbuilder itself, examples and documentation.
 
@@ -37,4 +37,5 @@ Many of us prefer IntelliJ IDEA.
 
 '''
 
-Want to improve our sources? *Pull requests are welcome!*
+Want to improve our sources? +
+*Pull requests are welcome!*
