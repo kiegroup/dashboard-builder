@@ -25,13 +25,6 @@
             <type>war</type>
         </dependency>
 
-        <!-- Dependencies for Tomcat 7 -->
-
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-        </dependency>
-
         <!-- Dependencies for Standalone Demo -->
 
         <dependency>
