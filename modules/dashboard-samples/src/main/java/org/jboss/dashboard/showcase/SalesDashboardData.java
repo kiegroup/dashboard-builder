@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.showcase;
 
+import org.apache.commons.io.FileUtils;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
@@ -226,33 +227,18 @@ public class SalesDashboardData {
     }
 
     /**
-     * Generates CSV corresponding to a random sales dashboard demo. It outputs the generated CSV through the response
-     * stream. It can receive some optional parameters:
-     * opMonth - Number of opportunities per month to generale - default: 50
-     * startYear - Initial year to generate random data - default: current year - 2
-     * endYear - End year to generate random data - default: current year + 2
-     * @param request
-     * @return
-     * @throws Exception
+     * Generates CSV corresponding to a random sales dashboard demo.
      */
-    public CommandResponse actionGenerateCSV(CommandRequest request) throws Exception {
+    public static void main(String[] args) throws Exception {
+
+        int opportunitiesPerMonth = 30;
+        int startYear = 2012;
+        int endYear = 2016;
 
         SalesDashboardData salesDashboardData = new SalesDashboardData();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-
-        int opportunitiesPerMonth = getParam("opMonth", request, 30);
-        int startYear = getParam("startYear", request, calendar.get(Calendar.YEAR) -2);
-        int endYear = getParam("endYear", request, calendar.get(Calendar.YEAR) +2);
-
         List<Opportunity> opportunities = salesDashboardData.generateRandomOpportunities(opportunitiesPerMonth, startYear, endYear);
 
         String csv = salesDashboardData.buildCSV(opportunities);
-
-        String contentDisposition = "text/csv";
-
-        return new SendStreamResponse(new ByteArrayInputStream(csv.getBytes()), contentDisposition, true);
-
+        FileUtils.write(new File("sales_dashboard_data.csv"), csv);
     }
 }
