@@ -68,7 +68,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <finalName>dashbuilder-${project.version}</finalName>
+                    <finalName>dashbuilder</finalName>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly-jboss-as-7.xml</descriptor>
                         <descriptor>src/main/assembly/assembly-tomcat-7.xml</descriptor>

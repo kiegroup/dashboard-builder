@@ -48,7 +48,7 @@ Installation steps
 
         $ export JAVA_HOME=/usr/java/jdk1.6.0
 
-* Unzip the dashbuilder-demo-installer.zip file to a given directory (the [target_directory]).
+* Unzip the dashbuilder demo zip file to a given directory (the [target_directory]).
   You should get a directory structure like this:
 
          [target_directory]/dashbuilder-demo
