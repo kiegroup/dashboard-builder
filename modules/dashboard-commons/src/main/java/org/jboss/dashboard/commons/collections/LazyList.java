@@ -272,8 +272,11 @@ public abstract class LazyList extends ArrayList {
             super.add(index, getInstanceId(o));
         }
         instanceList.add(index, null);
-        if (o == null) super.add(index, o);
-        super.add(index, o.toString());
+        if (o == null) {
+            super.add(index, null);
+        } else {
+            super.add(index, o.toString());
+        }
     }
 
     /**
