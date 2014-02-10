@@ -218,7 +218,7 @@ public class DashboardFilter extends AbstractFilter implements DataFilter {
             if (propertyId.equals(id)) {
                 List allowedValues = new ArrayList();
                 String[] allowedArray = StringUtils.split(staticProperty.getProperty("allowedvalues"), ",");
-                for (int j = 0; j < allowedArray.length && allowedArray != null; j++) {
+                for (int j = 0; allowedArray != null && j < allowedArray.length; j++) {
                     String allowedStr = allowedArray[j];
                     try {
                         DataPropertyFormatter dpf = DataFormatterRegistry.lookup().getPropertyFormatter(propertyId);

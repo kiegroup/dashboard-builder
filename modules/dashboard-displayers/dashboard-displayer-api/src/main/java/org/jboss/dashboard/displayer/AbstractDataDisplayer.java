@@ -60,7 +60,7 @@ public abstract class AbstractDataDisplayer implements DataDisplayer {
 
     public void setDataDisplayerRenderer(DataDisplayerRenderer renderer) {
         List<DataDisplayerRenderer> renderers = dataDisplayerType.getSupportedRenderers();
-        if (renderer != null & renderers.contains(renderer)) {
+        if (renderer != null && renderers.contains(renderer)) {
             this.dataDisplayerRenderer = renderer;
         }
     }
