@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.controller.requestChain.KPIProcessor;
 import org.jboss.dashboard.ui.controller.requestChain.RequestDispatcher;
 import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenProcessor;
 import org.jboss.dashboard.ui.controller.requestChain.DashboardProcessor;
@@ -56,6 +57,7 @@ public class RequestProcessor {
         processorChain.add(CDIBeanLocator.getBeanByType(FriendlyUrlProcessor.class));
         processorChain.add(CDIBeanLocator.getBeanByType(NavigationCookieProcessor.class));
         processorChain.add(CDIBeanLocator.getBeanByType(RequestDispatcher.class));
+        processorChain.add(CDIBeanLocator.getBeanByType(KPIProcessor.class));
     }
 
     public void run() throws Exception {

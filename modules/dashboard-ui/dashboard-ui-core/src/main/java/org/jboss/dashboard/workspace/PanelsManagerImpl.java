@@ -157,13 +157,10 @@ public class PanelsManagerImpl implements PanelsManager {
 
     /**
      * Retrieves the panel instances with the given paramId as a panelParameter.
-     * @param paramId
-     * @return
-     * @throws Exception
      */
     public Set<PanelInstance> getPanelsByParameter(final String paramId, final String value) throws Exception {
         final Set<PanelInstance> results = new HashSet<PanelInstance>();
-        if(value ==null || paramId==null) return results;
+        if(value == null || paramId == null) return results;
 
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
@@ -185,9 +182,9 @@ public class PanelsManagerImpl implements PanelsManager {
 
         Set<PanelInstance> matchPanel = new HashSet<PanelInstance>();
         for(PanelInstance panelInstance : results){
-            Set<PanelParameter> panelParams= panelInstance.getPanelParams();
+            Set<PanelParameter> panelParams = panelInstance.getPanelParams();
             for(PanelParameter panelParameter : panelParams){
-                if( Dashboard.KPI_CODE.equals(panelParameter.getIdParameter()) &&
+                if (paramId.equals(panelParameter.getIdParameter()) &&
                     value.equals(panelParameter.getValue())){
                     matchPanel.add(panelInstance);
                 }

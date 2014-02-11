@@ -15,16 +15,21 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.DashboardListener;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.workspace.Panel;
+import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Section;
+import org.slf4j.Logger;
 
 import java.io.Serializable;
 import java.util.*;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  * Dashboard handler.
@@ -32,12 +37,17 @@ import javax.enterprise.context.SessionScoped;
 @SessionScoped
 public class DashboardHandler implements Serializable {
 
+    public final static String KPI_CODE = "kpicode";
+
     /**
      * Get the instance for the current session.
      */
     public static DashboardHandler lookup() {
         return CDIBeanLocator.getBeanByType(DashboardHandler.class);
     }
+
+    @Inject
+    protected Logger log;
 
     /**
      * Dashboards displayed by the user.
@@ -65,6 +75,32 @@ public class DashboardHandler implements Serializable {
                 currentDashboard = parent;
             }
         };
+    }
+
+    /**
+     * Get the KPI rendered by a given panel.
+     */
+    public KPI getKPI(Panel panel) {
+        if (panel.getInstance() == null) return null;
+        if (panel.getRegion() == null) return null;
+        if (!(panel.getInstance().getProvider().getDriver().getClass().getName().contains("KPIDriver"))) return null;
+
+        return getKPI(panel.getInstance());
+    }
+
+    /**
+     * Get the KPI configured for the specified panel.
+     * @return null if any KPI has been selected.
+     */
+    public KPI getKPI(PanelInstance panelInstance) {
+        String kpiCode = panelInstance.getParameterValue(KPI_CODE);
+        try {
+            if (kpiCode == null || kpiCode.trim().equals("")) return null;
+            return DataDisplayerServices.lookup().getKPIManager().getKPIByCode(kpiCode);
+        } catch (Exception e) {
+            log.error("Can not retrieve selected KPI: " + kpiCode, e);
+            return null;
+        }
     }
 
     /**

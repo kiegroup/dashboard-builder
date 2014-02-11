@@ -15,50 +15,42 @@
  */
 package org.jboss.dashboard.ui.controller.responses;
 
+import javax.servlet.RequestDispatcher;
+
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
-import org.jboss.dashboard.ui.controller.RequestContext;
-import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.hibernate.Session;
 
-public class ShowJspInsidePanelContextResponse extends ShowScreenResponse implements CommandResponse {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowJspInsidePanelContextResponse.class.getName());
+public class FullPanelResponse implements CommandResponse {
 
-    private Long panelId;
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FullPanelResponse.class.getName());
 
-    public ShowJspInsidePanelContextResponse(String jspRoute) {
-        super(jspRoute);
-        init();
+    protected Long panelId;
+
+    public FullPanelResponse(Panel panel) {
+        this.panelId = panel.getDbid();
     }
 
     protected Panel getPanel() throws Exception {
         final Panel[] panel = new Panel[]{null};
-        if (panelId != null)
-            new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Exception {
-                    panel[0] = (Panel) session.load(Panel.class, panelId);
-                }
-            }.execute();
+        new HibernateTxFragment() {
+            protected void txFragment(Session session) throws Exception {
+                panel[0] = (Panel) session.load(Panel.class, panelId);
+            }
+        }.execute();
         return panel[0];
-    }
-
-    private void init() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        Panel currentPanel = (Panel) ctx.getRequest().getRequestObject().getAttribute(Parameters.RENDER_PANEL);
-        if (currentPanel != null) {
-            panelId = currentPanel.getDbid();
-        }
     }
 
     public boolean execute(CommandRequest cmdReq) throws Exception {
         Panel panel = getPanel();
-        if (log.isDebugEnabled()) log.debug("ShowJspInsidePanelContextResponse: " + panel.getFullDescription());
+        if (log.isDebugEnabled()) log.debug("FullPanelResponse: " + panel.getFullDescription());
         cmdReq.getRequestObject().setAttribute(Parameters.RENDER_PANEL, panel);
-        boolean b = super.execute(cmdReq);
+        RequestDispatcher rd = cmdReq.getRequestObject().getRequestDispatcher("/common/panels/panelContent.jsp");
+        rd.include(cmdReq.getRequestObject(), cmdReq.getResponseObject());
         cmdReq.getRequestObject().removeAttribute(Parameters.RENDER_PANEL);
-        return b;
+        return true;
     }
 }

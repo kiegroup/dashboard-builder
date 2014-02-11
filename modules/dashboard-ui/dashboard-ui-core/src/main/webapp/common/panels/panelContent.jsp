@@ -15,5 +15,17 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.workspace.PanelInstance" %>
-<%=org.apache.commons.lang.StringUtils.defaultString((String) request.getAttribute(PanelInstance.PARAMETER_HTML_BEFORE))%>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
+<%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
+<%@ taglib uri="bui_taglib.tld" prefix="panel" %>
+<%@ taglib uri="factory.tld" prefix="factory" %>
+<html lang="<factory:property bean="org.jboss.dashboard.LocaleManager" property="currentLang"/>">
+<head>
+  <panel:envelopeHead/>
+  <title>Panel mashup</title>
+</head>
+<body>
+<mvc:include page="/section/render_panel_content.jsp" flush="true"/>
+<panel:envelopeFooter/>
+</body>
+</html>

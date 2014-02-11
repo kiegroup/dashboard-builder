@@ -38,6 +38,12 @@ public class CSRFTokenProcessor implements RequestChainProcessor {
             // If the session is being created then the CSRF control it makes no sense.
             return true;
         }
+
+        // KPI remote API request do not require CSRF verification
+        if (request.getServletPath().startsWith(KPIProcessor.KPI_MAPPING)) {
+            return true;
+        }
+
         CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
         String token = request.getParameter(csrfTokenGenerator.getTokenName());
         if (token != null) {

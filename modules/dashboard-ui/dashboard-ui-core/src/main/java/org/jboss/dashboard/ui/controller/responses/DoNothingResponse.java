@@ -32,6 +32,6 @@ public class DoNothingResponse implements CommandResponse {
     }
 
     public String toString() {
-        return "DoNothingResponse (response should have been already commited)";
+        return "DoNothingResponse (response should have been already committed)";
     }
 }

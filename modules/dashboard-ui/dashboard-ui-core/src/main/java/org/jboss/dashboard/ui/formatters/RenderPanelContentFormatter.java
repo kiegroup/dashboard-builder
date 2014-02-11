@@ -38,57 +38,53 @@ public class RenderPanelContentFormatter extends Formatter {
     private transient Logger log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        Panel panel = (Panel) getParameter("panel");
-        if (panel != null) {
-            SessionManager.setCurrentPanel(panel);
-            request.setAttribute(Parameters.RENDER_PANEL, panel);
-            PanelSession status = SessionManager.getPanelSession(panel);
-            if (status.isMinimized()) {
-                renderFragment("minimized");
-            } else {
-                setAttribute("tableClass", panel.isPaintBorder() ? "skn-table_border" : "");
-                setAttribute("panelHeight", panel.getHeight());
-                setAttribute("panel", panel);
-                setAttribute("panelUID", HTTPSettings.AJAX_AREA_PREFFIX + "content_panel_" + panel.getPanelId());
-                renderFragment("outputStart");
-                try {
-                    if (!panel.isWellConfigured()) {
-                        renderFragment("outputNotWellConfigured");
-                    } else if (!panel.getProvider().isEnabled()) {
-                        renderFragment("outputNotRegistered");
-                    } else {
-                        panel.getProvider().getDriver().fireBeforeRenderPanel(panel, request, response);
-                        PanelProvider provider = panel.getProvider();
-                        String screen = status.getCurrentPageId();
-                        if (!status.isEditMode()) {
-                            if (screen != null) {
-                                String jsp = panel.getProvider().getPage(screen);
-                                if (jsp != null) {
-                                    setAttribute("jsp", jsp);
-                                    setAttribute("panelUID", HTTPSettings.AJAX_AREA_PREFFIX + "content_panel_" + panel.getPanelId());
-                                    renderFragment("output");
-                                } else {
-                                    log.error("JSP not found for page " + screen + " in panel type " + provider.getId());
-                                }
+        Panel panel = (Panel) request.getAttribute(Parameters.RENDER_PANEL);
+        if (panel == null) throw new FormatterException("Panel not found");
+
+        SessionManager.setCurrentPanel(panel);
+        PanelSession status = SessionManager.getPanelSession(panel);
+        if (status.isMinimized()) {
+            renderFragment("minimized");
+        } else {
+            setAttribute("tableClass", panel.isPaintBorder() ? "skn-table_border" : "");
+            setAttribute("panelHeight", panel.getHeight());
+            setAttribute("panel", panel);
+            setAttribute("panelUID", HTTPSettings.AJAX_AREA_PREFFIX + "content_panel_" + panel.getPanelId());
+            renderFragment("outputStart");
+            try {
+                if (!panel.isWellConfigured()) {
+                    renderFragment("outputNotWellConfigured");
+                } else if (!panel.getProvider().isEnabled()) {
+                    renderFragment("outputNotRegistered");
+                } else {
+                    panel.getProvider().getDriver().fireBeforeRenderPanel(panel, request, response);
+                    PanelProvider provider = panel.getProvider();
+                    String screen = status.getCurrentPageId();
+                    if (!status.isEditMode()) {
+                        if (screen != null) {
+                            String jsp = panel.getProvider().getPage(screen);
+                            if (jsp != null) {
+                                setAttribute("jsp", jsp);
+                                setAttribute("panel", panel);
+                                setAttribute("panelUID", HTTPSettings.AJAX_AREA_PREFFIX + "content_panel_" + panel.getPanelId());
+                                renderFragment("output");
                             } else {
-                                log.error("Page " + screen + " not defined for panel type " + provider.getId());
+                                log.error("JSP not found for page " + screen + " in panel type " + provider.getId());
                             }
+                        } else {
+                            log.error("Page " + screen + " not defined for panel type " + provider.getId());
                         }
                     }
-                } finally {
-                    renderFragment("outputEnd");
                 }
+            } finally {
+                renderFragment("outputEnd");
             }
-            /*  Can't remove it, as it will cause the panel not to be present in the response
-          SessionManager.setCurrentPanel((Panel) null);
-            request.removeAttribute(Parameters.RENDER_IDPANEL);*/
         }
     }
 
     // Format Panel objects
     public String formatObject(Object obj) {
         if (obj instanceof Panel) {
-            // Workspace de procesos > Tareas pendientes > Lista de tareas [id=13456]
             Panel panel = (Panel) obj;
             return panel.getFullDescription();
         }

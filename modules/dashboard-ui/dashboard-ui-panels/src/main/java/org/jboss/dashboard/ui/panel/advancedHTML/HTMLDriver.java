@@ -26,10 +26,8 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.workspace.export.Exportable;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
-import org.jboss.dashboard.ui.controller.responses.ShowPopupPanelPage;
 import org.jboss.dashboard.security.PanelPermission;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.FlushMode;
@@ -55,9 +53,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
 
     private final static String PAGE_SHOW = "show";
     private final static String PAGE_EDIT = "edit";
-
-    private final static String PAGE_CHOOSE_IMAGE = "imageSelect";
-    private final static String PAGE_CHOOSE_LINK = "linkSelect";
 
     public final static String PARAMETER_USE_DEFAULTS = "useDefaultLanguage";
 
@@ -222,14 +217,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         text.save();
         activateNormalMode(panel, request);
         return new ShowPanelPage();
-    }
-
-    public CommandResponse actionSelectImage(Panel panel, CommandRequest request) throws Exception {
-        return new ShowPopupPanelPage(panel, PAGE_CHOOSE_IMAGE);
-    }
-
-    public CommandResponse actionSelectLink(Panel panel, CommandRequest request) throws Exception {
-        return new ShowPopupPanelPage(panel, PAGE_CHOOSE_LINK);
     }
 
     public HTMLText load(final PanelInstance instance) {

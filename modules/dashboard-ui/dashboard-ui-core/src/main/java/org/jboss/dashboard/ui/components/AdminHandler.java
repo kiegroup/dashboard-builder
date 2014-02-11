@@ -23,7 +23,6 @@ import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.GraphicElementManager;
-import org.jboss.dashboard.ui.controller.responses.ShowPopupPage;
 import org.jboss.dashboard.ui.utils.forms.SimpleFormHandler;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.GraphicElementPreview;
@@ -255,9 +254,4 @@ public class AdminHandler extends BeanHandler {
         request.getRequestObject().setAttribute("fullPageJsp", "/admin/" + previewPage);
         return new ShowScreenResponse("/admin/" + previewPage);
     }
-
-    public CommandResponse actionPreviewConfigComponent(CommandRequest request) throws Exception {
-        return new ShowPopupPage("/admin/previews/configurationComponent.jsp");
-    }
-
 }

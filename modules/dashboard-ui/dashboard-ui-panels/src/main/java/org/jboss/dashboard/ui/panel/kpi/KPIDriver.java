@@ -74,7 +74,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
      * Get the panel KPI from the current dashboard. The KPI is loaded if necessary.
      */
     public KPI getKPI(Panel panel) throws Exception {
-        return DashboardHandler.lookup().getCurrentDashboard().getKPI(panel);
+        return DashboardHandler.lookup().getKPI(panel);
     }
 
     // PanelDriver interface
@@ -89,7 +89,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);
-        addParameter(new ComboListParameter(provider, Dashboard.KPI_CODE, false, new KPIDataSupplier(), false));
+        addParameter(new ComboListParameter(provider, DashboardHandler.KPI_CODE, false, new KPIDataSupplier(), false));
     }
 
     protected void beforeRenderPanel(Panel panel, HttpServletRequest req, HttpServletResponse res) {
@@ -120,14 +120,14 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     protected void beforePanelInstanceRemove(PanelInstance instance) throws Exception {
         // Delete from persistence the KPI attached to the panel.
-        KPI kpi = Dashboard.getKPI(instance);
+        KPI kpi = DashboardHandler.lookup().getKPI(instance);
 
         // Only delete not null KPIs based on deleteable providers.
         if (kpi != null && kpi.getDataProvider().isCanDelete()) {
 
             // Only delete the KPI if not referred by other panels.
             PanelsManager panelsManager = UIServices.lookup().getPanelsManager();
-            Set<PanelInstance> panels = panelsManager.getPanelsByParameter(Dashboard.KPI_CODE, kpi.getCode());
+            Set<PanelInstance> panels = panelsManager.getPanelsByParameter(DashboardHandler.KPI_CODE, kpi.getCode());
             if (panels.size() == 1) {
                 kpi.delete();
             }
@@ -149,7 +149,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     }
 
     public void replicateData(PanelInstance src, PanelInstance dest) throws Exception {
-        KPI kpiSrc = Dashboard.getKPI(src);
+        KPI kpiSrc = DashboardHandler.lookup().getKPI(src);
         if (kpiSrc != null) {
             // Clone the original KPI.
             KPI kpiDest = DataDisplayerServices.lookup().getKPIManager().createKPI();
@@ -159,7 +159,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
             kpiDest.save();
 
             // Link the destination panel instance with the newly created KPI.
-            dest.setParameterValue(Dashboard.KPI_CODE, kpiDest.getCode());
+            dest.setParameterValue(DashboardHandler.KPI_CODE, kpiDest.getCode());
         }
     }
 
@@ -193,7 +193,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         kpi.setDescription(i18n.getString("kpiDriver.newKpi"), locale);
 
         // Save the relationship between the panel and the KPI.
-        panel.getInstance().setParameterValue(Dashboard.KPI_CODE, kpi.getCode());
+        panel.getInstance().setParameterValue(DashboardHandler.KPI_CODE, kpi.getCode());
 
         // Go to edit mode.
         passKPItoUI(kpi);

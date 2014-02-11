@@ -15,6 +15,5 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="org.jboss.dashboard.workspace.PanelInstance" %>
 <%=org.apache.commons.lang.StringUtils.defaultString((String) request.getAttribute(PanelInstance.PARAMETER_HTML_AFTER))%>

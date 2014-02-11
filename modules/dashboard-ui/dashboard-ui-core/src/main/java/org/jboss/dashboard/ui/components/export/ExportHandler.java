@@ -182,14 +182,12 @@ public class ExportHandler extends UIBeanHandler {
 
     public List<KPI> getSelectedKPIs() throws Exception {
         List<KPI> results = new ArrayList<KPI>();
-        DashboardHandler dashboardHandler = DashboardHandler.lookup();
         for (String workspaceId : selectedSectionIds.keySet()) {
             WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
             Set<Section> sections = getSelectedSections(workspace);
             for (Section section : sections) {
-                Dashboard dash = dashboardHandler.getDashboard(section);
                 for (Panel panel : section.getPanels()) {
-                    KPI kpi = dash.getKPI(panel);
+                    KPI kpi = DashboardHandler.lookup().getKPI(panel);
                     if (kpi != null && !results.contains(kpi)) results.add(kpi);
                 }
             }

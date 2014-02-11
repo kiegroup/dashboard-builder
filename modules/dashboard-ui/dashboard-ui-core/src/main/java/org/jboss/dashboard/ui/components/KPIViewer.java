@@ -46,6 +46,10 @@ public class KPIViewer extends UIBeanHandler {
 
     protected KPI kpi;
     protected DataDisplayerViewer displayerViewer;
+
+    // Is the KPI being displayed in embedded mode or as a part of a general dashboard
+    protected boolean embeddedMode = false;
+
     protected transient KPIListener kpiListener;
 
     public KPIViewer() {
@@ -65,8 +69,13 @@ public class KPIViewer extends UIBeanHandler {
     }
 
     public void setKpi(KPI kpi) {
+        this.setKpi(kpi, false);
+    }
+
+    public void setKpi(KPI kpi, boolean embeddedMode) {
         this.kpi = kpi;
         this.displayerViewer = null;
+        this.embeddedMode=embeddedMode;
         if (kpi != null) {
             DataDisplayer displayer = kpi.getDataDisplayer();
             this.displayerViewer = UIBeanLocator.lookup().getViewer(displayer);

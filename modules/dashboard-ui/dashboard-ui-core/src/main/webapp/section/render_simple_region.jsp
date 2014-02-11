@@ -83,7 +83,9 @@
         <mvc:fragmentValue name="panel" id="panel">
             <div id="Region_Panel_Container_<%=((Panel)panel).getPanelId()%>"
                     <%=((Panel) panel).getHeight() > 0 ? "style=\"height:" + ((Panel) panel).getHeight() + "\"" : ""%>>
-                <%@ include file="render_panel_content.jsp" %>
+                <% request.setAttribute(Parameters.RENDER_PANEL, panel); %>
+                <mvc:include page="render_panel_content.jsp" flush="true"/>
+                <% request.removeAttribute(Parameters.RENDER_PANEL); %>
             </div>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -112,7 +114,9 @@
                     </div>
                     <div id="Region_Panel_Container_<%=((Panel)panel).getPanelId()%>"
                          style=" <%=Boolean.TRUE.equals(editMode) ? "" : "border: solid 1px #CCCCCC; "%>margin: 0; <%=((Panel)panel).getHeight()>0?"height: "+((Panel)panel).getHeight():""%>">
-                        <%@ include file="render_panel_content.jsp" %>
+                      <% request.setAttribute(Parameters.RENDER_PANEL, panel); %>
+                      <mvc:include page="render_panel_content.jsp" flush="true"/>
+                      <% request.removeAttribute(Parameters.RENDER_PANEL); %>
                     </div>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>

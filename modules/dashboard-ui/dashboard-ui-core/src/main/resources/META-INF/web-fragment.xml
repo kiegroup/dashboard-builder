@@ -41,6 +41,11 @@
         <url-pattern>/workspace/*</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/kpi/*</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Cache Filter</filter-name>
         <filter-class>org.jboss.dashboard.ui.controller.CacheFilter</filter-class>

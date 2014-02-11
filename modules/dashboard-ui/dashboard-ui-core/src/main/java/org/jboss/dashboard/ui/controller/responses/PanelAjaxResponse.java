@@ -20,11 +20,7 @@ import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Panel;
 
-/**
- *
- */
 public abstract class PanelAjaxResponse implements CommandResponse {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelAjaxResponse.class.getName());
 
     protected String commonRefreshPanelsPage = "/common/panels/commonPanelHeader.jsp";
     protected String beforePanelsPage = "/common/panels/beforePanel.jsp";

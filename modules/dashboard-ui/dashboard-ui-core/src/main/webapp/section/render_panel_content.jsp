@@ -16,13 +16,11 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.workspace.Panel"%>
-<%@ page import="org.jboss.dashboard.workspace.Parameters"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
-<mvc:formatter name="org.jboss.dashboard.ui.formatters.RenderPanelContentFormatter">
-    <mvc:formatterParam name="panel" value="<%=panel%>"/>
+  <mvc:formatter name="org.jboss.dashboard.ui.formatters.RenderPanelContentFormatter">
     <mvc:fragment name="minimized">
         <table cellspacing="0" cellpadding="0" width="100%" height="100%" border="0">
             <tr>
@@ -43,20 +41,15 @@
 
     <mvc:fragment name="output">
     <mvc:fragmentValue name="jsp" id="jsp">
-        <mvc:include page="/common/panels/commonRefreshFormPanels.jsp"/>
-        <mvc:include page="/common/panels/beforePanel.jsp"/>
+    <mvc:fragmentValue name="panel" id="panel">
         <% try { %>
+            <mvc:include page="/common/panels/commonRefreshFormPanels.jsp"/>
+            <mvc:include page="/common/panels/beforePanel.jsp"/>
             <mvc:include page="<%= (String)jsp %>" flush="true" />
-        <% } finally {
-            try {
-                // Always end panel rendering. %>
-                <mvc:include page="/common/panels/afterPanel.jsp"/><%
-                ((Panel)panel).getProvider().getDriver().fireAfterRenderPanel((Panel)panel, request, response);
-            } finally {
-                // Always reset current panel variable.
-                request.removeAttribute(Parameters.RENDER_PANEL);
-            }
-        } %>
+        <% } finally { %>
+            <mvc:include page="/common/panels/afterPanel.jsp"/>
+        <% ((Panel)panel).getProvider().getDriver().fireAfterRenderPanel((Panel)panel, request, response); } %>
+    </mvc:fragmentValue>
     </mvc:fragmentValue>
     </mvc:fragment>
     <mvc:fragment name="outputEnd">
