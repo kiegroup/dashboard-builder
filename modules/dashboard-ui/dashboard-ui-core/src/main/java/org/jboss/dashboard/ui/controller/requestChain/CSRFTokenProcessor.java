@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Parameters;
 
 import javax.servlet.ServletException;
@@ -33,6 +32,10 @@ public class CSRFTokenProcessor extends RequestChainProcessor {
             // If the session is being created then the CSRF control it makes no sense.
             return true;
         }
+
+        // KPI remote API request do not require CSRF verification
+        if (getRequest().getServletPath().startsWith(KPIProcessor.KPI_MAPPING)) return true;
+
         CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
         String token = getRequest().getParameter(csrfTokenGenerator.getTokenName());
         if (token != null) {

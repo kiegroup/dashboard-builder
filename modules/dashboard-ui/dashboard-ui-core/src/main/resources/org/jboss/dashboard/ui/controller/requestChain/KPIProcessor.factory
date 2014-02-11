@@ -14,10 +14,7 @@
 # limitations under the License.
 #
 
-$class=org.jboss.dashboard.ui.controller.requestChain.FactoryActionRequestExecutor
+$class=org.jboss.dashboard.ui.controller.requestChain.KPIProcessor
 $scope=volatile
-$description=Starting request processing step.
 
-factoryRequestHandler=org.jboss.dashboard.ui.components.FactoryRequestHandler
 navigationManager=org.jboss.dashboard.ui.NavigationManager
-nextStep=.KPIProcessor

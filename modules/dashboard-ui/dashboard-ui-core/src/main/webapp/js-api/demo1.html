@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Dashbuilder Javascript API</title>
+    <script src="/dashbuilder/js-api/dashbuilder.js"></script>
+</head>
+<body>
+<h1>Example of how to embed KPIs in your own application</h1>
+<br>
+This is a very simple layout with 4 different KPIs embedded
+<br>
+<br>
+<table border="0" cellpadding="5" >
+    <tr>
+        <td id="chart1"></td>
+        <td id="chart2"></td>
+    </tr>
+    <tr>
+        <td id="chart3"></td>
+        <td id="chart4"></td>
+    </tr>
+</table>
+
+<script>
+    dashbuilder_embed_kpi('chart1', 'kpi_30011353503663716', 600, 350);
+    dashbuilder_embed_kpi('chart2', 'kpi_30041353504912610', 600, 350);
+    dashbuilder_embed_kpi('chart3', 'kpi_30441353507392054', 600, 350);
+    dashbuilder_embed_kpi('chart4', 'kpi_30101353505177974', 600, 350);
+</script>
+
+</body>
+</html>
