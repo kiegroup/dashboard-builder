@@ -153,4 +153,9 @@
       <% } %>
      </td>
    </tr>
+<% if( kpi != null ) { %>
+   <tr>
+     <td align="right"><a href="javascript:alert('Unique ID for this KPI is: <%=kpi.getCode()%>')">Click to see KPI identifier</a></td>
+   </tr>
+<% } %>
 </table>
