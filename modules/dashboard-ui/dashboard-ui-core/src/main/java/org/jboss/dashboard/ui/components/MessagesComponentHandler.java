@@ -16,18 +16,28 @@
 package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@PanelScoped
+@Named("messages_handler")
 public class MessagesComponentHandler extends PanelComponent {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MessagesComponentHandler.class.getName());
+
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("/components/messages/show.jsp")
+    private String componentIncludeJSP;
 
     protected int width;
     protected int height;
-
-    private String componentIncludeJSP;
     private String i18nBundle;
     private boolean clearAfterRender = true;
 
@@ -38,8 +48,6 @@ public class MessagesComponentHandler extends PanelComponent {
     private List messagesParameters = new ArrayList();
     private List warningsParameters = new ArrayList();
     private List errorsParameters = new ArrayList();
-
-    private String messagesComponentFormatter;
 
     /** The locale manager. */
     protected LocaleManager localeManager;
@@ -114,7 +122,7 @@ public class MessagesComponentHandler extends PanelComponent {
         this.errorsParameters = errorsParameters;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -136,14 +144,6 @@ public class MessagesComponentHandler extends PanelComponent {
 
     public void setClearAfterRender(boolean clearAfterRender) {
         this.clearAfterRender = clearAfterRender;
-    }
-
-    public String getMessagesComponentFormatter() {
-        return messagesComponentFormatter;
-    }
-
-    public void setMessagesComponentFormatter(String messagesComponentFormatter) {
-        this.messagesComponentFormatter = messagesComponentFormatter;
     }
 
     public void clearAll() {

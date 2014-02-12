@@ -18,11 +18,13 @@ package org.jboss.dashboard.ui.components.panelManagement;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowPanelComponentFormatter extends Formatter {
 
+    @Inject
     private ShowPanelPageComponent showPanelPageComponent;
 
     @Override
@@ -31,13 +33,5 @@ public class ShowPanelComponentFormatter extends Formatter {
             setAttribute("pageToRender", showPanelPageComponent.getPanelPage());
             renderFragment("output");
         }
-    }
-
-    public ShowPanelPageComponent getShowPanelPageComponent() {
-        return showPanelPageComponent;
-    }
-
-    public void setShowPanelPageComponent(ShowPanelPageComponent showPanelPageComponent) {
-        this.showPanelPageComponent = showPanelPageComponent;
     }
 }

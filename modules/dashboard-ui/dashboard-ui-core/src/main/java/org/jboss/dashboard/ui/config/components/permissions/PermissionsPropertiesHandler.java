@@ -15,11 +15,9 @@
  */
 package org.jboss.dashboard.ui.config.components.permissions;
 
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 
-public class PermissionsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsPropertiesHandler.class.getName());
-
+public class PermissionsPropertiesHandler extends BeanHandler {
 
     public void setWorkspaceId(String workspaceId) {
         throw new UnsupportedOperationException();

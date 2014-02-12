@@ -15,10 +15,13 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Named;
+
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
 import org.jboss.dashboard.domain.Interval;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DataDisplayerViewer;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.provider.DataProperty;
@@ -29,12 +32,16 @@ import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@PanelScoped
+@Named("gauge_meterchart_viewer")
 public class GaugeMeterChartViewer extends DataDisplayerViewer {
-
-    private static transient Logger log = LoggerFactory.getLogger(GaugeMeterChartViewer.class.getName());
 
     public static final String PARAM_ACTION = "applyLink";
     public static final String PARAM_NSERIE = "serie";
+
+    public String getBeanJSP() {
+        return "/components/bam/displayer/chart/gauge_meterchart_viewer.jsp";
+    }
 
     public CommandResponse actionApplyLink(CommandRequest request) throws Exception {
         AbstractChartDisplayer abstractChartDisplayer = (AbstractChartDisplayer) getDataDisplayer();

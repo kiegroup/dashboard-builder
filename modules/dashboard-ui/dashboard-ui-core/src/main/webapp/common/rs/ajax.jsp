@@ -277,7 +277,7 @@ function sendFormToHandler(form, component, property){
 
 function prepareFormForHandler(form, component, property){
     setFormInputValue(form, '<%=FactoryURL.PARAMETER_BEAN%>', component );
-    setFormInputValue(form, '<%=FactoryURL.PARAMETER_PROPERTY%>', property );
+    setFormInputValue(form, '<%=FactoryURL.PARAMETER_ACTION%>', property );
     setFormInputValue(form, '<%=Parameters.DISPATCH_ACTION%>', "_factory" );
 };
 

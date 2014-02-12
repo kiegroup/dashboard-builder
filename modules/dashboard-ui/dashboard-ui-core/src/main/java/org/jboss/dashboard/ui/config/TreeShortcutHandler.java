@@ -15,10 +15,14 @@
  */
 package org.jboss.dashboard.ui.config;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.config.components.panels.PanelsPropertiesHandler;
 import org.jboss.dashboard.ui.config.components.sections.SectionsPropertiesHandler;
@@ -31,18 +35,36 @@ import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.Section;
+import org.slf4j.Logger;
 
-public class TreeShortcutHandler extends HandlerFactoryElement {
+@SessionScoped
+@Named("tree_shortcut_handler")
+public class TreeShortcutHandler extends BeanHandler {
 
     public static final String WORKSPACE_TOKEN = "$WORKSPACE";
     public static final String PAGE_TOKEN = "$PAGE";
     public static final String PAGE_PATH_TOKEN = "$PAG_PATH";
     public static final String PANEL_TOKEN = "$PANEL";
     public static final String PANEL_INSTANCE_TOKEN = "$PANEL_INSTANCE";
-    private TreeStatus treeStatus;
-    private Tree tree;
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private ConfigurationTree tree;
+
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
+
+    @Inject
     private SectionsPropertiesHandler sectionsPropertiesHandler;
+
+    @Inject
     private PanelsPropertiesHandler panelsPropertiesHandler;
+
+    @Inject
+    private NavigationManager navigationManager;
+
     private String newWorkspace = "root/workspaces";
     private String workspaceConfigPath = "root/workspaces/$WORKSPACE";
     private String newPagePath = "root/workspaces/$WORKSPACE/sections";
@@ -53,7 +75,6 @@ public class TreeShortcutHandler extends HandlerFactoryElement {
     private Long sectionId;
     private Long parentSectionId;
     private Long panelId;
-    private NavigationManager navigationManager;
 
     public UserStatus getUserStatus() {
         return UserStatus.lookup();
@@ -63,32 +84,12 @@ public class TreeShortcutHandler extends HandlerFactoryElement {
         return navigationManager;
     }
 
-    public void setNavigationManager(NavigationManager navigationManager) {
-        this.navigationManager = navigationManager;
-    }
-
-    public PanelsPropertiesHandler getPanelsPropertiesHandler() {
-        return panelsPropertiesHandler;
-    }
-
-    public void setPanelsPropertiesHandler(PanelsPropertiesHandler panelsPropertiesHandler) {
-        this.panelsPropertiesHandler = panelsPropertiesHandler;
-    }
-
     public String getNewPaneltPath() {
         return newPaneltPath;
     }
 
     public void setNewPaneltPath(String newPaneltPath) {
         this.newPaneltPath = newPaneltPath;
-    }
-
-    public SectionsPropertiesHandler getSectionsPropertiesHandler() {
-        return sectionsPropertiesHandler;
-    }
-
-    public void setSectionsPropertiesHandler(SectionsPropertiesHandler sectionsPropertiesHandler) {
-        this.sectionsPropertiesHandler = sectionsPropertiesHandler;
     }
 
     public Long getSectionId() {
@@ -162,22 +163,6 @@ public class TreeShortcutHandler extends HandlerFactoryElement {
 
     public void setChildPageConfigPath(String childPageConfigPath) {
         this.childPageConfigPath = childPageConfigPath;
-    }
-
-    public Tree getTree() {
-        return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
-    }
-
-    public TreeStatus getTreeStatus() {
-        return treeStatus;
-    }
-
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
     }
 
     protected void navigateToConfigPath(String path) {

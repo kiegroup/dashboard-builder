@@ -15,7 +15,6 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="org.jboss.dashboard.ui.components.sql.SQLProviderEditor"%>
 <%@ page import="org.jboss.dashboard.database.DataSourceManager"%>
 <%@ page import="java.util.List"%>
@@ -23,18 +22,16 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.provider.sql.SQLDataLoader" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.sql.messages"
-        locale="<%=LocaleManager.currentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.sql.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <panel:defineObjects/>
 <%
     // Get the data provider from the data provider viewer and save it in the sql provider editor if it's neccessary
-    SQLProviderEditor editor = (SQLProviderEditor) Factory.lookup("org.jboss.dashboard.ui.components.SQLProviderEditor");
+    SQLProviderEditor editor = CDIBeanLocator.getBeanByType(SQLProviderEditor.class);
 
     // Get the dataSource and the query
     SQLDataLoader sqlLoader = editor.getSQLDataLoader();

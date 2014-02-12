@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 

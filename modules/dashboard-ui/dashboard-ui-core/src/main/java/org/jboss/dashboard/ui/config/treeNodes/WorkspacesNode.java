@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
@@ -23,13 +23,17 @@ import org.jboss.dashboard.ui.config.components.workspace.WorkspacesPropertiesHa
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.inject.Inject;
 
 public class WorkspacesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private WorkspacesPropertiesHandler workspacesPropertiesHandler;
 
     public WorkspacesPropertiesHandler getWorkspacesPropertiesHandler() {
@@ -84,7 +88,7 @@ public class WorkspacesNode extends AbstractNode {
     }
 
     protected WorkspaceNode getNewWorkspaceNode(Workspace workspace) {
-        WorkspaceNode sNode = (WorkspaceNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.WorkspaceNode");
+        WorkspaceNode sNode = CDIBeanLocator.getBeanByType(WorkspaceNode.class);
         sNode.setTree(getTree());
         sNode.setParent(this);
         sNode.setWorkspaceId(workspace.getId());
@@ -97,6 +101,10 @@ public class WorkspacesNode extends AbstractNode {
 
     public String getId() {
         return "workspaces";
+    }
+
+    public String getIconId() {
+        return "22x22/ico-menu_go-home.png";
     }
 
     public boolean onEdit() {

@@ -15,16 +15,27 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.taglib.EnvelopeFooterTag;
 import org.jboss.dashboard.ui.taglib.EnvelopeHeadTag;
+import org.slf4j.Logger;
 
-public class EnvelopeVerifier extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeVerifier.class.getName());
+@ApplicationScoped
+public class EnvelopeVerifier implements RequestChainProcessor {
 
-    protected boolean processRequest() throws Exception {
-        Boolean headToken = (Boolean) getRequest().getAttribute(EnvelopeHeadTag.ENVELOPE_TOKEN);
+    @Inject
+    private transient Logger log;
+
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        Boolean headToken = (Boolean) request.getAttribute(EnvelopeHeadTag.ENVELOPE_TOKEN);
         if (headToken != null && Boolean.TRUE.equals(headToken)) {
-            Boolean footerToken = (Boolean) getRequest().getAttribute(EnvelopeFooterTag.ENVELOPE_TOKEN);
+            Boolean footerToken = (Boolean) request.getAttribute(EnvelopeFooterTag.ENVELOPE_TOKEN);
             if (footerToken == null || Boolean.FALSE.equals(footerToken)) {
                 log.error("Invalid envelope: <panel:envelopeFooter/> tag MUST be included just before the </body> tag both in full.jsp AND shared.jsp.");
             }

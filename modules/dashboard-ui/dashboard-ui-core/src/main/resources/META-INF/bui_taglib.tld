@@ -68,28 +68,6 @@
   </tag>
 
   <tag>
-    <name>hidden</name>
-    <tag-class>org.jboss.dashboard.ui.taglib.HiddenLinkTag</tag-class>
-    <body-content>JSP</body-content>
-    <description>Generates the necessary hidden parameters to perform a given action in a form</description>
-    <attribute>
-      <name>action</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>params</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-    <attribute>
-      <name>panel</name>
-      <required>false</required>
-      <rtexprvalue>true</rtexprvalue>
-    </attribute>
-  </tag>
-
-  <tag>
     <name>resource</name>
     <tag-class>org.jboss.dashboard.ui.taglib.ResourceTag</tag-class>
     <body-content>JSP</body-content>

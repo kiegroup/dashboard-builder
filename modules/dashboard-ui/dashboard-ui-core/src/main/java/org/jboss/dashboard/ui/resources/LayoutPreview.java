@@ -16,8 +16,6 @@
 package org.jboss.dashboard.ui.resources;
 
 import org.jboss.dashboard.users.UserStatus;
-import org.jboss.dashboard.factory.Factory;
-
 import java.io.File;
 import java.io.Serializable;
 

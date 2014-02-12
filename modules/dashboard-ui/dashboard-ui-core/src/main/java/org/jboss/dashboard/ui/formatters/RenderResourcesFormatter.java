@@ -23,7 +23,9 @@ import org.jboss.dashboard.workspace.GraphicElementManager;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.workspace.GraphicElementManager;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -59,7 +61,9 @@ import java.util.List;
  * </ul>
  */
 public class RenderResourcesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderResourcesFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     /**
      * Perform the required logic for this Formatter. Inside, the methods

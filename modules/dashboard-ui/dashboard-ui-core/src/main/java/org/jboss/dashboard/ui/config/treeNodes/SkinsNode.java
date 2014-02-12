@@ -15,24 +15,22 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler;
 
 public class SkinsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SkinsNode.class.getName());
 
+    @Inject
     private ResourcesPropertiesHandler resourcesPropertiesHandler;
-
-    public ResourcesPropertiesHandler getResourcesPropertiesHandler() {
-        return resourcesPropertiesHandler;
-    }
-
-    public void setResourcesPropertiesHandler(ResourcesPropertiesHandler resourcesPropertiesHandler) {
-        this.resourcesPropertiesHandler = resourcesPropertiesHandler;
-    }
 
     public String getId() {
         return "skins";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_skin.png";
     }
 
     public boolean onEdit() {

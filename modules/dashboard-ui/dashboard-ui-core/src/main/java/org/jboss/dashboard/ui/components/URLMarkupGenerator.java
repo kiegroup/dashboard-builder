@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenGenerator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
@@ -26,8 +26,10 @@ import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -42,7 +44,9 @@ import java.util.Map;
  */
 @ApplicationScoped
 public class URLMarkupGenerator {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(URLMarkupGenerator.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     private String handler = "factory";
     private String action = "set";
@@ -66,34 +70,30 @@ public class URLMarkupGenerator {
         this.action = action;
     }
 
-
     /**
      * Get a permanent link to a given action on a bean
      *
-     * @param bean     Factory component that will perform the action
-     * @param property Component's property (method) that will be invoked
-     * @param params   Extra parameters for link
-     * @return a link url to a factory component action, independent on the page
+     * @param bean   Bean handler that will perform the action
+     * @param action Bean's method that will be invoked
+     * @param params Extra parameters for link
+     * @return A link url to a bean action, independent on the page.
      */
-    public String getPermanentLink(String bean, String property, Map params) {
-        String base = /*this.getBasePath();
-        while (base.endsWith("/")) base = base.substring(0, base.length() - 1);
-        base = base + "/" +*/ RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
-        StringBuffer sb = new StringBuffer();
-        sb.append(base).append("?");
-        String alias = Factory.getAlias(bean);
-        //HandlerFactoryElement _component = (HandlerFactoryElement) Factory.lookup(bean);
-        params.put(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean);
-        params.put(FactoryURL.PARAMETER_PROPERTY, property);
-        sb.append(getParamsMarkup(params));
+    public String getPermanentLink(String bean, String action, Map params) {
         try {
-            HandlerFactoryElement element = (HandlerFactoryElement) Factory.lookup(bean);
+            StringBuffer sb = new StringBuffer();
+            String base = RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
+            sb.append(base).append("?");
+            params.put(FactoryURL.PARAMETER_BEAN, bean);
+            params.put(FactoryURL.PARAMETER_ACTION, action);
+            sb.append(getParamsMarkup(params));
+            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
             if (element != null) element.setEnabledForActionHandling(true);
-            else log.debug("Bean '" + bean + "' not found on factory");
+            else log.debug("Bean @Named as '" + bean + "' not found.");
+            return postProcessURL(sb).toString();
         } catch (ClassCastException cce) {
-            log.error("Bean " + bean + " is not a HandlerFactoryElement.");
+            log.error("Bean " + bean + " is not a BeanHandler.");
+            return "#";
         }
-        return postProcessURL(sb).toString();
     }
 
     /**
@@ -136,33 +136,32 @@ public class URLMarkupGenerator {
     /**
      * Generate a link to a factory component action
      *
-     * @param bean     Factory component that will perform the action
-     * @param property Component's property (method) that will be invoked
+     * @param beanName Factory component that will perform the action
+     * @param action Bean's property (method) that will be invoked
      * @param params   Extra parameters for link
-     * @return a link url to a factory component action
+     * @return A link url to a bean action
      */
-    public String getMarkup(String bean, String property, Map params) {
-        if (params == null) params = new HashMap();
-        Panel panel = getCurrentPanel();
-        if (panel != null) {
-            params.put(Parameters.DISPATCH_IDPANEL, panel.getPanelId());
-            params.put(Parameters.DISPATCH_ACTION, "_factory");
-        }
-
-        StringBuffer sb = new StringBuffer();
-        sb.append(_getServletMapping()).append("?");
-        String alias = Factory.getAlias(bean);
-        HandlerFactoryElement component = (HandlerFactoryElement) Factory.lookup(bean);
-        params.put(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean);
-        params.put(FactoryURL.PARAMETER_PROPERTY, component.getActionName(property));
-        sb.append(getParamsMarkup(params));
+    public String getMarkup(String beanName, String action, Map params) {
         try {
-            HandlerFactoryElement element = (HandlerFactoryElement) Factory.lookup(bean);
-            element.setEnabledForActionHandling(true);
+            if (params == null) params = new HashMap();
+            Panel panel = getCurrentPanel();
+            if (panel != null) {
+                params.put(Parameters.DISPATCH_IDPANEL, panel.getPanelId());
+                params.put(Parameters.DISPATCH_ACTION, "_factory");
+            }
+
+            StringBuffer sb = new StringBuffer();
+            sb.append(_getServletMapping()).append("?");
+            BeanHandler bean = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(beanName);
+            params.put(FactoryURL.PARAMETER_BEAN, beanName);
+            params.put(FactoryURL.PARAMETER_ACTION, bean.getActionName(action));
+            sb.append(getParamsMarkup(params));
+            bean.setEnabledForActionHandling(true);
+            return postProcessURL(sb).toString();
         } catch (ClassCastException cce) {
-            log.error("Bean " + bean + " is not a HandlerFactoryElement.");
+            log.error("Bean " + beanName + " is not a BeanHandler.");
+            return "#";
         }
-        return postProcessURL(sb).toString();
     }
 
     /**

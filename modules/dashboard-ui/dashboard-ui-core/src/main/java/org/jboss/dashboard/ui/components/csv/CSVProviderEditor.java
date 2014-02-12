@@ -16,7 +16,9 @@
 package org.jboss.dashboard.ui.components.csv;
 
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
 import org.jboss.dashboard.provider.csv.CSVDataLoader;
 import org.jboss.dashboard.commons.misc.Chronometer;
@@ -24,16 +26,25 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@PanelScoped
+@Named("csv_editor")
 public class CSVProviderEditor extends DataProviderEditor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CSVProviderEditor.class.getName());
+
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("/components/bam/provider/csv_edit.jsp")
+    protected String beanJSP;
 
     private ResourceBundle messages;
     private boolean loadAttemptOk = false;
-
     protected int nrows;
     protected long elapsedTime;
 
@@ -44,6 +55,10 @@ public class CSVProviderEditor extends DataProviderEditor {
 
     public CSVProviderEditor() {
         localeManager = LocaleManager.lookup();
+    }
+
+    public String getBeanJSP() {
+        return beanJSP;
     }
 
     public CSVDataLoader getCSVDataLoader() {

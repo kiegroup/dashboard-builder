@@ -15,19 +15,13 @@
  */
 package org.jboss.dashboard.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jboss.dashboard.displayer.DataDisplayerRenderer;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.ui.components.*;
 import org.jboss.dashboard.displayer.DataDisplayer;
-import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.DataProviderType;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
@@ -42,56 +36,12 @@ public class UIBeanLocator {
         return (UIBeanLocator) CDIBeanLocator.getBeanByName("UIBeanLocator");
     }
 
-    protected Map<String,String> dataProviderEditorMap;
-    protected Map<String,String> dataDisplayerViewerMap;
-    protected Map<String,String> dataDisplayerEditorMap;
-
-    @PostConstruct
-    public void init() throws Exception {
-        // Register the provider editors that come de-facto with the product.
-        dataProviderEditorMap = new HashMap<String, String>();
-        dataProviderEditorMap.put("sql", "org.jboss.dashboard.ui.components.SQLProviderEditor");
-        dataProviderEditorMap.put("csv", "org.jboss.dashboard.ui.components.CSVProviderEditor");
-
-        // Register the displayer editors that come de-facto with the product.
-        dataDisplayerEditorMap = new HashMap<String, String>();
-        dataDisplayerEditorMap.put("barchart", "org.jboss.dashboard.ui.components.BarChartEditor");
-        dataDisplayerEditorMap.put("piechart", "org.jboss.dashboard.ui.components.PieChartEditor");
-        dataDisplayerEditorMap.put("linechart", "org.jboss.dashboard.ui.components.LineChartEditor");
-        dataDisplayerEditorMap.put("meterchart", "org.jboss.dashboard.ui.components.MeterChartEditor");
-        dataDisplayerEditorMap.put("table", "org.jboss.dashboard.ui.components.TableEditor");
-
-        // Register the displayer viewers that come de-facto with the product.
-        dataDisplayerViewerMap = new HashMap<String, String>();
-        dataDisplayerViewerMap.put("barchart", "org.jboss.dashboard.ui.components.BarChartViewer");
-        dataDisplayerViewerMap.put("piechart", "org.jboss.dashboard.ui.components.PieChartViewer");
-        dataDisplayerViewerMap.put("linechart", "org.jboss.dashboard.ui.components.LineChartViewer");
-        dataDisplayerViewerMap.put("meterchart", "org.jboss.dashboard.ui.components.MeterChartViewer");
-        dataDisplayerViewerMap.put("table", "org.jboss.dashboard.ui.components.TableViewer");
-    }
-
-    /**
-     * Get the KPI editor component.
-     */
-    public KPIEditor getEditor() {
-        String editorPath = "org.jboss.dashboard.ui.components.KPIEditor";
-        return (KPIEditor) Factory.lookup(editorPath);
-    }
-
-    /**
-     * Get the KPI viewer component.
-     */
-    public KPIViewer getViewer() {
-        String viewerPath = "org.jboss.dashboard.ui.components.KPIViewer";
-        return (KPIViewer) Factory.lookup(viewerPath);
-    }
-
     /**
      * Get the editor component for the specified data provider.
      */
     public DataProviderEditor getEditor(DataProviderType target) {
-        String name = dataProviderEditorMap.get(target.getUid());
-        return (DataProviderEditor) Factory.lookup(name);
+        String beanName = target.getUid() + "_editor";
+        return (DataProviderEditor) CDIBeanLocator.getBeanByName(beanName);
     }
 
     /**
@@ -99,10 +49,8 @@ public class UIBeanLocator {
      */
     public DataDisplayerEditor getEditor(DataDisplayer target) {
         DataDisplayerType type = target.getDataDisplayerType();
-        String name = dataDisplayerEditorMap.get(type.getUid());
-        DataDisplayerEditor editor = (DataDisplayerEditor) Factory.lookup(name);
-        editor.setDataDisplayer(target);
-        return (DataDisplayerEditor) Factory.lookup(name);
+        String beanName = type.getUid() + "_editor";
+        return (DataDisplayerEditor) CDIBeanLocator.getBeanByName(beanName);
     }
 
     /**
@@ -110,11 +58,9 @@ public class UIBeanLocator {
      */
     public DataDisplayerViewer getViewer(DataDisplayer target) {
         DataDisplayerType type = target.getDataDisplayerType();
-        String prefix = dataDisplayerViewerMap.get(type.getUid());
-
         DataDisplayerRenderer lib = target.getDataDisplayerRenderer();
-        String name = prefix + "_" + lib.getUid();
-        DataDisplayerViewer viewer = (DataDisplayerViewer) Factory.lookup(name);
+        String beanName = lib.getUid() + "_" + type.getUid() + "_viewer";
+        DataDisplayerViewer viewer = (DataDisplayerViewer) CDIBeanLocator.getBeanByName(beanName);
         viewer.setDataDisplayer(target);
         return viewer;
     }

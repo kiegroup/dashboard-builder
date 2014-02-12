@@ -15,19 +15,27 @@
  */
 package org.jboss.dashboard.ui.panel;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
 import java.util.List;
 import java.util.ArrayList;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
-public class AjaxRefreshManager extends BasicFactoryElement {
-    
-    public static AjaxRefreshManager lookup() {
-        return (AjaxRefreshManager) Factory.lookup("org.jboss.dashboard.ui.panel.AjaxRefreshManager");
-    }
-    
+/**
+ * Manager which handles panels AJAX refresh requests.
+ */
+@RequestScoped
+public class AjaxRefreshManager {
+
     public static final String FORM_IDENTIFIER_PREFFIX="refreshFormForPanel";
+
+    public static AjaxRefreshManager lookup() {
+        return CDIBeanLocator.getBeanByType(AjaxRefreshManager.class);
+    }
+
+    @Inject @Config("50")
     protected int maxAjaxRequests;
 
     List panelIdsToRefresh = new ArrayList();

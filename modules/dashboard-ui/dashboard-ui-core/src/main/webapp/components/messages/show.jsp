@@ -20,13 +20,11 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<factory:property property="messagesComponentFormatter" id="messagesComponentFormatter">
-<mvc:formatter name="<%=messagesComponentFormatter%>">
+<mvc:formatter name="org.jboss.dashboard.ui.formatters.MessagesComponentFormatter">
     <mvc:fragment name="outputStart">
         <mvc:fragmentValue name="image" id="image">
         <mvc:fragmentValue name="bundle" id="bundle">
@@ -121,4 +119,3 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
-</factory:property>

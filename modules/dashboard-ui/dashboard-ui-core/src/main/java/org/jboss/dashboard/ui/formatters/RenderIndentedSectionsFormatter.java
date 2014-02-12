@@ -26,7 +26,9 @@ import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -35,11 +37,15 @@ import java.util.List;
 import java.util.Map;
 
 public class RenderIndentedSectionsFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderIndentedSectionsFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private NavigationManager navigationManager;
 
     private List pageTitles = new ArrayList();
     private List pages = new ArrayList();
-    private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {
         return navigationManager;

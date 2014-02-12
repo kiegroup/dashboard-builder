@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.ErrorReportHandler;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -22,13 +23,22 @@ import org.jboss.dashboard.error.BusinessError;
 import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.error.ErrorReport;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Error report formatter.
+ */
 public class ErrorReportFormatter extends Formatter {
 
+    @Inject @Config("general/32x32/info.gif")
     protected String messagesImg;
+
+    @Inject @Config("general/32x32/warning.gif")
     protected String warningsImg;
+
+    @Inject @Config("general/32x32/error.gif")
     protected String errorsImg;
 
     public String getMessagesImg() {

@@ -15,7 +15,6 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.ComponentsContextManager" %>
 <%@ page import="org.jboss.dashboard.commons.misc.Chronometer" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
@@ -47,8 +46,6 @@
 </head>
 <body>
 <%
-ComponentsContextManager.startContext();
-try {
     Profiler profiler = Profiler.lookup();
     String threadHash = request.getParameter("hash");
     ThreadProfile tp = profiler.getThreadProfile(Integer.parseInt(threadHash));
@@ -249,9 +246,6 @@ try {
 </table>
 <%
     }
-} finally {
-    ComponentsContextManager.clearContext();
-}
 %>
 </body>
 </html>

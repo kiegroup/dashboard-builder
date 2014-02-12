@@ -16,8 +16,9 @@
 package org.jboss.dashboard.ui.components.panelManagement;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
@@ -29,23 +30,29 @@ import org.slf4j.Logger;
 import org.hibernate.Session;
 
 import java.util.ResourceBundle;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@PanelScoped
+@Named("showp_config_panel")
 public class ShowPanelConfigComponent extends PanelManagementPanel {
-    private static transient Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelConfigComponent.class.getName());
-
-    private FormStatus formStatus;
-    private String messagesComponentHandler;
 
     public static final String PROPERTIES_STORED = "ui.alert.panelProperties.OK";
     public static final String PROPERTIES_NOT_STORED = "ui.alert.panelProperties.KO";
 
-    private String showPanelConfigComponentFormatter;
+    @Inject
+    private transient Logger log;
 
-    /** The locale manager. */
+    @Inject
+    MessagesComponentHandler messagesComponentHandler;
+
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
 
-    public ShowPanelConfigComponent() {
-        localeManager = LocaleManager.lookup();
+    private FormStatus formStatus;
+
+    public String getBeanJSP() {
+        return "/components/showPanelConfig/show.jsp";
     }
 
     @Override
@@ -56,16 +63,16 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
         title = i18n.getString("title.properties");
 
-        ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).clearAll();
+        messagesComponentHandler.clearAll();
 
         return super.openDialog(panel, request, title, width, height);
     }
 
     @Override
-    public void afterRenderComponent() {
+    public void afterRenderBean() {
         try {
             Panel panel = getPanel();
-            if (panel != null) super.afterRenderComponent();
+            if (panel != null) super.afterRenderBean();
         } catch (Exception e) {
             getLogger().warn("Error: ", e);
         }
@@ -81,17 +88,17 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         PanelInstance instance = getPanelInstance();
 
         if (instance != null) {
-            ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).clearAll();
+            messagesComponentHandler.clearAll();
             boolean propertiesOk = setSystemParameters(request, instance) && setCustomParameters(request, instance);
             if (propertiesOk) {
                 resetFormStatus();
                 if (!closeDialog(request)) {
-                    ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).addMessage(PROPERTIES_STORED);
+                    messagesComponentHandler.addMessage(PROPERTIES_STORED);
                 } else {
                     reset();
                 }
             } else {
-                ((MessagesComponentHandler) Factory.lookup(messagesComponentHandler)).addError(PROPERTIES_NOT_STORED);
+                messagesComponentHandler.addError(PROPERTIES_NOT_STORED);
             }
         }
     }
@@ -155,7 +162,7 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
     }
 
     public static ShowPanelConfigComponent lookup() {
-        return (ShowPanelConfigComponent) Factory.lookup(ShowPanelConfigComponent.class.getName());
+        return CDIBeanLocator.getBeanByType(ShowPanelConfigComponent.class);
     }
 
     public FormStatus getFormStatus() {
@@ -166,20 +173,8 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         this.formStatus = formStatus;
     }
 
-    public String getMessagesComponentHandler() {
+    public MessagesComponentHandler getMessagesComponentHandler() {
         return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(String messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
-
-    public String getShowPanelConfigComponentFormatter() {
-        return showPanelConfigComponentFormatter;
-    }
-
-    public void setShowPanelConfigComponentFormatter(String showPanelConfigComponentFormatter) {
-        this.showPanelConfigComponentFormatter = showPanelConfigComponentFormatter;
     }
 
     @Override

@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
@@ -23,36 +25,29 @@ import org.jboss.dashboard.ui.config.TreeStatus;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class PanelInstancePropertiesFormatter extends Formatter {
 
-    private static transient final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesFormatter.class.getName());
     public static final String PANEL_INSTANCE_PROPERTIES = "_panelInstanceProperties";
     public static final String PANEL_INSTANCE = "_panelInstance";
     public static final String FORM_STATUS = "_formStatus";
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private ConfigurationTree configTree;
+
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
+
     private String workspaceId;
     private Long panelInstanceId;
-    private Tree configTree;
-    private TreeStatus treeStatus;
-
-    public Tree getConfigTree() {
-        return configTree;
-    }
-
-    public void setConfigTree(Tree configTree) {
-        this.configTree = configTree;
-    }
-
-    public TreeStatus getTreeStatus() {
-        return treeStatus;
-    }
-
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
-    }
 
     public String getWorkspaceId() {
         return workspaceId;
@@ -79,7 +74,7 @@ public abstract class PanelInstancePropertiesFormatter extends Formatter {
             request.setAttribute(PanelInstancePropertiesFormatter.PANEL_INSTANCE, getPanelInstance());
             request.setAttribute(PanelInstancePropertiesFormatter.FORM_STATUS, getFormStatus());
 
-            TreeNode currentNode = treeStatus.getLastEditedNode(getConfigTree());
+            TreeNode currentNode = treeStatus.getLastEditedNode(configTree);
 
             setAttribute("title",
                     getPanelInstance().getProvider().getResource(

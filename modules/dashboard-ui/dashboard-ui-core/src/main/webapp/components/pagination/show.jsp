@@ -25,8 +25,7 @@
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.messages" id="defaultBundle" locale="<%=LocaleManager.currentLocale()%>"/>
 
-<factory:property property="paginationComponentFormatter" id="paginationComponentFormatter">
-<mvc:formatter name="<%=paginationComponentFormatter%>">
+<mvc:formatter name="org.jboss.dashboard.ui.components.PaginationComponentFormatter">
     <mvc:fragment name="outputStart">
         <factory:property property="showBorder" id="showBorder">
             <div class="<%=Boolean.TRUE.equals(showBorder)?"skn-table_border":""%>" style="width:100%; background-color:#FFFFFF;">
@@ -165,4 +164,3 @@
         </div>
     </mvc:fragment>
 </mvc:formatter>
-</factory:property>

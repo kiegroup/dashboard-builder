@@ -27,7 +27,7 @@ import java.util.Map;
 
 /**
  */
-public class PanelSessionComponentsStorage implements ComponentsStorage {
+public class PanelSessionComponentsStorage {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelSessionComponentsStorage.class.getName());
     public static final String ATTR_PREFFIX = "factory://";
     private static ThreadLocal backup = new ThreadLocal();

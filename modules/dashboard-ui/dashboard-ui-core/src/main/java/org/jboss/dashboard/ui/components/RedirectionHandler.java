@@ -15,13 +15,16 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.DoNothingResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 
-public class RedirectionHandler extends HandlerFactoryElement {
+@ApplicationScoped
+public class RedirectionHandler extends BeanHandler {
 
     public static final String PARAM_PAGE_TO_REDIRECT = "RH_page_to_redirect";
 

@@ -29,11 +29,15 @@ import org.jboss.dashboard.ui.panel.parameters.HTMLTextAreaParameter;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.inject.Inject;
 
 public class TreeMenuDriver extends PanelDriver {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TreeMenuDriver.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     public static final String PARAM_PAGE_TEMPLATE_1 = "PageTemplate1";
     public static final String PARAM_CURRENT_PAGE_TEMPLATE_1 = "currentPageTemplate1";

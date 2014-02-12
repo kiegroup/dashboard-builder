@@ -17,19 +17,24 @@ package org.jboss.dashboard.ui.config.components.panelstypes;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.workspace.*;
 import org.hibernate.Session;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
 
 import java.util.Collections;
 import java.util.Enumeration;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
-public class PanelsTypesPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsTypesPropertiesHandler.class.getName());
+@SessionScoped
+public class PanelsTypesPropertiesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
 
     private String workspaceId;
 
@@ -73,7 +78,7 @@ public class PanelsTypesPropertiesHandler extends HandlerFactoryElement {
             txFragment.execute();
 
         } catch (Exception e) {
-            PanelsTypesPropertiesHandler.log.error("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
         }
     }
 }

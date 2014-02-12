@@ -15,6 +15,9 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.displayer.table.Table;
 import org.jboss.dashboard.displayer.table.TableColumn;
 import org.jboss.dashboard.provider.DataFormatterRegistry;
@@ -31,8 +34,12 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class DataSetTableFormatter extends TableFormatter {
 
-    public DataSetTableFormatter() {
-        super();
+    @Inject
+    DataSetTableHandler dataSetTableHandler;
+
+    @PostConstruct
+    protected void init() {
+        tableHandler = dataSetTableHandler;
     }
 
     protected String formatCellValue(Table table, int row, int column) {

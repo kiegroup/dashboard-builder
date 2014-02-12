@@ -16,7 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;

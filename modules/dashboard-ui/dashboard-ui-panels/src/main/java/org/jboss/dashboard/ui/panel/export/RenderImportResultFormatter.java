@@ -27,12 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- *
- */
 public class RenderImportResultFormatter extends RenderImportPreviewFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderImportResultFormatter.class.getName());
-
 
     /**
      * Perform the required logic for this Formatter. Inside, the methods

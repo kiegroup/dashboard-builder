@@ -15,17 +15,31 @@
  */
 package org.jboss.dashboard.ui.components.panelManagement;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.inject.Inject;
+
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Panel;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+@PanelScoped
 public class ShowPanelPageComponent extends PanelManagementPanel {
-    private static transient Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelPageComponent.class.getName());
+
+    public static ShowPanelPageComponent lookup() {
+        return CDIBeanLocator.getBeanByType(ShowPanelPageComponent.class);
+    }
+
+    @Inject
+    private transient Logger log;
 
     private String page;
+
+    public String getBeanJSP() {
+        return "/components/showPanelPage/show.jsp";
+    }
 
     public void closePopup() {
         ModalDialogComponent mdc = getModalDialogComponent();
@@ -63,10 +77,6 @@ public class ShowPanelPageComponent extends PanelManagementPanel {
 
     public void setPage(String page) {
         this.page = page;
-    }
-
-    public static ShowPanelPageComponent lookup() {
-        return (ShowPanelPageComponent) Factory.lookup(ShowPanelPageComponent.class.getName());
     }
 
     @Override

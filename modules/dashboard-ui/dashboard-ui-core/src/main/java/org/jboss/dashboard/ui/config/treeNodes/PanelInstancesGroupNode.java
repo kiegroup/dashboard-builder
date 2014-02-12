@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.commons.text.Base64;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.HTTPSettings;
@@ -23,17 +23,30 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import javax.inject.Inject;
 
 public class PanelInstancesGroupNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesGroupNode.class.getName());
+
+    @Inject
+    private transient Logger log;
+
     public static final String GROUP_PREFFIX = "group_";
 
     private String workspaceId;
     private String groupName;
     private String providerId;
+
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
+    }
+
+    public boolean isEditable() {
+        return false;
+    }
 
     public String getWorkspaceId() {
         return workspaceId;
@@ -102,7 +115,7 @@ public class PanelInstancesGroupNode extends AbstractNode {
     }
 
     protected PanelInstanceNode getNewInstanceNode(PanelInstance instance) {
-        PanelInstanceNode instanceNode = (PanelInstanceNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.PanelInstanceNode");
+        PanelInstanceNode instanceNode = CDIBeanLocator.getBeanByType(PanelInstanceNode.class);
         instanceNode.setWorkspaceId(instance.getWorkspace().getId());
         instanceNode.setPanelInstanceId(instance.getInstanceId());
         instanceNode.setParent(this);

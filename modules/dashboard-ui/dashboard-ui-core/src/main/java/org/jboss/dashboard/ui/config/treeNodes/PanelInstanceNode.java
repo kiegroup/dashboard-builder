@@ -16,21 +16,48 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
+import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceHandler;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 public class PanelInstanceNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelInstanceHandler instanceHandler;
+
     private String workspaceId;
     private Long panelInstanceId;
+
+    @Inject
+    private PanelsNode panelsNode;
+
+    @Inject
+    private PanelAllPropertiesNode panelAllPropertiesNode;
+
+    @Inject
+    private PanelI18nPropertiesNode panelI18nPropertiesNode;
+
+    @Inject
+    private PanelInstanceSpecificPropertiesNode panelInstanceSpecificPropertiesNode;
+
+    @Inject
+    private PanelInstanceI18nPropertiesNode panelInstanceI18nPropertiesNode;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {panelsNode, panelAllPropertiesNode, panelI18nPropertiesNode});
+    }
 
     public PanelInstanceHandler getInstanceHandler() {
         return instanceHandler;
@@ -60,19 +87,16 @@ public class PanelInstanceNode extends AbstractNode {
         return panelInstanceId.toString();
     }
 
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
+    }
+
     protected PanelInstanceSpecificPropertiesNode getNewPanelInstanceSpecificPropertiesNode() {
-        return (PanelInstanceSpecificPropertiesNode) getNewPanelInstancePropertiesNode(PanelInstanceSpecificPropertiesNode.class.getName());
+        return panelInstanceSpecificPropertiesNode;
     }
 
     protected PanelInstanceI18nPropertiesNode getNewPanelInstanceI18nPropertiesNode() {
-        return (PanelInstanceI18nPropertiesNode) getNewPanelInstancePropertiesNode(PanelInstanceI18nPropertiesNode.class.getName());
-    }
-
-    private PanelInstancePropertiesNode getNewPanelInstancePropertiesNode(String className) {
-        PanelInstancePropertiesNode pNode = (PanelInstancePropertiesNode) Factory.lookup(className);
-        pNode.setTree(getTree());
-        pNode.setParent(this);
-        return pNode;
+        return panelInstanceI18nPropertiesNode;
     }
 
     public PanelInstance getPanelInstance() throws Exception {

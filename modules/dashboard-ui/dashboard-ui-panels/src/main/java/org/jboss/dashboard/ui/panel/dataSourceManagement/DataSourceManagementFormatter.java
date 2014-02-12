@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
-import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -23,7 +22,9 @@ import org.jboss.dashboard.database.DataSourceEntry;
 import org.jboss.dashboard.database.JDBCDataSourceEntry;
 import org.jboss.dashboard.database.JNDIDataSourceEntry;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -34,31 +35,23 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DataSourceManagementFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementFormatter.class.getName());
 
-    private DataSourceManagementHandler dataSourceManagementHandler;
     public static final String JDBC_DATA_SOURCE_ENTRY = "JDBCDataSourceEntry";
     public static final String JNDI_DATA_SOURCE_ENTRY = "JNDIDataSourceEntry";
 
-    /** The locale manager. */
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private DataSourceManagementHandler dataSourceManagementHandler;
+
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public DataSourceManagementFormatter() {
-        localeManager = LocaleManager.lookup();
-    }
-
-    public DataSourceManagementHandler getDataSourceManagementHandler() {
-        return dataSourceManagementHandler;
-    }
-
-    public void setDataSourceManagementHandler(DataSourceManagementHandler dataSourceManagementHandler) {
-        this.dataSourceManagementHandler = dataSourceManagementHandler;
-    }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
-            boolean isEditing = getDataSourceManagementHandler().isEDIT_MODE();
-            boolean isCreating = getDataSourceManagementHandler().isCreating();
+            boolean isEditing = dataSourceManagementHandler.isEDIT_MODE();
+            boolean isCreating = dataSourceManagementHandler.isCreating();
             List existingDataSources = dataSourceManagementHandler.getDataSourceManager().getDataSourceEntries();
             renderFragment("outputStart");
 
@@ -77,7 +70,7 @@ public class DataSourceManagementFormatter extends Formatter {
                 for (int i = 0; i < existingDataSources.size(); i++) {
                     DataSourceEntry entry = (DataSourceEntry) existingDataSources.get(i);
 
-                    if (getDataSourceManagementHandler().isEDIT_MODE() && entry.getName().equals(getDataSourceManagementHandler().getDS_EDIT()))
+                    if (dataSourceManagementHandler.isEDIT_MODE() && entry.getName().equals(dataSourceManagementHandler.getDS_EDIT()))
                     {
                         setAttribute("selected", new Boolean(true));
                     } else {
@@ -110,8 +103,8 @@ public class DataSourceManagementFormatter extends Formatter {
 
     protected String checkDataSource(DataSourceEntry entry) {
         try {
-            DataSource ds = getDataSourceManagementHandler().getDataSourceManager().getDataSource(entry.getName());
-            if (!getDataSourceManagementHandler().getDataSourceManager().checkDriverClassAvailable(entry.getDriverClass())) {
+            DataSource ds = dataSourceManagementHandler.getDataSourceManager().getDataSource(entry.getName());
+            if (!dataSourceManagementHandler.getDataSourceManager().checkDriverClassAvailable(entry.getDriverClass())) {
                 ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.dataSourceManagement.messages", LocaleManager.currentLocale());
                 return i18n.getString("datasource.driver.na");
             }

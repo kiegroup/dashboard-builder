@@ -15,36 +15,30 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jboss.dashboard.displayer.table.Table;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DataDisplayerViewer;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.displayer.table.TableDisplayer;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
-
+@PanelScoped
+@Named("default_table_viewer")
 public class TableViewer extends DataDisplayerViewer {
 
-    /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TableViewer.class);
+    @Inject
+    protected DataSetTableViewer tableHandler;
 
-    /**
-     * The table component handler.
-     */
-    protected TableHandler tableHandler;
-
-    public TableViewer() {
-        super();
+    public String getBeanJSP() {
+        return "/components/bam/displayer/table/table_viewer.jsp";
     }
 
     public TableHandler getTableHandler() {
         return tableHandler;
-    }
-
-    public void setTableHandler(TableHandler tableHandler) {
-        this.tableHandler = tableHandler;
     }
 
     public void setDataDisplayer(DataDisplayer dataDisplayer) {

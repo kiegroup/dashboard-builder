@@ -15,12 +15,15 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.*;
 
 public class PanelInstanceSpecificPropertiesFormatter extends PanelInstancePropertiesFormatter {
 
+    @Inject
     private PanelInstanceSpecificPropertiesHandler handler;
 
     public PanelInstanceSpecificPropertiesHandler getHandler() {

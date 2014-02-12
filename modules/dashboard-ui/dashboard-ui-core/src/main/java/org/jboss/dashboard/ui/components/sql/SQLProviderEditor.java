@@ -17,25 +17,36 @@ package org.jboss.dashboard.ui.components.sql;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.error.ErrorManager;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
 import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.slf4j.Logger;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@PanelScoped
+@Named("sql_editor")
 public class SQLProviderEditor extends DataProviderEditor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SQLProviderEditor.class.getName());
 
     private ResourceBundle messages;
     private boolean loadAttemptOk = false;
-
     protected int nrows;
     protected long elapsedTime;
+
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("/components/bam/provider/sql_edit.jsp")
+    protected String beanJSP;
 
     /** The locale manager. */
     protected LocaleManager localeManager;
@@ -44,6 +55,10 @@ public class SQLProviderEditor extends DataProviderEditor {
 
     public SQLProviderEditor() {
         localeManager = LocaleManager.lookup();
+    }
+
+    public String getBeanJSP() {
+        return beanJSP;
     }
 
     public SQLDataLoader getSQLDataLoader() {

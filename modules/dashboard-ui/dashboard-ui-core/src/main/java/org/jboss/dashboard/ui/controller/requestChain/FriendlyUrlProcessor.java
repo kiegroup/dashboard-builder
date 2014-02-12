@@ -17,28 +17,38 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class FriendlyUrlProcessor extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FriendlyUrlProcessor.class.getName());
+@ApplicationScoped
+public class FriendlyUrlProcessor implements RequestChainProcessor {
 
-    private NavigationManager navigationManager;
-    private boolean showLoginBackDoorOnPermissionDenied = true;
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("true")
+    private boolean showLoginBackDoorOnPermissionDenied;
 
     public static final String FRIENDLY_MAPPING = "/" + URLMarkupGenerator.FRIENDLY_PREFIX;
     public static final String LOCALE_PARAMETER = "locale";
@@ -47,36 +57,24 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         return showLoginBackDoorOnPermissionDenied;
     }
 
-    public void setShowLoginBackDoorOnPermissionDenied(boolean showLoginBackDoorOnPermissionDenied) {
-        this.showLoginBackDoorOnPermissionDenied = showLoginBackDoorOnPermissionDenied;
-    }
-
-    public UserStatus getUserStatus() {
-        return UserStatus.lookup();
-    }
-
-    public NavigationManager getNavigationManager() {
-        return navigationManager;
-    }
-
-    public void setNavigationManager(NavigationManager navigationManager) {
-        this.navigationManager = navigationManager;
-    }
-
     /**
      * Make required processing of request.
      *
      * @return true if processing must continue, false otherwise.
      */
-    protected boolean processRequest() throws Exception {
-        HttpServletRequest request = getRequest();
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        HttpServletResponse response = req.getResponseObject();
         String servletPath = request.getServletPath();
+        NavigationManager navigationManager = NavigationManager.lookup();
+        UserStatus userStatus = UserStatus.lookup();
+        ControllerStatus controllerStatus = ControllerStatus.lookup();
 
         // ---- Apply locale information, --------------
         LocaleManager localeManager = LocaleManager.lookup();
         // First check if a locale parameter is present in the URI query string.
         Locale localeToSet = null;
-        String localeParam = getRequest().getParameter(LOCALE_PARAMETER);
+        String localeParam = request.getParameter(LOCALE_PARAMETER);
         if (localeParam != null && localeParam.trim().length() > 0)  {
             localeToSet = localeManager.getLocaleById(localeParam);
             if (localeToSet != null) {
@@ -88,7 +86,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         if (!servletPath.startsWith(FRIENDLY_MAPPING)) return true;
 
         String contextPath = request.getContextPath();
-        getControllerStatus().consumeURIPart(FRIENDLY_MAPPING);
+        controllerStatus.consumeURIPart(FRIENDLY_MAPPING);
         navigationManager.setShowingConfig(false);
         String requestUri = request.getRequestURI();
         String relativeUri = requestUri.substring(contextPath == null ? 0 : (contextPath.length()));
@@ -116,7 +114,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
         String localeUri = relativeUri.substring(startLocaleUri + 1, endLocaleUri);
         Locale uriLocale = localeManager.getLocaleById(localeUri);
         if (uriLocale != null) {
-            getControllerStatus().consumeURIPart("/" + localeUri);
+            controllerStatus.consumeURIPart("/" + localeUri);
             relativeUri = relativeUri.substring(localeUri.length() + 1);
             // Use the locale specified in the URI value only if no locale specified in the qeury string.
             if (localeToSet == null) localeManager.setCurrentLocale(uriLocale);
@@ -170,7 +168,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                     if (!workspace.equals(currentWorkspace)) {
 
                         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
-                        if (getUserStatus().hasPermission(workspacePerm)) {
+                        if (userStatus.hasPermission(workspacePerm)) {
                             navigationManager.setCurrentWorkspace(workspace);
                             log.debug("SessionManager.setWorkspace(" + workspace.getId() + ")");
                         } else {
@@ -181,7 +179,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                             }
                         }
                     }
-                    getControllerStatus().consumeURIPart("/" + workspaceCandidate);
+                    controllerStatus.consumeURIPart("/" + workspaceCandidate);
                 } catch (Exception e) {
                     log.error("Cannot set current workspace.", e);
                 }
@@ -193,7 +191,7 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
 
                         WorkspacePermission workspacePerm = WorkspacePermission.newInstance(section.getWorkspace(), WorkspacePermission.ACTION_LOGIN);
                         SectionPermission sectionPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_VIEW);
-                        if (getUserStatus().hasPermission(workspacePerm) && getUserStatus().hasPermission(sectionPerm)) {
+                        if (userStatus.hasPermission(workspacePerm) && userStatus.hasPermission(sectionPerm)) {
                             if (log.isDebugEnabled()) log.debug("SessionManager.setSection(" + section.getId() + ")");
                             navigationManager.setCurrentSection(section);
                         }
@@ -205,8 +203,8 @@ public class FriendlyUrlProcessor extends RequestChainProcessor {
                             }
                         }
                     }
-                    getControllerStatus().consumeURIPart("/" + workspaceCandidate);
-                    getControllerStatus().consumeURIPart("/" + sectionCandidate);
+                    controllerStatus.consumeURIPart("/" + workspaceCandidate);
+                    controllerStatus.consumeURIPart("/" + sectionCandidate);
                 } catch (Exception e) {
                     log.error("Cannot set current section.", e);
                 }

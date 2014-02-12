@@ -15,38 +15,33 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
-public class WorkspacesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesHandler.class.getName());
-    private String navigationManager;
+@ApplicationScoped
+@Named("workspaces_handler")
+public class WorkspacesHandler extends BeanHandler {
 
-    public String getNavigationManager(){
-        return navigationManager;
-    }
+    @Inject
+    private transient Logger log;
 
-    public void setNavigationManager(String navigationManager) {
-        this.navigationManager = navigationManager;
-    }
-
-    protected NavigationManager getNavigator() {
-        return (NavigationManager) Factory.lookup(navigationManager);
+    protected NavigationManager getNavigatorManager() {
+        return NavigationManager.lookup();
     }
 
     public CommandResponse actionShowScreen(CommandRequest request) {
         return null;
     }
-
 
     public CommandResponse actionDispatch(CommandRequest request) {
         return null;
@@ -60,7 +55,7 @@ public class WorkspacesHandler extends HandlerFactoryElement {
             if (!StringUtils.isEmpty(workspaceId) && !StringUtils.isEmpty(pageId)) {
                 WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
                 Section page = workspace.getSection(Long.decode(pageId));
-                getNavigator().setCurrentSection(page);
+                getNavigatorManager().setCurrentSection(page);
             }
         } catch (Exception e) {
             log.error("Error in beforeInvokeAction: ", e);

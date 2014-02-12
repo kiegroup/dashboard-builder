@@ -15,12 +15,13 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.NVD3PieChartViewer" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%
-    NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.PieChartViewer_nvd3");
+    NVD3ChartViewer viewer = CDIBeanLocator.getBeanByType(NVD3PieChartViewer.class);
     AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>
@@ -46,7 +47,7 @@
 <% if( enableDrillDown ) { %>
 <!-- Form for drill down action -->
 <form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
-  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
+  <factory:handler bean="<%=viewer.getBeanName()%>" action="<%= NVD3ChartViewer.PARAM_ACTION %>"/>
   <input type="hidden" name="<%= NVD3ChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
 <script defer="true">

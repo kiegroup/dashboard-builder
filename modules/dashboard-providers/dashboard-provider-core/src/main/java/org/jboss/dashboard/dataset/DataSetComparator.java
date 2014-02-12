@@ -17,6 +17,8 @@ package org.jboss.dashboard.dataset;
 
 import java.util.Iterator;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.commons.comparator.AbstractComparatorByCriteria;
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
 import org.slf4j.Logger;
@@ -27,7 +29,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DataSetComparator extends AbstractComparatorByCriteria {
 
-    private static transient Logger log = LoggerFactory.getLogger(DataSetComparator.class.getName());
+    @Inject
+    private transient Logger log;
 
     public int compare(Object o1, Object o2) {
         try {

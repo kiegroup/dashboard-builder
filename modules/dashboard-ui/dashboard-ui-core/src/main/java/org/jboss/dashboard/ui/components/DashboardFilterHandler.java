@@ -15,18 +15,21 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.DashboardFilter;
 import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.provider.DataProvider;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.commons.filter.FilterByCriteria;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.xerces.parsers.DOMParser;
+import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,21 +39,13 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
+import javax.inject.Inject;
 
-public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterHandler.class.getName());
-
-    // Component JSPs
-    protected String componentIncludeJSP;
-    protected String componentIncludeJSPshow;
-    protected String componentIncludeJSPedit;
-    protected String componentIncludeJSPproperties;
-
-    protected String componentIncludeJSPshort_show;
-    protected String componentIncludeJSPshort_edit;
-    protected String componentIncludeJSPshort_properties;
+@PanelScoped
+public class DashboardFilterHandler extends UIBeanHandler {
 
     public static final String I18N_PREFFIX = "dashboardFilter.";
+
     public static final String PARAM_VALUE = "value";
     public static final String PARAM_VALUE_MIN = "minValue";
     public static final String PARAM_VALUE_MAX = "maxValue";
@@ -80,7 +75,31 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
     public static final String PARAM_SHORT_MODE = "shortMode";
     public static final String PARAM_SHOW_LEGEND= "showLegend";
 
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("/components/bam/dashboard_filter/extended/show.jsp")
+    protected String componentIncludeJSPshow;
+
+    @Inject @Config("/components/bam/dashboard_filter/extended/edit.jsp")
+    protected String componentIncludeJSPedit;
+
+    @Inject @Config("/components/bam/dashboard_filter/extended/properties.jsp")
+    protected String componentIncludeJSPproperties;
+
+    @Inject @Config("/components/bam/dashboard_filter/short/show.jsp")
+    protected String componentIncludeJSPshort_show;
+
+    @Inject @Config("/components/bam/dashboard_filter/short/edit.jsp")
+    protected String componentIncludeJSPshort_edit;
+
+    @Inject @Config("/components/bam/dashboard_filter/short/properties.jsp")
+    protected String componentIncludeJSPshort_properties;
+
+    @Inject
     protected DashboardHandler dashboardHandler;
+
+    @Inject
     protected DashboardFilterRequestProcessor requestProcessor;
 
     protected String serializedProperties;
@@ -254,34 +273,6 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return isShowMode;
     }
 
-    public String getComponentIncludeJSPshort_edit() {
-        return componentIncludeJSPshort_edit;
-    }
-
-    public void setComponentIncludeJSPshort_edit(String componentIncludeJSPshort_edit) {
-        this.componentIncludeJSPshort_edit = componentIncludeJSPshort_edit;
-    }
-
-    public String getComponentIncludeJSPshort_properties() {
-        return componentIncludeJSPshort_properties;
-    }
-
-    public void setComponentIncludeJSPshort_properties(String componentIncludeJSPshort_properties) {
-        this.componentIncludeJSPshort_properties = componentIncludeJSPshort_properties;
-    }
-
-    public String getComponentIncludeJSPshort_show() {
-        return componentIncludeJSPshort_show;
-    }
-
-    public void setComponentIncludeJSPshort_show(String componentIncludeJSPshort_show) {
-        this.componentIncludeJSPshort_show = componentIncludeJSPshort_show;
-    }
-
-    public String getComponentIncludeJSPproperties() {
-        return componentIncludeJSPproperties;
-    }
-
     public String getJSPForShowMode() {
         if (isShortMode) return componentIncludeJSPshort_show;
         else return componentIncludeJSPshow;
@@ -301,32 +292,8 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return getJSPForShowMode();
     }
 
-    public void setComponentIncludeJSPproperties(String componentIncludeJSPproperties) {
-        this.componentIncludeJSPproperties = componentIncludeJSPproperties;
-    }
-
-    public String getComponentIncludeJSPedit() {
-        return componentIncludeJSPedit;
-    }
-
-    public void setComponentIncludeJSPedit(String componentIncludeJSPedit) {
-        this.componentIncludeJSPedit = componentIncludeJSPedit;
-    }
-
-    public String getComponentIncludeJSPshow() {
-        return componentIncludeJSPshow;
-    }
-
-    public void setComponentIncludeJSPshow(String componentIncludeJSPshow) {
-        this.componentIncludeJSPshow = componentIncludeJSPshow;
-    }
-
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return getJSP();
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
     }
 
     // -------------- END GETTERS AND SETTERS --------------------- //
@@ -337,13 +304,13 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         DashboardFilterHandler handler = null;
 
         // Get handler for code;
-        if (!StringUtils.isBlank(code)) handler = (DashboardFilterHandler) Factory.lookup("org.jboss.dashboard.ui.components.DashboardFilterHandler_" + code);
-        if (handler == null) handler = (DashboardFilterHandler) Factory.lookup("org.jboss.dashboard.ui.components.DashboardFilterHandler");
+        if (!StringUtils.isBlank(code)) handler = (DashboardFilterHandler) CDIBeanLocator.getBeanByName("DashboardFilterHandler_" + code);
+        if (handler == null) handler = CDIBeanLocator.getBeanByType(DashboardFilterHandler.class);
         return handler;
     }
 
     public String getComponentPath() {
-        return getComponentName();
+        return getBeanName();
     }
 
     public Dashboard getDashboard() {
@@ -760,8 +727,8 @@ public class DashboardFilterHandler extends UIComponentHandlerFactoryElement {
         return needsToSerializeAfter;
     }
 
-    public synchronized void beforeRenderComponent() {
-        super.beforeRenderComponent();
+    public synchronized void beforeRenderBean() {
+        super.beforeRenderBean();
 
         // Initialize the dashboard (loads all its kpi panels)
         DashboardHandler.lookup().getCurrentDashboard();

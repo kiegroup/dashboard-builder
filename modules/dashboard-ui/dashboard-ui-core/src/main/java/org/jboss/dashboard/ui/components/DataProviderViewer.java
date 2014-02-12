@@ -17,7 +17,7 @@ package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.provider.DataProvider;
 
-public abstract class DataProviderViewer extends UIComponentHandlerFactoryElement {
+public abstract class DataProviderViewer extends UIBeanHandler {
 
     protected DataProvider dataProvider;
     protected String componentIncludeJSP;
@@ -34,14 +34,10 @@ public abstract class DataProviderViewer extends UIComponentHandlerFactoryElemen
         this.dataProvider = dataProvider;
     }
 
-    // UIComponentHandlerFactoryElement interface
+    // UIBeanHandler interface
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return this.componentIncludeJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
     }
 
     public void clear() {

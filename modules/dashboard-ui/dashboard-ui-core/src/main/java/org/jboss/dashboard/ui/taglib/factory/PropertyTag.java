@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -72,9 +72,9 @@ public class PropertyTag extends GenericFactoryTag {
     }
 
     protected Object getValue() {
-        if (value != null)
-            return value;
-        Object beanObject = Factory.lookup(getBean());
+        if (value != null) return value;
+
+        Object beanObject = CDIBeanLocator.getBeanByNameOrType(getBean());
         if (beanObject != null) {
             JXPathContext ctx = JXPathContext.newContext(beanObject);
             try {

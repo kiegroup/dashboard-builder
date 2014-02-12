@@ -15,28 +15,20 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.ComponentsContextManager" %>
 <%@ page import="org.jboss.dashboard.users.UserStatus" %>
 <%@ page import="org.jboss.dashboard.Application" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%
-    String copyright = null;
-    UserStatus userStatus = null;
-    try {
-        ComponentsContextManager.startContext();
-        userStatus = UserStatus.lookup();
-        copyright = Application.lookup().getCopyright();
+    UserStatus userStatus = UserStatus.lookup();
+    String copyright = Application.lookup().getCopyright();
 
-        // SSO of root login requests.
-        String login = request.getRemoteUser();
-        if (!StringUtils.isBlank(login)
-                && userStatus.isAnonymous()
-                && userStatus.getRootLogin().equals(login)) {
+    // SSO of root login requests.
+    String login = request.getRemoteUser();
+    if (!StringUtils.isBlank(login)
+            && userStatus.isAnonymous()
+            && userStatus.getRootLogin().equals(login)) {
 
-            userStatus.initSessionAsRoot();
-        }
-    } finally {
-        ComponentsContextManager.clearContext();
+        userStatus.initSessionAsRoot();
     }
 
     if (userStatus.isRootUser()) {

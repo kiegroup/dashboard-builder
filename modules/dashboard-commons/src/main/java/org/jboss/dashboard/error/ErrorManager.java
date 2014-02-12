@@ -197,10 +197,10 @@ public class ErrorManager {
     }
 
     /**
-     * Logger the specified error report.
+     * Log the specified error report.
      */
     public void logError(ErrorReport report) {
-        // Logger only the non-application errors.
+        // Log only the non-application errors.
         ApplicationError appError = getApplicationErrorCause(report.getException());
         if (appError == null) {
             // Print the report in the log.

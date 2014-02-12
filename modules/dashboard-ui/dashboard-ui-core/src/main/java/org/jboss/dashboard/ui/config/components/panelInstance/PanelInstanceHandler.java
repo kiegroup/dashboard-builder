@@ -15,15 +15,16 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.enterprise.context.SessionScoped;
+
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspacesManager;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
-public class PanelInstanceHandler  extends HandlerFactoryElement {
+@SessionScoped
+public class PanelInstanceHandler extends BeanHandler {
 
     private String workspaceId;
     private Long panelInstanceId;

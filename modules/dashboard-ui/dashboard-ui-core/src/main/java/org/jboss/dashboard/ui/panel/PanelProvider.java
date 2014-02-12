@@ -17,12 +17,15 @@ package org.jboss.dashboard.ui.panel;
 
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
+import org.slf4j.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -35,12 +38,13 @@ import java.util.*;
  * common stuff for all the providers, and delegates all tasks which are dependant
  * on the panel's type to the attached panel driver.
  */
-public class PanelProvider extends BasicFactoryElement {
+public class PanelProvider {
 
     /**
      * Logger
      */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelProvider.class.getName());
+    @Inject
+    private Logger log;
 
     /**
      * Attributes
@@ -107,23 +111,23 @@ public class PanelProvider extends BasicFactoryElement {
      */
     private PanelHelp panelHelp;
 
+    @Inject @Config("/WEB-INF/etc/panels/messages.properties")
     private String[] defaultBundleFiles = new String[]{};
 
+    @Inject @Config("WEB-INF/data")
     private String panelStatusDir = "WEB-INF/data";
+
+    @Inject @Config("WEB-INF/data/panels")
     private String panelsDir = "WEB-INF/data/panels";
+
+    @Inject @Config("WEB-INF/data/panels")
     private String panelsUrlMapping = "/WEB-INF/data/panels";
-    private String invalidDriverPage = "/panels/panelNotFound.jsp";
 
-    /** The locale manager. */
+    @Inject @Config("/panels/panelNotFound.jsp")
+    private String invalidDriverPage = "";
+
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public PanelProvider() {
-        localeManager = LocaleManager.lookup();
-    }
-
-    public PanelProvider(PanelDriver newDriver) {
-        this.driver = newDriver;
-    }
 
     public String getId() {
         return id;
@@ -335,8 +339,8 @@ public class PanelProvider extends BasicFactoryElement {
         getDriver().initPanelSession(status, session);
     }
 
+    @PostConstruct
     public void start() throws Exception {
-        super.start();
         for (int i = 0; i < defaultBundleFiles.length; i++) {
             String defaultBundleFile = defaultBundleFiles[i];
             File bundleFile = new File(Application.lookup().getBaseAppDirectory() + defaultBundleFile);
@@ -345,7 +349,7 @@ public class PanelProvider extends BasicFactoryElement {
     }
 
     public static PanelProvider getInvalidPanelProvider(String id) throws Exception {
-        PanelProvider p = (PanelProvider) Factory.lookup("org.jboss.dashboard.ui.panel.PanelProvider");
+        PanelProvider p = CDIBeanLocator.getBeanByType(PanelProvider.class);
         //Add invalid driver page
         p.addPage(PanelDriver.PAGE_MANAGE_INVALID_DRIVER, p.getInvalidDriverPage());
         p.setId(id);

@@ -15,13 +15,11 @@
  */
 package org.jboss.dashboard.ui.config;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractTree extends BasicFactoryElement implements Tree {
+public abstract class AbstractTree implements Tree {
 
     public AbstractTree() {
         super();
@@ -115,5 +113,4 @@ public abstract class AbstractTree extends BasicFactoryElement implements Tree {
         }
         return null;
     }
-
 }

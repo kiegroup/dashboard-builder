@@ -111,8 +111,8 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     }
 
     protected void passKPItoUI(KPI kpi) {
-        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor();
-        KPIViewer kpiViewer = UIBeanLocator.lookup().getViewer();
+        KPIEditor kpiEditor = KPIEditor.lookup();
+        KPIViewer kpiViewer = KPIViewer.lookup();
         if (kpiEditor.getKpi() == null) kpiEditor.setKpi(kpi);
         if (kpiViewer.getKpi() == null) kpiViewer.setKpi(kpi);
     }
@@ -204,7 +204,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
      * Save changes on the KPI being edited.
      */
     public void actionSubmit(Panel panel, CommandRequest request) throws Exception {
-        KPIEditor kpiEditor = UIBeanLocator.lookup().getEditor();
+        KPIEditor kpiEditor = KPIEditor.lookup();
         kpiEditor.actionSubmit(request);
 
         // Make the panel instance's description match the KPI description.

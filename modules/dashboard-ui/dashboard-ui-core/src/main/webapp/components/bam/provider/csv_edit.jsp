@@ -15,12 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.csv.CSVProviderEditor" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.provider.csv.CSVDataLoader" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@taglib uri="factory.tld" prefix="factory" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
@@ -29,7 +29,7 @@
 			 locale="<%=LocaleManager.currentLocale()%>"/>
 <panel:defineObjects/>
 <%
-	CSVProviderEditor editor = (CSVProviderEditor) Factory.lookup("org.jboss.dashboard.ui.components.CSVProviderEditor");
+	CSVProviderEditor editor = CDIBeanLocator.getBeanByType(CSVProviderEditor.class);
 	CSVDataLoader csvLoader = editor.getCSVDataLoader();
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

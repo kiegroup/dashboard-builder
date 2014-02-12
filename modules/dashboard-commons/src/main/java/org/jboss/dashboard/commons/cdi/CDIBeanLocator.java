@@ -52,11 +52,31 @@ public class CDIBeanLocator {
         return o;
     }
 
-    public static Object getBeanByType(Class type) {
+    public static <T> T getBeanByType(Class<T> type) {
         BeanManager bm = getBeanManager();
         Bean bean = bm.getBeans(type).iterator().next();
         CreationalContext ctx = bm.createCreationalContext(bean);
         Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
-        return o;
-    }    
+        return type.cast(o);
+    }
+
+    public static Object getBeanByType(String type) {
+        try {
+            Class beanClass = Class.forName(type);
+            return CDIBeanLocator.getBeanByType(beanClass);
+        } catch (Throwable e) {
+            // Just ignore
+            return null;
+        }
+    }
+
+    public static Object getBeanByNameOrType(String beanName) {
+        try {
+            Object beanObject = CDIBeanLocator.getBeanByName(beanName);
+            if (beanObject != null) return beanObject;
+            return null;
+        } catch (Exception e) {
+            return getBeanByType(beanName);
+        }
+    }
 }

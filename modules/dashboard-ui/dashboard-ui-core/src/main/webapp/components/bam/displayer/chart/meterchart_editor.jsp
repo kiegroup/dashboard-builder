@@ -20,14 +20,14 @@
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ page import="org.jboss.dashboard.ui.components.chart.MeterChartEditor"%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    MeterChartEditor editor = (MeterChartEditor) Factory.lookup("org.jboss.dashboard.ui.components.MeterChartEditor");
+    MeterChartEditor editor = CDIBeanLocator.getBeanByType(MeterChartEditor.class);
     MeterChartDisplayer displayer = (MeterChartDisplayer) editor.getDataDisplayer();
     DataDisplayerViewer viewer = UIBeanLocator.lookup().getViewer(displayer);
     request.setAttribute("editor", editor);
@@ -51,7 +51,7 @@
         </td>
         <!-- Include the graphic -->
         <td valign="top">
-            <factory:useComponent bean="<%= viewer.getName() %>"/>
+            <factory:useComponent bean="<%= viewer.getBeanName() %>"/>
         </td>
     </tr>
 </table>

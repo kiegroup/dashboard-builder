@@ -15,14 +15,38 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
+import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
+import org.jboss.dashboard.workspace.Panel;
+import org.jboss.dashboard.workspace.Parameters;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.jsp.PageContext;
 
-public abstract class FactoryUniqueIdEncoder extends BasicFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryUniqueIdEncoder.class.getName());
+@ApplicationScoped
+public class FactoryUniqueIdEncoder {
 
-    public abstract String encodeFromContext(PageContext context, String name);
-    public abstract String encode(Object panel, UIComponentHandlerFactoryElement factoryComponent, String name);
+    public static FactoryUniqueIdEncoder lookup() {
+        return CDIBeanLocator.getBeanByType(FactoryUniqueIdEncoder.class);
+    }
+
+    public String encode(Object panel, UIBeanHandler uiBean, String name) {
+        StringBuffer sb = new StringBuffer();
+        if (panel != null) {
+            sb.append("panel_").append(((Panel)panel).getPanelId()).append("_");
+        }
+        if (uiBean != null) {
+            sb.append("uibean_").append(Math.abs(uiBean.getBeanName().hashCode())).append("_");
+        }
+        sb.append(StringEscapeUtils.escapeHtml(name));
+        return sb.toString();
+    }
+
+    public String encodeFromContext(PageContext pageContext, String name) {
+        Panel panel = (Panel) pageContext.getRequest().getAttribute(Parameters.RENDER_PANEL);
+        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+        return encode(panel, factoryComponent, name);
+    }
 }

@@ -58,7 +58,7 @@ public class CDILookupTest {
     @Before
     public void setUp() {
         CDIBeanLocator.beanManager = beanManager;
-        bean = (Bean) CDIBeanLocator.getBeanByType(Bean.class);
+        bean = CDIBeanLocator.getBeanByType(Bean.class);
     }
     
     @Test

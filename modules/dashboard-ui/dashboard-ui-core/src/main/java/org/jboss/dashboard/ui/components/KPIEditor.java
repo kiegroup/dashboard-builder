@@ -16,11 +16,13 @@
 package org.jboss.dashboard.ui.components;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.provider.DataProvider;
@@ -28,8 +30,20 @@ import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.DataDisplayer;
 
 import java.util.*;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+@PanelScoped
+@Named("kpi_editor")
 public class KPIEditor extends KPIViewer {
+
+    /** Get the instance. */
+    public static KPIEditor lookup() {
+        return CDIBeanLocator.getBeanByType(KPIEditor.class);
+    }
+
+    @Inject @Config("/components/bam/kpi_view.jsp")
+    protected String beanJSP;
 
     protected DataDisplayerEditor displayerEditor;
 
@@ -44,11 +58,10 @@ public class KPIEditor extends KPIViewer {
         displayerEditor = null;
     }
 
-    /** Get the instance. */
-    public static KPIEditor lookup() {
-        return (KPIEditor) Factory.lookup("org.jboss.dashboard.ui.components.KPIEditor");
+    public String getBeanJSP() {
+        return beanJSP;
     }
-    
+
     public void setKpi(KPI kpi) {
         super.setKpi(kpi);
 

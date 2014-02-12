@@ -16,11 +16,12 @@
 package org.jboss.dashboard.ui.config.components.sections;
 
 import org.jboss.dashboard.Application;
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.components.SectionsHandler;
@@ -35,12 +36,13 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.*;
+import javax.inject.Inject;
 
-public class SectionsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsPropertiesHandler.class.getName());
+public class SectionsPropertiesHandler extends BeanHandler {
 
     public static final String ACTION_MOVE_UP = "action_move_up";
     public static final String ACTION_MOVE_DOWN = "action_move_down";
@@ -61,10 +63,21 @@ public class SectionsPropertiesHandler extends HandlerFactoryElement {
 
     public static final String COPY_MODE = "copyMode";
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionsHandler sectionsHandler;
+
+    @Inject
     private MessagesComponentHandler messagesComponentHandler;
-    private Tree configTree;
-    private TreeStatus treeStatus;
+
+    @Inject
+    private ConfigurationTree configTree;
+
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
+
     private String workspaceId;
     private String selectedSectionId;
     private Map titleMap;
@@ -119,16 +132,8 @@ public class SectionsPropertiesHandler extends HandlerFactoryElement {
         return configTree;
     }
 
-    public void setConfigTree(Tree configTree) {
-        this.configTree = configTree;
-    }
-
     public TreeStatus getTreeStatus() {
         return treeStatus;
-    }
-
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
     }
 
     public String getAction() {
@@ -720,12 +725,12 @@ public class SectionsPropertiesHandler extends HandlerFactoryElement {
     protected boolean validate() {
         try {
             if (titleMap == null || titleMap.isEmpty()) {
-                addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+                addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
                 getMessagesComponentHandler().addError("ui.alert.sectionErrors.title");
             }
 
             if (!isValidURL(url)) {
-                addFieldError(new FactoryURL(getComponentName(), "url"), null, url);
+                addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
                 getMessagesComponentHandler().addError("ui.alert.sectionErrors.url");
             }
 

@@ -28,7 +28,7 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 public class DashboardSettings {
 
     public static DashboardSettings lookup() {
-        return (DashboardSettings) CDIBeanLocator.getBeanByType(DashboardSettings.class);
+        return CDIBeanLocator.getBeanByType(DashboardSettings.class);
     }
 
     @Inject @Config("1000")

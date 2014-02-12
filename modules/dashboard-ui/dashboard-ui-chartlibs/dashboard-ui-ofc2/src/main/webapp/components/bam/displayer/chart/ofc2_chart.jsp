@@ -143,7 +143,7 @@
   setAjax('<panel:encode name="chartForm"/>');
 </script>
 <form method="post" action='<factory:formUrl friendly="false"/>' id='<panel:encode name="chartForm"/>'>
-  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= OFC2ChartViewer.PARAM_ACTION %>"/>
+  <factory:handler bean="<%=viewer.getBeanName()%>" action="<%= OFC2ChartViewer.PARAM_ACTION %>"/>
   <input type="hidden" name="<%= OFC2ChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
 <table class="chartTable" border="0" cellpadding="10" cellspacing="0" width="100%">

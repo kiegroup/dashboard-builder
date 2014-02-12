@@ -22,15 +22,14 @@ import org.jboss.dashboard.workspace.LayoutRegion;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-/**
- */
 public class UnassignedPanelsFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UnassignedPanelsFormatter.class.getName());
 
+    @Inject
     private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {

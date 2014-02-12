@@ -18,15 +18,49 @@ package org.jboss.dashboard.ui.config.treeNodes;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
+import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.workspace.WorkspacePropertiesHandler;
 import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
 import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 public class WorkspaceNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceNode.class.getName());
-    private String workspaceId;
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private WorkspacePropertiesHandler workspacePropertiesHandler;
+
+    @Inject
+    private SectionsNode sectionsNode;
+
+    @Inject
+    private PanelInstancesNode panelInstancesNode;
+
+    @Inject
+    private WorkspacePermissionsNode workspacePermissionsNode;
+
+    @Inject
+    private PanelsTypesNode panelsTypesNode;
+
+    @Inject
+    private HomePagesNode homePagesNode;
+
+    private String workspaceId;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {sectionsNode, panelInstancesNode,
+            workspacePermissionsNode, panelsTypesNode, homePagesNode});
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_go-home.png";
+    }
 
     public String getWorkspaceId() {
         return workspaceId;

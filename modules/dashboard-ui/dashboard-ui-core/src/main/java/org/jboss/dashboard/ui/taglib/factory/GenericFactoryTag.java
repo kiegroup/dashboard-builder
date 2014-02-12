@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 
 public class GenericFactoryTag extends BaseTag {
@@ -34,9 +34,9 @@ public class GenericFactoryTag extends BaseTag {
 
     public String getBean() {
         if (bean == null) {
-            UIComponentHandlerFactoryElement currentComponent = (UIComponentHandlerFactoryElement) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+            UIBeanHandler currentComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
             if (currentComponent != null) {
-                return currentComponent.getName();
+                return currentComponent.getBeanName();
             }
         }
         return bean;

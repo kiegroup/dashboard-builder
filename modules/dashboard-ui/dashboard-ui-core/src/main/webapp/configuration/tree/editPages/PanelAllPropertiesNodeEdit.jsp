@@ -17,4 +17,4 @@
 --%>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
-<factory:useComponent bean="org.jboss.dashboard.ui.components.panelManagement.TreeShowPanelConfigComponent"/>
+<factory:useComponent bean="org.jboss.dashboard.ui.components.panelManagement.ShowPanelConfigComponent"/>

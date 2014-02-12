@@ -15,13 +15,13 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableHandler" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableEditor" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%
-    TableEditor tableEditor = (TableEditor) Factory.lookup("org.jboss.dashboard.ui.components.TableEditor");
+    TableEditor tableEditor = CDIBeanLocator.getBeanByType(TableEditor.class);
     TableHandler tableHandler = tableEditor.getTableHandler();
     request.setAttribute("tableHandler", tableHandler);
 %>

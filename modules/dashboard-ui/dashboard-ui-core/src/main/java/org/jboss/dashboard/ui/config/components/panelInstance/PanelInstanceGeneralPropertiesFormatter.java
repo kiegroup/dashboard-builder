@@ -15,13 +15,15 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.*;
 
 public class PanelInstanceGeneralPropertiesFormatter extends PanelInstancePropertiesFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceGeneralPropertiesFormatter.class.getName());
 
+    @Inject
     private PanelInstanceGeneralPropertiesHandler handler;
 
     public PanelInstanceGeneralPropertiesHandler getHandler() {

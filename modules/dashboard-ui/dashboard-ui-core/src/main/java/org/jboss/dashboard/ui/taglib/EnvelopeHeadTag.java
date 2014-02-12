@@ -15,8 +15,6 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.EnvelopesManager;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
@@ -31,18 +29,13 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import java.io.IOException;
 import java.util.List;
 
-/**
- *
- */
 public class EnvelopeHeadTag extends BaseTag {
+
+    public static final String ENVELOPE_TOKEN = "envelopeHeadToken";
 
     private boolean allowScripts = true;
     private boolean allowPages = true;
     private boolean allowEnvelopes = true;
-
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopeHeadTag.class.getName());
-
-    public static final String ENVELOPE_TOKEN = "envelopeHeadToken";
 
     public static class TEI extends TagExtraInfo {
         public VariableInfo[] getVariableInfo(TagData tagData) {
@@ -52,45 +45,41 @@ public class EnvelopeHeadTag extends BaseTag {
     }
 
     public int doStartTag() throws JspException {
-        Factory.doWork(new FactoryWork() { //In case this is called from a pure jsp...
-            public void doWork() {
-                pageContext.getRequest().setAttribute(ENVELOPE_TOKEN, Boolean.TRUE);
+        pageContext.getRequest().setAttribute(ENVELOPE_TOKEN, Boolean.TRUE);
 /*
-                // Removed due to incompatibilities with some charting libraries
-                try {
-                    printBaseHref();
-                } catch (IOException e) {
-                    log.error("Error: ", e);
-                }
+        // Removed due to incompatibilities with some charting libraries
+        try {
+            printBaseHref();
+        } catch (IOException e) {
+            log.error("Error: ", e);
+        }
 */
 
-                EnvelopesManager envelopesManager = null;
+        EnvelopesManager envelopesManager = null;
 
-                if (allowEnvelopes) {
-                    envelopesManager = UIServices.lookup().getEnvelopesManager();
+        if (allowEnvelopes) {
+            envelopesManager = UIServices.lookup().getEnvelopesManager();
 
-                    if (envelopesManager.getBeforeHeaderIncludePages() != null)
-                        for (int i = 0; i < envelopesManager.getBeforeHeaderIncludePages().length; i++) {
-                            String page = envelopesManager.getBeforeHeaderIncludePages()[i];
-                            jspInclude(page);
-                        }
+            if (envelopesManager.getBeforeHeaderIncludePages() != null)
+                for (int i = 0; i < envelopesManager.getBeforeHeaderIncludePages().length; i++) {
+                    String page = envelopesManager.getBeforeHeaderIncludePages()[i];
+                    jspInclude(page);
                 }
+        }
 
-                if (allowScripts) {
-                    jspInclude(envelopesManager.getScriptsIncludePage());
-                }
+        if (allowScripts) {
+            jspInclude(envelopesManager.getScriptsIncludePage());
+        }
 
-                List headers;
-                if (allowPages) {
-                    headers = envelopesManager.getHeaderPagesToInclude();
-                    if (headers != null)
-                        for (int i = 0; i < headers.size(); i++) {
-                            String page = (String) headers.get(i);
-                            jspInclude(page);
-                        }
+        List headers;
+        if (allowPages) {
+            headers = envelopesManager.getHeaderPagesToInclude();
+            if (headers != null)
+                for (int i = 0; i < headers.size(); i++) {
+                    String page = (String) headers.get(i);
+                    jspInclude(page);
                 }
-            }
-        });
+        }
         return SKIP_BODY;
     }
 

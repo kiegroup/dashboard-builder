@@ -21,11 +21,13 @@ import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegularLayoutFormatter extends Formatter {
 
+    @Inject
     private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {

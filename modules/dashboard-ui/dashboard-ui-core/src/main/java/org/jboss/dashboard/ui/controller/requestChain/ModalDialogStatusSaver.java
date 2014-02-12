@@ -15,33 +15,28 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.enterprise.context.ApplicationScoped;
+
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
  * Save the current status of the modal dialog component in order to return the
  * appropriate response later in the request rendering chain.
  */
-public class ModalDialogStatusSaver extends RequestChainProcessor {
+@ApplicationScoped
+public class ModalDialogStatusSaver implements RequestChainProcessor {
 
     public static ModalDialogStatusSaver lookup() {
-        return (ModalDialogStatusSaver) Factory.lookup("org.jboss.dashboard.ui.controller.requestChain.ModalDialogStatusSaver");
+        return CDIBeanLocator.getBeanByType(ModalDialogStatusSaver.class);
     }
 
     protected String currentWorkspaceId;
     protected Long currentSectionId;
     protected boolean configEnabled;
     protected boolean wasModalOn;
-    protected NavigationManager navigationManager;
-
-    public NavigationManager getNavigationManager() {
-        return navigationManager;
-    }
-
-    public void setNavigationManager(NavigationManager navigationManager) {
-        this.navigationManager = navigationManager;
-    }
 
     public boolean modalOnBeforeRequest() {
         return wasModalOn;
@@ -60,11 +55,12 @@ public class ModalDialogStatusSaver extends RequestChainProcessor {
     }
 
     public ModalDialogComponent getModalDialog() {
-        return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+        return  CDIBeanLocator.getBeanByType(ModalDialogComponent.class);
     }
 
-    protected boolean processRequest() throws Exception {
-        ModalDialogComponent modalDialog = (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+    public boolean processRequest(CommandRequest req) throws Exception {
+        ModalDialogComponent modalDialog = ModalDialogComponent.lookup();
+        NavigationManager navigationManager = NavigationManager.lookup();
         wasModalOn = modalDialog.isShowing();
         configEnabled = navigationManager.isShowingConfig();
         currentWorkspaceId = navigationManager.getCurrentWorkspaceId();

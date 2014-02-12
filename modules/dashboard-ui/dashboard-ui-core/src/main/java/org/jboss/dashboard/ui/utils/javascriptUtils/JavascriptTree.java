@@ -15,10 +15,7 @@
  */
 package org.jboss.dashboard.ui.utils.javascriptUtils;
 
-import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Component;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.commons.text.StringUtil;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.SessionManager;
@@ -28,7 +25,6 @@ import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.workspace.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,15 +34,15 @@ public class JavascriptTree implements Comparable {
 
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(JavascriptTree.class.getName());
 
+    public static final String STANDARD_CONFIG = "old_config";
+    public static final String TREE_CONFIG = "tree_config";
+
     protected String key = null;
     protected String val = null;
     protected Integer valInt = null;
     protected SortedSet children = null;
-    protected boolean forceFirst = false;
-    protected String configType = null;
 
-    public static final String STANDARD_CONFIG = "old_config";
-    public static final String TREE_CONFIG = "tree_config";
+    protected boolean forceFirst = false;
 
     public static String HTMLfilter(String str) {
         return StringEscapeUtils.escapeHtml(str);
@@ -652,43 +648,5 @@ public class JavascriptTree implements Comparable {
 
         log.debug("Finished computation of Javascript tree for new panel instance in " + (System.currentTimeMillis() - startTime) + " ms.");
         return cache;
-    }
-
-    public static String getTreeOfComponents() {
-        Map mappings = Application.lookup().getGlobalFactory().getTree().getTreeMappings();
-        JavascriptTree[] children = getTreeForMap(mappings);
-        if (children.length == 1) {
-            return children[0].toString();
-        } else {
-            JavascriptTree tree = new JavascriptTree("Components", "");
-            for (int i = 0; i < children.length; i++) {
-                JavascriptTree child = children[i];
-                tree.addChildren(child);
-            }
-            return tree.toString();
-        }
-    }
-
-    protected static JavascriptTree[] getTreeForMap(Map map) {
-        if (map == null || map.isEmpty())
-            return null;
-        List trees = new ArrayList();
-        for (Iterator it = map.keySet().iterator(); it.hasNext();) {
-            String key = (String) it.next();
-            Object value = map.get(key);
-            if (value instanceof Map) {
-                JavascriptTree tree = new JavascriptTree(key, "");
-                JavascriptTree[] children = getTreeForMap((Map) value);
-                for (int i = 0; i < children.length; i++) {
-                    JavascriptTree javascriptTree = children[i];
-                    tree.addChildren(javascriptTree);
-                }
-                trees.add(tree);
-            } else /*It is a Component*/ {
-                JavascriptTree tree = new JavascriptTree(key, ((Component) value).getName());
-                trees.add(tree);
-            }
-        }
-        return (JavascriptTree[]) trees.toArray(new JavascriptTree[trees.size()]);
     }
 }

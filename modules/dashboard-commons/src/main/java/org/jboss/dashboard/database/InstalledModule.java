@@ -15,9 +15,11 @@
  */
 package org.jboss.dashboard.database;
 
+import org.jboss.dashboard.initialModule.InitialModulesManager;
+
 /**
  * Persistent class that holds information regarding an InitialModule instance already by the InitialModulesManager.
- * @see org.jboss.dashboard.factory.InitialModulesManager
+ * @see InitialModulesManager
  */
 public class InstalledModule {
 

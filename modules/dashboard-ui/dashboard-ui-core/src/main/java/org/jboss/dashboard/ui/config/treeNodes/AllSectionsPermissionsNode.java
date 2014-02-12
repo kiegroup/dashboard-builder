@@ -15,14 +15,20 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandler;
 import org.jboss.dashboard.security.SectionPermission;
+import org.slf4j.Logger;
 
 public class AllSectionsPermissionsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AllSectionsPermissionsNode.class.getName());
 
+    @Inject
+    private Logger log;
+
+    @Inject
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
 
     public PermissionsPropertiesHandler getPermissionsPropertiesHandler() {
@@ -37,6 +43,10 @@ public class AllSectionsPermissionsNode extends AbstractNode {
         return "allsections.permissions";
     }
 
+    public boolean isEditURIAjaxCompatible() {
+        return false;
+    }
+
     public boolean onEdit() {
         try {
             getPermissionsPropertiesHandler().reset();
@@ -47,7 +57,7 @@ public class AllSectionsPermissionsNode extends AbstractNode {
                 getPermissionsPropertiesHandler().setWorkspaceId(((WorkspaceNode) parent).getWorkspaceId());
             }
         } catch (Exception e) {
-            AllSectionsPermissionsNode.log.error("Error: ", e);
+            log.error("Error: ", e);
             return false;
         }
         return true;

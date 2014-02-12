@@ -15,25 +15,33 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
  * Renders Components as Modal
  */
-public class ModalDialogComponent extends UIComponentHandlerFactoryElement {
+@SessionScoped
+@Named("modal_dialog_bean")
+public class ModalDialogComponent extends UIBeanHandler {
 
     public static ModalDialogComponent lookup() {
-        return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+        return CDIBeanLocator.getBeanByType(ModalDialogComponent.class);
     }
 
     public static final int DEFAULT_WIDTH = 640;
     public static final int DEFAULT_HEIGHT = 480;
 
+    @Inject @Config("/components/modalDialogComponent/show.jsp")
     private String componentIncludeJSP;
-    private String modalDialogFormatter;
+
     private String title;
-    private UIComponentHandlerFactoryElement currentComponent;
+    private UIBeanHandler currentComponent;
     private Runnable closeListener;
     private boolean isShow = false;
     private boolean isModal = true;
@@ -63,15 +71,7 @@ public class ModalDialogComponent extends UIComponentHandlerFactoryElement {
         title = null;
     }
     
-    public String getModalDialogFormatter() {
-        return modalDialogFormatter;
-    }
-
-    public void setModalDialogFormatter(String modalDialogFormatter) {
-        this.modalDialogFormatter = modalDialogFormatter;
-    }
-
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -79,11 +79,11 @@ public class ModalDialogComponent extends UIComponentHandlerFactoryElement {
         this.componentIncludeJSP = componentIncludeJSP;
     }
 
-    public UIComponentHandlerFactoryElement getCurrentComponent() {
+    public UIBeanHandler getCurrentComponent() {
         return currentComponent;
     }
 
-    public void setCurrentComponent(UIComponentHandlerFactoryElement currentComponent) {
+    public void setCurrentComponent(UIBeanHandler currentComponent) {
         this.currentComponent = currentComponent;
     }
 

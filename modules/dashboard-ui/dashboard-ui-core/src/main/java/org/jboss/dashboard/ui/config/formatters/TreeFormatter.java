@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.config.formatters;
 
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
@@ -22,39 +24,25 @@ import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 
-
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class TreeFormatter extends Formatter {
 
-    private TreeStatus treeStatus;
-    private Tree tree;
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
 
-    public TreeFormatter() {
-    }
-
-    /**
-     * Header Formatter
-     */
-    public void getHeaderFormatter() {
-    }
+    @Inject
+    private ConfigurationTree tree;
 
     public TreeStatus getTreeStatus() {
         return treeStatus;
     }
 
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
-    }
-
     public Tree getTree() {
         return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

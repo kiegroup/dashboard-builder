@@ -15,16 +15,24 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
-public class PaginationComponentHandler extends UIComponentHandlerFactoryElement {
+@PanelScoped
+@Named("pagination_handler")
+public class PaginationComponentHandler extends UIBeanHandler {
+
     public static final String SELECT_PAGE = "param_select_page";
 
+    @Inject @Config("/components/pagination/show.jsp")
     private String componentIncludeJSP;
-    private String paginationContentProvider;
+
     private PaginationContentProvider contentProvider;
-    private String paginationComponentFormatter;
     private int[] resultsPerPage = new int[]{5, 10, 15, 20};
     private int currentPage = 1;
     private int pageSize = 5;
@@ -34,7 +42,7 @@ public class PaginationComponentHandler extends UIComponentHandlerFactoryElement
     private boolean showBorder = true;
 
     public PaginationComponentHandlerCache getCache() {
-        PaginationComponentHandlerCache cache = (PaginationComponentHandlerCache) Factory.lookup("org.jboss.dashboard.ui.components.PaginationComponentHandlerCache");
+        PaginationComponentHandlerCache cache = CDIBeanLocator.getBeanByType(PaginationComponentHandlerCache.class);
         if (cache.isNew()) {
             cache.initialize(contentProvider);
         }
@@ -82,20 +90,12 @@ public class PaginationComponentHandler extends UIComponentHandlerFactoryElement
         this.showHeader = showHeader;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
     public void setComponentIncludeJSP(String componentIncludeJSP) {
         this.componentIncludeJSP = componentIncludeJSP;
-    }
-
-    public String getPaginationContentProvider() {
-        return paginationContentProvider;
-    }
-
-    public void setPaginationContentProvider(String paginationContentProvider) {
-        this.paginationContentProvider = paginationContentProvider;
     }
 
     public boolean isShowBorder() {
@@ -107,17 +107,11 @@ public class PaginationComponentHandler extends UIComponentHandlerFactoryElement
     }
 
     public PaginationContentProvider getContentProvider() {
-        if (contentProvider == null)
-            contentProvider = (PaginationContentProvider) Factory.lookup(paginationContentProvider);
         return contentProvider;
     }
 
-    public String getPaginationComponentFormatter() {
-        return paginationComponentFormatter;
-    }
-
-    public void setPaginationComponentFormatter(String paginationComponentFormatter) {
-        this.paginationComponentFormatter = paginationComponentFormatter;
+    public void setContentProvider(PaginationContentProvider contentProvider) {
+        this.contentProvider = contentProvider;
     }
 
     public int getPagesToShow() {

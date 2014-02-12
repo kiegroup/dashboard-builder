@@ -15,13 +15,13 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement" %>
+<%@ page import="org.jboss.dashboard.ui.components.UIBeanHandler" %>
 <%@ page import="org.jboss.dashboard.ui.components.ControllerStatus" %>
 <%@ page import="org.jboss.dashboard.ui.controller.responses.ShowComponentAjaxResponse" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%
     ControllerStatus cs = ControllerStatus.lookup();
     ShowComponentAjaxResponse scr = (ShowComponentAjaxResponse) cs.getResponse();
-    UIComponentHandlerFactoryElement component = scr.getComponent();
+    UIBeanHandler component = scr.getComponent();
 %>
-<factory:useComponent bean="<%= component.getName() %>"/>
+<factory:useComponent bean="<%= component.getBeanName() %>"/>

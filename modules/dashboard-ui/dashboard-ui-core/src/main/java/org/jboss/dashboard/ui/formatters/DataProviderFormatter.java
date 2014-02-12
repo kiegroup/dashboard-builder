@@ -33,31 +33,28 @@ import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.components.DataProviderHandler;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.*;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
 public class DataProviderFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataProviderFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     protected DataProviderHandler handler;
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public DataProviderFormatter() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public DataProviderHandler getHandler() {
         return handler;
-    }
-
-    public void setHandler(DataProviderHandler handler) {
-        this.handler = handler;
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
@@ -87,7 +84,7 @@ public class DataProviderFormatter extends Formatter {
 
                 setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
-                setAttribute("componentPath", editor.getName());
+                setAttribute("componentPath", editor.getBeanName());
                 renderFragment("outputEditProviderPage");
             } else {
                 renderFragment("outputCancelButtonNoTypeSelected");
@@ -128,7 +125,7 @@ public class DataProviderFormatter extends Formatter {
                 setAttribute("error", Boolean.valueOf(handler.getFieldErrors().size() > 0));
                 setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
-                setAttribute("componentPath", editor.getName());
+                setAttribute("componentPath", editor.getBeanName());
                 renderFragment("outputEditProviderPage");
             } else {
                 renderFragment("outputCancelButtonNoTypeSelected");
