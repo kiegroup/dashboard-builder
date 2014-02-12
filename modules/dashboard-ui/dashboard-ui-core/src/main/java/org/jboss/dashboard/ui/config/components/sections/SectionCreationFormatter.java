@@ -24,22 +24,23 @@ import org.jboss.dashboard.ui.resources.Layout;
 import org.jboss.dashboard.ui.resources.Skin;
 import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.users.UserStatus;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ResourceBundle;
 
 public class SectionCreationFormatter extends SectionsPropertiesFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionCreationFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionsPropertiesHandler sectionsPropertiesHandler;
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public SectionCreationFormatter() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public SectionsPropertiesHandler getSectionsPropertiesHandler() {
         return sectionsPropertiesHandler;

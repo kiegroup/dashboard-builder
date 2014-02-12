@@ -19,25 +19,31 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.hibernate.Session;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
-public class SectionPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionPropertiesHandler.class.getName());
+@SessionScoped
+public class SectionPropertiesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private MessagesComponentHandler messagesComponentHandler;
 
     private String workspaceId;
     private Long sectionId;
@@ -51,8 +57,8 @@ public class SectionPropertiesHandler extends HandlerFactoryElement {
     private String layout;
     private int regionsCellSpacing;
     private int panelsCellSpacing;
+
     private String saveButtonPressed;
-    private MessagesComponentHandler messagesComponentHandler;
 
     public MessagesComponentHandler getMessagesComponentHandler() {
         return messagesComponentHandler;
@@ -88,7 +94,7 @@ public class SectionPropertiesHandler extends HandlerFactoryElement {
             setPanelsCellSpacing(section.getPanelsCellSpacing().intValue());
 
         } catch (Exception e) {
-            SectionPropertiesHandler.log.error("Error: ", e);
+            log.error("Error: ", e);
         }
     }
 
@@ -260,11 +266,11 @@ public class SectionPropertiesHandler extends HandlerFactoryElement {
     protected boolean validate() {
 
         if (title == null || "".equals(title)) {
-            addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+            addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
             getMessagesComponentHandler().addError("ui.alert.sectionErrors.title");
         }
         if (!isValidURL(url)) {
-            addFieldError(new FactoryURL(getComponentName(), "url"), null, url);
+            addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
             getMessagesComponentHandler().addError("ui.alert.sectionErrors.url");
         }
 

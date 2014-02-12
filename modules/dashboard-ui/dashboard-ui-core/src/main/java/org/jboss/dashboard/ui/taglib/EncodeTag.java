@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Panel;
@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 
 
 import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * This tag must encodes the given string value to the namespace of the current panel.
@@ -54,21 +53,24 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class EncodeTag extends BaseTag {
 
     /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EncodeTag.class.getName());
-
-    /**
      * Text to encode
      */
     private String name = null;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
         Panel panel = (Panel) pageContext.getRequest().getAttribute(Parameters.RENDER_PANEL);
-        UIComponentHandlerFactoryElement factoryComponent = (UIComponentHandlerFactoryElement) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
         String encodedName = encode(panel, factoryComponent, name);
         try {
             pageContext.getOut().print(encodedName);
@@ -81,23 +83,23 @@ public class EncodeTag extends BaseTag {
     /**
      * Encode a name for a given panel context, appending it to a String depending on the panel.
      *
-     * @param panel          Panel being rendered
-     * @param factoryComponent factoryComponent
-     * @param name             symbolic name to encode @return an encoded version for that name, so that different panels have different names.
-     * @return a encoded name
+     * @param panel Panel being rendered
+     * @param uiBean factoryComponent
+     * @param name Symbolic name to encode @return an encoded version for that name, so that different panels have different names.
+     * @return A encoded name
      */
-    public static String encode(Panel panel, UIComponentHandlerFactoryElement factoryComponent, String name) {
+    public static String encode(Panel panel, UIBeanHandler uiBean, String name) {
         StringBuffer sb = new StringBuffer();
         if (panel != null) {
             sb.append("panel_").append(panel.getPanelId().longValue() < 0 ?
                     ("NEG" + Math.abs(panel.getPanelId().longValue())) : panel.getPanelId().toString());
         }
-        if (factoryComponent != null) {
-            String alias = factoryComponent.getComponentAlias();
-            if (!StringUtils.isEmpty(alias) && isJavaIdentifier(alias)) {
-                sb.append("_component_").append(alias);
+        if (uiBean != null) {
+            String beanName = uiBean.getBeanName();
+            if (isJavaIdentifier(beanName)) {
+                sb.append("_component_").append(beanName);
             } else {
-                sb.append("_component_").append(Math.abs(factoryComponent.getName().hashCode()));
+                sb.append("_component_").append(Math.abs(beanName.hashCode()));
             }
         }
         sb.append("_").append(StringEscapeUtils.escapeHtml(name));
@@ -125,18 +127,10 @@ public class EncodeTag extends BaseTag {
      * Encode a name for a given panel context, appending it to a String depending on the panel.
      *
      * @param panel Panel being rendered
-     * @param name    symbolic name to encode
-     * @return an encoded version for that name, so that different panels have different names.
+     * @param name Symbolic name to encode
+     * @return An encoded version for that name, so that different panels have different names.
      */
     public static String encode(Panel panel, String name) {
         return encode(panel, null, name);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

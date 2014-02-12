@@ -20,12 +20,13 @@ import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Workspace;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class NavigationFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationFormatter.class.getName());
 
+    @Inject
     private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {
@@ -35,7 +36,6 @@ public class NavigationFormatter extends Formatter {
     public void setNavigationManager(NavigationManager navigationManager) {
         this.navigationManager = navigationManager;
     }
-
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         if (navigationManager.isShowingConfig()) {
@@ -49,6 +49,4 @@ public class NavigationFormatter extends Formatter {
             }
         }
     }
-
-
 }

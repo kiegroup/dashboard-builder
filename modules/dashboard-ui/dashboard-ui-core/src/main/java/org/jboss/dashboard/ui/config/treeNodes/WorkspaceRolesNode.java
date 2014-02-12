@@ -18,9 +18,12 @@ package org.jboss.dashboard.ui.config.treeNodes;
 import org.jboss.dashboard.ui.config.AbstractNode;
 
 public class WorkspaceRolesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceRolesNode.class.getName());
 
     public String getId() {
         return "roles";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_role.png";
     }
 }

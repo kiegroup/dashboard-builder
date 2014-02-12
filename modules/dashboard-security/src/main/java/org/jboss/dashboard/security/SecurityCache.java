@@ -17,7 +17,6 @@ package org.jboss.dashboard.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jboss.dashboard.factory.BasicFactoryElement;
 
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;

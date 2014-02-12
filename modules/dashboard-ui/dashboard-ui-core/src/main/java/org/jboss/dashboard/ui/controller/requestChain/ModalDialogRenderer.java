@@ -15,10 +15,15 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.NavigationManager;
+import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Panel;
@@ -28,10 +33,12 @@ import org.jboss.dashboard.ui.controller.responses.ShowComponentAjaxResponse;
  * Catch the opening of the modal window an the successive requests over it and
  * give an appropriate response.
  */
-public class ModalDialogRenderer extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ModalDialogRenderer.class.getName());
+@ApplicationScoped
+public class ModalDialogRenderer implements RequestChainProcessor {
 
-    protected boolean processRequest() throws Exception {
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        ControllerStatus controllerStatus = ControllerStatus.lookup();
 
         // Check whether the modal window has been activated within the current request.
         ModalDialogStatusSaver modalStatus = ModalDialogStatusSaver.lookup();
@@ -62,34 +69,34 @@ public class ModalDialogRenderer extends RequestChainProcessor {
                 }
             }
             // Preserve panel session context when the modal has been activated inside a panel.
-            Panel panel = getCurrentPanel();
-            if (panel != null) getRequest().setAttribute(Parameters.RENDER_PANEL, panel);
+            Panel panel = getCurrentPanel(request);
+            if (panel != null) request.setAttribute(Parameters.RENDER_PANEL, panel);
         }
 
         // If modal has been switched off, return new screen response without ajax so as to
         // force to repaint all screen without the component.
         if (modalSwitchedOff) {
-            getControllerStatus().setResponse(new ShowCurrentScreenResponse());
+            controllerStatus.setResponse(new ShowCurrentScreenResponse());
             return true;
         }
 
         // If no AJAX then just return the current response
         // The modal window is embedded into content.jsp so it will be displayed if the whole screen is repainted.
-        String ajaxParam = getRequest().getParameter(Parameters.AJAX_ACTION);
+        String ajaxParam = request.getParameter(Parameters.AJAX_ACTION);
         if (ajaxParam == null || !Boolean.valueOf(ajaxParam).booleanValue()) return true;
 
         // If the modal window is on then show it.
         // The AJAX response varies depending whether the modal window is rendered for the first time or
         // it's a response inside the modal window.
         if (modalOn) {
-            if (modalSwitchedOn) getControllerStatus().setResponse(new ShowComponentAjaxResponse(modalDialog));
-            else getControllerStatus().setResponse(new ShowComponentAjaxResponse(modalDialog.getCurrentComponent()));
+            if (modalSwitchedOn) controllerStatus.setResponse(new ShowComponentAjaxResponse(modalDialog));
+            else controllerStatus.setResponse(new ShowComponentAjaxResponse(modalDialog.getCurrentComponent()));
         }
         return true;
     }
 
-    protected Panel getCurrentPanel() throws Exception {
-        final String idPanel = getRequest().getParameter(Parameters.DISPATCH_IDPANEL);
+    protected Panel getCurrentPanel(HttpServletRequest request) throws Exception {
+        final String idPanel = request.getParameter(Parameters.DISPATCH_IDPANEL);
         if (idPanel == null) return null;
         Long id = Long.decode(idPanel);
 

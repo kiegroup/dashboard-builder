@@ -16,7 +16,7 @@
 
 --%>
 <%@ taglib prefix="mvc" uri="mvc_taglib.tld" %>
-<mvc:formatter name="org.jboss.dashboard.ui.components.panelManagement.ShowPanelPageComponentFormatter">
+<mvc:formatter name="org.jboss.dashboard.ui.components.panelManagement.ShowPanelComponentFormatter">
     <mvc:fragment name="output">
         <mvc:fragmentValue name="pageToRender" id="pageToRender">
             <jsp:include page="<%=(String) pageToRender%>" flush="true"/>

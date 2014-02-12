@@ -15,9 +15,15 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.dataset.DataSetComparator;
 import org.jboss.dashboard.domain.DomainConfigurationParser;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.displayer.table.DataSetTable;
 import org.jboss.dashboard.domain.DomainConfiguration;
@@ -25,21 +31,28 @@ import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
 /**
- * Table component handler extension.
+ * Table handler with dashboard filter support added.
  */
+@PanelScoped
+@Named("dstable_handler")
 public class DataSetTableHandler extends TableHandler {
 
+    @Inject @Config("false")
     protected boolean showGroupByConfig;
+
+    @Inject @Config("-1")
     protected int groupBySelectedColumnIndex;
 
-    public DataSetTableHandler() {
-        super();
-        groupBySelectedColumnIndex = -1;
-        showGroupByConfig = false;
-    }
+    @Inject
+    protected DataSetTableFormatter dataSetTableFormatter;
 
-    protected ComparatorByCriteria createTableComparator() {
-        return new DataSetComparator();
+    @Inject
+    protected DataSetComparator dataSetComparator;
+
+    @PostConstruct
+    protected void init() {
+        tableFormatter = dataSetTableFormatter;
+        tableComparator = dataSetComparator;
     }
 
     public boolean showGroupByConfig() {

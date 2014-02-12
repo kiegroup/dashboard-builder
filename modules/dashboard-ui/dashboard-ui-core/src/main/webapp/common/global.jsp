@@ -21,14 +21,13 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 
-<%@ page import="org.jboss.dashboard.ui.SessionManager,                 org.jboss.dashboard.workspace.*,
+<%@ page import="org.jboss.dashboard.ui.SessionManager, org.jboss.dashboard.workspace.*,
                  org.jboss.dashboard.security.WorkspacePermission,
                  java.security.AllPermission,
                  java.security.Permission,
                  java.util.Locale" %>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="org.jboss.dashboard.ui.NavigationManager"%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%
     LocaleManager localeManager = LocaleManager.lookup();
     NavigationManager navigationManager = NavigationManager.lookup();

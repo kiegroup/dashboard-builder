@@ -15,11 +15,9 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.security.PanelPermission"%>
-<%@ page import="java.util.Properties"%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="org.jboss.dashboard.ui.taglib.LocalizeTag"%>
 <%@ page import="org.jboss.dashboard.ui.panel.PanelDriver" %>
+<%@ page import="org.jboss.dashboard.ui.UISettings" %>
 <%--
     Layout for a single maximized panel
 --%>
@@ -48,7 +46,7 @@
     <div id="Region_Panel_Menu_Link<%=((Panel)panel).getPanelId()%>"
          style="text-align: right; height:0; width:100%; visibility: visible; border:none; position: absolute; top:0; left:0">
                     <%request.setAttribute("panel", panel);
-            String configString = ((Properties) Factory.lookup("org.jboss.dashboard.ui.formatters.DisplayConfiguration")).getProperty("panelMenuRenderPage");
+            String configString = UISettings.lookup().getPanelMenuRenderPage();
                     %>
         <jsp:include page="<%=configString%>" flush="true">
             <jsp:param name="title" value="<%=String.valueOf(panelTitle)%>"/>

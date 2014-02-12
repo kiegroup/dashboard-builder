@@ -15,10 +15,10 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 
 import javax.servlet.jsp.JspTagException;
 
@@ -31,21 +31,21 @@ public class UseComponentTag extends GenericFactoryTag {
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        Object bean = Factory.lookup(getBean());
+        Object bean = CDIBeanLocator.getBeanByNameOrType(getBean());
         if (bean != null) {
-            if (bean instanceof UIComponentHandlerFactoryElement) {
-                UIComponentHandlerFactoryElement uiBean = (UIComponentHandlerFactoryElement) bean;
-                String page = uiBean.getComponentIncludeJSP();
-                if (page == null) log.error("Page for component " + getBean() + " is null.");
+            if (bean instanceof UIBeanHandler) {
+                UIBeanHandler uiBean = (UIBeanHandler) bean;
+                String page = uiBean.getBeanJSP();
+                if (page == null) log.error("Page for bean " + getBean() + " is null.");
 
-                CodeBlockTrace trace = new HandlerFactoryElement.HandlerTrace(uiBean, null).begin();
+                CodeBlockTrace trace = new BeanHandler.HandlerTrace(uiBean, null).begin();
                 Object previousComponent = pageContext.getRequest().getAttribute(COMPONENT_ATTR_NAME);
                 try {
-                    uiBean.beforeRenderComponent();
+                    uiBean.beforeRenderBean();
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, bean);
                     jspInclude(page);
                     pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
-                    uiBean.afterRenderComponent();
+                    uiBean.afterRenderBean();
                 } catch (Exception e) {
                     handleError(e);
                 } finally {
@@ -53,7 +53,7 @@ public class UseComponentTag extends GenericFactoryTag {
                     trace.end();
                 }
             } else {
-                log.error("Bean " + getBean() + " is not a UIComponentHandlerFactoryElement");
+                log.error("Bean " + getBean() + " is not a UIBeanHandler");
             }
         } else {
             log.error("Bean " + getBean() + " is null.");

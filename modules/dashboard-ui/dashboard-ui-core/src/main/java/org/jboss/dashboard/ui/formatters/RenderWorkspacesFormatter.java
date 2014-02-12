@@ -25,6 +25,7 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Permission;
@@ -57,6 +58,7 @@ import java.util.TreeSet;
  */
 public class RenderWorkspacesFormatter extends Formatter {
 
+    @Inject
     private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {

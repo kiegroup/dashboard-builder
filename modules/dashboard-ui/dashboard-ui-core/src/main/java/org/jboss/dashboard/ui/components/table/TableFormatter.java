@@ -20,6 +20,8 @@ import org.jboss.dashboard.displayer.table.TableColumn;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.LocaleManager;
+
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -31,10 +33,11 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TableFormatter extends Formatter {
 
-    protected TableHandler tableHandler;
     protected static final String ICON_ORDER_UP = "order_up.gif";
     protected static final String ICON_ORDER_DOWN = "order_down.gif";
     protected static final String ICON_ORDER_UNKNOWN = "order.gif";
+
+    protected TableHandler tableHandler;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         tableHandler = (TableHandler) getParameter("tableHandler");

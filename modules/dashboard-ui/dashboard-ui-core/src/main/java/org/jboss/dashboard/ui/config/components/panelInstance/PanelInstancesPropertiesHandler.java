@@ -15,16 +15,28 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
 
-public class PanelInstancesPropertiesHandler extends HandlerFactoryElement {
+@SessionScoped
+@Named("pip_handler")
+public class PanelInstancesPropertiesHandler extends BeanHandler {
 
-    public String workspaceId;
+    private String workspaceId;
+
+    public String getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(String workspaceId) {
+        this.workspaceId = workspaceId;
+    }
 
     public WorkspacesManager getWorkspacesManager() {
         return UIServices.lookup().getWorkspacesManager();

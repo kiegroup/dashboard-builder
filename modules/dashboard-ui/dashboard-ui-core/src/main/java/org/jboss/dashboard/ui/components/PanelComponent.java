@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.components;
 /**
  * UI component that has graphic properties
  */
-public abstract class PanelComponent extends UIComponentHandlerFactoryElement {
+public abstract class PanelComponent extends UIBeanHandler {
 
     public abstract int getWidth();
     public abstract int getHeight();

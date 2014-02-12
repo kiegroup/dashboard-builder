@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.formatters;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.export.ExportHandler;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -24,6 +25,7 @@ import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
@@ -33,10 +35,17 @@ import java.util.Map;
 
 public class ExportFormatter extends Formatter {
 
+    @Inject
     protected ExportHandler exportHandler;
-    protected String thumbnail = "adminHeader/new-workspace.png";
-    protected String openedIcon = "general/open.png";
-    protected String closedIcon = "general/close.png";
+
+    @Inject @Config("adminHeader/new-workspace.png")
+    protected String thumbnail;
+
+    @Inject @Config("general/open.png")
+    protected String openedIcon;
+
+    @Inject @Config("general/close.png")
+    protected String closedIcon;
 
     public String getClosedIcon() {
         return closedIcon;

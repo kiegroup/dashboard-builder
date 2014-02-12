@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.config.formatters;
 
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
@@ -22,7 +24,9 @@ import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
@@ -30,12 +34,14 @@ import java.util.List;
 
 public class TreeNodeFormatter extends Formatter {
 
-    /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TreeNodeFormatter.class);
-    private TreeStatus treeStatus;
-    private Tree tree;
+    @Inject
+    private Logger log;
+
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
+
+    @Inject
+    private ConfigurationTree tree;
 
     public TreeNodeFormatter() {
     }
@@ -44,16 +50,8 @@ public class TreeNodeFormatter extends Formatter {
         return treeStatus;
     }
 
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
-    }
-
     public Tree getTree() {
         return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

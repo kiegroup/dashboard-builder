@@ -37,7 +37,7 @@ public class MemoryProfiler {
     private static transient Logger log = LoggerFactory.getLogger(MemoryProfiler.class.getName());
 
     public static MemoryProfiler lookup() {
-        return (MemoryProfiler) CDIBeanLocator.getBeanByType(MemoryProfiler.class);
+        return CDIBeanLocator.getBeanByType(MemoryProfiler.class);
     }
 
     /**

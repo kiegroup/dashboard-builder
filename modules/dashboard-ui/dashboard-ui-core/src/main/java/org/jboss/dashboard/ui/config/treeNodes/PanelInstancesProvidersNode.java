@@ -15,26 +15,37 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.inject.Inject;
 
-/**
- * 
- */
 public class PanelInstancesProvidersNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesProvidersNode.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     private String providerId;
     private String providerName;
+
+    public String getId() {
+        return providerId + "_node";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
+    }
+
+    public boolean isEditable() {
+        return false;
+    }
 
     public String getProviderId() {
         return providerId;
@@ -61,7 +72,7 @@ public class PanelInstancesProvidersNode extends AbstractNode {
         PanelInstancesNode parent = (PanelInstancesNode) getParent();
         String language = SessionManager.getLang();
         try {
-            String workspaceId = parent.getHandler().workspaceId;
+            String workspaceId = parent.getHandler().getWorkspaceId();
             WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
             PanelInstance[] instances = workspace.getPanelInstancesInGroup(providerId);
             if (instances != null) {
@@ -99,7 +110,7 @@ public class PanelInstancesProvidersNode extends AbstractNode {
     }
 
     protected PanelInstanceNode getNewInstanceNode(PanelInstance instance) {
-        PanelInstanceNode instanceNode = (PanelInstanceNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.PanelInstanceNode");
+        PanelInstanceNode instanceNode = CDIBeanLocator.getBeanByType(PanelInstanceNode.class);
         instanceNode.setWorkspaceId(instance.getWorkspace().getId());
         instanceNode.setPanelInstanceId(instance.getInstanceId());
         instanceNode.setParent(this);
@@ -108,16 +119,12 @@ public class PanelInstancesProvidersNode extends AbstractNode {
     }
 
     protected PanelInstancesGroupNode getNewGroupNode(String workspaceId, String groupName) {
-        PanelInstancesGroupNode groupNode = (PanelInstancesGroupNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.PanelInstancesGroupNode");
+        PanelInstancesGroupNode groupNode = CDIBeanLocator.getBeanByType(PanelInstancesGroupNode.class);
         groupNode.setWorkspaceId(workspaceId);
         groupNode.setGroupName(groupName);
         groupNode.setParent(this);
         groupNode.setTree(getTree());
         groupNode.setProviderId(providerId);
         return groupNode;
-    }
-
-    public String getId() {
-        return providerId + "_node";
     }
 }

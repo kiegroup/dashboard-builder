@@ -22,7 +22,7 @@ import org.jboss.dashboard.workspace.Parameters;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessionComponentsStorage implements ComponentsStorage {
+public class SessionComponentsStorage {
     public static final String ATTR_PREFFIX = "factory://";
     private static ThreadLocal backup = new ThreadLocal();
 

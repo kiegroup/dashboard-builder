@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
@@ -24,19 +24,38 @@ import org.jboss.dashboard.ui.config.components.section.SectionPropertiesHandler
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 public class SectionNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionNode.class.getName());
-    private String workspaceId;
-    private Long sectionId;
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionPropertiesHandler sectionPropertiesHandler;
 
-    public SectionNode() {
-        setIconId("16x16/ico-menu_pages.png"); //Better performance than using factory
+    @Inject
+    private PanelsNode panelsNode;
+
+    @Inject
+    private SectionPermissionsNode sectionPermissionsNode;
+
+    private String workspaceId;
+    private Long sectionId;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {panelsNode, sectionPermissionsNode});
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_pages.png";
     }
 
     public String getWorkspaceId() {
@@ -107,7 +126,7 @@ public class SectionNode extends AbstractNode {
     }
 
     protected SectionNode getNewSectionNode(Section section) {
-        SectionNode sNode = (SectionNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.SectionNode");
+        SectionNode sNode = CDIBeanLocator.getBeanByType(SectionNode.class);
         sNode.setTree(getTree());
         sNode.setParent(this);
         sNode.setWorkspaceId(getWorkspaceId());

@@ -23,12 +23,12 @@
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.PieChartEditor" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    PieChartEditor editor = (PieChartEditor) Factory.lookup("org.jboss.dashboard.ui.components.PieChartEditor");
+    PieChartEditor editor = CDIBeanLocator.getBeanByType(PieChartEditor.class);
     request.setAttribute("editor", editor);
 
     AbstractChartDisplayer displayer = (AbstractChartDisplayer) editor.getDataDisplayer();
@@ -59,7 +59,7 @@
         </td>
         <!-- Include the graphic -->
         <td valign="top">
-            <factory:useComponent bean="<%= viewer.getName() %>"/>
+            <factory:useComponent bean="<%= viewer.getBeanName() %>"/>
         </td>
     </tr>
 </table>

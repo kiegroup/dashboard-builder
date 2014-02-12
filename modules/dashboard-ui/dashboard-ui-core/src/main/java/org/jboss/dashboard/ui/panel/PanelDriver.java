@@ -17,16 +17,16 @@ package org.jboss.dashboard.ui.panel;
 
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.commons.text.JavaNamesFormatter;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanDispatcher;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.responses.ShowPanelPage;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.FactoryRequestHandler;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
@@ -44,8 +44,10 @@ import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.hibernate.Session;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.dashboard.workspace.*;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -63,6 +65,7 @@ import java.util.*;
  * This class also provides some useful services and shortcuts to make panel
  * developments easier.
  */
+@ApplicationScoped
 public class PanelDriver {
 
     public final static String PAGE_MANAGE_INVALID_DRIVER = "manage_invalid_panel_driver";
@@ -70,12 +73,16 @@ public class PanelDriver {
     public final static String PAGE_SHOW = "show";
     public final static String PAGE_EDIT = "edit";
     public final static String PAGE_HEADER = "header";
-    public static final String PARAMETER_ACTION_EXECUTED_ENABLED = "actionExecutedEnabled";
+    public final static String PARAMETER_ACTION_EXECUTED_ENABLED = "actionExecutedEnabled";
 
     /**
      * Logger
      */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelDriver.class.getName());
+    @Inject
+    protected Logger log;
+
+    @Inject /** The locale manager. */
+    protected LocaleManager localeManager;
 
     /**
      * Parameters definitions to be supplied to the panel
@@ -86,13 +93,6 @@ public class PanelDriver {
      * Security table
      */
     protected PanelSecurity panelSecurity;
-
-    /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public PanelDriver() {
-        localeManager = LocaleManager.lookup();
-    }
 
     /**
      * Returns all the parameters this panel driver allows to configure.
@@ -384,7 +384,7 @@ public class PanelDriver {
      *
      * @param panel panel closed
      */
-    public final void fireAfterPanelClosed(Panel panel) throws Exception {
+    public void fireAfterPanelClosed(Panel panel) throws Exception {
         afterPanelClosed(panel);
     }
 
@@ -1048,7 +1048,7 @@ public class PanelDriver {
      * @param panel panel being placed
      * @param region  region where the panel is being placed
      */
-    public final void fireBeforePanelPlacedInRegion(Panel panel, LayoutRegion region) {
+    public void fireBeforePanelPlacedInRegion(Panel panel, LayoutRegion region) {
         beforePanelPlacedInRegion(panel, region);
     }
 
@@ -1058,7 +1058,7 @@ public class PanelDriver {
      * @param panel panel being placed
      * @param region  region where the panel was before
      */
-    public final void fireAfterPanelPlacedInRegion(Panel panel, LayoutRegion region) throws Exception {
+    public void fireAfterPanelPlacedInRegion(Panel panel, LayoutRegion region) throws Exception {
         afterPanelPlacedInRegion(panel, region);
     }
 
@@ -1067,19 +1067,17 @@ public class PanelDriver {
      *
      * @param panel panel being placed
      */
-    public final void fireBeforePanelRemoved(Panel panel) throws Exception {
+    public void fireBeforePanelRemoved(Panel panel) throws Exception {
         beforePanelRemoved(panel);
     }
 
     /**
      * Called before dispatching to an action method.
      *
-     * @param panel
-     * @param request
      * @return Null if the action execution can continue, or a CommandResponse if not
      * @see PanelDriver#beforeInvokeAction(org.jboss.dashboard.workspace.Panel, org.jboss.dashboard.ui.controller.CommandRequest)
      */
-    public final CommandResponse fireBeforeInvokeAction(Panel panel, CommandRequest request) {
+    public CommandResponse fireBeforeInvokeAction(Panel panel, CommandRequest request) {
         return beforeInvokeAction(panel, request);
     }
 
@@ -1092,7 +1090,7 @@ public class PanelDriver {
      * @return
      * @see PanelDriver#afterInvokeAction(org.jboss.dashboard.workspace.Panel, org.jboss.dashboard.ui.controller.CommandRequest, org.jboss.dashboard.ui.controller.CommandResponse)
      */
-    public final CommandResponse fireAfterInvokeAction(Panel panel, CommandRequest request, CommandResponse response) {
+    public CommandResponse fireAfterInvokeAction(Panel panel, CommandRequest request, CommandResponse response) {
         return afterInvokeAction(panel, request, response);
     }
 
@@ -1104,7 +1102,7 @@ public class PanelDriver {
      * @param response
      * @see PanelDriver#beforeRenderPanel
      */
-    public final void fireBeforeRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
+    public void fireBeforeRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
         beforeRenderPanel(panel, request, response);
     }
 
@@ -1115,7 +1113,7 @@ public class PanelDriver {
      * @param request
      * @see PanelDriver#afterRenderPanel
      */
-    public final void fireAfterRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
+    public void fireAfterRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
         afterRenderPanel(panel, request, response);
     }
 
@@ -1126,7 +1124,7 @@ public class PanelDriver {
      * @param instance Panel which is about to be removed
      * @see PanelDriver#beforePanelInstanceRemove
      */
-    public final void fireBeforePanelInstanceRemove(PanelInstance instance) throws Exception {
+    public void fireBeforePanelInstanceRemove(PanelInstance instance) throws Exception {
         beforePanelInstanceRemove(instance);
     }
 
@@ -1136,7 +1134,7 @@ public class PanelDriver {
      * @param instance
      * @see PanelDriver#afterPanelPropertiesModified
      */
-    public final void firePanelPropertiesModified(PanelInstance instance) {
+    public void firePanelPropertiesModified(PanelInstance instance) {
         afterPanelPropertiesModified(instance);
     }
 
@@ -1146,7 +1144,7 @@ public class PanelDriver {
      * @param instance
      * @see PanelDriver#afterPanelPropertiesModified
      */
-    public final void firePanelCustomPropertiesModified(PanelInstance instance) {
+    public void firePanelCustomPropertiesModified(PanelInstance instance) {
         afterPanelCustomPropertiesModified(instance);
     }
 
@@ -1228,12 +1226,12 @@ public class PanelDriver {
      * Action that dispatches to a factory component.
      */
     public CommandResponse panelActionFactory(final Panel panel, CommandRequest request) throws Exception {
-        FactoryRequestHandler requestHandler = (FactoryRequestHandler) Factory.lookup("org.jboss.dashboard.ui.components.FactoryRequestHandler");
+        BeanDispatcher requestHandler = CDIBeanLocator.getBeanByType(BeanDispatcher.class);
         CommandResponse factoryResponse = requestHandler.handleRequest(request);
-        String action = request.getRequestObject().getParameter(FactoryURL.PARAMETER_PROPERTY);
-        String componentName = request.getRequestObject().getParameter(FactoryURL.PARAMETER_BEAN);
+        String action = request.getRequestObject().getParameter(FactoryURL.PARAMETER_ACTION);
+        String beanName = request.getRequestObject().getParameter(FactoryURL.PARAMETER_BEAN);
         if (action != null) {
-            HandlerFactoryElement handler = (HandlerFactoryElement)Factory.lookup(componentName);
+            BeanHandler handler = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(beanName);
             if (handler != null) action = handler.getActionForShortcut(action);
             String methodName = getMethodName(action);
             Class[] params = {Panel.class, CommandRequest.class};

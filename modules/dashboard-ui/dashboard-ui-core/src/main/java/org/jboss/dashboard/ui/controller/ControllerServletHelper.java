@@ -15,8 +15,9 @@
  */
 package org.jboss.dashboard.ui.controller;
 
-import org.jboss.dashboard.factory.FactoryLifecycle;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.profiler.Profiler;
+import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,35 +28,33 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 
 @ApplicationScoped
-@Named("controllerServletHelper")
 public class ControllerServletHelper {
 
     public static ControllerServletHelper lookup() {
-        return (ControllerServletHelper) CDIBeanLocator.getBeanByName("controllerServletHelper");
+        return CDIBeanLocator.getBeanByType(ControllerServletHelper.class);
     }
 
-    private static transient Logger log = LoggerFactory.getLogger(ControllerServletHelper.class.getName());
+    public CommandRequest beforeRequestBegins(HttpServletRequest request, HttpServletResponse response) {
+        // Start the profiling of the request.
+        Profiler.lookup().beginThreadProfile();
 
-    public CommandRequest initThreadLocal(HttpServletRequest request, HttpServletResponse response) {
-        // Initialize threadLocal with request object
+        // Initialize the request.
+        CommandRequest cmdReq = updateRequestContext(request, response);
+        ControllerStatus.lookup().setRequest(cmdReq);
+        return cmdReq;
+    }
+
+    public CommandRequest updateRequestContext(HttpServletRequest request, HttpServletResponse response) {
         CommandRequest cmdReq = new CommandRequestImpl(request, response);
         RequestContext.init(cmdReq);
         return cmdReq;
     }
 
-    public void clearThreadLocal(HttpServletRequest request, HttpServletResponse response) {
-        Enumeration en = request.getAttributeNames();
-        while (en.hasMoreElements()) {
-            String name = (String) en.nextElement();
-            Object obj = request.getAttribute(name);
-            if (obj instanceof FactoryLifecycle) {
-                try {
-                    ((FactoryLifecycle) obj).shutdown();
-                } catch (Exception e) {
-                    log.error("Error: ", e);
-                }
-            }
-        }
+    public void afterRequestEnds(HttpServletRequest request, HttpServletResponse response) {
+        // Clear the request context.
         RequestContext.destroy();
+
+        // Finish the profiling of the request.
+        Profiler.lookup().finishThreadProfile();
     }
 }

@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.formatters;
 
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
@@ -32,18 +33,35 @@ import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.workspace.SectionRegion;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Formatter that displays a panel menu
+ */
 public class RenderPanelMenuFormatter extends Formatter {
 
-    private String closeIco = "panelProperties/CloseMenu.png";
-    private String editModeIco = "panelProperties/EditMod.png";
-    private String eraseIco = "panelProperties/Erase.png";
-    private String helpModeIco = "panelProperties/HelpMod.png";
-    private String propertiesModeIco = "panelProperties/PropertiesMod.png";
-    private String showModeIco = "panelProperties/ShowMod.png";
-    private String refreshIco = "panelProperties/Refresh.png";
+    @Inject @Config("panelProperties/CloseMenu.png")
+    private String closeIco;
+
+    @Inject @Config("panelProperties/EditMod.png")
+    private String editModeIco;
+
+    @Inject @Config("panelProperties/Erase.png")
+    private String eraseIco;
+
+    @Inject @Config("panelProperties/HelpMod.png")
+    private String helpModeIco;
+
+    @Inject @Config("panelProperties/PropertiesMod.png")
+    private String propertiesModeIco;
+
+    @Inject @Config("panelProperties/ShowMod.png")
+    private String showModeIco;
+
+    @Inject @Config("panelProperties/Refresh.png")
+    private String refreshIco;
 
     /**
      * Perform the required logic for this Formatter. Inside, the methods

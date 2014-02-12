@@ -17,13 +17,18 @@ package org.jboss.dashboard.ui.config.components.panelInstance;
 
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.panel.help.RenderPanelHelpFormatter;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PanelInstanceFormatter extends RenderPanelHelpFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelInstanceHandler panelInstanceHandler;
 
     public PanelInstanceHandler getPanelInstanceHandler() {

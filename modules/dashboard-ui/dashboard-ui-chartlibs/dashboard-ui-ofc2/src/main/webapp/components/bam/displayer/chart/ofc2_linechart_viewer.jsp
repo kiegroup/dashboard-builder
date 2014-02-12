@@ -15,11 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.OFC2ChartViewer" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.OFC2LineChartViewer" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%
-    OFC2ChartViewer viewer = (OFC2ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.LineChartViewer_ofc2");
+    OFC2ChartViewer viewer = CDIBeanLocator.getBeanByType(OFC2LineChartViewer.class);
     request.setAttribute("viewer", viewer);
 %>
 <mvc:include page="ofc2_chart.jsp" flush="true"/>

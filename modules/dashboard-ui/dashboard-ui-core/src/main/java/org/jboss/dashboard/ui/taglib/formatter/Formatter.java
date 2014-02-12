@@ -22,11 +22,12 @@ import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.BasicFactoryElement;
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
@@ -59,18 +60,16 @@ import java.util.Map;
  * <li> fragment2. [ ... When it is served ...] ...
  * </ul>
  */
+public abstract class Formatter {
 
-public abstract class Formatter extends BasicFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Formatter.class.getName());
+    @Inject
+    private transient Logger log;
 
     private FormatterTag tag;
     private Locale currentLocale;
     private DateFormat dateTimeFormat;
     private NumberFormat numberFormat;
     private String currentLang;
-
-    public Formatter() {
-    }
 
     /**
      * Sets the parent tag. Called by the framework.

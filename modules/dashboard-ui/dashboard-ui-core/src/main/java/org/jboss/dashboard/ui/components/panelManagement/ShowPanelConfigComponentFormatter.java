@@ -22,13 +22,18 @@ import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ShowPanelConfigComponentFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowPanelConfigComponentFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private ShowPanelConfigComponent showPanelConfigComponent;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

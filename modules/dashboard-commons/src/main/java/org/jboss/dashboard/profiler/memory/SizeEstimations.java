@@ -32,7 +32,7 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 public class SizeEstimations {
 
     public static SizeEstimations lookup() {
-        return (SizeEstimations) CDIBeanLocator.getBeanByType(SizeEstimations.class);
+        return CDIBeanLocator.getBeanByType(SizeEstimations.class);
     }
 
     @Inject @Config("20")

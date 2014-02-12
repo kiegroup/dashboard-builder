@@ -19,7 +19,7 @@ import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.kpi.KPIInitialModule;
-import org.jboss.dashboard.factory.InitialModuleRegistry;
+import org.jboss.dashboard.initialModule.InitialModuleRegistry;
 import org.jboss.dashboard.workspace.export.ImportWorkspacesModule;
 
 import javax.enterprise.context.ApplicationScoped;

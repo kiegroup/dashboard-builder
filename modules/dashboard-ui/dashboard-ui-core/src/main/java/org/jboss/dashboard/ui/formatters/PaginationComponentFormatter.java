@@ -20,19 +20,27 @@ import org.jboss.dashboard.ui.components.PaginationComponentHandler;
 import org.jboss.dashboard.ui.components.PaginationContentProvider;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class PaginationComponentFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PaginationComponentFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
+
     public static final String PARAM_ELEMENT = "element";
     public static final String PARAM_INDEX = "index";
     public static final String PARAM_POSITION = "position";
     public static final String PARAM_INVERSE_POSITION = "inversePosition";
 
+    @Inject
     private MessagesComponentHandler messagesComponentHandler;
+
+    @Inject
     private PaginationComponentHandler paginationComponentHandler;
 
     public MessagesComponentHandler getMessagesComponentHandler() {

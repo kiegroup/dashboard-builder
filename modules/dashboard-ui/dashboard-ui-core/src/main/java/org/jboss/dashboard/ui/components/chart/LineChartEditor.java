@@ -15,7 +15,19 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Named;
+
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.AbstractXAxisDisplayerEditor;
 
+/**
+ * Line chart editor displayer configurator component.
+ */
+@PanelScoped
+@Named("linechart_editor")
 public class LineChartEditor extends AbstractXAxisDisplayerEditor {
+
+    public String getBeanJSP() {
+        return "/components/bam/displayer/chart/linechart_editor.jsp";
+    }
 }

@@ -16,27 +16,26 @@
 package org.jboss.dashboard.ui.components.permissions;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.dashboard.SecurityServices;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.security.*;
 import org.jboss.dashboard.security.principals.ComplementaryRolePrincipal;
 import org.jboss.dashboard.security.principals.RolePrincipal;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.users.Role;
 import org.jboss.dashboard.users.RolesManager;
+import org.slf4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.security.Principal;
 import java.util.*;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class PermissionsHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsHandler.class.getName());
-    private String componentIncludeJSP;
-    private Class permissionClass;
-    private String resourceName;
-
-    private List selectedIds = new ArrayList();
+@PanelScoped
+@Named("permission_handler")
+public class PermissionsHandler extends UIBeanHandler {
 
     public static final String PARAM_OBJECT_ID = "objid";
     public static final String PARAM_ACTION_SELECT_OBJECT = "selectObject";
@@ -47,20 +46,24 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
     public static final String PARAM_ACTION_DELETE_ALL_OBJECTS = "deleteAllObjects";
 
     public static PermissionsHandler lookup() {
-        return (PermissionsHandler) Factory.lookup("org.jboss.dashboard.ui.components.permissions.PermissionsHandler");
+        return CDIBeanLocator.getBeanByType(PermissionsHandler.class);
     }
 
-    public PermissionManager getPermissionsManager() {
-        return SecurityServices.lookup().getPermissionManager();
-    }
+    @Inject
+    private transient Logger log;
 
-    public Policy getPolicy() {
-        return SecurityServices.lookup().getSecurityPolicy();
-    }
+    @Inject
+    private PermissionManager permissionManager;
 
-    public RolesManager getRolesManager() {
-        return SecurityServices.lookup().getRolesManager();
-    }
+    @Inject
+    protected Policy securityPolicy;
+
+    @Inject
+    protected RolesManager rolesManager;
+
+    private Class permissionClass;
+    private String resourceName;
+    private List selectedIds = new ArrayList();
 
     public Class getPermissionClass() {
         return permissionClass;
@@ -90,16 +93,12 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         this.resourceName = resourceName;
     }
 
-    public String getComponentIncludeJSP() {
-        return componentIncludeJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
+    public String getBeanJSP() {
+        return "/components/permissions/managePermissions.jsp";
     }
 
     public List<PermissionDescriptor> getPermissions() {
-        return getPermissionsManager().find(permissionClass.getName(), resourceName);
+        return permissionManager.find(permissionClass.getName(), resourceName);
     }
 
     // UI handler methods
@@ -118,7 +117,7 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
      * Select all editable permissions
      */
     public void actionSelectAllObjects(CommandRequest request) throws Exception {
-        for (Iterator<PermissionDescriptor> it = getPermissionsManager().find(permissionClass.getName(), resourceName, Boolean.FALSE).iterator(); it.hasNext();) {
+        for (Iterator<PermissionDescriptor> it = permissionManager.find(permissionClass.getName(), resourceName, Boolean.FALSE).iterator(); it.hasNext();) {
             selectedIds.add(it.next().getDbid());
         }
     }
@@ -137,10 +136,10 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         String sid = request.getParameter(PARAM_OBJECT_ID);
         if (!StringUtils.isEmpty(sid)) {
             Long id = Long.decode(sid);
-            PermissionDescriptor pd = getPermissionsManager().findPermissionDescriptorById(id);
+            PermissionDescriptor pd = permissionManager.findPermissionDescriptorById(id);
             if (pd != null) {
-                getPolicy().removePermission(pd.getPrincipal(), pd.getPermission());
-                getPolicy().save();
+                securityPolicy.removePermission(pd.getPrincipal(), pd.getPermission());
+                securityPolicy.save();
             }
         }
     }
@@ -149,19 +148,19 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
      * Delete all selected permissions
      */
     public void actionDeleteSelectedObjects(CommandRequest request) throws Exception {
-        for (Iterator<PermissionDescriptor> pdIt = getPermissionsManager().find(selectedIds).iterator(); pdIt.hasNext(); ) {
+        for (Iterator<PermissionDescriptor> pdIt = permissionManager.find(selectedIds).iterator(); pdIt.hasNext(); ) {
             PermissionDescriptor pd = pdIt.next();
-            getPolicy().removePermission(pd.getPrincipal(), pd.getPermission());
+            securityPolicy.removePermission(pd.getPrincipal(), pd.getPermission());
         }
-        getPolicy().save();
+        securityPolicy.save();
     }
 
     /*
      * Delete all permissions (only permission that are not marked as readonly)
      */
     public void actionDeleteAllObjects(CommandRequest request) throws Exception {
-        getPolicy().removePermissions(getResourceName());
-        getPolicy().save();
+        securityPolicy.removePermissions(getResourceName());
+        securityPolicy.save();
     }
 
     public boolean isPermissionSelected(Long id) {
@@ -180,7 +179,7 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
         String roleName = params.get("roleName")[0];
         Boolean invert = params.containsKey("invert");
         if (StringUtils.isNotBlank(roleName)) {
-            Role role = getRolesManager().getRoleById(roleName);
+            Role role = rolesManager.getRoleById(roleName);
             //Calculate actions
             Set paramNames = req.getParameterNames();
             List grantedActions = new ArrayList();
@@ -205,14 +204,14 @@ public class PermissionsHandler extends UIComponentHandlerFactoryElement {
             DefaultPermission perm = (DefaultPermission) constructor.newInstance(new Object[]{resourceName, null});
             grantActionsToPermission(perm, grantedActions, deniedActions);
 
-            DefaultPermission permission = (DefaultPermission) getPolicy().getPermission(principal, getPermissionClass(), getResourceName());
+            DefaultPermission permission = (DefaultPermission) securityPolicy.getPermission(principal, getPermissionClass(), getResourceName());
             if (permission != null) {
                 grantActionsToPermission(permission, grantedActions, deniedActions);
             } else {
                 permission = perm;
             }
-            getPolicy().addPermission(principal, permission);
-            getPolicy().save();
+            securityPolicy.addPermission(principal, permission);
+            securityPolicy.save();
             reset();
         } else log.error("Error: roleName cannot be a null, empty or blank String");
     }

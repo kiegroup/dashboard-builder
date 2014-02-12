@@ -15,13 +15,10 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.components.HandlerMarkupGenerator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.Panel;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspTagException;
@@ -31,21 +28,8 @@ import javax.servlet.jsp.JspTagException;
  */
 public class HiddenLinkTag extends BaseTag {
 
-    /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HiddenLinkTag.class.getName());
-
-    /**
-     * Action to execute
-     */
     private String action = null;
-
     private String params = null;
-
-    /**
-     * Panel ID if set by hand
-     */
     private String panel = null;
 
     protected Panel getCurrentPanel() {
@@ -57,12 +41,11 @@ public class HiddenLinkTag extends BaseTag {
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        HandlerMarkupGenerator markupGenerator = (HandlerMarkupGenerator) Factory.lookup("org.jboss.dashboard.ui.components.HandlerMarkupGenerator");
+        HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
         Panel thePanel = getCurrentPanel();
-        if (getPanel() != null)
-            thePanel = thePanel.getSection().getPanel(getPanel());
-        String textToWrite = markupGenerator.getMarkupToPanelAction(thePanel, action);
+        if (getPanel() != null) thePanel = thePanel.getSection().getPanel(getPanel());
         try {
+            String textToWrite = markupGenerator.getMarkupToPanelAction(thePanel, action);
             pageContext.getOut().print(textToWrite);
         } catch (java.io.IOException e) {
             handleError(e);

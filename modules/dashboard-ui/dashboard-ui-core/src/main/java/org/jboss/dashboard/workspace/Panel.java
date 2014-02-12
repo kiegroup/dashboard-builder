@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Defines a PanelInstance that is publicated on a Page region.
+ * A panel instance published on a page region.
  */
 public class Panel implements Cloneable, Comparable, Visitable {
 

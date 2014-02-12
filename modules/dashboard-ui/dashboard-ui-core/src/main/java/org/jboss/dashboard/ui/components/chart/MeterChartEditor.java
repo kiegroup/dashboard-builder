@@ -18,7 +18,11 @@ package org.jboss.dashboard.ui.components.chart;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jboss.dashboard.displayer.chart.MeterChartDisplayer;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
@@ -26,14 +30,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
+/**
+ * Meter chart editor displayer configurator component.
+ */
+@PanelScoped
+@Named("meterchart_editor")
 public class MeterChartEditor extends AbstractChartDisplayerEditor {
 
-    /** Logger */
-    private transient static Logger log = LoggerFactory.getLogger(MeterChartEditor.class);
+    /** Logger */ @Inject
+    private transient Logger log;
 
     // i18n
     public static final String I18N_METER = "meterChartDisplayer.";
     public static final String METER_SAVE_BUTTON_PRESSED = "updateMeterDetails";
+
+    public String getBeanJSP() {
+        return "/components/bam/displayer/chart/meterchart_editor.jsp";
+    }
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         MeterChartDisplayer meterDisplayer = (MeterChartDisplayer) getDataDisplayer();

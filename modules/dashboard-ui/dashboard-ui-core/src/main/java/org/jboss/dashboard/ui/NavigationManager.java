@@ -16,11 +16,13 @@
 package org.jboss.dashboard.ui;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.security.UIPermission;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.config.Tree;
@@ -37,23 +39,29 @@ import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Manager class that handles the user navigation. It is used to store in which workspace and page is located the user
  */
-public class NavigationManager extends HandlerFactoryElement implements LogoutSurvivor {
+@SessionScoped
+@Named("navigation_manager")
+public class NavigationManager extends BeanHandler implements LogoutSurvivor {
 
     /**
      * Retrieves the NavigationManager instance for the current session
-     * @return
      */
     public static NavigationManager lookup() {
-        return (NavigationManager) Factory.lookup("org.jboss.dashboard.ui.NavigationManager");
+        return CDIBeanLocator.getBeanByType(NavigationManager.class);
     }
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationManager.class.getName());
+    @Inject
+    private transient Logger log;
 
     public static final String WORKSPACE_ID = "workspace";
     public static final String PAGE_ID = "page";
@@ -82,10 +90,6 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
 
     public void setCurrentScreen(String currentScreen) {
         this.currentScreen = currentScreen;
-    }
-
-    public void start() throws Exception {
-        super.start();
     }
 
     public boolean isShowingConfig() {
@@ -433,8 +437,8 @@ public class NavigationManager extends HandlerFactoryElement implements LogoutSu
      */
     public void actionConfig(CommandRequest request) throws Exception {
         setShowingConfig(true);
-        Tree tree = (Tree) Factory.lookup("org.jboss.dashboard.ui.config.ConfigurationTree");
-        TreeStatus treeStatus = (TreeStatus) Factory.lookup("org.jboss.dashboard.ui.config.ConfigurationTreeStatus");
+        Tree tree = CDIBeanLocator.getBeanByType(ConfigurationTree.class);
+        TreeStatus treeStatus = CDIBeanLocator.getBeanByType(ConfigurationTreeStatus.class);
         TreeNode node = treeStatus.getLastEditedNode(tree);
         if (node != null) node.onEdit();
     }

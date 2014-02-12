@@ -15,12 +15,37 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
+import org.jboss.dashboard.ui.config.TreeNode;
 
 public class WorkspaceResourcesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceResourcesNode.class.getName());
+
+    @Inject
+    private SkinsNode skinsNode;
+
+    @Inject
+    private LayoutsNode layoutsNode;
+
+    @Inject
+    private EnvelopesNode envelopesNode;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {skinsNode, layoutsNode, envelopesNode});
+    }
 
     public String getId() {
         return "resources";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_resources.png";
+    }
+
+    public boolean isEditable() {
+        return false;
     }
 }

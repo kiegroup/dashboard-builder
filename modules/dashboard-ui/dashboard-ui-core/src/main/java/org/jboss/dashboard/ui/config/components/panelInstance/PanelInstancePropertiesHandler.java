@@ -15,9 +15,12 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
@@ -28,10 +31,13 @@ import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.utils.forms.RenderUtils;
 import org.jboss.dashboard.users.UserStatus;
+import org.slf4j.Logger;
 
-public abstract class PanelInstancePropertiesHandler extends HandlerFactoryElement {
+public abstract class PanelInstancePropertiesHandler extends BeanHandler {
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesHandler.class.getName());
+    @Inject
+    private transient Logger log;
+
     private Long panelInstanceId;
     private String workspaceId;
     private FormStatus formStatus;
@@ -57,7 +63,7 @@ public abstract class PanelInstancePropertiesHandler extends HandlerFactoryEleme
     }
 
     public void setWorkspaceId(String workspaceId) {
-        this.workspaceId = workspaceId;
+       this.workspaceId = workspaceId;
     }
 
     public CommandResponse actionSave(CommandRequest request) throws Exception {

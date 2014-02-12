@@ -31,15 +31,20 @@ import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.Map;
 
 public class WorkspacesPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesPropertiesFormatter.class.getName());
 
+    @Inject
+    protected transient Logger log;
+
+    @Inject
     private WorkspacesPropertiesHandler workspacesPropertiesHandler;
 
     public UserStatus getUserStatus() {

@@ -15,6 +15,11 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
@@ -23,8 +28,11 @@ import org.jboss.dashboard.users.UserStatus;
 /**
  * UI component that handles the user logout requests.
  */
-public class LogoutComponent extends UIComponentHandlerFactoryElement {
+@SessionScoped
+@Named("logout")
+public class LogoutComponent extends UIBeanHandler {
 
+    @Inject @Config("/components/logout/show.jsp")
     private String componentIncludeJSP;
 
     public CommandResponse actionLogout(CommandRequest request) {
@@ -32,11 +40,7 @@ public class LogoutComponent extends UIComponentHandlerFactoryElement {
         return new RedirectToURLResponse("/", true);
     }
 
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
-    }
-
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 }

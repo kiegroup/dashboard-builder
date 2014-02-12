@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.controller.responses;
 
 import org.jboss.dashboard.ui.HTTPSettings;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
@@ -26,18 +26,18 @@ public class ShowComponentAjaxResponse extends PanelAjaxResponse {
 
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowComponentAjaxResponse.class.getName());
 
-    protected UIComponentHandlerFactoryElement component;
+    protected UIBeanHandler component;
 
-    public ShowComponentAjaxResponse(UIComponentHandlerFactoryElement component) {
+    public ShowComponentAjaxResponse(UIBeanHandler component) {
         this.component = component;
     }
 
-    public UIComponentHandlerFactoryElement getComponent() {
+    public UIBeanHandler getComponent() {
         return component;
     }
 
     public boolean execute(CommandRequest cmdReq) throws Exception {
-        if (log.isDebugEnabled()) log.debug("ShowComponentAjaxResponse: " + component.getName());
+        if (log.isDebugEnabled()) log.debug("ShowComponentAjaxResponse: " + component.getBeanName());
         cmdReq.getResponseObject().setHeader("Content-Encoding", HTTPSettings.lookup().getEncoding());
         cmdReq.getResponseObject().setContentType("text/html;charset=" + HTTPSettings.lookup().getEncoding());
         cmdReq.getRequestObject().getRequestDispatcher("/templates/component_response.jsp").include(cmdReq.getRequestObject(), cmdReq.getResponseObject());

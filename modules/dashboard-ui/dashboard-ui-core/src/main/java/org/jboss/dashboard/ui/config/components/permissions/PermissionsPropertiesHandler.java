@@ -15,25 +15,33 @@
  */
 package org.jboss.dashboard.ui.config.components.permissions;
 
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import javax.inject.Inject;
 
-public class PermissionsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsPropertiesHandler.class.getName());
+import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.components.permissions.PermissionsHandler;
 
+public class PermissionsPropertiesHandler extends BeanHandler {
+
+    @Inject
+    private PermissionsHandler permissionsHandler;
+
+    public PermissionsHandler getPermissionsHandler() {
+        return permissionsHandler;
+    }
 
     public void setWorkspaceId(String workspaceId) {
-        throw new UnsupportedOperationException();
+        // Do nothing with this for now
     }
 
     public void setPermissionClass(Class aClass) {
-        throw new UnsupportedOperationException();
+        permissionsHandler.setPermissionClass(aClass);
     }
 
     public void setResourceName(String resourceName) {
-        throw new UnsupportedOperationException();
+        permissionsHandler.setResourceName(resourceName);
     }
 
     public void reset() {
-        throw new UnsupportedOperationException();
+        permissionsHandler.reset();
     }
 }

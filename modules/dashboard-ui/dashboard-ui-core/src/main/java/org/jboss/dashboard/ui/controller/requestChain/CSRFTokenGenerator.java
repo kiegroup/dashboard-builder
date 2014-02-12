@@ -31,7 +31,7 @@ import java.util.List;
 public class CSRFTokenGenerator implements Serializable {
 
     public static CSRFTokenGenerator lookup() {
-        return (CSRFTokenGenerator) CDIBeanLocator.getBeanByType(CSRFTokenGenerator.class);
+        return CDIBeanLocator.getBeanByType(CSRFTokenGenerator.class);
     }
 
     protected String tokenName = "csrf";

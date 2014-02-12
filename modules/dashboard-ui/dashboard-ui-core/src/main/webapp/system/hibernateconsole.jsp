@@ -17,11 +17,9 @@
 --%>
 <%@ page import="org.hibernate.SessionFactory" %>
 <%@ page import="org.jboss.dashboard.database.hibernate.HibernateSessionFactoryProvider" %>
-<%@ page import="java.text.Collator" %>
 <%@ page import="org.hibernate.stat.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.jboss.dashboard.factory.ComponentsContextManager" %>
 <%@ page import="org.jboss.dashboard.database.hibernate.HibernateInitializer" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
 <%
@@ -63,62 +61,60 @@
     }
 %>
 <%
-    ComponentsContextManager.startContext();
-    try {
-        String action = request.getParameter("action");
-        String view = request.getParameter("view");
-        if (view == null) view = VIEW_QUERY_STATS;
+    String action = request.getParameter("action");
+    String view = request.getParameter("view");
+    if (view == null) view = VIEW_QUERY_STATS;
 
-        StringBuilder errors = new StringBuilder(512);
-        StringBuilder warnings = new StringBuilder(512);
-        StringBuilder info = new StringBuilder(512);
+    StringBuilder errors = new StringBuilder(512);
+    StringBuilder warnings = new StringBuilder(512);
+    StringBuilder info = new StringBuilder(512);
 
-        HibernateSessionFactoryProvider hsfp = CoreServices.lookup().getHibernateSessionFactoryProvider();
-        SessionFactory sessionFactory = hsfp.getSessionFactory();
-        Statistics statistics = sessionFactory.getStatistics();
+    HibernateSessionFactoryProvider hsfp = CoreServices.lookup().getHibernateSessionFactoryProvider();
+    SessionFactory sessionFactory = hsfp.getSessionFactory();
+    Statistics statistics = sessionFactory.getStatistics();
 
-        if ("activate".equals(action) && !statistics.isStatisticsEnabled()) {
-            statistics.setStatisticsEnabled(true);
-            info.append("Statistics enabled\n");
-        }
-        if ("deactivate".equals(action) && statistics.isStatisticsEnabled()) {
-            statistics.setStatisticsEnabled(false);
-            info.append("Statistics disabled\n");
-        }
-        if ("freeCaches".equals(action)) {
-            HibernateInitializer hibernateInitializer = CoreServices.lookup().getHibernateInitializer();
-            hibernateInitializer.evictAllCaches();
-            info.append("All caches cleared.\n");
-        }
+    if ("activate".equals(action) && !statistics.isStatisticsEnabled()) {
+        statistics.setStatisticsEnabled(true);
+        info.append("Statistics enabled\n");
+    }
+    if ("deactivate".equals(action) && statistics.isStatisticsEnabled()) {
+        statistics.setStatisticsEnabled(false);
+        info.append("Statistics disabled\n");
+    }
+    if ("freeCaches".equals(action)) {
+        HibernateInitializer hibernateInitializer = CoreServices.lookup().getHibernateInitializer();
+        hibernateInitializer.evictAllCaches();
+        info.append("All caches cleared.\n");
+    }
 
-        if (errors.length() > 0) {
+    if (errors.length() > 0) {
 %>
-        <div class="error"><%=StringEscapeUtils.escapeHtml(errors.toString())%></div><br>
+    <div class="error"><%=StringEscapeUtils.escapeHtml(errors.toString())%></div><br>
 <%
-        }
-        if (warnings.length() > 0) {
+    }
+    if (warnings.length() > 0) {
 %>
-        <div class="warn"><%=StringEscapeUtils.escapeHtml(warnings.toString())%></div><br>
+    <div class="warn"><%=StringEscapeUtils.escapeHtml(warnings.toString())%></div><br>
 <%
-        }
-        if (info.length() > 0) {
+    }
+    if (info.length() > 0) {
 %>
-        <div class="success"><%=StringEscapeUtils.escapeHtml(info.toString())%></div><br>
+    <div class="success"><%=StringEscapeUtils.escapeHtml(info.toString())%></div><br>
 <%
-        }
-        boolean active = statistics.isStatisticsEnabled();
-        if (active) {
-            lastUpdate = new Date();
-            generalStatistics.set(0, statistics.getConnectCount());
-            generalStatistics.set(1, statistics.getFlushCount());
-            generalStatistics.set(2, statistics.getPrepareStatementCount());
-            generalStatistics.set(3, statistics.getCloseStatementCount());
-            generalStatistics.set(4, statistics.getSessionCloseCount());
-            generalStatistics.set(5, statistics.getSessionOpenCount());
-            generalStatistics.set(6, statistics.getTransactionCount());
-            generalStatistics.set(7, statistics.getSuccessfulTransactionCount());
-            generalStatistics.set(8, statistics.getOptimisticFailureCount());
-        }
+    }
+    boolean active = statistics.isStatisticsEnabled();
+    if (active) {
+        lastUpdate = new Date();
+        generalStatistics.set(0, statistics.getConnectCount());
+        generalStatistics.set(1, statistics.getFlushCount());
+        generalStatistics.set(2, statistics.getPrepareStatementCount());
+        generalStatistics.set(3, statistics.getCloseStatementCount());
+        generalStatistics.set(4, statistics.getSessionCloseCount());
+        generalStatistics.set(5, statistics.getSessionOpenCount());
+        generalStatistics.set(6, statistics.getTransactionCount());
+        generalStatistics.set(7, statistics.getSuccessfulTransactionCount());
+        generalStatistics.set(8, statistics.getOptimisticFailureCount());
+    }
 %>
     <table>
         <tr>
@@ -147,14 +143,14 @@
         </tr>
     </table>
 <%
-        boolean hasGeneral = false;
-        for (int i = 0; i < 9; i++) {
-            if (generalStatistics.get(i).longValue() > -1) {
-                hasGeneral = true;
-                break;
-            }
+    boolean hasGeneral = false;
+    for (int i = 0; i < 9; i++) {
+        if (generalStatistics.get(i).longValue() > -1) {
+            hasGeneral = true;
+            break;
         }
-        if (hasGeneral) {
+    }
+    if (hasGeneral) {
 %>
     <table>
         <tr>
@@ -194,27 +190,24 @@
             <td align="left">= <%=generalStatistics.get(8)%></td>
         </tr>
 <%
-        }
+    }
 %>
     </table>
     <br>
 <%
-        if (active) {
+    if (active) {
 %>
-        <a style="text-decoration:underline" href="hibernateconsole.jsp?view=<%=view%>">Refresh</a>&nbsp;&nbsp;
+    <a style="text-decoration:underline" href="hibernateconsole.jsp?view=<%=view%>">Refresh</a>&nbsp;&nbsp;
 <%
-        }
+    }
 %>
     <a style="text-decoration:underline" href="hibernateconsole.jsp?view=<%=view%>&action=freeCaches" onclick="return window.confirm('Are you sure&#63;');">Clear All Caches</a>
 <%
-        String viewJSP = viewJSPMap.get(view);
-        if (viewJSP != null) {
+    String viewJSP = viewJSPMap.get(view);
+    if (viewJSP != null) {
 %>
-        <jsp:include page="<%=viewJSP%>" flush="true" />
+    <jsp:include page="<%=viewJSP%>" flush="true" />
 <%
-        }
-    } finally {
-        ComponentsContextManager.clearContext();
     }
 %>
 </body>

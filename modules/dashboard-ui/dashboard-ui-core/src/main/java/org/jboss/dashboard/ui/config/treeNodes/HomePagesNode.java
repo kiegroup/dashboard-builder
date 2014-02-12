@@ -15,23 +15,30 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.homePages.HomePagesHandler;
+import org.slf4j.Logger;
 
 public class HomePagesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HomePagesNode.class.getName());
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private HomePagesHandler homePagesHandler;
 
     public HomePagesHandler getHomePagesHandler() {
         return homePagesHandler;
     }
 
-    public void setHomePagesHandler(HomePagesHandler homePagesHandler) {
-        this.homePagesHandler = homePagesHandler;
-    }
-
     public String getId() {
          return "homePagesNode";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_role.png";
     }
 
     public boolean onEdit() {

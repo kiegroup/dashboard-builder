@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.config.components.panelInstance;
 
+import javax.enterprise.context.SessionScoped;
+
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
@@ -24,6 +26,7 @@ import org.jboss.dashboard.workspace.PanelProviderParameter;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
 
+@SessionScoped
 public class PanelInstanceSpecificPropertiesHandler extends PanelInstancePropertiesHandler {
 
     public WorkspacesManager getWorkspacesManager() {

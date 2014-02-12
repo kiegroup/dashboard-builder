@@ -18,6 +18,9 @@ package org.jboss.dashboard.ui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+
+@PanelScoped
 public class TestContentProvider implements PaginationContentProvider {
 
     private String pageHeader = "/components/pagination/test/head.jsp";

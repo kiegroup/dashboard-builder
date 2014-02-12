@@ -15,9 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.users.UserStatus;
-
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;

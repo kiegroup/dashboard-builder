@@ -15,21 +15,59 @@
  */
 package org.jboss.dashboard.ui;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
 /**
  * Simple interface to some objects stored in session
  */
+@ApplicationScoped
 public class SessionManager {
 
     private final static String ATTRIBUTE_PANEL = "current_panel";
     private final static String ATTRIBUTE_FORM_STATUS = "current_form_status";
+
+    public static SessionManager lookup() {
+        return CDIBeanLocator.getBeanByType(SessionManager.class);
+    }
+
+    @Inject /** Logger */
+    private transient Logger log;
+
+    private int activeSessions = 0;
+
+    public int getActiveSessions() {
+        return activeSessions;
+    }
+
+    /**
+     * Called when a session expires.
+     */
+    public void expireSession(HttpSession session) {
+        if (activeSessions > 0) activeSessions--;
+        log.info("Session " + session.getId() + " expired. " + activeSessions + " active sessions.");
+    }
+
+    /**
+     * Called when a new session is created.
+     */
+    public void initSession(HttpServletRequest request, HttpServletResponse response) {
+        activeSessions++;
+
+        log.debug("Request " + request.getRequestURI() + "?" + request.getQueryString() + " caused session to be created.");
+        log.info("Session " + request.getSession(false).getId() + " created. " + activeSessions + " active sessions.");
+    }
 
     /**
      * Returns current form status

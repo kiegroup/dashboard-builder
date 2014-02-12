@@ -26,13 +26,18 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PanelsPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsPropertiesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelsPropertiesHandler panelsPropertiesHandler;
 
     public PanelsPropertiesHandler getPanelsPropertiesHandler() {
@@ -107,8 +112,7 @@ public class PanelsPropertiesFormatter extends Formatter {
             renderFragment("outputEnd");
 
         } catch (Exception e) {
-            PanelsPropertiesFormatter.log.error("Error:", e);
+            log.error("Error:", e);
         }
-
     }
 }

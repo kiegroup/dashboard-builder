@@ -17,28 +17,35 @@ package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.kpi.KPIListener;
 import org.jboss.dashboard.kpi.KPIListenerAdapter;
 import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.displayer.DataDisplayer;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 import java.util.Locale;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class KPIViewer extends UIComponentHandlerFactoryElement {
+@PanelScoped
+@Named("kpi_viewer")
+public class KPIViewer extends UIBeanHandler {
 
     /** Get the instance. */
     public static KPIViewer lookup() {
-        return (KPIViewer) Factory.lookup("org.jboss.dashboard.ui.components.KPIViewer");
+        return CDIBeanLocator.getBeanByType(KPIViewer.class);
     }
+
+    @Inject @Config("/components/bam/kpi_edit.jsp")
+    protected String beanJSP;
 
     protected KPI kpi;
     protected DataDisplayerViewer displayerViewer;
-    protected String componentIncludeJSP;
-
     protected transient KPIListener kpiListener;
 
     public KPIViewer() {
@@ -71,17 +78,13 @@ public class KPIViewer extends UIComponentHandlerFactoryElement {
         return kpi.getDataProvider() != null && kpi.getDataProvider().isReady();
     }
 
-    // UIComponentHandlerFactoryElement interface
+    // UIBeanHandler interface
 
-    public String getComponentIncludeJSP() {
-        return this.componentIncludeJSP;
+    public String getBeanJSP() {
+        return this.beanJSP;
     }
 
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
-    }
-
-    public void beforeRenderComponent() {
+    public void beforeRenderBean() {
         // The displayer's title must be the kpi's description.
         // So set it before render the component.
         Locale locale = LocaleManager.currentLocale();

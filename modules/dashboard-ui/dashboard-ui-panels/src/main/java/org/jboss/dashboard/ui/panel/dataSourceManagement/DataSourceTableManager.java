@@ -16,7 +16,6 @@
 package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
@@ -37,7 +36,7 @@ public class DataSourceTableManager {
      * Get the singleton instance.
      */
     public static DataSourceTableManager lookup() {
-        return (DataSourceTableManager) CDIBeanLocator.getBeanByType(DataSourceTableManager.class);
+        return CDIBeanLocator.getBeanByType(DataSourceTableManager.class);
     }
 
      public List getSelectedTablesEntries(final String datasource) throws Exception {

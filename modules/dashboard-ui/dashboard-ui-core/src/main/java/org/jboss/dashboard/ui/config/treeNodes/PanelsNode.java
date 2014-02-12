@@ -15,20 +15,24 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.panels.PanelsPropertiesHandler;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Panel;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.inject.Inject;
 
 public class PanelsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelsPropertiesHandler panelsPropertiesHandler;
 
     public PanelsPropertiesHandler getPanelsPropertiesHandler() {
@@ -95,7 +99,7 @@ public class PanelsNode extends AbstractNode {
     }
 
     protected PanelNode getNewPanelNode(Panel panel) {
-        PanelNode sNode = (PanelNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.PanelNode");
+        PanelNode sNode = CDIBeanLocator.getBeanByType(PanelNode.class);
         sNode.setTree(getTree());
         sNode.setParent(this);
         sNode.setWorkspaceId(panel.getWorkspace().getId());
@@ -106,6 +110,14 @@ public class PanelsNode extends AbstractNode {
 
     public String getId() {
         return "panels";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
     }
 
     public boolean onEdit() {

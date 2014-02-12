@@ -24,11 +24,16 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.users.UserStatus;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Formatter that displays the workspaces selector for the current user.
+ */
 public class WorkspaceSelectorFormatter extends Formatter {
 
+    @Inject
     private NavigationManager navigationManager;
 
     public UserStatus getUserStatus() {

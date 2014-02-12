@@ -19,8 +19,9 @@ import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.LocaleManager;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.database.DataSourceEntry;
 import org.jboss.dashboard.database.DataSourceManager;
@@ -28,16 +29,22 @@ import org.jboss.dashboard.database.JDBCDataSourceEntry;
 import org.jboss.dashboard.database.JNDIDataSourceEntry;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.slf4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class DataSourceManagementHandler extends HandlerFactoryElement {
+@PanelScoped
+@Named("dsmgmt_handler")
+public class DataSourceManagementHandler extends BeanHandler {
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementHandler.class.getName());
+    @Inject
+    private transient Logger log;
 
     public static final String PARAM_DS_NAME = "_dsname";
     public static final String RESULT_OK = "_result_OK";
@@ -74,12 +81,8 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     private String type;
     private String selectedTables;
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public DataSourceManagementHandler() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public boolean isCreating() {
         return isCreating;
@@ -311,7 +314,7 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
         }
         DataSourceEntry dSource = getDataSourceManager().getDataSourceEntry(getName());
         if (dSource != null && !isEDIT_MODE()) {
-            addFieldError(new FactoryURL(getComponentName(), "name"), null, getName());
+            addFieldError(new FactoryURL(getBeanName(), "name"), null, getName());
             return;
         }
 
@@ -361,46 +364,43 @@ public class DataSourceManagementHandler extends HandlerFactoryElement {
     private void validate(String type) {
         clearFieldErrors();
         if (getName() == null || "".equals(getName())) {
-            addFieldError(new FactoryURL(getComponentName(), "name"), null, getName());
+            addFieldError(new FactoryURL(getBeanName(), "name"), null, getName());
         }
 
         if (type == null || "".equals(type)) {
-            addFieldError(new FactoryURL(getComponentName(), "jdbc"), null, getType());
-            addFieldError(new FactoryURL(getComponentName(), "jndi"), null, getType());
+            addFieldError(new FactoryURL(getBeanName(), "jdbc"), null, getType());
+            addFieldError(new FactoryURL(getBeanName(), "jndi"), null, getType());
         } else {
             if (type.equals(CUSTOM_TYPE)) {
 
                 if (getDriverClass() == null || "".equals(getDriverClass()))
-                    addFieldError(new FactoryURL(getComponentName(), "driverClass"), null, getUrl());
+                    addFieldError(new FactoryURL(getBeanName(), "driverClass"), null, getUrl());
 
                 if (getUrl() == null || "".equals(getUrl()))
-                    addFieldError(new FactoryURL(getComponentName(), "url"), null, getUrl());
+                    addFieldError(new FactoryURL(getBeanName(), "url"), null, getUrl());
 
                 if (getUserName() == null || "".equals(getUserName()))
-                    addFieldError(new FactoryURL(getComponentName(), "userName"), null, getUserName());
-
-                // if (getPassword() == null || "".equals(getPassword()))
-                //    addFieldError(new FactoryURL(getComponentName(), "password"), null, getPassword());
+                    addFieldError(new FactoryURL(getBeanName(), "userName"), null, getUserName());
 
             } else if (type.equals(JNDI_TYPE)) {
 
                 if (getJndiPath() == null || "".equals(getJndiPath()))
-                    addFieldError(new FactoryURL(getComponentName(), "jndiPath"), null, getJndiPath());
+                    addFieldError(new FactoryURL(getBeanName(), "jndiPath"), null, getJndiPath());
 
             }
         }
         if (getTestQuery() == null || "".equals(getTestQuery()))
-            addFieldError(new FactoryURL(getComponentName(), "testQuery"), null, getTestQuery());
+            addFieldError(new FactoryURL(getBeanName(), "testQuery"), null, getTestQuery());
 
     }
 
     private void setJndiStatusError() {
-        addFieldError(new FactoryURL(getComponentName(), "jndi"), null, getType());
+        addFieldError(new FactoryURL(getBeanName(), "jndi"), null, getType());
         setType(JNDI_TYPE);
      }
 
     private void setJdbcStatusError() {
-        addFieldError(new FactoryURL(getComponentName(), "jdbc"), null, getType());
+        addFieldError(new FactoryURL(getBeanName(), "jdbc"), null, getType());
         setType(CUSTOM_TYPE);
     }
 

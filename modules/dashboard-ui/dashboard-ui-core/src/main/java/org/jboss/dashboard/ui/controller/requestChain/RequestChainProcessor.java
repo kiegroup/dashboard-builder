@@ -15,51 +15,17 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.ui.components.ControllerStatus;
-import org.jboss.dashboard.ui.controller.RequestContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
  * Inspired on the pattern chain-of-responsability
  */
-public abstract class RequestChainProcessor extends BasicFactoryElement {
-
-    private RequestChainProcessor nextStep;
-
-    public ControllerStatus getControllerStatus() {
-        return ControllerStatus.lookup();
-    }
-
-    public RequestChainProcessor getNextStep() {
-        return nextStep;
-    }
-
-    public void setNextStep(RequestChainProcessor nextStep) {
-        this.nextStep = nextStep;
-    }
-
-    public HttpServletRequest getRequest() {
-        return RequestContext.getCurrentContext().getRequest().getRequestObject();
-    }
-
-    public HttpServletResponse getResponse() {
-        return RequestContext.getCurrentContext().getRequest().getResponseObject();
-    }
+public interface RequestChainProcessor {
 
     /**
      * Make required processing of request.
      *
      * @return true if processing must continue, false otherwise.
      */
-    protected abstract boolean processRequest() throws Exception;
-
-    public final void doRequestProcessing() throws Exception {
-        boolean continueProcessing = processRequest();
-        if (continueProcessing && nextStep != null) {
-            nextStep.doRequestProcessing();
-        }
-    }
+    boolean processRequest(CommandRequest request) throws Exception;
 }

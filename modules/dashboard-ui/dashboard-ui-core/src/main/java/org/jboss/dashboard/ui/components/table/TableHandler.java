@@ -18,38 +18,45 @@ package org.jboss.dashboard.ui.components.table;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.displayer.table.*;
 import org.jboss.dashboard.domain.Interval;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.filter.FilterByCriteria;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
+import org.slf4j.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * The table component handler.
  */
-public class TableHandler extends UIComponentHandlerFactoryElement {
-    private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TableHandler.class);
+@PanelScoped
+@Named("table_handler")
+public class TableHandler extends UIBeanHandler {
 
+    public static final String EXPORT_FORMAT = "dataExportFormat";
+
+    @Inject
+    private transient Logger log;
+
+    protected TableFormatter tableFormatter;
     protected Table table;
     protected ComparatorByCriteria tableComparator;
     protected boolean editMode;
     protected String viewModeJsp;
     protected String editModeJsp;
     protected Integer selectedColumnIndex;
-    protected TableFormatter tableFormatter;
     protected boolean structuralChangesAllowed;
-
-    public static final String EXPORT_FORMAT = "dataExportFormat";
 
     // Constructor of the class
     public TableHandler() {
@@ -58,9 +65,9 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         editMode = true;
         viewModeJsp = "/components/table/view.jsp";
         editModeJsp = "/components/table/edit.jsp";
-        tableFormatter = new TableFormatter();
+        tableFormatter = null;
         structuralChangesAllowed = true;
-        tableComparator = createTableComparator();
+        tableComparator = null;
     }
 
     public Table getTable() {
@@ -69,11 +76,6 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
 
     public void setTable(Table table) {
         this.table = table;
-    }
-
-    protected ComparatorByCriteria createTableComparator() {
-        // To be provided by subclasses.
-        return null;
     }
 
     public ComparatorByCriteria getTableComparator() {
@@ -117,9 +119,9 @@ public class TableHandler extends UIComponentHandlerFactoryElement {
         this.structuralChangesAllowed = structuralChangesAllowed;
     }
 
-    // UIComponentHandlerFactoryElement interface
+    // UIBeanHandler interface
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         if (isEditMode()) return editModeJsp;
         return viewModeJsp;
     }

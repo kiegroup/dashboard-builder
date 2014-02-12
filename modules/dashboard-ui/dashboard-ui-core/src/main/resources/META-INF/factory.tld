@@ -170,13 +170,6 @@
     </tag>
 
     <tag>
-        <name>currentComponent</name>
-        <tag-class>org.jboss.dashboard.ui.taglib.factory.CurrentComponentTag</tag-class>
-        <body-content>empty</body-content>
-
-    </tag>
-
-    <tag>
         <name>encode</name>
         <tag-class>org.jboss.dashboard.ui.taglib.factory.EncodeTag</tag-class>
         <body-content>empty</body-content>

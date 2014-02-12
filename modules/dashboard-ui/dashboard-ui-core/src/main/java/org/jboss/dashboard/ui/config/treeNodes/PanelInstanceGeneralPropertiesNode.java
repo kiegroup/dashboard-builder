@@ -15,11 +15,29 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
+import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceGeneralPropertiesHandler;
+import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancePropertiesHandler;
 
 public class PanelInstanceGeneralPropertiesNode extends PanelInstancePropertiesNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstanceGeneralPropertiesNode.class.getName());
+
+    @Inject
+    PanelInstanceGeneralPropertiesHandler handler;
+
+    public PanelInstancePropertiesHandler getHandler() {
+        return handler;
+    }
 
     public String getId() {
         return "generalProperties";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_translation.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
     }
 }

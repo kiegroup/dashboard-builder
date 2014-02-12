@@ -23,7 +23,9 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.SessionManager;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +33,9 @@ import javax.servlet.http.HttpServletResponse;
  * This class extends Formatter to provide support for the rendering of a panel's content.
  */
 public class RenderPanelContentFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderPanelContentFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         Panel panel = (Panel) getParameter("panel");

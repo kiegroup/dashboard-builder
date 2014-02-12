@@ -18,96 +18,93 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DataSourceManagementFormFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementFormFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private DataSourceManagementHandler dataSourceManagementHandler;
-
-    public DataSourceManagementHandler getDataSourceManagementHandler() {
-        return dataSourceManagementHandler;
-    }
-
-    public void setDataSourceManagementHandler(DataSourceManagementHandler dataSourceManagementHandler) {
-        this.dataSourceManagementHandler = dataSourceManagementHandler;
-    }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
 
-            if (getDataSourceManagementHandler().isEDIT_MODE()) {
+            if (dataSourceManagementHandler.isEDIT_MODE()) {
                 // Editing DS.
-                setAttribute("dsName", getDataSourceManagementHandler().getName());
+                setAttribute("dsName", dataSourceManagementHandler.getName());
                 renderFragment("outputStartEditing");
             }
             renderFragment("outputStart");
-            if (getDataSourceManagementHandler().getTEST_MODE() && getDataSourceManagementHandler().getTEST_RESULT()!=null && !"".equals(getDataSourceManagementHandler().getTEST_RESULT())){
-                setAttribute("testResult", getDataSourceManagementHandler().getTEST_RESULT());
+            if (dataSourceManagementHandler.getTEST_MODE() && dataSourceManagementHandler.getTEST_RESULT()!=null && !"".equals(dataSourceManagementHandler.getTEST_RESULT())){
+                setAttribute("testResult", dataSourceManagementHandler.getTEST_RESULT());
                 renderFragment("outputResult");
             }
 
-            if(!getDataSourceManagementHandler().isEDIT_MODE() && getDataSourceManagementHandler().isCreating()){
-                setAttribute("error", (getDataSourceManagementHandler().hasError("jndi") || getDataSourceManagementHandler().hasError("jdbc")));
-                setAttribute("type", getDataSourceManagementHandler().getType());
+            if(!dataSourceManagementHandler.isEDIT_MODE() && dataSourceManagementHandler.isCreating()){
+                setAttribute("error", (dataSourceManagementHandler.hasError("jndi") || dataSourceManagementHandler.hasError("jdbc")));
+                setAttribute("type", dataSourceManagementHandler.getType());
                 renderFragment("outputRadios");
             }
 
-            setAttribute("errorName", getDataSourceManagementHandler().hasError("name"));
-            setAttribute("Name", getDataSourceManagementHandler().getName() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getName()) : "");
+            setAttribute("errorName", dataSourceManagementHandler.hasError("name"));
+            setAttribute("Name", dataSourceManagementHandler.getName() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getName()) : "");
 
             renderFragment("outputName");
 
-            setAttribute("errorJndiPath", getDataSourceManagementHandler().hasError("jndiPath"));
+            setAttribute("errorJndiPath", dataSourceManagementHandler.hasError("jndiPath"));
 
-            if (getDataSourceManagementHandler().getType() != null && getDataSourceManagementHandler().getType().equals(DataSourceManagementHandler.JNDI_TYPE)) {
-                setAttribute("JndiPath", getDataSourceManagementHandler().getJndiPath() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getJndiPath()) : "");
+            if (dataSourceManagementHandler.getType() != null && dataSourceManagementHandler.getType().equals(DataSourceManagementHandler.JNDI_TYPE)) {
+                setAttribute("JndiPath", dataSourceManagementHandler.getJndiPath() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getJndiPath()) : "");
             }
 
             renderFragment("outputJNDI");
 
-            setAttribute("errorUrl", getDataSourceManagementHandler().hasError("url"));
-            setAttribute("errorDriverClass", getDataSourceManagementHandler().hasError("driverClass"));
-            setAttribute("errorUserName", getDataSourceManagementHandler().hasError("userName"));
-            setAttribute("errorPassw", getDataSourceManagementHandler().hasError("password"));
-            if (getDataSourceManagementHandler().getType() != null && getDataSourceManagementHandler().getType().equals(DataSourceManagementHandler.CUSTOM_TYPE)) {
+            setAttribute("errorUrl", dataSourceManagementHandler.hasError("url"));
+            setAttribute("errorDriverClass", dataSourceManagementHandler.hasError("driverClass"));
+            setAttribute("errorUserName", dataSourceManagementHandler.hasError("userName"));
+            setAttribute("errorPassw", dataSourceManagementHandler.hasError("password"));
+            if (dataSourceManagementHandler.getType() != null && dataSourceManagementHandler.getType().equals(DataSourceManagementHandler.CUSTOM_TYPE)) {
 
-                setAttribute("Url", getDataSourceManagementHandler().getUrl() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getUrl()) : "");
+                setAttribute("Url", dataSourceManagementHandler.getUrl() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getUrl()) : "");
 
-                String driverClass = getDataSourceManagementHandler().getDriverClass();
+                String driverClass = dataSourceManagementHandler.getDriverClass();
                 if (driverClass != null) {
-                    setAttribute("selectedNone", "".equals(getDataSourceManagementHandler().getDriverClass()) ? "selected" : "");
-                    setAttribute("selectedMySQL", getDataSourceManagementHandler().getDriverClass().equals("com.mysql.jdbc.Driver") ? "selected" : "");
-                    setAttribute("selectedPostgres", getDataSourceManagementHandler().getDriverClass().equals("org.postgresql.Driver") ? "selected" : "");
-                    setAttribute("selectedOracle", getDataSourceManagementHandler().getDriverClass().equals("oracle.jdbc.driver.OracleDriver") ? "selected" : "");
-                    setAttribute("selectedSQLServer", getDataSourceManagementHandler().getDriverClass().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver") ? "selected" : "");
-                    setAttribute("selectedH2", getDataSourceManagementHandler().getDriverClass().equals("org.h2.Driver") ? "selected" : "");
-                    setAttribute("selectedTeiid", getDataSourceManagementHandler().getDriverClass().equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
+                    setAttribute("selectedNone", "".equals(dataSourceManagementHandler.getDriverClass()) ? "selected" : "");
+                    setAttribute("selectedMySQL", dataSourceManagementHandler.getDriverClass().equals("com.mysql.jdbc.Driver") ? "selected" : "");
+                    setAttribute("selectedPostgres", dataSourceManagementHandler.getDriverClass().equals("org.postgresql.Driver") ? "selected" : "");
+                    setAttribute("selectedOracle", dataSourceManagementHandler.getDriverClass().equals("oracle.jdbc.driver.OracleDriver") ? "selected" : "");
+                    setAttribute("selectedSQLServer", dataSourceManagementHandler.getDriverClass().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver") ? "selected" : "");
+                    setAttribute("selectedH2", dataSourceManagementHandler.getDriverClass().equals("org.h2.Driver") ? "selected" : "");
+                    setAttribute("selectedTeiid", dataSourceManagementHandler.getDriverClass().equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
                 }
                 setAttribute("DriverClassName", driverClass != null ? StringEscapeUtils.escapeHtml(driverClass) : "");
 
-                setAttribute("UserName", getDataSourceManagementHandler().getUserName() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getUserName()) : "");
-                setAttribute("Passw", getDataSourceManagementHandler().getPassword() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getPassword()) : "");
+                setAttribute("UserName", dataSourceManagementHandler.getUserName() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getUserName()) : "");
+                setAttribute("Passw", dataSourceManagementHandler.getPassword() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getPassword()) : "");
             }
             renderFragment("outputLocal");
 
-            setAttribute("errorTestQ", getDataSourceManagementHandler().hasError("testQuery"));
-            setAttribute("TestQ", getDataSourceManagementHandler().getTestQuery() != null ? StringEscapeUtils.escapeHtml(getDataSourceManagementHandler().getTestQuery()) : "");
+            setAttribute("errorTestQ", dataSourceManagementHandler.hasError("testQuery"));
+            setAttribute("TestQ", dataSourceManagementHandler.getTestQuery() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getTestQuery()) : "");
 
             renderFragment("ouputTestQ");
-            if (getDataSourceManagementHandler().isCreating() || getDataSourceManagementHandler().isEDIT_MODE()) {
+            if (dataSourceManagementHandler.isCreating() || dataSourceManagementHandler.isEDIT_MODE()) {
                 renderFragment("outputRowButtonsBegin");
                 renderFragment("outputTryButton");
                 renderFragment("outputSubmitButton");
 
-                if (!getDataSourceManagementHandler().getINTROSPECT_MODE())
+                if (!dataSourceManagementHandler.getINTROSPECT_MODE())
                     renderFragment("outputCancel");
                 renderFragment("outputRowButtonsEnd");
             }
-            setAttribute("typeSelect", getDataSourceManagementHandler().getType() != null ? getDataSourceManagementHandler().getType() : "");
-            setAttribute("introspectMode", getDataSourceManagementHandler().getINTROSPECT_MODE());
+            setAttribute("typeSelect", dataSourceManagementHandler.getType() != null ? dataSourceManagementHandler.getType() : "");
+            setAttribute("introspectMode", dataSourceManagementHandler.getINTROSPECT_MODE());
             renderFragment("outputEnd");
 
         } catch (Exception e) {

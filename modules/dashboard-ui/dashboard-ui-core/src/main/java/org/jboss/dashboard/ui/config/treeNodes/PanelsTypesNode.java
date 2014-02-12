@@ -15,15 +15,21 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.panelstypes.PanelsTypesPropertiesHandler;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
+import org.slf4j.Logger;
 
 public class PanelsTypesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsTypesNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelsTypesPropertiesHandler panelsTypesPropertiesHandler;
 
     public PanelsTypesPropertiesHandler getPanelsTypesPropertiesHandler() {
@@ -36,6 +42,10 @@ public class PanelsTypesNode extends AbstractNode {
 
     public String getId() {
         return "panelTypes";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
     }
 
     public boolean onEdit() {

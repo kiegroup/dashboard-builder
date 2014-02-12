@@ -41,7 +41,7 @@
     KPI kpi = kpiEditor.getKpi();
     DataDisplayer displayer = kpi.getDataDisplayer();
     DataProvider provider = kpi.getDataProvider();
-    String editorPath = UIBeanLocator.lookup().getEditor(displayer).getName();
+    String editorPath = UIBeanLocator.lookup().getEditor(displayer).getBeanName();
 %>
 
 <!-- Add the properties to configure the KPIEditor -->

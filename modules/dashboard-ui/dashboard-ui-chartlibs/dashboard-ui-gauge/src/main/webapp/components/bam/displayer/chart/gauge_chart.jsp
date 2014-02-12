@@ -15,7 +15,6 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.GaugeMeterChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
 <%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
@@ -39,7 +38,7 @@
     submitAjaxForm(form);"
 />
 <form method="post" action='<factory:formUrl friendly="false"/>' id='<%="form"+chartId%>'>
-  <factory:handler bean="<%=viewer.getComponentName()%>" action="<%= GaugeMeterChartViewer.PARAM_ACTION %>"/>
+  <factory:handler bean="<%=viewer.getBeanName()%>" action="<%= GaugeMeterChartViewer.PARAM_ACTION %>"/>
   <input type="hidden" name="<%= GaugeMeterChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
 <script defer="true">

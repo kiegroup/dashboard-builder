@@ -23,12 +23,19 @@ import org.jboss.dashboard.workspace.LayoutRegionStatus;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.users.UserStatus;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Formatter that renders the tabbed regions.
+ */
 public class RenderTabbedRegionFormatter extends RegionFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderTabbedRegionFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         super.service(request, response);

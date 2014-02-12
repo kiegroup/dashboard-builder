@@ -23,14 +23,14 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * A permission inside the backoffice area.
+ * A permission inside the back-office area.
  */
 public class BackOfficePermission extends UIPermission {
+
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BackOfficePermission.class.getName());
 
     public static final String ACTION_USE_GRAPHIC_RESOURCES = "manageGraphicResources";
     public static final String ACTION_USE_PERMISSIONS = "managePermissions";
-    public static final String ACTION_USE_FACTORY = "manageFactory";
     public static final String ACTION_CREATE_WORKSPACE = "createWorkspace";
 
     /**
@@ -45,7 +45,6 @@ public class BackOfficePermission extends UIPermission {
         LIST_OF_ACTIONS.add(ACTION_USE_GRAPHIC_RESOURCES);
         LIST_OF_ACTIONS.add(ACTION_CREATE_WORKSPACE);
         LIST_OF_ACTIONS.add(ACTION_USE_PERMISSIONS);
-        LIST_OF_ACTIONS.add(ACTION_USE_FACTORY);
         localeManager = LocaleManager.lookup();
     }
 

@@ -15,22 +15,18 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.UISettings;
 import org.jboss.dashboard.workspace.LayoutRegion;
 import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.LayoutRegion;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.hibernate.Session;
 
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import java.util.Properties;
 
 public class RegionTag extends BaseTag {
 
@@ -51,7 +47,6 @@ public class RegionTag extends BaseTag {
         try {
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Throwable {
-                Properties displayConfiguration = (Properties) Factory.lookup("org.jboss.dashboard.ui.formatters.DisplayConfiguration");
                 pageContext.setAttribute(Parameters.RENDER_IDREGION, getRegion(), PageContext.REQUEST_SCOPE);
 
                 String preview = (String) pageContext.getRequest().getAttribute("org.jboss.dashboard.ui.taglib.RegionTag.preview");
@@ -73,7 +68,7 @@ public class RegionTag extends BaseTag {
                     if (section != null) {
                         LayoutRegion layoutRegion = section.getLayout().getRegion(getRegion());
                         if (layoutRegion != null) {
-                            String pageStr = displayConfiguration.getProperty("regionRenderPage");
+                            String pageStr = UISettings.lookup().getRegionRenderPage();
                             log.debug("REGION TAG: INCLUDING (" + layoutRegion.getId() + ") " + pageStr);
                             jspInclude(pageStr);
                         }

@@ -16,7 +16,8 @@
 package org.jboss.dashboard.ui.panel;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.components.PanelComponent;
@@ -26,37 +27,42 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
+@SessionScoped
 public class PopupPanelsHandler extends PanelComponent {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PopupPanelsHandler.class.getName());
 
-    protected String componentIncludeJSP = "/panels/panelsPopUp/panels.jsp";
-    protected int width = 500;
-    protected int height = 300;
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private NavigationManager navigationManager;
+
+    @Inject /** The locale manager. */
+    protected LocaleManager localeManager;
+
+    @Inject @Config("/panels/panelsPopUp/panels.jsp")
+    protected String componentIncludeJSP;
+
+    @Inject @Config("500")
+    protected int width;
+
+    @Inject @Config("300")
+    protected int height;
 
     public static String GROUPID = "groupId";
     public static String PANEL_INSTANCE_ID = "panelInstanceId";
     public static String PANEL_SUBCATEGORY_ID = "subcategoryId";
-
     public static String PANEL_INSTANCE_PAGE_ID = "page";
 
     private String showedGroupId;
     private String showedPanelInstanceId;
     private String showedPanelInstancePage;
     private String showedPanelSubgroupId;
-
-    private NavigationManager navigationManager;
-
-    /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public PopupPanelsHandler() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public String getShowedPanelInstanceId() {
         return showedPanelInstanceId;
@@ -129,9 +135,7 @@ public class PopupPanelsHandler extends PanelComponent {
         setShowedPanelInstanceId(instanceId);
         setShowedPanelInstancePage(request.getRequestObject().getParameter(PopupPanelsHandler.PANEL_INSTANCE_PAGE_ID));
         setShowedPanelSubgroupId(subgrup);
-
     }
-
 
     public Map prepareGroupsMap() {
         String showedGroupId = getShowedGroupId();
@@ -189,12 +193,8 @@ public class PopupPanelsHandler extends PanelComponent {
         this.navigationManager = navigationManager;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
     }
 
     public int getWidth() {
@@ -214,7 +214,7 @@ public class PopupPanelsHandler extends PanelComponent {
     }
 
     public ModalDialogComponent getModalDialogComponent() {
-        return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+        return CDIBeanLocator.getBeanByType(ModalDialogComponent.class);
     }
 
     public void reset() {

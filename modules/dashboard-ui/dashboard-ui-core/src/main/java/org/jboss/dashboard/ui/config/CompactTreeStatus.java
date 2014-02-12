@@ -18,10 +18,7 @@ package org.jboss.dashboard.ui.config;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-public class CompactTreeStatus extends DefaultTreeStatus implements TreeStatus {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CompactTreeStatus.class.getName());
-
+public class CompactTreeStatus extends DefaultTreeStatus {
 
     public boolean expand(TreeNode node) {
         String path = node.getPath();

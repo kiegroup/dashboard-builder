@@ -15,9 +15,12 @@
  */
 package org.jboss.dashboard.ui.taglib.formatter;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.jxpath.JXPathContext;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Array;
@@ -48,8 +51,11 @@ import java.util.*;
  * <li> empty.If the list is empty.
  * </ul>
  */
+@Named("ForFormatter")
 public class ForFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ForFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         log.debug("Servicing ForFormatter.");
@@ -58,7 +64,7 @@ public class ForFormatter extends Formatter {
             Object componentName = getParameter("factoryElement");
             Object propertyName = getParameter("property");
             if (componentName != null) {
-                Object component = Factory.lookup((String) componentName);
+                Object component = CDIBeanLocator.getBeanByNameOrType((String) componentName);
                 array = component;
                 if (propertyName != null) {
                     JXPathContext ctx = JXPathContext.newContext(component);
@@ -137,13 +143,5 @@ public class ForFormatter extends Formatter {
         }
         Collections.sort(l, new ForComparator(sortProperties));
         return l.iterator();
-    }
-
-    public void shutdown() {
-        log.debug("Shutting down ForFormatter.");
-    }
-
-    public void init() {
-        log.debug("Starting up ForFormatter.");
     }
 }

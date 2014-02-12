@@ -20,17 +20,24 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.hibernate.Session;
-import java.io.File;
+import org.slf4j.Logger;
 
-public class PanelsPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsPropertiesHandler.class.getName());
+import java.io.File;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
+@SessionScoped
+public class PanelsPropertiesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
 
     private String workspaceId;
     private Long sectionId;
@@ -39,6 +46,7 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
     private String provider;
     private String title;
     private String region;
+
     public static final String PARAM_NO_SECTION = "noSection";
 
     public Boolean isNewInstance() {
@@ -147,7 +155,7 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
 
             txFragment.execute();
         } catch (Exception e) {
-            PanelsPropertiesHandler.log.error("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
         }
     }
 
@@ -195,7 +203,7 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
                     setProvider("");
                     setRegion("");
                 } catch (Exception e) {
-                    PanelsPropertiesHandler.log.error("Error: " + e.getMessage());
+                    log.error("Error: " + e.getMessage());
                 }
             }
         }
@@ -264,24 +272,17 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
                     setTitle("");
                     setRegion("");
                 } catch (Exception e) {
-                    PanelsPropertiesHandler.log.error("Error: " + e.getMessage());
+                    log.error("Error: " + e.getMessage());
                 }
             }
         }
     }
 
     protected void validate() {
-
         if (title == null || "".equals(title)) {
-            addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+            addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
         }
-        /*if(!isValidURL(url)){
-            addFieldError(new FactoryURL(getComponentName(), "url"), null, url);
-        } */
-
     }
-
-
     protected boolean isValidURL(String url) {
         if (url == null || "".equals(url))
             return true;
@@ -301,7 +302,7 @@ public class PanelsPropertiesHandler extends HandlerFactoryElement {
             WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
             if (workspace.getId().equals(p.getId())) return true;//It is my own workspace
         } catch (Exception e) {
-            PanelsPropertiesHandler.log.error("Error getting workspace", e);
+            log.error("Error getting workspace", e);
         }
         return false;
     }

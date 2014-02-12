@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.panel.parameters;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;

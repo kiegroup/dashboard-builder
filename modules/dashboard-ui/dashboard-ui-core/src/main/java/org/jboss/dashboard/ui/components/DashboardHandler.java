@@ -15,25 +15,28 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.DashboardListener;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 
+import java.io.Serializable;
 import java.util.*;
+import javax.enterprise.context.SessionScoped;
 
 /**
  * Dashboard handler.
  */
-public class DashboardHandler {
+@SessionScoped
+public class DashboardHandler implements Serializable {
 
     /**
      * Get the instance for the current session.
      */
     public static DashboardHandler lookup() {
-        return (DashboardHandler) Factory.lookup("org.jboss.dashboard.ui.components.DashboardHandler");
+        return CDIBeanLocator.getBeanByType(DashboardHandler.class);
     }
 
     /**

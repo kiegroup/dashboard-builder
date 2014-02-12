@@ -22,7 +22,6 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="java.util.*" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%

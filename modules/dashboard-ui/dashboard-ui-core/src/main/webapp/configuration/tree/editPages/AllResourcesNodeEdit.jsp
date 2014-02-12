@@ -15,12 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler" %>
 <%@ page import="org.jboss.dashboard.ui.SessionManager" %>
 <%@ page import="org.jboss.dashboard.ui.utils.forms.FormStatus" %>
 <%@ page import="org.jboss.dashboard.workspace.GraphicElementManager" %>
 <%@ page import="org.jboss.dashboard.ui.resources.GraphicElement" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -39,7 +39,7 @@
                     </script>
                     <%
                         try {
-                            ResourcesPropertiesHandler handler = (ResourcesPropertiesHandler) Factory.lookup("org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler");
+                            ResourcesPropertiesHandler handler = CDIBeanLocator.getBeanByType(ResourcesPropertiesHandler.class);
                             request.getSession().setAttribute("gElm", (String) graphicElement);
                             request.getSession().setAttribute("graphicElement", (String) graphicElement);
                             request.setAttribute("graphicElement", (String) graphicElement);

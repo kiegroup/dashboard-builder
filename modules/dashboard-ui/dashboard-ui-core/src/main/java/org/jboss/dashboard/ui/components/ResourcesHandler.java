@@ -28,10 +28,26 @@ import org.jboss.dashboard.ui.resources.Resource;
 import java.io.ByteArrayInputStream;
 import java.net.URLEncoder;
 
-import org.hibernate.Session;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class ResourcesHandler  extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcesHandler.class.getName());
+import org.hibernate.Session;
+import org.slf4j.Logger;
+
+@ApplicationScoped
+@Named("resources_handler")
+public class ResourcesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
+
+    @PostConstruct
+    public void start() throws Exception {
+        super.start();
+        setUseActionShortcuts(false);
+    }
 
     public CommandResponse actionRetrieve(CommandRequest request) throws Exception {
         String name = request.getParameter("resName");

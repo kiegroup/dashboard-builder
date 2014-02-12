@@ -15,42 +15,25 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancePropertiesHandler;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
 
 public abstract class PanelInstancePropertiesNode extends AbstractNode {
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancePropertiesNode.class.getName());
-    private PanelInstancePropertiesHandler handler;
-    private WorkspacesManager workspacesManager;
-    private boolean multilanguage = false;
+    @Inject
+    private transient Logger log;
+
+    public abstract PanelInstancePropertiesHandler getHandler();
 
     public boolean isMultilanguage() {
-        return multilanguage;
-    }
-
-    public void setMultilanguage(boolean multilanguage) {
-        this.multilanguage = multilanguage;
-    }
-
-    public WorkspacesManager getWorkspacesManager() {
-        return workspacesManager;
-    }
-
-    public void setWorkspacesManager(WorkspacesManager workspacesManager) {
-        this.workspacesManager = workspacesManager;
-    }
-
-    public PanelInstancePropertiesHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(PanelInstancePropertiesHandler handler) {
-        this.handler = handler;
+        return false;
     }
 
     public boolean onEdit() {
