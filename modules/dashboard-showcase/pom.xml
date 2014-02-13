@@ -182,8 +182,8 @@
                 <db.isolation>2</db.isolation>
             </properties>
             <!--
-            In order to use the DB2 profile, as DB2 driver is IBM propietary and not available in public repositories,
-            uou must download it, put the jar in "lib" direcoty and enable this profile dependency and build.
+            In order to use the DB2 profile, as DB2 driver is IBM proprietary and not available in public repositories,
+            uou must download it, put the jar in "lib" directory and enable this profile dependency and build.
             @See lib/.readme
 
             <dependencies>
@@ -241,6 +241,14 @@
             <id>jetty</id>
 
             <dependencies>
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                </dependency>
                 <dependency>
                     <groupId>org.jboss.weld</groupId>
                     <artifactId>weld-spi</artifactId>
@@ -330,8 +338,7 @@
                                     <filtering>true</filtering>
                                     <directory>src/test/resources/config</directory>
                                     <includes>
-                                        <include>**/realm.properties</include>
-                                        <include>**/jetty-env.xml</include>
+                                        <include>**/*</include>
                                     </includes>
                                 </resource>
                                 <resource>
