@@ -128,6 +128,13 @@ public class KPIProcessor extends RequestChainProcessor {
         return true;
     }
 
+    /**
+     * Process show KPI request by rendering the KPi
+     * @param request Request
+     * @param response Response
+     * @return the CommandResponse. or null if any wrong parameters is found
+     * @throws Exception
+     */
     protected CommandResponse processShowKPI(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
         String kpiCode = request.getParameter("kpi");
         KPI kpi = null;
@@ -156,7 +163,7 @@ public class KPIProcessor extends RequestChainProcessor {
             KPIViewer kpiViewer = KPIViewer.lookup();
             kpiViewer.setKpi(kpi);
 
-            //TODO: The following 'return new ShowJSPAjaxResponse(getDefaultKpiJsp())' for unknown reasons
+            // Forward to entrance JSP
             request.getRequestDispatcher(getDefaultKpiJsp()).forward(request, response);
             return new DoNothingResponse();
 
