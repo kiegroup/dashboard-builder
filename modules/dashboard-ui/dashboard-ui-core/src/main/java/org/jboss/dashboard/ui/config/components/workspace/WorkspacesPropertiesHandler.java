@@ -38,6 +38,7 @@ import java.security.Permission;
 import java.util.*;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
 @SessionScoped
 public class WorkspacesPropertiesHandler extends BeanHandler {
@@ -200,20 +201,20 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
 
 
     public void actionDiagnoseWorkspaces(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+        Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) workspacesManager.getWorkspace(wsId);
             int numErrors = workspace.sectionsDiagnose();
             log.error("Found " + numErrors + " page Errors.");
         }
     }
 
     public void actionDiagnoseWorkspacesAndFix(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+        Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) workspacesManager.getWorkspace(wsId);
             workspace.sectionsDiagnoseFix();
         }
     }

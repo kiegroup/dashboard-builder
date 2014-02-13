@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 import javax.inject.Inject;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
 public class WorkspacesNode extends AbstractNode {
 
@@ -46,12 +47,11 @@ public class WorkspacesNode extends AbstractNode {
 
     protected List listChildren() {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            TreeSet sortedWorkspaceIds = new TreeSet(workspaceIds);
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers(); //already returns TreeSet
             ArrayList list = new ArrayList();
-            for (Iterator iterator = sortedWorkspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            for (String wsId : workspaceIds) {
+                Workspace workspace = workspacesManager.getWorkspace(wsId);
                 WorkspacePermission viewPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 boolean canLogin = UserStatus.lookup().hasPermission(viewPerm);
                 if (canLogin)
@@ -66,11 +66,12 @@ public class WorkspacesNode extends AbstractNode {
 
     protected TreeNode listChildrenById(String id) {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                if (workspaceId.equals(id))
-                    return getNewWorkspaceNode(UIServices.lookup().getWorkspacesManager().getWorkspace(id));
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+            for (String wsId : workspaceIds) {
+                if (wsId.equals(id)) {
+                    return getNewWorkspaceNode(workspacesManager.getWorkspace(id));
+                }
             }
         } catch (Exception e) {
             log.error("Error: ", e);

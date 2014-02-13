@@ -347,15 +347,15 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
      */
     protected void reposition() {
         try {
-            List workspaceIds = getSortedWorkspacesList();
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                currentWorkspaceId = (String) iterator.next();
+            List<String> workspaceIds = getSortedWorkspacesList();
+            for (String wsId : workspaceIds) {
+                currentWorkspaceId = wsId;
                 repositionSection();
                 if (isValidUbication()) return;
             }
             // We've tried all workspaces and sections without success. Try all workspaces without sections, in case admin is logging in.
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                currentWorkspaceId = (String) iterator.next();
+            for (String wsId : workspaceIds) {
+                currentWorkspaceId = wsId;
                 clearRequestCache();
                 if (isValidUbication()) return;
             }
@@ -392,21 +392,22 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
         }
     }
 
-    protected List getSortedWorkspacesList() throws Exception {
+    protected List<String> getSortedWorkspacesList() throws Exception {
         // Order workspaces as follows: current workspace, default workspace, other sorted by id on order to make home search algorithm determinist.
-        Set availableWorkspaces = new TreeSet(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
-        List workspaceIds = new ArrayList(availableWorkspaces.size());
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+        Set<String> allWorkspaceIds = workspacesManager.getAllWorkspacesIdentifiers(); //already returns TreeSet
+        List<String> sortedIds = new ArrayList<String>(allWorkspaceIds.size());
         if (currentWorkspaceId != null) {
-            availableWorkspaces.remove(currentWorkspaceId);
-            workspaceIds.add(currentWorkspaceId);
+            allWorkspaceIds.remove(currentWorkspaceId);
+            sortedIds.add(currentWorkspaceId);
         }
-        Workspace defaultWorkspace = UIServices.lookup().getWorkspacesManager().getDefaultWorkspace();
+        Workspace defaultWorkspace = workspacesManager.getDefaultWorkspace();
         if (defaultWorkspace != null) {
-            availableWorkspaces.remove(defaultWorkspace.getId());
-            workspaceIds.add(defaultWorkspace.getId());
+            allWorkspaceIds.remove(defaultWorkspace.getId());
+            sortedIds.add(defaultWorkspace.getId());
         }
-        workspaceIds.addAll(availableWorkspaces);
-        return workspaceIds;
+        sortedIds.addAll(allWorkspaceIds);
+        return sortedIds;
     }
 
     // ACTIONS

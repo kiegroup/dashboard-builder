@@ -28,6 +28,7 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
 public class PageSelectionFormatter extends Formatter {
 
@@ -37,11 +38,11 @@ public class PageSelectionFormatter extends Formatter {
         int cols = Integer.parseInt(numCols);*/
 
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
             List workspaces = new ArrayList();
-            for (Iterator it = workspaceIds.iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            for (String wsId : workspaceIds) {
+                Workspace workspace = workspacesManager.getWorkspace(wsId);
                 WorkspacePermission perm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 if (UserStatus.lookup().hasPermission(perm)) {
                     workspaces.add(workspace);
