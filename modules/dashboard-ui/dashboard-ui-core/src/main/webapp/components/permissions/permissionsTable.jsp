@@ -114,7 +114,7 @@
 	</tr>
 	<tr>
 		<td>
-			<table class="skn-table_border" cellspacing="0" cellpadding="5" border="0" width="100%">
+			<table id="permTable" class="skn-table_border" cellspacing="0" cellpadding="5" border="0" width="100%">
 				<%--Permission table header--%>
 				<tr>
 					<td colspan="2" class="skn-table_header" style="border:1px solid #FFFFFF;">
