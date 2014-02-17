@@ -148,9 +148,7 @@ public class ExportHandler extends UIBeanHandler {
     public List<Section> getSectionsWithKPIs(WorkspaceImpl workspace) throws Exception {
         DashboardHandler dashboardHandler = DashboardHandler.lookup();
         List<Section> results = new ArrayList<Section>();
-        Iterator sectionIt = workspace.getSections().iterator();
-        while (sectionIt.hasNext()) {
-            Section section = (Section) sectionIt.next();
+        for (Section section : workspace.getSections()) {
             if (dashboardHandler.containsKPIs(section)) {
                 results.add(section);
             }

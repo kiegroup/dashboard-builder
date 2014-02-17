@@ -174,9 +174,7 @@ public class WorkspacesManager {
                 }
 
                 // Notify panels before deleting workspace.
-                Iterator sectionIt = workspace.getSections().iterator();
-                while (sectionIt.hasNext()) {
-                    Section section = (Section) sectionIt.next();
+                for (Section section : workspace.getSections()) {
                     Panel[] panels = section.getAllPanels();
                     for (int i = 0; i < panels.length; i++) {
                         Panel panel = panels[i];
@@ -444,9 +442,7 @@ public class WorkspacesManager {
         }
 
         // Init sections & panels
-        Iterator sectionIt = workspace.getSections().iterator();
-        while (sectionIt.hasNext()) {
-            Section section = (Section) sectionIt.next();
+        for (Section section : workspace.getSections()) {
             section.init();
             Iterator panelIt = section.getPanels().iterator();
             while (panelIt.hasNext()) {
