@@ -71,9 +71,7 @@ public class DashboardHandler implements Serializable {
      * Check if the specified section is a dashboard.
      */
     public boolean containsKPIs(Section section) {
-        Iterator it = section.getPanels().iterator();
-        while (it.hasNext()) {
-            Panel panel = (Panel) it.next();
+        for (Panel panel : section.getPanels()) {
             if (panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver")) return true;
         }
         return false;

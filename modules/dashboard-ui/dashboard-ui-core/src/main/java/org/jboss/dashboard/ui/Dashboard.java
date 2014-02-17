@@ -181,9 +181,8 @@ public class Dashboard {
 
     public Set<DataProvider> getDataProviders() {
         Set<DataProvider> results = new HashSet<DataProvider>();
-        Iterator it = getSection().getPanels().iterator();
-        while (it.hasNext()) {
-            KPI kpi = getKPI((Panel) it.next());
+        for (Panel panel : getSection().getPanels()) {
+            KPI kpi = getKPI(panel);
 
             // The KPI is null if the panel is not assigned to a region.
             if (kpi != null) results.add(kpi.getDataProvider());
@@ -446,13 +445,10 @@ public class Dashboard {
         AjaxRefreshManager ajaxMgr = AjaxRefreshManager.lookup();
         List panelIdsToRefresh = ajaxMgr.getPanelIdsToRefresh();
         panelIdsToRefresh.clear();
-
         // Inspect all the dashboard's panels.
-        Iterator it = getSection().getPanels().iterator();
-        while (it.hasNext()) {
-            Panel panel = (Panel) it.next();
+        for (Panel panel : getSection().getPanels()) {
             if (panel.getProvider().getDriver() instanceof DashboardDriver) {
-                Long panelId = panel.getPanelId();                
+                Long panelId = panel.getPanelId();
 
                 if (propertySet == null) {
                     panelIdsToRefresh.add(panelId);

@@ -188,9 +188,8 @@ public class ExportHandler extends UIBeanHandler {
             Set<Section> sections = getSelectedSections(workspace);
             for (Section section : sections) {
                 Dashboard dash = dashboardHandler.getDashboard(section);
-                Iterator it = section.getPanels().iterator();
-                while (it.hasNext()) {
-                    KPI kpi = dash.getKPI((Panel) it.next());
+                for (Panel panel : section.getPanels()) {
+                    KPI kpi = dash.getKPI(panel);
                     if (kpi != null && !results.contains(kpi)) results.add(kpi);
                 }
             }

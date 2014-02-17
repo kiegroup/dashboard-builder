@@ -447,9 +447,7 @@ public class WorkspacesManager {
         // Init sections & panels
         for (Section section : workspace.getSections()) {
             section.init();
-            Iterator panelIt = section.getPanels().iterator();
-            while (panelIt.hasNext()) {
-                Panel panel = (Panel) panelIt.next();
+            for (Panel panel : section.getPanels()) {
                 panel.init();
             }
         }

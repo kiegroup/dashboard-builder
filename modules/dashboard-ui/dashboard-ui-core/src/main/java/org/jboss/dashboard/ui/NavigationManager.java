@@ -205,9 +205,7 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
         if (oldSection != null) {
             if (log.isDebugEnabled())
                 log.debug("Invalidating panelSessions in section " + oldSection.getId() + " from workspace " + oldSection.getWorkspace().getId());
-            Set panels = oldSection.getPanels();
-            for (Iterator it = panels.iterator(); it.hasNext();) {
-                Panel panel = (Panel) it.next();
+            for (Panel panel : oldSection.getPanels()) {
                 panel.pageLeft();
             }
         }

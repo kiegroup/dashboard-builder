@@ -94,7 +94,7 @@ public class EnvelopesManagerImpl extends GraphicElementManagerImpl implements E
     }
 
     public List<String> getHeaderPagesToInclude() {
-        List result = new ArrayList();
+        List<String> result = new ArrayList<String>();
         if (getHeaderIncludePages() != null) {
             for (int i = 0; i < getHeaderIncludePages().length; i++) {
                 result.add(getHeaderIncludePages()[i]);
@@ -103,10 +103,9 @@ public class EnvelopesManagerImpl extends GraphicElementManagerImpl implements E
 
         NavigationManager navigationManager = NavigationManager.lookup();
         if (navigationManager != null && navigationManager.getCurrentSection() != null) {
-            Set panels = navigationManager.getCurrentSection().getPanels();
+            Set<Panel> panels = navigationManager.getCurrentSection().getPanels();
             if (panels != null) {
-                for (Iterator it = panels.iterator(); it.hasNext();) {
-                    Panel panel = (Panel) it.next();
+                for (Panel panel : panels) {
                     String page = panel.getProvider().getPage(PanelDriver.PAGE_HEADER);
                     if (page != null && !"".equals(page.trim()) && !result.contains(page)) result.add(page);
                 }
