@@ -25,10 +25,9 @@
 <%@ page import="org.jboss.dashboard.ui.components.chart.LineChartEditor" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    LineChartEditor editor = CDIBeanLocator.getBeanByType(LineChartEditor.class);
+    LineChartEditor editor = (LineChartEditor) UIBeanLocator.lookup().getCurrentBean(request);
     request.setAttribute("editor", editor);
 
     LineChartDisplayer displayer = (LineChartDisplayer) editor.getDataDisplayer();
@@ -53,9 +52,9 @@
                  <%--mvc:include page="../../kpi_submit.jsp"  flush="true" /--%>
             </table>
         </td>
-        <!-- Include the graphic -->
+        <!-- Include the viewer -->
         <td valign="top">
-            <factory:useComponent bean="<%= viewer.getBeanName() %>"/>
+            <factory:useComponent bean="<%= viewer %>"/>
         </td>
     </tr>
 </table>

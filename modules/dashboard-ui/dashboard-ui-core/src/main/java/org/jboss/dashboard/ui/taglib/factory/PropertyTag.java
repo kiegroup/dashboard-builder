@@ -19,6 +19,8 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagData;
@@ -74,14 +76,13 @@ public class PropertyTag extends GenericFactoryTag {
     protected Object getValue() {
         if (value != null) return value;
 
-        Object beanObject = CDIBeanLocator.getBeanByNameOrType(getBean());
+        Object beanObject = CDIBeanLocator.getBeanByNameOrType(getBeanName());
         if (beanObject != null) {
             JXPathContext ctx = JXPathContext.newContext(beanObject);
             try {
                 return value = ctx.getValue(getProperty());
             } catch (JXPathException jxpe) {
-                if (log.isDebugEnabled())
-                    log.debug("Can't read property " + getProperty() + " in " + getBean() + ": ", jxpe);
+                log.warn("Can't read property " + getProperty() + " in " + getBeanName() + ": ", jxpe);
             }
         }
         return null;

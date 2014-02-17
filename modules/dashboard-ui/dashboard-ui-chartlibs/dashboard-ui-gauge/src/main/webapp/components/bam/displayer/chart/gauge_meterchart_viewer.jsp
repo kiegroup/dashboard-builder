@@ -30,6 +30,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
@@ -37,7 +38,7 @@
 <panel:defineObjects/>
 <%
     Locale locale = LocaleManager.currentLocale();
-    GaugeMeterChartViewer viewer = CDIBeanLocator.getBeanByType(GaugeMeterChartViewer.class);
+    GaugeMeterChartViewer viewer = (GaugeMeterChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
     MeterChartDisplayer displayer = (MeterChartDisplayer) viewer.getDataDisplayer();
     AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
 

@@ -155,10 +155,9 @@ public class Dashboard {
      * Get the KPI rendered by a given panel.
      */
     public KPI getKPI(Panel panel) {
-        if (!belongsToDashboard(panel)) return null;
         if (panel.getInstance() == null) return null;
         if (panel.getRegion() == null) return null;
-        if (!(panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver"))) return null;
+        if (!(panel.getInstance().getProvider().getDriver().getClass().getName().contains("KPIDriver"))) return null;
 
         return getKPI(panel.getInstance());
     }

@@ -15,11 +15,13 @@
  */
 package org.jboss.dashboard.ui.config.components.permissions;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.components.permissions.PermissionsHandler;
 
+@SessionScoped
 public class PermissionsPropertiesHandler extends BeanHandler {
 
     @Inject

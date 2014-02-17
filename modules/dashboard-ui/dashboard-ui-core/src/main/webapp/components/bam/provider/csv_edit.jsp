@@ -19,17 +19,15 @@
 <%@ page import="org.jboss.dashboard.ui.components.csv.CSVProviderEditor" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.provider.csv.CSVDataLoader" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@taglib uri="factory.tld" prefix="factory" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.csv.messages"
-			 locale="<%=LocaleManager.currentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.csv.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <panel:defineObjects/>
 <%
-	CSVProviderEditor editor = CDIBeanLocator.getBeanByType(CSVProviderEditor.class);
+	CSVProviderEditor editor = (CSVProviderEditor) UIBeanLocator.lookup().getCurrentBean(request);
 	CSVDataLoader csvLoader = editor.getCSVDataLoader();
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

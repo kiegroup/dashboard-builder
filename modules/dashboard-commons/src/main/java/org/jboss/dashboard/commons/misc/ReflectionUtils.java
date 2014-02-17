@@ -459,7 +459,7 @@ public class ReflectionUtils {
             else if (type.equals(Byte.class)) object = toByte(value);
             else if (type.equals(Short.class)) object = toShort(value);
 
-            return type.cast(object);
+            return (T) object;
         }
     }
 

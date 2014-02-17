@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.commons.cdi;
 
+import java.util.Set;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
@@ -46,7 +47,11 @@ public class CDIBeanLocator {
 
     public static Object getBeanByName(String name) {
         BeanManager bm = getBeanManager();
-        Bean bean = bm.getBeans(name).iterator().next();
+        Set<Bean<?>> beans  = bm.getBeans(name);
+        if (beans.isEmpty()) throw new IllegalArgumentException("Bean not found by name: " + name);
+
+        // Get the first bean found for the given name
+        Bean bean = beans.iterator().next();
         CreationalContext ctx = bm.createCreationalContext(bean);
         Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
         return o;
@@ -54,7 +59,19 @@ public class CDIBeanLocator {
 
     public static <T> T getBeanByType(Class<T> type) {
         BeanManager bm = getBeanManager();
-        Bean bean = bm.getBeans(type).iterator().next();
+        Set<Bean<?>> beans  = bm.getBeans(type);
+        if (beans.isEmpty()) throw new IllegalArgumentException("Bean not found by type: " + type.getName());
+
+        // Get the bean that matches exactly the given class.
+        for (Bean<?> bean : beans) {
+            if (bean.getBeanClass().equals(type)) {
+                CreationalContext ctx = bm.createCreationalContext(bean);
+                Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
+                return type.cast(o);
+            }
+        }
+        // Get the first bean found that implements the given type.
+        Bean bean = beans.iterator().next();
         CreationalContext ctx = bm.createCreationalContext(bean);
         Object o = bm.getReference(bean, bean.getBeanClass(), ctx);
         return type.cast(o);

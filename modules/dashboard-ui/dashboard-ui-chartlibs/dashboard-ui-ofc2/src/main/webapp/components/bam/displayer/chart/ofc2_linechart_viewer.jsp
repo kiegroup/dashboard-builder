@@ -17,10 +17,10 @@
 --%>
 <%@ page import="org.jboss.dashboard.ui.components.chart.OFC2ChartViewer" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.OFC2LineChartViewer" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%
-    OFC2ChartViewer viewer = CDIBeanLocator.getBeanByType(OFC2LineChartViewer.class);
+    OFC2ChartViewer viewer = (OFC2LineChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
     request.setAttribute("viewer", viewer);
 %>
 <mvc:include page="ofc2_chart.jsp" flush="true"/>

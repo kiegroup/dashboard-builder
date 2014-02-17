@@ -80,15 +80,16 @@ public class URLMarkupGenerator {
      */
     public String getPermanentLink(String bean, String action, Map params) {
         try {
+            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
+            if (element == null) throw new RuntimeException("Bean '" + bean + "' not found.");
+
             StringBuffer sb = new StringBuffer();
             String base = RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
             sb.append(base).append("?");
-            params.put(FactoryURL.PARAMETER_BEAN, bean);
+            params.put(FactoryURL.PARAMETER_BEAN, element.getBeanName());
             params.put(FactoryURL.PARAMETER_ACTION, action);
             sb.append(getParamsMarkup(params));
-            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
-            if (element != null) element.setEnabledForActionHandling(true);
-            else log.debug("Bean @Named as '" + bean + "' not found.");
+            element.setEnabledForActionHandling(true);
             return postProcessURL(sb).toString();
         } catch (ClassCastException cce) {
             log.error("Bean " + bean + " is not a BeanHandler.");
@@ -153,7 +154,7 @@ public class URLMarkupGenerator {
             StringBuffer sb = new StringBuffer();
             sb.append(_getServletMapping()).append("?");
             BeanHandler bean = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(beanName);
-            params.put(FactoryURL.PARAMETER_BEAN, beanName);
+            params.put(FactoryURL.PARAMETER_BEAN, bean.getBeanName());
             params.put(FactoryURL.PARAMETER_ACTION, bean.getActionName(action));
             sb.append(getParamsMarkup(params));
             bean.setEnabledForActionHandling(true);

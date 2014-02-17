@@ -26,7 +26,7 @@ public class HandlerTag extends GenericFactoryTag {
      */
     public int doEndTag() throws JspTagException {
         HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
-        String textToWrite = markupGenerator.getMarkup(getBean(), getAction());
+        String textToWrite = markupGenerator.getMarkup(getBeanName(), getAction());
         try {
             pageContext.getOut().print(textToWrite);
         } catch (java.io.IOException ex) {

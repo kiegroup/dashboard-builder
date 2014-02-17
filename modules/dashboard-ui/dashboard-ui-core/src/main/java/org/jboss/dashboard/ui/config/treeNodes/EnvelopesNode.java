@@ -30,7 +30,7 @@ public class EnvelopesNode extends AbstractNode {
     }
 
     public String getIconId() {
-        return "iconId=16x16/ico-menu_envelope.png";
+        return "16x16/ico-menu_envelope.png";
     }
 
     public boolean onEdit() {

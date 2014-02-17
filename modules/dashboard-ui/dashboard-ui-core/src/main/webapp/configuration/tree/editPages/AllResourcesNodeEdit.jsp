@@ -39,7 +39,7 @@
                     </script>
                     <%
                         try {
-                            ResourcesPropertiesHandler handler = CDIBeanLocator.getBeanByType(ResourcesPropertiesHandler.class);
+                            ResourcesPropertiesHandler handler = ResourcesPropertiesHandler.lookup();
                             request.getSession().setAttribute("gElm", (String) graphicElement);
                             request.getSession().setAttribute("graphicElement", (String) graphicElement);
                             request.setAttribute("graphicElement", (String) graphicElement);

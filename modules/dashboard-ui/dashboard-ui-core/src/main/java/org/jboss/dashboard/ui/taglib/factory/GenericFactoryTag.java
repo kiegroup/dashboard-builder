@@ -15,34 +15,23 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 
 public class GenericFactoryTag extends BaseTag {
 
-    private String bean;
-    private String action;
-    private String property;
+    protected Object bean;
+    protected String action;
+    protected String property;
 
-    public String getProperty() {
-        return property;
+    public Object getBean() {
+        if (bean != null) return bean;
+        return pageContext.getRequest().getAttribute(UseComponentTag.CURRENT_BEAN);
     }
 
-    public void setProperty(String property) {
-        this.property = property;
-    }
-
-    public String getBean() {
-        if (bean == null) {
-            UIBeanHandler currentComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
-            if (currentComponent != null) {
-                return currentComponent.getBeanName();
-            }
-        }
-        return bean;
-    }
-
-    public void setBean(String bean) {
+    public void setBean(Object bean) {
         this.bean = bean;
     }
 
@@ -52,5 +41,20 @@ public class GenericFactoryTag extends BaseTag {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+
+    public String getBeanName() {
+        Object bean = getBean();
+        if (bean == null) return null;
+        if (bean instanceof BeanHandler) return ((BeanHandler) bean).getBeanName();
+        return bean.toString();
     }
 }

@@ -20,7 +20,6 @@
 <%@ page import="org.jboss.dashboard.ui.NavigationManager" %>
 <%@ page import="org.jboss.dashboard.workspace.Section" %>
 <%@ page import="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter" %>
-<%@ page import="org.jboss.dashboard.workspace.Section" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
@@ -47,7 +46,7 @@
         <tr>
             <td width="100%">
                 <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="storePropertiesOptions"/>">
-                <factory:handler bean="<%=handler.getComponentPath()%>" action="store"/>
+                <factory:handler bean="<%=handler.getBeanName()%>" action="store"/>
                 <table cellspacing="0" cellpadding="8" border="0" width="100%">
 
     </mvc:fragment>

@@ -44,7 +44,7 @@ public class URLTag extends GenericFactoryTag {
 
     public int doEndTag() throws JspException {
         URLMarkupGenerator urlMarkupGenerator = UIServices.lookup().getUrlMarkupGenerator();
-        String markup = friendly ? urlMarkupGenerator.getMarkup(getBean(), getAction(), paramsMap) : urlMarkupGenerator.getPermanentLink(getBean(), getAction(), paramsMap) ;
+        String markup = friendly ? urlMarkupGenerator.getMarkup(getBeanName(), getAction(), paramsMap) : urlMarkupGenerator.getPermanentLink(getBeanName(), getAction(), paramsMap) ;
         try {
             pageContext.getOut().print(markup);
         } catch (java.io.IOException ex) {

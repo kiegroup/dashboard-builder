@@ -41,8 +41,8 @@ public class KPIViewer extends UIBeanHandler {
         return CDIBeanLocator.getBeanByType(KPIViewer.class);
     }
 
-    @Inject @Config("/components/bam/kpi_edit.jsp")
-    protected String beanJSP;
+    @Inject @Config("/components/bam/kpi_view.jsp")
+    protected String viewJSP;
 
     protected KPI kpi;
     protected DataDisplayerViewer displayerViewer;
@@ -54,7 +54,6 @@ public class KPIViewer extends UIBeanHandler {
         kpiListener = new KPIViewerListener();
         KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
         kpiManager.addKPIListener(kpiListener, KPIManager.EVENT_ALL);
-
     }
 
     public DataDisplayerViewer getDisplayerViewer() {
@@ -81,7 +80,7 @@ public class KPIViewer extends UIBeanHandler {
     // UIBeanHandler interface
 
     public String getBeanJSP() {
-        return this.beanJSP;
+        return this.viewJSP;
     }
 
     public void beforeRenderBean() {

@@ -24,4 +24,4 @@
     String code = currentPanel.getParameterValue(DashboardFilter.FILTER_HANDLER_CODE);
     request.setAttribute("componentCode",code);
 %>
-<factory:useComponent bean="<%=DashboardFilterHandler.lookup(code).getComponentPath()%>"/>
+<factory:useComponent bean="<%=DashboardFilterHandler.lookup(code).getBeanName()%>"/>

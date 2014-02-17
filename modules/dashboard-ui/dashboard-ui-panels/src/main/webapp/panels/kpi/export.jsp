@@ -20,9 +20,8 @@
 <table width="700px" cellpadding="0" cellspacing="0" border="0" align="left">
     <tr>
         <td valign="top" align="left" class="skn-table_border" style="padding:1px">
-			<factory:setProperty bean="org.jboss.dashboard.ui.components.ExportHandler"
-								 property="mode" propValue="<%= ExportHandler.MODE_EXPORT %>" />
-            <factory:useComponent bean="org.jboss.dashboard.ui.components.ExportHandler" />
+            <factory:setProperty bean="org.jboss.dashboard.ui.components.export.ExportHandler" property="mode" propValue="<%= ExportHandler.MODE_EXPORT %>" />
+            <factory:useComponent bean="org.jboss.dashboard.ui.components.export.ExportHandler" />
         </td>
     </tr>
 </table>

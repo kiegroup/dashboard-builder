@@ -24,10 +24,9 @@
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    MeterChartEditor editor = CDIBeanLocator.getBeanByType(MeterChartEditor.class);
+    MeterChartEditor editor = (MeterChartEditor) UIBeanLocator.lookup().getCurrentBean(request);
     MeterChartDisplayer displayer = (MeterChartDisplayer) editor.getDataDisplayer();
     DataDisplayerViewer viewer = UIBeanLocator.lookup().getViewer(displayer);
     request.setAttribute("editor", editor);
@@ -49,9 +48,9 @@
                  <%--mvc:include page="../../kpi_submit.jsp"  flush="true" /--%>
             </table>
         </td>
-        <!-- Include the graphic -->
+        <!-- Include the viewer -->
         <td valign="top">
-            <factory:useComponent bean="<%= viewer.getBeanName() %>"/>
+            <factory:useComponent bean="<%= viewer %>"/>
         </td>
     </tr>
 </table>

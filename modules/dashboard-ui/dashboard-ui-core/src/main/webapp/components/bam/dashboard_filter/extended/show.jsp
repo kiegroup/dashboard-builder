@@ -42,7 +42,7 @@
     <td>
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="filterForm"/>"
     onkeyup="/* If Enter pressed submit form*/ if(event.keyCode == 13) {submitAjaxForm(this);}">
-    <factory:handler bean="<%=handler.getComponentPath()%>" action="filter"/>
+    <factory:handler bean="<%=handler.getBeanName()%>" action="filter"/>
     <table border="0" cellspacing="5" cellpadding="0" width="100%">
 
 </mvc:fragment>
@@ -180,7 +180,7 @@
             </td>
         </tr>
         <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="refreshForm"/>">
-            <factory:handler bean="<%=handler.getComponentPath()%>" action="refresh"/>
+            <factory:handler bean="<%=handler.getBeanName()%>" action="refresh"/>
             <input type="hidden" id="<panel:encode name="refreshTimeOut"/>" name="refreshTimeOut" value="">
         </form>
     </table>
@@ -233,15 +233,15 @@
     </form>
 
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="refreshForm"/>">
-        <factory:handler bean="<%=handler.getComponentPath()%>" action="refresh"/>
+        <factory:handler bean="<%=handler.getBeanName()%>" action="refresh"/>
         <input type="hidden" id="<panel:encode name="refreshTimeOut"/>" name="refreshTimeOut" value="">
     </form>
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="clearForm"/>">
-        <factory:handler bean="<%=handler.getComponentPath()%>" action="clear"/>
+        <factory:handler bean="<%=handler.getBeanName()%>" action="clear"/>
     </form>
     <form method="post" action="<factory:formUrl friendly="false"/>"
           id="<panel:encode name="deleteFilteredPropertyForm"/>">
-        <factory:handler bean="<%=handler.getComponentPath()%>" action="deleteFilteredProperty"/>
+        <factory:handler bean="<%=handler.getBeanName()%>" action="deleteFilteredProperty"/>
         <input type="hidden" id="<panel:encode name="filteredPropertyToDelete"/>" name="filteredPropertyToDelete"
                value="">
     </form>

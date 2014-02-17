@@ -33,7 +33,7 @@
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
 <%
     try {
-        ResourcesPropertiesHandler handler = CDIBeanLocator.getBeanByType(ResourcesPropertiesHandler.class);
+        ResourcesPropertiesHandler handler = ResourcesPropertiesHandler.lookup();
         String resultMessage = null;
         String graphicElement = (String) request.getAttribute("graphicElement");
         String graphicElementClassName = graphicElement.substring(0, 1).toUpperCase() + graphicElement.substring(1);

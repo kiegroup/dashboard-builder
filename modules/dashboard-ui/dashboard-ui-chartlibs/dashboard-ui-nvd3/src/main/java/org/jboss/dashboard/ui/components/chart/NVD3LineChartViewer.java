@@ -20,7 +20,7 @@ import javax.inject.Named;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 @PanelScoped
-@Named("nvd3lcviewer")
+@Named("nvd3_linechart_viewer")
 public class NVD3LineChartViewer extends NVD3ChartViewer {
 
     public String getBeanJSP() {

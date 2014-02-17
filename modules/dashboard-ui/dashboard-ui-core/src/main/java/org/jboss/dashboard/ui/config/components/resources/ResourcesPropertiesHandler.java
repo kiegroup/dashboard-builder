@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.components.resources;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.GraphicElementManager;
@@ -33,6 +34,14 @@ import javax.inject.Inject;
 @SessionScoped
 public class ResourcesPropertiesHandler extends BeanHandler {
 
+    public static final String PREVIEW_ATTRIBUTE = "attrPreview";
+    public static final String FIELD_RESOURCEID = "resourceId";
+    public static final String FIELD_FILE = "inputFile";
+
+    public static ResourcesPropertiesHandler lookup() {
+        return CDIBeanLocator.getBeanByType(ResourcesPropertiesHandler.class);
+    }
+
     @Inject
     private transient Logger log;
 
@@ -49,9 +58,6 @@ public class ResourcesPropertiesHandler extends BeanHandler {
     private String actionCancel;
     private List fieddErrors = new ArrayList();
     private boolean zipHasError;
-    public static final String PREVIEW_ATTRIBUTE = "attrPreview";
-    public static final String FIELD_RESOURCEID = "resourceId";
-    public static final String FIELD_FILE = "inputFile";
 
     public boolean isZipHasError() {
         return zipHasError;
@@ -222,7 +228,7 @@ public class ResourcesPropertiesHandler extends BeanHandler {
             Method managerGetter = graphicElementClass.getMethod("getManager", new Class[]{});
             GraphicElementManager manager = (GraphicElementManager) managerGetter.invoke(null, new Object[]{});
             GraphicElementPreview preview = (GraphicElementPreview) request.getSessionObject().getAttribute(PREVIEW_ATTRIBUTE);
-            final GraphicElement element = preview.toElement();
+            GraphicElement element = preview.toElement();
             manager.createOrUpdate(element);
             actionCreate = null;
             actionCancel = null;

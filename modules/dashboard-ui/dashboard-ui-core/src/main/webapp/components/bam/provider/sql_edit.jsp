@@ -22,7 +22,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.provider.sql.SQLDataLoader" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
@@ -30,8 +30,8 @@
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.sql.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <panel:defineObjects/>
 <%
-    // Get the data provider from the data provider viewer and save it in the sql provider editor if it's neccessary
-    SQLProviderEditor editor = CDIBeanLocator.getBeanByType(SQLProviderEditor.class);
+    // Get the data provider from the data provider viewer and save it in the sql provider editor if it's necessary
+    SQLProviderEditor editor = (SQLProviderEditor) UIBeanLocator.lookup().getCurrentBean(request);
 
     // Get the dataSource and the query
     SQLDataLoader sqlLoader = editor.getSQLDataLoader();

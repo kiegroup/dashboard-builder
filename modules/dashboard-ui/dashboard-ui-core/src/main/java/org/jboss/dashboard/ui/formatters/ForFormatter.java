@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.taglib.formatter;
+package org.jboss.dashboard.ui.formatters;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.jxpath.JXPathContext;
+import org.jboss.dashboard.ui.taglib.formatter.*;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -52,7 +53,7 @@ import java.util.*;
  * </ul>
  */
 @Named("ForFormatter")
-public class ForFormatter extends Formatter {
+public class ForFormatter extends org.jboss.dashboard.ui.taglib.formatter.Formatter {
 
     @Inject
     private transient Logger log;

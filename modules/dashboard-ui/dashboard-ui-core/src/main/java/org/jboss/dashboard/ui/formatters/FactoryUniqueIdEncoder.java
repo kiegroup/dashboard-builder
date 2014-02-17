@@ -46,7 +46,7 @@ public class FactoryUniqueIdEncoder {
 
     public String encodeFromContext(PageContext pageContext, String name) {
         Panel panel = (Panel) pageContext.getRequest().getAttribute(Parameters.RENDER_PANEL);
-        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.COMPONENT_ATTR_NAME);
+        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.CURRENT_BEAN);
         return encode(panel, factoryComponent, name);
     }
 }

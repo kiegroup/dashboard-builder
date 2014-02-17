@@ -20,13 +20,12 @@ import org.jboss.dashboard.ui.formatters.FactoryURL;
 import javax.servlet.jsp.JspTagException;
 
 public class BeanTag extends GenericFactoryTag {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BeanTag.class.getName());
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        String linkStr = new FactoryURL(getBean(), getProperty()).toString();
+        String linkStr = new FactoryURL(getBeanName(), getProperty()).toString();
         try {
             pageContext.getOut().print(linkStr);
         } catch (java.io.IOException e) {

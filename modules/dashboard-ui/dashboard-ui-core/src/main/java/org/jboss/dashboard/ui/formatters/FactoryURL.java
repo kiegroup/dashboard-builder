@@ -23,7 +23,7 @@ import java.text.ParsePosition;
 
 public class FactoryURL {
 
-    public static final String SCHEMA = "factory";
+    public static final String SCHEMA = "bean";
     public static final String NAME_FORMAT = SCHEMA + "://" + "{0}" + "/" + "{1}";
     protected static final MessageFormat msgf = new MessageFormat(NAME_FORMAT);
 

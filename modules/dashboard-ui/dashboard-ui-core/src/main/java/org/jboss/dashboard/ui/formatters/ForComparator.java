@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.taglib.formatter;
+package org.jboss.dashboard.ui.formatters;
 
 import org.apache.commons.jxpath.JXPathContext;
 

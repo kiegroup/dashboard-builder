@@ -42,8 +42,8 @@ public class KPIEditor extends KPIViewer {
         return CDIBeanLocator.getBeanByType(KPIEditor.class);
     }
 
-    @Inject @Config("/components/bam/kpi_view.jsp")
-    protected String beanJSP;
+    @Inject @Config("/components/bam/kpi_edit.jsp")
+    protected String editJSP;
 
     protected DataDisplayerEditor displayerEditor;
 
@@ -59,7 +59,7 @@ public class KPIEditor extends KPIViewer {
     }
 
     public String getBeanJSP() {
-        return beanJSP;
+        return editJSP;
     }
 
     public void setKpi(KPI kpi) {

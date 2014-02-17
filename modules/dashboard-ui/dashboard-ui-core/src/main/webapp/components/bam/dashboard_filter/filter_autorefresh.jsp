@@ -35,7 +35,7 @@
             <%  if (refreshEnabled) { %>
             <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
             <% } else { %>
-            <a id="<panel:encode name="refreshPlayLink"/>" href="<factory:url action="play" bean="<%=handler.getComponentPath()%>"/>">
+            <a id="<panel:encode name="refreshPlayLink"/>" href="<factory:url action="play" bean="<%=handler.getBeanName()%>"/>">
                 <img src="<static:image relativePath="general/10x10/play.gif"/>" title="Play" style="border: 0px;">
             </a>
             <script defer="defer">
@@ -47,7 +47,7 @@
             <% if (!handler.isRefreshEnabled()) { %>
             <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px; opacity: 0.5; -moz-opacity: 0.5; filter: alpha( opacity = 50 );">
             <% } else { %>
-            <a id="<panel:encode name="refreshStopLink"/>" onclick="clearTimeout(window.<panel:encode name="clearTimeout"/>);" href="<factory:url action="stop" bean="<%=handler.getComponentPath()%>"/>">
+            <a id="<panel:encode name="refreshStopLink"/>" onclick="clearTimeout(window.<panel:encode name="clearTimeout"/>);" href="<factory:url action="stop" bean="<%=handler.getBeanName()%>"/>">
                 <img src="<static:image relativePath="general/10x10/stop.gif"/>" title="Stop" style="border: 0px;">
             </a>
             <script defer="defer">

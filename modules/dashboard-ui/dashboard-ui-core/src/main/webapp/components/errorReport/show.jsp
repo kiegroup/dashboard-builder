@@ -29,7 +29,7 @@
     if (errorHandlerName != null) errorHandler = (ErrorReportHandler) CDIBeanLocator.getBeanByNameOrType(errorHandlerName);
     else errorHandler = ErrorReportHandler.lookup();
 %>
-<mvc:formatter name="org.jboss.dashboard.error.ErrorReportFormatter">
+<mvc:formatter name="org.jboss.dashboard.ui.formatters.ErrorReportFormatter">
     <mvc:formatterParam name="errorHandler" value="<%= errorHandler %>" />
     <mvc:fragment name="errorMessage">
     <mvc:fragmentValue name="technicalDetails" id="technicalDetails">

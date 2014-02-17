@@ -94,7 +94,7 @@ public class DashboardFilter extends AbstractFilter implements DataFilter {
     public DashboardFilterHandler getHandler(Panel panel) {
         
         if (!dashboard.belongsToDashboard(panel)) return null;
-        if (!(panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("DashboardFilterDriver"))) return null;
+        if (!(panel.getInstance().getProvider().getDriver().getClass().getName().contains("DashboardFilterDriver"))) return null;
 
         String code = panel.getParameterValue(FILTER_HANDLER_CODE);
 

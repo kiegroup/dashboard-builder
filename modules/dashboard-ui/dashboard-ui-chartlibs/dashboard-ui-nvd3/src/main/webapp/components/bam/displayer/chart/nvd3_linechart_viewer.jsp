@@ -18,10 +18,9 @@
 <%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
-<%@ page import="org.jboss.dashboard.ui.components.chart.NVD3LineChartViewer" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%
-    NVD3ChartViewer viewer = CDIBeanLocator.getBeanByType(NVD3LineChartViewer.class);
+    NVD3ChartViewer viewer = (NVD3ChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jspi"%>

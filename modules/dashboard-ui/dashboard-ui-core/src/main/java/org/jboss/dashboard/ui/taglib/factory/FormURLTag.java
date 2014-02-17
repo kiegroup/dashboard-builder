@@ -21,7 +21,6 @@ import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import javax.servlet.jsp.JspException;
 
 public class FormURLTag extends GenericFactoryTag {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormURLTag.class.getName());
 
     private boolean friendly = true;
 
@@ -47,5 +46,4 @@ public class FormURLTag extends GenericFactoryTag {
         }
         return EVAL_PAGE;
     }
-
 }

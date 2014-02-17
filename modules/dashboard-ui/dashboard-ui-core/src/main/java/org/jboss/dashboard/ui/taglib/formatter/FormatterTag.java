@@ -97,7 +97,7 @@ public class FormatterTag extends BaseTag {
             formatter = (Formatter) CDIBeanLocator.getBeanByNameOrType(String.valueOf(name));
         }
         if (formatter == null) {
-            log.error("Unable to find formatter @Named " + name + " or through class name. ");
+            log.error("Unable to find formatter: " + name);
             return SKIP_BODY;
         }
         formatter.setTag(this);
@@ -202,7 +202,6 @@ public class FormatterTag extends BaseTag {
 
         protected String jsp;
         protected String bean;
-        protected String scope;
         protected String fragment;
         protected Map readableParams;
 
@@ -248,7 +247,6 @@ public class FormatterTag extends BaseTag {
         public Map<String,Object> getContext() {
             Map<String,Object> ctx = new LinkedHashMap<String,Object>();
             ctx.put("Formatter", bean);
-            ctx.put("Formatter Scope", scope);
             if (!StringUtils.isEmpty(jsp)) ctx.put("Formatter JSP", jsp);
             if (!StringUtils.isEmpty(fragment)) ctx.put("Formatter Fragment", fragment);
             if (readableParams != null) {

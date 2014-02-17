@@ -15,48 +15,57 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.jsp.JspTagException;
 
 public class UseComponentTag extends GenericFactoryTag {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(UseComponentTag.class.getName());
 
-    public static final String COMPONENT_ATTR_NAME = "currentComponentBeingRendered";
+    public static final String CURRENT_BEAN = "currentBean";
+
+    public UIBeanHandler getBeanInstance() {
+        Object currentBean = getBean();
+        if (currentBean == null) {
+            throw new RuntimeException("Bean not found");
+        }
+        else if (currentBean instanceof String) {
+            Object result = CDIBeanLocator.getBeanByNameOrType((String) currentBean);
+            if (result == null) throw new RuntimeException("Bean not found");
+            if (result instanceof UIBeanHandler) return (UIBeanHandler) result;
+        }
+        else if (currentBean instanceof UIBeanHandler) {
+            return (UIBeanHandler) currentBean;
+        }
+        throw new RuntimeException("Bean " + currentBean + " is not an UIBeanHandler");
+    }
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        Object bean = CDIBeanLocator.getBeanByNameOrType(getBean());
-        if (bean != null) {
-            if (bean instanceof UIBeanHandler) {
-                UIBeanHandler uiBean = (UIBeanHandler) bean;
-                String page = uiBean.getBeanJSP();
-                if (page == null) log.error("Page for bean " + getBean() + " is null.");
+        UIBeanHandler uiBean = getBeanInstance();
+        String page = uiBean.getBeanJSP();
+        if (StringUtils.isBlank(page)) throw new RuntimeException("Page for bean " + getBeanName() + " is null.");
 
-                CodeBlockTrace trace = new BeanHandler.HandlerTrace(uiBean, null).begin();
-                Object previousComponent = pageContext.getRequest().getAttribute(COMPONENT_ATTR_NAME);
-                try {
-                    uiBean.beforeRenderBean();
-                    pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, bean);
-                    jspInclude(page);
-                    pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
-                    uiBean.afterRenderBean();
-                } catch (Exception e) {
-                    handleError(e);
-                } finally {
-                    pageContext.getRequest().setAttribute(COMPONENT_ATTR_NAME, previousComponent);
-                    trace.end();
-                }
-            } else {
-                log.error("Bean " + getBean() + " is not a UIBeanHandler");
-            }
-        } else {
-            log.error("Bean " + getBean() + " is null.");
+        CodeBlockTrace trace = new BeanHandler.HandlerTrace(uiBean, null).begin();
+        Object previousComponent = pageContext.getRequest().getAttribute(CURRENT_BEAN);
+        try {
+            uiBean.beforeRenderBean();
+            pageContext.getRequest().setAttribute(CURRENT_BEAN, uiBean);
+            jspInclude(page);
+            pageContext.getRequest().setAttribute(CURRENT_BEAN, previousComponent);
+            uiBean.afterRenderBean();
+        } catch (Exception e) {
+            handleError(e);
+        } finally {
+            pageContext.getRequest().setAttribute(CURRENT_BEAN, previousComponent);
+            trace.end();
         }
         return EVAL_PAGE;
     }

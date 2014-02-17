@@ -309,10 +309,6 @@ public class DashboardFilterHandler extends UIBeanHandler {
         return handler;
     }
 
-    public String getComponentPath() {
-        return getBeanName();
-    }
-
     public Dashboard getDashboard() {
         return dashboardHandler.getCurrentDashboard();
     }

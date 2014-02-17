@@ -40,8 +40,10 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.*;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
+@SessionScoped
 public class SectionsPropertiesHandler extends BeanHandler {
 
     public static final String ACTION_MOVE_UP = "action_move_up";

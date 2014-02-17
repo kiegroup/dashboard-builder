@@ -26,15 +26,10 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
-
-<factory:setProperty bean="org.jboss.dashboard.ui.components.MessagesComponentHandler"
-                     property="i18nBundle" propValue="org.jboss.dashboard.ui.messages" />
+<factory:setProperty bean="org.jboss.dashboard.ui.components.MessagesComponentHandler" property="i18nBundle" propValue="org.jboss.dashboard.ui.messages" />
 <factory:useComponent bean="org.jboss.dashboard.ui.components.MessagesComponentHandler"/>
 
-<factory:property property="showPanelConfigComponentFormatter" id="showPanelConfigComponentFormatter">
-
-<mvc:formatter name="<%=showPanelConfigComponentFormatter%>">
-
+<mvc:formatter name="org.jboss.dashboard.ui.components.panelManagement.ShowPanelConfigComponentFormatter">
     <mvc:fragment name="outputStart">
 <form method="POST" action="<factory:formUrl friendly="false"/>" id="<factory:encode name="panelProperties"/>">
     <factory:handler action="saveProperties"/>
@@ -68,5 +63,3 @@
 </form>
     </mvc:fragment>
 </mvc:formatter>
-
-</factory:property>

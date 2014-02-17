@@ -68,7 +68,7 @@
   // Chart identifier is composed by producerId and this suffix.
   int suffix = viewer.hashCode();
   if (suffix < 0) suffix *= -1;
-  String chartId = viewer.getComponentAlias() + suffix;
+  String chartId = viewer.getBeanName() + suffix;
 
   String barColor = displayer.getColor();
   if (barColor == null || barColor.equals(displayer.getBackgroundColor())) {
