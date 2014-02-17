@@ -788,8 +788,7 @@ public class PanelInstance implements Cloneable, Visitable {
      */
     public Panel[] getAllPanels() {
         List panels = new ArrayList();
-        for (Iterator it = getWorkspace().getSections().iterator(); it.hasNext();) {
-            Section section = (Section) it.next();
+        for (Section section : getWorkspace().getSections()) {
             for (Iterator idePanels = section.getPanels().iterator(); idePanels.hasNext();) {
                 Panel panel = (Panel) idePanels.next();
                 if (instanceId.equals(panel.getInstanceId())) {
@@ -807,9 +806,8 @@ public class PanelInstance implements Cloneable, Visitable {
      */
     public int getAllPanelsCount() {
         int n = 0;
-        for (Iterator it = getWorkspace().getSections().iterator(); it.hasNext();) {
-            Section section = (Section) it.next();
-            for (Iterator idPanels = section.getPanels().iterator(); it.hasNext();) {
+        for (Section section : getWorkspace().getSections()) {
+            for (Iterator idPanels = section.getPanels().iterator(); idPanels.hasNext();) {
                 Panel panel = (Panel) idPanels.next();
                 if (instanceId.equals(panel.getInstanceId())) {
                     n++;

@@ -80,7 +80,7 @@ public class WorkspaceImpl implements Workspace {
      *
      * @link aggregation
      */
-    private Set sections = new HashSet();
+    private Set<Section> sections = new HashSet<Section>();
 
     /**
      * Panels stored by their ID
@@ -291,11 +291,11 @@ public class WorkspaceImpl implements Workspace {
         defaultWorkspace = b;
     }
 
-    public Set getSections() {
+    public Set<Section> getSections() {
         return sections;
     }
 
-    public void setSections(Set sections) {
+    public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
 
@@ -303,19 +303,19 @@ public class WorkspaceImpl implements Workspace {
      * Returns all the sections
      */
     public Section[] getAllSections() {
-        List sectionList = new ArrayList();
+        List<Section> sectionList = new ArrayList<Section>();
         sectionList.addAll(sections);
         Collections.sort(sectionList);
-        return (Section[]) sectionList.toArray(new Section[sectionList.size()]);
+        return sectionList.toArray(new Section[sectionList.size()]);
     }
 
     /**
      * Returns all the sections, but unsorted
      */
     public Section[] getAllUnsortedSections() {
-        List sectionList = new ArrayList();
+        List<Section> sectionList = new ArrayList<Section>();
         sectionList.addAll(sections);
-        return (Section[]) sectionList.toArray(new Section[sectionList.size()]);
+        return sectionList.toArray(new Section[sectionList.size()]);
     }
 
     /**
@@ -329,7 +329,7 @@ public class WorkspaceImpl implements Workspace {
      * Returns all the children for a given section
      */
     public Section[] getAllChildSections(final Long sectionId) {
-        final List childSections = new ArrayList();
+        final List<Section> childSections = new ArrayList<Section>();
 
         try {
             new HibernateTxFragment() {
@@ -353,7 +353,7 @@ public class WorkspaceImpl implements Workspace {
             log.error("Error: ", e);
         }
         Collections.sort(childSections);
-        return (Section[]) childSections.toArray(new Section[childSections.size()]);
+        return childSections.toArray(new Section[childSections.size()]);
     }
 
     public int getSectionsCount() {
@@ -653,14 +653,8 @@ public class WorkspaceImpl implements Workspace {
                         Policy policy = SecurityServices.lookup().getSecurityPolicy();
                         policy.removePermissions(instance);
                         policy.save();
-
-                        // Remove panels assigned to workspace's sections.
-                        Iterator sectionIt = sections.iterator();
-                        while (sectionIt.hasNext()) {
-                            Section section = (Section) sectionIt.next();
-                            Panel[] panels = section.getAllPanels();
-                            for (int i = 0; i < panels.length; i++) {
-                                Panel panel = panels[i];
+                        for (Section section : sections) {
+                            for (Panel panel : section.getAllPanels()) {
                                 if (instance.getInstanceId().equals(panel.getInstanceId())) {
                                     section.removePanel(panel);
 
@@ -865,8 +859,8 @@ public class WorkspaceImpl implements Workspace {
         for (Iterator it = getPanelInstancesSet().iterator(); it.hasNext();)
             sb.append(it.next()).append("\n");
         sb.append("  \nSections \n\n");
-        for (Iterator it = sections.iterator(); it.hasNext();)
-            sb.append(it.next()).append("\n");
+        for (Section section : sections)
+            sb.append(section).append("\n");
         sb.append("\nEnd Workspace.\n");
 
         return sb.toString();

@@ -225,10 +225,8 @@ public class PopupPanelsHandler extends PanelComponent {
 
 
      protected Map calculatePanelsStatistics(WorkspaceImpl workspace) {
-        Set sections = workspace.getSections();
         HashMap result = new HashMap();
-        for (Iterator iterator = sections.iterator(); iterator.hasNext();) {
-            Section section = (Section) iterator.next();
+        for (Section section : workspace.getSections()) {
             Set panels = section.getPanels();
             for (Iterator iterator1 = panels.iterator(); iterator1.hasNext();) {
                 Panel panel = (Panel) iterator1.next();
