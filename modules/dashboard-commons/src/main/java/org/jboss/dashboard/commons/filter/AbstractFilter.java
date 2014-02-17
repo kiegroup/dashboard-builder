@@ -180,8 +180,8 @@ public abstract class AbstractFilter implements FilterByCriteria, Cloneable {
         }
         // Register new ones.
         Object[] filterProps = new Object[] {propertyId.trim(), // Identifier
-                                    minValue, new Boolean(minValueIncluded), // Min. Value
-                                    maxValue, new Boolean(maxValueIncluded), // Max. value
+                                    minValue, minValueIncluded, // Min. Value
+                                    maxValue, maxValueIncluded, // Max. value
                                     allowedValues == null ? allowedValues : new ArrayList(allowedValues), // Allowed values
                                     new Integer(allowMode), // Allowed values mode
                                     StringUtil.toJavaIdentifier(propertyId.trim()),  // Variable name

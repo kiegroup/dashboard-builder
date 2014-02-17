@@ -415,7 +415,7 @@ public class ReflectionUtils {
         else {
             if (String.class.equals(type)) object = "";
             else if (type.equals(int.class)) object = new Integer(0);
-            else if (type.equals(boolean.class)) object = new Boolean(false);
+            else if (type.equals(boolean.class)) object = Boolean.FALSE;
             else if (type.equals(long.class)) object = new Long(0);
             else if (type.equals(char.class)) object = new Character((char) 0);
             else if (type.equals(double.class)) object = new Double(0);
@@ -423,7 +423,7 @@ public class ReflectionUtils {
             else if (type.equals(byte.class)) object = new Byte((byte) 0);
             else if (type.equals(short.class)) object = new Short((short) 0);
             else  if (type.equals(Integer.class)) object = new Integer(0);
-            else if (type.equals(Boolean.class)) object = new Boolean(false);
+            else if (type.equals(Boolean.class)) object = Boolean.FALSE;
             else if (type.equals(Long.class)) object = new Long(0);
             else if (type.equals(Character.class)) object = new Character((char) 0);
             else if (type.equals(Double.class)) object = new Double(0);

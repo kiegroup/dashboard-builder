@@ -328,7 +328,7 @@ public abstract class Formatter {
      */
     protected void setAttribute(String name, boolean value) {
         if (log.isDebugEnabled()) log.debug("Setting of attribute " + name + " scheduled.");
-        tag.addProcessingInstruction(ProcessingInstruction.getSetParameterInstruction(name, new Boolean(value)));
+        tag.addProcessingInstruction(ProcessingInstruction.getSetParameterInstruction(name, value));
     }
 
 

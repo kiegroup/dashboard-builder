@@ -213,9 +213,9 @@ public class PanelsPropertiesHandler extends BeanHandler {
 
         String txtNewInstance = request.getParameter("switchForm");
         if (txtNewInstance.equals("newInstance")) {
-            this.setIsNewInstance(new Boolean(true));
+            this.setIsNewInstance(Boolean.TRUE);
         } else if (txtNewInstance.equals("newPanel")) {
-            this.setIsNewInstance(new Boolean(false));
+            this.setIsNewInstance(Boolean.FALSE);
         } else if (txtNewInstance.equals("create")) {
 
             final WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
@@ -267,7 +267,7 @@ public class PanelsPropertiesHandler extends BeanHandler {
                     };
 
                     txFragment.execute();
-                    setIsNewInstance(new Boolean(false));
+                    setIsNewInstance(Boolean.FALSE);
                     setProvider("");
                     setTitle("");
                     setRegion("");

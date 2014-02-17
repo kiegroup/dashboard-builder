@@ -72,9 +72,9 @@ public class DataSourceManagementFormatter extends Formatter {
 
                     if (dataSourceManagementHandler.isEDIT_MODE() && entry.getName().equals(dataSourceManagementHandler.getDS_EDIT()))
                     {
-                        setAttribute("selected", new Boolean(true));
+                        setAttribute("selected", Boolean.TRUE);
                     } else {
-                        setAttribute("selected", new Boolean(false));
+                        setAttribute("selected", Boolean.FALSE);
                     }
                     setAttribute("dataSName", entry.getName());
                     setAttribute("entry", entry);
