@@ -129,7 +129,7 @@ public class FormStatus {
     }
 
     public void setValue(String fieldId, boolean value) {
-        fieldsValues.put(fieldId, new Boolean(value));
+        fieldsValues.put(fieldId, value);
     }
 
     public void removeValue(String fieldId) {

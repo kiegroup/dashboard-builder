@@ -756,7 +756,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
         }
 
         if (found) {
-            setMoveLoop(new Boolean(found));
+            setMoveLoop(found);
         }
         return !found;
     }

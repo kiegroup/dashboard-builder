@@ -55,6 +55,6 @@ public class BasicSectionCopyOption extends CopyOption implements SectionCopyOpt
      * @param duplicate       Indicates if this PanelInstance Id must be registered as to be duplicated or not.
      */
     public void addPanelInstanceToDuplicate(String panelInstance, boolean duplicate) {
-        panelInstancesToDuplicate.put(panelInstance, new Boolean(duplicate));
+        panelInstancesToDuplicate.put(panelInstance, duplicate);
     }
 }

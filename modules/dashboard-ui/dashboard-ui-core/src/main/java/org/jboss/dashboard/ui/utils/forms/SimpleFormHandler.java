@@ -369,8 +369,8 @@ public class SimpleFormHandler {
 
         formStatus.removeWrongField(fieldId);
         formStatus.removeError(fieldId);
-        formStatus.setValue(fieldId, new Boolean(value));
-        return new Boolean(value);
+        formStatus.setValue(fieldId, value);
+        return value;
     }
 
     public Date validateDate(CommandRequest req, String fieldId, boolean mandatory, boolean validateMinutes) {
