@@ -19,23 +19,34 @@
  * See http://www.dashbuilder.org for details
  */
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Variables that can be used to customize behaviour and aspect
 // Default dashbuilder path
-var DASHBUILDER_PATH = '/dashbuilder';
+var DASHBUILDER_PATH = '/dashbuilder';           // Default dashbuilder path
+var DASHBUILDER_LOADING_DIV_TEXT="Loading...";   // Text displayed when loading KPI
+var DASHBUILDER_LOADING_DIV_STYLE="position:absolute;color:white;padding:5px;background-color:#999999;width:70px;";  // Style to apply to DIV with test displayed
+var DASHBUILDER_LOADING_BODER_STYLE="#999999 1px solid";  // Border style for 
 
-DASHBUILDER_START_LOAD_KPI = function() {
+/*
+ * Callback invoked when a KPI starts to load, usually to display some message
+ */
+dashbuilder_callback_start_load = function() {
    loadDiv = document.getElementById("title_" + arguments[0]);		
    if( loadDiv ) {
-      loadDiv.innerHTML = "Loading KPI..."; 
-      loadDiv.style.cssText = "color:white;padding:5px;background-color:blue;width:100px;";  
+      loadDiv.innerHTML = DASHBUILDER_LOADING_DIV_TEXT; 
+      loadDiv.style.cssText = DASHBUILDER_LOADING_DIV_STYLE;  
    }
 
    kpiFrame = document.getElementById("iframe_" + arguments[0]);		
    if( kpiFrame ) {
-      kpiFrame.style.border="1px solid #0000FF";
+      kpiFrame.style.border=DASHBUILDER_LOADING_BODER_STYLE;
    }
 }
 
-DASHBUILDER_END_LOAD_KPI = function() {
+/*
+ * Callback invoked when a KPI finishes to load, usually to hide the 'Loading' message
+ */
+dashbuilder_callback_end_load = function() {
    loadDiv = document.getElementById("title_" + arguments[0]);		
    if( loadDiv ) {
        loadDiv.style.display='none';
@@ -47,6 +58,10 @@ DASHBUILDER_END_LOAD_KPI = function() {
    }
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// API Calls
+//
 
 /*
  * Embeds a chart according to the following parameters:
@@ -92,6 +107,9 @@ function dashbuilder_embed_kpi(idElement, kpi, width, height, autoResize, scroll
     dashbuilder_embed_iframe(idElement, frameURL, kpi, width, height, autoResize, scrolling);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Helper methods
+//
 
 /*
  * Embeds iframe to show a given KPI url
@@ -130,11 +148,11 @@ function dashbuilder_embed_iframe(idElement, frameURL, kpi, width, height, scrol
     if( autoResize ) {
        mframe.onload = function() {	
     	dashbuilder_autoResize(mframe.id);	
-        DASHBUILDER_END_LOAD_KPI(idElement, kpi);
+        dashbuilder_callback_end_load(idElement, kpi);
        }
     } else {
         mframe.onload = function() {		
-        DASHBUILDER_END_LOAD_KPI(idElement, kpi);
+        dashbuilder_callback_end_load(idElement, kpi);
        }
     }
 
@@ -149,7 +167,7 @@ function dashbuilder_embed_iframe(idElement, frameURL, kpi, width, height, scrol
     myElement.appendChild(mdiv);
     myElement.appendChild(mframe);
 
-    DASHBUILDER_START_LOAD_KPI(idElement, kpi);    
+    dashbuilder_callback_start_load(idElement, kpi);    
 }
 
 /*

@@ -40,6 +40,12 @@ import java.util.*;
 /**
  * This processor will handler URLs of the following form
  * /KPI/(SHOW|CHECK)?kpi=(KPI_CODE)[&locale=(LOCALE)]
+ *
+ * Pending work:
+ * - Security & login
+ * - Clear filter interaction
+ * - Solve concurrency problems among kpi in different pages
+ * - Handle errors and avoid frames showing full screen
  */
 public class KPIProcessor extends RequestChainProcessor {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(KPIProcessor.class.getName());
@@ -168,7 +174,6 @@ public class KPIProcessor extends RequestChainProcessor {
             return new DoNothingResponse();
 
         } else {
-
             // KPI NOT FOUND
             return null;
         }
@@ -224,5 +229,4 @@ public class KPIProcessor extends RequestChainProcessor {
         }
         return currentPanel;
     }
-
 }
