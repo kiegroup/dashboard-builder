@@ -44,10 +44,9 @@ public class NavigationUpdater implements UserStatusListener {
             // Reposition, and invoke page left in _destination_ page
             Section currentPage = NavigationManager.lookup().getCurrentSection();
             if (currentPage != null) {
-                Set panels = currentPage.getPanels();
+                Set<Panel> panels = currentPage.getPanels();
                 if (panels != null) {
-                    for (Iterator iterator = panels.iterator(); iterator.hasNext();) {
-                        Panel panel = (Panel) iterator.next();
+                    for (Panel panel : panels) {
                         panel.pageLeft();
                     }
                 }

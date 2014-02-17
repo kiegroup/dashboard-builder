@@ -199,9 +199,7 @@ public class PopupPanelsInstanceFormatter extends Formatter {
     protected Map calculatePanelsStatistics(WorkspaceImpl workspace) {
         HashMap result = new HashMap();
         for (Section section : workspace.getSections()) {
-            Set panels = section.getPanels();
-            for (Iterator iterator1 = panels.iterator(); iterator1.hasNext();) {
-                Panel panel = (Panel) iterator1.next();
+            for (Panel panel : section.getPanels()) {
                 Long instanceId = panel.getInstanceId();
                 Integer instanceCount = (Integer) result.get(instanceId);
                 if (instanceCount == null) {

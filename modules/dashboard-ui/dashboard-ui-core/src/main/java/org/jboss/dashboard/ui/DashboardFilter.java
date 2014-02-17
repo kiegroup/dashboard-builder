@@ -135,10 +135,8 @@ public class DashboardFilter extends AbstractFilter implements DataFilter {
 
     public DashboardFilterProperty getPropertyInFilterComponents(String propertyId) {
         if (dashboard.getSection() == null) return null;
-        Iterator it = dashboard.getSection().getPanels().iterator();
-        while (it.hasNext()) {
-            Panel p = (Panel) it.next();
-            DashboardFilterHandler handler = getHandler(p);
+        for (Panel panel : dashboard.getSection().getPanels()) {
+            DashboardFilterHandler handler = getHandler(panel);
             if (handler != null) {
                 DashboardFilterProperty prop = handler.getDashboardFilterProperty(propertyId);
                 if (prop != null) return prop;
