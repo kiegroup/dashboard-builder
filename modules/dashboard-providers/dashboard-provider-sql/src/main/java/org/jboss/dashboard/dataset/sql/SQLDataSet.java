@@ -161,7 +161,7 @@ public class SQLDataSet extends AbstractDataSet {
             if (conn != null) {
                 conn.close();
             }
-            if (conn != null) {
+            if (trace != null) {
                 trace.end();
             }
         }
