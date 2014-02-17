@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.workspace.export;
 
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.workspace.export.structure.CreateResult;
 import org.jboss.dashboard.workspace.export.structure.ExportResult;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
@@ -24,8 +25,8 @@ import java.io.Serializable;
 /**
  * Helper class that stores the import or export process result.
  */
+@PanelScoped
 public class ExportSessionInfo implements Serializable {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportSessionInfo.class.getName());
 
     private ExportResult exportResult;
     private ImportResult[] importResult;

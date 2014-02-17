@@ -27,15 +27,22 @@ import org.jboss.dashboard.ui.controller.responses.ShowPopupPage;
 import org.jboss.dashboard.ui.utils.forms.SimpleFormHandler;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.GraphicElementPreview;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class AdminHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminHandler.class.getName());
+@ApplicationScoped
+@Named("adminh")
+public class AdminHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
 
     public static final String PREVIEW_ATTRIBUTE = "attrPreview";
-
 
     /**
      * Change workspace for a given element
@@ -117,7 +124,7 @@ public class AdminHandler extends HandlerFactoryElement {
     /**
      * Create a preview, and redirect to preview screen
      */
-    public static CommandResponse actionPreviewNewElement(CommandRequest request) throws Exception {
+    public CommandResponse actionPreviewNewElement(CommandRequest request) throws Exception {
         log.debug("actionPreviewNewElement");
         FormStatus status = SessionManager.getCurrentFormStatus();
         SimpleFormHandler handler = new SimpleFormHandler(status);
@@ -169,7 +176,7 @@ public class AdminHandler extends HandlerFactoryElement {
     /**
      * Confirm creation of an Element
      */
-    public static CommandResponse actionConfirmNewElement(CommandRequest request) throws Exception {
+    public CommandResponse actionConfirmNewElement(CommandRequest request) throws Exception {
         String graphicElement = request.getParameter("graphicElement");
         if (graphicElement == null || "".equals(graphicElement)) {
             log.error("Missing required parameter: graphicElement.");

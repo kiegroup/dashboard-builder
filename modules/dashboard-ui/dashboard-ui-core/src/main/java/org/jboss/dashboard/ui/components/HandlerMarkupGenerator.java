@@ -15,20 +15,30 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.factory.BasicFactoryElement;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-public class HandlerMarkupGenerator extends BasicFactoryElement {
+/**
+ * Manager that generates markup for the handler taglib
+ */
+@ApplicationScoped
+public class HandlerMarkupGenerator {
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HandlerMarkupGenerator.class.getName());
+    public static HandlerMarkupGenerator lookup() {
+        return CDIBeanLocator.getBeanByType(HandlerMarkupGenerator.class);
+    }
+
+    @Inject
+    private transient Logger log;
 
     public String getMarkup(String bean, String property) {
         Panel panel = getCurrentPanel();
@@ -36,23 +46,22 @@ public class HandlerMarkupGenerator extends BasicFactoryElement {
         else return _getMarkup(bean, property);
     }
 
-    protected String getPanelUrlMarkup(String bean, String property, Panel panel) {
+    protected String getPanelUrlMarkup(String bean, String action, Panel panel) {
         StringBuffer sb = new StringBuffer();
         sb.append(getMarkupToPanelAction(panel, "_factory"));
-        sb.append(_getMarkup(bean, property));
+        sb.append(_getMarkup(bean, action));
         return sb.toString();
     }
 
-    protected String _getMarkup(String bean, String property) {
+    protected String _getMarkup(String bean, String action) {
         StringBuffer sb = new StringBuffer();
-        String alias = Factory.getAlias(bean);
-        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean));
-        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_PROPERTY, property));
+        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, bean));
+        sb.append(getHiddenMarkup(FactoryURL.PARAMETER_ACTION, action));
         try {
-            HandlerFactoryElement element = (HandlerFactoryElement) Factory.lookup(bean);
+            BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
             element.setEnabledForActionHandling(true);
         } catch (ClassCastException cce) {
-            log.error("Bean " + bean + " is not a HandlerFactoryElement.");
+            log.error("Bean " + bean + " is not a BeanHandler.");
         }
         return sb.toString();
     }

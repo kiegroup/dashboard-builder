@@ -15,21 +15,26 @@
  */
 package org.jboss.dashboard.ui.config.components.resources;
 
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.GraphicElementManager;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.GraphicElementPreview;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.workspace.GraphicElementManager;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
-public class ResourcesPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcesPropertiesHandler.class.getName());
+@SessionScoped
+public class ResourcesPropertiesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
 
     private String resourceType;  //graphicElement
     private String workspaceId;

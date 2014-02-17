@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
-public class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
+public abstract class AbstractXAxisDisplayerEditor extends AbstractChartDisplayerEditor {
 
     /** Logger */
     private transient static Logger log = LoggerFactory.getLogger(AbstractXAxisDisplayerEditor.class);

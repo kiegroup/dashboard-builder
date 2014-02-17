@@ -22,48 +22,46 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 public class FactoryURL {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FactoryURL.class.getName());
 
     public static final String SCHEMA = "factory";
     public static final String NAME_FORMAT = SCHEMA + "://" + "{0}" + "/" + "{1}";
     protected static final MessageFormat msgf = new MessageFormat(NAME_FORMAT);
 
     public static final String PARAMETER_BEAN = "_fb";
-    public static final String PARAMETER_PROPERTY = "_fp";
+    public static final String PARAMETER_ACTION = "_fp";
 
-    private String componentName;
-    private String propertyName;
+    private String beanName;
+    private String fieldName;
 
-    public FactoryURL(String componentName, String propertyName) {
-        this.componentName = componentName;
-        this.propertyName = propertyName;
+    public FactoryURL(String beanName, String fieldName) {
+        this.beanName = beanName;
+        this.fieldName = fieldName;
     }
 
-    public static FactoryURL getURL(String value) throws ParseException {
+    public FactoryURL(String value) {
         ParsePosition pPos = new ParsePosition(0);
         Object[] o = msgf.parse(value, pPos);
-        if (o == null)
-            throw new ParseException("Cannot parse " + value + ". Error at position " + pPos.getErrorIndex(), pPos.getErrorIndex());
-        String componentName = StringEscapeUtils.unescapeHtml((String) o[0]);
-        String propertyName = StringEscapeUtils.unescapeHtml((String) o[1]);
-        return new FactoryURL(componentName, propertyName);
+        if (o == null) throw new RuntimeException("Cannot parse " + value + ". Error at position " + pPos.getErrorIndex());
+
+        beanName = StringEscapeUtils.unescapeHtml((String) o[0]);
+        fieldName = StringEscapeUtils.unescapeHtml((String) o[1]);
     }
 
-    public String getComponentName() {
-        return componentName;
+    public String getBeanName() {
+        return beanName;
     }
 
-    public String getPropertyName() {
-        return propertyName;
+    public String getFieldName() {
+        return fieldName;
     }
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(SCHEMA);
         sb.append("://");
-        sb.append(StringEscapeUtils.escapeHtml(componentName));
+        sb.append(StringEscapeUtils.escapeHtml(beanName));
         sb.append("/");
-        sb.append(StringEscapeUtils.escapeHtml(propertyName));
+        sb.append(StringEscapeUtils.escapeHtml(fieldName));
         return sb.toString();
     }
 }

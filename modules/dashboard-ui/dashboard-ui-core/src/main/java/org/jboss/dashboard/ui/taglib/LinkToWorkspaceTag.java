@@ -15,11 +15,9 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

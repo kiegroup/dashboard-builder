@@ -15,9 +15,8 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
-<%@ page import="java.util.Properties" %>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
+<%@ page import="org.jboss.dashboard.ui.UISettings" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -101,7 +100,7 @@
                              onmouseout="$('Region_Panel_Menu_Link<%=((Panel)panel).getPanelId()%>').setOpacity(0.2);">
                             <%
                                 request.setAttribute("panel", panel);
-                                String configString = ((Properties) Factory.lookup("org.jboss.dashboard.ui.formatters.DisplayConfiguration")).getProperty("panelMenuRenderPage");
+                                String configString = UISettings.lookup().getPanelMenuRenderPage();
                             %>
                             <jsp:include page="<%=configString%>" flush="true">
                                 <jsp:param name="title" value="<%=String.valueOf(panelTitle)%>"/>

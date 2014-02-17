@@ -18,13 +18,11 @@ package org.jboss.dashboard.ui.config.components.workspace;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.jboss.dashboard.security.Policy;
 import org.jboss.dashboard.security.UIPolicy;
-import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.NavigationManager;
@@ -34,21 +32,34 @@ import org.jboss.dashboard.users.RolesManager;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
+import org.slf4j.Logger;
 
 import java.security.Permission;
 import java.util.*;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
-public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesPropertiesHandler.class.getName());
+@SessionScoped
+public class WorkspacesPropertiesHandler extends BeanHandler {
+
+    @Inject
+    protected transient Logger log;
+
+    @Inject
+    private MessagesComponentHandler messagesComponentHandler;
+
+    @Inject
+    private NavigationManager navigationManager;
+
+    @Inject
+    private WorkspaceHandler workspaceHandler;
 
     private String workspaceId;
     private String skinId;
     private String envelopeId;
-    private NavigationManager navigationManager;
-    private WorkspaceHandler workspaceHandler;
     private Map name;
     private Map title;
-    private MessagesComponentHandler messagesComponentHandler;
 
     public MessagesComponentHandler getMessagesComponentHandler() {
         return messagesComponentHandler;
@@ -176,12 +187,12 @@ public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
     public boolean validate() {
         boolean valid = true;
         if (name == null || name.isEmpty()) {
-            addFieldError(new FactoryURL(getComponentName(), "name"), null, name);
+            addFieldError(new FactoryURL(getBeanName(), "name"), null, name);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
             valid = false;
         }
         if (title == null || title.isEmpty()) {
-            addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+            addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
             valid = false;
         }
@@ -190,20 +201,20 @@ public class WorkspacesPropertiesHandler extends HandlerFactoryElement {
 
 
     public void actionDiagnoseWorkspaces(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+        Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) workspacesManager.getWorkspace(wsId);
             int numErrors = workspace.sectionsDiagnose();
             log.error("Found " + numErrors + " page Errors.");
         }
     }
 
     public void actionDiagnoseWorkspacesAndFix(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+        Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) workspacesManager.getWorkspace(wsId);
             workspace.sectionsDiagnoseFix();
         }
     }

@@ -17,31 +17,28 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
 public class DataSourceManagementTableListFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataSourceManagementFormatter.class.getName());
+
     private static String TR_ALT_CLASS = "skn-even_row";
     private static String TR_ON_CLASS = "skn-row_on";
 
-    private DataSourceManagementHandler dataSourceManagementHandler;
+    @Inject
+    private transient Logger log;
 
-    public DataSourceManagementHandler getDataSourceManagementHandler() {
-        return dataSourceManagementHandler;
-    }
-
-    public void setDataSourceManagementHandler(DataSourceManagementHandler dataSourceManagementHandler) {
-        this.dataSourceManagementHandler = dataSourceManagementHandler;
-    }
+    @Inject
+    private DataSourceManagementHandler handler;
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             //get all tables of the datasource that has been edited
-            DataSourceManagementHandler handler = getDataSourceManagementHandler();
             if(handler.getINTROSPECT_MODE()){
                 String dsName = handler.getDS_EDIT();
                 setAttribute("dsName",dsName);

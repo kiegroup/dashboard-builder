@@ -43,8 +43,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.*;
 
+/**
+ * Controller for the HTML panel
+ */
 public class HTMLDriver extends PanelDriver implements Exportable {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HTMLDriver.class.getName());
 
     public static final String PARAMETER_HTML = "html_code";
     public static final String PARAMETER_EDITING_LANG = "edit_lang";
@@ -59,13 +61,6 @@ public class HTMLDriver extends PanelDriver implements Exportable {
 
     private static final String ATTR_TEXT = "text";
     private static final String ATTR_EDITING_LANGUAGE = "lang";
-
-    /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public HTMLDriver() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);

@@ -21,11 +21,11 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.error.ErrorReport;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.jboss.dashboard.ui.components.ErrorReportHandler;
+import org.jboss.dashboard.ui.components.JSPIncludeErrorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,10 +61,10 @@ public abstract class BaseTag extends BodyTagSupport {
         CodeBlockTrace trace = new JSPIncludeTrace(errorPage).begin();
         try {
             // Display the error page.
-            ErrorReportHandler errorHandler = (ErrorReportHandler) Factory.lookup("org.jboss.dashboard.error.JSPIncludeErrorHandler");
+            ErrorReportHandler errorHandler = JSPIncludeErrorHandler.lookup();
             errorHandler.setErrorReport(errorReport);
             errorHandler.setCloseEnabled(false);
-            pageContext.getRequest().setAttribute("errorHandlerName", "org.jboss.dashboard.error.JSPIncludeErrorHandler");
+            pageContext.getRequest().setAttribute("errorHandlerName", errorHandler.getBeanName());
             pageContext.include(errorPage);
         } catch (Throwable t1) {
             log.error("JSP error processing failed.", t1);

@@ -20,21 +20,18 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PopupPanelsGroupFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PopupPanelsGroupFormatter.class.getName());
 
+    @Inject
     private PopupPanelsHandler handler;
 
     public PopupPanelsHandler getHandler() {
         return handler;
-    }
-
-    public void setHandler(PopupPanelsHandler handler) {
-        this.handler = handler;
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

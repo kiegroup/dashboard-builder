@@ -20,17 +20,14 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
-import org.jboss.dashboard.workspace.PanelsProvidersManager;
-import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
 import org.jboss.dashboard.ui.panel.help.PanelHelpManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -50,7 +47,8 @@ import java.util.*;
 @Named("panelsProvidersManager")
 public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Startable {
 
-    private static transient Logger log = LoggerFactory.getLogger(PanelsProvidersManagerImpl.class.getName());
+    @Inject
+    private transient Logger log;
 
     @Inject @Config("WEB-INF/etc/panels")
     private String panelDriversDir;
@@ -418,9 +416,9 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
 
         // Create driver
         String driver = prop.getProperty("panel.driver");
-        PanelProvider p = (PanelProvider) Factory.lookup("org.jboss.dashboard.ui.panel.PanelProvider");
+        PanelProvider p = CDIBeanLocator.getBeanByType(PanelProvider.class);
         try {
-            PanelDriver pdriver = (PanelDriver) Factory.lookup(driver);
+            PanelDriver pdriver = (PanelDriver) CDIBeanLocator.getBeanByNameOrType(driver);
             pdriver = pdriver == null ? (PanelDriver) Class.forName(driver).newInstance() : pdriver;
             p.setDriver(pdriver);
         }
@@ -440,12 +438,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
             p.setThumbnail(prop.getProperty("panel.thumbnail"));
         }
 
-        // We keep files to import in a array a perform it after the loop to avoid a ConcurrentModificationException
-        List filesToImport = new ArrayList();
-
-        /*
-         * Iterate over properties
-         */
+        // Iterate over properties
         Iterator it = prop.keySet().iterator();
         while (it.hasNext()) {
             String key = (String) it.next();

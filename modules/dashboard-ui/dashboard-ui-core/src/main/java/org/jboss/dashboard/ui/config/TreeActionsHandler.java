@@ -15,35 +15,31 @@
  */
 package org.jboss.dashboard.ui.config;
 
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.DoNothingResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import java.io.IOException;
 
-public class TreeActionsHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TreeActionsHandler.class.getName());
-    private TreeStatus treeStatus;
-    private Tree tree;
+@SessionScoped
+@Named("tree_handler")
+public class TreeActionsHandler extends BeanHandler {
 
-    public TreeStatus getTreeStatus() {
-        return treeStatus;
-    }
+    @Inject
+    private transient Logger log;
 
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
-    }
+    @Inject
+    private ConfigurationTree tree;
 
-    public Tree getTree() {
-        return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
-    }
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
 
     public CommandResponse actionNavigateTo(CommandRequest request) {
         String path = request.getParameter("path");
@@ -72,7 +68,7 @@ public class TreeActionsHandler extends HandlerFactoryElement {
     }
 
     public CommandResponse actionShowEditPage(CommandRequest request) {
-        TreeNode treeNode = treeStatus.getLastEditedNode(getTree());
+        TreeNode treeNode = treeStatus.getLastEditedNode(tree);
         String editPage = treeNode.getEditURI();
         RequestDispatcher rd = request.getRequestObject().getRequestDispatcher(editPage);
         try {

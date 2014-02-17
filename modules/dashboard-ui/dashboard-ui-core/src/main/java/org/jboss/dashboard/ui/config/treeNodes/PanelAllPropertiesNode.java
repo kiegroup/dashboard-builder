@@ -15,17 +15,41 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.components.panelManagement.ShowPanelConfigComponent;
+import org.slf4j.Logger;
 
 public class PanelAllPropertiesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelAllPropertiesNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private ShowPanelConfigComponent handler;
+
+    public String getId() {
+        return "PanelAllPropertiesNode";
+    }
+
+    public ShowPanelConfigComponent getHandler() {
+        return handler;
+    }
+
+    public void setHandler(ShowPanelConfigComponent handler) {
+        this.handler = handler;
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_properties.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
+    }
 
     public boolean onEdit() {
         try {
@@ -51,18 +75,6 @@ public class PanelAllPropertiesNode extends AbstractNode {
         getHandler().setPanelInstanceId(panelInstanceId);
         getHandler().clearFieldErrors();
         getHandler().setFormStatus(formStatus);
-        ((MessagesComponentHandler) Factory.lookup(getHandler().getMessagesComponentHandler())).clearAll();
-    }
-
-    public String getId() {
-        return "PanelAllPropertiesNode";
-    }
-
-    public ShowPanelConfigComponent getHandler() {
-        return handler;
-    }
-
-    public void setHandler(ShowPanelConfigComponent handler) {
-        this.handler = handler;
+        getHandler().getMessagesComponentHandler().clearAll();
     }
 }

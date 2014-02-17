@@ -20,8 +20,10 @@ import org.jboss.dashboard.commons.misc.CalendarUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+/**
+ * Request processor for parsing dashboard filter properties.
+ */
 public class DashboardFilterRequestProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterRequestProcessor.class.getName());
 
     /**
      * Parse property filter parameters from HttpRequest object.

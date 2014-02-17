@@ -15,10 +15,16 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
+import java.io.Serializable;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
-public class PaginationComponentHandlerCache extends BasicFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PaginationComponentHandlerCache.class);
+/**
+ * Class that handles the pagination cache in a request.
+ */
+@RequestScoped
+@Named("pch_cache")
+public class PaginationComponentHandlerCache implements Serializable {
 
     private Integer size;
     private PaginationContentProvider contentProvider;

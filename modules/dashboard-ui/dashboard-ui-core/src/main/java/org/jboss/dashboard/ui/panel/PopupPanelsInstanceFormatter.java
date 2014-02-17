@@ -25,25 +25,21 @@ import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.PanelInstance;
 
-
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PopupPanelsInstanceFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PopupPanelsInstanceFormatter.class.getName());
 
     public static int instancesInPage = 9;
     public static int truncateSize = 30;
 
+    @Inject
     private PopupPanelsHandler handler;
 
     public PopupPanelsHandler getHandler() {
         return handler;
-    }
-
-    public void setHandler(PopupPanelsHandler handler) {
-        this.handler = handler;
     }
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {

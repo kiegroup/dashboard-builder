@@ -16,13 +16,18 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.ui.controller.ControllerListener;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.ui.SessionManager;
+import org.jboss.dashboard.ui.components.ControllerStatus;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,75 +37,38 @@ import javax.servlet.http.HttpSessionBindingListener;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class SessionInitializer extends RequestChainProcessor {
+@ApplicationScoped
+public class SessionInitializer implements RequestChainProcessor {
 
-    private static transient Logger log = LoggerFactory.getLogger(SessionInitializer.class.getName());
-
-    /**
-     * Attributes to store in session
-     */
     private final static String SESSION_ATTRIBUTE_INITIALIZED = "controller.initialized";
-
-    /**
-     * Attributes to store in session
-     */
     private final static String SESSION_ATTRIBUTE_BIND_LISTENER = "controller.bind.listener";
 
-    private ControllerListener[] listeners;
-    private String expiredUrl = "/expired.jsp";
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("/expired.jsp")
+    private String expiredUrl;
+
+    @Inject @Config("/expired.jsp")
     private boolean performExpiredRecovery = true;
+
+    @Inject
     private NavigationCookieProcessor navigationCookieProcessor;
-
-    public NavigationCookieProcessor getNavigationCookieProcessor() {
-        return navigationCookieProcessor;
-    }
-
-    public void setNavigationCookieProcessor(NavigationCookieProcessor navigationCookieProcessor) {
-        this.navigationCookieProcessor = navigationCookieProcessor;
-    }
-
-    public boolean isPerformExpiredRecovery() {
-        return performExpiredRecovery;
-    }
-
-    public void setPerformExpiredRecovery(boolean performExpiredRecovery) {
-        this.performExpiredRecovery = performExpiredRecovery;
-    }
-
-    public String getExpiredUrl() {
-        return expiredUrl;
-    }
-
-    public void setExpiredUrl(String expiredUrl) {
-        this.expiredUrl = expiredUrl;
-    }
-
-    public ControllerListener[] getListeners() {
-        return listeners;
-    }
-
-    public void setListeners(ControllerListener[] listeners) {
-        this.listeners = listeners;
-    }
 
     public static boolean isNewSession(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         return !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
     }
 
-    /**
-     * Make required processing of request.
-     *
-     * @return true if processing must continue, false otherwise.
-     */
-    protected boolean processRequest() throws Exception {
-        // Retrieve session
-        HttpSession session = getRequest().getSession(true);
-        if (isNewSession(getRequest())) initSession();
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        HttpServletResponse response = req.getResponseObject();
+        HttpSession session = request.getSession(true);
+        if (isNewSession(request)) initSession(request, response);
 
         // Check session expiration
-        if (getRequest().getRequestedSessionId() != null && !getRequest().getRequestedSessionId().equals(session.getId())) {
-            return handleExpiration();
+        if (request.getRequestedSessionId() != null && !request.getRequestedSessionId().equals(session.getId())) {
+            return handleExpiration(request, response);
         }
 
         // Verify session integrity
@@ -115,29 +83,24 @@ public class SessionInitializer extends RequestChainProcessor {
      * Called when a new session is created. Its default behaviour is notifying
      * the event to all the listeners registered.
      */
-    protected void initSession() {
+    protected void initSession(HttpServletRequest request, HttpServletResponse response) {
         log.debug("New session created. Firing event");
-        for (int i = 0; i < listeners.length; i++) {
-            ControllerListener listener = listeners[i];
-            listener.initSession(getRequest(), getResponse());
-        }
+        SessionManager.lookup().initSession(request, response);
+
         // Catch the user preferred language.
-        PreferredLocale preferredLocale =  getPreferredLocale(getRequest());
+        PreferredLocale preferredLocale =  getPreferredLocale(request);
         LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
 
         // Store a HttpBindingListener object to detect session expiration
-        getRequest().getSession().setAttribute(SESSION_ATTRIBUTE_BIND_LISTENER, new HttpSessionBindingListener() {
+        request.getSession().setAttribute(SESSION_ATTRIBUTE_BIND_LISTENER, new HttpSessionBindingListener() {
             public void valueBound(HttpSessionBindingEvent httpSessionBindingEvent) {
             }
 
             public void valueUnbound(HttpSessionBindingEvent httpSessionBindingEvent) {
-                for (int i = 0; i < listeners.length; i++) {
-                    ControllerListener listener = listeners[i];
-                    listener.expireSession(httpSessionBindingEvent.getSession());
-                }
+                SessionManager.lookup().expireSession(httpSessionBindingEvent.getSession());
             }
         });
-        getRequest().getSession().setAttribute(SESSION_ATTRIBUTE_INITIALIZED, "true");
+        request.getSession().setAttribute(SESSION_ATTRIBUTE_INITIALIZED, "true");
     }
 
     /**
@@ -158,47 +121,45 @@ public class SessionInitializer extends RequestChainProcessor {
      *
      * @return false to halt processing
      */
-    protected boolean handleExpiration() {
+    protected boolean handleExpiration(HttpServletRequest request, HttpServletResponse response) {
         log.debug("Session expiration detected.");
-        if (isPerformExpiredRecovery()) {
-            //Forward to the same uri, ignoring the request parameters
-            handleExpirationRecovery();
+        ControllerStatus controllerStatus = ControllerStatus.lookup();
+        if (performExpiredRecovery) {
+            // Forward to the same uri, ignoring the request parameters
+            controllerStatus.setResponse(new RedirectToURLResponse(getExpirationRecoveryURL(request)));
+
         } else {
             if (expiredUrl != null) {
-                getControllerStatus().setResponse(new ShowScreenResponse(expiredUrl));
+                controllerStatus.setResponse(new ShowScreenResponse(expiredUrl));
             } else {
                 try {
-                    getResponse().sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
+                    response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
                 } catch (java.io.IOException e) {
                     log.error("I can't handle so many errors in a nice way", e);
                 }
             }
         }
-        getControllerStatus().consumeURIPart(getControllerStatus().getURIToBeConsumed());
+        controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
         return false;
     }
 
-    protected void handleExpirationRecovery() {
-        getControllerStatus().setResponse(new RedirectToURLResponse(getExpirationRecoveryURL()));
-    }
-
-    protected String getExpirationRecoveryURL() {
+    protected String getExpirationRecoveryURL(HttpServletRequest request) {
         //Parse cookie
-        String[] cookieValues = getParsedNavigationCookieValues(getNavigationCookieValue());
-        String defaultUrl = StringUtils.defaultString(getRequest().getRequestURI());
+        String[] cookieValues = getParsedNavigationCookieValues(getNavigationCookieValue(request));
+        String defaultUrl = StringUtils.defaultString(request.getRequestURI());
 
         if (cookieValues == null) { // No cookie => Nothing to do!
             return defaultUrl;
         }
 
         String lang = cookieValues[0];
-        String sectionURL = String.valueOf(Long.parseLong(cookieValues[1], getNavigationCookieProcessor().getIdsRadix()));
+        String sectionURL = String.valueOf(Long.parseLong(cookieValues[1], navigationCookieProcessor.getIdsRadix()));
         String workspaceURL = cookieValues[2];
 
         // Set the lang
         LocaleManager.lookup().setCurrentLang(lang);
 
-        String contextPath = StringUtils.defaultString(getRequest().getContextPath());
+        String contextPath = StringUtils.defaultString(request.getContextPath());
         while (contextPath.endsWith("/"))
             contextPath = contextPath.substring(0, contextPath.length() - 1);
 
@@ -207,15 +168,15 @@ public class SessionInitializer extends RequestChainProcessor {
             defaultUrl = contextPath + FriendlyUrlProcessor.FRIENDLY_MAPPING + "/" + workspaceURL + "/" + sectionURL;
         }
 
-        return defaultUrl + "?" + getRequest().getQueryString();
+        return defaultUrl + "?" + request.getQueryString();
     }
 
-    protected String getNavigationCookieValue() {
-        Cookie[] cookies = getRequest().getCookies();
+    protected String getNavigationCookieValue(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
         if (cookies != null)
             for (int i = 0; i < cookies.length; i++) {
                 Cookie cookie = cookies[i];
-                if (getNavigationCookieProcessor().getCookieName().equals(cookie.getName())) {
+                if (navigationCookieProcessor.getCookieName().equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }
@@ -227,7 +188,7 @@ public class SessionInitializer extends RequestChainProcessor {
             return null;
         String[] s = new String[3];
         int index = 0;
-        StringTokenizer strtk = new StringTokenizer(cookieValue, getNavigationCookieProcessor().getCookieSeparator());
+        StringTokenizer strtk = new StringTokenizer(cookieValue, navigationCookieProcessor.getCookieSeparator());
         while (strtk.hasMoreTokens() && index < s.length) {
             s[index++] = strtk.nextToken();
         }

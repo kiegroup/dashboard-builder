@@ -16,7 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.ui.panel.PanelDriver;

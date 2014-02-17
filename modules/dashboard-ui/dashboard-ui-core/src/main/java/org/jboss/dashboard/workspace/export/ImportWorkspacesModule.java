@@ -16,7 +16,7 @@
 package org.jboss.dashboard.workspace.export;
 
 import org.jboss.dashboard.Application;
-import org.jboss.dashboard.factory.InitialModule;
+import org.jboss.dashboard.initialModule.InitialModule;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
 import org.slf4j.Logger;

@@ -15,45 +15,44 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancesPropertiesHandler;
 import org.jboss.dashboard.workspace.PanelsProvidersManager;
-import org.jboss.dashboard.workspace.PanelsProvidersManager;
-import org.jboss.dashboard.workspace.WorkspacesManager;
-import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.inject.Inject;
 
 public class PanelInstancesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesNode.class.getName());
 
-    private WorkspacesManager workspacesManager;
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelInstancesPropertiesHandler handler;
+
+    @Inject
+    private PanelsProvidersManager panelsProvidersManager;
 
     public PanelInstancesPropertiesHandler getHandler() {
         return handler;
     }
 
-    public void setHandler(PanelInstancesPropertiesHandler handler) {
-        this.handler = handler;
-    }
-
     public PanelsProvidersManager getPanelsProvidersManager() {
-        return UIServices.lookup().getPanelsProvidersManager();
+        return panelsProvidersManager;
     }
 
-    public WorkspacesManager getWorkspacesManager() {
-        return workspacesManager;
+    public String getId() {
+        return "panelInstances";
     }
 
-    public void setWorkspacesManager(WorkspacesManager workspacesManager) {
-        this.workspacesManager = workspacesManager;
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
     }
 
     protected List listChildren() {
@@ -86,7 +85,7 @@ public class PanelInstancesNode extends AbstractNode {
     }
 
     protected PanelInstancesProvidersNode getNewPanelInstanceProvidersNode(String provider) {
-        PanelInstancesProvidersNode node = (PanelInstancesProvidersNode) Factory.lookup(PanelInstancesProvidersNode.class.getName());
+        PanelInstancesProvidersNode node = CDIBeanLocator.getBeanByType(PanelInstancesProvidersNode.class);
         node.setProviderId(provider);
         node.setProviderName(getPanelsProvidersManager().getGroupDisplayName(provider, SessionManager.getCurrentLocale()));
         node.setParent(this);
@@ -94,14 +93,10 @@ public class PanelInstancesNode extends AbstractNode {
         return node;
     }
 
-    public String getId() {
-        return "panelInstances";
-    }
-
     public boolean onEdit() {
         WorkspaceNode parent = (WorkspaceNode) getParent();
         try {
-            handler.workspaceId = parent.getWorkspace().getId();
+            handler.setWorkspaceId(parent.getWorkspace().getId());
         } catch (Exception e) {
             log.error("Error:", e);
         }

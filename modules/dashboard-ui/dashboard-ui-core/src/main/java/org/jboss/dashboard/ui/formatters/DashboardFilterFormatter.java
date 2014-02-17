@@ -25,9 +25,11 @@ import org.jboss.dashboard.ui.components.DashboardFilterHandler;
 import org.jboss.dashboard.ui.components.DashboardFilterProperty;
 import org.jboss.dashboard.provider.DataProvider;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -35,7 +37,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardFilterFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardFilterFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     public static final String PARAM_RENDER_TYPE = "renderType";
     public static final String PARAM_COMPONENT_CODE = "componentCode";
@@ -45,12 +49,8 @@ public class DashboardFilterFormatter extends Formatter {
 
     protected static final String I18N_BUNDLE_NAME = "org.jboss.dashboard.ui.components.filter.messages";
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public DashboardFilterFormatter() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public DashboardFilterHandler getDashboardFilterHandler() {
         return DashboardFilterHandler.lookup((String) getParameter(PARAM_COMPONENT_CODE));

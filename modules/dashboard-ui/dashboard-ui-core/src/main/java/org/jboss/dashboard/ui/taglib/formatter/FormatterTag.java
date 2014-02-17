@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.formatter;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
@@ -28,18 +28,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class FormatterTag extends BaseTag {
+
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FormatterTag.class.getName());
 
     public static final int STAGE_READING_PARAMS = 1;
     public static final int STAGE_RENDERING_FRAGMENTS = 2;
-
-    public static final String OUTPUT_MODE_REPLACE = "replace";
-    public static final String OUTPUT_MODE_ATTRIBUTE = "attribute";
 
     private int currentStage;
     private Formatter formatter;
@@ -98,19 +94,10 @@ public class FormatterTag extends BaseTag {
         if (name instanceof Formatter) {
             formatter = (Formatter) name;
         } else {
-            formatter = (Formatter) Factory.lookup(String.valueOf(name));
+            formatter = (Formatter) CDIBeanLocator.getBeanByNameOrType(String.valueOf(name));
         }
-        if (formatter == null)
-            try {
-                log.warn("Unable to locate formatter " + name + " in the Factory. Trying class name directly.");
-                Class formatterClass = Class.forName(String.valueOf(name));
-                Constructor constr = formatterClass.getConstructor(new Class[]{});
-                formatter = (Formatter) constr.newInstance(new Object[]{});
-            } catch (Exception e) {
-                throw new JspException(e);
-            }
         if (formatter == null) {
-            log.error("Unable to find formatter " + name + " in Factory or through class name. ");
+            log.error("Unable to find formatter @Named " + name + " or through class name. ");
             return SKIP_BODY;
         }
         formatter.setTag(this);
@@ -220,9 +207,8 @@ public class FormatterTag extends BaseTag {
         protected Map readableParams;
 
         public FormatterTrace(FormatterTag tag, PageContext pageContext) {
-            super(tag.formatter.getComponentName());
-            this.bean = tag.formatter.getComponentName();
-            this.scope = tag.formatter.getComponentScope();
+            super(tag.formatter.getClass().getName());
+            this.bean = tag.formatter.getClass().getName();
             this.jsp = calculateJSP(pageContext);
             begin();
             update(tag, null);

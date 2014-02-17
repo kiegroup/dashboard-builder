@@ -258,11 +258,14 @@ public class WorkspacesManager {
         txFragment.execute();
     }
 
-    public Set getAllWorkspacesIdentifiers() throws Exception {
-        Set s = new TreeSet();
+    /**
+     * @return sorted list of workspace identifiers
+     * @throws Exception
+     */
+    public Set<String> getAllWorkspacesIdentifiers() throws Exception {
+        Set<String> s = new TreeSet<String>();
         WorkspaceImpl[] workspaces = getWorkspaces();
-        for (int i = 0; i < workspaces.length; i++) {
-            WorkspaceImpl workspace = workspaces[i];
+        for (WorkspaceImpl workspace : workspaces) {
             s.add(workspace.getId());
         }
         return s;
@@ -274,17 +277,16 @@ public class WorkspacesManager {
      * @deprecated Workspaces manager shouldn't be aware of current user status.
      */
     public synchronized Set getAvailableWorkspacesIds() throws Exception {
-        Set workspacesIds = getAllWorkspacesIdentifiers();
+        Set<String> workspacesIds = getAllWorkspacesIdentifiers();
         Set userWorkspacesIds = new HashSet();
         log.debug("Getting available workspace ids for current user.");
         UserStatus userStatus = UserStatus.lookup();
-        for (Iterator iterator = workspacesIds.iterator(); iterator.hasNext();) {
-            String id = (String) iterator.next();
-            log.debug("   Checking workspace " + id);
-            WorkspaceImpl p = (WorkspaceImpl) getWorkspace(id);
+        for (String wsId : workspacesIds) {
+            log.debug("   Checking workspace " + wsId);
+            WorkspaceImpl p = (WorkspaceImpl) getWorkspace(wsId);
             WorkspacePermission perm = WorkspacePermission.newInstance(p, WorkspacePermission.ACTION_LOGIN);
             if (p != null && userStatus.hasPermission(perm)) {
-                userWorkspacesIds.add(id);
+                userWorkspacesIds.add(wsId);
             }
         }
         return userWorkspacesIds;

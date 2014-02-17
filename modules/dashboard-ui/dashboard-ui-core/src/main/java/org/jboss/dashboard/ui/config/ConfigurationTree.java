@@ -15,31 +15,28 @@
  */
 package org.jboss.dashboard.ui.config;
 
+import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.treeNodes.RootNode;
 
-public class ConfigurationTree extends AbstractTree {
+@SessionScoped
+public class ConfigurationTree extends AbstractTree implements Serializable {
 
-    private RootNode[] rootNodeArray;
+    @Inject
+    private RootNode rootNode;
 
-    public RootNode[] getRootNodeArray() {
-        return rootNodeArray;
-    }
+    private RootNode[] mainNodes;
 
-    public void setRootNodeArray(RootNode[] rootNodeArray) {
-        this.rootNodeArray = rootNodeArray;
-    }
-
-    public void start() throws Exception {
-        super.start();
-        if (rootNodeArray != null) {
-            for (int i = 0; i < rootNodeArray.length; i++) {
-                RootNode rootNode = rootNodeArray[i];
-                rootNode.setTree(this);
-            }
-        }
+    @PostConstruct
+    public void init() throws Exception {
+        rootNode.setTree(this);
+        mainNodes = new RootNode[] {rootNode};
     }
 
     public TreeNode[] getMainNodes() {
-        return rootNodeArray;
+        return mainNodes;
     }
 }

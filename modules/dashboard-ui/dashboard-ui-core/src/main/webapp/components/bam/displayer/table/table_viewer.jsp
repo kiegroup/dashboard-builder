@@ -17,11 +17,11 @@
 --%>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableViewer" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableHandler" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%
-    TableViewer tableViewer = (TableViewer) Factory.lookup("org.jboss.dashboard.ui.components.TableViewer_default");
+    TableViewer tableViewer = CDIBeanLocator.getBeanByType(TableViewer.class);
     TableHandler tableHandler = tableViewer.getTableHandler();
     request.setAttribute("tableHandler", tableHandler);
 %>

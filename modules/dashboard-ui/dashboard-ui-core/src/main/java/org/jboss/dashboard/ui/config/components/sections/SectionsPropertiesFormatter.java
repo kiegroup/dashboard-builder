@@ -25,15 +25,21 @@ import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class SectionsPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsPropertiesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionsPropertiesHandler sectionsPropertiesHandler;
+
     private List pageTitles = new ArrayList();
     private List pageIds = new ArrayList();
 

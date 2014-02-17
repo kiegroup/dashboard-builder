@@ -26,14 +26,19 @@ import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Skin;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class WorkspacePropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePropertiesFormatter.class.getName());
 
+    @Inject
+    protected transient Logger log;
+
+    @Inject
     private WorkspacePropertiesHandler workspacePropertiesHandler;
 
     public WorkspacePropertiesHandler getWorkspacePropertiesHandler() {

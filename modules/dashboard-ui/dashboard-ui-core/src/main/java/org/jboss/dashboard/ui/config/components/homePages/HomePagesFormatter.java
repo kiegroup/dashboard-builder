@@ -22,14 +22,19 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.users.Role;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 public class HomePagesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HomePagesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private HomePagesHandler homePagesHandler;
 
     public HomePagesHandler getHomePagesHandler() {

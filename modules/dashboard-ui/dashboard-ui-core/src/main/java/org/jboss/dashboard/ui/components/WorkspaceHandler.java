@@ -27,12 +27,13 @@ import org.jboss.dashboard.users.UserStatus;
 
 import java.util.Iterator;
 import java.util.Map;
+import javax.enterprise.context.RequestScoped;
 
-public class WorkspaceHandler extends HandlerFactoryElement {
+@RequestScoped
+public class WorkspaceHandler extends BeanHandler {
 
     private String workspaceId;
     private String operationName;
-    private NavigationManager navigationManager;
 
     public CopyManager getCopyManager() {
         return UIServices.lookup().getCopyManager();
@@ -43,11 +44,7 @@ public class WorkspaceHandler extends HandlerFactoryElement {
     }
 
     public NavigationManager getNavigationManager() {
-        return navigationManager;
-    }
-
-    public void setNavigationManager(NavigationManager navigationManager) {
-        this.navigationManager = navigationManager;
+        return NavigationManager.lookup();
     }
 
     public String getWorkspaceId() {

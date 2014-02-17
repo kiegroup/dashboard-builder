@@ -15,9 +15,8 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.Application;
-import org.jboss.dashboard.factory.Component;
-import org.jboss.dashboard.factory.ComponentsTree;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.commons.misc.ReflectionUtils;
 
 import javax.servlet.jsp.JspException;
 
@@ -40,13 +39,12 @@ public class SetPropertyTag extends GenericFactoryTag {
      */
     public int doEndTag() throws JspException {
         String beanName = getBean();
-        ComponentsTree componentsTree = Application.lookup().getGlobalFactory().getTree();
-        Component component = componentsTree.getComponent(beanName);
-        if (component == null) {
+        Object bean = CDIBeanLocator.getBeanByNameOrType(beanName);
+        if (bean == null) {
             log.error("Cannot write to component " + beanName + " as it doesn't exist.");
         } else {
             try {
-                component.setProperty(getProperty(), new String[]{getPropValue()});
+                ReflectionUtils.parseAndSetFieldValue(bean, getProperty(), getPropValue());
             } catch (Exception e) {
                 handleError(e);
             }

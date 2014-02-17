@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.config.formatters;
 
+import org.jboss.dashboard.ui.config.ConfigurationTree;
+import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
@@ -24,33 +26,21 @@ import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ConfigurationPageFormatter extends Formatter {
 
-    private TreeStatus treeStatus;
-    private Tree tree;
+    @Inject
+    private ConfigurationTree tree;
 
-    public TreeStatus getTreeStatus() {
-        return treeStatus;
-    }
-
-    public void setTreeStatus(TreeStatus treeStatus) {
-        this.treeStatus = treeStatus;
-    }
-
-    public Tree getTree() {
-        return tree;
-    }
-
-    public void setTree(Tree tree) {
-        this.tree = tree;
-    }
+    @Inject
+    private ConfigurationTreeStatus treeStatus;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         if (!UserStatus.lookup().isAnonymous()) {
-            TreeNode editedNode = getTreeStatus().getLastEditedNode(getTree());
+            TreeNode editedNode = treeStatus.getLastEditedNode(tree);
             if (editedNode != null) {
                 setAttribute("editPage", editedNode.getEditURI());
                 setAttribute("description", StringEscapeUtils.escapeHtml(editedNode.getDescription(getLocale())));

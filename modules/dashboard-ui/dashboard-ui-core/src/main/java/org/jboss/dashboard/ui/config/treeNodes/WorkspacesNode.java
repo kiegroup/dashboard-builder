@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
@@ -23,13 +23,18 @@ import org.jboss.dashboard.ui.config.components.workspace.WorkspacesPropertiesHa
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.inject.Inject;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
 public class WorkspacesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private WorkspacesPropertiesHandler workspacesPropertiesHandler;
 
     public WorkspacesPropertiesHandler getWorkspacesPropertiesHandler() {
@@ -42,12 +47,11 @@ public class WorkspacesNode extends AbstractNode {
 
     protected List listChildren() {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            TreeSet sortedWorkspaceIds = new TreeSet(workspaceIds);
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers(); //already returns TreeSet
             ArrayList list = new ArrayList();
-            for (Iterator iterator = sortedWorkspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            for (String wsId : workspaceIds) {
+                Workspace workspace = workspacesManager.getWorkspace(wsId);
                 WorkspacePermission viewPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 boolean canLogin = UserStatus.lookup().hasPermission(viewPerm);
                 if (canLogin)
@@ -62,11 +66,12 @@ public class WorkspacesNode extends AbstractNode {
 
     protected TreeNode listChildrenById(String id) {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                if (workspaceId.equals(id))
-                    return getNewWorkspaceNode(UIServices.lookup().getWorkspacesManager().getWorkspace(id));
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+            for (String wsId : workspaceIds) {
+                if (wsId.equals(id)) {
+                    return getNewWorkspaceNode(workspacesManager.getWorkspace(id));
+                }
             }
         } catch (Exception e) {
             log.error("Error: ", e);
@@ -84,7 +89,7 @@ public class WorkspacesNode extends AbstractNode {
     }
 
     protected WorkspaceNode getNewWorkspaceNode(Workspace workspace) {
-        WorkspaceNode sNode = (WorkspaceNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.WorkspaceNode");
+        WorkspaceNode sNode = CDIBeanLocator.getBeanByType(WorkspaceNode.class);
         sNode.setTree(getTree());
         sNode.setParent(this);
         sNode.setWorkspaceId(workspace.getId());
@@ -97,6 +102,10 @@ public class WorkspacesNode extends AbstractNode {
 
     public String getId() {
         return "workspaces";
+    }
+
+    public String getIconId() {
+        return "22x22/ico-menu_go-home.png";
     }
 
     public boolean onEdit() {

@@ -16,28 +16,45 @@
 package org.jboss.dashboard.ui.formatters;
 
 import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class MessagesComponentFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MessagesComponentFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private MessagesComponentHandler messagesComponentHandler;
 
+    @Inject @Config("5")
     private int maxVisibleErrors = 5;
 
+    @Inject @Config("general/32x32/info.gif")
     private String messagesImg;
+
+    @Inject @Config("general/32x32/warning.gif")
     private String warningsImg;
+
+    @Inject @Config("general/32x32/error.gif")
     private String errorsImg;
 
+    @Inject @Config("")
     private String classForMessages;
+
+    @Inject @Config("skn-error")
     private String classForWarnings;
+
+    @Inject @Config("skn-error")
     private String classForErrors;
 
     /** The locale manager. */

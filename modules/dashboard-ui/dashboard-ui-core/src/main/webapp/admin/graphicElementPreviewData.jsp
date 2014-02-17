@@ -21,10 +21,10 @@
                  org.jboss.dashboard.ui.resources.GraphicElementPreview,
                  java.lang.reflect.Method" %>
 <%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler"%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ page import="org.jboss.dashboard.workspace.WorkspaceImpl" %>
 <%@ page import="org.jboss.dashboard.workspace.GraphicElementManager" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -33,7 +33,7 @@
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
 <%
     try {
-        ResourcesPropertiesHandler handler = (ResourcesPropertiesHandler) Factory.lookup(ResourcesPropertiesHandler.class.getName());
+        ResourcesPropertiesHandler handler = CDIBeanLocator.getBeanByType(ResourcesPropertiesHandler.class);
         String resultMessage = null;
         String graphicElement = (String) request.getAttribute("graphicElement");
         String graphicElementClassName = graphicElement.substring(0, 1).toUpperCase() + graphicElement.substring(1);

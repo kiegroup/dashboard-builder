@@ -19,25 +19,33 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
 import org.hibernate.Session;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-public class WorkspacePropertiesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePropertiesHandler.class.getName());
+@SessionScoped
+@Named("workspacep_handler")
+public class WorkspacePropertiesHandler extends BeanHandler {
 
+    @Inject
+    protected transient Logger log;
+
+    @Inject
     private MessagesComponentHandler messagesComponentHandler;
+
     private String workspaceId;
     private Map name;
     private Map title;
@@ -181,17 +189,17 @@ public class WorkspacePropertiesHandler extends HandlerFactoryElement {
     protected boolean validate() {
         boolean valid = true;
         if (name == null || name.isEmpty()) {
-            addFieldError(new FactoryURL(getComponentName(), "name"), null, name);
+            addFieldError(new FactoryURL(getBeanName(), "name"), null, name);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
             valid = false;
         }
         if (title == null || title.isEmpty()) {
-            addFieldError(new FactoryURL(getComponentName(), "title"), null, title);
+            addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
             valid = false;
         }
         if (!isValidURL(url)) {
-            addFieldError(new FactoryURL(getComponentName(), "url"), null, url);
+            addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
             getMessagesComponentHandler().addError("ui.alert.workspaceErrors.url");
             valid = false;
         }

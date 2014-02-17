@@ -15,21 +15,23 @@
  */
 package org.jboss.dashboard.ui.components.export;
 
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.commons.message.AbstractMessage;
 import org.jboss.dashboard.commons.message.Message;
 import org.jboss.dashboard.commons.message.MessageList;
 import org.jboss.dashboard.export.ImportManager;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.ui.Dashboard;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
@@ -39,56 +41,63 @@ import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 /**
- * The export handler.
+ * KPI Import/Export handler
  */
-public class ExportHandler extends UIComponentHandlerFactoryElement {
-
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportHandler.class.getName());
+@PanelScoped
+public class ExportHandler extends UIBeanHandler {
 
     /**
      * Get the instance for the current session.
      */
     public static ExportHandler lookup() {
-        return (ExportHandler) Factory.lookup("org.jboss.dashboard.ui.components.ExportHandler");
+        return CDIBeanLocator.getBeanByType(ExportHandler.class);
     }
 
     public static final String MODE_EXPORT = "export";
     public static final String MODE_IMPORT = "import";
-
     public static final String PARAM_WORKSPACE_ID = "workspaceId";
     public static final String PARAM_SECTION_ID = "sectionId";
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private MessagesComponentHandler messagesHandler;
+
+    @Inject @Config("/components/bam/export/show.jsp")
     protected String componentIncludeJSP;
+
+    @Inject @Config("/components/bam/export/kpiImportResult.jsp")
     protected String kpiImportResultJSP;
+
+    @Inject
+    protected LocaleManager localeManager;
+
     protected String selectedWorkspaceId;
     protected Map<String,Set<Long>> selectedSectionIds = new HashMap<String,Set<Long>>();
     protected String mode;
 
     private String initJSP;
 
-    /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public ExportHandler() {
-        localeManager = LocaleManager.lookup();
-    }
-
-    @Override
+    @PostConstruct
     public void start() throws Exception {
         super.start();
-        this.initJSP = getComponentIncludeJSP();
+        this.initJSP = getBeanJSP();
     }
 
     // Accessors
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return componentIncludeJSP;
     }
 
@@ -290,7 +299,6 @@ public class ExportHandler extends UIComponentHandlerFactoryElement {
     }
 
     public CommandResponse actionImportKPIs(CommandRequest request) {
-        MessagesComponentHandler messagesHandler = (MessagesComponentHandler) Factory.lookup("org.jboss.dashboard.ui.components.MessagesComponentHandler");
         messagesHandler.clearAll();
         if (request.getUploadedFilesCount() > 0) {
             File file = (File) request.getFilesByParamName().get("importFile");

@@ -22,15 +22,19 @@ import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.PanelsProvidersManager;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PanelsTypesPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsTypesPropertiesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelsTypesPropertiesHandler panelsTypesPropertiesHandler;
 
     public WorkspacesManager getWorkspacesManager() {
@@ -81,7 +85,7 @@ public class PanelsTypesPropertiesFormatter extends Formatter {
             renderFragment("outputProvidersGroupsEnd");
             renderFragment("outputEnd");
         } catch (Exception e) {
-            PanelsTypesPropertiesFormatter.log.error("Error:", e);
+            log.error("Error:", e);
         }
     }
 }

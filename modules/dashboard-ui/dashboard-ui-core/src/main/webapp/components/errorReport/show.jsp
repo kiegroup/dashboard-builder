@@ -16,8 +16,8 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.ui.components.ErrorReportHandler" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
@@ -26,7 +26,7 @@
 <%
     ErrorReportHandler errorHandler = null;
     String errorHandlerName = (String) request.getAttribute("errorHandlerName");
-    if (errorHandlerName != null) errorHandler = (ErrorReportHandler) Factory.lookup(errorHandlerName);
+    if (errorHandlerName != null) errorHandler = (ErrorReportHandler) CDIBeanLocator.getBeanByNameOrType(errorHandlerName);
     else errorHandler = ErrorReportHandler.lookup();
 %>
 <mvc:formatter name="org.jboss.dashboard.error.ErrorReportFormatter">

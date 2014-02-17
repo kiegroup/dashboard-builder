@@ -22,13 +22,13 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ page import="org.jboss.dashboard.ui.components.chart.BarChartEditor"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.factory.Factory" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.BarChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    BarChartEditor editor = (BarChartEditor) Factory.lookup("org.jboss.dashboard.ui.components.BarChartEditor");
+    BarChartEditor editor = CDIBeanLocator.getBeanByType(BarChartEditor.class);
     request.setAttribute("editor", editor);
 
     BarChartDisplayer displayer = (BarChartDisplayer) editor.getDataDisplayer();
@@ -55,7 +55,7 @@
         </td>
         <td valign="top">
             <!-- Include the graphic -->            
-            <mvc:include page="<%= viewer.getComponentIncludeJSP() %>"/>
+            <mvc:include page="<%= viewer.getBeanJSP() %>"/>
         </td>
     </tr>
 </table>

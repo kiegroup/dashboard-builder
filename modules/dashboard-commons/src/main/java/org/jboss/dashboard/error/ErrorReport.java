@@ -16,7 +16,6 @@
 package org.jboss.dashboard.error;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.BasicFactoryElement;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.Profiler;
 
@@ -29,7 +28,7 @@ import java.util.ResourceBundle;
 /**
  * An error report.
  */
-public class ErrorReport extends BasicFactoryElement {
+public class ErrorReport {
 
     /** Get the last error happened within the current thread (if any). */
     public static ErrorReport getCurrentThreadError() {

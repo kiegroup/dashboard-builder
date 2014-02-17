@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.components.panelManagement;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.components.PanelComponent;
@@ -30,14 +29,12 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.slf4j.Logger;
 
 public abstract class PanelManagementPanel extends PanelComponent {
+
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
 
     private int width;
     private int height;
-
-    private String componentIncludeJSP;
-
     private String workspaceId;
     private Long panelInstanceId;
     private Long panelId;
@@ -87,8 +84,8 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     @Override
-    public void beforeRenderComponent() {
-        super.beforeRenderComponent();
+    public void beforeRenderBean() {
+        super.beforeRenderBean();
         try {
             RequestContext.getCurrentContext().getRequest().getRequestObject().setAttribute(Parameters.RENDER_PANEL, getPanel());
         } catch (Exception e) {
@@ -97,8 +94,8 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     @Override
-    public void afterRenderComponent() {
-        super.afterRenderComponent();
+    public void afterRenderBean() {
+        super.afterRenderBean();
         try {
             getPanel().getPanelSession().setAttribute(PanelDriver.PARAMETER_ACTION_EXECUTED_ENABLED, Boolean.TRUE);
         } catch (Exception e) {
@@ -143,14 +140,6 @@ public abstract class PanelManagementPanel extends PanelComponent {
         this.height = height;
     }
 
-    public String getComponentIncludeJSP() {
-        return componentIncludeJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
-    }
-
     public Long getPanelInstanceId() {
         return panelInstanceId;
     }
@@ -172,6 +161,6 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     public ModalDialogComponent getModalDialogComponent() {
-        return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+        return ModalDialogComponent.lookup();
     }
 }

@@ -15,6 +15,10 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.NavigationManager;
@@ -22,11 +26,13 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
-public class SectionsHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsHandler.class.getName());
+@ApplicationScoped
+@Named("sections_handler")
+public class SectionsHandler extends BeanHandler {
+    @Inject
+    private transient Logger log;
 
     private String operationName;
 

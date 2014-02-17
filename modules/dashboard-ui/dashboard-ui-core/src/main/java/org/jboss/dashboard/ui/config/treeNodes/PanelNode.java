@@ -23,16 +23,37 @@ import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstanceHandl
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 public class PanelNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelNode.class.getName());
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    private PanelInstanceHandler instanceHandler;
+
+    @Inject
+    private PanelPermissionsNode panelPermissionsNode;
+
+    @Inject
+    private PanelAllPropertiesNode panelAllPropertiesNode;
+
+    @Inject
+    private PanelI18nPropertiesNode panelI18nPropertiesNode;
 
     private String workspaceId;
     private Long sectionId;
     private Long panelId;
-    private PanelInstanceHandler instanceHandler;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {panelPermissionsNode, panelAllPropertiesNode, panelI18nPropertiesNode});
+    }
 
     public String getWorkspaceId() {
         return workspaceId;
@@ -60,6 +81,10 @@ public class PanelNode extends AbstractNode {
 
     public String getId() {
         return sectionId.toString() + "_" + panelId.toString();
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_panel.png";
     }
 
     public PanelInstanceHandler getInstanceHandler() {

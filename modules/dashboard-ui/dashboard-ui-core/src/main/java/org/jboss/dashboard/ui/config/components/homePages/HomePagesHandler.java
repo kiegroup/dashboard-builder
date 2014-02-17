@@ -17,22 +17,30 @@ package org.jboss.dashboard.ui.config.components.homePages;
 
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.users.Role;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.hibernate.Session;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceHome;
+import org.slf4j.Logger;
 
-public class HomePagesHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HomePagesHandler.class.getName());
+@SessionScoped
+@Named("homep_handler")
+public class HomePagesHandler extends BeanHandler {
+
+    @Inject
+    private transient Logger log;
 
     private String workspaceId;
 

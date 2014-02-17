@@ -15,22 +15,24 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandler;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.users.UserStatus;
+import org.slf4j.Logger;
 
 public class PanelPermissionsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelPermissionsNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
 
     public PermissionsPropertiesHandler getPermissionsPropertiesHandler() {
         return permissionsPropertiesHandler;
-    }
-
-    public void setPermissionsPropertiesHandler(PermissionsPropertiesHandler permissionsPropertiesHandler) {
-        this.permissionsPropertiesHandler = permissionsPropertiesHandler;
     }
 
     public boolean isEditable() {
@@ -46,6 +48,14 @@ public class PanelPermissionsNode extends AbstractNode {
 
     public String getId() {
         return "permissions";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_permission.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
     }
 
     public boolean onEdit() {

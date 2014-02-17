@@ -40,11 +40,7 @@
             <font class="skn-error"><i18n:message key="ui.panel.notWellConfigured"/></font>
             <br></center><br>
     </mvc:fragment>
-    <mvc:fragment name="outputNotRegistered">
-        <center><br>
-            <font class="skn-error"><i18n:message key="ui.panel.notLicensed"/></font>
-            <br></center><br>
-    </mvc:fragment>
+
     <mvc:fragment name="output">
     <mvc:fragmentValue name="jsp" id="jsp">
         <mvc:include page="/common/panels/commonRefreshFormPanels.jsp"/>

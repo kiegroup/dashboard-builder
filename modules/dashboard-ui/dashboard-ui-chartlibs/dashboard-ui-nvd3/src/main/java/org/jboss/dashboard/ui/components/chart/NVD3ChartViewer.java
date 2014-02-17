@@ -29,9 +29,7 @@ import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NVD3ChartViewer extends DataDisplayerViewer {
-
-    private static transient Logger log = LoggerFactory.getLogger(NVD3ChartViewer.class.getName());
+public abstract class NVD3ChartViewer extends DataDisplayerViewer {
 
     public static final String PARAM_ACTION = "applyLink";
     public static final String PARAM_NSERIE = "serie";

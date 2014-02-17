@@ -15,17 +15,48 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
+import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.permissions.PermissionsPropertiesHandler;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
 public class WorkspacePermissionsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacePermissionsNode.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PermissionsPropertiesHandler permissionsPropertiesHandler;
+
+    @Inject
+    private AllSectionsPermissionsNode allSectionsPermissionsNode;
+
+    @Inject
+    private AllPanelsPermissionsNode allPanelsPermissionsNode;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {allSectionsPermissionsNode, allPanelsPermissionsNode});
+    }
+
+    public String getId() {
+        return "permissions";
+    }
+
+    public String getIconId() {
+        return "16x16/ico-menu_permission.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
+    }
 
     public PermissionsPropertiesHandler getPermissionsPropertiesHandler() {
         return permissionsPropertiesHandler;
@@ -50,10 +81,6 @@ public class WorkspacePermissionsNode extends AbstractNode {
 
     public boolean isExpandible() {
         return super.isExpandible() && isEditable();
-    }
-
-    public String getId() {
-        return "permissions";
     }
 
     public boolean onEdit() {

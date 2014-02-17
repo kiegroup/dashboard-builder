@@ -18,12 +18,11 @@ package org.jboss.dashboard.kpi;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.Application;
-import org.jboss.dashboard.factory.InitialModule;
+import org.jboss.dashboard.initialModule.InitialModule;
 import org.jboss.dashboard.export.ImportManager;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.commons.message.Message;
 import org.jboss.dashboard.commons.message.MessageList;
-
 
 import java.io.File;
 import java.io.FileInputStream;

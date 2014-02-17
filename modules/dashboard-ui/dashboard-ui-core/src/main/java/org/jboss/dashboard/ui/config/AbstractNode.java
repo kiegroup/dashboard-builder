@@ -16,29 +16,27 @@
 package org.jboss.dashboard.ui.config;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.BasicFactoryElement;
+
+import java.io.Serializable;
 import java.util.*;
+import javax.inject.Inject;
 
-public abstract class AbstractNode extends BasicFactoryElement implements TreeNode {
+public abstract class AbstractNode implements TreeNode, Serializable {
 
-    private TreeNode[] subnodes;
-    private TreeNode parent;
-    private Tree tree;
-    private String iconId = null;
-    private String iconCategory = "config";
-    private String editURI = "/configuration/tree/editPages/" + this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1) + "Edit.jsp";
-    private boolean editURIAjaxCompatible = true;
-    private String getUriType = "JSP";
-    private boolean last = false;
-    private boolean editable = true;
-    private boolean expandible = true;
+    protected TreeNode[] subnodes;
+    protected TreeNode parent;
+    protected Tree tree;
+    protected String iconId = null;
+    protected String iconCategory = "config";
+    protected String editURI = "/configuration/tree/editPages/" + this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".") + 1) + "Edit.jsp";
+    protected boolean editURIAjaxCompatible = true;
+    protected String getUriType = "JSP";
+    protected boolean last = false;
+    protected boolean editable = true;
+    protected boolean expandible = true;
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    protected AbstractNode() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public boolean isEditable() {
         return editable;

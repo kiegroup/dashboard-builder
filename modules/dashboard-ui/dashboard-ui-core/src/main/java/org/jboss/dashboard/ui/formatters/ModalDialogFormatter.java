@@ -15,21 +15,30 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import java.io.Serializable;
+
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.components.PanelComponent;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  * Renders the Modal Components
  */
-public class ModalDialogFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ModalDialogFormatter.class.getName());
+@SessionScoped
+public class ModalDialogFormatter extends Formatter implements Serializable {
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private ModalDialogComponent modalDialogComponent;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
@@ -50,7 +59,7 @@ public class ModalDialogFormatter extends Formatter {
             setAttribute("isDraggable", modalDialogComponent.isDraggable());
             renderFragment("outputHead");
 
-            setAttribute("componentName", modalDialogComponent.getCurrentComponent().getName());
+            setAttribute("componentName", modalDialogComponent.getCurrentComponent().getBeanName());
             renderFragment("output");
 
             setAttribute("isModal", modalDialogComponent.isModal());

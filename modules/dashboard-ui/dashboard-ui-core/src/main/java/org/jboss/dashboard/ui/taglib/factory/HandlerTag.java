@@ -15,20 +15,17 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.components.HandlerMarkupGenerator;
 
 import javax.servlet.jsp.JspTagException;
 
-
 public class HandlerTag extends GenericFactoryTag {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HandlerTag.class.getName());
 
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        HandlerMarkupGenerator markupGenerator = (HandlerMarkupGenerator) Factory.lookup("org.jboss.dashboard.ui.components.HandlerMarkupGenerator");
+        HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
         String textToWrite = markupGenerator.getMarkup(getBean(), getAction());
         try {
             pageContext.getOut().print(textToWrite);

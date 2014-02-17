@@ -20,12 +20,19 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Panel;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Formatter that renders the simple version of panel rendering, with menu.
+ */
 public class RenderRegionFormatter extends RegionFormatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RenderRegionFormatter.class.getName());
+
+    @Inject
+    private transient Logger log;
 
     /**
      * Perform the required logic for this Formatter. Inside, the methods

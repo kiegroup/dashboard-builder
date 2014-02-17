@@ -18,8 +18,6 @@ package org.jboss.dashboard;
 import org.jboss.dashboard.annotation.DestroyableProcessor;
 import org.jboss.dashboard.annotation.StartableProcessor;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -36,7 +34,7 @@ import java.util.*;
 public class Application {
 
     public static Application lookup() {
-        return (Application) CDIBeanLocator.getBeanByType(Application.class);
+        return CDIBeanLocator.getBeanByType(Application.class);
     }
 
     @Inject
@@ -52,9 +50,7 @@ public class Application {
     protected String libDirectory = null;
     protected String baseCfgDirectory = null;
     protected String baseAppDirectory = null;
-
     protected transient Set<File> jarFiles = null;
-    protected transient Factory globalFactory = null;
 
     public String getBaseAppDirectory() {
         return baseAppDirectory;
@@ -80,21 +76,6 @@ public class Application {
         this.libDirectory = libDirectory;
     }
 
-    public Factory getGlobalFactory() {
-        return globalFactory;
-    }
-
-    public void setGlobalFactory(Factory globalFactory) {
-        if (this.globalFactory != null) {
-            Factory.doWork(new FactoryWork() {
-                public void doWork() {
-                    Application.this.globalFactory.destroy();
-                }
-            });
-        }
-        this.globalFactory = globalFactory;
-    }
-
     public boolean isUpAndRunning() {
         return upAndRunning;
     }
@@ -113,9 +94,6 @@ public class Application {
         destroyableProcessor.destroyBeans();
 
         setUpAndRunning(false);
-
-        // Destroy the Factory configuration.
-        setGlobalFactory(null);
     }
 
     public Set<File> getJarFiles() {

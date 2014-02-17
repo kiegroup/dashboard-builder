@@ -15,9 +15,27 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
+import org.jboss.dashboard.ui.config.TreeNode;
 
 public final class RootNode extends AbstractNode {
+
+    @Inject
+    private WorkspacesNode workspacesNode;
+
+    @Inject
+    private ResourcesNode resourcesNode;
+
+    @Inject
+    private GlobalPermissionsNode globalPermissionsNode;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {workspacesNode, resourcesNode, globalPermissionsNode});
+    }
 
     public String getId() {
         return "root";

@@ -16,26 +16,27 @@
 package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.ModalDialogComponent;
-import org.jboss.dashboard.ui.components.HandlerFactoryElement;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.hibernate.Session;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.workspace.*;
+import org.slf4j.Logger;
 
 import java.util.Locale;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+@ApplicationScoped
+public class PanelsHandler extends BeanHandler {
 
-public class PanelsHandler extends HandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelsHandler.class.getName());
+    @Inject
+    private transient Logger log;
 
     /**
      * Moves a panel to the specified region
@@ -248,6 +249,6 @@ public class PanelsHandler extends HandlerFactoryElement {
     }
 
     public ModalDialogComponent getModalDialogComponent() {
-        return (ModalDialogComponent) Factory.lookup("org.jboss.dashboard.ui.components.ModalDialogComponent");
+        return CDIBeanLocator.getBeanByType(ModalDialogComponent.class);
     }
 }

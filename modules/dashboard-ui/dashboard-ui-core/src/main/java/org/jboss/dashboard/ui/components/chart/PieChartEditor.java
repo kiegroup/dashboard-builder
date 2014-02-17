@@ -15,8 +15,19 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Named;
+
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor;
 
+/**
+ * Pie chart editor displayer configurator component.
+ */
+@PanelScoped
+@Named("piechart_editor")
 public class PieChartEditor extends AbstractChartDisplayerEditor {
 
+    public String getBeanJSP() {
+        return "/components/bam/displayer/chart/piechart_editor.jsp";
+    }
 }

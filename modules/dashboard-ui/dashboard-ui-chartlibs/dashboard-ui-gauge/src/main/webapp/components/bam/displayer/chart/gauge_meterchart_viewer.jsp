@@ -15,9 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.factory.Factory"%>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
-<%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.dataset.DataSet" %>
 <%@ page import="java.util.List" %>
@@ -31,6 +29,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="factory.tld" prefix="factory"%>
@@ -38,7 +37,7 @@
 <panel:defineObjects/>
 <%
     Locale locale = LocaleManager.currentLocale();
-    GaugeMeterChartViewer viewer = (GaugeMeterChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.MeterChartViewer_gauge");
+    GaugeMeterChartViewer viewer = CDIBeanLocator.getBeanByType(GaugeMeterChartViewer.class);
     MeterChartDisplayer displayer = (MeterChartDisplayer) viewer.getDataDisplayer();
     AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
 

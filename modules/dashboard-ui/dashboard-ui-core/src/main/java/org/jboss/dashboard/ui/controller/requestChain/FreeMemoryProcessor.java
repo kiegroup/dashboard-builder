@@ -15,7 +15,12 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.profiler.memory.MemoryProfiler;
+import org.jboss.dashboard.ui.components.ControllerStatus;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.SendErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,18 +28,21 @@ import org.slf4j.LoggerFactory;
 /**
  * Analyzes the memory available on every incoming request and it tries to free memory if required.
  */
-public class FreeMemoryProcessor extends RequestChainProcessor {
+@ApplicationScoped
+public class FreeMemoryProcessor implements RequestChainProcessor {
 
-    private static transient Logger log = LoggerFactory.getLogger(FreeMemoryProcessor.class.getName());
+    @Inject
+    private transient Logger log;
 
-    protected boolean processRequest() throws Exception {
+    public boolean processRequest(CommandRequest request) throws Exception {
         MemoryProfiler memoryProfiler = MemoryProfiler.lookup();
         if (memoryProfiler.isLowMemory()) {
             log.warn("Memory is running low ...");
             memoryProfiler.freeMemory();
             if (memoryProfiler.isLowMemory()) {
-                getControllerStatus().setResponse(new SendErrorResponse(503));
-                getControllerStatus().consumeURIPart(getControllerStatus().getURIToBeConsumed());
+                ControllerStatus controllerStatus = ControllerStatus.lookup();
+                controllerStatus.setResponse(new SendErrorResponse(503));
+                controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
                 log.error("Memory is so low that the request had to be canceled - 503 sent. Consider increasing the JVM memory.");
                 return false;
             }

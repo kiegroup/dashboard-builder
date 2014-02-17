@@ -15,15 +15,40 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.security.BackOfficePermission;
+import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.users.UserStatus;
 
 public class ResourcesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResourcesNode.class.getName());
+
+    @Inject
+    private SkinsNode skinsNode;
+
+    @Inject
+    private LayoutsNode layoutsNode;
+
+    @Inject
+    private EnvelopesNode envelopesNode;
+
+    @PostConstruct
+    protected void init() {
+        super.setSubnodes(new TreeNode[] {skinsNode, layoutsNode, envelopesNode});
+    }
 
     public String getId() {
         return "resources";
+    }
+
+    public String getIconId() {
+        return "22x22/ico-menu_resources.png";
+    }
+
+    public boolean isEditable() {
+        return false;
     }
 
     public boolean isExpandible() {

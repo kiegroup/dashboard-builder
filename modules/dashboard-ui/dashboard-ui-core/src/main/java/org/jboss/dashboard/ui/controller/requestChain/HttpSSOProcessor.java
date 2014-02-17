@@ -4,24 +4,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.dashboard.SecurityServices;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.users.Role;
 import org.jboss.dashboard.users.RolesManager;
 import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringUtils;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public class HttpSSOProcessor extends RequestChainProcessor {
+@ApplicationScoped
+public class HttpSSOProcessor implements RequestChainProcessor {
 
-    /**
-     * Make required processing of request.
-     *
-     * @return true if processing must continue, false otherwise.
-     */
-    @Override
-    protected boolean processRequest() throws Exception {
-        HttpServletRequest req = getRequest();
-        String login = req.getRemoteUser();
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        String login = request.getRemoteUser();
         UserStatus us = UserStatus.lookup();
 
         // Catch J2EE container login requests.
@@ -37,7 +35,7 @@ public class HttpSSOProcessor extends RequestChainProcessor {
                 Set<Role> roles = getRolesManager().getAllRoles();
                 for (Role role : roles) {
                     String roleId = role.getName();
-                    if (req.isUserInRole(roleId)) roleIds.add(roleId);
+                    if (request.isUserInRole(roleId)) roleIds.add(roleId);
                 }
                 us.initSession(login, roleIds);
             }

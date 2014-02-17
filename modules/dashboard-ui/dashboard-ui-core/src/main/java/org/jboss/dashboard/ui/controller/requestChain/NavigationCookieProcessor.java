@@ -16,20 +16,31 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
+import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Section;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-public class NavigationCookieProcessor extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NavigationCookieProcessor.class.getName());
+@ApplicationScoped
+public class NavigationCookieProcessor implements RequestChainProcessor {
 
-    private boolean useCookie = true;
-    private String cookieName = "dashbuilderNavigationPoint";
-    private String cookieSeparator = "-";
+    @Inject @Config("true")
+    private boolean useCookie;
+
+    @Inject @Config("dashbuilderNavigationPoint")
+    private String cookieName;
+
+    @Inject @Config("-")
+    private String cookieSeparator;
+
     private int idsRadix = Character.MAX_RADIX;
 
     public int getIdsRadix() {
@@ -68,7 +79,9 @@ public class NavigationCookieProcessor extends RequestChainProcessor {
         return NavigationManager.lookup();
     }
 
-    protected boolean processRequest() throws Exception {
+    public boolean processRequest(CommandRequest req) throws Exception {
+        HttpServletRequest request = req.getRequestObject();
+        HttpServletResponse response = req.getResponseObject();
         if (isUseCookie()) {
             Section section = getNavigationManager().getCurrentSection();
             if (section != null) {
@@ -77,8 +90,8 @@ public class NavigationCookieProcessor extends RequestChainProcessor {
                 sb.append(lang).append(cookieSeparator).append(Long.toString(section.getId().longValue(),idsRadix)).append(cookieSeparator);
                 sb.append(section.getWorkspace().getId());
                 Cookie navigationCookie = new Cookie(cookieName, sb.toString());
-                navigationCookie.setPath(StringUtils.defaultIfEmpty(getRequest().getContextPath(),"/"));
-                getResponse().addCookie(navigationCookie);
+                navigationCookie.setPath(StringUtils.defaultIfEmpty(request.getContextPath(),"/"));
+                response.addCookie(navigationCookie);
             }
         }
         return true;

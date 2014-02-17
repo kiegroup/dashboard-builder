@@ -31,15 +31,21 @@ import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class WorkspacesPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspacesPropertiesFormatter.class.getName());
 
+    @Inject
+    protected transient Logger log;
+
+    @Inject
     private WorkspacesPropertiesHandler workspacesPropertiesHandler;
 
     public UserStatus getUserStatus() {
@@ -61,7 +67,8 @@ public class WorkspacesPropertiesFormatter extends Formatter {
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             renderFragment("outputStart");
-            if (getWorkspacesManager().getAllWorkspacesIdentifiers().isEmpty()) {
+            Set<String> workspaceIds = getWorkspacesManager().getAllWorkspacesIdentifiers();
+            if (workspaceIds.isEmpty()) {
                 renderFragment("outputNoWorkspaces");
             } else {
                 renderFragment("outputStartRow");
@@ -73,9 +80,8 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 renderFragment("outputEndRow");
             }
             int n = 0;
-            for (Iterator it = getWorkspacesManager().getAllWorkspacesIdentifiers().iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
-                WorkspaceImpl workspace = (WorkspaceImpl) getWorkspacesManager().getWorkspace(workspaceId);
+            for (String wsId : workspaceIds) {
+                WorkspaceImpl workspace = (WorkspaceImpl) getWorkspacesManager().getWorkspace(wsId);
                 WorkspacePermission viewPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 if (workspace == null) continue;
                 if (!UserStatus.lookup().hasPermission(viewPerm)) continue;
@@ -84,7 +90,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 else estilo = "skn-even_row";
 
                 renderFragment("outputStartRow");
-                setAttribute("value", workspaceId);
+                setAttribute("value", wsId);
                 setAttribute("estilo", estilo);
 
                 WorkspacePermission deletePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_DELETE);
@@ -95,7 +101,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 renderFragment(canDelete ? "outputDelete" : "outputCantDelete");
 
                 setAttribute("value", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(workspace.getName())));
-                setAttribute("workspaceId", workspaceId);
+                setAttribute("workspaceId", wsId);
                 setAttribute("estilo", estilo);
 
                 WorkspacePermission editWorkspacePerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_EDIT);

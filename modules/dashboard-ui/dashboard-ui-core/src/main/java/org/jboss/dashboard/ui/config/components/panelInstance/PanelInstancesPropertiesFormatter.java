@@ -21,14 +21,19 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.workspace.*;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 public class PanelInstancesPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelInstancesPropertiesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private PanelInstancesPropertiesHandler handler;
 
     public WorkspacesManager getWorkspacesManager() {
@@ -54,7 +59,7 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
         renderFragment("outputEndRow");
         PanelInstance[] instances = null;
         try {
-            WorkspaceImpl workspace = ((WorkspaceImpl) getWorkspacesManager().getWorkspace(handler.workspaceId));
+            WorkspaceImpl workspace = ((WorkspaceImpl) getWorkspacesManager().getWorkspace(handler.getWorkspaceId()));
             instances = workspace.getPanelInstances();
             if (instances == null || instances.length == 0) {
                 renderFragment("outputStartRow");

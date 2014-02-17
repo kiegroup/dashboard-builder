@@ -17,8 +17,6 @@
 --%>
 <%@ page import="org.jboss.dashboard.profiler.Profiler" %>
 <%@ page import="org.jboss.dashboard.profiler.*" %>
-<%@ page import="org.jboss.dashboard.factory.ComponentsContextManager" %>
-<%@ page import="java.text.DateFormat" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.*" %>
 <%
@@ -40,160 +38,158 @@
 <body>
 <h2><a href="console.jsp">System</a>&nbsp;&gt;&nbsp;Thread Profiler</h2>
 <%
-    ComponentsContextManager.startContext();
-    try {
-        Profiler profiler = Profiler.lookup();
-        ThreadProfileFilter threadFilter = profiler.getCompletedThreadsFilter();
-        String sortProp = ThreadProfileComparator.BEGIN_DATE;
-        int sortOrder = ThreadProfileComparator.ORDER_DESCENDING;
-        boolean settingsOn = false;
-        boolean detailsOn = false;
-        boolean refreshOn = false;
-        String filterProp = threadFilter.getPropertyIds().length == 0 ? null : threadFilter.getPropertyIds()[0];
-        String filterValue = filterProp != null ? threadFilter.getExtraInfo(filterProp) : "";
-        List<String> allPropNamesSorted = new ArrayList(ThreadProfile.getAllContextPropertyNames());
-        Collections.sort(allPropNamesSorted);
+    Profiler profiler = Profiler.lookup();
+    ThreadProfileFilter threadFilter = profiler.getCompletedThreadsFilter();
+    String sortProp = ThreadProfileComparator.BEGIN_DATE;
+    int sortOrder = ThreadProfileComparator.ORDER_DESCENDING;
+    boolean settingsOn = false;
+    boolean detailsOn = false;
+    boolean refreshOn = false;
+    String filterProp = threadFilter.getPropertyIds().length == 0 ? null : threadFilter.getPropertyIds()[0];
+    String filterValue = filterProp != null ? threadFilter.getExtraInfo(filterProp) : "";
+    List<String> allPropNamesSorted = new ArrayList(ThreadProfile.getAllContextPropertyNames());
+    Collections.sort(allPropNamesSorted);
 
-        // Get properties status from session
-        String sortPropParam = (String) session.getAttribute("tc_sortProperty");
-        Integer sortOrderParam = (Integer) session.getAttribute("tc_sortOrder");
-        String settingsOnParam = (String) session.getAttribute("tc_settingsOn");
-        String detailsOnParam = (String) session.getAttribute("tc_detailsOn");
-        String refreshOnParam = (String) session.getAttribute("tc_refreshOn");
-        if (sortPropParam != null) sortProp = sortPropParam;
-        if (sortOrderParam != null) sortOrder = sortOrderParam;
-        if (detailsOnParam != null) detailsOn = true;
-        if (refreshOnParam != null) refreshOn = true;
-        if (settingsOnParam != null) settingsOn = true;
+    // Get properties status from session
+    String sortPropParam = (String) session.getAttribute("tc_sortProperty");
+    Integer sortOrderParam = (Integer) session.getAttribute("tc_sortOrder");
+    String settingsOnParam = (String) session.getAttribute("tc_settingsOn");
+    String detailsOnParam = (String) session.getAttribute("tc_detailsOn");
+    String refreshOnParam = (String) session.getAttribute("tc_refreshOn");
+    if (sortPropParam != null) sortProp = sortPropParam;
+    if (sortOrderParam != null) sortOrder = sortOrderParam;
+    if (detailsOnParam != null) detailsOn = true;
+    if (refreshOnParam != null) refreshOn = true;
+    if (settingsOnParam != null) settingsOn = true;
 
-        // Process request
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("removeAll")) {
-                profiler.removeAllThreads();
-            }
-            if (action.equals("removeSelected")) {
-                for (ThreadProfile tp : profiler.getCompletedThreads()) {
-                    boolean isSelected = Boolean.valueOf(request.getParameter("selectThread_" + tp.hashCode()));
-                    if (isSelected) profiler.removeThread(tp);
-                }
-            }
-            if (action.equals("viewMixedLogs")) {
-                Set<ThreadProfile> mixedLogThreads = new HashSet<ThreadProfile>();
-                for (ThreadProfile tp : profiler.getCompletedThreads()) {
-                    boolean isSelected = Boolean.valueOf(request.getParameter("selectThread_" + tp.hashCode()));
-                    if (isSelected) mixedLogThreads.add(tp);
-                }
-                if (mixedLogThreads.size() < 2) {
-%>
-                <script type="text/javascript">
-                    alert('<%= mixedLogThreads.size() %> threads selected.\nPlease select at least two or more threads.');
-                </script>
-<%
-                } else {
-                    session.setAttribute("targetThreads", mixedLogThreads);
-                    session.removeAttribute("mixedLogs");
-%>
-                <script type="text/javascript">
-                    window.location = 'mixedlogs.jsp';
-                </script>
-<%
-                }
-            }
-            if (action.equals("switchON")) {
-                if (!profiler.isRunning()) profiler.turnOn();
-            }
-            if (action.equals("switchOFF")) {
-                if (profiler.isRunning()) profiler.turnOff();
-            }
-            if (action.equals("settingsON")) {
-                settingsOn = true;
-                session.setAttribute("tc_settingsOn", "true");
-            }
-            if (action.equals("settingsOFF")) {
-                settingsOn = false;
-                session.removeAttribute("tc_settingsOn");
-            }
-            if (action.equals("refreshON")) {
-                refreshOn = true;
-                session.setAttribute("tc_refreshOn", "true");
-            }
-            if (action.equals("refreshOFF")) {
-                refreshOn = false;
-                session.removeAttribute("tc_refreshOn");
-            }
-            if (action.equals("detailsON")) {
-                detailsOn = true;
-                session.setAttribute("tc_detailsOn", "true");
-            }
-            if (action.equals("detailsOFF")) {
-                detailsOn = false;
-                session.removeAttribute("tc_detailsOn");
-            }
-            if (action.startsWith("minThreadTime")) {
-                try {
-                    long millis = Long.parseLong(action.substring("minThreadTime".length()));
-                    if (millis >= 0) profiler.setCompletedThreadsMinTimeMillis(millis);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
-            }
-            if (action.startsWith("completedThreadsSize")) {
-                try {
-                    int size = Integer.parseInt(action.substring("completedThreadsSize".length()));
-                    if (size > 0) profiler.setCompletedThreadsMaxSize(size);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
-            }
-            if (action.startsWith("storeThreadsWithErrors")) {
-                if (profiler.isCompletedThreadsErrorsEnabled()) profiler.setCompletedThreadsErrorsEnabled(false);
-                else profiler.setCompletedThreadsErrorsEnabled(true);
-            }
-            if (action.startsWith("sortProperty")) {
-                sortProp = request.getParameter("sortProperty");
-                session.setAttribute("tc_sortProperty", sortProp);
-            }
-            if (action.startsWith("sortOrder")) {
-                try {
-                    sortOrder = Integer.parseInt(request.getParameter("sortOrder"));
-                    session.setAttribute("tc_sortOrder", sortOrder);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
-            }
-            if (action.startsWith("filterProp")) {
-                String filterPropParam = request.getParameter("filterProperty");
-                threadFilter.removeAllProperty();
-                filterProp = null;
-                filterValue = null;
-                if (!filterPropParam.equals("_resetFilter")) {
-                    threadFilter.addProperty(filterProp = filterPropParam, filterValue = "*");
-                    threadFilter.setExtraInfo(filterProp, filterValue);
-                }
-            }
-            if (action.startsWith("filterValue")) {
-                filterValue = request.getParameter("filterValue");
-                threadFilter.addProperty(filterProp, filterValue);
-                threadFilter.setExtraInfo(filterProp, filterValue);
-            }
-            if (action.startsWith("samplingInterval")) {
-                try {
-                    long millis = Long.parseLong(action.substring("samplingInterval".length()));
-                    if (millis >= 50) profiler.setIdleTimeInMillis(millis);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
+    // Process request
+    String action = request.getParameter("action");
+    if (action != null) {
+        if (action.equals("removeAll")) {
+            profiler.removeAllThreads();
+        }
+        if (action.equals("removeSelected")) {
+            for (ThreadProfile tp : profiler.getCompletedThreads()) {
+                boolean isSelected = Boolean.valueOf(request.getParameter("selectThread_" + tp.hashCode()));
+                if (isSelected) profiler.removeThread(tp);
             }
         }
-        // Render the view.
-        String status = profiler.isRunning() ? "OFF" : "ON";
+        if (action.equals("viewMixedLogs")) {
+            Set<ThreadProfile> mixedLogThreads = new HashSet<ThreadProfile>();
+            for (ThreadProfile tp : profiler.getCompletedThreads()) {
+                boolean isSelected = Boolean.valueOf(request.getParameter("selectThread_" + tp.hashCode()));
+                if (isSelected) mixedLogThreads.add(tp);
+            }
+            if (mixedLogThreads.size() < 2) {
+%>
+            <script type="text/javascript">
+                alert('<%= mixedLogThreads.size() %> threads selected.\nPlease select at least two or more threads.');
+            </script>
+<%
+            } else {
+                session.setAttribute("targetThreads", mixedLogThreads);
+                session.removeAttribute("mixedLogs");
+%>
+            <script type="text/javascript">
+                window.location = 'mixedlogs.jsp';
+            </script>
+<%
+            }
+        }
+        if (action.equals("switchON")) {
+            if (!profiler.isRunning()) profiler.turnOn();
+        }
+        if (action.equals("switchOFF")) {
+            if (profiler.isRunning()) profiler.turnOff();
+        }
+        if (action.equals("settingsON")) {
+            settingsOn = true;
+            session.setAttribute("tc_settingsOn", "true");
+        }
+        if (action.equals("settingsOFF")) {
+            settingsOn = false;
+            session.removeAttribute("tc_settingsOn");
+        }
+        if (action.equals("refreshON")) {
+            refreshOn = true;
+            session.setAttribute("tc_refreshOn", "true");
+        }
+        if (action.equals("refreshOFF")) {
+            refreshOn = false;
+            session.removeAttribute("tc_refreshOn");
+        }
+        if (action.equals("detailsON")) {
+            detailsOn = true;
+            session.setAttribute("tc_detailsOn", "true");
+        }
+        if (action.equals("detailsOFF")) {
+            detailsOn = false;
+            session.removeAttribute("tc_detailsOn");
+        }
+        if (action.startsWith("minThreadTime")) {
+            try {
+                long millis = Long.parseLong(action.substring("minThreadTime".length()));
+                if (millis >= 0) profiler.setCompletedThreadsMinTimeMillis(millis);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+        if (action.startsWith("completedThreadsSize")) {
+            try {
+                int size = Integer.parseInt(action.substring("completedThreadsSize".length()));
+                if (size > 0) profiler.setCompletedThreadsMaxSize(size);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+        if (action.startsWith("storeThreadsWithErrors")) {
+            if (profiler.isCompletedThreadsErrorsEnabled()) profiler.setCompletedThreadsErrorsEnabled(false);
+            else profiler.setCompletedThreadsErrorsEnabled(true);
+        }
+        if (action.startsWith("sortProperty")) {
+            sortProp = request.getParameter("sortProperty");
+            session.setAttribute("tc_sortProperty", sortProp);
+        }
+        if (action.startsWith("sortOrder")) {
+            try {
+                sortOrder = Integer.parseInt(request.getParameter("sortOrder"));
+                session.setAttribute("tc_sortOrder", sortOrder);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+        if (action.startsWith("filterProp")) {
+            String filterPropParam = request.getParameter("filterProperty");
+            threadFilter.removeAllProperty();
+            filterProp = null;
+            filterValue = null;
+            if (!filterPropParam.equals("_resetFilter")) {
+                threadFilter.addProperty(filterProp = filterPropParam, filterValue = "*");
+                threadFilter.setExtraInfo(filterProp, filterValue);
+            }
+        }
+        if (action.startsWith("filterValue")) {
+            filterValue = request.getParameter("filterValue");
+            threadFilter.addProperty(filterProp, filterValue);
+            threadFilter.setExtraInfo(filterProp, filterValue);
+        }
+        if (action.startsWith("samplingInterval")) {
+            try {
+                long millis = Long.parseLong(action.substring("samplingInterval".length()));
+                if (millis >= 50) profiler.setIdleTimeInMillis(millis);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+    }
+    // Render the view.
+    String status = profiler.isRunning() ? "OFF" : "ON";
 
-        // Sort the thread list
-        List<ThreadProfile> allTxs = profiler.getFilteredThreads();
-        ThreadProfileComparator comp = new ThreadProfileComparator();
-        comp.addSortCriteria(sortProp, sortOrder);
-        Collections.sort(allTxs, comp);
+    // Sort the thread list
+    List<ThreadProfile> allTxs = profiler.getFilteredThreads();
+    ThreadProfileComparator comp = new ThreadProfileComparator();
+    comp.addSortCriteria(sortProp, sortOrder);
+    Collections.sort(allTxs, comp);
 %>
 <% if (refreshOn) { %>
 <script type="text/javascript">
@@ -347,9 +343,6 @@
     </td></tr>
     </table>
 <%
-        }
-    } finally {
-        ComponentsContextManager.clearContext();
     }
 %>
 <script type="text/javascript">

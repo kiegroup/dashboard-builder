@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.workspace.Panel" %>
-<%@ page import="java.util.Properties" %>
+<%@ page import="org.jboss.dashboard.ui.UISettings" %>
 <%@ taglib prefix="mvc" uri="mvc_taglib.tld" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
@@ -154,7 +154,7 @@
                              onmouseout="$('Region_Panel_Menu_Link<%=((Panel)panel).getPanelId()%>').setOpacity(0.2);">
                             <%
                                 request.setAttribute("panel", panel);
-                                String configString = ((Properties) Factory.lookup("org.jboss.dashboard.ui.formatters.DisplayConfiguration")).getProperty("panelMenuRenderPage");
+                                String configString = UISettings.lookup().getPanelMenuRenderPage();
                             %>
                             <jsp:include page="<%=configString%>" flush="true">
                                 <jsp:param name="title" value="<%=String.valueOf(panelTitle)%>"/>

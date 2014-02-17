@@ -19,7 +19,6 @@ import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;

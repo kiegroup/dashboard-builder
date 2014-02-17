@@ -28,7 +28,7 @@
     KPIViewer kpiViewer = KPIViewer.lookup();
     KPI kpi = kpiViewer.getKpi();
     DataDisplayer displayer = kpi.getDataDisplayer();
-    String viewerPath = UIBeanLocator.lookup().getViewer(displayer).getName();
+    String viewerPath = UIBeanLocator.lookup().getViewer(displayer).getBeanName();
 %>
 
 <% if (kpiViewer.isReady()) { %>

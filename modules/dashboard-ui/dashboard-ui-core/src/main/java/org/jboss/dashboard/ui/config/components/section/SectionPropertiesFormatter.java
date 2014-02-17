@@ -27,7 +27,9 @@ import org.jboss.dashboard.ui.resources.Layout;
 import org.jboss.dashboard.ui.resources.Skin;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.Workspace;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -36,16 +38,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SectionPropertiesFormatter extends Formatter {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionPropertiesFormatter.class.getName());
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionPropertiesHandler sectionPropertiesHandler;
 
-    /** The locale manager. */
+    @Inject /** The locale manager. */
     protected LocaleManager localeManager;
-
-    public SectionPropertiesFormatter() {
-        localeManager = LocaleManager.lookup();
-    }
 
     public SectionPropertiesHandler getSectionPropertiesHandler() {
         return sectionPropertiesHandler;

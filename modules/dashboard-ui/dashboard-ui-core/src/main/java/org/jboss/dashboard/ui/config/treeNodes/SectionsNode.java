@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
-import org.jboss.dashboard.factory.Factory;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.sections.SectionsPropertiesHandler;
@@ -24,17 +24,29 @@ import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
-import org.jboss.dashboard.workspace.Section;
-import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 public class SectionsNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SectionsNode.class.getName());
-    private String workspaceId;
+
+    @Inject
+    private transient Logger log;
+
+    @Inject
     private SectionsPropertiesHandler sectionsPropertiesHandler;
+
+    private String workspaceId;
+
+    public String getIconId() {
+        return "16x16/ico-menu_pages.png";
+    }
+
+    public boolean isEditURIAjaxCompatible() {
+        return false;
+    }
 
     public Workspace getWorkspace() throws Exception {
         WorkspaceNode parent = (WorkspaceNode) getParent();
@@ -98,7 +110,7 @@ public class SectionsNode extends AbstractNode {
     }
 
     protected SectionNode getNewSectionNode(Section section) {
-        SectionNode sNode = (SectionNode) Factory.lookup("org.jboss.dashboard.ui.config.treeNodes.SectionNode");
+        SectionNode sNode = CDIBeanLocator.getBeanByType(SectionNode.class);
         sNode.setTree(getTree());
         sNode.setParent(this);
         sNode.setWorkspaceId(section.getWorkspace().getId());

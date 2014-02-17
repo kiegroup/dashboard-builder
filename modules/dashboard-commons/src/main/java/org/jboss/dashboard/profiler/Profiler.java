@@ -17,8 +17,6 @@ package org.jboss.dashboard.profiler;
 
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.error.ErrorReport;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
@@ -52,7 +50,7 @@ import java.util.List;
 public class Profiler implements Runnable {
 
     public static Profiler lookup() {
-        return (Profiler) CDIBeanLocator.getBeanByName("profiler");
+        return CDIBeanLocator.getBeanByType(Profiler.class);
     }
 
     /** Logger */
@@ -137,7 +135,7 @@ public class Profiler implements Runnable {
     /**
      * The thread profile for the current thread.
      */
-    protected ThreadLocal currentThreadProfile;
+    protected ThreadLocal<ThreadProfile> currentThreadProfile;
 
     /**
      * Low memory runtime constraints are always added to the root trace of every thread profile
@@ -262,18 +260,15 @@ public class Profiler implements Runnable {
 
     public void run() {
         while (running) {
-            Factory.doWork(new FactoryWork() {
-            public void doWork() {
-                try {
-                    // Save the stack traces for the current active transactions.
-                    dumpStackTraces();
+            try {
+                // Save the stack traces for the current active transactions.
+                dumpStackTraces();
 
-                    // Make the profile wait before take a new snapshot.
-                    Thread.sleep(idleTimeInMillis);
-                } catch (Throwable e) {
-                    log.error("Error dumping stack traces.", e);
-                }
-            }}, false /* Do not profile the profiler itself */);
+                // Make the profile wait before take a new snapshot.
+                Thread.sleep(idleTimeInMillis);
+            } catch (Throwable e) {
+                log.error("Error dumping stack traces.", e);
+            }
         }
     }
 
@@ -331,8 +326,9 @@ public class Profiler implements Runnable {
         return newT;
     }
 
-    public synchronized void finishThreadProfile(ThreadProfile t) {
-        // Deactivate the thread
+    public synchronized ThreadProfile finishThreadProfile() {
+        // Deactivate the current thread
+        ThreadProfile t = currentThreadProfile.get();
         t.end();
         currentThreadProfile.set(null);
         activeThreads.remove(t);
@@ -353,10 +349,11 @@ public class Profiler implements Runnable {
                 completedThreads.remove(0);
             }
         }
+        return t;
     }
 
     public ThreadProfile getCurrentThreadProfile() {
-        return (ThreadProfile) currentThreadProfile.get();
+        return currentThreadProfile.get();
     }
 
     public List<ThreadProfile> getActiveThreads() {

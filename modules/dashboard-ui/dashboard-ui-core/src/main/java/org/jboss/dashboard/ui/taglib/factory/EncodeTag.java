@@ -15,32 +15,32 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-
-
-import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspTagException;
 
-import org.jboss.dashboard.ui.components.UIComponentHandlerFactoryElement;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.formatters.FactoryUniqueIdEncoder;
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 
 public class EncodeTag extends BaseTag {
-    /**
-     * Logger
-     */
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EncodeTag.class.getName());
 
     /**
      * Text to encode
      */
     private String name = null;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
-        String encodedName = getFactoryUniqueIdEncoder().encodeFromContext(pageContext, name);
+        String encodedName = FactoryUniqueIdEncoder.lookup().encodeFromContext(pageContext, name);
         try {
             pageContext.getOut().print(encodedName);
         } catch (Exception e) {
@@ -57,8 +57,8 @@ public class EncodeTag extends BaseTag {
      * @param name             symbolic name to encode @return an encoded version for that name, so that different panels have different names.
      * @return a encoded name
      */
-    public static String encode(Object panel, UIComponentHandlerFactoryElement factoryComponent, String name) {
-        return getFactoryUniqueIdEncoder().encode(panel, factoryComponent, name);
+    public static String encode(Object panel, UIBeanHandler factoryComponent, String name) {
+        return FactoryUniqueIdEncoder.lookup().encode(panel, factoryComponent, name);
     }
 
     /**
@@ -70,17 +70,5 @@ public class EncodeTag extends BaseTag {
      */
     public static String encode(Object panel, String name) {
         return encode(panel, null, name);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public static FactoryUniqueIdEncoder getFactoryUniqueIdEncoder() {
-        return (FactoryUniqueIdEncoder) Factory.lookup("org.jboss.dashboard.ui.components.FactoryUniqueIdEncoder");
     }
 }

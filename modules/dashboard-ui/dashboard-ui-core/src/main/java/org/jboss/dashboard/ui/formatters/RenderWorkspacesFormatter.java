@@ -25,13 +25,15 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.users.UserStatus;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Permission;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
+import org.jboss.dashboard.workspace.WorkspacesManager;
 
 /**
  * This formatter iterates through the workspaces available to the user, and displays them.
@@ -57,6 +59,7 @@ import java.util.TreeSet;
  */
 public class RenderWorkspacesFormatter extends Formatter {
 
+    @Inject
     private NavigationManager navigationManager;
 
     public NavigationManager getNavigationManager() {
@@ -70,10 +73,10 @@ public class RenderWorkspacesFormatter extends Formatter {
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         List availableWorkspaces = new ArrayList();
         try {
-            TreeSet workspaceIds = new TreeSet(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
-            for (Iterator it = workspaceIds.iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
+            Set<String> workspaceIds = workspacesManager.getAllWorkspacesIdentifiers();
+            for (String wsId : workspaceIds) {
+                Workspace workspace = workspacesManager.getWorkspace(wsId);
 
                 boolean finish = false;
                 int index = 0;

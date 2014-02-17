@@ -16,8 +16,6 @@
 package org.jboss.dashboard.database.hibernate;
 
 import org.hibernate.*;
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.factory.FactoryWork;
 import org.jboss.dashboard.error.ErrorManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -373,20 +371,11 @@ public class HibernateTransaction {
     }
 
     public static Object runWork(final HibernateWork work) throws Throwable {
-        final Throwable[] error = new Throwable[] {null};
         final Object[] result = new Object[] {null};
-        Factory.doWork(new FactoryWork() {
-        public void doWork() {
-            try {
-                new HibernateTxFragment() {
-                protected void txFragment(Session session) throws Throwable {
-                    result[0] = work.doWork(session);
-                }}.execute();
-            } catch (Throwable e) {
-                error[0] = e;
-            }
-        }});
-        if (error[0] != null) throw error[0];
-        else return result[0];
+        new HibernateTxFragment() {
+        protected void txFragment(Session session) throws Throwable {
+            result[0] = work.doWork(session);
+        }}.execute();
+        return result[0];
     }
 }

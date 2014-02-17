@@ -16,7 +16,6 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.scheduler.*" %>
-<%@ page import="org.jboss.dashboard.factory.ComponentsContextManager" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -46,84 +45,82 @@
 <body>
 <h2><a href="console.jsp">System</a>&nbsp;&gt;&nbsp;Scheduler</h2>
 <%
-    ComponentsContextManager.startContext();
-    try {
-        Scheduler scheduler = Scheduler.lookup();
-        String view = VIEW_ALL;
-        String sortProp = SchedulerTaskComparator.TIME_TO_FIRE;
-        int sortOrder = SchedulerTaskComparator.ORDER_ASCENDING;
-        boolean refreshOn = false;
-        String viewParam = (String) session.getAttribute("sc_view");
-        String sortPropParam = (String) session.getAttribute("sc_sortProperty");
-        Integer sortOrderParam = (Integer) session.getAttribute("sc_sortOrder");
-        String refreshOnParam = (String) session.getAttribute("sc_refreshOn");
-        if (viewParam != null) view = viewParam;
-        if (sortPropParam != null) sortProp = sortPropParam;
-        if (sortOrderParam != null) sortOrder = sortOrderParam;
-        if (refreshOnParam != null) refreshOn = true;
+    Scheduler scheduler = Scheduler.lookup();
+    String view = VIEW_ALL;
+    String sortProp = SchedulerTaskComparator.TIME_TO_FIRE;
+    int sortOrder = SchedulerTaskComparator.ORDER_ASCENDING;
+    boolean refreshOn = false;
+    String viewParam = (String) session.getAttribute("sc_view");
+    String sortPropParam = (String) session.getAttribute("sc_sortProperty");
+    Integer sortOrderParam = (Integer) session.getAttribute("sc_sortOrder");
+    String refreshOnParam = (String) session.getAttribute("sc_refreshOn");
+    if (viewParam != null) view = viewParam;
+    if (sortPropParam != null) sortProp = sortPropParam;
+    if (sortOrderParam != null) sortOrder = sortOrderParam;
+    if (refreshOnParam != null) refreshOn = true;
 
-        // Process request
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("switchON")) {
-                if (scheduler.isPaused()) scheduler.resume();
-            }
-            if (action.equals("switchOFF")) {
-                if (!scheduler.isPaused()) scheduler.pause();
-            }
-            if (action.equals("refreshON")) {
-                refreshOn = true;
-                session.setAttribute("sc_refreshOn", "true");
-            }
-            if (action.equals("refreshOFF")) {
-                refreshOn = false;
-                session.removeAttribute("sc_refreshOn");
-            }
-            if (action.equals("changeView")) {
-                view = request.getParameter("view");
-                session.setAttribute("sc_view", view);
-            }
-            if (action.startsWith("poolSize")) {
-                try {
-                    int size = Integer.parseInt(action.substring("poolSize".length()));
-                    scheduler.setMaxThreadPoolSize(size);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
-            }
-            if (action.startsWith("cancel")) {
-                String key = request.getParameter("key");
-                if (key != null) scheduler.unschedule(key);
-            }
-            if (action.startsWith("fire")) {
-                String key = request.getParameter("key");
-                if (key != null) scheduler.fireTask(key);
-            }
-            if (action.startsWith("cancelAll")) {
-                scheduler.unscheduleAll();
-            }
-            if (action.startsWith("sortBy")) {
-                try {
-                    sortProp = request.getParameter("sortProperty");
-                    sortOrder = Integer.parseInt(request.getParameter("sortOrder"));
-                    session.setAttribute("sc_sortProperty", sortProp);
-                    session.setAttribute("sc_sortOrder", sortOrder);
-                } catch (NumberFormatException e) {
-                    // Ignore
-                }
+    // Process request
+    String action = request.getParameter("action");
+    if (action != null) {
+        if (action.equals("switchON")) {
+            if (scheduler.isPaused()) scheduler.resume();
+        }
+        if (action.equals("switchOFF")) {
+            if (!scheduler.isPaused()) scheduler.pause();
+        }
+        if (action.equals("refreshON")) {
+            refreshOn = true;
+            session.setAttribute("sc_refreshOn", "true");
+        }
+        if (action.equals("refreshOFF")) {
+            refreshOn = false;
+            session.removeAttribute("sc_refreshOn");
+        }
+        if (action.equals("changeView")) {
+            view = request.getParameter("view");
+            session.setAttribute("sc_view", view);
+        }
+        if (action.startsWith("poolSize")) {
+            try {
+                int size = Integer.parseInt(action.substring("poolSize".length()));
+                scheduler.setMaxThreadPoolSize(size);
+            } catch (NumberFormatException e) {
+                // Ignore
             }
         }
-        String paused = scheduler.isPaused() ? "ON" : "OFF";
-        List<SchedulerTask> tasks = null;
-        if (view.equals(VIEW_MISFIRED)) tasks = scheduler.getMisfiredTasks();
-        else if (view.equals(VIEW_RUNNING)) tasks = scheduler.getRunningTasks();
-        else if (view.equals(VIEW_WAITING)) tasks = scheduler.getWaitingTasks();
-        else tasks = scheduler.getScheduledTasks();
+        if (action.startsWith("cancel")) {
+            String key = request.getParameter("key");
+            if (key != null) scheduler.unschedule(key);
+        }
+        if (action.startsWith("fire")) {
+            String key = request.getParameter("key");
+            if (key != null) scheduler.fireTask(key);
+        }
+        if (action.startsWith("cancelAll")) {
+            scheduler.unscheduleAll();
+        }
+        if (action.startsWith("sortBy")) {
+            try {
+                sortProp = request.getParameter("sortProperty");
+                sortOrder = Integer.parseInt(request.getParameter("sortOrder"));
+                session.setAttribute("sc_sortProperty", sortProp);
+                session.setAttribute("sc_sortOrder", sortOrder);
+            } catch (NumberFormatException e) {
+                // Ignore
+            }
+        }
+    }
+    String paused = scheduler.isPaused() ? "ON" : "OFF";
+    List<SchedulerTask> tasks = null;
+    if (view.equals(VIEW_MISFIRED)) tasks = scheduler.getMisfiredTasks();
+    else if (view.equals(VIEW_RUNNING)) tasks = scheduler.getRunningTasks();
+    else if (view.equals(VIEW_WAITING)) tasks = scheduler.getWaitingTasks();
+    else tasks = scheduler.getScheduledTasks();
 
-        // Sort the tasks
-        SchedulerTaskComparator comp = new SchedulerTaskComparator();
-        comp.addSortCriteria(sortProp, sortOrder);
-        Collections.sort(tasks, comp);
+    // Sort the tasks
+    SchedulerTaskComparator comp = new SchedulerTaskComparator();
+    comp.addSortCriteria(sortProp, sortOrder);
+    Collections.sort(tasks, comp);
 %>
     <% if (refreshOn) { %>
     <script type="text/javascript">
@@ -219,9 +216,6 @@ Task scheduled <%= tasks.size() %> (in queue <%= scheduler.getNumberOfScheduledT
 <%      } %>
     </table>
 <%
-        }
-    } finally {
-        ComponentsContextManager.clearContext();
     }
 %>
 </body>

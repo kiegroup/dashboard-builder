@@ -15,18 +15,24 @@
  */
 package org.jboss.dashboard.ui.config.treeNodes;
 
+import javax.inject.Inject;
+
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancePropertiesHandler;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.Panel;
+import org.slf4j.Logger;
 
 public abstract class PanelPropertiesNode extends AbstractNode {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PanelPropertiesNode.class.getName());
 
-    private PanelInstancePropertiesHandler handler;
-    private boolean multilanguage = false;
+    @Inject
+    private transient Logger log;
+
+    @Inject @Config("false")
+    private boolean multilanguage;
 
     public boolean isMultilanguage() {
         return multilanguage;
@@ -36,13 +42,7 @@ public abstract class PanelPropertiesNode extends AbstractNode {
         this.multilanguage = multilanguage;
     }
 
-    public PanelInstancePropertiesHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(PanelInstancePropertiesHandler handler) {
-        this.handler = handler;
-    }
+    public abstract PanelInstancePropertiesHandler getHandler();
 
     public boolean onEdit() {
         try {
@@ -66,7 +66,6 @@ public abstract class PanelPropertiesNode extends AbstractNode {
 
     private void prepareConfigure(Panel panel) {
         // Store panel in session
-        // TODO What the fuck is this shit
         SessionManager.setCurrentPanel(panel);
 
         FormStatus formStatus = new FormStatus();
@@ -74,9 +73,5 @@ public abstract class PanelPropertiesNode extends AbstractNode {
         formStatus.setValue("multilanguage", isMultilanguage());
 
         getHandler().setFormStatus(formStatus);
-        // Store form status in session
-        //SessionManager.setCurrentFormStatus(formStatus);
-
     }
-
 }

@@ -15,25 +15,36 @@
  */
 package org.jboss.dashboard.ui.config;
 
-import org.jboss.dashboard.factory.BasicFactoryElement;
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.MessagesComponentHandler;
+import org.slf4j.Logger;
 
 import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-public class DefaultTreeStatus extends BasicFactoryElement implements TreeStatus {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DefaultTreeStatus.class.getName());
+public class DefaultTreeStatus implements TreeStatus {
 
-    private boolean editImpliesExpand = true;
-    private boolean expandImpliesEdit = false;
-    private boolean allNodesOpen = false;
+    @Inject
+    protected transient Logger log;
 
-    private Set expandedPaths = new HashSet();
-    private Set selectedPaths = new HashSet();
-    private final Set editedPaths = new HashSet();
+    @Inject @Config("true")
+    protected boolean editImpliesExpand;
 
-    private String[] initiallyExpandedPaths = {"root"};
-    private String[] initiallyEditedPaths = {"root"};
+    @Inject @Config("false")
+    protected boolean expandImpliesEdit;
 
+    @Inject @Config("false")
+    protected boolean allNodesOpen;
+
+    protected Set expandedPaths = new HashSet();
+    protected Set selectedPaths = new HashSet();
+    protected final Set editedPaths = new HashSet();
+
+    protected String[] initiallyExpandedPaths = {"root"};
+    protected String[] initiallyEditedPaths = {"root"};
+
+    @Inject
     private MessagesComponentHandler messagesComponentHandler;
 
     public MessagesComponentHandler getMessagesComponentHandler() {
@@ -92,8 +103,8 @@ public class DefaultTreeStatus extends BasicFactoryElement implements TreeStatus
         this.initiallyEditedPaths = initiallyEditedPaths;
     }
 
-    public void start() throws Exception {
-        super.start();
+    @PostConstruct
+    protected void start() {
         if (initiallyExpandedPaths != null)
             expandedPaths.addAll(Arrays.asList(initiallyExpandedPaths));
         if (initiallyEditedPaths != null)

@@ -15,8 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.export;
 
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.ui.SessionManager;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
@@ -29,7 +28,6 @@ import org.jboss.dashboard.workspace.export.ExportManager;
 import org.jboss.dashboard.workspace.export.ExportSessionInfo;
 import org.jboss.dashboard.workspace.export.structure.ExportResult;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
 import org.jboss.dashboard.ui.panel.parameters.StringParameter;
@@ -48,10 +46,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- *
+ * Driver that handles the import/export procedures.
  */
 public class ExportDriver extends PanelDriver {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportDriver.class.getName());
 
     public final static String PAGE_SHOW = "show";
     public final static String PAGE_EXPORT_RESULT = "exportResult";
@@ -87,7 +84,7 @@ public class ExportDriver extends PanelDriver {
     }
 
     public ExportSessionInfo getSessionInfo() {
-        return (ExportSessionInfo) Factory.lookup("org.jboss.dashboard.workspace.export.ExportSessionInfo");
+        return CDIBeanLocator.getBeanByType(ExportSessionInfo.class);
     }
 
     /**

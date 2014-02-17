@@ -17,29 +17,28 @@ package org.jboss.dashboard.ui.components;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.label.LabelDomain;
-import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.provider.*;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.factory.Factory;
-import org.jboss.dashboard.ui.formatters.FactoryURL;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.slf4j.Logger;
 
 import java.text.MessageFormat;
 import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-public class DataProviderHandler extends UIComponentHandlerFactoryElement {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataProviderHandler.class.getName());
-
-    private ResourceBundle messages;
-
-    protected String componentIncludeJSP;
-    protected String componentIncludeJSPshow;
-    protected String componentIncludeJSPeditCreate;
-    protected String componentIncludeJSPeditProperties;
+/**
+ * Data provider manager component.
+ */
+@PanelScoped
+public class DataProviderHandler extends UIBeanHandler {
 
     public static final String I18N_PREFFIX = "dataProviderComponent.";
     public static final String PARAM_PROVIDER_CODE = "dataProviderCode";
@@ -48,15 +47,33 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     public static final String PARAM_PROPERTY_TYPE = "propertyType";
     public static final String PARAM_PROPERTY_TITLE = "propertyTitle";
 
+    @Inject
+    private transient Logger log;
+
+    @Inject
+    protected DataProviderManager dataProviderManager;
+
+    @Inject
+    protected LocaleManager localeManager;
+
+    @Inject @Config("/components/bam/provider/manager/data_provider_show.jsp")
+    protected String componentIncludeJSP;
+
+    @Inject @Config("/components/bam/provider/manager/data_provider_show.jsp")
+    protected String componentIncludeJSPshow;
+
+    @Inject @Config("/components/bam/provider/manager/data_provider_edit_create.jsp")
+    protected String componentIncludeJSPeditCreate;
+
+    @Inject @Config("/components/bam/provider/manager/data_provider_edit_properties.jsp")
+    protected String componentIncludeJSPeditProperties;
+
     // Component parameters for factory mapping to html objects.
     protected String currentProviderTypeUid;
     protected String currentProviderTypeChanged;
     protected String providerName;
     protected String saveButtonPressed;
     protected String testConfigButtonPressed;
-
-    protected DataProviderManager dataProviderManager;
-
 
     // Session flags. Is all flags are false, mode enabled is show mode.
     protected boolean isEdit;
@@ -65,20 +82,11 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
 
     protected Long dataProviderId;
     protected Map descriptions;
-
     protected String providerMessage;
     protected boolean hasErrors = false;
+    private ResourceBundle messages;
 
     protected transient DataProvider newDataProvider;
-
-    /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public DataProviderHandler() {
-        this.dataProviderManager = DataDisplayerServices.lookup().getDataProviderManager();
-        localeManager = LocaleManager.lookup();
-        clearAttributes();
-    }
 
     public DataProvider getDataProvider() throws Exception {
         if (dataProviderId == null) return newDataProvider;
@@ -166,7 +174,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     }
 
     public static DataProviderHandler lookup() {
-        return (DataProviderHandler) Factory.lookup(DataProviderHandler.class.getName());
+        return CDIBeanLocator.getBeanByType(DataProviderHandler.class);
     }
 
     public String getProviderName() {
@@ -185,7 +193,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
         this.currentProviderTypeUid = currentProviderTypeUid;
     }
 
-    public String getComponentIncludeJSP() {
+    public String getBeanJSP() {
         return this.componentIncludeJSP;
     }
 
@@ -474,6 +482,7 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
     // Handling attributes methods.
     // --------------------------------
 
+    @PostConstruct
     public void clearAttributes() {
         DataProviderEditor editor = getDataProviderEditor();
         if (editor != null) editor.clear();

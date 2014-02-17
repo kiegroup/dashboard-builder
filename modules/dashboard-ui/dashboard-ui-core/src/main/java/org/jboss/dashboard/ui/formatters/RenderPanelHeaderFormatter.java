@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.jboss.dashboard.factory.Factory;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.UIServices;
@@ -30,8 +29,6 @@ import org.jboss.dashboard.workspace.SectionRegion;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
 
 /**
  * This class extends Formatter to provide support for the rendering of a panel header.

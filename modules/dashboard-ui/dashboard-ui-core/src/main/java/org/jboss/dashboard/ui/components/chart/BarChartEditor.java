@@ -15,7 +15,19 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Named;
+
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.AbstractXAxisDisplayerEditor;
 
+/**
+ * Bar chart editor displayer configurator component.
+ */
+@PanelScoped
+@Named("barchart_editor")
 public class BarChartEditor extends AbstractXAxisDisplayerEditor {
+
+    public String getBeanJSP() {
+        return "/components/bam/displayer/chart/barchart_editor.jsp";
+    }
 }

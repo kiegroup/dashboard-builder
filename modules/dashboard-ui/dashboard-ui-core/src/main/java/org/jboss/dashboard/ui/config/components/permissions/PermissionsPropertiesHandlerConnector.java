@@ -15,11 +15,15 @@
  */
 package org.jboss.dashboard.ui.config.components.permissions;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
 import org.jboss.dashboard.ui.components.permissions.PermissionsHandler;
 
+@SessionScoped
 public class PermissionsPropertiesHandlerConnector extends PermissionsPropertiesHandler {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PermissionsPropertiesHandlerConnector.class.getName());
 
+    @Inject
     private PermissionsHandler permissionsHandler;
 
     public PermissionsHandler getPermissionsHandler() {

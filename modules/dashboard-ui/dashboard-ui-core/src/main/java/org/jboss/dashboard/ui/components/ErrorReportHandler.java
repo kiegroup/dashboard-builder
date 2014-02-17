@@ -15,30 +15,36 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.jboss.dashboard.factory.Factory;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.error.ErrorReport;
 
+@SessionScoped
 public class ErrorReportHandler extends PanelComponent {
 
     public static ErrorReportHandler lookup() {
-        return (ErrorReportHandler) Factory.lookup("org.jboss.dashboard.error.ErrorReportHandler");
+        return CDIBeanLocator.getBeanByType(ErrorReportHandler.class);
     }
-    protected ErrorReport errorReport;
-    protected String componentIncludeJSP;
-    protected int width;
-    protected int height;
-    protected boolean closeEnabled;
-    protected Runnable closeListener;
 
-    public ErrorReportHandler() {
-        componentIncludeJSP = "/components/errorReport/show.jsp";
-        closeEnabled = true;
-        width = 1000;
-        height = 400;
-        errorReport = null;
-        closeListener = null;
-    }
+    protected ErrorReport errorReport = null;
+
+    protected Runnable closeListener = null;
+
+    @Inject @Config("/components/errorReport/show.jsp")
+    protected String beanJSP;
+
+    @Inject @Config("1000")
+    protected int width;
+
+    @Inject @Config("400")
+    protected int height;
+
+    @Inject @Config("true")
+    protected boolean closeEnabled;
 
     public boolean isCloseEnabled() {
         return closeEnabled;
@@ -56,12 +62,8 @@ public class ErrorReportHandler extends PanelComponent {
         this.closeListener = closeListener;
     }
 
-    public String getComponentIncludeJSP() {
-        return componentIncludeJSP;
-    }
-
-    public void setComponentIncludeJSP(String componentIncludeJSP) {
-        this.componentIncludeJSP = componentIncludeJSP;
+    public String getBeanJSP() {
+        return beanJSP;
     }
 
     public ErrorReport getErrorReport() {
