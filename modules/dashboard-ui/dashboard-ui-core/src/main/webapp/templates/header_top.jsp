@@ -30,52 +30,50 @@
 <div id="menuShow">
 <%-- <fieldset id="fieldSetMenu">  --%>
     <table id="administrationMenuTable">
-                    <tr>
-                       <jsp:include page="workspace_selector.jsp" flush="true"/>
-                        <jsp:include page="section_selector.jsp" flush="true"/>
-                        <td class="Right">
-                          <div class="select">
-                            <form action="<factory:formUrl/>" method="POST">
-                                    <factory:handler bean="org.jboss.dashboard.ui.config.TreeShortcutHandler" action="changeLanguage"/>
-                                    <mvc:formatter name="org.jboss.dashboard.ui.formatters.ForFormatter">
-                                        <mvc:formatterParam name="factoryElement" value="org.jboss.dashboard.LocaleManager"/>
-                                        <mvc:formatterParam name="property" value="platformAvailableLocales"/>
-                                        <mvc:fragment name="outputStart">
-                                           <div class="select"><select class="select" onchange="this.form.submit();" name="lang" >
-
-                                        </mvc:fragment>
-                                        <mvc:fragment name="output">
-                                            <mvc:fragmentValue name="index" id="index">
-                                                <mvc:fragmentValue name="element" id="locale">
-                                                    <%  String selected;
-                                                        if (((Locale) locale).toString().equals(LocaleManager.currentLang())) selected = "selected class=\"skn-important\"";
-                                                        else selected="";
-                                                    %>
-                                                    <option <%=selected%>  value="<%=((Locale)locale).toString()%>">
-                                                        <%=StringUtils.capitalize(((Locale)locale).getDisplayName((Locale)locale))%>
-                                                    </option>
-                                                </mvc:fragmentValue>
-                                            </mvc:fragmentValue>
-                                        </mvc:fragment>
-                                        <mvc:fragment name="outputEnd">
-                                            </select></div>
-                                        </mvc:fragment>
-                                    </mvc:formatter>
-                            <i18n:message key="ui.configuration" id="configModeMsg"/>
-                            <a href="<factory:url friendly="false" bean="org.jboss.dashboard.ui.NavigationManager" action='config'/>">
-                            <img  border="0" src="<static:image relativePath="adminHeader/processes.png"/>" title="<%=configModeMsg%>"/>
-                            </a>
-								<i18n:message key="ui.logout" id="loginLogoutMsg"/>
-								<a href="<factory:url bean="org.jboss.dashboard.ui.components.LogoutComponent" action="logout"/>" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
-									<img src="<static:image relativePath="adminHeader/login-logout.png"/>"   border="0" title="<%=loginLogoutMsg%>"/>
-                            </a>
-                       </form>
-                       </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="shadow" colspan="3"><a href="#" onClick="moveOffMenu();moveOnSelector();return false;"><img src="<static:image relativePath="adminHeader/admin_up.png"/>" title="<i18n:message key="ui.hideAdminMenu"/>"></a></td>
-                    </tr>
+      <tr>
+         <jsp:include page="workspace_selector.jsp" flush="true"/>
+          <jsp:include page="section_selector.jsp" flush="true"/>
+          <td class="Right">
+            <div class="select">
+              <form action="<factory:formUrl/>" method="POST">
+                      <factory:handler bean="org.jboss.dashboard.ui.config.TreeShortcutHandler" action="changeLanguage"/>
+                      <mvc:formatter name="org.jboss.dashboard.ui.formatters.ForFormatter">
+                          <mvc:formatterParam name="factoryElement" value="org.jboss.dashboard.LocaleManager"/>
+                          <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                          <mvc:fragment name="outputStart">
+                             <div class="select"><select class="select" onchange="this.form.submit();" name="lang" >
+                          </mvc:fragment>
+                          <mvc:fragment name="output">
+                              <mvc:fragmentValue name="index" id="index">
+                                  <mvc:fragmentValue name="element" id="locale">
+                                      <%  String selected;
+                                          if (((Locale) locale).toString().equals(LocaleManager.currentLang())) selected = "selected class=\"skn-important\"";
+                                          else selected="";
+                                      %>
+                                      <option <%=selected%>  value="<%=((Locale)locale).toString()%>">
+                                          <%=StringUtils.capitalize(((Locale)locale).getDisplayName((Locale)locale))%>
+                                      </option>
+                                  </mvc:fragmentValue>
+                              </mvc:fragmentValue>
+                          </mvc:fragment>
+                          <mvc:fragment name="outputEnd">
+                              <i18n:message key="ui.configuration" id="configModeMsg"/>
+                              <i18n:message key="ui.logout" id="loginLogoutMsg"/>
+                              </select>
+                              <a href="<factory:url friendly="false" bean="org.jboss.dashboard.ui.NavigationManager" action='config'/>">
+                              <img  border="0" src="<static:image relativePath="adminHeader/processes.png"/>" title="<%=configModeMsg%>"/></a>
+                              <a href="<factory:url bean="org.jboss.dashboard.ui.components.LogoutComponent" action="logout"/>" onclick="return confirm('<i18n:message key="ui.workspace.confirmLogout">!!!Desea desconectarse</i18n:message>')">
+                              <img src="<static:image relativePath="adminHeader/login-logout.png"/>"   border="0" title="<%=loginLogoutMsg%>"/></a>
+                            </div>
+                          </mvc:fragment>
+                      </mvc:formatter>
+         </form>
+         </div>
+          </td>
+      </tr>
+      <tr>
+          <td class="shadow" colspan="3"><a href="#" onClick="moveOffMenu();moveOnSelector();return false;"><img src="<static:image relativePath="adminHeader/admin_up.png"/>" title="<i18n:message key="ui.hideAdminMenu"/>"></a></td>
+      </tr>
     </table>
 <%-- </fieldset> --%>
 </div>
