@@ -64,12 +64,12 @@ public class LocaleManager {
 
         fallbackControl =  ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_DEFAULT);
 
-        List availableLocalesList = new ArrayList();
-        for (int i = 0; i < installedLocaleIds.length; i++) {
-            Locale locale = getLocaleById(installedLocaleIds[i]);
+        List<Locale> availableLocalesList = new ArrayList<Locale>();
+        for (String locId : installedLocaleIds) {
+            Locale locale = getLocaleById(locId);
             if (locale != null) availableLocalesList.add(locale);
         }
-        availableLocales = (Locale[]) availableLocalesList.toArray(new Locale[availableLocalesList.size()]);
+        availableLocales = availableLocalesList.toArray(new Locale[availableLocalesList.size()]);
         defaultLocale = getLocaleById(defaultLocaleId);
     }
 
@@ -104,9 +104,7 @@ public class LocaleManager {
      * @return a Locale whose toString() equals given localeId, or null if it doesn't exist
      */
     public Locale getLocaleById(String localeId) {
-        Locale[] allLocales = getAllLocales();
-        for (int i = 0; i < allLocales.length; i++) {
-            Locale locale = allLocales[i];
+        for (Locale locale : getAllLocales()) {
             if (locale.toString().equals(localeId)) return locale;
         }
         return null;
@@ -159,8 +157,7 @@ public class LocaleManager {
     }
 
     public Locale getPlatformLocale(Locale l) {
-        for (int i = 0; i < availableLocales.length; i++) {
-            Locale locale = availableLocales[i];
+        for (Locale locale : availableLocales) {
             String lang = locale.getLanguage();
             if (lang.equals(l.getLanguage())) return locale;
         }
@@ -177,13 +174,12 @@ public class LocaleManager {
     // Language methods
 
     protected String[] localeToString(Locale[] locales) {
-        List langs = new ArrayList();
-        for (int i = 0; i < locales.length; i++) {
-            Locale locale = locales[i];
+        List<String> langs = new ArrayList<String>();
+        for (Locale locale : locales) {
             String s = locale.toString();
             langs.add(s);
         }
-        return (String[]) langs.toArray(new String[langs.size()]);
+        return langs.toArray(new String[langs.size()]);
     }
 
     /**
