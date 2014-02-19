@@ -27,13 +27,25 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
     /** The locale manager. */
     protected LocaleManager localeManager;
 
+    public ComplementaryRolePrincipal() {
+        init();
+    }
+
     public ComplementaryRolePrincipal(String name) {
         super(name);
-        localeManager = LocaleManager.lookup();
+        init();
     }
 
     public ComplementaryRolePrincipal(Role role) {
         super("!role-" + role.getName());
+        init();
+    }
+
+    /**
+     * Initialize class members.
+     */
+    protected void init() {
+        localeManager = LocaleManager.lookup();
     }
 
     public String toString() {
