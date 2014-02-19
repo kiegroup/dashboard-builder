@@ -3,25 +3,16 @@ Deployment onto Websphere 8
 
 Please follow the next steps in order to deploy the application on Websphere.
 
-Generate a distribution
----------------------------
-
-Open a terminal window, go to the root directory and execute the following Maven command:
-
-    $ mvn clean install -Dfull -DskipTests
-
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-was-8.war**.
-
 Configure a data source
 --------------------------------
 
 The application requires a datasource. To create it, please follow the next steps:
 
-1. Open the WebSphere's Adminitration Console _http://127.0.0.1:9060/ibm/console_
+* Open the WebSphere's Adminitration Console _http://127.0.0.1:9060/ibm/console_
 
    Then login (if you have administrative security setup)
 
-2. Create the JDBC provider
+* Create the JDBC provider
 
   - Left side panel, click on _Resources > JDBC > JDBC Providers_
   - Select the appropriate scope and click on the _New_ button.
@@ -37,7 +28,7 @@ The application requires a datasource. To create it, please follow the next step
 
    When you finish, click _Ok_. If there are no data entry errors, you should be back at the list of JDBC Providers, where you should now see your new provider displayed.
 
-3. Create the data source
+* Create the data source
 
   - Left side panel, click on _Resources > JDBC > Data sources_
   - Select the appropriate scope and click on the _New_ button.
@@ -49,7 +40,7 @@ The application requires a datasource. To create it, please follow the next step
   - Edit and fill the appropriate values required to set-up the connection. This depends on the database type.
 
            +------------+------------------------------------------------------+
-           | Database   |  Connection settings                                 |
+           | Database   | Datasource custom properties                         |
            +------------+------------------------------------------------------+
            | H2         | URL, user, password                                  |
            | Postgres   | serverName, databaseName, portNumber, user, password |
@@ -60,11 +51,11 @@ The application requires a datasource. To create it, please follow the next step
 Deploy the application
 --------------------------
 
-1. http://127.0.0.1:9060/ibm/console
+* http://127.0.0.1:9060/ibm/console
 
     Then login (if you have administrative security setup)
 
-2. Deploy the WAR file
+* Deploy the WAR file
 
   - Left side panel click on *Applications > Application types > Websphere enterprise applications*
   - Click on _Install_, select the *dashbuilder_was_8.war* file from your local filesystem. Click _Next_
@@ -81,7 +72,7 @@ Dashbuilder uses container managed authentication and authorization.
 
 Two user roles must be defined: "admin" and "user", as configured in the <code>web.xml</code>. Therefore, you must define this roles and create users with them in order to be able to log in. To do so from the WebSphere's Adminitration Console:
 
-1. Enable security
+* Enable security
 
   - Left side panel click on *Security > Global security*
   - Section *Application security*, Check the box *Enable application security*
@@ -89,7 +80,7 @@ Two user roles must be defined: "admin" and "user", as configured in the <code>w
 
    Then you have application security turned on. Now you need to map the users of your application to users within Websphere.
 
-2. Map users
+* Map users
 
   - _Applications > Enterprise Applications_ click on your application.
   - Under the _Detailed Properties_ section you will see a link _Security role to user/group mapping_. Click on it.
@@ -99,7 +90,7 @@ Two user roles must be defined: "admin" and "user", as configured in the <code>w
   - Use the arrows to move the selected users/groups to the right hand box.
   - Click ok and save to master configuration and restart the server.
 
-3. Create users
+* Create users
 
   - Just go to the left side panel and click on *Users and Groups > Manage Users*.
   - Click on the _Create_ button, fill out the form and click _Ok_.

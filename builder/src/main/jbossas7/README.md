@@ -3,15 +3,6 @@ Deployment onto JBoss
 
 Please follow the next steps in order to deploy the application.
 
-Generate a distribution
----------------------------
-
-Open a terminal window, go to the root directory and execute the following Maven command:
-
-    $ mvn clean install -Dfull  -DskipTests
-
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-jboss-as7.war**.
-
 Deploy the Dashboard Builder
 ----------------------------
 

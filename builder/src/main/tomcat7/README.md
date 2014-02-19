@@ -6,15 +6,6 @@ simplest way possible and using a default configuration with the H2 database.
 
 Please follow the next steps in order to deploy the application.
 
-Generate a distribution
----------------------------
-
-Open a terminal window, go to the root directory and execute the following Maven command:
-
-    $ mvn clean install -Dfull -DskipTests
-
-Go to the <code>builder/target</code> directory and get the file called **dashbuilder-tomcat-7.war**.
-
 Configure Apache Tomcat 7 server
 --------------------------------
 
