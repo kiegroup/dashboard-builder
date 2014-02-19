@@ -15,7 +15,10 @@
     limitations under the License.
 
 -->
-<web-app metadata-complete="false">
+<web-app metadata-complete="false"
+         version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <display-name>dashbuilder</display-name>
     <description>JBoss Dashboard Builder Application</description>

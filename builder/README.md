@@ -13,21 +13,24 @@ Currently, the following artifacts are generated:
 
 * **dashbuilder-jboss-as7.war:**  Product distribution for JBoss EAP 6.1 and JBoss AS 7.1 servers.
 
-  By the default the distribution is configured to use H2 hibernate dialect but database drivers aren't packaged with the distribution.
+  By the default the distribution is configured to use the default H2 in-memory database provided by JBoss.
 
-  Read the [src/main/dashbuilder-jbossas7/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md) file to get more information.
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md).
 
 * **dashbuilder-tomcat-7.war:**  Product distribution for Apache Tomcat 7 server.
 
-  By the default the distribution is configured to use H2 hibernate dialect.
+  By the default the distribution is configured to use a local H2 database file.
 
-  Read the [src/main/dashbuilder-tomcat7/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/tomcat7/README.md) file to get more information.
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/tomcat7/README.md).
 
-* **dashbuilder-demo-installer.zip:** Product standalone demo.
+* **dashbuilder-was-8.war:**  Product distribution for Websphere 8.5 server.
 
-  Read the [src/main/standalone-demo/README.md](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/standalone-demo/README.md) file to get more information.
+  It requires to set up a data source connection for any of the supported databases (at the time of this writing: DB2, Postgres, Mysql, H2, Oracle or SQLServer).
 
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/was8/README.md).
+
+* **dashbuilder-demo-installer.zip:** App. server-independent self-contained demo of the product.
+
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/standalone-demo/README.md).
 
 * **dashbuilder-demo.war:** The war file used by the dashbuilder-demo-installer.zip
-
-(The rest of the files in src/main/target target directory shouldn't be used individually).

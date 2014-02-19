@@ -70,6 +70,7 @@
                     <exclude>WEB-INF/lib/dom4j-*.jar</exclude>
                     <exclude>WEB-INF/lib/jdom-*.jar</exclude>
                     <exclude>WEB-INF/lib/javassist-*.jar</exclude>
+                    <exclude>WEB-INF/lib/weld-*.jar</exclude>
                 </excludes>
             </unpackOptions>
             <useStrictFiltering>true</useStrictFiltering>
