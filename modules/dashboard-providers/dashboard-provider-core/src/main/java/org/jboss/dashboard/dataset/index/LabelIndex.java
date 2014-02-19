@@ -66,7 +66,7 @@ public class LabelIndex implements ColumnIndex {
 
     public synchronized DistinctValue getDistinctValue(Object value) {
         for (DistinctValue distinctValue : disctinctValues) {
-            if (distinctValue.value == value || distinctValue.value.equals(value)) {
+            if (distinctValue.value == value || (distinctValue.value != null && distinctValue.value.equals(value))) {
                 return distinctValue;
             }
         }

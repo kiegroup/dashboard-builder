@@ -496,7 +496,7 @@ public abstract class AbstractFilter implements FilterByCriteria, Cloneable {
             if (value instanceof String) {
                 // Performance improvement: strings do not require formatting.
                 String s1 = (String) value;
-                String s2 = pattern.toString();
+                String s2 = pattern != null ? pattern.toString() : null;
                 return compare(s1, s2, 1);
             } else {
                 // Non-string values need to be formatted for comparison first.
