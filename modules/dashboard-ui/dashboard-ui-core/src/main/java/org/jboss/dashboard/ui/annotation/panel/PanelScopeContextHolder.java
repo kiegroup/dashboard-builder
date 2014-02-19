@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class PanelScopeContextHolder implements Serializable {
 
     private static Logger log = LoggerFactory.getLogger(PanelScopeContextHolder.class);
-    private static String ATTR_PREFFIX = "cdi://";
+    private static String ATTR_PREFFIX = "_cdi_";
     private static PanelScopeContextHolder INSTANCE;
 
     private ThreadLocal backup = new ThreadLocal();

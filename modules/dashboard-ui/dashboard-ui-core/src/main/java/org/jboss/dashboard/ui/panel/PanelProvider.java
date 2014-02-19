@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.panel;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
@@ -313,8 +312,12 @@ public class PanelProvider {
         this.bundles = bundles;
     }
 
-    public final boolean isEnabled() {
+    public boolean isEnabled() {
         return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**
@@ -340,29 +343,11 @@ public class PanelProvider {
     }
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         for (int i = 0; i < defaultBundleFiles.length; i++) {
             String defaultBundleFile = defaultBundleFiles[i];
             File bundleFile = new File(Application.lookup().getBaseAppDirectory() + defaultBundleFile);
             bundles.add(bundleFile);
         }
-    }
-
-    public static PanelProvider getInvalidPanelProvider(String id) throws Exception {
-        PanelProvider p = CDIBeanLocator.getBeanByType(PanelProvider.class);
-        //Add invalid driver page
-        p.addPage(PanelDriver.PAGE_MANAGE_INVALID_DRIVER, p.getInvalidDriverPage());
-        p.setId(id);
-        p.setDescription("?");
-        p.setGroup("?");
-        PanelDriver driver = new PanelDriver() {
-            public void initPanelSession(PanelSession panelSession, HttpSession session) {
-                panelSession.setCurrentPageId(PAGE_MANAGE_INVALID_DRIVER);
-            }
-        };
-        driver.initSystemParameters(p);
-        p.setDriver(driver);
-        p.enabled = true;
-        return p;
     }
 }

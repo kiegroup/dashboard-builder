@@ -22,6 +22,7 @@ import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
+import org.jboss.dashboard.ui.panel.InvalidPanelDriver;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
@@ -92,6 +93,9 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
 
     @Inject
     private PanelHelpManager panelHelpManager;
+
+    @Inject
+    protected InvalidPanelDriver invalidPanelDriver;
 
     private Map<String,PanelProvider> panels = new HashMap<String,PanelProvider>();
 
@@ -392,7 +396,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
     }
 
     public PanelProvider getProvider(String id) {
-        return (PanelProvider) panels.get(id);
+        return panels.get(id);
     }
 
     /**
@@ -491,5 +495,15 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
         }catch (Exception e){
         }
         return defaultProviderGroupThumbnail;
+    }
+
+    public PanelProvider getInvalidPanelProvider(String id) throws Exception {
+        PanelProvider p = CDIBeanLocator.getBeanByType(PanelProvider.class);
+        p.addPage(PanelDriver.PAGE_MANAGE_INVALID_DRIVER, p.getInvalidDriverPage());
+        p.setId(id);
+        p.setDescription("?");
+        p.setGroup("?");
+        invalidPanelDriver.init(p);
+        return p;
     }
 }

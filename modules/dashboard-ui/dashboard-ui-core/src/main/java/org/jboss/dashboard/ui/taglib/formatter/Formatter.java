@@ -26,6 +26,7 @@ import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -62,8 +63,7 @@ import java.util.Map;
  */
 public abstract class Formatter {
 
-    @Inject
-    private transient Logger log;
+    private transient Logger log = LoggerFactory.getLogger(Formatter.class);
 
     private FormatterTag tag;
     private Locale currentLocale;

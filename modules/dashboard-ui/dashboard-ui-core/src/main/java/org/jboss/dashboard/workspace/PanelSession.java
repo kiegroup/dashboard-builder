@@ -97,7 +97,7 @@ public class PanelSession implements HttpSession {
         workspaceId = panel.getWorkspace().getId();
         pageId = panel.getSection().getId();
         panelId = panel.getPanelId();
-        attributePrefix = workspaceId + "." + pageId + "." + panelId + ".";
+        attributePrefix = "_panel_" + workspaceId + "." + pageId + "." + panelId + ".";
     }
 
     public String getCurrentPageId() {

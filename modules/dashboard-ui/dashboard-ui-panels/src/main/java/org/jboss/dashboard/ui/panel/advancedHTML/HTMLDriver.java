@@ -35,7 +35,9 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -61,6 +63,9 @@ public class HTMLDriver extends PanelDriver implements Exportable {
 
     private static final String ATTR_TEXT = "text";
     private static final String ATTR_EDITING_LANGUAGE = "lang";
+
+    @Inject
+    Logger log;
 
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);
@@ -167,7 +172,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
             for (int i = 0; i < locales.length; i++) {
                 Locale locale = locales[i];
-                ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
+                ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
                 textToCreate.setText(locale.getLanguage(), i18n.getString("defaultContent"));
             }
             textToCreate.save();

@@ -40,7 +40,7 @@ public class DataSourceManager {
     private static transient Logger log = LoggerFactory.getLogger(DataSourceManager.class.getName());
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         // Load database drivers.
         for (DataSourceEntry entry : getDataSourceEntries()) {
             checkDriverClassAvailable(entry.getDriverClass());

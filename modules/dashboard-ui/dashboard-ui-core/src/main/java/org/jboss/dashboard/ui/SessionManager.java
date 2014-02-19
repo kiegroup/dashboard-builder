@@ -45,30 +45,6 @@ public class SessionManager {
     @Inject /** Logger */
     private transient Logger log;
 
-    private int activeSessions = 0;
-
-    public int getActiveSessions() {
-        return activeSessions;
-    }
-
-    /**
-     * Called when a session expires.
-     */
-    public void expireSession(HttpSession session) {
-        if (activeSessions > 0) activeSessions--;
-        log.info("Session " + session.getId() + " expired. " + activeSessions + " active sessions.");
-    }
-
-    /**
-     * Called when a new session is created.
-     */
-    public void initSession(HttpServletRequest request, HttpServletResponse response) {
-        activeSessions++;
-
-        log.debug("Request " + request.getRequestURI() + "?" + request.getQueryString() + " caused session to be created.");
-        log.info("Session " + request.getSession(false).getId() + " created. " + activeSessions + " active sessions.");
-    }
-
     /**
      * Returns current form status
      */
@@ -122,7 +98,7 @@ public class SessionManager {
     public static PanelSession getPanelSession(Panel panel) {
         RequestContext reqCtx = RequestContext.getCurrentContext();
         HttpSession session = reqCtx.getRequest().getSessionObject();
-        String key = "_panel_status_" + panel.getWorkspace().getId() + "." + panel.getSection().getId() + "." + panel.getPanelId();
+        String key = "_panel_" + panel.getWorkspace().getId() + "." + panel.getSection().getId() + "." + panel.getPanelId();
         PanelSession panelStatus = (PanelSession) session.getAttribute(key);
 
         if (panelStatus == null) {

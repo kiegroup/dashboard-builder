@@ -121,4 +121,9 @@ public interface PanelsProvidersManager {
     public String[] enumerateDisabledProvidersGroups();
 
     public String getProviderGroupImage(String groupId);
+
+    /**
+     * Returns a panel provider mocked instance for dealing with those panels which provider doesn't exists.
+     */
+    PanelProvider getInvalidPanelProvider(String id) throws Exception;
 }

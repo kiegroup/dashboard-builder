@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.config;
+package org.jboss.dashboard.ui.panel;
 
-import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.ApplicationScoped;
+import javax.servlet.http.HttpSession;
 
-import org.jboss.dashboard.ui.config.treeNodes.RootNode;
+import org.jboss.dashboard.workspace.PanelSession;
 
-@SessionScoped
-public class ConfigurationTree extends AbstractTree implements Serializable {
+@ApplicationScoped
+public class InvalidPanelDriver extends PanelDriver {
 
-    @Inject
-    private RootNode rootNode;
-
-    private RootNode[] mainNodes;
-
-    @PostConstruct
-    public void init() {
-        rootNode.setTree(this);
-        mainNodes = new RootNode[] {rootNode};
+    public void init(PanelProvider p) {
+        initSystemParameters(p);
+        p.setDriver(this);
+        p.setEnabled(true);
     }
-
-    public TreeNode[] getMainNodes() {
-        return mainNodes;
+    public void initPanelSession(PanelSession panelSession, HttpSession session) {
+        panelSession.setCurrentPageId(PAGE_MANAGE_INVALID_DRIVER);
     }
 }

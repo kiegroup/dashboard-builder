@@ -45,30 +45,12 @@ import java.util.Map;
 @ApplicationScoped
 public class URLMarkupGenerator {
 
-    @Inject
-    private transient Logger log;
-
-    private String handler = "factory";
-    private String action = "set";
     public static final String COMMAND_RUNNER = "Controller";
     public static final String FRIENDLY_PREFIX = "workspace";
     public static final String PARAM_SEPARATOR = "\u0026";
 
-    public String getHandler() {
-        return handler;
-    }
-
-    public void setHandler(String handler) {
-        this.handler = handler;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
+    @Inject
+    private transient Logger log;
 
     /**
      * Get a permanent link to a given action on a bean

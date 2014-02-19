@@ -152,16 +152,17 @@ public class PanelInstance implements Cloneable, Visitable {
 
     public PanelProvider getProvider() {
         if (provider == null || !providerName.equals(provider.getId())) {
+            PanelsProvidersManager ppm = UIServices.lookup().getPanelsProvidersManager();
             try {
-                PanelProvider provider = UIServices.lookup().getPanelsProvidersManager().getProvider(providerName);
+                PanelProvider provider = ppm.getProvider(providerName);
                 if (provider == null) {
                     log.error("Can't find provider " + providerName);
-                    provider = PanelProvider.getInvalidPanelProvider(providerName);
+                    provider = ppm.getInvalidPanelProvider(providerName);
                 }
                 setProvider(provider);
             } catch (Exception e) {
                 try {
-                    setProvider(PanelProvider.getInvalidPanelProvider(providerName));
+                    setProvider(ppm.getInvalidPanelProvider(providerName));
                 } catch (Exception e1) {
                     log.error("Error getting the default provider instance:", e1);
                 }

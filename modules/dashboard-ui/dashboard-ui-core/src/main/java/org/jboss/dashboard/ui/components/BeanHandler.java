@@ -22,6 +22,8 @@ import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
 import org.jboss.dashboard.profiler.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -32,8 +34,7 @@ import javax.inject.Named;
 
 public abstract class BeanHandler implements Serializable {
 
-    @Inject
-    private transient Logger log;
+    private transient Logger log = LoggerFactory.getLogger(BeanHandler.class);
 
     private List propertyErrors = new ArrayList();
     private Set wrongFields = new HashSet();
@@ -74,7 +75,7 @@ public abstract class BeanHandler implements Serializable {
     }
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         if (isUseActionShortcuts()) {
             calculateActionShortcuts();
         }

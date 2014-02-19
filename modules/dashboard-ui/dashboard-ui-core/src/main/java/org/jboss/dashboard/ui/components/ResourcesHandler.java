@@ -44,7 +44,7 @@ public class ResourcesHandler extends BeanHandler {
     private transient Logger log;
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         super.start();
         setUseActionShortcuts(false);
     }

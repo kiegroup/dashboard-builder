@@ -16,15 +16,12 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
-import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,32 +29,35 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionBindingListener;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
 @ApplicationScoped
 public class SessionInitializer implements RequestChainProcessor {
 
-    private final static String SESSION_ATTRIBUTE_INITIALIZED = "controller.initialized";
-    private final static String SESSION_ATTRIBUTE_BIND_LISTENER = "controller.bind.listener";
+    private final static String SESSION_ATTRIBUTE_INITIALIZED = "dashbuilder.initialized";
 
     @Inject
     private transient Logger log;
 
-    @Inject @Config("/expired.jsp")
-    private String expiredUrl;
-
-    @Inject @Config("/expired.jsp")
-    private boolean performExpiredRecovery = true;
-
     @Inject
     private NavigationCookieProcessor navigationCookieProcessor;
+
+    @Inject
+    private SessionManager sessionManager;
 
     public static boolean isNewSession(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         return !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
+    }
+
+    protected void initSession(HttpServletRequest request, HttpServletResponse response) {
+        log.debug("Initializing new session.");
+        request.getSession().setAttribute(SESSION_ATTRIBUTE_INITIALIZED, "true");
+
+        // Catch the user preferred language.
+        PreferredLocale preferredLocale =  getPreferredLocale(request);
+        LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
     }
 
     public boolean processRequest(CommandRequest req) throws Exception {
@@ -68,79 +68,13 @@ public class SessionInitializer implements RequestChainProcessor {
 
         // Check session expiration
         if (request.getRequestedSessionId() != null && !request.getRequestedSessionId().equals(session.getId())) {
-            return handleExpiration(request, response);
-        }
-
-        // Verify session integrity
-        if (!verifySession(session)) {
-            throw new Exception("Session verification failed.");
-        }
-
-        return true;
-    }
-
-    /**
-     * Called when a new session is created. Its default behaviour is notifying
-     * the event to all the listeners registered.
-     */
-    protected void initSession(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("New session created. Firing event");
-        SessionManager.lookup().initSession(request, response);
-
-        // Catch the user preferred language.
-        PreferredLocale preferredLocale =  getPreferredLocale(request);
-        LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
-
-        // Store a HttpBindingListener object to detect session expiration
-        request.getSession().setAttribute(SESSION_ATTRIBUTE_BIND_LISTENER, new HttpSessionBindingListener() {
-            public void valueBound(HttpSessionBindingEvent httpSessionBindingEvent) {
-            }
-
-            public void valueUnbound(HttpSessionBindingEvent httpSessionBindingEvent) {
-                SessionManager.lookup().expireSession(httpSessionBindingEvent.getSession());
-            }
-        });
-        request.getSession().setAttribute(SESSION_ATTRIBUTE_INITIALIZED, "true");
-    }
-
-    /**
-     * Check that current session has all the required parameters, and issue warnings if not.
-     */
-    protected boolean verifySession(HttpSession session) {
-        boolean error = false;
-        Object initialized = session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED);
-        if (!"true".equals(initialized)) {
-            log.error("Current session seems to be not initialized.");
-            error = true;
-        }
-        return !error;
-    }
-
-    /**
-     * Handles expiration of session
-     *
-     * @return false to halt processing
-     */
-    protected boolean handleExpiration(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("Session expiration detected.");
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
-        if (performExpiredRecovery) {
-            // Forward to the same uri, ignoring the request parameters
+            log.debug("Session expiration detected.");
+            ControllerStatus controllerStatus = ControllerStatus.lookup();
             controllerStatus.setResponse(new RedirectToURLResponse(getExpirationRecoveryURL(request)));
-
-        } else {
-            if (expiredUrl != null) {
-                controllerStatus.setResponse(new ShowScreenResponse(expiredUrl));
-            } else {
-                try {
-                    response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED);
-                } catch (java.io.IOException e) {
-                    log.error("I can't handle so many errors in a nice way", e);
-                }
-            }
+            controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
+            return false;
         }
-        controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
-        return false;
+        return true;
     }
 
     protected String getExpirationRecoveryURL(HttpServletRequest request) {

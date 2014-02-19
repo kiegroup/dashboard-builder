@@ -45,6 +45,7 @@ import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.hibernate.Session;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -78,11 +79,7 @@ public class PanelDriver {
     /**
      * Logger
      */
-    @Inject
-    protected Logger log;
-
-    @Inject /** The locale manager. */
-    protected LocaleManager localeManager;
+    private static transient Logger log = LoggerFactory.getLogger(PanelDriver.class.getName());
 
     /**
      * Parameters definitions to be supplied to the panel
@@ -584,7 +581,7 @@ public class PanelDriver {
     }
 
     public ResourceBundle getActionsBundle() {
-        return localeManager.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
+        return LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
     }
 
     /**

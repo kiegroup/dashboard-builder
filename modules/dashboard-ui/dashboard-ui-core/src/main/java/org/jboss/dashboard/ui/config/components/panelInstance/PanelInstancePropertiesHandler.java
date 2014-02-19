@@ -32,11 +32,11 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.utils.forms.RenderUtils;
 import org.jboss.dashboard.users.UserStatus;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class PanelInstancePropertiesHandler extends BeanHandler {
 
-    @Inject
-    private transient Logger log;
+    private static transient Logger log = LoggerFactory.getLogger(PanelInstancePropertiesHandler.class.getName());
 
     private Long panelInstanceId;
     private String workspaceId;

@@ -62,7 +62,7 @@ public class Scheduler {
     protected boolean runOnStart;
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         scheduledTasks = Collections.synchronizedMap(new HashMap<Object,SchedulerTask>());
         threadFactory = new SchedulerThreadFactory();
         executor = new PausableThreadPoolExecutor(maxThreadPoolSize, threadFactory);
@@ -73,7 +73,7 @@ public class Scheduler {
     }
 
     @PreDestroy
-    public void shutdown() throws Exception {
+    public void shutdown() {
         log.debug("Scheduler shutdown started.");
         executor.shutdown();
         log.debug("Scheduler shutdown completed.");

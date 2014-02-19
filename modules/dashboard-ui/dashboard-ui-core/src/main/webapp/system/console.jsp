@@ -40,8 +40,6 @@
     <li><a href="schedulerconsole.jsp">Scheduler tasks</a></li>
     <li><a href="hibernateconsole.jsp">Hibernate stats</a></li>
 </ul>
-<br/>
-&nbsp;&nbsp;&nbsp;Number of active HTTP sessions=<%=SessionManager.lookup().getActiveSessions() %>
 <br/><br/>
 <%= Application.lookup().getCopyright() %>
 </body>

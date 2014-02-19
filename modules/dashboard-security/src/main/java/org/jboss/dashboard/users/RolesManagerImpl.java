@@ -16,6 +16,7 @@
 package org.jboss.dashboard.users;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -26,6 +27,7 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 /**
@@ -44,7 +46,7 @@ public class RolesManagerImpl implements RolesManager {
     protected transient Role roleAnonymous;
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         roleAnonymous = new RoleImpl("anonymous", "Anonymous");
         roleMap = new HashMap<String, Role>();
         roleMap.put(roleAnonymous.getName(), roleAnonymous);
@@ -57,7 +59,7 @@ public class RolesManagerImpl implements RolesManager {
         }
     }
 
-    protected void registerRolesFromConfig() throws Exception {
+    protected void registerRolesFromConfig() {
         for (int i = 0; i < rolesConfig.length; i++) {
             final String[] arr = rolesConfig[i].split("=");
             if (arr.length != 2) throw new IllegalArgumentException("Error: illegal role definition");
@@ -66,26 +68,30 @@ public class RolesManagerImpl implements RolesManager {
         }
     }
 
-    protected void registerRolesFromWebXml(File webXml) throws Exception {
-        SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(webXml);
-        Element root = doc.getRootElement();
+    protected void registerRolesFromWebXml(File webXml) {
+        try {
+            SAXBuilder builder = new SAXBuilder();
+            Document doc = builder.build(webXml);
+            Element root = doc.getRootElement();
 
-        // Register a role instance for every <security-role> defined in the web.xml descriptor.
-        List bundleNodes = root.getChildren("security-role");
-        for (Iterator iterator = bundleNodes.iterator(); iterator.hasNext();) {
-            Element el_role = (Element) iterator.next();
-            List ch_role = el_role.getChildren();
-            RoleImpl role = new RoleImpl();
-            for (int i = 0; i < ch_role.size(); i++) {
-                Element el_child = (Element) ch_role.get(i);
-                if (el_child.getName().equals("role-name")) role.setName(el_child.getValue().trim());
-                if (el_child.getName().equals("description")) role.setDescription(el_child.getValue().trim());
+            // Register a role instance for every <security-role> defined in the web.xml descriptor.
+            List bundleNodes = root.getChildren("security-role");
+            for (Iterator iterator = bundleNodes.iterator(); iterator.hasNext();) {
+                Element el_role = (Element) iterator.next();
+                List ch_role = el_role.getChildren();
+                RoleImpl role = new RoleImpl();
+                for (int i = 0; i < ch_role.size(); i++) {
+                    Element el_child = (Element) ch_role.get(i);
+                    if (el_child.getName().equals("role-name")) role.setName(el_child.getValue().trim());
+                    if (el_child.getName().equals("description")) role.setDescription(el_child.getValue().trim());
+                }
+                // Only register the role if a non-empty name has been assigned.
+                if (!StringUtils.isBlank(role.getName())) {
+                    roleMap.put(role.getName(), role);
+                }
             }
-            // Only register the role if a non-empty name has been assigned.
-            if (!StringUtils.isBlank(role.getName())) {
-                roleMap.put(role.getName(), role);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -19,13 +19,12 @@ import org.jboss.dashboard.ui.config.ConfigurationTree;
 import org.jboss.dashboard.ui.config.ConfigurationTreeStatus;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.ui.config.Tree;
 import org.jboss.dashboard.ui.config.TreeNode;
-import org.jboss.dashboard.ui.config.TreeStatus;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -37,8 +36,7 @@ public abstract class PanelInstancePropertiesFormatter extends Formatter {
     public static final String PANEL_INSTANCE = "_panelInstance";
     public static final String FORM_STATUS = "_formStatus";
 
-    @Inject
-    private transient Logger log;
+    private static transient Logger log = LoggerFactory.getLogger(PanelInstancePropertiesFormatter.class.getName());
 
     @Inject
     private ConfigurationTree configTree;

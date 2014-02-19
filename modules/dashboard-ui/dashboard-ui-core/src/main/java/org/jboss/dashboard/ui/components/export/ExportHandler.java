@@ -90,7 +90,7 @@ public class ExportHandler extends UIBeanHandler {
     private String initJSP;
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         super.start();
         this.initJSP = getBeanJSP();
     }

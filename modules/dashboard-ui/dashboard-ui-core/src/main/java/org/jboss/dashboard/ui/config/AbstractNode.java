@@ -35,9 +35,6 @@ public abstract class AbstractNode implements TreeNode, Serializable {
     protected boolean editable = true;
     protected boolean expandible = true;
 
-    @Inject /** The locale manager. */
-    protected LocaleManager localeManager;
-
     public boolean isEditable() {
         return editable;
     }
@@ -71,7 +68,7 @@ public abstract class AbstractNode implements TreeNode, Serializable {
     }
 
     protected String getI18nProperty(String name) {
-        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.config.treeNodes.messages", LocaleManager.currentLocale());
+        ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.config.treeNodes.messages", LocaleManager.currentLocale());
         String property = getClass().getName() + "." + name;
         return i18n.getString(property);
     }
