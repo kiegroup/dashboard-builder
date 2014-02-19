@@ -84,7 +84,6 @@ public class ControllerServlet extends HttpServlet {
         } catch (IOException e1) {
             log.error("Error writing to log file: ", e1);
         } finally {
-            Application.lookup().shutdown();
             if (writer != null) {
                 try {
                     writer.close();
@@ -214,13 +213,5 @@ public class ControllerServlet extends HttpServlet {
         // Force the current screen to be refreshed so the error report will be displayed.
         ControllerStatus controllerStatus = ControllerStatus.lookup();
         controllerStatus.setResponse(new ShowCurrentScreenResponse());
-    }
-
-    /**
-     * Called when it's destroyed.
-     */
-    public void destroy() {
-        Application.lookup().shutdown();
-        log.debug("Destroying controller servlet");
     }
 }
