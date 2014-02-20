@@ -104,6 +104,6 @@ User Authentication
 --------------------------
 
 Once started, open a browser and type the following URL:
-<code>http://localhost:8080/dashbuilder</code>. A login page should be displayed.
+<code>http://localhost:9081/dashbuilder</code>. A login page should be displayed.
 
 You can sign in with any of the users defined above.
