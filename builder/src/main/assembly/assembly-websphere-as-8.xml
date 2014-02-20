@@ -41,7 +41,6 @@
                     <exclude>WEB-INF/jboss-web.xml</exclude>
                     <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
                     <exclude>WEB-INF/web.xml</exclude>
-                    <exclude>WEB-INF/etc/hibernate.cfg.xml</exclude>
                     <exclude>WEB-INF/lib/weld-*.jar</exclude>
                     <exclude>WEB-INF/lib/jta-*.jar</exclude>
                     <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>

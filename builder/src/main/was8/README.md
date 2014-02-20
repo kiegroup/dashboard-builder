@@ -32,7 +32,7 @@ The application requires a datasource. To create it, please follow the next step
 
   - Left side panel, click on _Resources > JDBC > Data sources_
   - Select the appropriate scope and click on the _New_ button.
-  - Fill out the creation form. The _JNDI name_ **MUST** be defined as _jdbc/dashbuilder_. Click _Next_.
+  - Fill out the creation form. Set the _JNDI name_ as, for instance, _jdbc/dashbuilder_. Click _Next_.
   - Select the existing JDBC provider you created. Click _Next_.
   - Keep clicking _Next_ until _Finish_.
   - Save to master configuration.
@@ -59,8 +59,10 @@ Deploy the application
 
   - Left side panel click on *Applications > Application types > Websphere enterprise applications*
   - Click on _Install_, select the *dashbuilder_was_8.war* file from your local filesystem. Click _Next_
-  - From here, you will be asked with several deployments settings. Click _Next_ until finished.
-  - The only setting we recommend to set is the context patch of the webapp to _dashbuilder_.
+  - From here, you will be asked with several deployments settings.
+  - You'll need to select the datasource created above as the datasource to be used by the application.
+  - We also recommend to set is the context patch of the webapp to _dashbuilder_.
+  - Click _Next_ until finished.
 
   Once deployed you can start/stop the application from the Websphere console.
 
