@@ -67,7 +67,16 @@
         <location>/not_authorized.jsp</location>
     </error-page>
 
-    <!-- CDI support -->
+    <!-- Application data source -->
+
+    <resource-ref>
+        <res-ref-name>jdbc/dashbuilder</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+
+  <!-- CDI support -->
 
     <resource-env-ref>
         <resource-env-ref-name>BeanManager</resource-env-ref-name>
