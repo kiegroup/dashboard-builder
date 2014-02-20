@@ -17,7 +17,6 @@ package org.jboss.dashboard;
 
 import org.jboss.dashboard.database.DataSourceManager;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
-import org.jboss.dashboard.filesystem.FileSystemManager;
 import org.jboss.dashboard.database.hibernate.HibernateSessionFactoryProvider;
 import org.jboss.dashboard.error.ErrorManager;
 import org.jboss.dashboard.profiler.Profiler;
@@ -50,9 +49,6 @@ public class CoreServices {
 
     @Inject
     protected ErrorManager errorManager;
-
-    @Inject
-    protected FileSystemManager fileSystemManager;
 
     @Inject
     protected DataSourceManager dataSourceManager;
@@ -95,14 +91,6 @@ public class CoreServices {
 
     public void setErrorManager(ErrorManager errorManager) {
         this.errorManager = errorManager;
-    }
-
-    public FileSystemManager getFileSystemManager() {
-        return fileSystemManager;
-    }
-
-    public void setFileSystemManager(FileSystemManager fileSystemManager) {
-        this.fileSystemManager = fileSystemManager;
     }
 
     public DataSourceManager getDataSourceManager() {

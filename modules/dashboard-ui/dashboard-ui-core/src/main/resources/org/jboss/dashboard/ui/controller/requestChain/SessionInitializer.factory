@@ -18,6 +18,5 @@ $class=org.jboss.dashboard.ui.controller.requestChain.SessionInitializer
 $scope=volatile
 $description=Starting request processing step.
 
-listeners=org.jboss.dashboard.ui.controller.requestChain.SessionCounter
 navigationCookieProcessor=.NavigationCookieProcessor
 nextStep=.FriendlyUrlProcessor

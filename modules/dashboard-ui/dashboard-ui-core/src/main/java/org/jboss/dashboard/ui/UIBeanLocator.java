@@ -47,7 +47,7 @@ public class UIBeanLocator {
     protected Map<String,String> dataDisplayerEditorMap;
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         // Register the provider editors that come de-facto with the product.
         dataProviderEditorMap = new HashMap<String, String>();
         dataProviderEditorMap.put("sql", "org.jboss.dashboard.ui.components.SQLProviderEditor");

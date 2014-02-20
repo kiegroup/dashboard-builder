@@ -229,14 +229,14 @@ public class Profiler implements Runnable {
     // Lifecycle operations
 
     @PostConstruct
-    public void start() throws Exception {
+    public void start() {
         if (runOnStart) {
             turnOn();
         }
     }
 
     @PreDestroy
-    public void shutdown() throws Exception {
+    public void shutdown() {
         turnOff();
     }
 

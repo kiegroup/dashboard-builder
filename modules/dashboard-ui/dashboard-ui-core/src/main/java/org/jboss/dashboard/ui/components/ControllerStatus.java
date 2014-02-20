@@ -49,7 +49,7 @@ public class ControllerStatus {
     private CommandRequest request;
 
     @PostConstruct
-    public void init() throws Exception {
+    public void init() {
         response = new ShowScreenResponse(showPage);
     }
 
