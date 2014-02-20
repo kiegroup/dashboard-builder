@@ -247,12 +247,4 @@ public class ControllerServlet extends HttpServlet {
         ControllerStatus controllerStatus = ControllerStatus.lookup();
         controllerStatus.setResponse(new ShowCurrentScreenResponse());
     }
-
-    /**
-     * Called when it's destroyed.
-     */
-    public void destroy() {
-        Application.lookup().shutdown();
-        log.debug("Destroying controller servlet");
-    }
 }

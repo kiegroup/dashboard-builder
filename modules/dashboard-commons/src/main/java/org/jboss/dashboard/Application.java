@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard;
 
-import org.jboss.dashboard.annotation.DestroyableProcessor;
 import org.jboss.dashboard.annotation.StartableProcessor;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.factory.Factory;
@@ -43,12 +42,8 @@ public class Application {
     protected StartableProcessor startupProcessor;
 
     @Inject
-    protected DestroyableProcessor destroyableProcessor;
-
-    @Inject
     protected LocaleManager localeManager;
 
-    protected boolean upAndRunning = false;
     protected String libDirectory = null;
     protected String baseCfgDirectory = null;
     protected String baseAppDirectory = null;
@@ -95,25 +90,11 @@ public class Application {
         this.globalFactory = globalFactory;
     }
 
-    public boolean isUpAndRunning() {
-        return upAndRunning;
-    }
-
-    public void setUpAndRunning(boolean upAndRunning) {
-        this.upAndRunning = upAndRunning;
-    }
-
     public void start() throws Exception {
         startupProcessor.wakeUpStartableBeans();
-        setUpAndRunning(true);
     }
 
     public void shutdown()  {
-        // NOTE: BZ-1014612 - Deregister cluster node.
-        destroyableProcessor.destroyBeans();
-
-        setUpAndRunning(false);
-
         // Destroy the Factory configuration.
         setGlobalFactory(null);
     }

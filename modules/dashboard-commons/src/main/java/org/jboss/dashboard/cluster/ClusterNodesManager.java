@@ -17,7 +17,6 @@ package org.jboss.dashboard.cluster;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.jboss.dashboard.annotation.Destroyable;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
