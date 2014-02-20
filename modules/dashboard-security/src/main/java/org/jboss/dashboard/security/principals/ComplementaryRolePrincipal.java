@@ -25,27 +25,14 @@ public class ComplementaryRolePrincipal extends DefaultPrincipal {
     private  transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ComplementaryRolePrincipal.class.getName());
 
     /** The locale manager. */
-    protected LocaleManager localeManager;
-
-    public ComplementaryRolePrincipal() {
-        init();
-    }
+    protected LocaleManager localeManager = LocaleManager.lookup();
 
     public ComplementaryRolePrincipal(String name) {
         super(name);
-        init();
     }
 
     public ComplementaryRolePrincipal(Role role) {
         super("!role-" + role.getName());
-        init();
-    }
-
-    /**
-     * Initialize class members.
-     */
-    protected void init() {
-        localeManager = LocaleManager.lookup();
     }
 
     public String toString() {
