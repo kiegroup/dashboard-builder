@@ -109,7 +109,7 @@ public class ControllerStatus {
             else if (requestURI.startsWith(consumedUri)) {
                 String uriToForward = requestURI.substring(consumedUri.length());
                 setResponse(new RedirectToURLResponse(uriToForward, !uriToForward.startsWith(request.getRequestObject().getContextPath())));
-                log.warn("Redirecting to static URI: " + uriToForward);
+                log.debug("Redirecting to static URI: " + uriToForward);
             }
             else {
                 log.error("Consumed URI " + consumedUri + " is not even part of request URI: " + requestURI +

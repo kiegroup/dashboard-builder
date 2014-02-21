@@ -84,16 +84,6 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     @Override
-    public void beforeRenderBean() {
-        super.beforeRenderBean();
-        try {
-            RequestContext.getCurrentContext().getRequest().getRequestObject().setAttribute(Parameters.RENDER_PANEL, getPanel());
-        } catch (Exception e) {
-            getLogger().warn("Error setting current panel: ", e);
-        }
-    }
-
-    @Override
     public void afterRenderBean() {
         super.afterRenderBean();
         try {

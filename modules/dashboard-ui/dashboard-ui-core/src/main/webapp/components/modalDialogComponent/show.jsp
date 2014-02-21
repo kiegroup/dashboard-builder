@@ -68,10 +68,12 @@
     </mvc:fragment>
 
     <mvc:fragment name="output">
+        <mvc:fragmentValue name="component" id="component">
         <mvc:fragmentValue name="componentName" id="componentName">
             <div id="<%=HTTPSettings.AJAX_AREA_PREFFIX + "modal_component_" + componentName%>">
-                <factory:useComponent bean="<%=(String)componentName%>"/>
+                <factory:useComponent bean="<%= component %>"/>
             </div>
+        </mvc:fragmentValue>
         </mvc:fragmentValue>
     </mvc:fragment>
 

@@ -55,35 +55,46 @@ public class PanelScopeContextHolder implements Serializable {
         String key = getBeanKey(bean);
         HttpSession session = getSession();
         if (session != null) {
-            return (T) session.getAttribute(key);
+            BeanHolder<T> beanHolder = (BeanHolder<T>) session.getAttribute(key);
+            return beanHolder == null ? null : beanHolder.instance;
         } else {
             Map m = (Map) backup.get();
             if (m == null) backup.set(m = new HashMap());
-            return (T) m.get(key);
+            BeanHolder<T> beanHolder = (BeanHolder<T>) m.get(key);
+            return beanHolder == null ? null : beanHolder.instance;
         }
     }
 
     public <T> T registerBeanInstance(Bean<T> bean, CreationalContext<T> ctx, T obj) {
-        BeanInstance beanInstance = new BeanInstance();
-        beanInstance.bean = bean;
-        beanInstance.ctx = ctx;
-        beanInstance.instance = obj;
+        BeanHolder beanHolder = new BeanHolder();
+        beanHolder.bean = bean;
+        beanHolder.ctx = ctx;
+        beanHolder.instance = obj;
 
         String key = getBeanKey(bean);
         HttpSession session = getSession();
         if (session != null) {
-            session.setAttribute(key, obj);
+            session.setAttribute(key, beanHolder);
         } else {
             Map m = (Map) backup.get();
             if (m == null) backup.set(m = new HashMap());
-            m.put(key, obj);
+            m.put(key, beanHolder);
         }
         return obj;
     }
 
-    public <T> void destroyBean(Bean<T> bean) {
-        /*getBeans().remove(panelScopeInstance.bean.getBeanClass());
-        panelScopeInstance.bean.destroy(panelScopeInstance.instance, panelScopeInstance.ctx);*/
+    public <T> void destroyBean(HttpSession session, String name) {
+        if (session != null && isPanelScopedBean(name)) {
+            BeanHolder<T> beanHolder = (BeanHolder<T>) session.getAttribute(name);
+            if (beanHolder != null) {
+                session.removeAttribute(name);
+                beanHolder.bean.destroy(beanHolder.instance, beanHolder.ctx);
+            }
+        }
+    }
+
+    public boolean isPanelScopedBean(String name) {
+        return name != null && name.startsWith(ATTR_PREFFIX);
     }
 
     public void clear() {
@@ -113,7 +124,7 @@ public class PanelScopeContextHolder implements Serializable {
     /**
      * Wrap necessary properties so we can destroy the bean later:
      */
-    public static class BeanInstance<T> {
+    public static class BeanHolder<T> {
 
         Bean<T> bean;
         CreationalContext<T> ctx;

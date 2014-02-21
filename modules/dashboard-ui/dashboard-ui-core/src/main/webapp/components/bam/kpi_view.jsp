@@ -22,17 +22,18 @@
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayer" %>
 <%@ page import="org.jboss.dashboard.kpi.KPI" %>
+<%@ page import="org.jboss.dashboard.ui.components.DataDisplayerViewer" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     KPIViewer kpiViewer = KPIViewer.lookup();
     KPI kpi = kpiViewer.getKpi();
     DataDisplayer displayer = kpi.getDataDisplayer();
-    String viewerPath = UIBeanLocator.lookup().getViewer(displayer).getBeanName();
+    DataDisplayerViewer viewer = UIBeanLocator.lookup().getViewer(displayer);
 %>
 
 <% if (kpiViewer.isReady()) { %>
-    <factory:useComponent bean="<%= viewerPath %>"/>
+    <factory:useComponent bean="<%= viewer %>"/>
 <% } else { %>
     <span class="skn-error"><i18n:message key="kpiViewerComponent.notWellConfigured">!!!Component not configured well</i18n:message></span>
 <% } %>

@@ -84,7 +84,7 @@ public class DataProviderFormatter extends Formatter {
 
                 setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
-                setAttribute("componentPath", editor.getBeanName());
+                setAttribute("component", editor);
                 renderFragment("outputEditProviderPage");
             } else {
                 renderFragment("outputCancelButtonNoTypeSelected");
@@ -125,7 +125,7 @@ public class DataProviderFormatter extends Formatter {
                 setAttribute("error", Boolean.valueOf(handler.getFieldErrors().size() > 0));
                 setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
-                setAttribute("componentPath", editor.getBeanName());
+                setAttribute("component", editor);
                 renderFragment("outputEditProviderPage");
             } else {
                 renderFragment("outputCancelButtonNoTypeSelected");

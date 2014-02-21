@@ -24,4 +24,4 @@
     ShowComponentAjaxResponse scr = (ShowComponentAjaxResponse) cs.getResponse();
     UIBeanHandler component = scr.getComponent();
 %>
-<factory:useComponent bean="<%= component.getBeanName() %>"/>
+<factory:useComponent bean="<%= component %>"/>

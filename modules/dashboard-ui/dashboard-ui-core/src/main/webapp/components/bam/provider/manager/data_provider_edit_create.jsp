@@ -165,10 +165,10 @@
     </mvc:fragment>
 
     <mvc:fragment name="outputEditProviderPage">
-        <mvc:fragmentValue name="componentPath" id="componentPath">
+        <mvc:fragmentValue name="component" id="component">
         <tr>
             <td colspan="3" style="background-color:#ededed;">
-                <br><div style="padding: 15px;"> <factory:useComponent bean="<%= (String) componentPath%>"/> </div><br>
+                <br><div style="padding: 15px;"> <factory:useComponent bean="<%= component %>"/> </div><br>
             </td>
         </tr>
         </mvc:fragmentValue>

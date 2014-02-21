@@ -33,6 +33,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.jboss.dashboard.ui.components.DataDisplayerEditor" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     // Get the selected tab
@@ -41,7 +42,7 @@
     KPI kpi = kpiEditor.getKpi();
     DataDisplayer displayer = kpi.getDataDisplayer();
     DataProvider provider = kpi.getDataProvider();
-    String editorPath = UIBeanLocator.lookup().getEditor(displayer).getBeanName();
+    DataDisplayerEditor editor = UIBeanLocator.lookup().getEditor(displayer);
 %>
 
 <!-- Add the properties to configure the KPIEditor -->
@@ -146,7 +147,7 @@
         </td>
         <td>
             <!-- Include the displayer editor -->
-            <factory:useComponent bean="<%= editorPath %>"/>
+            <factory:useComponent bean="<%= editor %>"/>
         </td>
       </tr>
      </table>

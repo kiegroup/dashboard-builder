@@ -59,7 +59,7 @@ public class ModalDialogFormatter extends Formatter implements Serializable {
             setAttribute("isDraggable", modalDialogComponent.isDraggable());
             renderFragment("outputHead");
 
-            setAttribute("componentName", modalDialogComponent.getCurrentComponent().getBeanName());
+            setAttribute("component", modalDialogComponent.getCurrentComponent());
             renderFragment("output");
 
             setAttribute("isModal", modalDialogComponent.isModal());
