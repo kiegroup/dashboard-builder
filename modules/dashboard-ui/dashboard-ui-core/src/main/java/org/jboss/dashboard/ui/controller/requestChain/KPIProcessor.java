@@ -23,6 +23,7 @@ import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.ui.components.KPIViewer;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.DoNothingResponse;
@@ -111,7 +112,8 @@ public class KPIProcessor extends RequestChainProcessor {
             CommandResponse cmdResponse = null;
             if ("SHOW".equalsIgnoreCase(action)) {
                 cmdResponse = processShowKPI(getRequest(), getResponse());
-            } else {
+            }
+            else {
                 log.error("Invalid KPI URL: " + relativeUri);
             }
 
@@ -145,6 +147,7 @@ public class KPIProcessor extends RequestChainProcessor {
         String kpiCode = request.getParameter("kpi");
         KPI kpi = null;
         Panel currentPanel = null;
+        boolean resetFilter = "1".equals(request.getParameter("clean-filter"));
 
         if (kpiCode != null) {
             kpi = DataDisplayerServices.lookup().getKPIManager().getKPIByCode(kpiCode);
@@ -164,10 +167,14 @@ public class KPIProcessor extends RequestChainProcessor {
             getNavigationManager().setCurrentWorkspace(currentPanel.getWorkspace());
             getNavigationManager().setCurrentSection(currentPanel.getSection());
 
+            if(resetFilter ) {
+                DashboardHandler.lookup().getCurrentDashboard().unfilter();
+            }
+
             // Save the current panel instance and set the specified panel as current.
             request.setAttribute(Parameters.RENDER_PANEL, currentPanel);
             KPIViewer kpiViewer = KPIViewer.lookup();
-            kpiViewer.setKpi(kpi);
+            kpiViewer.setKpi(kpi,true);
 
             // Forward to entrance JSP
             request.getRequestDispatcher(getDefaultKpiJsp()).forward(request, response);
