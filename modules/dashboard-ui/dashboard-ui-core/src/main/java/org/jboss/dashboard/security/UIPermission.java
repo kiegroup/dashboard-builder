@@ -34,15 +34,13 @@ public class UIPermission extends DefaultPermission implements Visitable {
     private String actions;
     private boolean readOnly;
 
-    /** The locale manager. */
-    protected static LocaleManager localeManager;
+    protected static LocaleManager localeManager = LocaleManager.lookup();
 
     public UIPermission(String resourceName, String actions) {
         super(resourceName, actions);
         this.resourceName = resourceName;
         this.actions = actions;
         readOnly = false;
-        localeManager = LocaleManager.lookup();
     }
 
     /**

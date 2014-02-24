@@ -38,14 +38,10 @@ public class BackOfficePermission extends UIPermission {
      */
     public static final List LIST_OF_ACTIONS = new ArrayList();
 
-    /** The locale manager. */
-    protected static LocaleManager localeManager;
-
     static {
         LIST_OF_ACTIONS.add(ACTION_USE_GRAPHIC_RESOURCES);
         LIST_OF_ACTIONS.add(ACTION_CREATE_WORKSPACE);
         LIST_OF_ACTIONS.add(ACTION_USE_PERMISSIONS);
-        localeManager = LocaleManager.lookup();
     }
 
     // Factory method(s)
@@ -120,16 +116,5 @@ public class BackOfficePermission extends UIPermission {
 
     public String toString() {
         return "BackOfficePermission (" + super.getResourcePath() + "): " + super.getActions();
-    }
-
-    public static String getActionName(String action, Locale locale) {
-        try {
-            ResourceBundle messages = localeManager.getBundle("org.jboss.dashboard.security.messages", locale);
-            return messages.getString("action." + action);
-        }
-        catch (MissingResourceException mse) {
-            log.warn("Can't find description for " + action + " in locale " + locale);
-            return action;
-        }
     }
 }
