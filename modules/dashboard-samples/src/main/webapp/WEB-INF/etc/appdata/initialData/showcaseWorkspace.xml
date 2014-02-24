@@ -117,13 +117,13 @@
     <panelInstance serialization="" provider="system.workspace_import_export" id="2038">
       <param name="showImport" value="false" lang=" " />
       <param name="title" value="Export Workspaces" lang="en" />
-      <param name="title" value="Exportaci&#243;n de workspaces" lang="es" />
+      <param name="title" value="Exportaci&#243;n de espacios de trabajo" lang="es" />
       <param name="title" value="Exporter Espaces de travail" lang="fr" />
       <param name="title" value="Arbeitsbereiche exportieren" lang="de" />
       <param name="title" value="Exportar espa&#231;os de trabalho" lang="pt" />
       <param name="title" value="&#12527;&#12540;&#12463;&#12473;&#12506;&#12540;&#12473;&#12398;&#12456;&#12463;&#12473;&#12509;&#12540;&#12488;" lang="ja" />
       <param name="title" value="&#23548;&#20986;&#24037;&#20316;&#21306;" lang="zh" />
-      <param name="title" value="Exportaci&#243;n de workspaces" lang="es" />
+      <param name="title" value="Exportaci&#243;n de espacios de trabajo" lang="es" />
     </panelInstance>
     <panelInstance serialization="" provider="dashboard.data_provider_management" id="2985">
       <param name="title" value="Data providers" lang="en" />
@@ -429,13 +429,13 @@
     <panelInstance serialization="" provider="system.workspace_import_export" id="2979">
       <param name="showExport" value="false" lang=" " />
       <param name="title" value="Import Workspace" lang="en" />
-      <param name="title" value="Importaci&#243;n/Exportaci&#243;n de Workspaces" lang="es" />
+      <param name="title" value="Importaci&#243;n/Exportaci&#243;n de espacios de trabajo" lang="es" />
       <param name="title" value="Importer Espace de travail" lang="fr" />
       <param name="title" value="Import von Arbeitsbereich" lang="de" />
       <param name="title" value="Importar Espa&#231;o de Trabalho " lang="pt" />
       <param name="title" value="&#12527;&#12540;&#12463;&#12473;&#12506;&#12540;&#12473;&#12398;&#12452;&#12531;&#12509;&#12540;&#12488;" lang="ja" />
       <param name="title" value="&#23548;&#20837;&#24037;&#20316;&#21306;" lang="zh" />
-      <param name="title" value="Importaci&#243;n de Workspaces" lang="es" />
+      <param name="title" value="Importaci&#243;n de espacios de trabajo" lang="es" />
     </panelInstance>
     <panelInstance serialization="" provider="dashboard.html_editor" id="2981">
       <rawcontent>rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAAHdAACZGV0ABo8aDE+SW1wb3J0IHVuZCBFeHBvcnQ8L2gxPnQAAnpodAAYPGgxPuWvvOWFpeWSjOWvvOWHujwvaDE+dAACcHR0ABw8aDE+SW1wb3J0YXIgZSBFeHBvcnRhcjwvaDE+dAACZnJ0ABk8aDE+SW1wb3J0IGV0IEV4cG9ydDwvaDE+dAACZW50ABo8aDE+SW1wb3J0IGFuZCBFeHBvcnQ8L2gxPnQAAmVzdAAcPGgxPkltcG9ydGFyIHkgZXhwb3J0YXI8L2gxPnQAAmphdAAtPGgxPuOCpOODs+ODneODvOODiOOBqOOCqOOCr+OCueODneODvOODiDwvaDE+eA==</rawcontent>
