@@ -163,7 +163,7 @@
             Locale currentLocale =  localeManager.getCurrentLocale();
             SessionInitializer.PreferredLocale preferredLocale =  SessionInitializer.getPreferredLocale(request);
             if (preferredLocale != null) currentLocale = preferredLocale.asLocale();
-            ResourceBundle i18nBundle = LocaleManager.lookup().getBundle("org.jboss.dashboard.login", currentLocale);
+            ResourceBundle i18nBundle = LocaleManager.lookup().getBundle("org.jboss.dashboard.login.messages", currentLocale);
             String messageKey = request.getParameter("message");
             if (messageKey == null) messageKey = "login.hint";
         %>

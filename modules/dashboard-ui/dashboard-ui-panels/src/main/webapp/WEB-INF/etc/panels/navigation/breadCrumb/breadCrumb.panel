@@ -22,7 +22,7 @@ panel.driver      = org.jboss.dashboard.ui.panel.navigation.breadCrumb.BreadCrum
 # logical pages to JSPs mappings
 jsp.show= /panels/navigation/breadCrumb/show.jsp
 
-resources.messages=./breadCrumb.properties
+resources.messages=./messages.properties
 
 parameter.initialTrimDepth.default=0
 parameter.elementTemplate.default=<a href="{LINK}">{NAME}</a>

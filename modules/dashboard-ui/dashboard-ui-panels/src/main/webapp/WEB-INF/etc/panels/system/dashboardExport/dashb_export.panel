@@ -20,4 +20,4 @@ panel.group       =  panel.group.system
 panel.driver      =  org.jboss.dashboard.ui.panel.kpi.ExportDriver
 
 jsp.show=/panels/kpi/export.jsp
-resources.messages=./dashb_export.properties
+resources.messages=./messages.properties

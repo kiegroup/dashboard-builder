@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2013 JBoss Inc
+# Copyright (C) 2012 JBoss Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,4 +14,17 @@
 # limitations under the License.
 #
 
-dashboard.import.description=Importaci\u00F3 de taulells de comandament
+# Panel descriptor
+panel.id          =  dashboard.kpi
+panel.description =  dashboard.kpi.description
+panel.group       =  panel.group.dashboard
+panel.driver      =  org.jboss.dashboard.ui.panel.kpi.KPIDriver
+
+# Panel JSPs
+jsp.show = /panels/kpi/show.jsp
+jsp.edit = /panels/kpi/edit.jsp
+jsp.provider_selection =/panels/kpi/provider_selection.jsp
+jsp.header=/components/bam/kpi_form_management.jsp
+
+# Panel resources
+resources.messages=./messages.properties
