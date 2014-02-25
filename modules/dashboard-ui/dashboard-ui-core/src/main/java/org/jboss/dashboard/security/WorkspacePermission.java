@@ -89,20 +89,14 @@ public class WorkspacePermission extends UIPermission {
     // java.security.Permission interface
     //
 
+    @Override
     public boolean implies(Permission p) {
-        // Check name
-        if (!super.implies(p)) return false;
-
-        // Check instances
-        if (p == null || !(p instanceof WorkspacePermission)) return false;
-
-        // All checks satisfied
-        return true;
+        return super.implies(p) && (p instanceof WorkspacePermission);
     }
 
     public void grantAllActions() {
         for (String action : LIST_OF_ACTIONS) {
-            this.grantAction(action);
+            grantAction(action);
         }
     }
 
