@@ -21,6 +21,8 @@ import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -41,6 +43,28 @@ public class UIPermission extends DefaultPermission implements Visitable {
         this.resourceName = resourceName;
         this.actions = actions;
         readOnly = false;
+    }
+
+    /**
+     * Check the integrity of the specified actionsString parameter. If the actionsString contains action that is not
+     * contained in the permittedActionsList, IllegalArgumentException is thrown.
+     *
+     * @param actionsString comma separated list of action identifiers
+     * @throws IllegalArgumentException if some action is not contained in the permittedActionsList
+     */
+    void checkActions(String actionsString, List<String> permittedActionsList) throws IllegalArgumentException {
+        if (actionsString == null) return;
+
+        List<String> grantedList = toActionGrantedList(actionsString);
+        List<String> deniedList = toActionDeniedList(actionsString);
+        List<String> allActions = new ArrayList<String>(grantedList);
+        allActions.addAll(deniedList);
+
+        for (String action : allActions) {
+            if (!permittedActionsList.contains(action)) {
+                throw new IllegalArgumentException("Actions String invalid (" + actionsString + ").");
+            }
+        }
     }
 
     /**

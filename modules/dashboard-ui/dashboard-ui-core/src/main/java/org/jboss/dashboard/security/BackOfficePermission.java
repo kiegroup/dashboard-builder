@@ -15,12 +15,13 @@
  */
 package org.jboss.dashboard.security;
 
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 
 import java.security.Permission;
 import java.security.Principal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A permission inside the back-office area.
@@ -66,28 +67,10 @@ public class BackOfficePermission extends UIPermission {
     }
 
     /**
-     * Check the integrity of the specified actions parameter.
-     * Only allowed action identifiers defined into the <code>BackOfficePermission.LIST_OF_ACTIONS</code> constant
-     * are supported. If this contraint is not satisfied then an exception will be thrown.
-     *
-     * @param actions List of action identifiers separated by comma.
-     * @throws IllegalArgumentException If actions string is invalid.
+     * @throws IllegalArgumentException if actions contains action identifier which is not in {@link #LIST_OF_ACTIONS}
      */
     private void checkActions(String actions) throws IllegalArgumentException {
-        if (actions == null) return;
-
-        List grantedList = super.toActionGrantedList(actions);
-        List deniedList = super.toActionDeniedList(actions);
-        List all = new ArrayList();
-        all.addAll(grantedList);
-        all.addAll(deniedList);
-        Iterator it = all.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
-            if (!LIST_OF_ACTIONS.contains(action)) {
-                throw new IllegalArgumentException("Action list invalid (" + actions + ").");
-            }
-        }
+        checkActions(actions, LIST_OF_ACTIONS);
     }
 
     // java.security.Permission interface

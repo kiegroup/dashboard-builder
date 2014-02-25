@@ -217,9 +217,9 @@ public class DefaultPermission extends Permission {
         return buf.toString();
     }
 
-    protected List toActionGrantedList(String actionList) {
-        List l = new ArrayList();
-        StringTokenizer strtok = new StringTokenizer(actionList, ",");
+    protected List<String> toActionGrantedList(String actionsString) {
+        List<String> l = new ArrayList<String>();
+        StringTokenizer strtok = new StringTokenizer(actionsString, ",");
         while (strtok.hasMoreTokens()) {
             String action = strtok.nextToken().trim();
             if (!action.startsWith("!")) l.add(action);
@@ -227,9 +227,9 @@ public class DefaultPermission extends Permission {
         return l;
     }
 
-    protected List toActionDeniedList(String actionList) {
-        List l = new ArrayList();
-        StringTokenizer strtok = new StringTokenizer(actionList, ",");
+    protected List<String> toActionDeniedList(String actionsString) {
+        List<String> l = new ArrayList<String>();
+        StringTokenizer strtok = new StringTokenizer(actionsString, ",");
         while (strtok.hasMoreTokens()) {
             String action = strtok.nextToken().trim();
             if (action.startsWith("!")) l.add(action.substring(1));
