@@ -14,18 +14,15 @@
 # limitations under the License.
 #
 
-#
-# HTML code panel
-#
-panel.id          =  dashboard.html_editor
-panel.description =  dashboard.html_editor.description
+# Panel descriptor
+panel.id          =  dashboard.filter
+panel.description =  dashboard.filter.description
 panel.group       =  panel.group.dashboard
-panel.driver      =  org.jboss.dashboard.ui.panel.dashboard.DashboardHTMLDriver
+panel.driver      =  org.jboss.dashboard.ui.panel.dashboard.DashboardFilterDriver
 
-panel.thumbnail =/panels/thumbnails/html.png
+# Panel JSPs
+jsp.show       = /panels/dashboard/filter/show.jsp
+jsp.edit       = /panels/dashboard/filter/show.jsp
 
-# logical pages to JSPs mappings
-jsp.show       = /panels/advanced_html/show.jsp
-jsp.edit       = /panels/advanced_html/edit.jsp
-
-resources.messages=./dashb_htmleditor.properties
+# Panel resources
+resources.messages=./messages.properties

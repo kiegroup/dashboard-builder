@@ -69,7 +69,7 @@ public class ImportExportMessage extends AbstractMessage {
 
     public String getMessage(String messageCode, Locale l) {
         try {
-            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.export.errors", l);
+            ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.export.messages", l);
             return messageCode + " - " + i18n.getString(messageCode);
         } catch (Exception e) {
             return messageCode;
