@@ -246,11 +246,13 @@
                     **/*messages.properties,
                     **/org/jboss/dashboard/export/errors.properties,
                     **/org/jboss/dashboard/login.properties,
+                    **/webapp/WEB-INF/etc/panels/messages.properties,
                     **/webapp/WEB-INF/etc/panels/dashboard/dashb_kpi.properties,
                     **/webapp/WEB-INF/etc/panels/dashboard/dashb_providermgr.properties,
                     **/webapp/WEB-INF/etc/panels/dashboard/dashb_htmleditor.properties,
                     **/webapp/WEB-INF/etc/panels/dashboard/dashb_filter.properties,
-                    **/webapp/WEB-INF/etc/panels/system/dashboardExport/dashb_export.properties,
+                    **/webapp/WEB-INF/etc/panels/system/dashboardExport/dashb_import.properties,
+                    **/webapp/WEB-INF/etc/panels/system/dashboardImport/dashb_export.properties,
                     **/webapp/WEB-INF/etc/panels/navigation/breadCrumb/breadCrumb.properties
                 </includes>
               </configuration>
