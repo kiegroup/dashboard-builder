@@ -20,6 +20,7 @@ import org.jboss.dashboard.SecurityServices;
 import java.security.Permission;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -44,19 +45,15 @@ public class WorkspacePermission extends UIPermission {
     /**
      * Actions supported by this permission.
      */
-    public static final List<String> LIST_OF_ACTIONS;
-
-    static {
-        List<String> actionList = new ArrayList<String>();
-        actionList.add(ACTION_LOGIN);
-        actionList.add(ACTION_ADMIN);
-        actionList.add(ACTION_CREATE_PAGE);
-        actionList.add(ACTION_EDIT);
-        actionList.add(ACTION_DELETE);
-        actionList.add(ACTION_EDIT_PERMISSIONS);
-        actionList.add(ACTION_ADMIN_PROVIDERS);
-        LIST_OF_ACTIONS = Collections.unmodifiableList(actionList);
-    }
+    public static final List<String> LIST_OF_ACTIONS = Collections.unmodifiableList(Arrays.asList(new String[]{
+        ACTION_LOGIN,
+        ACTION_ADMIN,
+        ACTION_CREATE_PAGE,
+        ACTION_EDIT,
+        ACTION_DELETE,
+        ACTION_EDIT_PERMISSIONS,
+        ACTION_ADMIN_PROVIDERS,
+    }));
 
     // Factory method(s)
     //
@@ -124,9 +121,7 @@ public class WorkspacePermission extends UIPermission {
     }
 
     public void grantAllActions() {
-        Iterator it = LIST_OF_ACTIONS.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
+        for (String action : LIST_OF_ACTIONS) {
             this.grantAction(action);
         }
     }

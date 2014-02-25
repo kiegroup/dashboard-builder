@@ -36,13 +36,11 @@ public class BackOfficePermission extends UIPermission {
     /**
      * Actions supported by this permission.
      */
-    public static final List LIST_OF_ACTIONS = new ArrayList();
-
-    static {
-        LIST_OF_ACTIONS.add(ACTION_USE_GRAPHIC_RESOURCES);
-        LIST_OF_ACTIONS.add(ACTION_CREATE_WORKSPACE);
-        LIST_OF_ACTIONS.add(ACTION_USE_PERMISSIONS);
-    }
+    public static final List<String> LIST_OF_ACTIONS = Collections.unmodifiableList(Arrays.asList(new String[]{
+        ACTION_USE_GRAPHIC_RESOURCES,
+        ACTION_CREATE_WORKSPACE,
+        ACTION_USE_PERMISSIONS
+    }));
 
     // Factory method(s)
     //
@@ -107,9 +105,7 @@ public class BackOfficePermission extends UIPermission {
     }
 
     public void grantAllActions() {
-        Iterator it = LIST_OF_ACTIONS.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
+        for (String action : LIST_OF_ACTIONS) {
             this.grantAction(action);
         }
     }

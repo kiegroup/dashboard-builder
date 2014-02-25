@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 import java.security.Permission;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -44,17 +45,13 @@ public class PanelPermission extends UIPermission {
     /**
      * Actions supported by this permission.
      */
-    public static final List LIST_OF_ACTIONS;
-
-    static {
-        List actionList = new ArrayList();
-        actionList.add(ACTION_VIEW);
-        actionList.add(ACTION_EDIT);
-//        actionList.add(ACTION_MAXIMIZE);
-//        actionList.add(ACTION_MINIMIZE);
-        actionList.add(ACTION_EDIT_PERMISSIONS);
-        LIST_OF_ACTIONS = Collections.unmodifiableList(actionList);
-    }
+    public static final List<String> LIST_OF_ACTIONS = Collections.unmodifiableList(Arrays.asList(new String[]{
+        ACTION_VIEW,
+        ACTION_EDIT,
+        //ACTION_MAXIMIZE,
+        //ACTION_MINIMIZE,
+        ACTION_EDIT_PERMISSIONS
+    }));
 
     // Factory method(s)
     //
@@ -129,9 +126,7 @@ public class PanelPermission extends UIPermission {
     }
 
     public void grantAllActions() {
-        Iterator it = LIST_OF_ACTIONS.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
+        for (String action : LIST_OF_ACTIONS) {
             this.grantAction(action);
         }
     }
