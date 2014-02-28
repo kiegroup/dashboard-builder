@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.config.components.sections;
 
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
+import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.config.ConfigurationTree;
@@ -657,11 +658,10 @@ public class SectionsPropertiesHandler extends BeanHandler {
             if (action.equals(ACTION_PREVIEW)) return;
 
             if (validateBeforeEdition()) {
-                final Section newSection = new Section();
                 try {
-
+                    // Create a new section instance.
+                    final Section newSection = new Section();
                     WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
-
                     newSection.setTitle(titleMap);
                     if ((parent != null && !"".equals(parent))) {
                         newSection.setParent(workspace.getSection(new Long(parent)));
@@ -673,22 +673,23 @@ public class SectionsPropertiesHandler extends BeanHandler {
                     newSection.setPanelsCellSpacing(new Integer(2));
                     newSection.setLayoutId(layout);
 
-                    HibernateTxFragment txFragment = new HibernateTxFragment() {
-                        protected void txFragment(Session session) throws Exception {
+                    // Make changes persistent
+                    new HibernateTxFragment() {
+                    protected void txFragment(Session session) throws Exception {
+                        ((WorkspaceImpl) getWorkspace()).addSection(newSection);
+                        UIServices.lookup().getSectionsManager().store(newSection);
+                        UIServices.lookup().getWorkspacesManager().store(getWorkspace());
+                    }}.execute();
 
-                            ((WorkspaceImpl) getWorkspace()).addSection(newSection);
-                            UIServices.lookup().getSectionsManager().store(newSection);
-                            UIServices.lookup().getWorkspacesManager().store(getWorkspace());
-                        }
-                    };
-
-
-                    txFragment.execute();
+                    // Finish creation action
                     this.setDuplicateSection(Boolean.FALSE);
                     this.setCreateSection(Boolean.FALSE);
                     this.setSelectedSectionId(null);
                     defaultValues();
+
+                    // Print an ok message and move the user into the new page
                     getMessagesComponentHandler().addMessage("ui.alert.sectionCreation.OK");
+                    NavigationManager.lookup().setCurrentSection(newSection);
                 } catch (Exception e) {
                     log.error("Error creating section: ", e);
                     getMessagesComponentHandler().clearAll();
