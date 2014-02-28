@@ -48,9 +48,7 @@ public class ResourceManagerImpl implements ResourceManager, Startable {
                     "envelope=/envelopes," +
                     "envelopePreview=/envelopePreview," +
                     "layout=/layouts," +
-                    "layoutPreview=/layoutPreview," +
-                    "resourcegallery=/resourceGallery," +
-                    "resourcegalleryPreview=/resourceGalleryPreview")
+                    "layoutPreview=/layoutPreview")
     protected Properties mappings = new Properties();
 
     public Priority getPriority() {

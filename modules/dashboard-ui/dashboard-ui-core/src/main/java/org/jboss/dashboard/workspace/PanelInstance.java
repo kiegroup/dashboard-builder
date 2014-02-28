@@ -842,11 +842,10 @@ public class PanelInstance implements Cloneable, Visitable {
         }
 
         //Panel Instance resources
-        GraphicElement[] galleries = UIServices.lookup().getResourceGalleryManager().getElements(getWorkspace().getId(), null, getInstanceId());
         GraphicElement[] skins = UIServices.lookup().getSkinsManager().getElements(getWorkspace().getId(), null, getInstanceId());
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getWorkspace().getId(), null, getInstanceId());
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getWorkspace().getId(), null, getInstanceId());
-        GraphicElement[][] elements = {galleries, skins, envelopes, layouts};
+        GraphicElement[][] elements = {skins, envelopes, layouts};
         for (int i = 0; i < elements.length; i++) {
             GraphicElement[] elementsArray = elements[i];
             for (int j = 0; j < elementsArray.length; j++) {

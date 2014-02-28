@@ -58,9 +58,6 @@ public class UIServices {
     protected EnvelopesManager envelopesManager;
 
     @Inject
-    protected ResourceGalleryManager resourceGalleryManager;
-
-    @Inject
     protected ResourceManager resourceManager;
 
     @Inject
@@ -80,7 +77,7 @@ public class UIServices {
     @PostConstruct
     protected void init() {
         graphicElementManagers = new GraphicElementManager[] {
-                skinsManager, envelopesManager, layoutsManager, resourceGalleryManager};
+                skinsManager, envelopesManager, layoutsManager};
     }
 
     public GraphicElementManager[] getGraphicElementManagers() {
@@ -141,14 +138,6 @@ public class UIServices {
 
     public void setEnvelopesManager(EnvelopesManager envelopesManager) {
         this.envelopesManager = envelopesManager;
-    }
-
-    public ResourceGalleryManager getResourceGalleryManager() {
-        return resourceGalleryManager;
-    }
-
-    public void setResourceGalleryManager(ResourceGalleryManager resourceGalleryManager) {
-        this.resourceGalleryManager = resourceGalleryManager;
     }
 
     public ResourceManager getResourceManager() {

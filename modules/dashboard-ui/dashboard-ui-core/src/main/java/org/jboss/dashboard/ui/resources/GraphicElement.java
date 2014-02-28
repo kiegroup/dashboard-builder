@@ -31,7 +31,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * This class represents a graphic element, that is a Skin, an Envelope, a Layout or a Resource Gallery
+ * This class represents a graphic element, that is a Skin, an Envelope, or a Layout
  */
 public abstract class GraphicElement implements Cloneable, Serializable, ResourceHolder, Lifecycle, Visitable {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GraphicElement.class.getName());
@@ -589,9 +589,11 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
     }
 
     public boolean equals(Object o) {
+        if (o == null) return false;
+        if (this == o) return true;
+
         GraphicElement oElm = (GraphicElement) o;
-        if (getDbid() == null || oElm.getDbid() == null)
-            return false;
+        if (getDbid() == null || oElm.getDbid() == null) return false;
         return getDbid().equals(oElm.getDbid());
     }
 
@@ -605,9 +607,6 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
      *                            from being compared to this Object.
      */
     public int compareTo(Object o) {
-        /*if (o.getClass() != this.getClass()) {
-            throw new ClassCastException("Cannot compare " + o.getClass() + " with " + this.getClass());
-        } Removed, sometimes javassist uses strange class names, so the class is not the same */
         GraphicElement element = (GraphicElement) o;
 
         if (getInstanceManager().isBaseElement(this) && !getInstanceManager().isBaseElement(element))

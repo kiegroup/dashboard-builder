@@ -940,11 +940,10 @@ public class Section implements Comparable, Visitable {
         }
 
         //Visit section resources
-        GraphicElement[] galleries = UIServices.lookup().getResourceGalleryManager().getElements(getWorkspace().getId(), getId());
         GraphicElement[] skins = UIServices.lookup().getSkinsManager().getElements(getWorkspace().getId(), getId());
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getWorkspace().getId(), getId());
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getWorkspace().getId(), getId());
-        GraphicElement[][] elements = {galleries, skins, envelopes, layouts};
+        GraphicElement[][] elements = {skins, envelopes, layouts};
         for (int i = 0; i < elements.length; i++) {
             GraphicElement[] elementsArray = elements[i];
             for (int j = 0; j < elementsArray.length; j++) {
@@ -955,7 +954,7 @@ public class Section implements Comparable, Visitable {
 
         // Visit panels
 
-        Panel[] sortedPanels = (Panel[]) getPanels().toArray(new Panel[getPanels().size()]);
+        Panel[] sortedPanels = getPanels().toArray(new Panel[getPanels().size()]);
         Arrays.sort(sortedPanels, new Comparator() {
             public int compare(Object o1, Object o2) {
                 Panel p1 = (Panel) o1;

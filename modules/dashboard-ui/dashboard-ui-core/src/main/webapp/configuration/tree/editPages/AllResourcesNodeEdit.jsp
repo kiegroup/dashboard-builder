@@ -77,8 +77,6 @@
                             request.setAttribute("skin", request.getSession().getAttribute("adminSkinToUse"));
                             if ("skin".equals(graphicElement))
                                 request.setAttribute("previewElementJSP", "previews/skin.jsp");
-                            if ("resourceGallery".equals(graphicElement))
-                                request.setAttribute("previewElementJSP", "previews/resourceGallery.jsp");
                             if ("layout".equals(graphicElement))
                                 request.setAttribute("previewElementJSP", "previews/layoutPreview.jsp");
                     %>

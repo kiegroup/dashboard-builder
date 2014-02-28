@@ -956,11 +956,10 @@ public class WorkspaceImpl implements Workspace {
         }
 
         //Workspace resources
-        GraphicElement[] galleries = UIServices.lookup().getResourceGalleryManager().getElements(getId(), null, null);
         GraphicElement[] skins = UIServices.lookup().getSkinsManager().getElements(getId(), null, null);
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getId(), null, null);
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getId(), null, null);
-        GraphicElement[][] elements = {galleries, skins, envelopes, layouts};
+        GraphicElement[][] elements = {skins, envelopes, layouts};
         for (int i = 0; i < elements.length; i++) {
             GraphicElement[] elementsArray = elements[i];
             for (int j = 0; j < elementsArray.length; j++) {

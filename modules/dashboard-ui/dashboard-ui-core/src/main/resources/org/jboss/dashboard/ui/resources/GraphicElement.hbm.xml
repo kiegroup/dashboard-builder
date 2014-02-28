@@ -56,7 +56,6 @@
         <subclass name="org.jboss.dashboard.ui.resources.Envelope" discriminator-value="envelope"></subclass>
         <subclass name="org.jboss.dashboard.ui.resources.Skin" discriminator-value="skin"></subclass>
         <subclass name="org.jboss.dashboard.ui.resources.Layout" discriminator-value="layout"></subclass>
-        <subclass name="org.jboss.dashboard.ui.resources.ResourceGallery" discriminator-value="resourceGallery"></subclass>
 
     </class>
 

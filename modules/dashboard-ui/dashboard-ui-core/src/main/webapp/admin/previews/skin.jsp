@@ -19,7 +19,6 @@
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%
-    try{
     Skin skin = (Skin) request.getAttribute("previewElement");
     request.getSession().setAttribute("previewElement", skin);
 %>
@@ -92,8 +91,3 @@
         </td>
     </tr>
 </TABLE>
-<%
-    } catch(Exception e){
-        e.printStackTrace();
-    }
-%>

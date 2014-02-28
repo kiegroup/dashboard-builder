@@ -57,7 +57,6 @@ public class SectionsPropertiesHandler extends BeanHandler {
     public static final String ACTION_DELETE = "action_delete_section";
     public static final String ACTION_GO_TO_PROPERTIES = "action_go_to_properties";
     public static final String ACTION_GO_TO_PANELS = "action_go_to_panels";
-    public static final String ACTION_GO_TO_RESOURCES = "action_go_to_resources";
     public static final String ACTION_GO_TO_PERMISSIONS = "action_go_to_permissions";
 
     public static final String ACTION_SAVE = "action_save";
@@ -304,8 +303,6 @@ public class SectionsPropertiesHandler extends BeanHandler {
             actionPromoveParent(request);
         else if (action.equals(ACTION_GO_TO_PANELS))
             actionGoToPagePanels(request);
-        else if (action.equals(ACTION_GO_TO_RESOURCES))
-            actionGoToPageResources(request);
         else if (action.equals(ACTION_GO_TO_PERMISSIONS))
             actionGoToPagePermissions(request);
         else if (action.equals(ACTION_MOVE_SELECTED))
@@ -326,22 +323,6 @@ public class SectionsPropertiesHandler extends BeanHandler {
             getTreeStatus().navigateToPath(getConfigTree(), path.toString());
         } else {
             getErrorPermission().add("errorGoToPanels");
-        }
-    }
-
-    public void actionGoToPageResources(CommandRequest request) throws Exception {
-        WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace();
-        Section section = workspace.getSection(new Long(getSelectedSectionId()));
-        SectionPermission sectionPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_EDIT);
-
-        if (getUserStatus().hasPermission(sectionPerm)) {
-            TreeNode currentNode = getTreeStatus().getLastEditedNode(getConfigTree());
-            StringBuffer path = new StringBuffer();
-            path.append(currentNode.getPath()).append("/").append(getSectionIds(section));
-            path.append("/resources");
-            getTreeStatus().navigateToPath(getConfigTree(), path.toString());
-        } else {
-            getErrorPermission().add("errorGoToResources");
         }
     }
 
@@ -969,6 +950,4 @@ public class SectionsPropertiesHandler extends BeanHandler {
         }
         return false;
     }
-
-
 }

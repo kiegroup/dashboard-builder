@@ -111,10 +111,6 @@
                     (element.getWorkspaceId() != null && element.getSectionId() != null)
                     )
                 if (!manager.isBaseElement(element)) {%>
-            <%--<a href="#" onclick="checkDelete(<%=element.getDbid()%>);return false;"
-               title="<i18n:message key='<%="ui.admin.workarea."+graphicElement+"s.delete"%>'>!!!Delete</i18n:message>">
-                <resource:image category="resourceGallery" categoryId="icons" resourceId="SMALL_x-directory-trash" border="0">
-                    X</resource:image></a>--%>
             <a href="#" onclick="eval('document.delete'+<%=element.getDbid()%> +'.onsubmit()');return false;"
                title="<i18n:message key='<%="ui.admin.workarea."+graphicElement+"s.delete"%>'>!!!Delete</i18n:message>">
                 <img src="<static:image relativePath="general/16x16/ico-directory-trash.png"/>" border="0" ></a>

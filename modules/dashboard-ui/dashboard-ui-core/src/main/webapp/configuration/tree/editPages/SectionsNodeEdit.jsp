@@ -139,15 +139,6 @@
 <%
     }
 %>
-                            <a href="#" onclick="return submitFormAction('<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES%>');" border="0"
-                                title="<i18n:message key="ui.PageGallery"/>"
-                                id="<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES%>">
-                                <img src="<static:image relativePath="general/16x16/ico-menu_resources.png"/>" border="0" />
-                            </a>
-                            <img src="<static:image relativePath="general/16x16/ico-menu_resources.png"/>"
-                                 id="<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES + "_alt"%>"
-                                 title="<i18n:message key="ui.PageGallery"/>"
-                                 style="opacity:0.5;-moz-opacity:0.5;filter:alpha(opacity=50); display:none"/>
                             <a href="#" onclick="return submitFormAction('<%=SectionsPropertiesHandler.ACTION_GO_TO_PERMISSIONS%>');" border="0"
                                 title="<i18n:message key="ui.PagePermissions"/>"
                                 id="<%=SectionsPropertiesHandler.ACTION_GO_TO_PERMISSIONS%>">
@@ -317,15 +308,10 @@
             document.getElementById('id').value = id;
             if (editSection) {
                 document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES%>").style.display = '';
-                document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES%>").style.display = '';
                 document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES + "_alt"%>").style.display = 'none';
-                document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES + "_alt"%>").style.display = 'none';
             } else {
                 document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES%>").style.display = 'none';
-                document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES%>").style.display = 'none';
                 document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES + "_alt"%>").style.display = '';
-                document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_PROPERTIES + "_alt"%>").style.display = '';
-                document.getElementById("<%=SectionsPropertiesHandler.ACTION_GO_TO_RESOURCES + "_alt"%>").style.display = '';
             }
 
             if (editPermissions) {

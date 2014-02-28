@@ -91,7 +91,6 @@ public class HibernateInitializer implements Startable {
     @Inject @Config("org.jboss.dashboard.ui.resources.Envelope," +
                     "org.jboss.dashboard.ui.resources.Skin," +
                     "org.jboss.dashboard.ui.resources.Layout," +
-                    "org.jboss.dashboard.ui.resources.ResourceGallery," +
                     "org.jboss.dashboard.ui.resources.GraphicElement")
     protected String[] verificationExcludedClassNames;
 

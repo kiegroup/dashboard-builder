@@ -74,7 +74,6 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
     private Long currentSectionId;
     private boolean showingConfig = false;
     private boolean userRequiresLoginBackdoor = false;
-    private String currentScreen;
 
     public boolean isUserRequiresLoginBackdoor() {
         return userRequiresLoginBackdoor;
@@ -82,14 +81,6 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
 
     public void setUserRequiresLoginBackdoor(boolean userRequiresLoginBackdoor) {
         this.userRequiresLoginBackdoor = userRequiresLoginBackdoor;
-    }
-
-    public String getCurrentScreen() {
-        return currentScreen;
-    }
-
-    public void setCurrentScreen(String currentScreen) {
-        this.currentScreen = currentScreen;
     }
 
     public boolean isShowingConfig() {

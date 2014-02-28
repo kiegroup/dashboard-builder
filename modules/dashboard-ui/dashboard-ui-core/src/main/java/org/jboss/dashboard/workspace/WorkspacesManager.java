@@ -63,9 +63,6 @@ public class WorkspacesManager {
     @Inject
     protected LayoutsManager layoutsManager;
 
-    @Inject
-    protected ResourceGalleryManager resourceGalleryManager;
-
     /**
      * Generate a unused workspace identifier
      */
