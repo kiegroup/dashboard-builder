@@ -34,8 +34,8 @@ public class DefaultPermission extends Permission {
     //
 
     private Permission basicPerm;
-    private List actionGrantedList;
-    private List actionDeniedList;
+    private List<String> actionGrantedList;
+    private List<String> actionDeniedList;
 
     /**
      * @link aggregationByValue
@@ -58,8 +58,8 @@ public class DefaultPermission extends Permission {
     public DefaultPermission(String resourceName, String actions) {
         super(resourceName);
         basicPerm = new BasicPermissionImpl(resourceName);
-        actionGrantedList = new ArrayList();
-        actionDeniedList = new ArrayList();
+        actionGrantedList = new ArrayList<String>();
+        actionDeniedList = new ArrayList<String>();
         setActions(actions);
     }
 
@@ -129,18 +129,14 @@ public class DefaultPermission extends Permission {
 
         // Check granted actions.
         // This permission must grant at least same actions as 'that'
-        Iterator it = that.actionGrantedList.iterator();
-        while (it.hasNext()) {
-            String thatAction = (String) it.next();
+        for (String thatAction : that.actionGrantedList) {
             if (this.isActionDenied(thatAction)) return PERMISSION_DENIED;
             else if (this.isActionUndefined(thatAction)) return PERMISSION_NOT_GRANTED;
         }
 
         // Check denied actions.
         // This permission must not grant any denied action in 'that'
-        it = that.actionDeniedList.iterator();
-        while (it.hasNext()) {
-            String thatAction = (String) it.next();
+        for (String thatAction : that.actionDeniedList) {
             if (this.isActionGranted(thatAction)) return PERMISSION_DENIED;
             else if (this.isActionUndefined(thatAction)) return PERMISSION_NOT_GRANTED;
         }
@@ -202,15 +198,11 @@ public class DefaultPermission extends Permission {
 
     protected String toActionListString() {
         StringBuffer buf = new StringBuffer();
-        Iterator it = actionGrantedList.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
+        for (String action : actionGrantedList) {
             if (buf.length() > 0) buf.append(",");
             buf.append(action);
         }
-        it = actionDeniedList.iterator();
-        while (it.hasNext()) {
-            String action = (String) it.next();
+        for (String action : actionDeniedList) {
             if (buf.length() > 0) buf.append(",");
             buf.append("!").append(action);
         }
@@ -241,22 +233,20 @@ public class DefaultPermission extends Permission {
         return this.getClass().getName() + " " + getName() + " " + toActionListString();
     }
 
-    List toSimplePermissionList() {
-        List l = new ArrayList();
+    List<DefaultPermission> toSimplePermissionList() {
+        List<DefaultPermission> l = new ArrayList<DefaultPermission>();
         try {
-            Iterator it = actionGrantedList.iterator();
-            while (it.hasNext()) {
+            for (String action : actionGrantedList) {
                 // Use reflection in order to create instances of the same class of this one.
                 Constructor constr = this.getClass().getConstructors()[0];
                 DefaultPermission dp = (DefaultPermission) constr.newInstance(new Object[]{this.getName(), null});
-                dp.grantAction((String) it.next());
+                dp.grantAction(action);
                 l.add(dp);
             }
-            it = actionDeniedList.iterator();
-            while (it.hasNext()) {
+            for (String action : actionDeniedList){
                 Constructor constr = this.getClass().getConstructors()[0];
                 DefaultPermission dp = (DefaultPermission) constr.newInstance(new Object[]{this.getName(), null});
-                dp.denyAction((String) it.next());
+                dp.denyAction(action);
                 l.add(dp);
             }
         }
