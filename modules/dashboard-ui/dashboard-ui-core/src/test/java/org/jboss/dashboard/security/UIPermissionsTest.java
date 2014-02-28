@@ -12,8 +12,10 @@
  */
 package org.jboss.dashboard.security;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -73,5 +75,26 @@ public class UIPermissionsTest {
         assertTrue(pp.implies(p2));
         assertTrue(!pp.implies(p3));
         assertTrue(pp.implies(p4));
+    }
+
+    @Test
+    public void checkListOfActions() throws Exception {
+        List<String> loa;
+
+        loa = (List) PanelPermission.class.getField("LIST_OF_ACTIONS").get(PanelPermission.class);
+        assertThat(loa).contains("view", "edit", "edit perm")
+                .hasSize(3); // = Doesn't contain anything we're not aware of
+
+        loa = (List) SectionPermission.class.getField("LIST_OF_ACTIONS").get(SectionPermission.class);
+        assertThat(loa).contains("view", "edit", "delete", "edit perm")
+                .hasSize(4);
+
+        loa = (List) WorkspacePermission.class.getField("LIST_OF_ACTIONS").get(WorkspacePermission.class);
+        assertThat(loa).contains("admin", "login", "edit", "delete", "createPage", "edit perm", "admin providers")
+                .hasSize(7);
+
+        loa = (List) BackOfficePermission.class.getField("LIST_OF_ACTIONS").get(BackOfficePermission.class);
+        assertThat(loa).contains("manageGraphicResources", "managePermissions", "createWorkspace")
+                .hasSize(3);
     }
 }

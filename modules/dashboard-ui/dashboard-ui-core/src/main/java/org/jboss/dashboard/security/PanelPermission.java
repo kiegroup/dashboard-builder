@@ -19,12 +19,10 @@ import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.Workspace;
 
-import java.lang.reflect.Field;
 import java.security.Permission;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -104,12 +102,5 @@ public class PanelPermission extends UIPermission {
         for (String action : LIST_OF_ACTIONS) {
             grantAction(action);
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Field f = PanelPermission.class.getField("LIST_OF_ACTIONS");
-        List listOfActions = (List) f.get(PanelPermission.class);
-        Iterator it = listOfActions.iterator();
-        while (it.hasNext()) System.out.println(it.next());
     }
 }
