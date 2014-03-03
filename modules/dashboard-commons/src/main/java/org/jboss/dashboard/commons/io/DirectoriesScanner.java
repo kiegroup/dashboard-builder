@@ -21,31 +21,31 @@ import java.util.List;
 
 public class DirectoriesScanner {
 
-    private String extension = null;
-    private List currentFiles = new ArrayList();
+    private String extension;
+    private List<File> currentFiles = new ArrayList<File>();
 
     public DirectoriesScanner(String extension) {
-        this.extension = extension;
+        this.extension = "." + extension;
     }
 
     public File[] findFiles(File directory) {
         currentFiles.clear();
         scan(directory);
-        return (File[]) currentFiles.toArray(new File[currentFiles.size()]);
+        return currentFiles.toArray(new File[currentFiles.size()]);
     }
 
     private void scan(File directory) {
         File[] files = directory.listFiles();
-        if (files != null)
-            for (int i = 0; i < files.length; i++) {
-                File f = files[i];
+        if (files != null) {
+            for (File f : files) {
                 if (f.isDirectory()) {
                     scan(f);
                 } else {
-                    if (f.getName().endsWith("." + extension)) {
+                    if (f.getName().endsWith(extension)) {
                         currentFiles.add(f);
                     }
                 }
             }
+        }
     }
 }
