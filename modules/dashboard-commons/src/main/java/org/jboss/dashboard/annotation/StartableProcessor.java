@@ -33,13 +33,17 @@ public class StartableProcessor {
     @Inject
     protected Instance<Startable> startables;
 
-    protected StartableComparator startableComparator = new StartableComparator();
-    
+    private static final Comparator<Startable> STARTABLE_COMPARATOR = new Comparator<Startable>() {
+        public int compare(Startable s1, Startable s2) {
+            return ComparatorUtils.compare(s1.getPriority().getWeight(), s2.getPriority().getWeight(), -1);
+        }
+    };
+
     public void wakeUpStartableBeans() throws Exception {
-        // Sort beans by priority
+        // Sort beans by priority from most urgent to least urgent
         List<Startable> startableList = new ArrayList<Startable>();
         for (Startable startable : startables) startableList.add(startable);
-        Collections.sort(startableList, startableComparator);
+        Collections.sort(startableList, STARTABLE_COMPARATOR);
 
         // Start the beans
         for (Startable startable : startableList) {
@@ -48,18 +52,6 @@ public class StartableProcessor {
                 startable.start();
             } catch (Exception e) {
                 log.error("Error starting bean " + startable.getClass().getName(), e);
-            }
-        }
-    }
-
-    private class StartableComparator implements Comparator {
-        public int compare(Object o1, Object o2) {
-            try {
-                Startable s1 = (Startable) o1;
-                Startable s2 = (Startable) o2;
-                return ComparatorUtils.compare(s1.getPriority().getWeight(), s2.getPriority().getWeight(), -1);
-            } catch (ClassCastException e) {
-                return 0;
             }
         }
     }
