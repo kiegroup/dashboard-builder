@@ -49,10 +49,9 @@ public class DataDisplayerManagerImpl implements DataDisplayerManager {
         displayerTypeArray = new DataDisplayerType[_types.size()];
         for (int i=0;i<_types.size();i++) displayerTypeArray[i] = _types.get(i);
 
-        List<DataDisplayerRenderer> _rends = new ArrayList<DataDisplayerRenderer>();
-        for (DataDisplayerRenderer rend: dataDisplayerRenderers) _rends.add(rend);
-        displayerRendererArray = new DataDisplayerRenderer[_rends.size()];
-        for (int i=0;i<_rends.size();i++) displayerRendererArray[i] = _rends.get(i);
+        List<DataDisplayerRenderer> rendList = new ArrayList<DataDisplayerRenderer>();
+        for (DataDisplayerRenderer rend : dataDisplayerRenderers) rendList.add(rend);
+        displayerRendererArray = rendList.toArray(new DataDisplayerRenderer[0]);
     }
 
     public DataDisplayerType[] getDataDisplayerTypes() {
@@ -65,9 +64,7 @@ public class DataDisplayerManagerImpl implements DataDisplayerManager {
 
     public DataDisplayerType getDisplayerTypeByUid(String uid) {
         if (StringUtils.isBlank(uid)) return null;
-
-        for (int i = 0; i < displayerTypeArray.length; i++) {
-            DataDisplayerType type = displayerTypeArray[i];
+        for (DataDisplayerType type : displayerTypeArray) {
             if (type.getUid().equals(uid)) return type;
         }
         return null;
@@ -75,9 +72,7 @@ public class DataDisplayerManagerImpl implements DataDisplayerManager {
 
     public DataDisplayerRenderer getDisplayerRendererByUid(String uid) {
         if (StringUtils.isBlank(uid)) return null;
-
-        for (int i = 0; i < displayerRendererArray.length; i++) {
-            DataDisplayerRenderer rend = displayerRendererArray[i];
+        for (DataDisplayerRenderer rend : displayerRendererArray) {
             if (rend.getUid().equals(uid)) return rend;
         }
         return null;

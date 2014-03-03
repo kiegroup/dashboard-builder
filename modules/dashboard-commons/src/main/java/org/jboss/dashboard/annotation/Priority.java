@@ -16,16 +16,19 @@
 package org.jboss.dashboard.annotation;
 
 public enum Priority {
-    URGENT,
-    HIGH,
-    NORMAL,
-    LOW;
 
-    int getWeight() {
-        if (this.equals(URGENT)) return 10;
-        if (this.equals(HIGH)) return 7;
-        if (this.equals(NORMAL)) return 5;
-        if (this.equals(LOW)) return 3;
-        return 5;
+    URGENT(10),
+    HIGH(7),
+    NORMAL(5),
+    LOW(3);
+
+    private final int weight;
+
+    private Priority(int w) {
+        weight = w;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 }

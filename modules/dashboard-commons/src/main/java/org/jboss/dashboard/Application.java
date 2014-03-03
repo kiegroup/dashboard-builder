@@ -21,7 +21,6 @@ import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
@@ -81,8 +80,7 @@ public class Application {
         jarFiles = new HashSet<File>();
         File libDir = new File(libDirectory);
         File[] jars = new DirectoriesScanner("jar").findFiles(libDir);
-        for (int i = 0; i < jars.length; i++) {
-            File jar = jars[i];
+        for (File jar : jars) {
             String jarName = jar.getName();
             if (jarName.startsWith("dashboard-")) {
                 jarFiles.add(jar);
@@ -92,7 +90,7 @@ public class Application {
     }
 
     /**
-     * Return a string containing the copyright.
+     * @return String containing the copyright in current locale
      */
     public String getCopyright() {
         GregorianCalendar cal = new GregorianCalendar();
