@@ -48,10 +48,9 @@ public class DataProviderManagerImpl implements DataProviderManager {
 
     @PostConstruct
     protected void init() {
-        List<DataProviderType> _temp = new ArrayList<DataProviderType>();
-        for (DataProviderType type: dataProviderTypes) _temp.add(type);
-        dataProviderTypeArray = new DataProviderType[_temp.size()];
-        for (int i=0;i<_temp.size();i++) dataProviderTypeArray[i] = _temp.get(i);
+        List<DataProviderType> dpTypeList = new ArrayList<DataProviderType>();
+        for (DataProviderType type : dataProviderTypes) dpTypeList.add(type);
+        dataProviderTypeArray = dpTypeList.toArray(new DataProviderType[dpTypeList.size()]);
     }
 
     public DataProviderType[] getDataProviderTypes() {
@@ -60,9 +59,7 @@ public class DataProviderManagerImpl implements DataProviderManager {
 
     public DataProviderType getProviderTypeByUid(String uid) {
         if (StringUtils.isBlank(uid)) return null;
-
-        for (int i = 0; i < dataProviderTypeArray.length; i++) {
-            DataProviderType type = dataProviderTypeArray[i];
+        for (DataProviderType type : dataProviderTypeArray) {
             if (type.getUid().equals(uid)) return type;
         }
         return null;
@@ -74,8 +71,8 @@ public class DataProviderManagerImpl implements DataProviderManager {
         return p;
     }
 
-    public Set getAllDataProviders() throws Exception {
-        final Set results = new HashSet();
+    public Set<DataProvider> getAllDataProviders() throws Exception {
+        final Set<DataProvider> results = new HashSet<DataProvider>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -89,7 +86,7 @@ public class DataProviderManagerImpl implements DataProviderManager {
     }
 
     public DataProvider getDataProviderById(final Long id) throws Exception {
-        final List results = new ArrayList();
+        final List<DataProvider> results = new ArrayList<DataProvider>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -105,13 +102,13 @@ public class DataProviderManagerImpl implements DataProviderManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        if (results != null && results.size() > 0) return (DataProviderImpl) results.get(0);
+        if (results.size() > 0) return (DataProviderImpl) results.get(0);
         else log.debug("Data provider with id =" + id + " does not exist.");
         return null;
     }
 
     public DataProvider getDataProviderByCode(final String code) throws Exception {
-        final List results = new ArrayList();
+        final List<DataProvider> results = new ArrayList<DataProvider>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -127,7 +124,7 @@ public class DataProviderManagerImpl implements DataProviderManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        if (results != null && results.size() > 0) return (DataProviderImpl) results.get(0);
+        if (results.size() > 0) return (DataProviderImpl) results.get(0);
         else log.debug("Data provider with code=" + code + " does not exist.");
         return null;
     }

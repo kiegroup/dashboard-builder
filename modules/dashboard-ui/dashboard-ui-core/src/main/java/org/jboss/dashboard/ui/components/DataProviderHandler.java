@@ -540,8 +540,7 @@ public class DataProviderHandler extends UIBeanHandler {
 
     private boolean nameExists(DataProvider currentProvider, Locale locale, String name) {
         try {
-            for (Iterator providerIt = dataProviderManager.getAllDataProviders().iterator(); providerIt.hasNext(); ) {
-                DataProvider provider = (DataProvider) providerIt.next();
+            for (DataProvider provider : dataProviderManager.getAllDataProviders()) {
                 if (currentProvider != null && currentProvider.getId() != null && currentProvider.equals(provider)) continue;
                 String localizedName = provider.getDescription(locale);
                 if (!StringUtils.isEmpty(localizedName) && localizedName.equalsIgnoreCase(name)) return true;

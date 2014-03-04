@@ -42,7 +42,7 @@ public interface DataProviderManager {
      * Get all the data providers instances created.
      * @return A set of DataProvider instances.
      */
-    Set getAllDataProviders() throws Exception;
+    Set<DataProvider> getAllDataProviders() throws Exception;
 
     /**
      * Get a persistent provider by its identifier.
