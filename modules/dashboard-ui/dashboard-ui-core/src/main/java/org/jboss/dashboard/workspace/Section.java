@@ -39,7 +39,7 @@ import java.util.*;
 /**
  * Section belonging to a workspace
  */
-public class Section implements Comparable, Visitable {
+public class Section implements Comparable<Section>, Visitable {
 
     /**
      * Logger
@@ -151,8 +151,8 @@ public class Section implements Comparable, Visitable {
         return dbid.equals(other.getDbid());
     }
 
-    public List getPathNumber() {
-        ArrayList l = new ArrayList();
+    public List<Integer> getPathNumber() {
+        ArrayList<Integer> l = new ArrayList<Integer>();
         Section parent = getParent();
         if (parent != null) {
             l.addAll(getParent().getPathNumber());
@@ -167,11 +167,11 @@ public class Section implements Comparable, Visitable {
         if (ctx == null || ctx.getRequest() == null) {
             return getPathNumber().size() - 1;
         }
-        Map sectionsCache = (Map) ctx.getRequest().getRequestObject().getAttribute("sectionsPathNumberCache");
+        Map<Long, List<Integer>> sectionsCache = (Map) ctx.getRequest().getRequestObject().getAttribute("sectionsPathNumberCache");
         if (sectionsCache == null)
-            ctx.getRequest().getRequestObject().setAttribute("sectionsPathNumberCache", sectionsCache = new HashMap());
+            ctx.getRequest().getRequestObject().setAttribute("sectionsPathNumberCache", sectionsCache = new HashMap<Long, List<Integer>>());
 
-        List myPathNumber = (List) sectionsCache.get(this.getDbid());
+        List<Integer> myPathNumber = sectionsCache.get(this.getDbid());
         if (myPathNumber == null) {
             myPathNumber = getPathNumber();
             sectionsCache.put(this.getDbid(), myPathNumber);
@@ -180,11 +180,11 @@ public class Section implements Comparable, Visitable {
     }
 
 
-    protected static int comparePathNumbers(List l1, List l2) {
+    protected static int comparePathNumbers(List<Integer> l1, List<Integer> l2) {
         for (int i = 0; i < l1.size(); i++) {
-            Integer position1 = (Integer) l1.get(i);
+            Integer position1 = l1.get(i);
             if (l2.size() > i) {
-                Integer position2 = (Integer) l2.get(i);
+                Integer position2 = l2.get(i);
                 int difference = position1.intValue() - position2.intValue();
                 if (difference != 0)
                     return difference;
@@ -205,27 +205,26 @@ public class Section implements Comparable, Visitable {
         }
     }
 
-    public int compareTo(Object obj) {
-        if (this == obj) return 0;
-        Section section = (Section) obj;
+    public int compareTo(Section other) {
+        if (this == other) return 0;
         // Section path number cache, to avoid lots of getParent() in the same request...
         RequestContext ctx = RequestContext.lookup();
         if (ctx == null || ctx.getRequest() == null) {
-            return comparePathNumbers(getPathNumber(), section.getPathNumber());
+            return comparePathNumbers(getPathNumber(), other.getPathNumber());
         }
-        Map sectionsCache = (Map) ctx.getRequest().getRequestObject().getAttribute("sectionsPathNumberCache");
+        Map<Long, List<Integer>> sectionsCache = (Map) ctx.getRequest().getRequestObject().getAttribute("sectionsPathNumberCache");
         if (sectionsCache == null)
-            ctx.getRequest().getRequestObject().setAttribute("sectionsPathNumberCache", sectionsCache = new HashMap());
+            ctx.getRequest().getRequestObject().setAttribute("sectionsPathNumberCache", sectionsCache = new HashMap<Long, List<Integer>>());
 
-        List myPathNumber = (List) sectionsCache.get(this.getDbid());
+        List<Integer> myPathNumber = sectionsCache.get(this.getDbid());
         if (myPathNumber == null) {
             myPathNumber = getPathNumber();
             sectionsCache.put(this.getDbid(), myPathNumber);
         }
-        List otherPathNumber = (List) sectionsCache.get(section.getDbid());
+        List<Integer> otherPathNumber = sectionsCache.get(other.getDbid());
         if (otherPathNumber == null) {
-            otherPathNumber = section.getPathNumber();
-            sectionsCache.put(section.getDbid(), otherPathNumber);
+            otherPathNumber = other.getPathNumber();
+            sectionsCache.put(other.getDbid(), otherPathNumber);
         }
         return comparePathNumbers(myPathNumber, otherPathNumber);
     }
@@ -281,8 +280,7 @@ public class Section implements Comparable, Visitable {
 
             // Sort them, so they will keep same position inside new region.
             Arrays.sort(panels);
-            for (int i = 0; i < panels.length; i++) {
-                Panel panel = panels[i];
+            for (Panel panel : panels) {
                 String regionId = panel.getLayoutRegionId();
                 // Remove panel from region
                 if (regionId != null) {
@@ -419,11 +417,10 @@ public class Section implements Comparable, Visitable {
         return getParent() == null;
     }
 
-    public List getChildren() {
-        List children = new ArrayList();
+    public List<Section> getChildren() {
+        List<Section> children = new ArrayList<Section>();
         Section[] allSections = getWorkspace().getAllUnsortedSections();
-        for (int i = 0; i < allSections.length; i++) {
-            Section section = allSections[i];
+        for (Section section : allSections) {
             if (this.getId().equals(section.getParentSectionId())) {
                 children.add(section);
             }
@@ -440,18 +437,17 @@ public class Section implements Comparable, Visitable {
             return this;
     }
 
-    public List getHierarchy() {
-        List hierarchy = new ArrayList();
+    public List<Section> getHierarchy() {
+        List<Section> hierarchy = new ArrayList<Section>();
         Section parent = getParent();
         while (parent != null) {
             hierarchy.add(parent);
             parent = parent.getParent();
         }
 
-        List result = new ArrayList();
-        for (int i = hierarchy.size() - 1; i >= 0; i--)
-            result.add(hierarchy.get(i));
-        return result;
+        //Order sections from top-level down to this section's parent
+        Collections.reverse(hierarchy);
+        return hierarchy;
     }
 
     public boolean isAncestor(Section section) {
@@ -575,29 +571,24 @@ public class Section implements Comparable, Visitable {
      * Return all panels remaining unassigned for this section
      */
     public Panel[] getUnassignedPanels() {
-        List list = new ArrayList();
-        Panel[] panels = getAllPanels();
-        for (int i = 0; i < panels.length; i++) {
-            if (panels[i].getRegion() == null) list.add(panels[i]);
+        List<Panel> unassignedPanels = new ArrayList<Panel>();
+        for (Panel panel : getAllPanels()) {
+            if (panel.getRegion() == null) unassignedPanels.add(panel);
         }
-        return (Panel[]) list.toArray(new Panel[list.size()]);
+        return unassignedPanels.toArray(new Panel[unassignedPanels.size()]);
     }
 
     /**
      * Returns the region that is currently maximized for a session, or null if none
      */
     public Panel getMaximizedPanel(HttpSession session) {
-        Panel[] panels = getAllPanels();
-
-        for (int i = 0; i < panels.length; i++) {
-            if (panels[i].getRegion() != null) {
-                PanelSession status = SessionManager.getPanelSession(panels[i]);
-                LayoutRegionStatus regionStatus = SessionManager.getRegionStatus(panels[i].getSection(), panels[i].getRegion());
-                LayoutRegion region = panels[i].getRegion();
-
-                if (status != null && status.isMaximized()
-                        && (region.isColumnRegion() || regionStatus.isSelected(panels[i]))) {
-                    return panels[i];
+        for (Panel panel : getAllPanels()) {
+            if (panel.getRegion() != null) {
+                PanelSession status = SessionManager.getPanelSession(panel);
+                LayoutRegionStatus regionStatus = SessionManager.getRegionStatus(panel.getSection(), panel.getRegion());
+                LayoutRegion region = panel.getRegion();
+                if (status != null && status.isMaximized() && (region.isColumnRegion() || regionStatus.isSelected(panel))) {
+                    return panel;
                 }
             }
         }
@@ -609,11 +600,9 @@ public class Section implements Comparable, Visitable {
      * Restores all this sections panels to ites regular size
      */
     public void restorePanelSize(HttpSession session) {
-        Panel[] panels = getAllPanels();
-
-        for (int i = 0; i < panels.length; i++) {
-            if (panels[i].getRegion() != null) {
-                PanelSession status = SessionManager.getPanelSession(panels[i]);
+        for (Panel panel : getAllPanels()) {
+            if (panel.getRegion() != null) {
+                PanelSession status = SessionManager.getPanelSession(panel);
                 status.setStatus(PanelSession.STATUS_REGULAR_SIZE);
             }
         }
@@ -626,16 +615,14 @@ public class Section implements Comparable, Visitable {
      * @deprecated Provider will no longer have an StyleSheet.
      */
     public String[] getPanelsStyleSheets() {
-        Set styles = new HashSet();
-        Panel[] panels = getAllPanels();
-        for (int i = 0; i < panels.length; i++) {
-            Panel panel = panels[i];
+        Set<String> styles = new HashSet<String>();
+        for (Panel panel : getAllPanels()) {
             if (panel.getInstance().getProvider().getStyleSheet() != null) {
                 styles.add(panel.getInstance().getProvider().getStyleSheet());
             }
         }
 
-        return (String[]) styles.toArray(new String[styles.size()]);
+        return styles.toArray(new String[styles.size()]);
     }
 
     /**
@@ -924,8 +911,7 @@ public class Section implements Comparable, Visitable {
         Map panelPermissions = securityPolicy.getPermissions(this, PanelPermission.class);
         Map sectionPermissions = securityPolicy.getPermissions(this, SectionPermission.class);
         Map[] permissions = new Map[]{workspacePermissions, panelPermissions, sectionPermissions};
-        for (int i = 0; i < permissions.length; i++) {
-            Map permissionMap = permissions[i];
+        for (Map permissionMap : permissions) {
             for (Iterator it = permissionMap.keySet().iterator(); it.hasNext();) {
                 Principal principal = (Principal) it.next();
                 Permission perm = (Permission) permissionMap.get(principal);
@@ -941,10 +927,8 @@ public class Section implements Comparable, Visitable {
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getWorkspace().getId(), getId());
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getWorkspace().getId(), getId());
         GraphicElement[][] elements = {skins, envelopes, layouts};
-        for (int i = 0; i < elements.length; i++) {
-            GraphicElement[] elementsArray = elements[i];
-            for (int j = 0; j < elementsArray.length; j++) {
-                GraphicElement element = elementsArray[j];
+        for (GraphicElement[] elementsArray : elements) {
+            for (GraphicElement element : elementsArray) {
                 element.acceptVisit(visitor);
             }
         }
@@ -952,10 +936,8 @@ public class Section implements Comparable, Visitable {
         // Visit panels
 
         Panel[] sortedPanels = getPanels().toArray(new Panel[getPanels().size()]);
-        Arrays.sort(sortedPanels, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Panel p1 = (Panel) o1;
-                Panel p2 = (Panel) o2;
+        Arrays.sort(sortedPanels, new Comparator<Panel>() {
+            public int compare(Panel p1, Panel p2) {
                 String region1 = p1.getRegion() != null ? p1.getRegion().getId() : "";
                 String region2 = p2.getRegion() != null ? p2.getRegion().getId() : "";
                 int pos1 = p1.getPosition();
@@ -967,8 +949,7 @@ public class Section implements Comparable, Visitable {
                 }
             }
         });
-        for (int i = 0; i < sortedPanels.length; i++) {
-            Panel panel = sortedPanels[i];
+        for (Panel panel : sortedPanels) {
             panel.acceptVisit(visitor);
         }
         return visitor.endVisit();
