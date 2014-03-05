@@ -42,7 +42,7 @@ public interface KPIManager {
      * @associates <{DataDisplayer}>
      * @supplierCardinality 0..*
      */
-    Set getAllKPIs() throws Exception;
+    Set<KPI> getAllKPIs() throws Exception;
 
     /**
      * Get a persistent KPI by its identifier.

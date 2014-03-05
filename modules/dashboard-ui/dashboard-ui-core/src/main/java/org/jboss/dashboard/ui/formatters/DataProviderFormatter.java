@@ -214,7 +214,7 @@ public class DataProviderFormatter extends Formatter {
     private void renderShow(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
-            Set kpis = kpiManager.getAllKPIs();
+            Set<KPI> kpis = kpiManager.getAllKPIs();
 
             DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
             Set<DataProvider> dataProviders = dataProviderManager.getAllDataProviders();
@@ -234,9 +234,7 @@ public class DataProviderFormatter extends Formatter {
 
                         int numberOfKPIs = 0;
                         setAttribute("usedByOtherKpis", Boolean.FALSE);
-                        Iterator it1 = kpis.iterator();
-                        while (it1.hasNext()) {
-                            KPI kpi = (KPI) it1.next();
+                        for (KPI kpi : kpis) {
                             if (kpi.getDataProvider().equals(dataProvider)) numberOfKPIs++;
                         }
 
