@@ -34,14 +34,15 @@ public abstract class PanelAjaxResponse implements CommandResponse {
      * @return an PanelAjaxResponse. If conversion fails, returns null.
      */
     public static PanelAjaxResponse getEquivalentAjaxResponse(Panel panel, CommandResponse response) {
-        if (response instanceof PanelAjaxResponse)
+        if (response instanceof PanelAjaxResponse) {
             return (PanelAjaxResponse) response;
+        }
         if (response instanceof ShowPanelPage) {
             ShowPanelPage res = (ShowPanelPage) response;
             String page = res.getPageId();
-            page = page == null ? SessionManager.getPanelSession(panel).getCurrentPageId() : page;
+            page = page == null ? panel.getPanelSession().getCurrentPageId() : page;
             return new FullPanelAjaxResponse(panel, page);
         }
-        return new FullPanelAjaxResponse(panel, SessionManager.getPanelSession(panel).getCurrentPageId());
+        return new FullPanelAjaxResponse(panel, panel.getPanelSession().getCurrentPageId());
     }
 }

@@ -19,10 +19,9 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.BeanDispatcher;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.panel.PanelDriver;
@@ -42,7 +41,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @ApplicationScoped
-public class RequestDispatcher implements RequestChainProcessor {
+public class RequestDispatcher extends AbstractChainProcessor {
 
     @Inject
     private transient Logger log;
@@ -50,19 +49,19 @@ public class RequestDispatcher implements RequestChainProcessor {
     @Inject
     private BeanDispatcher beanDispatcher;
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
+    public boolean processRequest() throws Exception {
+        RequestContext requestContext = getRequestContext();
+        HttpServletRequest request = getHttpRequest();
         String pAction = request.getParameter(Parameters.DISPATCH_ACTION);
         String idPanel = request.getParameter(Parameters.DISPATCH_IDPANEL);
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
         if (StringUtils.isEmpty(pAction) || StringUtils.isEmpty(idPanel)) {
             log.debug("Running bean action.");
-            CommandResponse res = beanDispatcher.handleRequest(req);
+            CommandResponse res = beanDispatcher.handleRequest(getRequest());
             if (request.getServletPath().indexOf("/" + URLMarkupGenerator.COMMAND_RUNNER) != -1) {
-                controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
+                requestContext.consumeURIPart(requestContext.getURIToBeConsumed());
             }
             if (res != null) {
-                controllerStatus.setResponse(res);
+                requestContext.setResponse(res);
             }
             return true;
         }
@@ -91,13 +90,11 @@ public class RequestDispatcher implements RequestChainProcessor {
                     PanelProvider provider = panel.getInstance().getProvider();
                     if (provider.isEnabled()) {
                         PanelDriver handler = provider.getDriver();
-                        request.setAttribute(Parameters.RENDER_PANEL, panel);
-                        CommandResponse response = handler.execute(panel, req);
-                        request.removeAttribute(Parameters.RENDER_PANEL);
+                        CommandResponse response = handler.execute(panel, getRequest());
                         if (response != null)
-                            controllerStatus.setResponse(response);
+                            requestContext.setResponse(response);
                         if (request.getServletPath().indexOf("/" + URLMarkupGenerator.COMMAND_RUNNER) != -1) {
-                            controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
+                            requestContext.consumeURIPart(requestContext.getURIToBeConsumed());
                         }
                     }
                 }

@@ -18,11 +18,9 @@
 <%@ page import="org.jboss.dashboard.ui.panel.AjaxRefreshManager"%>
 <%@ page import="org.jboss.dashboard.workspace.Panel"%>
 <%@ page import="org.jboss.dashboard.ui.controller.RequestContext" %>
-<%@ page import="org.jboss.dashboard.workspace.Parameters" %>
-<%@ page import="org.jboss.dashboard.workspace.Panel" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%
-    Panel p = (Panel) request.getAttribute(Parameters.RENDER_PANEL);
+    Panel p = RequestContext.lookup().getActivePanel();
 %>
 <a name="p<%=p.getPanelId()%>" style="display:none"></a>
 <form id="<%=AjaxRefreshManager.FORM_IDENTIFIER_PREFFIX + p.getPanelId()%>" action="<panel:link action="_refreshPanel"/>" method="post" style="margin:0px">

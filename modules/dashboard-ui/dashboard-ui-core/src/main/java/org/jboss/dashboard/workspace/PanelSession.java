@@ -16,7 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.controller.RequestContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -168,18 +167,16 @@ public class PanelSession implements HttpSession {
      * Called on session initialization
      */
     public void init(HttpSession session) {
-        PanelInstance instance = getPanel().getInstance();
+        Panel panel = getPanel();
+        PanelInstance instance = panel.getInstance();
         try {
-            // IMPORTANT NOTE: make sure HTTP session is initialized before
-            // invoking PanelProvider.initSession()
+            // IMPORTANT NOTE: make sure HTTP session is initialized before invoking PanelProvider.initSession()
             this.session = session;
-            RequestContext reqCtx = RequestContext.getCurrentContext();
-            reqCtx.getRequest().getRequestObject().setAttribute(Parameters.RENDER_PANEL, getPanel());
             if (instance != null) instance.getProvider().initSession(this, session);
         } catch (Exception e) {
             String providerStr = "";
             if (instance != null) providerStr = " Provider: " + instance.getProvider().getId();
-            log.error("Error initializing panel status: " + getPanel().getPanelId() + providerStr, e);
+            log.error("Error initializing panel status: " + panel.getPanelId() + providerStr, e);
         }
     }
 

@@ -21,7 +21,6 @@ import org.jboss.dashboard.commons.text.StringUtil;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.ResponseProcessor;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.ErrorReportHandler;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
@@ -127,8 +126,7 @@ public class ControllerServlet extends HttpServlet {
             }
 
             // Init the request.
-            ControllerServletHelper helper = ControllerServletHelper.lookup();
-            ControllerServletHelper.lookup().beforeRequestBegins(request, response);
+            beforeRequestBegins(request, response);
 
             // Begin the profiling trace.
             CodeBlockTrace trace = new RequestTrace().begin(request);
@@ -142,13 +140,29 @@ public class ControllerServlet extends HttpServlet {
                 // End the profiling trace.
                 trace.end();
 
-                // Clear the request context.
-                helper.afterRequestEnds(request, response);
+                // Complete the request.
+                afterRequestEnds(request, response);
             }
         } else {
             log.error("Received request, but application servlet hasn't been properly initialized. Ignoring.");
             response.sendError(500, "Application incorrectly initialized.");
         }
+    }
+
+    public void beforeRequestBegins(HttpServletRequest request, HttpServletResponse response) {
+        // Start the profiling of the request.
+        Profiler.lookup().beginThreadProfile();
+
+        // Initialize the request.
+        RequestContext.init(request, response);
+    }
+
+    public void afterRequestEnds(HttpServletRequest request, HttpServletResponse response) {
+        // Destroy the current request context.
+        RequestContext.destroy();
+
+        // Finish the profiling of the request.
+        Profiler.lookup().finishThreadProfile();
     }
 
     protected void processTheRequest(final HttpServletRequest request, final HttpServletResponse response) {
@@ -161,7 +175,7 @@ public class ControllerServlet extends HttpServlet {
 
                 // Ensure GETs URIs are fully processed.
                 if ("GET".equalsIgnoreCase(request.getMethod())) {
-                    ControllerStatus.lookup().compareConsumedUri();
+                    RequestContext.lookup().compareConsumedUri();
                 }
             }}.execute();
         } catch (Throwable e) {
@@ -211,7 +225,6 @@ public class ControllerServlet extends HttpServlet {
         modalDialog.show();
 
         // Force the current screen to be refreshed so the error report will be displayed.
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
-        controllerStatus.setResponse(new ShowCurrentScreenResponse());
+        RequestContext.lookup().setResponse(new ShowCurrentScreenResponse());
     }
 }

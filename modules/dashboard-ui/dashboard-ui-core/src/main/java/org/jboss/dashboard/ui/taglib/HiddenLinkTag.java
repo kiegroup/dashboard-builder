@@ -15,12 +15,10 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.components.HandlerMarkupGenerator;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspTagException;
 
 /**
@@ -32,17 +30,12 @@ public class HiddenLinkTag extends BaseTag {
     private String params = null;
     private String panel = null;
 
-    protected Panel getCurrentPanel() {
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
-        return (Panel) request.getAttribute(Parameters.RENDER_PANEL);
-    }
-
     /**
      * @see javax.servlet.jsp.tagext.TagSupport
      */
     public int doEndTag() throws JspTagException {
         HandlerMarkupGenerator markupGenerator = HandlerMarkupGenerator.lookup();
-        Panel thePanel = getCurrentPanel();
+        Panel thePanel = RequestContext.lookup().getActivePanel();
         if (getPanel() != null) thePanel = thePanel.getSection().getPanel(getPanel());
         try {
             String textToWrite = markupGenerator.getMarkupToPanelAction(thePanel, action);

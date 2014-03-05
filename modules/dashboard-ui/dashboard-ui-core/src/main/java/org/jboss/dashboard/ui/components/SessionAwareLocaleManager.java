@@ -25,25 +25,30 @@ import javax.enterprise.inject.Specializes;
 public class SessionAwareLocaleManager extends LocaleManager {
 
     protected SessionContext getSessionContext() {
-        return (RequestContext.getCurrentContext() != null ? SessionContext.lookup() : null);
+        return (RequestContext.lookup() != null ? SessionContext.lookup() : null);
     }
 
     public Locale getCurrentLocale() {
         SessionContext ctx = getSessionContext();
-        Locale locale = ctx != null ? ctx.getCurrentLocale() : null;
+        Locale locale = ctx != null ? ctx.getCurrentLocale() : super.getCurrentLocale();
         return (locale != null) ? locale : getDefaultLocale();
     }
 
     public void setCurrentLocale(Locale currentLocale) {
-        getSessionContext().setCurrentLocale(currentLocale);
+        SessionContext ctx = getSessionContext();
+        if (ctx != null) ctx.setCurrentLocale(currentLocale);
+        else super.setCurrentLocale(currentLocale);
     }
 
     public Locale getCurrentEditLocale() {
-        Locale locale = getSessionContext().getCurrentEditLocale();
+        SessionContext ctx = getSessionContext();
+        Locale locale = ctx != null ? ctx.getCurrentEditLocale() : super.getCurrentEditLocale();
         return (locale != null) ? locale : getDefaultLocale();
     }
 
     public void setCurrentEditLocale(Locale currentEditLocale) {
-        getSessionContext().setCurrentEditLocale(currentEditLocale);
+        SessionContext ctx = getSessionContext();
+        if (ctx != null) ctx.setCurrentEditLocale(currentEditLocale);
+        else super.setCurrentEditLocale(currentEditLocale);
     }
 }

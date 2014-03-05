@@ -163,7 +163,7 @@ public class Section implements Comparable, Visitable {
 
     public int getDepthLevel() {
         // Section path number cache, to avoid lots of getParent() in the same request...
-        RequestContext ctx = RequestContext.getCurrentContext();
+        RequestContext ctx = RequestContext.lookup();
         if (ctx == null || ctx.getRequest() == null) {
             return getPathNumber().size() - 1;
         }
@@ -199,7 +199,7 @@ public class Section implements Comparable, Visitable {
     }
 
     private void clearSectionsCache() {
-        RequestContext ctx = RequestContext.getCurrentContext();
+        RequestContext ctx = RequestContext.lookup();
         if (ctx != null && ctx.getRequest() != null) {
             ctx.getRequest().getRequestObject().removeAttribute("sectionsPathNumberCache");
         }
@@ -209,7 +209,7 @@ public class Section implements Comparable, Visitable {
         if (this == obj) return 0;
         Section section = (Section) obj;
         // Section path number cache, to avoid lots of getParent() in the same request...
-        RequestContext ctx = RequestContext.getCurrentContext();
+        RequestContext ctx = RequestContext.lookup();
         if (ctx == null || ctx.getRequest() == null) {
             return comparePathNumbers(getPathNumber(), section.getPathNumber());
         }

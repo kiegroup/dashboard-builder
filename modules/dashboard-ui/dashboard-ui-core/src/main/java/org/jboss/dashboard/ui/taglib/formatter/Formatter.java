@@ -15,20 +15,17 @@
  */
 package org.jboss.dashboard.ui.taglib.formatter;
 
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.HTTPSettings;
-import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.controller.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
@@ -498,9 +495,7 @@ public abstract class Formatter {
     }
 
     protected Panel getPanel() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        CommandRequest request = reqCtx.getRequest();
-        return (Panel) request.getRequestObject().getAttribute(Parameters.RENDER_PANEL);
+        return RequestContext.lookup().getActivePanel();
     }
 
     protected Workspace getWorkspace() {

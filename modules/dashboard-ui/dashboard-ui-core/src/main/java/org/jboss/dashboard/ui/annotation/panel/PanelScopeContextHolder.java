@@ -23,11 +23,9 @@ import javax.enterprise.inject.spi.Bean;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,13 +103,13 @@ public class PanelScopeContextHolder implements Serializable {
     }
 
     protected HttpSession getSession() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
+        RequestContext reqCtx = RequestContext.lookup();
         if (reqCtx != null) {
             CommandRequest request = reqCtx.getRequest();
             if (request != null) {
-                Panel currentPanel = (Panel) request.getRequestObject().getAttribute(Parameters.RENDER_PANEL);
+                Panel currentPanel = RequestContext.lookup().getActivePanel();
                 if (currentPanel != null) {
-                    return SessionManager.getPanelSession(currentPanel);
+                    return currentPanel.getPanelSession();
                 } else {
                     if (log.isDebugEnabled()) log.debug("Using a PanelScoped bean outside a panel. Will default to SessionScoped.");
                     return request.getSessionObject();

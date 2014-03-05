@@ -17,7 +17,6 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.HTTPSettings;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @ApplicationScoped
-public class ResponseHeadersProcessor implements RequestChainProcessor {
+public class ResponseHeadersProcessor extends AbstractChainProcessor {
 
     @Inject @Config("false")
     private boolean useRefreshHeader;
@@ -36,9 +35,9 @@ public class ResponseHeadersProcessor implements RequestChainProcessor {
     @Inject @Config("text/html")
     private String responseContentType;
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
+        HttpServletResponse response = getHttpResponse();
         if (responseContentType != null && !"".equals(responseContentType)) {
             response.setContentType(responseContentType);
             response.setHeader("Content-Type", responseContentType + "; charset=" + HTTPSettings.lookup().getEncoding());

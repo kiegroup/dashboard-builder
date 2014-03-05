@@ -230,7 +230,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
                 res = (String) resMap.get(getLocaleManager().getDefaultLang());//Try with default lang
 
             res = getBaseDir() + "/" + res;
-            RequestContext reqCtx = RequestContext.getCurrentContext();
+            RequestContext reqCtx = RequestContext.lookup();
             if (reqCtx != null) {
                 //Resources are best retrieved through URL (the fastest way)
                 log.debug("Resource relative name = " + res);

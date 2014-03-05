@@ -19,30 +19,28 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.jboss.dashboard.profiler.memory.MemoryProfiler;
-import org.jboss.dashboard.ui.components.ControllerStatus;
-import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.SendErrorResponse;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Analyzes the memory available on every incoming request and it tries to free memory if required.
  */
 @ApplicationScoped
-public class FreeMemoryProcessor implements RequestChainProcessor {
+public class FreeMemoryProcessor extends AbstractChainProcessor {
 
     @Inject
     private transient Logger log;
 
-    public boolean processRequest(CommandRequest request) throws Exception {
+    public boolean processRequest() throws Exception {
         MemoryProfiler memoryProfiler = MemoryProfiler.lookup();
         if (memoryProfiler.isLowMemory()) {
             log.warn("Memory is running low ...");
             memoryProfiler.freeMemory();
             if (memoryProfiler.isLowMemory()) {
-                ControllerStatus controllerStatus = ControllerStatus.lookup();
-                controllerStatus.setResponse(new SendErrorResponse(503));
-                controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
+                RequestContext requestContext = RequestContext.lookup();
+                requestContext.setResponse(new SendErrorResponse(503));
+                requestContext.consumeURIPart(requestContext.getURIToBeConsumed());
                 log.error("Memory is so low that the request had to be canceled - 503 sent. Consider increasing the JVM memory.");
                 return false;
             }

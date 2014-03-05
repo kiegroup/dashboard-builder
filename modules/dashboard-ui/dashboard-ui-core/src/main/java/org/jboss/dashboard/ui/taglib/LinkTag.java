@@ -18,8 +18,8 @@ package org.jboss.dashboard.ui.taglib;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,7 +68,7 @@ public class LinkTag extends BaseTag {
             NavigationManager navigationManager = NavigationManager.lookup();
             panel = navigationManager.getCurrentSection().getPanel(this.panel);
         } else {
-            panel = (Panel) pageContext.getRequest().getAttribute(Parameters.RENDER_PANEL);
+            panel = RequestContext.lookup().getActivePanel();
         }
         URLMarkupGenerator markupGenerator = UIServices.lookup().getUrlMarkupGenerator();
         String linkStr = markupGenerator.getLinkToPanelAction(panel, getAction(), params, Boolean.valueOf(useFriendlyUrl).booleanValue());

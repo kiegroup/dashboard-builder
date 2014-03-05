@@ -16,21 +16,22 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
-import org.jboss.dashboard.ui.controller.RequestContext;
 
 @ApplicationScoped
-public class RequestRenderer implements RequestChainProcessor {
+public class RequestRenderer extends AbstractChainProcessor {
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        NavigationManager navigationManager = NavigationManager.lookup();
+    @Inject
+    private NavigationManager navigationManager;
+
+    public boolean processRequest() throws Exception {
         navigationManager.freezeNavigationStatus();
-        final CommandResponse cmdResponse = ControllerStatus.lookup().getResponse();
-        final CommandRequest cmdRequest = RequestContext.getCurrentContext().getRequest();
+        CommandResponse cmdResponse = getResponse();
+        CommandRequest cmdRequest = getRequest();
         return cmdResponse.execute(cmdRequest);
     }
 }

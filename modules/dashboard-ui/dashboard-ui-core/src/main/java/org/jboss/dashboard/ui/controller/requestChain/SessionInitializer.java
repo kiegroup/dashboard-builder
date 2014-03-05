@@ -17,8 +17,7 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.ui.components.ControllerStatus;
-import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -33,7 +32,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 @ApplicationScoped
-public class SessionInitializer implements RequestChainProcessor {
+public class SessionInitializer extends AbstractChainProcessor {
 
     private final static String SESSION_ATTRIBUTE_INITIALIZED = "dashbuilder.initialized";
 
@@ -46,6 +45,9 @@ public class SessionInitializer implements RequestChainProcessor {
     @Inject
     private SessionManager sessionManager;
 
+    @Inject
+    private LocaleManager localeManager;
+
     public static boolean isNewSession(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         return !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
@@ -57,21 +59,21 @@ public class SessionInitializer implements RequestChainProcessor {
 
         // Catch the user preferred language.
         PreferredLocale preferredLocale =  getPreferredLocale(request);
-        LocaleManager.lookup().setCurrentLocale(preferredLocale.asLocale());
+        localeManager.setCurrentLocale(preferredLocale.asLocale());
     }
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
+    public boolean processRequest() throws Exception {
+        RequestContext requestContext= getRequestContext();
+        HttpServletRequest request = getHttpRequest();
+        HttpServletResponse response = getHttpResponse();
         HttpSession session = request.getSession(true);
         if (isNewSession(request)) initSession(request, response);
 
         // Check session expiration
         if (request.getRequestedSessionId() != null && !request.getRequestedSessionId().equals(session.getId())) {
             log.debug("Session expiration detected.");
-            ControllerStatus controllerStatus = ControllerStatus.lookup();
-            controllerStatus.setResponse(new RedirectToURLResponse(getExpirationRecoveryURL(request)));
-            controllerStatus.consumeURIPart(controllerStatus.getURIToBeConsumed());
+            requestContext.setResponse(new RedirectToURLResponse(getExpirationRecoveryURL(request)));
+            requestContext.consumeURIPart(requestContext.getURIToBeConsumed());
             return false;
         }
         return true;

@@ -27,5 +27,5 @@ public interface RequestChainProcessor {
      *
      * @return true if processing must continue, false otherwise.
      */
-    boolean processRequest(CommandRequest request) throws Exception;
+    boolean processRequest() throws Exception;
 }

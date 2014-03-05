@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.controller.requestChain;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Section;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 
 @ApplicationScoped
-public class NavigationCookieProcessor implements RequestChainProcessor {
+public class NavigationCookieProcessor extends AbstractChainProcessor {
 
     @Inject @Config("true")
     private boolean useCookie;
@@ -79,9 +78,9 @@ public class NavigationCookieProcessor implements RequestChainProcessor {
         return NavigationManager.lookup();
     }
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
+        HttpServletResponse response = getHttpResponse();
         if (isUseCookie()) {
             Section section = getNavigationManager().getCurrentSection();
             if (section != null) {

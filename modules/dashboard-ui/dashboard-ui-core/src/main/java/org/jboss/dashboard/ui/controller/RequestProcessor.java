@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.controller;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +63,7 @@ public class RequestProcessor {
 
     public void run() throws Exception {
         for (RequestChainProcessor processor : processorChain) {
-            RequestContext reqCtx = RequestContext.getCurrentContext();
-            if (processor.processRequest(reqCtx.getRequest()) == false) {
+            if (processor.processRequest() == false) {
                 // Stop in case the processor has explicitly stopped the chain's processing.
                 return;
             }

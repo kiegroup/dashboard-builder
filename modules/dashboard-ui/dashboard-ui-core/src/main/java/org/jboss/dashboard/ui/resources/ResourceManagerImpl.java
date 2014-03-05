@@ -26,7 +26,6 @@ import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jboss.dashboard.workspace.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -108,7 +107,7 @@ public class ResourceManagerImpl implements ResourceManager, Startable {
         if (manager == null) {
             //Element has no manager => it is just a preview!! So, resource name does not actually matter, because there
             //is only one preview in session, representing the item being previewed.
-            HttpSession session = RequestContext.getCurrentContext().getRequest().getSessionObject();
+            HttpSession session = RequestContext.lookup().getRequest().getSessionObject();
             holder = (ResourceHolder) session.getAttribute(ResourcesPropertiesHandler.PREVIEW_ATTRIBUTE); //Only one preview at a time...
             try {
                 return holder.getResource(resName, SessionManager.getCurrentLocale().getLanguage());
@@ -129,16 +128,12 @@ public class ResourceManagerImpl implements ResourceManager, Startable {
             workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(resName.getWorkspaceId());
 
         if (workspace != null) {
-            if (resName.getSectionId() == null)
-                section = NavigationManager.lookup().getCurrentSection();
-            else
-                section = workspace.getSection(resName.getSectionId());
-            if (section != null) {
-                if (resName.getPanelId() == null && manager.getElementScopeDescriptor().isAllowedPanel()) {
-                    Object o = SessionManager.getCurrentPanel();
-                    if (o instanceof Panel)
-                        panel = (Panel) o;
-                } else if (manager.getElementScopeDescriptor().isAllowedPanel()) {
+            if (resName.getSectionId() == null) section = NavigationManager.lookup().getCurrentSection();
+            else section = workspace.getSection(resName.getSectionId());
+            if (section != null && manager.getElementScopeDescriptor().isAllowedPanel()) {
+                if (resName.getPanelId() == null) {
+                    panel = RequestContext.lookup().getActivePanel();
+                } else {
                     panel = section.getPanel(resName.getPanelId().toString());
                 }
             }

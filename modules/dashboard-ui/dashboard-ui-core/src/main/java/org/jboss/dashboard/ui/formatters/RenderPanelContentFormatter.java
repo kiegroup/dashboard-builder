@@ -16,13 +16,12 @@
 package org.jboss.dashboard.ui.formatters;
 
 import org.jboss.dashboard.ui.HTTPSettings;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelSession;
-import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.ui.SessionManager;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -38,11 +37,10 @@ public class RenderPanelContentFormatter extends Formatter {
     private transient Logger log;
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        Panel panel = (Panel) request.getAttribute(Parameters.RENDER_PANEL);
+        Panel panel = RequestContext.lookup().getActivePanel();
         if (panel == null) throw new FormatterException("Panel not found");
 
-        SessionManager.setCurrentPanel(panel);
-        PanelSession status = SessionManager.getPanelSession(panel);
+        PanelSession status = panel.getPanelSession();
         if (status.isMinimized()) {
             renderFragment("minimized");
         } else {
@@ -57,7 +55,6 @@ public class RenderPanelContentFormatter extends Formatter {
                 } else if (!panel.getProvider().isEnabled()) {
                     renderFragment("outputNotRegistered");
                 } else {
-                    panel.getProvider().getDriver().fireBeforeRenderPanel(panel, request, response);
                     PanelProvider provider = panel.getProvider();
                     String screen = status.getCurrentPageId();
                     if (!status.isEditMode()) {

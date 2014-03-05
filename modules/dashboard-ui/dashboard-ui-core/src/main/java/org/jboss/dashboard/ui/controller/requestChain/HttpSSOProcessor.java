@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.jboss.dashboard.SecurityServices;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.users.Role;
 import org.jboss.dashboard.users.RolesManager;
 import org.jboss.dashboard.users.UserStatus;
@@ -12,13 +11,12 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @ApplicationScoped
-public class HttpSSOProcessor implements RequestChainProcessor {
+public class HttpSSOProcessor extends AbstractChainProcessor {
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
         String login = request.getRemoteUser();
         UserStatus us = UserStatus.lookup();
 

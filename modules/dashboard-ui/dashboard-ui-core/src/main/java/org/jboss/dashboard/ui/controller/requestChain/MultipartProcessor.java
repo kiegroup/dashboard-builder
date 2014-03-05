@@ -15,29 +15,16 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.HTTPSettings;
-import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.ControllerStatus;
-import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.jboss.dashboard.ui.components.RedirectionHandler;
-import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.controller.ControllerServletHelper;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.RequestMultipartWrapper;
 import org.jboss.dashboard.ui.controller.SessionTmpDirFactory;
-import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
-import org.jboss.dashboard.ui.taglib.ContextTag;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 
 /**
@@ -45,18 +32,14 @@ import org.slf4j.Logger;
  * in order to support files uploading.
  */
 @ApplicationScoped
-public class MultipartProcessor implements RequestChainProcessor {
+public class MultipartProcessor extends AbstractChainProcessor {
 
     @Inject
     private transient Logger log;
 
-    @Inject @Config("fileTooBig.jsp")
-    private String errorRedirectPage;
-
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
+        HttpServletResponse response = getHttpResponse();
         String contentType = request.getContentType();
         String method = request.getMethod();
         HTTPSettings webSettings = HTTPSettings.lookup();
@@ -73,25 +56,8 @@ public class MultipartProcessor implements RequestChainProcessor {
                 log.debug("Encoding is: " + webSettings.getEncoding());
             }
 
-            try {
-                RequestMultipartWrapper wrap = new RequestMultipartWrapper(request, tmpDir, maxSize, webSettings.getEncoding());
-                log.debug("Multipart request parsed: ");
-                log.debug("getting files from request");
-                ControllerServletHelper.lookup().updateRequestContext(wrap, response);
-            }
-            catch (IOException ioe) {
-                log.warn("IOException processing multipart ", ioe);
-                log.warn("Invalid " + method + ": URL=" + request.getRequestURL() + ". QueryString=" + request.getQueryString());
-                URLMarkupGenerator markupGenerator = UIServices.lookup().getUrlMarkupGenerator();
-                if (markupGenerator != null) {
-                    Map paramsMap = new HashMap();
-                    paramsMap.put(RedirectionHandler.PARAM_PAGE_TO_REDIRECT, errorRedirectPage);
-                    String uri = ContextTag.getContextPath(markupGenerator.getMarkup("org.jboss.dashboard.ui.components.RedirectionHandler", "redirectToSection", paramsMap), request);
-                    uri = StringEscapeUtils.unescapeHtml(uri);
-                    controllerStatus.setResponse(new RedirectToURLResponse(uri, !uri.startsWith(request.getContextPath())));
-                }
-                return false;
-            }
+            RequestMultipartWrapper wrap = new RequestMultipartWrapper(request, tmpDir, maxSize, webSettings.getEncoding());
+            RequestContext.init(wrap, response);
         }
         return true;
     }

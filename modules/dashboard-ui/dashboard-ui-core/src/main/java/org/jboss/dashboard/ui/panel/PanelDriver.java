@@ -25,6 +25,7 @@ import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.BeanDispatcher;
 import org.jboss.dashboard.ui.components.BeanHandler;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.ShowPanelPage;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.controller.CommandRequest;
@@ -326,7 +327,7 @@ public class PanelDriver {
             PanelParameter panelParameter = panelParameters[i];
             request.removeAttribute(panelParameter.getIdParameter());
         }
-        PanelSession session = SessionManager.getPanelSession(panel);
+        PanelSession session = panel.getPanelSession();
         session.setAttribute(PARAMETER_ACTION_EXECUTED_ENABLED, Boolean.TRUE);
     }
 
@@ -779,8 +780,17 @@ public class PanelDriver {
      * Execute an action on this panel.
      */
     public CommandResponse execute(Panel panel, CommandRequest req) throws Exception {
-        String action = req.getParameter(Parameters.DISPATCH_ACTION);
-        PanelSession session = SessionManager.getPanelSession(panel);
+        try {
+            RequestContext.lookup().activatePanel(panel);
+            return _execute(panel, req);
+        } finally {
+            RequestContext.lookup().deactivatePanel(panel);
+        }
+    }
+
+    protected CommandResponse _execute(Panel panel, CommandRequest req) throws Exception {
+        String action = req.getRequestObject().getParameter(Parameters.DISPATCH_ACTION);
+        PanelSession session = panel.getPanelSession();
         if (!isSystemAction(action) && !Boolean.TRUE.equals(session.getAttribute(PARAMETER_ACTION_EXECUTED_ENABLED)) && isDoubleClickProtected(action)) {
             // Factory actions have their own double click control.
             log.warn("Discarding duplicated execution in panel " + panel.getInstance().getProvider().getDescription() + ", action: " + action + ". User should be advised not to double click!");

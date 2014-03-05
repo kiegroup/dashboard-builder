@@ -16,17 +16,14 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
-import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.security.*;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.Layout;
-import org.jboss.dashboard.ui.resources.Skin;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.security.Policy;
 
@@ -423,10 +420,6 @@ public class Panel implements Cloneable, Comparable, Visitable {
         return buf.toString();
     }
 
-    public Skin getSkin() {
-        return getSection().getSkin();
-    }
-
     /**
      * Called for panels after the page they are in is left.
      */
@@ -437,13 +430,11 @@ public class Panel implements Cloneable, Comparable, Visitable {
         }
         if (getInstance() != null && !getInstance().isSessionAliveAfterPageLeft()) {
             PanelSession pSession = getPanelSession();
-            RequestContext reqCtx = RequestContext.getCurrentContext();
+            RequestContext reqCtx = RequestContext.lookup();
             HttpSession session = reqCtx.getRequest().getSessionObject();
             pSession.clear();
             pSession.setWorkMode(PanelSession.SHOW_MODE);
-            reqCtx.getRequest().getRequestObject().setAttribute(Parameters.RENDER_PANEL, this);
             getProvider().initSession(pSession, session);
-            reqCtx.getRequest().getRequestObject().removeAttribute(Parameters.RENDER_PANEL);
         }
     }
 
@@ -471,7 +462,23 @@ public class Panel implements Cloneable, Comparable, Visitable {
         return visitor.endVisit();
     }
 
+    /**
+     * Returns the panel status object for this panel.
+     */
     public PanelSession getPanelSession() {
-        return SessionManager.getPanelSession(this);
+        RequestContext reqCtx = RequestContext.lookup();
+        HttpSession session = reqCtx.getRequest().getSessionObject();
+        String key = "_panel_" + getWorkspace().getId() + "." + getSection().getId() + "." + getPanelId();
+        PanelSession panelStatus = (PanelSession) session.getAttribute(key);
+
+        if (panelStatus == null) {
+            panelStatus = new PanelSession(this);
+            panelStatus.init(session);
+            if (isInitiallyMaximized()) {
+                panelStatus.setStatus(PanelSession.STATUS_MAXIMIZED);
+            }
+            session.setAttribute(key, panelStatus);
+        }
+        return panelStatus;
     }
 }

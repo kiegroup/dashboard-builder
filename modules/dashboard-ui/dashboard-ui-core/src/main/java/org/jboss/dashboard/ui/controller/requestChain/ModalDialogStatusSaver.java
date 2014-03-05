@@ -15,23 +15,30 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import javax.enterprise.context.ApplicationScoped;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
  * Save the current status of the modal dialog component in order to return the
  * appropriate response later in the request rendering chain.
  */
-@ApplicationScoped
-public class ModalDialogStatusSaver implements RequestChainProcessor {
+@SessionScoped
+public class ModalDialogStatusSaver extends AbstractChainProcessor implements Serializable {
 
     public static ModalDialogStatusSaver lookup() {
         return CDIBeanLocator.getBeanByType(ModalDialogStatusSaver.class);
     }
+
+    @Inject
+    private ModalDialogComponent modalDialogComponent;
+
+    @Inject
+    private NavigationManager navigationManager;
 
     protected String currentWorkspaceId;
     protected Long currentSectionId;
@@ -54,14 +61,8 @@ public class ModalDialogStatusSaver implements RequestChainProcessor {
         return configEnabled;
     }
 
-    public ModalDialogComponent getModalDialog() {
-        return  CDIBeanLocator.getBeanByType(ModalDialogComponent.class);
-    }
-
-    public boolean processRequest(CommandRequest req) throws Exception {
-        ModalDialogComponent modalDialog = ModalDialogComponent.lookup();
-        NavigationManager navigationManager = NavigationManager.lookup();
-        wasModalOn = modalDialog.isShowing();
+    public boolean processRequest() throws Exception {
+        wasModalOn = modalDialogComponent.isShowing();
         configEnabled = navigationManager.isShowingConfig();
         currentWorkspaceId = navigationManager.getCurrentWorkspaceId();
         currentSectionId = navigationManager.getCurrentSectionId();

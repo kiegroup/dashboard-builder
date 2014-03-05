@@ -16,9 +16,7 @@
 package org.jboss.dashboard.ui.taglib;
 
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.ui.SessionManager;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 
@@ -65,7 +63,7 @@ public class ResourceTag extends BaseTag {
             setPanel(null);
         } else {
             // Try to get panel ID from request
-            Panel panel = (Panel) pageContext.getRequest().getAttribute(Parameters.RENDER_PANEL);
+            Panel panel = RequestContext.lookup().getActivePanel();
             if(panel != null){
                 idPanel = panel.getPanelId().toString();
             }

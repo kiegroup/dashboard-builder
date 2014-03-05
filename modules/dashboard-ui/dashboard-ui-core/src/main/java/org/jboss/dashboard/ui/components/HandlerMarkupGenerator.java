@@ -16,16 +16,15 @@
 package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Manager that generates markup for the handler taglib
@@ -41,7 +40,7 @@ public class HandlerMarkupGenerator {
     private transient Logger log;
 
     public String getMarkup(String bean, String property) {
-        Panel panel = getCurrentPanel();
+        Panel panel = RequestContext.lookup().getActivePanel();
         if (panel != null) return getPanelUrlMarkup(bean, property, panel);
         else return _getMarkup(bean, property);
     }
@@ -70,11 +69,6 @@ public class HandlerMarkupGenerator {
         name = StringEscapeUtils.escapeHtml(name);
         value = StringEscapeUtils.escapeHtml(value);
         return "<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">";
-    }
-
-    protected Panel getCurrentPanel() {
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
-        return (Panel) request.getAttribute(Parameters.RENDER_PANEL);
     }
 
     public String getMarkupToPanelAction(Panel panel, String action) {

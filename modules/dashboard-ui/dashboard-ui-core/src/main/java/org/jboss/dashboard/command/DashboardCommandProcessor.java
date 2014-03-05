@@ -30,7 +30,7 @@ public class DashboardCommandProcessor extends CommandProcessorImpl {
     @Override
     protected Command createCommand(String commandName) {
         Command command = super.createCommand(commandName);
-        if (command != null && RequestContext.getCurrentContext() != null) {
+        if (command != null && RequestContext.lookup() != null) {
 
             // Pass the current dashboard filter to the command.
             Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();

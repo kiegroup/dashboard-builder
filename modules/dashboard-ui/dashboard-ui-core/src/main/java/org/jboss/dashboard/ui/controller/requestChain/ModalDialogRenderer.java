@@ -16,33 +16,32 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.ModalDialogComponent;
-import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.responses.ShowBeanAjaxResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.ui.controller.responses.ShowComponentAjaxResponse;
 
 /**
  * Catch the opening of the modal window an the successive requests over it and
  * give an appropriate response.
  */
 @ApplicationScoped
-public class ModalDialogRenderer implements RequestChainProcessor {
+public class ModalDialogRenderer extends AbstractChainProcessor {
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
+    @Inject
+    private ModalDialogComponent modalDialog;
+
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
 
         // Check whether the modal window has been activated within the current request.
         ModalDialogStatusSaver modalStatus = ModalDialogStatusSaver.lookup();
-        ModalDialogComponent modalDialog = modalStatus.getModalDialog();
         boolean modalOn = modalDialog.isShowing();
         boolean modalOnBeforeRequest = modalStatus.modalOnBeforeRequest();
         boolean modalSwitchedOn = !modalOnBeforeRequest && modalOn;
@@ -68,15 +67,12 @@ public class ModalDialogRenderer implements RequestChainProcessor {
                     return true;
                 }
             }
-            // Preserve panel session context when the modal has been activated inside a panel.
-            Panel panel = getCurrentPanel(request);
-            if (panel != null) request.setAttribute(Parameters.RENDER_PANEL, panel);
         }
 
         // If modal has been switched off, return new screen response without ajax so as to
         // force to repaint all screen without the component.
         if (modalSwitchedOff) {
-            controllerStatus.setResponse(new ShowCurrentScreenResponse());
+            setResponse(new ShowCurrentScreenResponse());
             return true;
         }
 
@@ -85,12 +81,13 @@ public class ModalDialogRenderer implements RequestChainProcessor {
         String ajaxParam = request.getParameter(Parameters.AJAX_ACTION);
         if (ajaxParam == null || !Boolean.valueOf(ajaxParam).booleanValue()) return true;
 
-        // If the modal window is on then show it.
-        // The AJAX response varies depending whether the modal window is rendered for the first time or
-        // it's a response inside the modal window.
+        // If the modal window is on then show it:
+        // - The AJAX response varies depending whether the modal window is rendered for the first time or it's a response inside the modal window.
+        // - If the request is being executed within a panel the pass such panel to the response.
         if (modalOn) {
-            if (modalSwitchedOn) controllerStatus.setResponse(new ShowComponentAjaxResponse(modalDialog));
-            else controllerStatus.setResponse(new ShowComponentAjaxResponse(modalDialog.getCurrentComponent()));
+            Panel panel = getCurrentPanel(request);
+            if (modalSwitchedOn) setResponse(new ShowBeanAjaxResponse(modalDialog, panel));
+            else setResponse(new ShowBeanAjaxResponse(modalDialog.getCurrentComponent(), panel));
         }
         return true;
     }

@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="org.jboss.dashboard.ui.UISettings" %>
+<%@ page import="org.jboss.dashboard.ui.controller.RequestContext" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -83,9 +84,9 @@
         <mvc:fragmentValue name="panel" id="panel">
             <div id="Region_Panel_Container_<%=((Panel)panel).getPanelId()%>"
                     <%=((Panel) panel).getHeight() > 0 ? "style=\"height:" + ((Panel) panel).getHeight() + "\"" : ""%>>
-                <% request.setAttribute(Parameters.RENDER_PANEL, panel); %>
+                <% RequestContext.lookup().activatePanel((Panel) panel); %>
                 <mvc:include page="render_panel_content.jsp" flush="true"/>
-                <% request.removeAttribute(Parameters.RENDER_PANEL); %>
+                <% RequestContext.lookup().deactivatePanel((Panel) panel); %>
             </div>
         </mvc:fragmentValue>
     </mvc:fragment>
@@ -114,9 +115,9 @@
                     </div>
                     <div id="Region_Panel_Container_<%=((Panel)panel).getPanelId()%>"
                          style=" <%=Boolean.TRUE.equals(editMode) ? "" : "border: solid 1px #CCCCCC; "%>margin: 0; <%=((Panel)panel).getHeight()>0?"height: "+((Panel)panel).getHeight():""%>">
-                      <% request.setAttribute(Parameters.RENDER_PANEL, panel); %>
+                      <% RequestContext.lookup().activatePanel((Panel) panel); %>
                       <mvc:include page="render_panel_content.jsp" flush="true"/>
-                      <% request.removeAttribute(Parameters.RENDER_PANEL); %>
+                      <% RequestContext.lookup().deactivatePanel((Panel) panel); %>
                     </div>
                 </mvc:fragmentValue>
             </mvc:fragmentValue>

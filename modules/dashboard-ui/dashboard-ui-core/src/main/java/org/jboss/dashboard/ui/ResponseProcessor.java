@@ -45,8 +45,8 @@ public class ResponseProcessor {
 
     public void run() throws Exception {
         for (RequestChainProcessor processor : processorChain) {
-            RequestContext reqCtx = RequestContext.getCurrentContext();
-            if (processor.processRequest(reqCtx.getRequest()) == false) {
+            RequestContext reqCtx = RequestContext.lookup();
+            if (processor.processRequest() == false) {
                 // Stop in case the processor has explicitly stopped the chain's processing.
                 return;
             }

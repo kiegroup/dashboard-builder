@@ -17,26 +17,33 @@ package org.jboss.dashboard.ui.controller.responses;
 
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.PanelSession;
-
-import javax.servlet.RequestDispatcher;
 
 /**
- * Response that includes the full panel area including the buttons bar
+ * Response that embeds a component view into the output stream.
  */
-public class FullPanelAjaxResponse extends PanelAjaxResponse {
+public class ShowBeanAjaxResponse implements CommandResponse {
 
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(FullPanelAjaxResponse.class.getName());
+    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ShowBeanAjaxResponse.class.getName());
 
     protected Long panelId;
-    protected String page;
+    protected UIBeanHandler component;
 
-    public FullPanelAjaxResponse(Panel panel, String page) {
-        this.panelId = panel.getDbid();
-        this.page = page;
+    public ShowBeanAjaxResponse(UIBeanHandler component) {
+        this(component, null);
+    }
+
+    public ShowBeanAjaxResponse(UIBeanHandler component, Panel panel) {
+        this.component = component;
+        this.panelId = panel != null ? panel.getDbid(): null;
+    }
+
+    public UIBeanHandler getComponent() {
+        return component;
     }
 
     public Panel getPanel() throws Exception {
@@ -46,26 +53,14 @@ public class FullPanelAjaxResponse extends PanelAjaxResponse {
 
     public boolean execute(CommandRequest cmdReq) throws Exception {
         Panel panel = getPanel();
-        PanelSession pSession = panel.getPanelSession();
-        pSession.setCurrentPageId(page);
         if (log.isDebugEnabled()) log.debug("FullPanelAjaxResponse: " + panel.getFullDescription());
         try {
             RequestContext.lookup().activatePanel(panel);
 
+            if (log.isDebugEnabled()) log.debug("ShowComponentAjaxResponse: " + component.getBeanName());
             cmdReq.getResponseObject().setHeader("Content-Encoding", HTTPSettings.lookup().getEncoding());
             cmdReq.getResponseObject().setContentType("text/html;charset=" + HTTPSettings.lookup().getEncoding());
-            RequestDispatcher rd[] = {
-                    cmdReq.getRequestObject().getRequestDispatcher(commonRefreshPanelsPage),
-                    cmdReq.getRequestObject().getRequestDispatcher(beforePanelsPage),
-                    cmdReq.getRequestObject().getRequestDispatcher(panel.getProvider().getPage(page)),
-                    cmdReq.getRequestObject().getRequestDispatcher(afterPanelsPage)};
-            panel.getProvider().getDriver().fireBeforeRenderPanel(panel, cmdReq.getRequestObject(), cmdReq.getResponseObject());
-            for (int i = 0; i < rd.length; i++) {
-                RequestDispatcher requestDispatcher = rd[i];
-                requestDispatcher.include(cmdReq.getRequestObject(), cmdReq.getResponseObject());
-                cmdReq.getResponseObject().flushBuffer();
-            }
-            panel.getProvider().getDriver().fireAfterRenderPanel(panel, cmdReq.getRequestObject(), cmdReq.getResponseObject());
+            cmdReq.getRequestObject().getRequestDispatcher("/templates/component_response.jsp").include(cmdReq.getRequestObject(), cmdReq.getResponseObject());
             return true;
         } finally {
             RequestContext.lookup().deactivatePanel(panel);

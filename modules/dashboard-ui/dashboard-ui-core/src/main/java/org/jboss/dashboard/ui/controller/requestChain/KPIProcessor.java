@@ -23,20 +23,17 @@ import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.DashboardHandler;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.FullPanelResponse;
 import org.jboss.dashboard.ui.controller.responses.SendErrorResponse;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelsManager;
-import org.jboss.dashboard.workspace.Parameters;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -56,7 +53,7 @@ import java.util.*;
  * - Handle errors and avoid frames showing full screen
  */
 @ApplicationScoped
-public class KPIProcessor implements RequestChainProcessor {
+public class KPIProcessor extends AbstractChainProcessor {
 
     public static final String KPI_MAPPING = "/kpi";
     public static final String LOCALE_PARAMETER = "locale";
@@ -70,12 +67,9 @@ public class KPIProcessor implements RequestChainProcessor {
     @Inject
     private UserStatus userStatus;
 
-    @Inject
-    private ControllerStatus controllerStatus;
-
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
+        HttpServletResponse response = getHttpResponse();
         String servletPath = request.getServletPath();
 
         // No friendly -> nothing to do.
@@ -86,8 +80,9 @@ public class KPIProcessor implements RequestChainProcessor {
         // Set locale if needed
         processSetLocale(request);
 
+        RequestContext requestContext = getRequestContext();
         String contextPath = request.getContextPath();
-        controllerStatus.consumeURIPart(KPI_MAPPING);
+        requestContext.consumeURIPart(KPI_MAPPING);
         navigationManager.setShowingConfig(false);
         String requestUri = request.getRequestURI();
         String relativeUri = requestUri.substring(contextPath == null ? 0 : (contextPath.length()));
@@ -108,7 +103,7 @@ public class KPIProcessor implements RequestChainProcessor {
             CommandResponse cmdResponse = null;
             if ("show".equalsIgnoreCase(action)) {
                 cmdResponse = processShowKPI(request, response);
-                controllerStatus.consumeURIPart("/" + action);
+                requestContext.consumeURIPart("/" + action);
             }
             else {
                 log.error("Invalid KPI URL: " + relativeUri);
@@ -117,15 +112,15 @@ public class KPIProcessor implements RequestChainProcessor {
             // Set response if needed
             if (cmdResponse != null) {
                 // Set successful response
-                controllerStatus.setResponse(cmdResponse);
+                requestContext.setResponse(cmdResponse);
             } else {
                 // Response parameters missing or wrong action
-                controllerStatus.setResponse(new SendErrorResponse(HttpServletResponse.SC_NOT_FOUND));
+                requestContext.setResponse(new SendErrorResponse(HttpServletResponse.SC_NOT_FOUND));
             }
         } catch (Exception e) {
             // Handler response error
             ErrorManager.lookup().notifyError(e, true);
-            controllerStatus.setResponse(new SendErrorResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+            requestContext.setResponse(new SendErrorResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
         }
         return true;
     }
@@ -158,7 +153,7 @@ public class KPIProcessor implements RequestChainProcessor {
             WorkspacePermission workspacePermission = WorkspacePermission.newInstance(currentPanel, WorkspacePermission.ACTION_LOGIN);
             if (!userStatus.hasPermission(panelPerm) || !userStatus.hasPermission(sectionPerm) || !userStatus.hasPermission(workspacePermission)) {
                 // Forbidden access response
-                controllerStatus.setResponse(new SendErrorResponse(HttpServletResponse.SC_FORBIDDEN));
+                setResponse(new SendErrorResponse(HttpServletResponse.SC_FORBIDDEN));
             }
 
             // Make sure the chart displays no filtered data.

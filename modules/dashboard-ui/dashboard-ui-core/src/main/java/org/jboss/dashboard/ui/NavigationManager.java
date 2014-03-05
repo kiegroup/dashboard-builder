@@ -222,19 +222,19 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
     }
 
     protected void clearRequestCache() {
-        RequestContext rqctx = RequestContext.getCurrentContext();
+        RequestContext rqctx = RequestContext.lookup();
         rqctx.getRequest().getRequestObject().removeAttribute(CURRENT_WORKSPACE_ATTR);
         rqctx.getRequest().getRequestObject().removeAttribute(CURRENT_PAGE_ATTR);
     }
 
     protected WorkspaceImpl getCurrentWorkspaceFromCache() {
-        RequestContext rqctx = RequestContext.getCurrentContext();
+        RequestContext rqctx = RequestContext.lookup();
         WorkspaceImpl currentWorkspace = (WorkspaceImpl) rqctx.getRequest().getRequestObject().getAttribute(CURRENT_WORKSPACE_ATTR);
         return currentWorkspace;
     }
 
     protected Section getCurrentPageFromCache() {
-        RequestContext rqctx = RequestContext.getCurrentContext();
+        RequestContext rqctx = RequestContext.lookup();
         Section currentPage = (Section) rqctx.getRequest().getRequestObject().getAttribute(CURRENT_PAGE_ATTR);
         return currentPage;
     }
@@ -247,7 +247,7 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
      * modify navigation location
      */
     public void freezeNavigationStatus() {
-        RequestContext rqctx = RequestContext.getCurrentContext();
+        RequestContext rqctx = RequestContext.lookup();
         rqctx.getRequest().getRequestObject().setAttribute(CURRENT_WORKSPACE_ATTR, getCurrentWorkspace());
         rqctx.getRequest().getRequestObject().setAttribute(CURRENT_PAGE_ATTR, getCurrentSection());
     }

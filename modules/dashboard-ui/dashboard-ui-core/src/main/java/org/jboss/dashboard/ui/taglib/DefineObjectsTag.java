@@ -16,9 +16,9 @@
 package org.jboss.dashboard.ui.taglib;
 
 import org.jboss.dashboard.ui.NavigationManager;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.LocaleManager;
@@ -28,7 +28,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
-import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.tagext.VariableInfo;
 import java.util.Locale;
 
@@ -134,9 +133,8 @@ public class DefineObjectsTag extends BaseTag {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 
         // Current panel (passed as a parameter through the request)
-        Panel currentPanel = null;
+        Panel currentPanel = RequestContext.lookup().getActivePanel();
         try {
-            currentPanel = (Panel) request.getAttribute(Parameters.RENDER_PANEL);
             if (currentPanel == null) {
                 log.error("Current context values are: ");
                 log.error("request.ATTRIBUTE_SECTION_ID = " + request.getAttribute("current_section_id"));

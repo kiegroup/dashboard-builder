@@ -18,6 +18,8 @@ package org.jboss.dashboard.ui.panel;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.ui.controller.RequestContext;
+import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
@@ -339,7 +341,14 @@ public class PanelProvider {
      */
     public void initSession(PanelSession status, HttpSession session) {
         if (log.isDebugEnabled()) log.debug("Initializing panel status for provider " + getId() + " " + getDriver().getClass().getName());
-        getDriver().initPanelSession(status, session);
+
+        Panel panel = status.getPanel();
+        try {
+            RequestContext.lookup().activatePanel(panel);
+            getDriver().initPanelSession(status, session);
+        } finally {
+            RequestContext.lookup().deactivatePanel(panel);
+        }
     }
 
     @PostConstruct

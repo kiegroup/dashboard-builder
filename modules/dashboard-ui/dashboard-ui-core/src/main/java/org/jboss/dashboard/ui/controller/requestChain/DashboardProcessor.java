@@ -19,21 +19,20 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.components.DashboardHandler;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 
 /**
  * This is a request chain processor for dashbuilder.
  * It reads some request parameters and perform operations.
  */
 @ApplicationScoped
-public class DashboardProcessor implements RequestChainProcessor {
+public class DashboardProcessor extends AbstractChainProcessor {
 
     private static final String PARAM_REFRESH = "refresh";
 
-    public boolean processRequest(CommandRequest request) throws Exception {
+    public boolean processRequest() throws Exception {
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         if (dashboard != null) {
-            String refresh = request.getRequestObject().getParameter(PARAM_REFRESH);
+            String refresh = getHttpRequest().getParameter(PARAM_REFRESH);
             boolean isRefresh = Boolean.parseBoolean(refresh);
             if (isRefresh) dashboard.refresh();
         }

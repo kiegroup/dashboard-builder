@@ -145,10 +145,8 @@ public class PanelsPropertiesHandler extends BeanHandler {
                         if (panels[i].getDbid().equals(dbid)) panel = panels[i];
                     }
                     section.removePanel(panel);
-                    SessionManager.setCurrentPanel(panel);
 
                     UIServices.lookup().getPanelsManager().delete(panel);
-                    //section.removePanel(panel);
                     UIServices.lookup().getSectionsManager().store(section);
                 }
             };

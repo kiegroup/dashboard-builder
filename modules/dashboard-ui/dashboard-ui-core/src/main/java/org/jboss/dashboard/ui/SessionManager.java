@@ -24,8 +24,6 @@ import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Locale;
 
@@ -35,7 +33,6 @@ import java.util.Locale;
 @ApplicationScoped
 public class SessionManager {
 
-    private final static String ATTRIBUTE_PANEL = "current_panel";
     private final static String ATTRIBUTE_FORM_STATUS = "current_form_status";
 
     public static SessionManager lookup() {
@@ -49,7 +46,7 @@ public class SessionManager {
      * Returns current form status
      */
     public static FormStatus getCurrentFormStatus() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
+        RequestContext reqCtx = RequestContext.lookup();
         HttpSession session = reqCtx.getRequest().getSessionObject();
         FormStatus formStatus = (FormStatus) session.getAttribute(ATTRIBUTE_FORM_STATUS);
         if (formStatus == null) {
@@ -60,56 +57,10 @@ public class SessionManager {
     }
 
     /**
-     * Returns panel stored in session
-     *
-     * @deprecated
-     */
-    public static Object getCurrentPanel() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        HttpSession session = reqCtx.getRequest().getSessionObject();
-        Object panel = reqCtx.getRequest().getRequestObject().getAttribute(ATTRIBUTE_PANEL);
-        if (panel != null) return panel;
-        return session.getAttribute(ATTRIBUTE_PANEL);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static void setCurrentPanel(Panel panel) {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        HttpSession session = reqCtx.getRequest().getSessionObject();
-        session.setAttribute(ATTRIBUTE_PANEL, panel);
-        reqCtx.getRequest().getRequestObject().setAttribute(ATTRIBUTE_PANEL, panel);
-    }
-
-    /**
-     * @deprecated
-     */
-    public static void setCurrentPanel(PanelInstance instance) {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        HttpSession session = reqCtx.getRequest().getSessionObject();
-        session.setAttribute(ATTRIBUTE_PANEL, instance);
-    }
-
-    /**
-     * Returns the panel status object for a given panel. If it doesn't exist,
-     * creates and stores it in the session.
+     * @deprecated Use Panel.getPanelSession() instead.
      */
     public static PanelSession getPanelSession(Panel panel) {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        HttpSession session = reqCtx.getRequest().getSessionObject();
-        String key = "_panel_" + panel.getWorkspace().getId() + "." + panel.getSection().getId() + "." + panel.getPanelId();
-        PanelSession panelStatus = (PanelSession) session.getAttribute(key);
-
-        if (panelStatus == null) {
-            panelStatus = new PanelSession(panel);
-            panelStatus.init(session);
-            if (panel.isInitiallyMaximized()) {
-                panelStatus.setStatus(PanelSession.STATUS_MAXIMIZED);
-            }
-            session.setAttribute(key, panelStatus);
-        }
-        return panelStatus;
+        return panel.getPanelSession();
     }
 
     /**
@@ -117,7 +68,7 @@ public class SessionManager {
      * creates and stores it in the session.
      */
     public static LayoutRegionStatus getRegionStatus(Section section, LayoutRegion region) {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
+        RequestContext reqCtx = RequestContext.lookup();
         HttpSession session = reqCtx.getRequest().getSessionObject();
         if (section == null || region == null) return null;
 
@@ -135,21 +86,13 @@ public class SessionManager {
      * @deprecated Use LocaleManager instead
      */
     public static Locale getCurrentLocale() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        String defaultLang = reqCtx.getRequest().getRequestObject().getParameter(Parameters.FORCE_LANGUAGE);
-        LocaleManager localeManager = LocaleManager.lookup();
-        if (defaultLang != null) localeManager.setCurrentLang(defaultLang);
-        return localeManager.getCurrentLocale();
+        return LocaleManager.currentLocale();
     }
 
     /**
      * @deprecated Use LocaleManager instead
      */
     public static String getLang() {
-        RequestContext reqCtx = RequestContext.getCurrentContext();
-        String defaultLang = reqCtx.getRequest().getRequestObject().getParameter(Parameters.FORCE_LANGUAGE);
-        LocaleManager localeManager = LocaleManager.lookup();
-        if (defaultLang != null) localeManager.setCurrentLang(defaultLang);
-        return localeManager.getCurrentLang();
+        return LocaleManager.currentLang();
     }
 }

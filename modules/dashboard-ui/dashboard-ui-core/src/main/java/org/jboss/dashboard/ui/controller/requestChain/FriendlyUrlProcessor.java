@@ -20,9 +20,8 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.ControllerStatus;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
@@ -34,15 +33,13 @@ import org.slf4j.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
 @ApplicationScoped
-public class FriendlyUrlProcessor implements RequestChainProcessor {
+public class FriendlyUrlProcessor extends AbstractChainProcessor {
 
     @Inject
     private transient Logger log;
@@ -62,13 +59,12 @@ public class FriendlyUrlProcessor implements RequestChainProcessor {
      *
      * @return true if processing must continue, false otherwise.
      */
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
-        HttpServletResponse response = req.getResponseObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
         String servletPath = request.getServletPath();
         NavigationManager navigationManager = NavigationManager.lookup();
         UserStatus userStatus = UserStatus.lookup();
-        ControllerStatus controllerStatus = ControllerStatus.lookup();
+        RequestContext requestContext = RequestContext.lookup();
 
         // ---- Apply locale information, --------------
         LocaleManager localeManager = LocaleManager.lookup();
@@ -86,7 +82,7 @@ public class FriendlyUrlProcessor implements RequestChainProcessor {
         if (!servletPath.startsWith(FRIENDLY_MAPPING)) return true;
 
         String contextPath = request.getContextPath();
-        controllerStatus.consumeURIPart(FRIENDLY_MAPPING);
+        requestContext.consumeURIPart(FRIENDLY_MAPPING);
         navigationManager.setShowingConfig(false);
         String requestUri = request.getRequestURI();
         String relativeUri = requestUri.substring(contextPath == null ? 0 : (contextPath.length()));
@@ -114,7 +110,7 @@ public class FriendlyUrlProcessor implements RequestChainProcessor {
         String localeUri = relativeUri.substring(startLocaleUri + 1, endLocaleUri);
         Locale uriLocale = localeManager.getLocaleById(localeUri);
         if (uriLocale != null) {
-            controllerStatus.consumeURIPart("/" + localeUri);
+            requestContext.consumeURIPart("/" + localeUri);
             relativeUri = relativeUri.substring(localeUri.length() + 1);
             // Use the locale specified in the URI value only if no locale specified in the qeury string.
             if (localeToSet == null) localeManager.setCurrentLocale(uriLocale);
@@ -179,7 +175,7 @@ public class FriendlyUrlProcessor implements RequestChainProcessor {
                             }
                         }
                     }
-                    controllerStatus.consumeURIPart("/" + workspaceCandidate);
+                    requestContext.consumeURIPart("/" + workspaceCandidate);
                 } catch (Exception e) {
                     log.error("Cannot set current workspace.", e);
                 }
@@ -203,8 +199,8 @@ public class FriendlyUrlProcessor implements RequestChainProcessor {
                             }
                         }
                     }
-                    controllerStatus.consumeURIPart("/" + workspaceCandidate);
-                    controllerStatus.consumeURIPart("/" + sectionCandidate);
+                    requestContext.consumeURIPart("/" + workspaceCandidate);
+                    requestContext.consumeURIPart("/" + sectionCandidate);
                 } catch (Exception e) {
                     log.error("Cannot set current section.", e);
                 }

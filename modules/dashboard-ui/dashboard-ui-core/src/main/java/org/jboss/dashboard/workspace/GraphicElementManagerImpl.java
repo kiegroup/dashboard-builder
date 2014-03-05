@@ -20,13 +20,7 @@ import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
-import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.GraphicElementManager;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -249,9 +243,8 @@ public abstract class GraphicElementManagerImpl implements GraphicElementManager
     public GraphicElement[] getAvailableElements() {
         Workspace workspace = NavigationManager.lookup().getCurrentWorkspace();
         Section section = NavigationManager.lookup().getCurrentSection();
-        RequestContext reqCtx = RequestContext.getCurrentContext();
+        Panel panel = RequestContext.lookup().getActivePanel();
         Long idPanel = null;
-        Panel panel = (Panel) reqCtx.getRequest().getRequestObject().getAttribute(Parameters.RENDER_PANEL);
         if (panel != null && section != null) {
             idPanel = panel.getPanelId();
             if (getElementScopeDescriptor().isAllowedInstance()) {
@@ -328,10 +321,7 @@ public abstract class GraphicElementManagerImpl implements GraphicElementManager
     public GraphicElement[] getManageableElements() {
         Workspace workspace = NavigationManager.lookup().getCurrentWorkspace();
         Section section = NavigationManager.lookup().getCurrentSection();
-        Object panelObject = SessionManager.getCurrentPanel();//TODO : Current panel won't be set!
-        Panel panel = null;
-        if (panelObject != null && panelObject instanceof Panel)
-            panel = (Panel) panelObject;
+        Panel panel = RequestContext.lookup().getActivePanel();
         return getManageableElements(workspace == null ? null : workspace.getId(), section == null ? null : section.getId(), panel == null ? null : panel.getPanelId());
     }
 

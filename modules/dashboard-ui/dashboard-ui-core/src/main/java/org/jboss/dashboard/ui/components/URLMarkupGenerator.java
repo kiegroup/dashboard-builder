@@ -66,7 +66,7 @@ public class URLMarkupGenerator {
             if (element == null) throw new RuntimeException("Bean '" + bean + "' not found.");
 
             StringBuffer sb = new StringBuffer();
-            String base = RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
+            String base = RequestContext.lookup().getRequest().getRequestObject().getContextPath() + "/" + COMMAND_RUNNER;
             sb.append(base).append("?");
             params.put(FactoryURL.PARAMETER_BEAN, element.getBeanName());
             params.put(FactoryURL.PARAMETER_ACTION, action);
@@ -91,7 +91,7 @@ public class URLMarkupGenerator {
     }
 
     protected String _getServletMapping() {
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
+        HttpServletRequest request = RequestContext.lookup().getRequest().getRequestObject();
         if( request != null ) {
             return request.getContextPath()+"/"+COMMAND_RUNNER;
         } else {
@@ -109,7 +109,7 @@ public class URLMarkupGenerator {
      */
     public String getBaseURI() {
         // Avoid an extra Controller in URL when it is already friendly
-        Panel panel = getCurrentPanel();
+        Panel panel = RequestContext.lookup().getActivePanel();
         if (panel != null) {  // There will be a friendly url here
             return getLinkToPage(panel.getSection(), true);
         }
@@ -127,7 +127,7 @@ public class URLMarkupGenerator {
     public String getMarkup(String beanName, String action, Map params) {
         try {
             if (params == null) params = new HashMap();
-            Panel panel = getCurrentPanel();
+            Panel panel = RequestContext.lookup().getActivePanel();
             if (panel != null) {
                 params.put(Parameters.DISPATCH_IDPANEL, panel.getPanelId());
                 params.put(Parameters.DISPATCH_ACTION, "_factory");
@@ -213,16 +213,6 @@ public class URLMarkupGenerator {
         return sb.toString();
     }
 
-    protected Panel getCurrentPanel() {
-        try {
-            HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
-            return (Panel) request.getAttribute(Parameters.RENDER_PANEL);
-        }
-        catch (NullPointerException npe) {
-            return null;
-        }
-    }
-
     /**
      * Get an absolute url that leads to a given workspace
      *
@@ -287,7 +277,7 @@ public class URLMarkupGenerator {
         if (allowFriendly) {
             friendlyUrl = StringUtils.defaultIfEmpty(workspace.getFriendlyUrl(), workspace.getId());
         }
-        sb.append(RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
+        sb.append(RequestContext.lookup().getRequest().getRequestObject().getContextPath() + "/" + FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
         return sb;
     }
 
@@ -333,7 +323,7 @@ public class URLMarkupGenerator {
      */
     protected StringBuffer postProcessURL(StringBuffer url) {
         // Keep the embedded mode using URL rewriting.
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
+        HttpServletRequest request = RequestContext.lookup().getRequest().getRequestObject();
         if( request != null ) {
             boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
             String embeddedParam = Parameters.PARAM_EMBEDDED + "=true";

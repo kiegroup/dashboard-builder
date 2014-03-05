@@ -33,7 +33,7 @@ public class SessionClearerUserStatusListener implements UserStatusListener {
 
     public void statusChanged(UserStatus us) {
         if (us.isAnonymous()) { // just logout
-            RequestContext ctx = RequestContext.getCurrentContext();
+            RequestContext ctx = RequestContext.lookup();
             HttpSession session = ctx.getRequest().getSessionObject();
             Enumeration en = session.getAttributeNames();
             Set attributesToDelete = new HashSet();

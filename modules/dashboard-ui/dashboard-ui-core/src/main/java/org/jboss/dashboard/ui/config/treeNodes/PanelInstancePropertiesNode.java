@@ -51,12 +51,6 @@ public abstract class PanelInstancePropertiesNode extends AbstractNode {
     }
 
     private void prepareConfigure(PanelInstance instance) {
-        // We'll work on a cloned copy to
-        PanelInstance panel = instance.getPartialClonedCopy();
-
-        // Store panel in session
-        SessionManager.setCurrentPanel(panel);
-
         FormStatus formStatus = new FormStatus();
         formStatus.setValue("lang", SessionManager.getLang());
         formStatus.setValue("multilanguage", isMultilanguage());

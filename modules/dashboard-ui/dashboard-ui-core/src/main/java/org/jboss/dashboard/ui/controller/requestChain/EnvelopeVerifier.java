@@ -18,21 +18,19 @@ package org.jboss.dashboard.ui.controller.requestChain;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.taglib.EnvelopeFooterTag;
 import org.jboss.dashboard.ui.taglib.EnvelopeHeadTag;
 import org.slf4j.Logger;
 
 @ApplicationScoped
-public class EnvelopeVerifier implements RequestChainProcessor {
+public class EnvelopeVerifier extends AbstractChainProcessor {
 
     @Inject
     private transient Logger log;
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
         Boolean headToken = (Boolean) request.getAttribute(EnvelopeHeadTag.ENVELOPE_TOKEN);
         if (headToken != null && Boolean.TRUE.equals(headToken)) {
             Boolean footerToken = (Boolean) request.getAttribute(EnvelopeFooterTag.ENVELOPE_TOKEN);

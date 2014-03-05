@@ -26,14 +26,10 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.filter.AbstractFilter;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.Parameters;
-import org.jboss.dashboard.workspace.Panel;
 
 import java.util.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -99,21 +95,17 @@ public class DashboardFilter extends AbstractFilter implements DataFilter {
         String code = panel.getParameterValue(FILTER_HANDLER_CODE);
 
         // If no request context exists then do a standard lookup.
-        RequestContext reqCtx = RequestContext.getCurrentContext();
+        RequestContext reqCtx = RequestContext.lookup();
         if (reqCtx == null) return DashboardFilterHandler.lookup(code);
 
         // Save the current panel instance and set the specified panel as current.
-        HttpServletRequest httpReq = reqCtx.getRequest().getRequestObject();
-        Panel currentPanel = (Panel) httpReq.getAttribute(Parameters.RENDER_PANEL);
-        httpReq.setAttribute(Parameters.RENDER_PANEL, panel);
+        RequestContext.lookup().activatePanel(panel);
 
         // Get the handler component within the scope of the specified panel
         try {
             return DashboardFilterHandler.lookup(code);
         } finally {
-            // Restore the current panel before return.
-            if (currentPanel != null) httpReq.setAttribute(Parameters.RENDER_PANEL, currentPanel);
-            else httpReq.removeAttribute(Parameters.RENDER_PANEL);
+            RequestContext.lookup().deactivatePanel(panel);
         }
     }
 

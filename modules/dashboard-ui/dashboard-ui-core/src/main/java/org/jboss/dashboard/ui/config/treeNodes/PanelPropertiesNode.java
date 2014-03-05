@@ -65,9 +65,6 @@ public abstract class PanelPropertiesNode extends AbstractNode {
     }
 
     private void prepareConfigure(Panel panel) {
-        // Store panel in session
-        SessionManager.setCurrentPanel(panel);
-
         FormStatus formStatus = new FormStatus();
         formStatus.setValue("lang", SessionManager.getLang());
         formStatus.setValue("multilanguage", isMultilanguage());

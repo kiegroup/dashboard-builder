@@ -15,14 +15,11 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.Parameters;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * The CSRF processor validates a security token inside the URLs.
@@ -30,10 +27,10 @@ import javax.servlet.http.HttpServletResponse;
  * That way the application prevents the processing of malicious CSRF requests.
  */
 @ApplicationScoped
-public class CSRFTokenProcessor implements RequestChainProcessor {
+public class CSRFTokenProcessor extends AbstractChainProcessor {
 
-    public boolean processRequest(CommandRequest req) throws Exception {
-        HttpServletRequest request = req.getRequestObject();
+    public boolean processRequest() throws Exception {
+        HttpServletRequest request = getHttpRequest();
         if (SessionInitializer.isNewSession(request)) {
             // If the session is being created then the CSRF control it makes no sense.
             return true;

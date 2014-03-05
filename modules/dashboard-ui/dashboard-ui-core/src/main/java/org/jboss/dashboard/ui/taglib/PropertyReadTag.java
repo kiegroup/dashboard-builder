@@ -23,7 +23,6 @@ import org.apache.commons.jxpath.JXPathContext;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
@@ -116,11 +115,11 @@ public class PropertyReadTag extends BaseTag {
         } else if ("section".equalsIgnoreCase(object)) {
             subjectOfTheGetter = NavigationManager.lookup().getCurrentSection();
         } else if ("panel".equalsIgnoreCase(object)) {
-            subjectOfTheGetter = SessionManager.getCurrentPanel();
+            subjectOfTheGetter = RequestContext.lookup().getActivePanel();
         } else if ("request".equalsIgnoreCase(object)) {
-            subjectOfTheGetter = RequestContext.getCurrentContext().getRequest();
+            subjectOfTheGetter = RequestContext.lookup().getRequest();
         } else if ("session".equalsIgnoreCase(object)) {
-            subjectOfTheGetter = RequestContext.getCurrentContext().getRequest().getSessionObject();
+            subjectOfTheGetter = RequestContext.lookup().getRequest().getSessionObject();
         } else {
             log.warn("Invalid object to get property from: " + object);
         }

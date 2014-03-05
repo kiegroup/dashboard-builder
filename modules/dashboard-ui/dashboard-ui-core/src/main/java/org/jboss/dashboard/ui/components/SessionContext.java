@@ -26,18 +26,14 @@ import org.jboss.dashboard.users.LogoutSurvivor;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 
 @SessionScoped
-@Named("sessionContext")
 public class SessionContext implements LogoutSurvivor, Serializable {
 
     public static SessionContext lookup() {
-        return (SessionContext) CDIBeanLocator.getBeanByName("sessionContext");
+        return CDIBeanLocator.getBeanByType(SessionContext.class);
     }
 
     private Locale currentLocale;
     private Locale currentEditLocale;
-
-    public SessionContext() {
-    }
 
     public Locale getCurrentEditLocale() {
         return currentEditLocale;

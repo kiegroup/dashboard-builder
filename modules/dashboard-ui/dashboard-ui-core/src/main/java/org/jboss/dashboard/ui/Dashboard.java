@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.ui;
 
-import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.ui.components.DashboardHandler;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.DataProvider;
@@ -35,9 +35,7 @@ import org.jboss.dashboard.ui.panel.AjaxRefreshManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jboss.dashboard.ui.panel.PanelRenderContext;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Section;
 
 /**
@@ -424,8 +422,8 @@ public class Dashboard {
         for (Panel panel : getSection().getPanels()) {
             if (panel.getProvider().getDriver() instanceof DashboardDriver) {
                 Long panelId = panel.getPanelId();
-                Panel currentPanel = PanelRenderContext.lookup().getCurrentPanel();
-                if (currentPanel.getPanelId().equals(panelId)) {
+                Panel currentPanel = RequestContext.lookup().getActivePanel();
+                if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
                     continue;
                 }
 

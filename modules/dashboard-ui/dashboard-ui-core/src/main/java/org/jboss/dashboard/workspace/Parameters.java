@@ -24,11 +24,6 @@ package org.jboss.dashboard.workspace;
 public interface Parameters {
 
     /**
-     * Current panel request attribute name
-     */
-    public static final String RENDER_PANEL = "render_panel";
-
-    /**
      * Pane id to be rendered (needs the order parameter to select panel)
      */
     public static final String RENDER_IDREGION = "render_idregion";
@@ -47,11 +42,6 @@ public interface Parameters {
      * Selects panel for actions
      */
     public static final String DISPATCH_ACTION = "pAction";
-
-    /**
-     * Selects workspace for sections
-     */
-    public static final String FORCE_LANGUAGE = "use-lang";
 
     /**
      * Enables the AJAX behaviour on actions
