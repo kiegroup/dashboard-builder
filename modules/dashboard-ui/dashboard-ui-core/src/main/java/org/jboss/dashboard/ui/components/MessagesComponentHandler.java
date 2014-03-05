@@ -41,13 +41,13 @@ public class MessagesComponentHandler extends PanelComponent {
     private String i18nBundle;
     private boolean clearAfterRender = true;
 
-    private List messagesToDisplay = new ArrayList();
-    private List warningsToDisplay = new ArrayList();
-    private List errorsToDisplay = new ArrayList();
+    private List<String> messagesToDisplay = new ArrayList<String>();
+    private List<String> warningsToDisplay = new ArrayList<String>();
+    private List<String> errorsToDisplay = new ArrayList<String>();
 
-    private List messagesParameters = new ArrayList();
-    private List warningsParameters = new ArrayList();
-    private List errorsParameters = new ArrayList();
+    private List<String[]> messagesParameters = new ArrayList<String[]>();
+    private List<String[]> warningsParameters = new ArrayList<String[]>();
+    private List<String[]> errorsParameters = new ArrayList<String[]>();
 
     /** The locale manager. */
     protected LocaleManager localeManager;
@@ -74,51 +74,51 @@ public class MessagesComponentHandler extends PanelComponent {
         this.height = height;
     }
 
-    public List getMessagesToDisplay() {
+    public List<String> getMessagesToDisplay() {
         return messagesToDisplay;
     }
 
-    public void setMessagesToDisplay(List messagesToDisplay) {
+    public void setMessagesToDisplay(List<String> messagesToDisplay) {
         this.messagesToDisplay = messagesToDisplay;
     }
 
-    public List getWarningsToDisplay() {
+    public List<String> getWarningsToDisplay() {
         return warningsToDisplay;
     }
 
-    public void setWarningsToDisplay(List warningsToDisplay) {
+    public void setWarningsToDisplay(List<String> warningsToDisplay) {
         this.warningsToDisplay = warningsToDisplay;
     }
 
-    public List getErrorsToDisplay() {
+    public List<String> getErrorsToDisplay() {
         return errorsToDisplay;
     }
 
-    public void setErrorsToDisplay(List errorsToDisplay) {
+    public void setErrorsToDisplay(List<String> errorsToDisplay) {
         this.errorsToDisplay = errorsToDisplay;
     }
 
-    public List getMessagesParameters() {
+    public List<String[]> getMessagesParameters() {
         return messagesParameters;
     }
 
-    public void setMessagesParameters(List messagesParameters) {
+    public void setMessagesParameters(List<String[]> messagesParameters) {
         this.messagesParameters = messagesParameters;
     }
 
-    public List getWarningsParameters() {
+    public List<String[]> getWarningsParameters() {
         return warningsParameters;
     }
 
-    public void setWarningsParameters(List warningsParameters) {
+    public void setWarningsParameters(List<String[]> warningsParameters) {
         this.warningsParameters = warningsParameters;
     }
 
-    public List getErrorsParameters() {
+    public List<String[]> getErrorsParameters() {
         return errorsParameters;
     }
 
-    public void setErrorsParameters(List errorsParameters) {
+    public void setErrorsParameters(List<String[]> errorsParameters) {
         this.errorsParameters = errorsParameters;
     }
 

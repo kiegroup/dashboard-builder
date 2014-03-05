@@ -37,7 +37,7 @@ public class MessagesComponentFormatter extends Formatter {
     private MessagesComponentHandler messagesComponentHandler;
 
     @Inject @Config("5")
-    private int maxVisibleErrors = 5;
+    private int maxVisibleErrors;
 
     @Inject @Config("general/32x32/info.gif")
     private String messagesImg;
@@ -138,7 +138,7 @@ public class MessagesComponentFormatter extends Formatter {
         }
     }
 
-    protected void renderMessages(List messages, List params, String img, String className) {
+    protected void renderMessages(List<String> messages, List<String[]> params, String img, String className) {
         while (messages.size() > params.size()) {
             params.add(null);
         }
