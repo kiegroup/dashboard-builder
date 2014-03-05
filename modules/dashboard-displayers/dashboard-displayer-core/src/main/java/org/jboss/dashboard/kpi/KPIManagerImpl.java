@@ -52,8 +52,8 @@ public class KPIManagerImpl implements KPIManager {
         return new KPIImpl();
     }
 
-    public Set getAllKPIs() throws Exception {
-        final Set results = new HashSet();
+    public Set<KPI> getAllKPIs() throws Exception {
+        final Set<KPI> results = new HashSet<KPI>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
