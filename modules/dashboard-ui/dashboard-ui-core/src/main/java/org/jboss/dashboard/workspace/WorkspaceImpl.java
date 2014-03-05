@@ -432,30 +432,28 @@ public class WorkspaceImpl implements Workspace {
                 policy.save();
 
                 //Reposition other sections and remove this
-                List childSections = section.getChildren();
+                List<Section> childSections = section.getChildren();
                 int childCount = childSections.size();
 
-                List brotherSections;
+                List<Section> siblingSections;
                 Section parentSection = section.getParent();
                 int currentPosition = section.getPosition();
                 if (parentSection != null) {
-                    brotherSections = section.getParent().getChildren();
+                    siblingSections = section.getParent().getChildren();
                 } else {
-                    brotherSections = Arrays.asList(getAllRootSections());
+                    siblingSections = Arrays.asList(getAllRootSections());
                 }
-                for (int i = 0; i < brotherSections.size(); i++) {
-                    Section brotherSection = (Section) brotherSections.get(i);
-                    if (brotherSection.getPosition() > currentPosition) {
-                        brotherSection.setPosition(brotherSection.getPosition() + childCount - 1);
-                        session.update(brotherSection);
+                for (Section sibling : siblingSections) {
+                    if (sibling.getPosition() > currentPosition) {
+                        sibling.setPosition(sibling.getPosition() + childCount - 1);
+                        session.update(sibling);
                     }
                 }
 
-                for (int i = 0; i < childSections.size(); i++) {
-                    Section childSection = (Section) childSections.get(i);
-                    childSection.setParentSectionId(null);
-                    childSection.setPosition(childSection.getPosition() + section.getPosition());
-                    session.update(childSection);
+                for (Section child : childSections) {
+                    child.setParentSectionId(null);
+                    child.setPosition(child.getPosition() + section.getPosition());
+                    session.update(child);
                 }
                 // Remove section
                 sections.remove(section);
