@@ -108,7 +108,7 @@ public class PanelNode extends AbstractNode {
             TreeNode grandFather = getParent().getParent();
             Panel panel = getPanel();
             if (grandFather instanceof PanelInstanceNode) {
-                Map sectionTitle = panel.getSection().getTitle();
+                Map<String, String> sectionTitle = panel.getSection().getTitle();
                 String pageName = (String) LocaleManager.lookup().localize(sectionTitle);
                 if (panel.getRegion() != null) pageName += " (" + panel.getRegion().getId() + ")";
                 return pageName;

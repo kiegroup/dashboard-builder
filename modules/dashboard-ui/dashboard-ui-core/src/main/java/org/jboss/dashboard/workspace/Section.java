@@ -28,7 +28,6 @@ import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.jboss.dashboard.ui.resources.Skin;
 import org.jboss.dashboard.SecurityServices;
-import org.jboss.dashboard.security.Policy;
 import org.hibernate.Session;
 
 import javax.servlet.http.HttpSession;
@@ -59,7 +58,7 @@ public class Section implements Comparable<Section>, Visitable {
     /**
      * Title
      */
-    private Map title = null;
+    private Map<String, String> title = null;
 
     /**
      * Layout describing this section's layout
@@ -304,11 +303,11 @@ public class Section implements Comparable<Section>, Visitable {
         this.layoutId = layoutId;
     }
 
-    public Map getTitle() {
+    public Map<String, String> getTitle() {
         return title;
     }
 
-    public void setTitle(Map title) {
+    public void setTitle(Map<String, String> title) {
         this.title = title;
     }
 
@@ -316,7 +315,7 @@ public class Section implements Comparable<Section>, Visitable {
         if (lang == null || lang.trim().length() == 0)
             lang = LocaleManager.lookup().getDefaultLang();
         if (this.title == null)
-            this.title = new HashMap();
+            this.title = new HashMap<String, String>();
 
         this.title.put(lang, title);
     }
@@ -691,9 +690,8 @@ public class Section implements Comparable<Section>, Visitable {
         sectionCopy.setLayoutId(getLayoutId());
         sectionCopy.setSkinId(getSkinId());
         sectionCopy.setEnvelopeId(getEnvelopeId());
-        for (Iterator it = getTitle().keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String value = (String) getTitle().get(lang);
+        for (String lang : getTitle().keySet()) {
+            String value = getTitle().get(lang);
             sectionCopy.setTitle(value, lang);
         }
         sectionCopy.setVisible(isVisible());
