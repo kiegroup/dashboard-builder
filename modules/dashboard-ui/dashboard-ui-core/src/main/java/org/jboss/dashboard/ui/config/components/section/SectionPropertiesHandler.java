@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -47,7 +46,7 @@ public class SectionPropertiesHandler extends BeanHandler {
 
     private String workspaceId;
     private Long sectionId;
-    private Map titleMap;
+    private Map<String, String> titleMap;
     private String title;
     private boolean visible;
     private String skin;
@@ -77,10 +76,9 @@ public class SectionPropertiesHandler extends BeanHandler {
 
             Section section = getWorkspace().getSection(sectionId);
             if (section.getTitle().get(lang) == null) {
-                setTitle((String) section.getTitle().get(LocaleManager.lookup().getDefaultLang()));
+                setTitle(section.getTitle().get(LocaleManager.lookup().getDefaultLang()));
             } else {
-                setTitle((String) section.getTitle().get(lang));
-
+                setTitle(section.getTitle().get(lang));
             }
 
             setTitleMap(section.getTitle());
@@ -127,11 +125,11 @@ public class SectionPropertiesHandler extends BeanHandler {
         this.title = title;
     }
 
-    public Map getTitleMap() {
+    public Map<String, String> getTitleMap() {
         return titleMap;
     }
 
-    public void setTitleMap(Map titleMap) {
+    public void setTitleMap(Map<String, String> titleMap) {
         this.titleMap = titleMap;
     }
 
@@ -209,7 +207,7 @@ public class SectionPropertiesHandler extends BeanHandler {
             return;
         }
 
-        setTitle((String) setLangTitle(request).get(LocaleManager.lookup().getDefaultLang()));
+        setTitle(setLangTitle(request).get(LocaleManager.lookup().getDefaultLang()));
         if (validateBeforeEdition()) {
             try {
                 final Section section = getSection();
@@ -241,11 +239,10 @@ public class SectionPropertiesHandler extends BeanHandler {
         }
     }
 
-    public Map setLangTitle(CommandRequest request) throws Exception {
-        Map m = new HashMap();
-        Map params = request.getRequestObject().getParameterMap();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-            String paramName = (String) it.next();
+    public Map<String, String> setLangTitle(CommandRequest request) throws Exception {
+        Map<String, String> m = new HashMap<String, String>();
+        Map<String, String[]> params = request.getRequestObject().getParameterMap();
+        for (String paramName : params.keySet()) {
             if (paramName.startsWith("name_")) {
                 String lang = paramName.substring("name_".length());
                 String paramValue = request.getParameter(paramName);
