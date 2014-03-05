@@ -16,13 +16,11 @@
 package org.jboss.dashboard.workspace.export;
 
 import org.jboss.dashboard.commons.xml.XMLNode;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.UIPermission;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 
 import java.io.ByteArrayOutputStream;
 import java.security.Principal;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -123,10 +121,9 @@ public class ExportVisitor implements WorkspaceVisitor {
         node.addAttribute(SECTION_ATTR_FR_URL, section.getFriendlyUrl());
         node.addAttribute(SECTION_ATTR_SKIN_ID, section.getSkinId());
         node.addAttribute(SECTION_ATTR_ENVELOPE_ID, section.getEnvelopeId());
-        Map title = section.getTitle();
-        for (Iterator it = title.keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String value = (String) title.get(lang);
+        Map<String, String> title = section.getTitle();
+        for (String lang : title.keySet()) {
+            String value = title.get(lang);
             XMLNode titleNode = new XMLNode(PARAMETER, node);
             titleNode.addAttribute(PARAMETER_ATTR_NAME, SECTION_CHILD_TITLE);
             titleNode.addAttribute(PARAMETER_ATTR_VALUE, value);
@@ -214,6 +211,4 @@ public class ExportVisitor implements WorkspaceVisitor {
     public Object endVisit() throws Exception {
         return currentNode = currentNode.getParent();
     }
-
-
 }
