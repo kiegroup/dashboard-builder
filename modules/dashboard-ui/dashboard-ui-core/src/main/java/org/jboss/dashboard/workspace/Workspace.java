@@ -76,9 +76,9 @@ public interface Workspace extends Visitable {
 
     String toString();
 
-    Set getPanelProvidersAllowed();
+    Set<String> getPanelProvidersAllowed();
 
-    void setPanelProvidersAllowed(Set s);
+    void setPanelProvidersAllowed(Set<String> s);
 
     void addPanelProviderAllowed(String id);
 
