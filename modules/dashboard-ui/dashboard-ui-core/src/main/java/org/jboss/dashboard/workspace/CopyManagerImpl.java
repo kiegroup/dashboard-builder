@@ -244,8 +244,7 @@ public class CopyManagerImpl implements CopyManager {
                 // PANEL INSTANCES
                 log.debug("Copying PanelInstances from Workspace " + workspace.getId() + " to Workspace " + id);
                 log.debug("Setting panelInstances for " + id);
-                for (Iterator it = workspace.getPanelInstancesSet().iterator(); it.hasNext();) {
-                    PanelInstance pi = (PanelInstance) it.next();
+                for (PanelInstance pi : workspace.getPanelInstancesSet()) {
                     if (!pi.getWorkspace().getId().equals(workspace.getId())) {
                         log.error("Found a panel instance in workspace, whose workspace id is different!");
                         continue;

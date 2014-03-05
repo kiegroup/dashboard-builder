@@ -87,7 +87,7 @@ public class WorkspaceImpl implements Workspace {
      *
      * @link aggregation
      */
-    private Set panelInstancesSet = new HashSet();
+    private Set<PanelInstance> panelInstancesSet = new HashSet<PanelInstance>();
 
     /**
      * PanelProvider Id's this workspace is allowed to see.
@@ -730,7 +730,7 @@ public class WorkspaceImpl implements Workspace {
      * Returns all panels
      */
     public PanelInstance[] getPanelInstances() {
-        return (PanelInstance[]) panelInstancesSet.toArray(new PanelInstance[panelInstancesSet.size()]);
+        return panelInstancesSet.toArray(new PanelInstance[panelInstancesSet.size()]);
     }
 
     /**
@@ -740,21 +740,20 @@ public class WorkspaceImpl implements Workspace {
      * @return A (possibly empty) array of instances belonging to a group.
      */
     public PanelInstance[] getPanelInstancesInGroup(String groupId) {
-        List panels = new ArrayList();
+        List<PanelInstance> panels = new ArrayList<PanelInstance>();
         if (groupId != null)
-            for (Iterator it = panelInstancesSet.iterator(); it.hasNext();) {
-                PanelInstance instance = (PanelInstance) it.next();
+            for (PanelInstance instance : panelInstancesSet) {
                 if (groupId.equals(instance.getProvider().getGroup()))
                     panels.add(instance);
-            }
-        return (PanelInstance[]) panels.toArray(new PanelInstance[panels.size()]);
+        }
+        return panels.toArray(new PanelInstance[panels.size()]);
     }
 
-    public Set getPanelInstancesSet() {
+    public Set<PanelInstance> getPanelInstancesSet() {
         return panelInstancesSet;
     }
 
-    public void setPanelInstancesSet(Set instances) {
+    public void setPanelInstancesSet(Set<PanelInstance> instances) {
         panelInstancesSet = instances;
     }
 
@@ -856,8 +855,8 @@ public class WorkspaceImpl implements Workspace {
         sb.append("            name: ").append(getName()).append("\n");
         sb.append("           title: ").append(getTitle()).append("\n");
         sb.append("  \nPanel Instances   \n\n");
-        for (Iterator it = getPanelInstancesSet().iterator(); it.hasNext();)
-            sb.append(it.next()).append("\n");
+        for (PanelInstance pi : getPanelInstancesSet())
+            sb.append(pi).append("\n");
         sb.append("  \nSections \n\n");
         for (Section section : sections)
             sb.append(section).append("\n");

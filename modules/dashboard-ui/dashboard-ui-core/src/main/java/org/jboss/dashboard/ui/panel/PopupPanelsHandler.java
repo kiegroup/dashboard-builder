@@ -146,7 +146,7 @@ public class PopupPanelsHandler extends PanelComponent {
 
         if (groupList == null || groupList.length == 0) return null;
 
-        Set instances = workspace.getPanelInstancesSet();
+        Set<PanelInstance> panelInstances = workspace.getPanelInstancesSet();
         Map groups = new HashMap();
         String groupId;
         for (int i = 0; i < groupList.length; i++) {
@@ -164,17 +164,16 @@ public class PopupPanelsHandler extends PanelComponent {
                         provider = new HashMap();
                         group.put(providers[j], provider);
                     }
-                    for (Iterator iterator = instances.iterator(); iterator.hasNext(); ) {
-                        PanelInstance instance = (PanelInstance) iterator.next();
-                        if (instance.getProviderName().equals(providers[j].getId())) {
-                            String instanceGroupName = instance.getParameterValue(PanelInstance.PARAMETER_GROUP, LocaleManager.lookup().getDefaultLang());
+                    for (PanelInstance pi : panelInstances) {
+                        if (pi.getProviderName().equals(providers[j].getId())) {
+                            String instanceGroupName = pi.getParameterValue(PanelInstance.PARAMETER_GROUP, LocaleManager.lookup().getDefaultLang());
                             instanceGroupName = instanceGroupName == null ? "" : instanceGroupName.trim();
                             Map instanceGroup = (Map) provider.get(instanceGroupName);
                             if (instanceGroup == null) {
                                 instanceGroup = new HashMap();
                                 provider.put(instanceGroupName, instanceGroup);
                             }
-                            instanceGroup.put(instance.getInstanceId(), instance);
+                            instanceGroup.put(pi.getInstanceId(), pi);
                         }
                     }
                 }

@@ -110,11 +110,10 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
 
     protected Map calculateInstancesTitles(WorkspaceImpl workspace, String lang) {
         HashMap result = new HashMap();
-        for (Iterator it = workspace.getPanelInstancesSet().iterator(); it.hasNext();) {
-            PanelInstance instance = (PanelInstance) it.next();
-            String title = instance.getTitle(lang);
-            title = (title == null || "".equals(title.trim())) ? instance.getTitle(getDefaultLang()) : title;
-            result.put(instance.getInstanceId(), title);
+        for (PanelInstance pi : workspace.getPanelInstancesSet()) {
+            String title = pi.getTitle(lang);
+            title = (title == null || "".equals(title.trim())) ? pi.getTitle(getDefaultLang()) : title;
+            result.put(pi.getInstanceId(), title);
         }
         return result;
     }
