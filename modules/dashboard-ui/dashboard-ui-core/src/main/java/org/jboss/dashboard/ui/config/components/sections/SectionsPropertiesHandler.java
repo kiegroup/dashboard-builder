@@ -82,7 +82,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
 
     private String workspaceId;
     private String selectedSectionId;
-    private Map titleMap;
+    private Map<String, String> titleMap;
     private String title;
     private String parent;
     private boolean visible;
@@ -202,11 +202,11 @@ public class SectionsPropertiesHandler extends BeanHandler {
         this.parent = parent;
     }
 
-    public Map getTitleMap() {
+    public Map<String, String> getTitleMap() {
         return titleMap;
     }
 
-    public void setTitleMap(Map titleMap) {
+    public void setTitleMap(Map<String, String> titleMap) {
         this.titleMap = titleMap;
     }
 
@@ -280,7 +280,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
         envelope = "";
         layout = "1_col";
         parent = null;
-        titleMap = new HashMap();
+        titleMap = new HashMap<String, String>();
     }
 
     public void actionManageSection(CommandRequest request) throws Exception {
@@ -404,10 +404,9 @@ public class SectionsPropertiesHandler extends BeanHandler {
                                 // Duplicate
                                 SectionCopyOption sco = getCopyOptions(request);
                                 Section sectionCopy = getCopyManager().copy(section, workspace, sco);
-                                Map title = section.getTitle();
-                                for (Iterator it = title.keySet().iterator(); it.hasNext();) {
-                                    String lang = (String) it.next();
-                                    String desc = (String) title.get(lang);
+                                Map<String, String> title = section.getTitle();
+                                for (String lang : title.keySet()) {
+                                    String desc = title.get(lang);
                                     String prefix = "Copia de ";
                                     prefix = lang.equals("en") ? "Copy of " : prefix;
                                     sectionCopy.setTitle(prefix + desc, lang);
@@ -470,12 +469,9 @@ public class SectionsPropertiesHandler extends BeanHandler {
 
                         if (checkMoveLoop(section.getParent(), sectionToMove)) {
                             if (section != null && sectionToMove != null) {
-
                                 changeSectionSelected(section, sectionToMove);
-
                             }
                         }
-
                     }
                 }
             };
@@ -647,7 +643,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
                     if ((parent != null && !"".equals(parent))) {
                         newSection.setParent(workspace.getSection(new Long(parent)));
                     }
-                    newSection.setVisible(Boolean.valueOf(true));
+                    newSection.setVisible(Boolean.TRUE);
                     newSection.setSkinId(skin);
                     newSection.setEnvelopeId(envelope);
                     newSection.setRegionsCellSpacing(new Integer(2));
@@ -686,10 +682,9 @@ public class SectionsPropertiesHandler extends BeanHandler {
     }
 
     public void setLangTitle(CommandRequest request) throws Exception {
-        titleMap = new HashMap();
-        Map params = request.getRequestObject().getParameterMap();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-            String paramName = (String) it.next();
+        titleMap = new HashMap<String, String>();
+        Map<String, String[]> params = request.getRequestObject().getParameterMap();
+        for (String paramName : params.keySet()) {
             if (paramName.startsWith("name_")) {
                 String lang = paramName.substring("name_".length());
                 String paramValue = request.getParameter(paramName);

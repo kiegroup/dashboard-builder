@@ -167,7 +167,7 @@ public class DataProviderFormatter extends Formatter {
                     else if (domain instanceof DateDomain) domainI18nKey = "date";
 
                     if (domain instanceof NumericDomain ||
-                            ((domain instanceof LabelDomain) && (((LabelDomain) domain)).isConvertedFromNumeric())) {
+                            ((domain instanceof LabelDomain) && ((LabelDomain) domain).isConvertedFromNumeric())) {
                         // Numeric domain can be changed to label domain by user request.
                         // Option type combo.
                         String[] keys = new String[]{NumericDomain.class.getName(), LabelDomain.class.getName()};
@@ -201,7 +201,6 @@ public class DataProviderFormatter extends Formatter {
                     renderFragment("outputEndRow");
                 }
             }
-            ;
             renderFragment("outputEndProperties");
             renderFragment("outputButtons");
             renderFragment("outputFormEnd");
@@ -215,31 +214,27 @@ public class DataProviderFormatter extends Formatter {
     private void renderShow(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
-            Set kpis = kpiManager.getAllKPIs();
+            Set<KPI> kpis = kpiManager.getAllKPIs();
 
             DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
-            Set dataProviders = dataProviderManager.getAllDataProviders();
-            Set orderedDataProviders = new TreeSet(new DataProviderComparator());
+            Set<DataProvider> dataProviders = dataProviderManager.getAllDataProviders();
+            Set<DataProvider> orderedDataProviders = new TreeSet<DataProvider>(DATA_PROVIDER_COMPARATOR);
             orderedDataProviders.addAll(dataProviders);
 
             if (dataProviders != null) {
                 renderFragment("outputStart");
                 renderFragment("outputNewDataProvider");
-                if (dataProviders.size() == 0) {
+                if (dataProviders.isEmpty()) {
                     renderFragment("outputEmpty");
                 } else {
                     renderFragment("outputStartDataProviders");
                     int i = 0;
-                    Iterator it = orderedDataProviders.iterator();
-                    while (it.hasNext()) {
-                        DataProvider dataProvider = (DataProvider) it.next();
+                    for (DataProvider dataProvider : orderedDataProviders) {
                         if (dataProvider == null) continue;
 
                         int numberOfKPIs = 0;
                         setAttribute("usedByOtherKpis", Boolean.FALSE);
-                        Iterator it1 = kpis.iterator();
-                        while (it1.hasNext()) {
-                            KPI kpi = (KPI) it1.next();
+                        for (KPI kpi : kpis) {
                             if (kpi.getDataProvider().equals(dataProvider)) numberOfKPIs++;
                         }
 
@@ -272,15 +267,13 @@ public class DataProviderFormatter extends Formatter {
         }
     }
 
-    class DataProviderComparator implements Comparator {
-        public int compare(Object o1, Object o2) {
-            DataProvider d1 = (DataProvider) o1;
-            DataProvider d2 = (DataProvider) o2;
+    private final Comparator<DataProvider> DATA_PROVIDER_COMPARATOR = new Comparator<DataProvider>() {
+        public int compare(DataProvider d1, DataProvider d2) {
             int result = ComparatorUtils.compare(d1.getDescription(getLocale()), d2.getDescription(getLocale()), ComparatorByCriteria.ORDER_ASCENDING);
             if (result == 0) {
                 result = ComparatorUtils.compare(d1.getId(), d2.getId(), ComparatorByCriteria.ORDER_ASCENDING);
             }
             return result;
         }
-    }
+    };
 }

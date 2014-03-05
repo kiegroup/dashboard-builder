@@ -165,12 +165,8 @@ public class WorkspacesManager {
                 // Remove attached workspace permissions.
                 Policy policy = SecurityServices.lookup().getSecurityPolicy();
                 policy.removePermissions(workspace);
-
-                // Notify instances removal before deleting workspace.
-                Iterator instanceIt = workspace.getPanelInstancesSet().iterator();
-                while (instanceIt.hasNext()) {
-                    PanelInstance instance = (PanelInstance) instanceIt.next();
-                    instance.instanceRemoved(session);
+                for (PanelInstance pi : workspace.getPanelInstancesSet()) {
+                    pi.instanceRemoved(session);
                 }
 
                 // Notify panels before deleting workspace.

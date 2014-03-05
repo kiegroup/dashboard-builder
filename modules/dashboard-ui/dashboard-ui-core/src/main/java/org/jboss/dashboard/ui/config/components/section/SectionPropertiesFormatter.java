@@ -20,7 +20,6 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Layout;
@@ -33,7 +32,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -65,16 +63,15 @@ public class SectionPropertiesFormatter extends Formatter {
             setAttribute("error", getSectionPropertiesHandler().hasError("title"));
             renderFragment("outputStartTitle");
 
-            Map mParam = setLangTitle(request);
-            Map titleMap = getSectionPropertiesHandler().getTitleMap();
+            Map<String, String> mParam = setLangTitle(request);
+            Map<String, String> titleMap = getSectionPropertiesHandler().getTitleMap();
             mParam.putAll(titleMap);
 
             String[] langs = getLocaleManager().getPlatformAvailableLangs();
-
-            for (int i = 0; i < langs.length; i++) {
-                setAttribute("lang", langs[i]);
-                setAttribute("selected", langs[i].equals(getLocale().getLanguage()));
-                setAttribute("value", StringUtils.defaultString((String) mParam.get(langs[i])));
+            for (String lang : langs) {
+                setAttribute("lang", lang);
+                setAttribute("selected", lang.equals(getLocale().getLanguage()));
+                setAttribute("value", StringUtils.defaultString(mParam.get(lang)));
                 renderFragment("outputTitle");
             }
 
@@ -200,20 +197,19 @@ public class SectionPropertiesFormatter extends Formatter {
     }
 
 
-    public Map setLangTitle(HttpServletRequest request) throws Exception {
-        Map m = new HashMap();
+    public Map<String, String> setLangTitle(HttpServletRequest request) throws Exception {
+        Map<String, String> titleMap = new HashMap<String, String>();
 
-        Map params = request.getParameterMap();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-            String paramName = (String) it.next();
+        Map<String, String[]> params = request.getParameterMap();
+        for (String paramName : params.keySet()) {
             if (paramName.startsWith("name_")) {
                 String lang = paramName.substring("name_".length());
                 String paramValue = request.getParameter(paramName);
                 if (paramValue != null && !"".equals(paramValue))
-                    m.put(lang, paramValue);
+                    titleMap.put(lang, paramValue);
             }
         }
-        return m;
+        return titleMap;
     }
 }
 

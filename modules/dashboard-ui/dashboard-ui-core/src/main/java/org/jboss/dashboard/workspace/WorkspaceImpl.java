@@ -87,25 +87,17 @@ public class WorkspaceImpl implements Workspace {
      *
      * @link aggregation
      */
-    private Set panelInstancesSet = new HashSet();
+    private Set<PanelInstance> panelInstancesSet = new HashSet<PanelInstance>();
 
     /**
      * PanelProvider Id's this workspace is allowed to see.
      *
      * @link aggregation
      */
-    private Set panelProvidersAllowed = new HashSet();
+    private Set<String> panelProvidersAllowed = new HashSet<String>();
 
-    protected Set<WorkspaceHome> workspaceHomes;
-    protected Set<WorkspaceParameter> workspaceParams;
-
-    /**
-     * Constructor
-     */
-    public WorkspaceImpl() {
-        workspaceParams = new HashSet<WorkspaceParameter>();
-        workspaceHomes = new HashSet<WorkspaceHome>();
-    }
+    protected Set<WorkspaceHome> workspaceHomes = new HashSet<WorkspaceHome>();
+    protected Set<WorkspaceParameter> workspaceParams = new HashSet<WorkspaceParameter>();
 
     public int getHomeSearchMode() {
         return homeSearchMode;
@@ -115,19 +107,17 @@ public class WorkspaceImpl implements Workspace {
         this.homeSearchMode = homeSearchMode;
     }
 
-    public Set getWorkspaceParams() {
+    public Set<WorkspaceParameter> getWorkspaceParams() {
         return workspaceParams;
     }
 
-    public void setWorkspaceParams(Set workspaceParams) {
+    public void setWorkspaceParams(Set<WorkspaceParameter> workspaceParams) {
         this.workspaceParams = workspaceParams;
     }
 
-    public Map getWorkspaceParamValue(String name) {
-        Map result = new HashMap();
-        Iterator it = workspaceParams.iterator();
-        while (it.hasNext()) {
-            WorkspaceParameter parameter = (WorkspaceParameter) it.next();
+    public Map<String, String> getWorkspaceParamValue(String name) {
+        Map<String, String> result = new HashMap<String, String>();
+        for (WorkspaceParameter parameter : workspaceParams) {
             if (parameter.getParameterId().equals(name))
                 result.put(parameter.getLanguage(), parameter.getValue());
         }
@@ -145,9 +135,7 @@ public class WorkspaceImpl implements Workspace {
 
     protected void setWorkspaceParamValue(String name, String lang, String value) {
         boolean found = false;
-        Iterator it = workspaceParams.iterator();
-        while (it.hasNext()) {
-            WorkspaceParameter parameter = (WorkspaceParameter) it.next();
+        for (WorkspaceParameter parameter : workspaceParams) {
             if (parameter.getParameterId().equals(name)) {
                 if (parameter.getLanguage().equals(lang)) {
                     parameter.setValue(value);
@@ -233,14 +221,14 @@ public class WorkspaceImpl implements Workspace {
     /**
      * @return A Set of strings containing the Providers allowed for this workspace.
      */
-    public Set getPanelProvidersAllowed() {
+    public Set<String> getPanelProvidersAllowed() {
         return panelProvidersAllowed;
     }
 
     /**
      * @param s Set of panelProviders allowed to set.
      */
-    public void setPanelProvidersAllowed(Set s) {
+    public void setPanelProvidersAllowed(Set<String> s) {
         panelProvidersAllowed = s;
     }
 
@@ -250,9 +238,8 @@ public class WorkspaceImpl implements Workspace {
      * @param id The id to add
      */
     public void addPanelProviderAllowed(String id) {
-        Set s = new HashSet();
+        Set<String> s = new HashSet<String>(panelProvidersAllowed);
         s.add(id);
-        s.addAll(panelProvidersAllowed);
         setPanelProvidersAllowed(s);
     }
 
@@ -300,21 +287,19 @@ public class WorkspaceImpl implements Workspace {
     }
 
     /**
-     * Returns all the sections
+     * Returns all the sections sorted.
      */
     public Section[] getAllSections() {
-        List<Section> sectionList = new ArrayList<Section>();
-        sectionList.addAll(sections);
-        Collections.sort(sectionList);
-        return sectionList.toArray(new Section[sectionList.size()]);
+        Section[] sections = getAllUnsortedSections();
+        Arrays.sort(sections);
+        return sections;
     }
 
     /**
      * Returns all the sections, but unsorted
      */
     public Section[] getAllUnsortedSections() {
-        List<Section> sectionList = new ArrayList<Section>();
-        sectionList.addAll(sections);
+        List<Section> sectionList = new ArrayList<Section>(sections);
         return sectionList.toArray(new Section[sectionList.size()]);
     }
 
@@ -383,7 +368,7 @@ public class WorkspaceImpl implements Workspace {
      */
     public Section getSection(final Long id) {
         if (id == null) return null;
-        final List candidates = new ArrayList();
+        final List<Section> candidates = new ArrayList<Section>();
         try {
             new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
@@ -402,7 +387,7 @@ public class WorkspaceImpl implements Workspace {
             log.error("Error: ", e);
         }
         if (candidates.size() == 1) {
-            return (Section) candidates.get(0);
+            return candidates.get(0);
         }
         return null;
 
@@ -447,30 +432,28 @@ public class WorkspaceImpl implements Workspace {
                 policy.save();
 
                 //Reposition other sections and remove this
-                List childSections = section.getChildren();
+                List<Section> childSections = section.getChildren();
                 int childCount = childSections.size();
 
-                List brotherSections;
+                List<Section> siblingSections;
                 Section parentSection = section.getParent();
                 int currentPosition = section.getPosition();
                 if (parentSection != null) {
-                    brotherSections = section.getParent().getChildren();
+                    siblingSections = section.getParent().getChildren();
                 } else {
-                    brotherSections = Arrays.asList(getAllRootSections());
+                    siblingSections = Arrays.asList(getAllRootSections());
                 }
-                for (int i = 0; i < brotherSections.size(); i++) {
-                    Section brotherSection = (Section) brotherSections.get(i);
-                    if (brotherSection.getPosition() > currentPosition) {
-                        brotherSection.setPosition(brotherSection.getPosition() + childCount - 1);
-                        session.update(brotherSection);
+                for (Section sibling : siblingSections) {
+                    if (sibling.getPosition() > currentPosition) {
+                        sibling.setPosition(sibling.getPosition() + childCount - 1);
+                        session.update(sibling);
                     }
                 }
 
-                for (int i = 0; i < childSections.size(); i++) {
-                    Section childSection = (Section) childSections.get(i);
-                    childSection.setParentSectionId(null);
-                    childSection.setPosition(childSection.getPosition() + section.getPosition());
-                    session.update(childSection);
+                for (Section child : childSections) {
+                    child.setParentSectionId(null);
+                    child.setPosition(child.getPosition() + section.getPosition());
+                    session.update(child);
                 }
                 // Remove section
                 sections.remove(section);
@@ -512,9 +495,7 @@ public class WorkspaceImpl implements Workspace {
     public void setName(String name, String lang) {
         if (lang == null || lang.trim().length() == 0)
             lang = LocaleManager.lookup().getDefaultLang();
-
-        for (Iterator it = workspaceParams.iterator(); it.hasNext();) {
-            WorkspaceParameter param = (WorkspaceParameter) it.next();
+        for (WorkspaceParameter param : workspaceParams) {
             if (param.getParameterId().equals("name") && param.getLanguage().equals(lang)) {
                 param.setValue(name);
                 return;
@@ -535,9 +516,7 @@ public class WorkspaceImpl implements Workspace {
     public void setTitle(String title, String lang) {
         if (lang == null || lang.trim().length() == 0)
             lang = LocaleManager.lookup().getDefaultLang();
-
-        for (Iterator it = workspaceParams.iterator(); it.hasNext();) {
-            WorkspaceParameter param = (WorkspaceParameter) it.next();
+        for (WorkspaceParameter param : workspaceParams) {
             if (param.getParameterId().equals("title") && param.getLanguage().equals(lang)) {
                 param.setValue(title);
                 return;
@@ -698,7 +677,7 @@ public class WorkspaceImpl implements Workspace {
 
     public PanelInstance getPanelInstance(final Long id) {
         if (id == null) return null;
-        final List candidates = new ArrayList();
+        final List<PanelInstance> candidates = new ArrayList<PanelInstance>();
         try {
             new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
@@ -717,7 +696,7 @@ public class WorkspaceImpl implements Workspace {
             log.error("Error: ", e);
         }
         if (candidates.size() == 1) {
-            return (PanelInstance) candidates.get(0);
+            return candidates.get(0);
         }
         return null;
     }
@@ -730,7 +709,7 @@ public class WorkspaceImpl implements Workspace {
      * Returns all panels
      */
     public PanelInstance[] getPanelInstances() {
-        return (PanelInstance[]) panelInstancesSet.toArray(new PanelInstance[panelInstancesSet.size()]);
+        return panelInstancesSet.toArray(new PanelInstance[panelInstancesSet.size()]);
     }
 
     /**
@@ -740,21 +719,20 @@ public class WorkspaceImpl implements Workspace {
      * @return A (possibly empty) array of instances belonging to a group.
      */
     public PanelInstance[] getPanelInstancesInGroup(String groupId) {
-        List panels = new ArrayList();
+        List<PanelInstance> panels = new ArrayList<PanelInstance>();
         if (groupId != null)
-            for (Iterator it = panelInstancesSet.iterator(); it.hasNext();) {
-                PanelInstance instance = (PanelInstance) it.next();
+            for (PanelInstance instance : panelInstancesSet) {
                 if (groupId.equals(instance.getProvider().getGroup()))
                     panels.add(instance);
-            }
-        return (PanelInstance[]) panels.toArray(new PanelInstance[panels.size()]);
+        }
+        return panels.toArray(new PanelInstance[panels.size()]);
     }
 
-    public Set getPanelInstancesSet() {
+    public Set<PanelInstance> getPanelInstancesSet() {
         return panelInstancesSet;
     }
 
-    public void setPanelInstancesSet(Set instances) {
+    public void setPanelInstancesSet(Set<PanelInstance> instances) {
         panelInstancesSet = instances;
     }
 
@@ -779,12 +757,10 @@ public class WorkspaceImpl implements Workspace {
         String result = "";
         Map sections = getSectionArray(workspace, parent);
         if (sections != null && !sections.isEmpty()) {
-            List sectionList = new ArrayList(sections.keySet());
+            List<Section> sectionList = new ArrayList(sections.keySet());
             Collections.sort(sectionList);
             int sectionCount = sectionList.size();
-            for (int i = 0; i < sectionCount; i++) {
-                Section section = (Section) sectionList.get(i);
-
+            for (Section section : sectionList) {
                 Map children = (Map) sections.get(section);
                 LocaleManager localeManager = LocaleManager.lookup();
 
@@ -830,16 +806,15 @@ public class WorkspaceImpl implements Workspace {
         workspace.setSkinId(this.skin);
 
         // Parameters
-        Set params = new HashSet();
-        for (Iterator it = workspaceParams.iterator(); it.hasNext();) {
-            WorkspaceParameter param = (WorkspaceParameter) it.next();
+        Set<WorkspaceParameter> params = new HashSet<WorkspaceParameter>();
+        for (WorkspaceParameter param : workspaceParams) {
             if (param.getValue() != null && param.getValue().trim().length() > 0)
                 params.add(new WorkspaceParameter(param.getParameterId(), workspace, param.getLanguage(), param.getValue()));
         }
         workspace.setWorkspaceParams(params);
 
-        for (Iterator it = getPanelProvidersAllowed().iterator(); it.hasNext();)
-            workspace.addPanelProviderAllowed((String) it.next());
+        for (String providerId : getPanelProvidersAllowed())
+            workspace.addPanelProviderAllowed(providerId);
         return workspace;
     }
 
@@ -856,8 +831,8 @@ public class WorkspaceImpl implements Workspace {
         sb.append("            name: ").append(getName()).append("\n");
         sb.append("           title: ").append(getTitle()).append("\n");
         sb.append("  \nPanel Instances   \n\n");
-        for (Iterator it = getPanelInstancesSet().iterator(); it.hasNext();)
-            sb.append(it.next()).append("\n");
+        for (PanelInstance pi : getPanelInstancesSet())
+            sb.append(pi).append("\n");
         sb.append("  \nSections \n\n");
         for (Section section : sections)
             sb.append(section).append("\n");
@@ -898,7 +873,7 @@ public class WorkspaceImpl implements Workspace {
      */
     public Section getSectionByUrl(final String friendlyUrl) {
         if (friendlyUrl == null) return null;
-        final List candidates = new ArrayList();
+        final List<Section> candidates = new ArrayList<Section>();
         try {
             new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
@@ -917,7 +892,7 @@ public class WorkspaceImpl implements Workspace {
             log.error("Error: ", e);
         }
         if (candidates.size() == 1) {
-            return (Section) candidates.get(0);
+            return candidates.get(0);
         }
         return null;
     }
@@ -942,10 +917,7 @@ public class WorkspaceImpl implements Workspace {
                 }
             }
         }
-
-        //Workspace parameters
-        for (Iterator it = getWorkspaceParams().iterator(); it.hasNext();) {
-            WorkspaceParameter param = (WorkspaceParameter) it.next();
+        for (WorkspaceParameter param : getWorkspaceParams()) {
             param.acceptVisit(visitor);
         }
 
@@ -964,20 +936,18 @@ public class WorkspaceImpl implements Workspace {
 
         //Add panelInstances
         PanelInstance[] panelInstances = getPanelInstances();
-        Arrays.sort(panelInstances, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((PanelInstance) o1).getDbid().compareTo(((PanelInstance) o2).getDbid());
+        Arrays.sort(panelInstances, new Comparator<PanelInstance>() {
+            public int compare(PanelInstance p1, PanelInstance p2) {
+                return p1.getDbid().compareTo(p2.getDbid());
             }
         });
-        for (int i = 0; i < panelInstances.length; i++) {
-            PanelInstance panelInstance = panelInstances[i];
+        for (PanelInstance panelInstance : panelInstances) {
             panelInstance.acceptVisit(visitor);
         }
 
         //Add sections
         Section[] sortedSections = getAllSections();
-        for (int i = 0; i < sortedSections.length; i++) {
-            Section section = sortedSections[i];
+        for (Section section : sortedSections) {
             section.acceptVisit(visitor);
         }
 

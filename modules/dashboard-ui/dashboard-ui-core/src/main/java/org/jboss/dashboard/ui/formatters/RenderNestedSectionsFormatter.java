@@ -54,12 +54,11 @@ public class RenderNestedSectionsFormatter extends Formatter {
                 rootSections = currentWorkspace.getAllRootSections();
             } else {
                 Section parentSection  = currentWorkspace.getSection(Long.decode(rootSectionId));
-                List children = parentSection.getChildren();
-                rootSections = (Section[]) children.toArray(new Section[children.size()]);
+                List<Section> children = parentSection.getChildren();
+                rootSections = children.toArray(new Section[children.size()]);
             }
             renderFragment("outputStart");
-            for (int i = 0; i < rootSections.length; i++) {
-                Section rootSection = rootSections[i];
+            for (Section rootSection : rootSections) {
                 renderSection(httpServletRequest, httpServletResponse, rootSection, visibleIds, checkedIds, selectableIds, Boolean.TRUE.equals(checkPermissions), showHiddenPages);
             }
             renderFragment("outputEnd");
@@ -102,12 +101,11 @@ public class RenderNestedSectionsFormatter extends Formatter {
         setAttribute("deleteSection", UserStatus.lookup().hasPermission(sectionPerm));
 
         renderFragment("outputSection");
-        List children = section.getChildren();
-        if (!children.isEmpty()) {
+        List<Section> childSections = section.getChildren();
+        if (!childSections.isEmpty()) {
             setAttribute("id", section.getId());
             renderFragment("outputChildStart");
-            for (int i = 0; i < children.size(); i++) {
-                Section childSection = (Section) children.get(i);
+            for (Section childSection : childSections) {
                 renderSection(httpServletRequest, httpServletResponse, childSection, visibleIds, checkedIds, selectableIds, checkPermissions, showHiddenPages);
             }
             renderFragment("outputChildEnd");

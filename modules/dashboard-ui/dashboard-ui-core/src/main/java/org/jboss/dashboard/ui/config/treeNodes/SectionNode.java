@@ -82,10 +82,8 @@ public class SectionNode extends AbstractNode {
         List childrenNodes = new ArrayList();
         try {
             Section s = getSection();
-            List children = s.getChildren();
-            for (int i = 0; i < children.size(); i++) {
-                Section section = (Section) children.get(i);
-                childrenNodes.add(getNewSectionNode(section));
+            for (Section childSection : s.getChildren()) {
+                childrenNodes.add(getNewSectionNode(childSection));
             }
         } catch (Exception e) {
             log.error("Error: ", e);
@@ -97,7 +95,7 @@ public class SectionNode extends AbstractNode {
         Section s = null;
         try {
             s = getSection();
-            List children = s.getChildren();
+            List<Section> children = s.getChildren();
             return !children.isEmpty();
         } catch (Exception e) {
             log.error("Error: ", e);
