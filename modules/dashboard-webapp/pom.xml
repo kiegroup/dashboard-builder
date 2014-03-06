@@ -29,7 +29,7 @@
     <artifactId>dashboard-webapp</artifactId>
     <packaging>war</packaging>
     <name>Dashboard Builder Web App</name>
-    <description>Dashboard Builder web application for the visual composition of dashboards</description>
+    <description>Web application for the visual composition of dashboards</description>
 
     <dependencies>
         <dependency>
@@ -64,6 +64,12 @@
         <dependency>
             <groupId>org.jboss.dashboard-builder</groupId>
             <artifactId>dashboard-ui-gauge</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.dashboard-builder</groupId>
+            <artifactId>dashboard-ui-google</artifactId>
+            <version>${project.version}</version>
             <type>war</type>
         </dependency>
     </dependencies>
@@ -112,6 +118,10 @@
                         <overlay>
                             <groupId>org.jboss.dashboard-builder</groupId>
                             <artifactId>dashboard-ui-nvd3</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.jboss.dashboard-builder</groupId>
+                            <artifactId>dashboard-ui-google</artifactId>
                         </overlay>
 
                     </overlays>

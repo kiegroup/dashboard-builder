@@ -22,20 +22,21 @@
 
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
-        <artifactId>dashboard-ui</artifactId>
+        <artifactId>dashboard-ui-chartlibs</artifactId>
         <version>6.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dashboard-ui-chartlibs</artifactId>
-    <packaging>pom</packaging>
-    <name>Dashboard Builder Chart Libraries</name>
-    <description>Dashboard Builder Chart Libraries</description>
+    <artifactId>dashboard-ui-google</artifactId>
+    <packaging>war</packaging>
+    <name>Dashboard Builder Google Charts Lib</name>
+    <description>Google Charts (HTML5/SVG) implementation for Line, Pie and Bar and Map displayers</description>
 
-    <modules>
-        <module>dashboard-ui-ofc2</module>
-        <module>dashboard-ui-nvd3</module>
-        <module>dashboard-ui-gauge</module>
-        <module>dashboard-ui-google</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.dashboard-builder</groupId>
+            <artifactId>dashboard-ui-core</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+    </dependencies>
 
 </project>

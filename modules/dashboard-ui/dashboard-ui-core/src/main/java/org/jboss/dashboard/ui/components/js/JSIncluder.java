@@ -42,7 +42,8 @@ public class JSIncluder {
                     "/js/lib/scriptaculous-js-1.9.0/effects.js," +
                     "/js/lib/scriptaculous-js-1.9.0/dragdrop.js," +
                     "/common/rs/popup.js," +
-                    "/ckeditor/ckeditor.js")
+                    "/ckeditor/ckeditor.js," +
+                    "https://www.google.com/jsapi")
     private String[] jsFilesToIncludeInHeader;
 
     @Inject @Config("/templates/navigatorDetection.jsp," +

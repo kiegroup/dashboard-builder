@@ -103,6 +103,8 @@ public class ContextTag extends BaseTag {
     }
 
     public static String getContextPath(String uri, HttpServletRequest request) {
+        if (uri.startsWith("http://") || uri.startsWith("https://")) return uri;
+
         uri = StringUtils.defaultString(uri);
         while (uri.startsWith("/")) uri = uri.substring(1);
         String cxPath = StringUtils.defaultString(request.getContextPath());

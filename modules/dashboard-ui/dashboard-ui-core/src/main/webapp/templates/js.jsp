@@ -29,6 +29,15 @@
 <%
     }
 %>
+<%
+    String[] jsRemoteFiles = jsIncluder.getJsFilesToIncludeInHeader();
+    for (int i = 0; i < jsFiles.length; i++) {
+        String jsFile = jsFiles[i];
+%>
+    <script src='<mvc:context uri="<%= jsFile %>" />'></script>
+<%
+    }
+%>
 <script  language="Javascript" type="text/javascript">
 <%
     String[] jspFiles = jsIncluder.getJspFilesToIncludeInHeader();
