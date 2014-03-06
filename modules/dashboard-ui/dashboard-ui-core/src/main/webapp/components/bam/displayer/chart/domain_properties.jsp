@@ -15,10 +15,9 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayerRenderer" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayerFeature" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>

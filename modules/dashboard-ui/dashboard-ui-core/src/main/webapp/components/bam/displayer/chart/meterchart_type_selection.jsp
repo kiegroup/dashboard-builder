@@ -22,7 +22,7 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="org.jboss.dashboard.displayer.DataDisplayerRenderer" %>
 <%@ page import="java.util.List" %>

@@ -18,7 +18,7 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
 <!-- Domain axis selection and edition -->

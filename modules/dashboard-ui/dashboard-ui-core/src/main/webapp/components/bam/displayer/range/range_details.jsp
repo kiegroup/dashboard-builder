@@ -24,7 +24,7 @@
 <%@ page import="java.util.Locale"%>
 <%@ page import="org.jboss.dashboard.domain.Domain" %>
 <%@ page import="org.jboss.dashboard.domain.AbstractDomain" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.domain.RangeConfiguration" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="org.jboss.dashboard.function.ScalarFunction" %>

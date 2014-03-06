@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.dataset.DataSet" %>
 <%@ page import="org.jboss.dashboard.domain.Interval" %>
 <%@ page import="org.jboss.dashboard.provider.DataProperty"%>

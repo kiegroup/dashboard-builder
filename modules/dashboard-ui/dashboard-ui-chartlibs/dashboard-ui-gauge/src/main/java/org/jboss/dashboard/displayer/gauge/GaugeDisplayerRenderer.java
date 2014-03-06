@@ -32,24 +32,21 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public static final String UID = "gauge";
 
-    @Inject @Config(UID)
-    protected String uid;
+    @Inject @Config("meter")
+    protected String[] meterChartTypes;
 
     @Inject @Config("meter")
-    public String[] meterChartTypes;
+    protected String meterChartDefault;
 
-    @Inject @Config("meter")
-    public String meterChartDefault;
-
-    List<DataDisplayerFeature> featuresSupported;
-    Map<String,List<String>> availableChartTypes;
-    Map<String,String> defaultChartTypes;
+    protected List<DataDisplayerFeature> featuresSupported;
+    protected Map<String,List<String>> availableChartTypes;
+    protected Map<String,String> defaultChartTypes;
 
     @Inject
     protected LocaleManager localeManager;
 
     public String getUid() {
-        return uid;
+        return UID;
     }
 
     public String getDescription(Locale l) {

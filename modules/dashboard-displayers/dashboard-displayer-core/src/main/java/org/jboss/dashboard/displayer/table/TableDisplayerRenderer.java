@@ -26,11 +26,10 @@ import java.util.Locale;
 @Install @Table
 public class TableDisplayerRenderer extends AbstractDataDisplayerRenderer {
 
-    @Inject @Config("default")
-    protected String uid;
+    public static final String UID = "default";
 
     public String getUid() {
-        return uid;
+        return UID;
     }
 
     public String getDescription(Locale l) {

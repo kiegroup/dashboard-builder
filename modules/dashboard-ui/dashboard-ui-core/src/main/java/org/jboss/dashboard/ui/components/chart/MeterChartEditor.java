@@ -21,13 +21,12 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.chart.MeterChartDisplayer;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
-import org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
 /**
@@ -44,8 +43,11 @@ public class MeterChartEditor extends AbstractChartDisplayerEditor {
     public static final String I18N_METER = "meterChartDisplayer.";
     public static final String METER_SAVE_BUTTON_PRESSED = "updateMeterDetails";
 
+    @Inject @Config("/components/bam/displayer/chart/meterchart_editor.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/meterchart_editor.jsp";
+        return beanJSP;
     }
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {

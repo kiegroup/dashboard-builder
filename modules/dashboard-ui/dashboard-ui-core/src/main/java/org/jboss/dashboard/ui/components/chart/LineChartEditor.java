@@ -15,10 +15,11 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
-import org.jboss.dashboard.ui.components.AbstractXAxisDisplayerEditor;
 
 /**
  * Line chart editor displayer configurator component.
@@ -27,7 +28,10 @@ import org.jboss.dashboard.ui.components.AbstractXAxisDisplayerEditor;
 @Named("linechart_editor")
 public class LineChartEditor extends AbstractXAxisDisplayerEditor {
 
+    @Inject @Config("/components/bam/displayer/chart/linechart_editor.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/linechart_editor.jsp";
+        return beanJSP;
     }
 }

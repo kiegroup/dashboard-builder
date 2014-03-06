@@ -50,11 +50,11 @@ public class BarChartDisplayerType extends AbstractChartDisplayerType {
     @Inject
     protected LocaleManager localeManager;
 
+    @Inject
     protected ChartDisplayerXMLFormat xmlFormat;
 
     @PostConstruct
     protected void init() {
-        xmlFormat = new ChartDisplayerXMLFormat();
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
         for (DataDisplayerRenderer type: chartRenderers) {
             displayerRenderers.add(type);

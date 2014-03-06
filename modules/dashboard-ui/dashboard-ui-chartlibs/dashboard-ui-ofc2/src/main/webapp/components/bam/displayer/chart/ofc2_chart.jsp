@@ -25,7 +25,7 @@
 <%@ page import="java.text.DecimalFormat" %>
 <%@ page import="org.jboss.dashboard.dataset.DataSet" %>
 <%@ page import="org.jboss.dashboard.domain.Interval" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.OFC2ChartViewer" %>
 <%@ page import="org.jboss.dashboard.commons.text.StringUtil" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>

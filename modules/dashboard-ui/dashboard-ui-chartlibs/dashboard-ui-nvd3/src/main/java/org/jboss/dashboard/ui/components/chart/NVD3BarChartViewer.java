@@ -15,14 +15,20 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 @PanelScoped
 @Named("nvd3_barchart_viewer")
 public class NVD3BarChartViewer extends NVD3ChartViewer {
 
+    @Inject @Config("/components/bam/displayer/chart/nvd3_barchart_viewer.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/nvd3_barchart_viewer.jsp";
+        return beanJSP;
     }
 }

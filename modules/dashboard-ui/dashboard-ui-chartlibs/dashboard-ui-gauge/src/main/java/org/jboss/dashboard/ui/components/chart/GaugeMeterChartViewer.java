@@ -15,8 +15,10 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
@@ -39,8 +41,11 @@ public class GaugeMeterChartViewer extends DataDisplayerViewer {
     public static final String PARAM_ACTION = "applyLink";
     public static final String PARAM_NSERIE = "serie";
 
+    @Inject @Config("/components/bam/displayer/chart/gauge_meterchart_viewer.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/gauge_meterchart_viewer.jsp";
+        return beanJSP;
     }
 
     public CommandResponse actionApplyLink(CommandRequest request) throws Exception {

@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.displayer.chart.MeterChartDisplayer" %>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ page import="org.jboss.dashboard.dataset.DataSet" %>
 <%@ page import="java.util.List" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.GaugeMeterChartViewer" %>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.components;
+package org.jboss.dashboard.ui.components.chart;
 
 import org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer;
 import org.jboss.dashboard.ui.controller.CommandRequest;

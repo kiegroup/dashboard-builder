@@ -16,14 +16,20 @@
 package org.jboss.dashboard.ui.components.chart;
 
 
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 @PanelScoped
 @Named("ofc2_barchart_viewer")
 public class  OFC2BarChartViewer extends OFC2ChartViewer {
 
+    @Inject @Config("/components/bam/displayer/chart/ofc2_barchart_viewer.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/ofc2_barchart_viewer.jsp";
+        return beanJSP;
     }
 }

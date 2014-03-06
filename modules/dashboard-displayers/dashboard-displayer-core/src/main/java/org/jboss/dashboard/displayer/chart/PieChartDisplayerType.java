@@ -47,6 +47,7 @@ public class PieChartDisplayerType extends AbstractChartDisplayerType {
     @Inject @Install @PieChart
     protected Instance<DataDisplayerRenderer> chartRenderers;
 
+    @Inject
     protected ChartDisplayerXMLFormat xmlFormat;
 
     @Inject
@@ -54,7 +55,6 @@ public class PieChartDisplayerType extends AbstractChartDisplayerType {
 
     @PostConstruct
     protected void init() {
-        xmlFormat = new ChartDisplayerXMLFormat();
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
         for (DataDisplayerRenderer type: chartRenderers) {
             displayerRenderers.add(type);

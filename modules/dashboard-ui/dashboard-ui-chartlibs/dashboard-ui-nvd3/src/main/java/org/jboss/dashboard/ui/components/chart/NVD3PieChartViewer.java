@@ -15,15 +15,20 @@
  */
 package org.jboss.dashboard.ui.components.chart;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 @PanelScoped
 @Named("nvd3_piechart_viewer")
 public class NVD3PieChartViewer extends NVD3ChartViewer {
 
+    @Inject @Config("/components/bam/displayer/chart/nvd3_piechart_viewer.jsp")
+    protected String beanJSP;
+
     public String getBeanJSP() {
-        return "/components/bam/displayer/chart/nvd3_piechart_viewer.jsp";
+        return beanJSP;
     }
 }

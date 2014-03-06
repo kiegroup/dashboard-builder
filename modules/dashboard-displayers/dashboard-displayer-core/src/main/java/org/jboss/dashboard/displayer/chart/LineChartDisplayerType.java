@@ -47,6 +47,7 @@ public class LineChartDisplayerType extends AbstractChartDisplayerType {
     @Inject @Install @LineChart
     protected Instance<DataDisplayerRenderer> chartRenderers;
 
+    @Inject
     protected ChartDisplayerXMLFormat xmlFormat;
 
     @Inject
@@ -54,7 +55,6 @@ public class LineChartDisplayerType extends AbstractChartDisplayerType {
 
     @PostConstruct
     protected void init() {
-        xmlFormat = new ChartDisplayerXMLFormat();
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
         for (DataDisplayerRenderer type: chartRenderers) {
             displayerRenderers.add(type);

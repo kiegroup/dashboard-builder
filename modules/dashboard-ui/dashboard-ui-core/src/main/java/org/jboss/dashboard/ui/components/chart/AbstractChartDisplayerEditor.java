@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.components;
+package org.jboss.dashboard.ui.components.chart;
 
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.displayer.DataDisplayerRenderer;
 import org.jboss.dashboard.domain.DomainConfigurationParser;
 import org.jboss.dashboard.domain.RangeConfigurationParser;
+import org.jboss.dashboard.ui.components.DataDisplayerEditor;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
 import org.jboss.dashboard.provider.DataProperty;

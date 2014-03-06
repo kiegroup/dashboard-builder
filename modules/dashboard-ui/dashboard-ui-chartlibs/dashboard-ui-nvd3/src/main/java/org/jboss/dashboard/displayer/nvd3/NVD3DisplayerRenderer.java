@@ -36,36 +36,27 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
 
-    @Inject
-    @Config(UID)
-    protected String uid;
-
-    @Inject
-    @Config("")
-    public String[] barChartTypes;
-
-    @Inject
-    @Config("")
-    public String barChartDefault;
+    @Inject @Config("")
+    protected String[] barChartTypes;
 
     @Inject @Config("")
-    public String[] pieChartTypes;
+    protected String barChartDefault;
 
-    @Inject
-    @Config("")
-    public String pieChartDefault;
+    @Inject @Config("")
+    protected String[] pieChartTypes;
 
-    @Inject
-    @Config("")
-    public String[] lineChartTypes;
+    @Inject@Config("")
+    protected String pieChartDefault;
 
-    @Inject
-    @Config("")
-    public String lineChartDefault;
+    @Inject @Config("")
+    protected String[] lineChartTypes;
 
-    List<DataDisplayerFeature> featuresSupported;
-    Map<String, List<String>> availableChartTypes;
-    Map<String, String> defaultChartTypes;
+    @Inject @Config("")
+    protected String lineChartDefault;
+
+    protected List<DataDisplayerFeature> featuresSupported;
+    protected Map<String, List<String>> availableChartTypes;
+    protected Map<String, String> defaultChartTypes;
 
     @Inject
     protected LocaleManager localeManager;
@@ -103,7 +94,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
     }
 
     public String getUid() {
-        return uid;
+        return UID;
     }
 
     public String getDescription(Locale l) {

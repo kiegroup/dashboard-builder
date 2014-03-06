@@ -19,7 +19,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public abstract class AbstractDataDisplayerType implements DataDisplayerType {
 
     protected List<DataDisplayerRenderer> displayerRenderers;

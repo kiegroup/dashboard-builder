@@ -33,30 +33,27 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public static final String UID = "ofc2";
 
-    @Inject @Config(UID)
-    protected String uid;
-
     @Inject @Config("bar_glass, bar, bar_3d, bar_filled, bar_cylinder, bar_round, bar_sketch")
-    public String[] barChartTypes;
+    protected String[] barChartTypes;
 
     @Inject @Config("bar_filled")
-    public String barChartDefault;
+    protected String barChartDefault;
 
     @Inject @Config("pie")
-    public String[] pieChartTypes;
+    protected String[] pieChartTypes;
 
     @Inject @Config("pie")
-    public String pieChartDefault;
+    protected String pieChartDefault;
 
     @Inject @Config("line")
-    public String[] lineChartTypes;
+    protected String[] lineChartTypes;
 
     @Inject @Config("line")
-    public String lineChartDefault;
+    protected String lineChartDefault;
 
-    List<DataDisplayerFeature> featuresSupported;
-    Map<String,List<String>> availableChartTypes;
-    Map<String,String> defaultChartTypes;
+    protected List<DataDisplayerFeature> featuresSupported;
+    protected Map<String,List<String>> availableChartTypes;
+    protected Map<String,String> defaultChartTypes;
 
     @Inject
     protected LocaleManager localeManager;
@@ -89,7 +86,7 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
     }
     
     public String getUid() {
-        return uid;
+        return UID;
     }
 
     public String getDescription(Locale l) {

@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer"%>
-<%@ page import="org.jboss.dashboard.ui.components.AbstractChartDisplayerEditor"%>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.Locale" %>

@@ -19,7 +19,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.List;
 import java.util.Locale;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public abstract class AbstractDataDisplayerRenderer implements DataDisplayerRenderer {
 
     public int hashCode() {
