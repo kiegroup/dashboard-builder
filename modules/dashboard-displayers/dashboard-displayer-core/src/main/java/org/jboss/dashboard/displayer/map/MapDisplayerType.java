@@ -59,8 +59,8 @@ public class MapDisplayerType extends AbstractChartDisplayerType {
     @PostConstruct
     protected void init() {
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
-        for (DataDisplayerRenderer type: mapRenderers) {
-            displayerRenderers.add(type);
+        for (DataDisplayerRenderer renderer: mapRenderers) {
+            if (renderer.isEnabled()) displayerRenderers.add(renderer);
         }
     }
 

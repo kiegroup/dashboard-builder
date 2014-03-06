@@ -15,6 +15,8 @@
  */
 package org.jboss.dashboard.ui.components.js;
 
+import java.util.List;
+
 import org.jboss.dashboard.annotation.config.Config;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,9 +24,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class JSIncluder {
 
-    @Inject @Config(//"/components/bam/displayer/chart/gauge/raphael.2.1.0.min.js," +
-                    //"/components/bam/displayer/chart/gauge/justgage.1.0.1.min.js," +
-                    "/components/bam/displayer/chart/nvd3/lib/d3.v2.min.js," +
+    @Inject @Config("/components/bam/displayer/chart/nvd3/lib/d3.v2.min.js," +
                     "/components/bam/displayer/chart/nvd3/nv.d3.min.js," +
                     "/components/bam/displayer/chart/nvd3/src/tooltip.js," +
                     "/components/bam/displayer/chart/nvd3/src/utils.js," +
@@ -42,36 +42,39 @@ public class JSIncluder {
                     "/js/lib/scriptaculous-js-1.9.0/effects.js," +
                     "/js/lib/scriptaculous-js-1.9.0/dragdrop.js," +
                     "/common/rs/popup.js," +
-                    "/ckeditor/ckeditor.js," +
-                    "https://www.google.com/jsapi")
-    private String[] jsFilesToIncludeInHeader;
+                    "/ckeditor/ckeditor.js")
+    private List<String> jsHeaderFiles;
 
     @Inject @Config("/templates/navigatorDetection.jsp," +
                     "/common/rs/ajax.jsp," +
                     "/components/colorpicker/js/colorPicker.jsp," +
                     "/components/datepicker/js/datePicker.jsp")
-    private String[] jspFilesToIncludeInHeader;
+    private List<String> jspHeaderFiles;
 
     @Inject @Config("")
-    private String[] jspFilesToIncludeInBottom;
+    private List<String> jspBottomFiles;
 
     @Inject @Config("")
-    private String[] jsFilesToIncludeInBottom;
+    private List<String> jsBottomFiles;
 
-    public String[] getJsFilesToIncludeInHeader() {
-        return jsFilesToIncludeInHeader;
+    public List<String> getJsHeaderFiles() {
+        return jsHeaderFiles;
     }
 
-    public String[] getJsFilesToIncludeInBottom() {
-        return jsFilesToIncludeInBottom;
+    public void addJsHeaderFile(String jsFile) {
+        jsHeaderFiles.add(jsFile);
     }
 
-    public String[] getJspFilesToIncludeInHeader() {
-        return jspFilesToIncludeInHeader;
+    public List<String> getJsBottomFiles() {
+        return jsBottomFiles;
     }
 
-    public String[] getJspFilesToIncludeInBottom() {
-        return jspFilesToIncludeInBottom;
+    public List<String> getJspHeaderFiles() {
+        return jspHeaderFiles;
+    }
+
+    public List<String> getJspBottomFiles() {
+        return jspBottomFiles;
     }
 }
 

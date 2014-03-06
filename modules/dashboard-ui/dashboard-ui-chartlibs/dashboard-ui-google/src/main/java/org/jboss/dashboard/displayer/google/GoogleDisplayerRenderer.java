@@ -27,19 +27,20 @@ import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.MapChart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.chart.*;
+import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.js.JSIncluder;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.*;
 
-@Install
-@MapChart
-@BarChart
-@PieChart
-@LineChart
+@Install @MapChart @BarChart @PieChart @LineChart
 public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "google";
+
+    @Inject @Config("https://www.google.com/jsapi")
+    protected String jsApiUrl;
 
     @Inject @Config("")
     protected String[] barChartTypes;
@@ -86,6 +87,11 @@ public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
         defaultChartTypes.put(BarChartDisplayerType.UID, barChartDefault);
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
+
+        // If enabled then ensure the JSP API file is included into the app header.
+        if (enabled) {
+            UIServices.lookup().getJsIncluder().addJsFileToIncludeInHeader(jsApiUrl);
+        }
     }
 
     public String getUid() {

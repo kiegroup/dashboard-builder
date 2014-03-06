@@ -28,6 +28,13 @@ public class TableDisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "default";
 
+    @Inject @Config("true")
+    protected boolean enabled;
+
+    public boolean isEnabled() {
+        return true;
+    }
+
     public String getUid() {
         return UID;
     }

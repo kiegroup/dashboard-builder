@@ -23,6 +23,8 @@ import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.chart.*;
+import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.js.JSIncluder;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -35,6 +37,9 @@ import java.util.*;
 public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
+
+    @Inject @Config("true")
+    protected boolean enabled;
 
     @Inject @Config("")
     protected String[] barChartTypes;
@@ -91,6 +96,10 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         defaultChartTypes.put(BarChartDisplayerType.UID, barChartDefault);
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public String getUid() {

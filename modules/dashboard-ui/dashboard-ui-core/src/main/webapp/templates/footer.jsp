@@ -30,10 +30,7 @@
 </div>
 <%
     JSIncluder jsIncluder = UIServices.lookup().getJsIncluder();
-    String[] jsFiles = jsIncluder.getJsFilesToIncludeInBottom();
-    for (int i = 0; i < jsFiles.length; i++) {
-        String jsFile = jsFiles[i];
-
+    for (String jsFile : jsIncluder.getJsBottomFiles()) {
 %>
     <script src='<mvc:context uri="<%= jsFile %>" />'></script>
 <%
@@ -41,9 +38,7 @@
 %>
 <script  language="Javascript" type="text/javascript">
 <%
-    String[] jspFiles = jsIncluder.getJspFilesToIncludeInBottom();
-    for (int i = 0; i < jspFiles.length; i++) {
-        String jspFile = jspFiles[i];
+    for (String jspFile : jsIncluder.getJspBottomFiles()) {
 %>
     <jsp:include page="<%= jspFile %>" flush="true"/>
 <%

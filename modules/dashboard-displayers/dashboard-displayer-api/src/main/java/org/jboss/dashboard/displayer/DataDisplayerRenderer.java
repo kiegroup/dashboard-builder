@@ -33,4 +33,6 @@ public interface DataDisplayerRenderer {
     String getChartTypeDescription(String chartType, Locale locale);
 
     void setDefaultSettings(DataDisplayer displayer);
+
+    boolean isEnabled();
 }

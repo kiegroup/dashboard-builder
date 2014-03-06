@@ -32,7 +32,7 @@ import org.jboss.dashboard.displayer.annotation.MeterChart;
 import org.jboss.dashboard.export.DataDisplayerXMLFormat;
 
 @ApplicationScoped
-//@Install -- Under development
+@Install
 @MeterChart
 public class MeterChartDisplayerType extends AbstractChartDisplayerType {
 
@@ -56,8 +56,8 @@ public class MeterChartDisplayerType extends AbstractChartDisplayerType {
     protected void init() {
         xmlFormat = new MeterChartDisplayerXMLFormat();
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
-        for (DataDisplayerRenderer type: chartRenderers) {
-            displayerRenderers.add(type);
+        for (DataDisplayerRenderer renderer: chartRenderers) {
+            if (renderer.isEnabled()) displayerRenderers.add(renderer);
         }
     }
 

@@ -56,8 +56,8 @@ public class LineChartDisplayerType extends AbstractChartDisplayerType {
     @PostConstruct
     protected void init() {
         displayerRenderers = new ArrayList<DataDisplayerRenderer>();
-        for (DataDisplayerRenderer type: chartRenderers) {
-            displayerRenderers.add(type);
+        for (DataDisplayerRenderer renderer: chartRenderers) {
+            if (renderer.isEnabled()) displayerRenderers.add(renderer);
         }
     }
 

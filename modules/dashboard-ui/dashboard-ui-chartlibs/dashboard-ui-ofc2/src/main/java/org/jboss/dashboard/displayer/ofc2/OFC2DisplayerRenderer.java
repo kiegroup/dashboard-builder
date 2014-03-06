@@ -33,6 +33,9 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public static final String UID = "ofc2";
 
+    @Inject @Config("true")
+    protected boolean enabled;
+
     @Inject @Config("bar_glass, bar, bar_3d, bar_filled, bar_cylinder, bar_round, bar_sketch")
     protected String[] barChartTypes;
 
@@ -84,7 +87,11 @@ public class OFC2DisplayerRenderer extends AbstractDataDisplayerRenderer  {
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
     }
-    
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public String getUid() {
         return UID;
     }

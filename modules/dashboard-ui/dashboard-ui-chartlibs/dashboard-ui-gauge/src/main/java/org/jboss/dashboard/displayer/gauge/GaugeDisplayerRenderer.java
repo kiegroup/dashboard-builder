@@ -22,12 +22,15 @@ import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.chart.MeterChartDisplayerType;
+import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.js.JSIncluder;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.*;
 
-@Install @MeterChart
+@MeterChart
+//@Install -- Under development
 public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public static final String UID = "gauge";
@@ -37,6 +40,10 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     @Inject @Config("meter")
     protected String meterChartDefault;
+
+    @Inject @Config("/components/bam/displayer/chart/gauge/raphael.2.1.0.min.js," +
+                    "/components/bam/displayer/chart/gauge/justgage.1.0.1.min.js")
+    private List<String> jsFiles;
 
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String,List<String>> availableChartTypes;
@@ -101,5 +108,13 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
         defaultChartTypes.put(MeterChartDisplayerType.UID, meterChartDefault);
+
+        // If enabled then ensure the JS API files are included into the app header.
+        if (enabled) {
+            JSIncluder jsIncluder = UIServices.lookup().getJsIncluder();
+            for (String jsFile : jsFiles) {
+                jsIncluder.addJsFileToIncludeInHeader(jsFile);
+            }
+        }
     }
 }
