@@ -32,6 +32,7 @@ import org.jboss.dashboard.displayer.DataDisplayerRenderer;
 import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.MapChart;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayerType;
+import org.jboss.dashboard.displayer.chart.ChartDisplayerXMLFormat;
 import org.jboss.dashboard.export.DataDisplayerXMLFormat;
 
 @ApplicationScoped
@@ -54,7 +55,7 @@ public class MapDisplayerType extends AbstractChartDisplayerType {
     protected LocaleManager localeManager;
 
     @Inject
-    protected MapDisplayerXMLFormat xmlFormat;
+    protected ChartDisplayerXMLFormat xmlFormat;
 
     @PostConstruct
     protected void init() {

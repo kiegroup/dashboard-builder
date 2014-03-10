@@ -27,8 +27,8 @@ import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.MapChart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.chart.*;
+import org.jboss.dashboard.displayer.map.MapDisplayerType;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.ui.components.js.JSIncluder;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -38,6 +38,9 @@ import java.util.*;
 public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "google";
+
+    @Inject @Config("false")
+    protected boolean enabled;
 
     @Inject @Config("https://www.google.com/jsapi")
     protected String jsApiUrl;
@@ -60,6 +63,12 @@ public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
     @Inject @Config("")
     protected String lineChartDefault;
 
+    @Inject @Config("GeoChart, GeoMap")
+    protected String[] mapChartTypes;
+
+    @Inject @Config("GeoChart")
+    protected String mapChartDefault;
+
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String, List<String>> availableChartTypes;
     protected Map<String, String> defaultChartTypes;
@@ -73,25 +82,34 @@ public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
         featuresSupported = new ArrayList<DataDisplayerFeature>();
         featuresSupported.add(DataDisplayerFeature.ALIGN_CHART);
         featuresSupported.add(DataDisplayerFeature.SHOW_TITLE);
+        featuresSupported.add(DataDisplayerFeature.SET_CHART_TYPE);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_WIDTH);
         featuresSupported.add(DataDisplayerFeature.SET_CHART_HEIGHT);
+        featuresSupported.add(DataDisplayerFeature.ROUND_TO_INTEGER);
+        featuresSupported.add(DataDisplayerFeature.SET_FOREGRND_COLOR);
 
         // Register the available chart types.
         availableChartTypes = new HashMap<String, List<String>>();
         availableChartTypes.put(BarChartDisplayerType.UID, Arrays.asList(barChartTypes));
         availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pieChartTypes));
         availableChartTypes.put(LineChartDisplayerType.UID, Arrays.asList(lineChartTypes));
+        availableChartTypes.put(MapDisplayerType.UID, Arrays.asList(mapChartTypes));
 
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
         defaultChartTypes.put(BarChartDisplayerType.UID, barChartDefault);
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
+        defaultChartTypes.put(MapDisplayerType.UID, mapChartDefault);
 
         // If enabled then ensure the JSP API file is included into the app header.
         if (enabled) {
-            UIServices.lookup().getJsIncluder().addJsFileToIncludeInHeader(jsApiUrl);
+            UIServices.lookup().getJsIncluder().addJsHeaderFile(jsApiUrl);
         }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public String getUid() {
@@ -135,7 +153,7 @@ public class GoogleDisplayerRenderer extends AbstractDataDisplayerRenderer {
     public String getChartTypeDescription(String chartType, Locale locale) {
         try {
             ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.google.messages", locale);
-            return i18n.getString("nvd3.type." + chartType);
+            return i18n.getString("google.type." + chartType.toLowerCase());
         } catch (Exception e) {
             return chartType;
         }

@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.displayer.AbstractDataDisplayerXMLFormat;
 import org.jboss.dashboard.displayer.DataDisplayer;
+import org.jboss.dashboard.displayer.chart.ChartDisplayerXMLFormat;
 import org.jboss.dashboard.displayer.table.DataSetTable;
 import org.jboss.dashboard.displayer.table.TableColumn;
 import org.jboss.dashboard.displayer.table.TableDisplayer;
@@ -38,18 +39,9 @@ import org.w3c.dom.NodeList;
  * This class offers both XML parsing and formatting services for Map displayers.
  */
 @ApplicationScoped
-public class MapDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
+public class MapDisplayerXMLFormat {
 
     public MapDisplayerXMLFormat() {
         super();
     }
-
-    protected void parseDisplayer(DataDisplayer dd, NodeList subNodes, ImportResults results) throws Exception {
-        MapDisplayer displayer = (MapDisplayer) dd;
-
-    }
-
-    protected void formatDisplayer(DataDisplayer dd, PrintWriter out, int indent) throws Exception {
-        MapDisplayer displayer = (MapDisplayer) dd;
-   }
 }

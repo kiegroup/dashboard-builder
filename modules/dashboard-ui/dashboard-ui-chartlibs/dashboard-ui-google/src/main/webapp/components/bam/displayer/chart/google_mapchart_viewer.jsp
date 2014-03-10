@@ -17,7 +17,12 @@
 --%>
 <%@ page import="org.jboss.dashboard.ui.components.chart.GoogleChartViewer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ taglib uri="factory.tld" prefix="factory" %>
+<%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
+<%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
+<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%
-    GoogleChartViewer viewer = (GoogleChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
+  GoogleChartViewer viewer = (GoogleChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
+  request.setAttribute("viewer", viewer);
 %>
-GOOGLE MAP
+<mvc:include page="google_chart.jsp" flush="true"/>

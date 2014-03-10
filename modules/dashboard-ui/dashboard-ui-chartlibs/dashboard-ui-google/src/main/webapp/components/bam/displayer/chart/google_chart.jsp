@@ -15,32 +15,35 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
-<%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.DecimalFormat" %>
-<%@ page import="org.jboss.dashboard.dataset.DataSet" %>
-<%@ page import="org.jboss.dashboard.domain.Interval" %>
-<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
-<%@ page import="org.jboss.dashboard.commons.text.StringUtil" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.GoogleChartViewer" %>
-<%@ page import="org.jboss.dashboard.displayer.chart.LineChartDisplayerType" %>
+<%@ page import="org.jboss.dashboard.ui.UIServices" %>
+<%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
+<%@ page import="org.jboss.dashboard.dataset.DataSet" %>
+<%@ page import="org.jboss.dashboard.displayer.map.MapDisplayerType" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.PieChartDisplayerType" %>
+<%@ page import="org.jboss.dashboard.displayer.chart.LineChartDisplayerType" %>
+<%@ page import="org.jboss.dashboard.commons.text.StringUtil" %>
+<%@ page import="org.jboss.dashboard.domain.Interval" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%
-  AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
   GoogleChartViewer viewer = (GoogleChartViewer) request.getAttribute("viewer");
-  boolean animateChart = (editor == null);
+  AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
   AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
   DataSet xyDataSet = displayer.buildXYDataSet();
   if (xyDataSet == null) {
 %>
-<span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
+  <span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
 <%
+    return;
   }
 
   Locale locale = LocaleManager.currentLocale();
@@ -51,45 +54,46 @@
   double minDsValue = -1;
   double maxDsValue = -1;
 
+  //String unitPattern = displayer.getUnit(locale);
   for (int i=0; i< xyDataSet.getRowCount(); i++) {
     String xvalue = ((Interval) xyDataSet.getValueAt(i, 0)).getDescription(locale);
     double yvalue = ((Number) xyDataSet.getValueAt(i, 1)).doubleValue();
 
+    //String formattedValue = StringUtils.replace(unitPattern, "{value}", numberFormat.format(yvalue));
+    String formattedValue = numberFormat.format(yvalue);
     xvalues.add(StringUtil.escapeQuotes(xvalue));
-    yvalues.add(numberFormat.format(yvalue));
+    yvalues.add(formattedValue);
 
     // Get the minimum and the maximum value of the dataset.
     if ((minDsValue == -1) || (yvalue < minDsValue)) minDsValue = yvalue;
     if ((maxDsValue == -1) || (yvalue > maxDsValue)) maxDsValue = yvalue;
   }
 
-  // Every chart must have a different identifier so as to do not merge tooltips.
-  // Chart identifier is composed by producerId and this suffix.
-  int suffix = viewer.hashCode();
-  if (suffix < 0) suffix *= -1;
-  String chartId = viewer.getBeanName() + suffix;
-
   String barColor = displayer.getColor();
   if (barColor == null || barColor.equals(displayer.getBackgroundColor())) {
     barColor = "#0000FF"; // Default blue if not changed
   }
 
-  // Format the display values according to the representation format defined.
-  String unitPattern = displayer.getUnit(locale);
-  String valuePattern = StringUtils.replace(unitPattern, "{value}", "#val#");
-  String totalPattern = StringUtils.replace(unitPattern, "{value}",  "#total#");
-
   // Google chart type
-  String chartType = "Bar";
+  String chartLib = "corechart";
+  String chartType = "BarChart";
   String chartTypeUID = displayer.getDataDisplayerType().getUid();
-  if (LineChartDisplayerType.UID.equals(chartTypeUID)) chartType = "Line";
-  if (PieChartDisplayerType.UID.equals(chartTypeUID)) chartType = "Pie";
+  if (LineChartDisplayerType.UID.equals(chartTypeUID)) chartType = "LineChart";
+  if (PieChartDisplayerType.UID.equals(chartTypeUID)) chartType = "PieChart";
+  if (MapDisplayerType.UID.equals(chartTypeUID)) {
+    chartLib = displayer.getType().toLowerCase();
+    chartType = displayer.getType();
+  }
+  // Every chart must have a different identifier so as to do not merge tooltips.
+  // Chart identifier is composed by producerId and this suffix.
+  int suffix = viewer.hashCode();
+  if (suffix < 0) suffix *= -1;
+  String chartId = viewer.getBeanName() + suffix;
 %>
 <script type="text/javascript">
 
-  google.load('visualization', '1', {'packages':['corechart']});
+  google.load('visualization', '1', {'packages':['<%=chartLib%>']});
   google.setOnLoadCallback(drawChart_<%=chartId%>);
-  drawChart_<%=chartId%>();
 
   function drawChart_<%=chartId%>() {
     // Create the data table.
@@ -99,17 +103,28 @@
     data_<%=chartId%>.addRows([<% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>['<%=xvalues.get(i)%>', <%=yvalues.get(i)%>]<% } %>]);
 
     // Set chart options
-    var options_<%=chartId%> = {'title':'<%= displayer.isShowTitle() ? (StringUtil.escapeQuotes(displayer.getTitle()))  : "" %>',
+    var options_<%=chartId%> = {'displayMode': 'markers',/*'title':'<%= displayer.isShowTitle() ? (StringUtil.escapeQuotes(displayer.getTitle()))  : "" %>',*/
       'width':<%= displayer.getWidth() %>,
       'height':<%= displayer.getHeight() %>};
 
     // Instantiate and draw our chart, passing in some options.
-    var chart_<%=chartId%> = new google.visualization.<%=chartType%>Chart(document.getElementById('div_chart_<%=chartId%>'));
+    var chart_<%=chartId%> = new google.visualization.<%=chartType%>(document.getElementById('div_chart_<%=chartId%>'));
     chart_<%=chartId%>.draw(data_<%=chartId%>, options_<%=chartId%>);
   }
+  <% if (editor != null) { %>
+    drawChart_<%=chartId%>();
+  <% } %>
 </script>
-<form method="post" action='<factory:formUrl friendly="false"/>' id='<panel:encode name="chartForm"/>'>
-  <factory:handler bean="<%=viewer.getBeanName()%>" action="<%= GoogleChartViewer.PARAM_ACTION %>"/>
-  <input type="hidden" name="<%= GoogleChartViewer.PARAM_NSERIE %>" value="0" />
-</form>
-<div id="div_chart_<%=chartId%>"></div>
+<table class="skn-chart-table" width="100%" >
+  <tbody>
+  <tr>
+    <td height="<%= displayer.getHeight() %>" align="<%=displayer.getGraphicAlign()%>" style="">
+      <% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
+      <div id="title<%=chartId%>" class="skn-chart-title" style="width:<%= displayer.getWidth() %>px"><%=displayer.getTitle()%></div>
+      <% } %>
+      <div class="skn-chart-wrapper" style="width:<%= displayer.getWidth() %>px;height:<%= displayer.getHeight() %>px" id="div_chart_<%=chartId%>"></div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
