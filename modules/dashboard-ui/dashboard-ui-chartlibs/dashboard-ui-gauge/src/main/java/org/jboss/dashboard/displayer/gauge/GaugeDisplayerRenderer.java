@@ -18,7 +18,6 @@ package org.jboss.dashboard.displayer.gauge;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.displayer.annotation.MeterChart;
 
-import org.jboss.dashboard.annotation.Install;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.chart.MeterChartDisplayerType;
@@ -34,6 +33,9 @@ import java.util.*;
 public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     public static final String UID = "gauge";
+
+    @Inject @Config("true")
+    protected boolean enabled;
 
     @Inject @Config("meter")
     protected String[] meterChartTypes;
@@ -51,6 +53,10 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
 
     @Inject
     protected LocaleManager localeManager;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     public String getUid() {
         return UID;
@@ -113,7 +119,7 @@ public class GaugeDisplayerRenderer extends AbstractDataDisplayerRenderer  {
         if (enabled) {
             JSIncluder jsIncluder = UIServices.lookup().getJsIncluder();
             for (String jsFile : jsFiles) {
-                jsIncluder.addJsFileToIncludeInHeader(jsFile);
+                jsIncluder.addJsHeaderFile(jsFile);
             }
         }
     }
