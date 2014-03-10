@@ -33,14 +33,14 @@
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%
-    AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
-    OFC2ChartViewer viewer = (OFC2ChartViewer) request.getAttribute("viewer");
-    boolean animateChart = (editor == null);
-    AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
-    DataSet xyDataSet = displayer.buildXYDataSet();
-    if (xyDataSet == null) {
+  AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
+  OFC2ChartViewer viewer = (OFC2ChartViewer) request.getAttribute("viewer");
+  boolean animateChart = (editor == null);
+  AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
+  DataSet xyDataSet = displayer.buildXYDataSet();
+  if (xyDataSet == null) {
 %>
-  <span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
+<span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
 <%
   }
 
@@ -93,44 +93,44 @@
 
   function get_data_<%=chartId%>() {
 
-  <% if (displayer instanceof PieChartDisplayer) { %>
+    <% if (displayer instanceof PieChartDisplayer) { %>
 
     var data_<%=chartId%> =
         '{ "elements": [ '
             + '{ "type": "pie", "alpha": 0.5 <% if (false) { %>, "animate": [ { "type": "fade" }, { "type": "bounce", "distance": 5 } ]<% } %>, "start-angle": 0, "tip": "#label#<br><%=valuePattern%> / <%=totalPattern%><br>#percent#", '
             + '"colours": [ "#FF9E11", "#DF5511", "#DF0011", "#C2008F", "#9E00D5", "#7000B8", "#4500B8", "#00A70D", "#9BDC00"], '
             + '"values": [ <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>{ "value": <%=yvalues.get(i)%>, "label": "<%=xvalues.get(i)%>", "on-click":"click_<%=chartId%>(<%= i %>)" }<% } %> ] } ], '
-            + '"title": { "text": "<%= displayer.isShowTitle() ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>")  : "" %>", "style": "color: #000000;  font-size: 20px" }, '
+            + '"title": { "text": "<%= false/*displayer.isShowTitle()*/ ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>")  : "" %>", "style": "color: #000000;  font-size: 20px" }, '
             + '"num_decimals": <%=displayer.isAxisInteger() ? 0 : 2%>, "is_fixed_num_decimals_forced": true, "is_decimal_separator_comma": false, "is_thousand_separator_disabled": false,'
             + '"bg_colour": "<%= displayer.getBackgroundColor() %>" }';
 
-  <%
-      } else if (displayer instanceof BarChartDisplayer) {
-          BarChartDisplayer barDisplayer  = (BarChartDisplayer) displayer;
-  %>
+    <%
+        } else if (displayer instanceof BarChartDisplayer) {
+            BarChartDisplayer barDisplayer  = (BarChartDisplayer) displayer;
+    %>
 
     var data_<%=chartId%> = '{ "elements": [ { "type": "<%=displayer.getType()%>", '
         + '"values": [ '
         + '<% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>{ "top": "<%=yvalues.get(i)%>", "bottom": 0, "tip":"<%=xvalues.get(i) %><br><%=valuePattern%>", "on-click": "click_<%=chartId%>(<%= i %>)" }<% } %>'
-        + '], "colour": "<%= barColor %>" <% if (animateChart) { %> , "on-show":{"type":"grow-up","pop-up":1,"delay":0.1,"cascade":1} <% } %> } ], "title": { "text": "<%= displayer.isShowTitle() ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>") : "" %>", "style": "color: #000000;  font-size: 20px"  }, '
+        + '], "colour": "<%= barColor %>" <% if (animateChart) { %> , "on-show":{"type":"grow-up","pop-up":1,"delay":0.1,"cascade":1} <% } %> } ], "title": { "text": "<%= false/*displayer.isShowTitle()*/ ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>") : "" %>", "style": "color: #000000;  font-size: 20px"  }, '
         + '"num_decimals": <%=displayer.isAxisInteger() ? 0 : 2%>, "is_fixed_num_decimals_forced": true, "is_decimal_separator_comma": false, "is_thousand_separator_disabled": false, "bg_colour": "<%= displayer.getBackgroundColor() %>", '
         + '"y_axis": { "min": "<%=minRangeStr%>", "max": "<%=maxDsValueStr%>" , "steps": <%=yStepStr%>}, '
         + '"x_axis": { "labels": { "rotate": <%=barDisplayer.getLabelAngleXAxis()%>, "labels": [ <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); out.print("\"" + (barDisplayer.isShowLabelsXAxis() ? xvalues.get(i) : "") + "\""); } %> '
         + '] } } }';
-  <%
-      } else if (displayer instanceof LineChartDisplayer) {
-          LineChartDisplayer lineDisplayer  = (LineChartDisplayer) displayer;
-  %>
+    <%
+        } else if (displayer instanceof LineChartDisplayer) {
+            LineChartDisplayer lineDisplayer  = (LineChartDisplayer) displayer;
+    %>
 
     var data_<%=chartId%> = '{"elements": [ { "type": "<%=displayer.getType()%>", "dot-size":3,'
         + '"values": [ '
         + '<% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>{ "y":"<%=yvalues.get(i)%>", "tip":"<%=xvalues.get(i) %><br><%=valuePattern%>", "on-click":"click_<%=chartId%>(<%= i %>)" }<% } %>'
-        + '], "colour": "<%= barColor %>" <% if (animateChart) { %> , "on-show":{"type":"grow-up","pop-up":1,"delay":0.1,"cascade":1} <% } %> } ], "title": { "text": "<%= displayer.isShowTitle() ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>") : "" %>", "style": "color: #000000;  font-size: 20px"  }, '
+        + '], "colour": "<%= barColor %>" <% if (animateChart) { %> , "on-show":{"type":"grow-up","pop-up":1,"delay":0.1,"cascade":1} <% } %> } ], "title": { "text": "<%= false/*displayer.isShowTitle()*/ ? (StringUtil.escapeQuotes(displayer.getTitle()) + "<br>") : "" %>", "style": "color: #000000;  font-size: 20px"  }, '
         + '"num_decimals": <%=displayer.isAxisInteger() ? 0 : 2%>, "is_fixed_num_decimals_forced": true, "is_decimal_separator_comma": false, "is_thousand_separator_disabled": false, "bg_colour": "<%= displayer.getBackgroundColor() %>", '
         + '"y_axis": { "min": "<%=minRangeStr%>", "max": "<%=maxDsValueStr%>" , "steps": <%=yStepStr%>}, '
         + '"x_axis": { "labels": { "rotate": <%=lineDisplayer.getLabelAngleXAxis()%>, "labels": [ <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); out.print("\"" + (lineDisplayer.isShowLabelsXAxis() ? xvalues.get(i) : "") +"\""); } %> '
         + '] } } }';
-  <% } %>
+    <% } %>
     return data_<%=chartId%>;
   }
 
@@ -146,22 +146,25 @@
   <factory:handler bean="<%=viewer.getBeanName()%>" action="<%= OFC2ChartViewer.PARAM_ACTION %>"/>
   <input type="hidden" name="<%= OFC2ChartViewer.PARAM_NSERIE %>" value="0" />
 </form>
-<table class="chartTable" border="0" cellpadding="10" cellspacing="0" width="100%">
+<table class="skn-chart-table" width="100%">
   <tbody>
   <tr>
-    <td height="<%= displayer.getHeight() %>" align="<%=displayer.getGraphicAlign()%>">
+    <td height="<%= displayer.getHeight() %>" align="<%=displayer.getGraphicAlign()%>" style="">
+      <% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
+      <div id="title<%=chartId%>" class="skn-chart-title" style="width:<%= displayer.getWidth() %>px"><%=displayer.getTitle()%></div>
+      <% } %>
       <div style="width:<%= displayer.getWidth() %>px">
         <% if (isIE) { %>
         <OBJECT style="VISIBILITY: visible" id="div_chart_<%=chartId%>"
-                classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000 width="<%= displayer.getWidth() %>"
-                height="<%= displayer.getHeight() %>">
+                classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000 width="<%= displayer.getWidth() - 70 %>"
+                height="<%= displayer.getHeight() - 25  %>">
           <PARAM NAME="FlashVars" value="get-data=get_data_<%=chartId%>">
           <PARAM NAME="Movie" VALUE="<mvc:context uri="/components/bam/displayer/chart/open-flash-chart.swf" />" >
           <PARAM NAME="Src" VALUE="<mvc:context uri="/components/bam/displayer/chart/open-flash-chart.swf" />" >
           <param NAME="wmode" VALUE="transparent">
         </OBJECT>
         <% } else { %>
-        <object height="<%= displayer.getHeight() %>" width="<%= displayer.getWidth() %>"
+        <object height="<%= displayer.getHeight() + 25 %>" width="<%= displayer.getWidth() - 70 %>"
                 type="application/x-shockwave-flash"
                 data="<mvc:context uri="/components/bam/displayer/chart/open-flash-chart.swf" />"
                 id="div_chart_<%=chartId%>"

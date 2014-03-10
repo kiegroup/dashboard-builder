@@ -48,8 +48,8 @@
   </style>
 </head>
 <body>
-<%@include file="nvd3_chart_common.jspi"%>
-<%@include file="nvd3_chart_wrapper.jspi"%>
-<%@include file="nvd3_barchart_script.jspi"%>
+<%@include file="nvd3_chart_common.jsp"%>
+<%@include file="nvd3_chart_wrapper.jsp"%>
+<%@include file="nvd3_barchart_script.jsp"%>
 </body>
 </html>

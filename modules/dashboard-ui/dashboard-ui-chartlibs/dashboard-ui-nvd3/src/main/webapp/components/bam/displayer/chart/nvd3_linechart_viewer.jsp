@@ -23,7 +23,7 @@
     NVD3ChartViewer viewer = (NVD3ChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
-<%@include file="nvd3_chart_common.jspi"%>
+<%@include file="nvd3_chart_common.jsp"%>
 
 <%-- EDIT MODE --%>
 
@@ -53,8 +53,8 @@
   setAjax('<%="form"+chartId%>');
 </script>
 <%  } %>
-<%@include file="nvd3_chart_wrapper.jspi"%>
-<%@include file="nvd3_linechart_script.jspi"%>
+<%@include file="nvd3_chart_wrapper.jsp"%>
+<%@include file="nvd3_linechart_script.jsp"%>
 <%
   }
 %>
