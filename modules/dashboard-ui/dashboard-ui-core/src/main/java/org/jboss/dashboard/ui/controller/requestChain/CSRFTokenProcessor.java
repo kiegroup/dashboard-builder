@@ -15,9 +15,11 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.workspace.Parameters;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,15 +31,18 @@ import javax.servlet.http.HttpServletRequest;
 @ApplicationScoped
 public class CSRFTokenProcessor extends AbstractChainProcessor {
 
+    @Inject @Config("true")
+    protected boolean enabled;
+
     public boolean processRequest() throws Exception {
-        HttpServletRequest request = getHttpRequest();
-        if (SessionInitializer.isNewSession(request)) {
-            // If the session is being created then the CSRF control it makes no sense.
+        // Check if the CSRF control is enabled.
+        if (!enabled) {
             return true;
         }
 
-        // KPI remote API request do not require CSRF verification
-        if (request.getServletPath().startsWith(KPIProcessor.KPI_MAPPING)) {
+        // If the session is being created then the CSRF control makes no sense.
+        HttpServletRequest request = getHttpRequest();
+        if (SessionInitializer.isNewSession(request)) {
             return true;
         }
 
