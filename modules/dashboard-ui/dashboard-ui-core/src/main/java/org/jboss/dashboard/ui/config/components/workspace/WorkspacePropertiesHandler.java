@@ -47,8 +47,8 @@ public class WorkspacePropertiesHandler extends BeanHandler {
     private MessagesComponentHandler messagesComponentHandler;
 
     private String workspaceId;
-    private Map name;
-    private Map title;
+    private Map<String, String> name;
+    private Map<String, String> title;
     private String skin;
     private String envelope;
     private String url;
@@ -82,19 +82,19 @@ public class WorkspacePropertiesHandler extends BeanHandler {
         this.messagesComponentHandler = messagesComponentHandler;
     }
 
-    public Map getName() {
+    public Map<String, String> getName() {
         return name;
     }
 
-    public void setName(Map name) {
+    public void setName(Map<String, String> name) {
         this.name = name;
     }
 
-    public Map getTitle() {
+    public Map<String, String> getTitle() {
         return title;
     }
 
-    public void setTitle(Map title) {
+    public void setTitle(Map<String, String> title) {
         this.title = title;
     }
 
@@ -238,15 +238,15 @@ public class WorkspacePropertiesHandler extends BeanHandler {
         title = buildI18n(request, "title");
     }
 
-    protected Map buildI18n(CommandRequest request, String fieldName) {
-        Map result = new HashMap();
+    protected Map<String, String> buildI18n(CommandRequest request, String fieldName) {
+        Map<String, String> result = new HashMap<String, String>();
         String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
         if (langs != null) {
-            for (int i = 0; i < langs.length; i++) {
-                String name = fieldName + "_" + langs[i];
+            for (String lang : langs) {
+                String name = fieldName + "_" + lang;
                 String value = request.getParameter(name);
                 if (value != null && !"".equals(value)) {
-                    result.put(langs[i], value);
+                    result.put(lang, value);
                 }
             }
         }

@@ -22,7 +22,6 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Workspace;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.security.WorkspacePermission;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +36,10 @@ public class PageSelectionFormatter extends Formatter {
         int cols = Integer.parseInt(numCols);*/
 
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            List workspaces = new ArrayList();
-            for (Iterator it = workspaceIds.iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            Set<String> workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+            List<Workspace> workspaces = new ArrayList<Workspace>();
+            for (String wsId : workspaceIds) {
+                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(wsId);
                 WorkspacePermission perm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 if (UserStatus.lookup().hasPermission(perm)) {
                     workspaces.add(workspace);
@@ -49,8 +47,7 @@ public class PageSelectionFormatter extends Formatter {
             }
             if (!workspaces.isEmpty()) {
                 renderFragment("outputStart");
-                for (int i = 0; i < workspaces.size(); i++) {
-                    WorkspaceImpl workspace = (WorkspaceImpl) workspaces.get(i);
+                for (Workspace workspace : workspaces) {
                     setAttribute("workspace", workspace);
                     setAttribute("workspaceId", workspace.getId());
                     setAttribute("workspaceName", StringEscapeUtils.escapeHtml(getLocalizedValue(workspace.getTitle())));
@@ -72,5 +69,4 @@ public class PageSelectionFormatter extends Formatter {
             throw new FormatterException(e);
         }
     }
-
 }

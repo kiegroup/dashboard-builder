@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Permission;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -70,11 +70,10 @@ public class RenderWorkspacesFormatter extends Formatter {
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        List availableWorkspaces = new ArrayList();
+        List<Workspace> availableWorkspaces = new ArrayList<Workspace>();
         try {
-            TreeSet workspaceIds = new TreeSet(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
-            for (Iterator it = workspaceIds.iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
+            Set<String> workspaceIds = new TreeSet<String>(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
+            for (String workspaceId : workspaceIds) {
                 Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
 
                 boolean finish = false;
@@ -97,7 +96,7 @@ public class RenderWorkspacesFormatter extends Formatter {
         } else {
             renderFragment("outputStart");
             for (int i = 0; i < availableWorkspaces.size(); i++) {
-                Workspace workspace = (Workspace) availableWorkspaces.get(i);
+                Workspace workspace = availableWorkspaces.get(i);
                 setAttribute("index", i);
                 setAttribute("count", i + 1);
                 setAttribute("workspace", workspace);

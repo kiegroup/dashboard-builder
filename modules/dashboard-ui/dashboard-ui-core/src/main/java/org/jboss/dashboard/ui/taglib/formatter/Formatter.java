@@ -519,8 +519,7 @@ public abstract class Formatter {
         return localeManager.getDefaultLang();
     }
 
-    protected String getLocalizedValue(Map m) {
-        LocaleManager localeManager = LocaleManager.lookup();
-        return (String) localeManager.localize(m);
+    protected String getLocalizedValue(Map<String, String> m) {
+        return (String) LocaleManager.lookup().localize(m);
     }
 }

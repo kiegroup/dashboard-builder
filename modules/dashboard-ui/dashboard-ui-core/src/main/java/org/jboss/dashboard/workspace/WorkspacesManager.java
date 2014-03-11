@@ -68,7 +68,7 @@ public class WorkspacesManager {
      */
     public synchronized String generateWorkspaceId() throws Exception {
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            String id = "" + i;
+            String id = Integer.toString(i);
             if (!existsWorkspace(id, true)) {
                 return id;
             }
@@ -92,18 +92,16 @@ public class WorkspacesManager {
         return exists[0];
     }
 
-    public Map generateUniqueWorkspaceName( Workspace workspace ) throws Exception {
-        return generateUniqueWorkspaceName( 1,
-                workspace,
-                null );
+    public Map<String, String> generateUniqueWorkspaceName(Workspace workspace) throws Exception {
+        return generateUniqueWorkspaceName(1, workspace, null);
     }
 
-    private Map generateUniqueWorkspaceName(int index, Workspace workspace, Map<String, String> newProposed) throws Exception {
+    private Map<String, String> generateUniqueWorkspaceName(int index, Workspace workspace, Map<String, String> newProposed) throws Exception {
         if (workspace == null) return null;
         Map<String, String> toEval = new HashMap<String, String>();
-        toEval.putAll( newProposed != null ? newProposed : workspace.getName() );
-        if ( existsWorkspaceName(workspace, toEval) ) {
-            Map originalNames = workspace.getName();
+        toEval.putAll(newProposed != null ? newProposed : workspace.getName());
+        if (existsWorkspaceName(workspace, toEval)) {
+            Map<String, String> originalNames = workspace.getName();
             for (Map.Entry<String, String> entry : toEval.entrySet()) {
                 entry.setValue(originalNames.get(entry.getKey()) + " (" + index + ")");
             }
@@ -112,7 +110,7 @@ public class WorkspacesManager {
         return toEval;
     }
 
-    private boolean existsWorkspaceName( Workspace workspace, Map proposedNames ) {
+    private boolean existsWorkspaceName(Workspace workspace, Map<String, String> proposedNames) {
         boolean found = false;
         Workspace[] workspaces = getWorkspaces();
         int i = 0;
@@ -153,11 +151,9 @@ public class WorkspacesManager {
 
                 //Delete own resources
                 GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-                for (int i = 0; i < managers.length; i++) {
-                    GraphicElementManager manager = managers[i];
+                for (GraphicElementManager manager : managers) {
                     GraphicElement[] elements = manager.getElements(workspace.getId());
-                    for (int j = 0; j < elements.length; j++) {
-                        GraphicElement element = elements[j];
+                    for (GraphicElement element : elements) {
                         manager.delete(element);
                     }
                 }
@@ -171,9 +167,7 @@ public class WorkspacesManager {
 
                 // Notify panels before deleting workspace.
                 for (Section section : workspace.getSections()) {
-                    Panel[] panels = section.getAllPanels();
-                    for (int i = 0; i < panels.length; i++) {
-                        Panel panel = panels[i];
+                    for (Panel panel : section.getAllPanels()) {
                         panel.getProvider().getDriver().fireBeforePanelRemoved(panel);
                         panel.panelRemoved();
                     }
@@ -210,7 +204,7 @@ public class WorkspacesManager {
      * Return all workspaces
      */
     public WorkspaceImpl[] getWorkspaces() {
-        final List workspaces = new ArrayList();
+        final List<WorkspaceImpl> workspaces = new ArrayList<WorkspaceImpl>();
 
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
@@ -228,7 +222,7 @@ public class WorkspacesManager {
         } catch (Exception e) {
             log.error("Error:", e);
         }
-        return (WorkspaceImpl[]) workspaces.toArray(new WorkspaceImpl[workspaces.size()]);
+        return workspaces.toArray(new WorkspaceImpl[workspaces.size()]);
     }
 
     public synchronized void store(final Workspace workspace) throws Exception {
@@ -249,11 +243,10 @@ public class WorkspacesManager {
         txFragment.execute();
     }
 
-    public Set getAllWorkspacesIdentifiers() throws Exception {
-        Set s = new TreeSet();
+    public Set<String> getAllWorkspacesIdentifiers() throws Exception {
+        Set<String> s = new TreeSet<String>();
         WorkspaceImpl[] workspaces = getWorkspaces();
-        for (int i = 0; i < workspaces.length; i++) {
-            WorkspaceImpl workspace = workspaces[i];
+        for (WorkspaceImpl workspace : workspaces) {
             s.add(workspace.getId());
         }
         return s;
@@ -264,13 +257,12 @@ public class WorkspacesManager {
      * @throws Exception
      * @deprecated Workspaces manager shouldn't be aware of current user status.
      */
-    public synchronized Set getAvailableWorkspacesIds() throws Exception {
-        Set workspacesIds = getAllWorkspacesIdentifiers();
-        Set userWorkspacesIds = new HashSet();
+    public synchronized Set<String> getAvailableWorkspacesIds() throws Exception {
+        Set<String> workspacesIds = getAllWorkspacesIdentifiers();
+        Set<String> userWorkspacesIds = new HashSet<String>();
         log.debug("Getting available workspace ids for current user.");
         UserStatus userStatus = UserStatus.lookup();
-        for (Iterator iterator = workspacesIds.iterator(); iterator.hasNext();) {
-            String id = (String) iterator.next();
+        for (String id : workspacesIds) {
             log.debug("   Checking workspace " + id);
             WorkspaceImpl p = (WorkspaceImpl) getWorkspace(id);
             WorkspacePermission perm = WorkspacePermission.newInstance(p, WorkspacePermission.ACTION_LOGIN);
@@ -301,9 +293,7 @@ public class WorkspacesManager {
     }
 
     public Workspace getDefaultWorkspace() {
-        WorkspaceImpl[] workspaces = getWorkspaces();
-        for (int i = 0; i < workspaces.length; i++) {
-            WorkspaceImpl workspace = workspaces[i];
+        for (WorkspaceImpl workspace : getWorkspaces()) {
             if (workspace.getDefaultWorkspace())
                 return workspace;
         }
@@ -432,9 +422,8 @@ public class WorkspacesManager {
         // TODO: move initialization code to Lifecycle onLoad callbacks
 
         // Init panel instances
-        PanelInstance[] instances = workspace.getPanelInstances();
-        for (int i = 0; i < instances.length; i++) {
-            instances[i].init();
+        for (PanelInstance instance : workspace.getPanelInstances()) {
+            instance.init();
         }
 
         // Init sections & panels
@@ -450,8 +439,7 @@ public class WorkspacesManager {
         WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace(workspaceId);
         PanelInstance[] instances = workspace.getPanelInstances();
         if (instances != null) {
-            for (int i = 0; i < instances.length; i++) {
-                PanelInstance instance = instances[i];
+            for (PanelInstance instance : instances) {
                 Panel[] panels = instance.getAllPanels();
                 boolean anyPanelPlaced = false;
                 if (panels != null) {
@@ -472,8 +460,7 @@ public class WorkspacesManager {
         WorkspaceImpl workspace = (WorkspaceImpl) getWorkspace(workspaceId);
         PanelInstance[] instances = workspace.getPanelInstances();
         if (instances != null) {
-            for (int i = 0; i < instances.length; i++) {
-                PanelInstance instance = instances[i];
+            for (PanelInstance instance : instances) {
                 Panel[] panels = instance.getAllPanels();
                 if (panels == null || panels.length == 0) {
                     removeInstance(instance);
@@ -488,14 +475,12 @@ public class WorkspacesManager {
 
         // Delete own resources
         GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-        for (int i = 0; i < managers.length; i++) {
-            GraphicElementManager manager = managers[i];
+        for (GraphicElementManager manager : managers) {
             if (!manager.getElementScopeDescriptor().isAllowedInstance()) {
                 continue; // This manager does not define panel elements.
             }
             GraphicElement[] elements = manager.getElements(workspace.getId(), null, new Long(panelId));
-            for (int j = 0; j < elements.length; j++) {
-                GraphicElement element = elements[j];
+            for (GraphicElement element : elements) {
                 manager.delete(element);
             }
         }
