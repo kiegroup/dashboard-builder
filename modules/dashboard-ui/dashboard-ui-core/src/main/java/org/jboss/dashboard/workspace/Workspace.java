@@ -56,13 +56,13 @@ public interface Workspace extends Visitable {
 
     boolean existsSection(Long id);
 
-    Map getTitle();
+    Map<String, String> getTitle();
 
-    Map getName();
+    Map<String, String> getName();
 
-    void setName(Map name);
+    void setName(Map<String, String> name);
 
-    void setTitle(Map description);
+    void setTitle(Map<String, String> description);
 
     void setTitle(String title, String lang);
 

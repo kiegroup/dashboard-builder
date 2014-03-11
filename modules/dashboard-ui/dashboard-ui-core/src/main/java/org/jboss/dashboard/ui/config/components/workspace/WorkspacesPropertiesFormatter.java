@@ -20,8 +20,6 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.WorkspacesManager;
 import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.resources.GraphicElement;
@@ -36,7 +34,6 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Iterator;
 import java.util.Map;
 
 public class WorkspacesPropertiesFormatter extends Formatter {
@@ -78,8 +75,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 renderFragment("outputEndRow");
             }
             int n = 0;
-            for (Iterator it = getWorkspacesManager().getAllWorkspacesIdentifiers().iterator(); it.hasNext();) {
-                String workspaceId = (String) it.next();
+            for (String workspaceId : getWorkspacesManager().getAllWorkspacesIdentifiers()) {
                 WorkspaceImpl workspace = (WorkspaceImpl) getWorkspacesManager().getWorkspace(workspaceId);
                 WorkspacePermission viewPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 if (workspace == null) continue;
@@ -163,15 +159,15 @@ public class WorkspacesPropertiesFormatter extends Formatter {
         }
     }
 
-    protected void renderI18nInputs(String fieldName, int maxlength, Map defaultValue) {
+    protected void renderI18nInputs(String fieldName, int maxlength, Map<String, String> defaultValue) {
         setAttribute("name", fieldName);
         renderFragment("outputI18nStart");
         String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
         if (langs != null) {
-            for (int i = 0; i < langs.length; i++) {
-                String value = defaultValue != null ? (String) defaultValue.get(langs[i]) : null;
+            for (String lang : langs) {
+                String value = defaultValue != null ? defaultValue.get(lang) : null;
                 setAttribute("name", fieldName);
-                setAttribute("langId", langs[i]);
+                setAttribute("langId", lang);
                 setAttribute("maxlength", maxlength);
                 setAttribute("value", value != null ? value : "");
                 renderFragment("outputInput");

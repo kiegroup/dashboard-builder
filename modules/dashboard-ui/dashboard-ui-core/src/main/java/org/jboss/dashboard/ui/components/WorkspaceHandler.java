@@ -25,7 +25,6 @@ import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.users.UserStatus;
 
-import java.util.Iterator;
 import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 
@@ -83,10 +82,9 @@ public class WorkspaceHandler extends BeanHandler {
         BackOfficePermission workspacePerm = BackOfficePermission.newInstance(null, BackOfficePermission.ACTION_CREATE_WORKSPACE);
         if (!getUserStatus().hasPermission(workspacePerm)) return;
         WorkspaceImpl workspaceCopy = getCopyManager().copy(workspace);
-        Map name = workspace.getName();
-        for (Iterator it = name.keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String desc = (String) name.get(lang);
+        Map<String, String> name = workspace.getName();
+        for (String lang : name.keySet()) {
+            String desc = name.get(lang);
             String prefix = "Copia de ";
             prefix = lang.equals("en") ? "Copy of " : prefix;
             workspaceCopy.setName(prefix + desc, lang);

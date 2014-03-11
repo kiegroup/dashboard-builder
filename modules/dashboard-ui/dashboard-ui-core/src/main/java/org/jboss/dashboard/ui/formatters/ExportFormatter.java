@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.formatters;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.export.ExportHandler;
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Section;
@@ -31,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class ExportFormatter extends Formatter {
 
@@ -123,26 +121,18 @@ public class ExportFormatter extends Formatter {
         return closedIcon;
     }
 
-    protected String getLocalizedValue(Map m) {
-        return (String) LocaleManager.lookup().localize(m);
-    }
-
-    protected Comparator newWorkspaceComparatorByName() {
-        return new Comparator() {
-            public int compare(Object o1, Object o2) {
-                WorkspaceImpl s1 = (WorkspaceImpl) o1;
-                WorkspaceImpl s2 = (WorkspaceImpl) o2;
-                String s1_loc = getLocalizedValue(s1.getName());
-                return s1_loc != null ? s1_loc.compareTo(getLocalizedValue(s2.getName())) : -1;
+    protected Comparator<Workspace> newWorkspaceComparatorByName() {
+        return new Comparator<Workspace>() {
+            public int compare(Workspace w1, Workspace w2) {
+                String s1_loc = getLocalizedValue(w1.getName());
+                return s1_loc != null ? s1_loc.compareTo(getLocalizedValue(w2.getName())) : -1;
             }
         };
     }
 
-    protected Comparator newSectionComparatorByName() {
-        return new Comparator() {
-            public int compare(Object o1, Object o2) {
-                Section s1 = (Section) o1;
-                Section s2 = (Section) o2;
+    protected Comparator<Section> newSectionComparatorByName() {
+        return new Comparator<Section>() {
+            public int compare(Section s1, Section s2) {
                 String s1_loc = getLocalizedValue(s1.getTitle());
                 return s1_loc != null ? s1_loc.compareTo(getLocalizedValue(s2.getTitle())) : -1;
             }

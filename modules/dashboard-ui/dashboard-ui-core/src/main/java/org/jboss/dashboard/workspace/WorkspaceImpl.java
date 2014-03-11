@@ -125,22 +125,18 @@ public class WorkspaceImpl implements Workspace {
         return result;
     }
 
-    public void setWorkspaceParamValue(String name, Map value) {
-        Iterator langs = value.keySet().iterator();
-        while (langs.hasNext()) {
-            String lang = (String) langs.next();
-            setWorkspaceParamValue(name, lang, (String) value.get(lang));
+    public void setWorkspaceParamValue(String name, Map<String, String> value) {
+        for (String lang : value.keySet()) {
+            setWorkspaceParamValue(name, lang, value.get(lang));
         }
     }
 
     protected void setWorkspaceParamValue(String name, String lang, String value) {
         boolean found = false;
         for (WorkspaceParameter parameter : workspaceParams) {
-            if (parameter.getParameterId().equals(name)) {
-                if (parameter.getLanguage().equals(lang)) {
-                    parameter.setValue(value);
-                    found = true;
-                }
+            if (parameter.getParameterId().equals(name) && parameter.getLanguage().equals(lang)) {
+                parameter.setValue(value);
+                found = true;
             }
         }
 
@@ -484,11 +480,11 @@ public class WorkspaceImpl implements Workspace {
         sections.add(section);
     }
 
-    public Map getName() {
+    public Map<String, String> getName() {
         return getWorkspaceParamValue("name");
     }
 
-    public void setName(Map name) {
+    public void setName(Map<String, String> name) {
         setWorkspaceParamValue("name", name);
     }
 
@@ -505,11 +501,11 @@ public class WorkspaceImpl implements Workspace {
         workspaceParams.add(new WorkspaceParameter("name", this, lang, name));
     }
 
-    public Map getTitle() {
+    public Map<String, String> getTitle() {
         return getWorkspaceParamValue("title");
     }
 
-    public void setTitle(Map title) {
+    public void setTitle(Map<String, String> title) {
         setWorkspaceParamValue("title", title);
     }
 
@@ -757,7 +753,7 @@ public class WorkspaceImpl implements Workspace {
         String result = "";
         Map sections = getSectionArray(workspace, parent);
         if (sections != null && !sections.isEmpty()) {
-            List<Section> sectionList = new ArrayList(sections.keySet());
+            List<Section> sectionList = new ArrayList<Section>(sections.keySet());
             Collections.sort(sectionList);
             int sectionCount = sectionList.size();
             for (Section section : sectionList) {

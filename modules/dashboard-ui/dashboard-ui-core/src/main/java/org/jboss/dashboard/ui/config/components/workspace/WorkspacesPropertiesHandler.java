@@ -57,8 +57,8 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
     private String workspaceId;
     private String skinId;
     private String envelopeId;
-    private Map name;
-    private Map title;
+    private Map<String, String> name;
+    private Map<String, String> title;
 
     public MessagesComponentHandler getMessagesComponentHandler() {
         return messagesComponentHandler;
@@ -100,19 +100,19 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
         this.envelopeId = envelopeId;
     }
 
-    public Map getName() {
+    public Map<String, String> getName() {
         return name;
     }
 
-    public void setName(Map name) {
+    public void setName(Map<String, String> name) {
         this.name = name;
     }
 
-    public Map getTitle() {
+    public Map<String, String> getTitle() {
         return title;
     }
 
-    public void setTitle(Map title) {
+    public void setTitle(Map<String, String> title) {
         this.title = title;
     }
 
@@ -200,20 +200,18 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
 
 
     public void actionDiagnoseWorkspaces(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        Set<String> workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(wsId);
             int numErrors = workspace.sectionsDiagnose();
             log.error("Found " + numErrors + " page Errors.");
         }
     }
 
     public void actionDiagnoseWorkspacesAndFix(CommandRequest request) throws Exception {
-        Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-        for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-            String s = (String) iterator.next();
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(s);
+        Set<String> workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+        for (String wsId : workspaceIds) {
+            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(wsId);
             workspace.sectionsDiagnoseFix();
         }
     }
@@ -223,15 +221,15 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
         title = buildI18n(request, "title");
     }
 
-    protected Map buildI18n(CommandRequest request, String fieldName) {
-        Map result = new HashMap();
+    protected Map<String, String> buildI18n(CommandRequest request, String fieldName) {
+        Map<String, String> result = new HashMap<String, String>();
         String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
         if (langs != null) {
-            for (int i = 0; i < langs.length; i++) {
-                String name = fieldName + "_" + langs[i];
+            for (String lang : langs) {
+                String name = fieldName + "_" + lang;
                 String value = request.getParameter(name);
                 if (value != null && !"".equals(value)) {
-                    result.put(langs[i], value);
+                    result.put(lang, value);
                 }
             }
         }

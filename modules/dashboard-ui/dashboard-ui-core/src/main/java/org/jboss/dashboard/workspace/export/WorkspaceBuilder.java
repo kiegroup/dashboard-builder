@@ -22,7 +22,6 @@ import org.jboss.dashboard.commons.xml.XMLNode;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.security.Policy;
 import org.jboss.dashboard.security.principals.DefaultPrincipal;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.workspace.export.structure.CreateResult;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.*;
@@ -109,10 +108,10 @@ public class WorkspaceBuilder {
         workspace.setFriendlyUrl(friendlyUrl);
         workspace.setHomeSearchMode(Integer.parseInt(homeMode));
         // TODO. Modify export format so it can be read from them
-        Set allowedPanels = new HashSet();
+        Set<String> allowedPanelIds = new HashSet<String>();
         if (onStartup)
-            allowedPanels.add("*");
-        workspace.setPanelProvidersAllowed(allowedPanels);
+            allowedPanelIds.add("*");
+        workspace.setPanelProvidersAllowed(allowedPanelIds);
 
         synchronized (workspacesManager) {
             if (onStartup) workspacesManager.addNewWorkspace(workspace);
@@ -137,7 +136,7 @@ public class WorkspaceBuilder {
 
         if (!onStartup) {
             synchronized (workspacesManager) {
-                Map names = workspacesManager.generateUniqueWorkspaceName(workspace);
+                Map<String, String> names = workspacesManager.generateUniqueWorkspaceName(workspace);
                 workspace.setName(names);
             }
         }

@@ -29,7 +29,8 @@ import org.jboss.dashboard.ui.config.Tree;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
 import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.*;
+import org.jboss.dashboard.workspace.Workspace;
+import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.PanelPermission;
@@ -38,7 +39,6 @@ import org.jboss.dashboard.users.LogoutSurvivor;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -332,15 +332,15 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
      */
     protected void reposition() {
         try {
-            List workspaceIds = getSortedWorkspacesList();
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                currentWorkspaceId = (String) iterator.next();
+            List<String> workspaceIds = getSortedWorkspaceIds();
+            for (String wsId : workspaceIds) {
+                currentWorkspaceId = wsId;
                 repositionSection();
                 if (isValidUbication()) return;
             }
             // We've tried all workspaces and sections without success. Try all workspaces without sections, in case admin is logging in.
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                currentWorkspaceId = (String) iterator.next();
+            for (String wsId : workspaceIds) {
+                currentWorkspaceId = wsId;
                 clearRequestCache();
                 if (isValidUbication()) return;
             }
@@ -377,10 +377,10 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
         }
     }
 
-    protected List getSortedWorkspacesList() throws Exception {
+    protected List<String> getSortedWorkspaceIds() throws Exception {
         // Order workspaces as follows: current workspace, default workspace, other sorted by id on order to make home search algorithm determinist.
-        Set availableWorkspaces = new TreeSet(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
-        List workspaceIds = new ArrayList(availableWorkspaces.size());
+        Set<String> availableWorkspaces = new TreeSet<String>(UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers());
+        List<String> workspaceIds = new ArrayList<String>(availableWorkspaces.size());
         if (currentWorkspaceId != null) {
             availableWorkspaces.remove(currentWorkspaceId);
             workspaceIds.add(currentWorkspaceId);

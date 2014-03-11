@@ -46,12 +46,11 @@ public class WorkspacesNode extends AbstractNode {
 
     protected List listChildren() {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            TreeSet sortedWorkspaceIds = new TreeSet(workspaceIds);
+            Set<String> workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+            TreeSet<String> sortedWorkspaceIds = new TreeSet<String>(workspaceIds);
             ArrayList list = new ArrayList();
-            for (Iterator iterator = sortedWorkspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
+            for (String wsId : sortedWorkspaceIds) {
+                Workspace workspace = UIServices.lookup().getWorkspacesManager().getWorkspace(wsId);
                 WorkspacePermission viewPerm = WorkspacePermission.newInstance(workspace, WorkspacePermission.ACTION_LOGIN);
                 boolean canLogin = UserStatus.lookup().hasPermission(viewPerm);
                 if (canLogin)
@@ -66,10 +65,9 @@ public class WorkspacesNode extends AbstractNode {
 
     protected TreeNode listChildrenById(String id) {
         try {
-            Set workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
-            for (Iterator iterator = workspaceIds.iterator(); iterator.hasNext();) {
-                String workspaceId = (String) iterator.next();
-                if (workspaceId.equals(id))
+            Set<String> workspaceIds = UIServices.lookup().getWorkspacesManager().getAllWorkspacesIdentifiers();
+            for (String wsId : workspaceIds) {
+                if (wsId.equals(id))
                     return getNewWorkspaceNode(UIServices.lookup().getWorkspacesManager().getWorkspace(id));
             }
         } catch (Exception e) {
