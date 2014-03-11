@@ -40,14 +40,13 @@ public class DataDisplayerManagerImpl implements DataDisplayerManager {
 
     @PostConstruct
     protected void init() {
-        List<DataDisplayerType> _types = new ArrayList<DataDisplayerType>();
+        List<DataDisplayerType> typesList = new ArrayList<DataDisplayerType>();
         for (DataDisplayerType type: dataDisplayerTypes) {
             if (!type.getSupportedRenderers().isEmpty()) {
-                _types.add(type);
+                typesList.add(type);
             }
         }
-        displayerTypeArray = new DataDisplayerType[_types.size()];
-        for (int i=0;i<_types.size();i++) displayerTypeArray[i] = _types.get(i);
+        displayerTypeArray = typesList.toArray(new DataDisplayerType[0]);
 
         List<DataDisplayerRenderer> rendList = new ArrayList<DataDisplayerRenderer>();
         for (DataDisplayerRenderer rend : dataDisplayerRenderers) rendList.add(rend);
