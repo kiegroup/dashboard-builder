@@ -477,13 +477,12 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
 
     }
 
-    public class PanelProviderComparator implements Comparator {
+    public class PanelProviderComparator implements Comparator<PanelProvider> {
         final Locale locale = LocaleManager.currentLocale();
 
-        public int compare(Object o1, Object o2) {
-            PanelProvider p1 = (PanelProvider) o1;
-            PanelProvider p2 = (PanelProvider) o2;
-            return p1.getResource(p1.getDescription(), locale).compareTo(p2.getResource(p2.getDescription(), locale));
+        public int compare(PanelProvider p1, PanelProvider p2) {
+            return p1.getResource(p1.getDescription(), locale).compareTo(
+                   p2.getResource(p2.getDescription(), locale));
         }
     }
 

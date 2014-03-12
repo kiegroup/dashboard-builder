@@ -193,11 +193,9 @@ public class ExportHandler extends UIBeanHandler {
             }
         }
         final Locale l = LocaleManager.currentLocale();
-        Collections.sort(results, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                KPI s1 = (KPI) o1;
-                KPI s2 = (KPI) o2;
-                return s1.getDescription(l).compareTo(s2.getDescription(l));
+        Collections.sort(results, new Comparator<KPI>() {
+            public int compare(KPI k1, KPI k2) {
+                return k1.getDescription(l).compareTo(k2.getDescription(l));
             }
         });
         return results;
@@ -222,11 +220,9 @@ public class ExportHandler extends UIBeanHandler {
             if (!results.contains(dp)) results.add(dp);
         }
         final Locale l = LocaleManager.currentLocale();
-        Collections.sort(results, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                DataProvider s1 = (DataProvider) o1;
-                DataProvider s2 = (DataProvider) o2;
-                return s1.getDescription(l).compareTo(s2.getDescription(l));
+        Collections.sort(results, new Comparator<DataProvider>() {
+            public int compare(DataProvider d1, DataProvider d2) {
+                return d1.getDescription(l).compareTo(d2.getDescription(l));
             }
         });
         return results;

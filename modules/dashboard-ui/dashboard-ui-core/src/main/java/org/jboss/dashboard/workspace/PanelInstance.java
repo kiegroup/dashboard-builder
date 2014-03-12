@@ -821,10 +821,8 @@ public class PanelInstance implements Cloneable, Visitable {
 
         // Panel parameters
         PanelParameter[] parameters = getPanelParameters();
-        Arrays.sort(parameters, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                PanelParameter param1 = ((PanelParameter) o1);
-                PanelParameter param2 = ((PanelParameter) o2);
+        Arrays.sort(parameters, new Comparator<PanelParameter>() {
+            public int compare(PanelParameter param1, PanelParameter param2) {
                 if (!param1.getIdParameter().equals(param2.getIdParameter())) {
                     return param1.getIdParameter().compareTo(param2.getIdParameter());
                 } else {
@@ -832,8 +830,7 @@ public class PanelInstance implements Cloneable, Visitable {
                 }
             }
         });
-        for (int i = 0; i < parameters.length; i++) {
-            PanelParameter parameter = parameters[i];
+        for (PanelParameter parameter : parameters) {
             parameter.acceptVisit(visitor);
         }
 
@@ -842,10 +839,8 @@ public class PanelInstance implements Cloneable, Visitable {
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getWorkspace().getId(), null, getInstanceId());
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getWorkspace().getId(), null, getInstanceId());
         GraphicElement[][] elements = {skins, envelopes, layouts};
-        for (int i = 0; i < elements.length; i++) {
-            GraphicElement[] elementsArray = elements[i];
-            for (int j = 0; j < elementsArray.length; j++) {
-                GraphicElement element = elementsArray[j];
+        for (GraphicElement[] elementsArray : elements) {
+            for (GraphicElement element : elementsArray) {
                 element.acceptVisit(visitor);
             }
         }

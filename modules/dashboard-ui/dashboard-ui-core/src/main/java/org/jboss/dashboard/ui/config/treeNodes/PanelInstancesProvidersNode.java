@@ -70,37 +70,31 @@ public class PanelInstancesProvidersNode extends AbstractNode {
     protected List listChildren() {
         List children = new ArrayList();
         PanelInstancesNode parent = (PanelInstancesNode) getParent();
-        String language = SessionManager.getLang();
+        final String language = SessionManager.getLang();
         try {
             String workspaceId = parent.getHandler().getWorkspaceId();
             WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);
             PanelInstance[] instances = workspace.getPanelInstancesInGroup(providerId);
             if (instances != null) {
-                TreeSet instancias = new TreeSet(new Comparator() {
-                    public int compare(Object o1, Object o2) {
-                        PanelInstance p1 = (PanelInstance) o1;
-                        PanelInstance p2 = (PanelInstance) o2;
-                        return p1.getTitle(SessionManager.getLang()).compareToIgnoreCase(p2.getTitle(SessionManager.getLang()));
+                TreeSet<PanelInstance> panelInstances = new TreeSet<PanelInstance>(new Comparator<PanelInstance>() {
+                    public int compare(PanelInstance p1, PanelInstance p2) {
+                        return p1.getTitle(language).compareToIgnoreCase(p2.getTitle(language));
                     }
                 });
-                TreeSet grupos = new TreeSet();
-
-                for (int i = 0; i < instances.length; i++) {
-                    PanelInstance instance = instances[i];
-                    String grupo = instance.getParameterValue(PanelInstance.PARAMETER_GROUP, language);
-                    if (grupo != null && !"".equals(grupo.trim())) {
-                        grupos.add(grupo);
+                TreeSet<String> groups = new TreeSet<String>();
+                for (PanelInstance pi : instances) {
+                    String group = pi.getParameterValue(PanelInstance.PARAMETER_GROUP, language);
+                    if (group != null && !"".equals(group.trim())) {
+                        groups.add(group);
                     } else {
-                        instancias.add(instance);
+                        panelInstances.add(pi);
                     }
                 }
-                for (Iterator iterator = grupos.iterator(); iterator.hasNext();) {
-                    String grupo = (String) iterator.next();
-                    children.add(getNewGroupNode(workspaceId, grupo));
+                for (String gr : groups) {
+                    children.add(getNewGroupNode(workspaceId, gr));
                 }
-                for (Iterator iterator = instancias.iterator(); iterator.hasNext();) {
-                    PanelInstance panelInstance = (PanelInstance) iterator.next();
-                    children.add(getNewInstanceNode(panelInstance));
+                for (PanelInstance pi : panelInstances) {
+                    children.add(getNewInstanceNode(pi));
                 }
             }
         } catch (Exception e) {
