@@ -83,31 +83,26 @@ public class PanelInstancesGroupNode extends AbstractNode {
     }
 
     protected List listChildren() {
-        List children = new ArrayList();
-        String language = SessionManager.getLang();
+        List<PanelInstanceNode> children = new ArrayList<PanelInstanceNode>();
+        final String language = SessionManager.getLang();
         try {
-            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(getWorkspaceId());
-            PanelInstance[] instances = workspace.getPanelInstances();
-            TreeSet instancias = new TreeSet(new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    PanelInstance p1 = (PanelInstance) o1;
-                    PanelInstance p2 = (PanelInstance) o2;
-                    return p1.getTitle(SessionManager.getLang()).compareToIgnoreCase(p2.getTitle(SessionManager.getLang()));
+            Set<PanelInstance> panelInstances = new TreeSet<PanelInstance>(new Comparator<PanelInstance>() {
+                public int compare(PanelInstance p1, PanelInstance p2) {
+                    return p1.getTitle(language).compareToIgnoreCase(p2.getTitle(language));
                 }
             });
-            for (int i = 0; i < instances.length; i++) {
-                PanelInstance instance = instances[i];
+
+            WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(getWorkspaceId());
+            for (PanelInstance instance : workspace.getPanelInstances()) {
                 String groupName = instance.getParameterValue(PanelInstance.PARAMETER_GROUP, language);
                 String provider = instance.getProvider().getGroup();
                 if (getGroupName().equals(groupName) && getProviderId().equals(provider)) {
-                    instancias.add(instance);
+                    panelInstances.add(instance);
                 }
             }
-            for (Iterator iterator = instancias.iterator(); iterator.hasNext();) {
-                PanelInstance panelInstance = (PanelInstance) iterator.next();
-                children.add(getNewInstanceNode(panelInstance));
+            for (PanelInstance pi : panelInstances) {
+                children.add(getNewInstanceNode(pi));
             }
-
         } catch (Exception e) {
             log.error("Error: ", e);
         }

@@ -31,16 +31,14 @@ public class PanelAboutImpl implements PanelAbout {
      * @return A list of supported property keys
      */
     public String[] getProperties() {
-        String[] idsToReturn = (String[]) properties.keySet().toArray(new String[properties.size()]);
-        final List order = new ArrayList();
+        String[] idsToReturn = properties.keySet().toArray(new String[properties.size()]);
+        final List<String> order = new ArrayList<String>();
         order.add(PROP_AUTHOR);
         order.add(PROP_COMPANY);
         order.add(PROP_URL);
         order.add(PROP_LICENSE);
-        Arrays.sort(idsToReturn, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String s1 = (String) o1;
-                String s2 = (String) o2;
+        Arrays.sort(idsToReturn, new Comparator<String>() {
+            public int compare(String s1, String s2) {
                 int i1 = order.indexOf(s1);
                 int i2 = order.indexOf(s2);
                 if (i1 != i2)

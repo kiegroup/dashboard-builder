@@ -68,20 +68,17 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
                 return;
             }
 
-            final Map instancesTitles = calculateInstancesTitles(workspace, getLang());
+            final Map<Long, String> instancesTitles = calculateInstancesTitles(workspace, getLang());
 
-            Arrays.sort(instances, new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    PanelInstance p1 = (PanelInstance) o1;
-                    PanelInstance p2 = (PanelInstance) o2;
-                    return ((String) instancesTitles.get(p1.getInstanceId())).compareToIgnoreCase(
-                            (String) instancesTitles.get(p2.getInstanceId())
+            Arrays.sort(instances, new Comparator<PanelInstance>() {
+                public int compare(PanelInstance p1, PanelInstance p2) {
+                    return (instancesTitles.get(p1.getInstanceId())).compareToIgnoreCase(
+                            instancesTitles.get(p2.getInstanceId())
                     );
-                    //return p1.getTitle(SessionManager.getLang()).compareToIgnoreCase(p2.getTitle(SessionManager.getLang()));
                 }
             });
 
-            Map panelStatistics = calculatePanelsStatistics(workspace);
+            Map<Long, Integer> panelStatistics = calculatePanelsStatistics(workspace);
 
             for (int i = 0; i < instances.length; i++) {
                 renderFragment("outputStartRow");
@@ -91,11 +88,11 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
                 setAttribute("value", instance.getId());
                 renderFragment("outputDelete");
                 setAttribute("estilo", estilo);
-                String title = (String) instancesTitles.get(instance.getInstanceId());
+                String title = instancesTitles.get(instance.getInstanceId());
                 setAttribute("value", StringEscapeUtils.escapeHtml(title));
                 renderFragment("outputTitle");
                 setAttribute("estilo", estilo);
-                Integer panelCount = (Integer) panelStatistics.get(instance.getInstanceId());
+                Integer panelCount = panelStatistics.get(instance.getInstanceId());
                 setAttribute("value", panelCount != null ? panelCount : new Integer(0));
                 renderFragment("outputPanelsNumber");
                 renderFragment("outputEndRow");
@@ -108,8 +105,8 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
 
     }
 
-    protected Map calculateInstancesTitles(WorkspaceImpl workspace, String lang) {
-        HashMap result = new HashMap();
+    protected Map<Long, String> calculateInstancesTitles(WorkspaceImpl workspace, String lang) {
+        HashMap<Long, String> result = new HashMap<Long, String>();
         for (PanelInstance pi : workspace.getPanelInstancesSet()) {
             String title = pi.getTitle(lang);
             title = (title == null || "".equals(title.trim())) ? pi.getTitle(getDefaultLang()) : title;
@@ -118,12 +115,12 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
         return result;
     }
 
-    protected Map calculatePanelsStatistics(WorkspaceImpl workspace) {
-        HashMap result = new HashMap();
+    protected Map<Long, Integer> calculatePanelsStatistics(WorkspaceImpl workspace) {
+        HashMap<Long, Integer> result = new HashMap<Long, Integer>();
         for (Section section : workspace.getSections()) {
             for (Panel panel : section.getPanels()) {
                 Long instanceId = panel.getInstanceId();
-                Integer instanceCount = (Integer) result.get(instanceId);
+                Integer instanceCount = result.get(instanceId);
                 if (instanceCount == null) {
                     result.put(instanceId, new Integer(1));
                 } else {

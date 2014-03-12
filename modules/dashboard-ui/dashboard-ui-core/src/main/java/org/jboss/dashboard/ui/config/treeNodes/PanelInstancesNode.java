@@ -56,15 +56,15 @@ public class PanelInstancesNode extends AbstractNode {
     }
 
     protected List listChildren() {
-        List children = new ArrayList();
+        List<PanelInstancesProvidersNode> children = new ArrayList<PanelInstancesProvidersNode>();
         try {
             String[] groups = getPanelsProvidersManager().enumerateProvidersGroups();
-            for (int i = 0; i < groups.length; i++) {
-                children.add(getNewPanelInstanceProvidersNode(groups[i]));
+            for (String gr : groups) {
+                children.add(getNewPanelInstanceProvidersNode(gr));
             }
-            Collections.sort(children, new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    return ((PanelInstancesProvidersNode) o1).getProviderName().compareTo(((PanelInstancesProvidersNode) o2).getProviderName());
+            Collections.sort(children, new Comparator<PanelInstancesProvidersNode>() {
+                public int compare(PanelInstancesProvidersNode o1, PanelInstancesProvidersNode o2) {
+                    return o1.getProviderName().compareTo(o2.getProviderName());
                 }
             });
         } catch (Exception e) {
