@@ -18,6 +18,7 @@ package org.jboss.dashboard.ui.components;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenGenerator;
+import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenProcessor;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
@@ -323,8 +324,9 @@ public class URLMarkupGenerator {
      */
     protected StringBuffer postProcessURL(StringBuffer url) {
         // Keep the embedded mode using URL rewriting.
-        HttpServletRequest request = RequestContext.lookup().getRequest().getRequestObject();
-        if( request != null ) {
+        RequestContext reqCtx = RequestContext.lookup();
+        if (reqCtx != null) {
+            HttpServletRequest request = reqCtx.getRequest().getRequestObject();
             boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
             String embeddedParam = Parameters.PARAM_EMBEDDED + "=true";
             if (embeddedMode && url.indexOf(embeddedParam) == -1) {
@@ -333,10 +335,12 @@ public class URLMarkupGenerator {
             }
         }
         // Add the CSRF protection token
-        CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
-        String token = csrfTokenGenerator.getLastToken();
-        url.append(url.indexOf("?") != -1 ? PARAM_SEPARATOR : "?");
-        url.append(csrfTokenGenerator.getTokenName()).append("=").append(token);
+        if (CSRFTokenProcessor.lookup().isEnabled()) {
+            CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
+            String token = csrfTokenGenerator.getLastToken();
+            url.append(url.indexOf("?") != -1 ? PARAM_SEPARATOR : "?");
+            url.append(csrfTokenGenerator.getTokenName()).append("=").append(token);
+        }
         return url;
     }
 }

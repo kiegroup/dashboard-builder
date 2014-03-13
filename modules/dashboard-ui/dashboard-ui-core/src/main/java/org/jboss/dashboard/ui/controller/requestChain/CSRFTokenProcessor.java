@@ -16,6 +16,7 @@
 package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.workspace.Parameters;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -31,8 +32,16 @@ import javax.servlet.http.HttpServletRequest;
 @ApplicationScoped
 public class CSRFTokenProcessor extends AbstractChainProcessor {
 
+    public static CSRFTokenProcessor lookup() {
+        return CDIBeanLocator.getBeanByType(CSRFTokenProcessor.class);
+    }
+
     @Inject @Config("true")
     protected boolean enabled;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     public boolean processRequest() throws Exception {
         // Check if the CSRF control is enabled.

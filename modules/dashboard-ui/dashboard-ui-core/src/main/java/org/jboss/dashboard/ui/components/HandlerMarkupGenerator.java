@@ -17,6 +17,8 @@ package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.controller.RequestContext;
+import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenGenerator;
+import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenProcessor;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
@@ -56,6 +58,13 @@ public class HandlerMarkupGenerator {
         StringBuffer sb = new StringBuffer();
         sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, bean));
         sb.append(getHiddenMarkup(FactoryURL.PARAMETER_ACTION, action));
+
+        // Add the CSRF protection token
+        if (CSRFTokenProcessor.lookup().isEnabled()) {
+            CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
+            sb.append(getHiddenMarkup(csrfTokenGenerator.getTokenName(), csrfTokenGenerator.getLastToken()));
+        }
+
         try {
             BeanHandler element = (BeanHandler) CDIBeanLocator.getBeanByNameOrType(bean);
             element.setEnabledForActionHandling(true);
