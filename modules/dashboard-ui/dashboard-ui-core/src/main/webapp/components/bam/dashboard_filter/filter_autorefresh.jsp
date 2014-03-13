@@ -17,6 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DashboardFilterHandler" %>
+<%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -25,9 +26,8 @@
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.filter.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
-    String componentCode = (String) request.getAttribute("componentCode");
-    DashboardFilterHandler handler = DashboardFilterHandler.lookup(componentCode);
-    boolean  refreshEnabled = handler.isRefreshEnabled();
+    DashboardFilterHandler handler = (DashboardFilterHandler) UIBeanLocator.lookup().getCurrentBean(request);
+    boolean refreshEnabled = handler.isRefreshEnabled();
 %>
 <table cellpadding="4" cellspacing="0" border="0" class="skn-table_border" width="">
     <tr class="skn-table_header">

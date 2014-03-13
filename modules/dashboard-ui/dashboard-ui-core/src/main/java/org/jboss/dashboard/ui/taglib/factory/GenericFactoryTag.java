@@ -15,12 +15,12 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.components.BeanHandler;
-import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 
 public class GenericFactoryTag extends BaseTag {
+
+    public static final String CURRENT_BEAN = "currentBean";
 
     protected Object bean;
     protected String action;
@@ -28,7 +28,7 @@ public class GenericFactoryTag extends BaseTag {
 
     public Object getBean() {
         if (bean != null) return bean;
-        return pageContext.getRequest().getAttribute(UseComponentTag.CURRENT_BEAN);
+        return pageContext.getRequest().getAttribute(CURRENT_BEAN);
     }
 
     public void setBean(Object bean) {

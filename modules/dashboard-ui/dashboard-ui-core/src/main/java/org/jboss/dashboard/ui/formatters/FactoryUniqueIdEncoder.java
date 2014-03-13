@@ -17,8 +17,10 @@ package org.jboss.dashboard.ui.formatters;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.RequestContext;
+import org.jboss.dashboard.ui.taglib.factory.GenericFactoryTag;
 import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
 import org.jboss.dashboard.workspace.Panel;
 
@@ -46,7 +48,7 @@ public class FactoryUniqueIdEncoder {
 
     public String encodeFromContext(PageContext pageContext, String name) {
         Panel panel = RequestContext.lookup().getActivePanel();
-        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.CURRENT_BEAN);
-        return encode(panel, factoryComponent, name);
+        UIBeanHandler uiBean = UIBeanLocator.lookup().getCurrentBean(pageContext.getRequest());
+        return encode(panel, uiBean, name);
     }
 }

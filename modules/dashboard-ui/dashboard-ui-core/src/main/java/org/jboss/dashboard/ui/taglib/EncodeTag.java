@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
+import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
@@ -68,8 +69,8 @@ public class EncodeTag extends BaseTag {
      */
     public int doEndTag() throws JspTagException {
         Panel panel = RequestContext.lookup().getActivePanel();
-        UIBeanHandler factoryComponent = (UIBeanHandler) pageContext.getRequest().getAttribute(UseComponentTag.CURRENT_BEAN);
-        String encodedName = encode(panel, factoryComponent, name);
+        UIBeanHandler uiBean = UIBeanLocator.lookup().getCurrentBean(pageContext.getRequest());
+        String encodedName = encode(panel, uiBean, name);
         try {
             pageContext.getOut().print(encodedName);
         } catch (Exception e) {

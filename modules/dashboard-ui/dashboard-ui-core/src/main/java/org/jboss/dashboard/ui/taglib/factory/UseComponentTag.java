@@ -27,8 +27,6 @@ import javax.servlet.jsp.JspTagException;
 
 public class UseComponentTag extends GenericFactoryTag {
 
-    public static final String CURRENT_BEAN = "currentBean";
-
     public UIBeanHandler getBeanInstance() {
         Object currentBean = getBean();
         if (currentBean == null) {

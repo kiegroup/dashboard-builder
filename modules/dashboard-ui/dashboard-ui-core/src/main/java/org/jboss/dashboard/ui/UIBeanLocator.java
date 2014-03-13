@@ -21,11 +21,11 @@ import org.jboss.dashboard.ui.components.*;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.provider.DataProviderType;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
+import org.jboss.dashboard.ui.taglib.factory.GenericFactoryTag;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 
 /**
  * The locator service for several UI beans.
@@ -42,8 +42,8 @@ public class UIBeanLocator {
      * Get the bean instance being rendered.
      * <p>When invoked from a JSP it returns the bean instance owner of that JSP.</p>
      */
-    public UIBeanHandler getCurrentBean(HttpServletRequest request) {
-        return (UIBeanHandler) request.getAttribute(UseComponentTag.CURRENT_BEAN);
+    public UIBeanHandler getCurrentBean(ServletRequest request) {
+        return (UIBeanHandler) request.getAttribute(GenericFactoryTag.CURRENT_BEAN);
     }
 
     /**

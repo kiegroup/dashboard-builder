@@ -25,23 +25,16 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 <i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.components.filter.messages" locale="<%=LocaleManager.currentLocale()%>"/>
-<%
-    String componentCode = (String) request.getAttribute("componentCode");
-    DashboardFilterHandler handler = DashboardFilterHandler.lookup(componentCode);
-%>
 <mvc:formatter name="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter">
-<mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_RENDER_TYPE%>"
-                    value="<%=DashboardFilterFormatter.RENDER_TYPE_SHOW%>"/>
-<mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>"
-                    value='<%=request.getAttribute("componentCode")%>'/>
-
+<mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_RENDER_TYPE%>" value="<%=DashboardFilterFormatter.RENDER_TYPE_SHOW%>"/>
+<mvc:formatterParam name="<%=DashboardFilterFormatter.PARAM_COMPONENT_CODE%>" value='<%=request.getAttribute("componentCode")%>'/>
 <mvc:fragment name="outputStart">
     <table border="0" style="margin:0px;" cellspacing="0" width="100%">
     <tr>
     <td>
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="filterForm"/>"
     onkeyup="/* If Enter pressed submit form*/ if(event.keyCode == 13) {submitAjaxForm(this);}">
-    <factory:handler bean="<%=handler.getBeanName()%>" action="filter"/>
+    <factory:handler action="filter"/>
     <table border="0" cellspacing="5" cellpadding="0" width="100%">
 
 </mvc:fragment>
@@ -201,7 +194,7 @@
             </td>
         </tr>
         <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="refreshForm"/>">
-            <factory:handler bean="<%=handler.getBeanName()%>" action="refresh"/>
+            <factory:handler action="refresh"/>
             <input type="hidden" id="<panel:encode name="refreshTimeOut"/>" name="refreshTimeOut" value="">
         </form>
     </table>
@@ -256,17 +249,15 @@
     </form>
 
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="refreshForm"/>">
-        <factory:handler bean="<%=handler.getBeanName()%>" action="refresh"/>
+        <factory:handler action="refresh"/>
         <input type="hidden" id="<panel:encode name="refreshTimeOut"/>" name="refreshTimeOut" value="">
     </form>
     <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="clearForm"/>">
-        <factory:handler bean="<%=handler.getBeanName()%>" action="clear"/>
+        <factory:handler action="clear"/>
     </form>
-    <form method="post" action="<factory:formUrl friendly="false"/>"
-          id="<panel:encode name="deleteFilteredPropertyForm"/>">
-        <factory:handler bean="<%=handler.getBeanName()%>" action="deleteFilteredProperty"/>
-        <input type="hidden" id="<panel:encode name="filteredPropertyToDelete"/>" name="filteredPropertyToDelete"
-               value="">
+    <form method="post" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="deleteFilteredPropertyForm"/>">
+        <factory:handler action="deleteFilteredProperty"/>
+        <input type="hidden" id="<panel:encode name="filteredPropertyToDelete"/>" name="filteredPropertyToDelete" value="">
     </form>
     </td>
     </tr>
