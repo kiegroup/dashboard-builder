@@ -68,11 +68,11 @@ The project must be compiled executing the following Maven command in the root d
 
 * To generate a development distribution for postgresql:
 
-    <pre>$ mvn clean install -P postgres,jetty -Dmaven.test.skip=true</pre>
+    <pre>$ mvn clean install -P postgres,jetty -DskipTests</pre>
 
 * To generate a development distribution for H2:
 
-    <pre>$ mvn clean install -P h2,jetty -Dmaven.test.skip=true</pre>
+    <pre>$ mvn clean install -P h2,jetty -DskipTests</pre>
 
 * Finally, if you want to do a complete build (including the distribution files) execute the following command:
 

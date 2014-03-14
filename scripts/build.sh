@@ -8,5 +8,5 @@ else
   echo "Building the application for the '$1' database..."
   echo "------------------------------------------------------------------"
   cd ..
-  mvn clean install -P $1,jetty -Dmaven.test.skip=true
+  mvn clean install -P $1,jetty -DskipTests
 fi
