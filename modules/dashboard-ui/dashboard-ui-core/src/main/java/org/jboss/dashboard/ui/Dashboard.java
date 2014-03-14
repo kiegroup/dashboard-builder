@@ -16,6 +16,8 @@
 package org.jboss.dashboard.ui;
 
 import org.jboss.dashboard.DataDisplayerServices;
+import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.DataProvider;
@@ -34,8 +36,10 @@ import org.jboss.dashboard.ui.panel.AjaxRefreshManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
+import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Section;
 
 /**
@@ -449,27 +453,41 @@ public class Dashboard {
         panelIdsToRefresh.clear();
 
         // Inspect all the dashboard's panels.
+        Panel currentPanel = getActivePanel();
         Iterator it = getSection().getPanels().iterator();
         while (it.hasNext()) {
             Panel panel = (Panel) it.next();
-            if (panel.getProvider().getDriver() instanceof DashboardDriver) {
-                Long panelId = panel.getPanelId();                
 
-                if (propertySet == null) {
-                    panelIdsToRefresh.add(panelId);
-                } else {
-                    DashboardDriver driver = (DashboardDriver) panel.getProvider().getDriver();
-                    Set<DataProvider> providersUsed = driver.getDataProvidersUsed(panel);
-                    for (int i = 0; i < propertySet.length; i++) {
-                        String propertyId = propertySet[i];
-                        for (DataProvider dataProvider : providersUsed) {
-                            if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
-                                panelIdsToRefresh.add(panelId);
-                            }
+            // Leave out non dashboard related panels.
+            PanelDriver driver = panel.getProvider().getDriver();
+            if (!(driver instanceof DashboardDriver)) {
+                continue;
+            }
+            // Don't refresh the active panel as it's being updated already along the execution of this request.
+            Long panelId = panel.getPanelId();
+            if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
+                continue;
+            }
+            // Mark panel as refreshable.
+            if (propertySet == null) {
+                panelIdsToRefresh.add(panelId);
+            } else {
+                Set<DataProvider> providersUsed = ((DashboardDriver) driver).getDataProvidersUsed(panel);
+                for (int i = 0; i < propertySet.length; i++) {
+                    String propertyId = propertySet[i];
+                    for (DataProvider dataProvider : providersUsed) {
+                        if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
+                            panelIdsToRefresh.add(panelId);
                         }
                     }
                 }
             }
         }
+    }
+
+    protected Panel getActivePanel() {
+        RequestContext reqCtx = RequestContext.getCurrentContext();
+        CommandRequest request = reqCtx.getRequest();
+        return (Panel) request.getRequestObject().getAttribute(Parameters.RENDER_PANEL);
     }
 }

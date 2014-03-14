@@ -332,8 +332,9 @@ public class URLMarkupGenerator {
      */
     protected StringBuffer postProcessURL(StringBuffer url) {
         // Keep the embedded mode using URL rewriting.
-        HttpServletRequest request = RequestContext.getCurrentContext().getRequest().getRequestObject();
-        if( request != null ) {
+        RequestContext reqCtx = RequestContext.getCurrentContext();
+        if (reqCtx != null) {
+            HttpServletRequest request = reqCtx.getRequest().getRequestObject();
             boolean embeddedMode = Boolean.parseBoolean(request.getParameter(Parameters.PARAM_EMBEDDED));
             String embeddedParam = Parameters.PARAM_EMBEDDED + "=true";
             if (embeddedMode && url.indexOf(embeddedParam) == -1) {

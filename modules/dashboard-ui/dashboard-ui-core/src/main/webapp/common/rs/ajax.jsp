@@ -371,6 +371,7 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
         }
         //alert("Putting new onsubmit for "+element.id);
         element.onsubmit = function() {
+            var formAction = element.action;
 
             // Double click control.
             if (element) {
@@ -390,7 +391,7 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
                 var ret = false;
                 // Check max consecutive ajax request.
                 if (ajaxRequestNumber >= ajaxMaxRequestNumber) return true;
-                eval("ret = doAjaxRequest(this.action?this.action:'Controller', getFormBody(this, true), '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "');");
+                eval("ret = doAjaxRequest(formAction?formAction:'<%=UIServices.lookup().getUrlMarkupGenerator().getServletMapping()%>', getFormBody(this, true), '" + targetId + "', '" + onAjaxRequestScript + "', '" + onAjaxResponseScript + "');");
                 return ret;
             } else {
                 element=null;

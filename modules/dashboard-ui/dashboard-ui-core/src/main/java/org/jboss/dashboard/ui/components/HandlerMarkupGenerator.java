@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenGenerator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.workspace.Panel;
@@ -48,6 +49,11 @@ public class HandlerMarkupGenerator extends BasicFactoryElement {
         String alias = Factory.getAlias(bean);
         sb.append(getHiddenMarkup(FactoryURL.PARAMETER_BEAN, alias != null ? alias : bean));
         sb.append(getHiddenMarkup(FactoryURL.PARAMETER_PROPERTY, property));
+
+        // Add the CSRF protection token
+        CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
+        sb.append(getHiddenMarkup(csrfTokenGenerator.getTokenName(), csrfTokenGenerator.getLastToken()));
+
         try {
             HandlerFactoryElement element = (HandlerFactoryElement) Factory.lookup(bean);
             element.setEnabledForActionHandling(true);
