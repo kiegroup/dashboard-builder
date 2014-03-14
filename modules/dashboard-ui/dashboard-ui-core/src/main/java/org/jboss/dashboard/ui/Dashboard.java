@@ -35,6 +35,7 @@ import org.jboss.dashboard.ui.panel.AjaxRefreshManager;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 
@@ -419,25 +420,33 @@ public class Dashboard {
         panelIdsToRefresh.clear();
 
         // Inspect all the dashboard's panels.
+        Panel currentPanel = RequestContext.lookup().getActivePanel();
         for (Panel panel : getSection().getPanels()) {
-            if (panel.getProvider().getDriver() instanceof DashboardDriver) {
-                Long panelId = panel.getPanelId();
-                Panel currentPanel = RequestContext.lookup().getActivePanel();
-                if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
-                    continue;
-                }
 
-                if (propertySet == null) {
-                    panelIdsToRefresh.add(panelId);
-                } else {
-                    DashboardDriver driver = (DashboardDriver) panel.getProvider().getDriver();
-                    Set<DataProvider> providersUsed = driver.getDataProvidersUsed(panel);
-                    for (int i = 0; i < propertySet.length; i++) {
-                        String propertyId = propertySet[i];
-                        for (DataProvider dataProvider : providersUsed) {
-                            if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
-                                panelIdsToRefresh.add(panelId);
-                            }
+            // Leave out non dashboard related panels.
+            PanelDriver driver = panel.getProvider().getDriver();
+            if (!(driver instanceof DashboardDriver)) {
+                continue;
+            }
+            // Don't refresh the active panel as it's being updated already along the execution of this request.
+            Long panelId = panel.getPanelId();
+            if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
+                continue;
+            }
+            // Don't refresh panels that are not displaying any dashboard data.
+            Set<DataProvider> providersUsed = ((DashboardDriver) driver).getDataProvidersUsed(panel);
+            if (providersUsed.isEmpty()) {
+                continue;
+            }
+            // Mark panel as refreshable.
+            if (propertySet == null) {
+                panelIdsToRefresh.add(panelId);
+            } else {
+                for (int i = 0; i < propertySet.length; i++) {
+                    String propertyId = propertySet[i];
+                    for (DataProvider dataProvider : providersUsed) {
+                        if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
+                            panelIdsToRefresh.add(panelId);
                         }
                     }
                 }

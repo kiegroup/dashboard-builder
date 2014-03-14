@@ -132,6 +132,7 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
         TemplateProcessor tp = DataProviderServices.lookup().getTemplateProcessor();
         tp.processTemplate(html, cp);
         List<Command> commandList = cp.getSuccessfulCommands();
+        if (commandList.isEmpty()) return results;
 
         // Get the data providers used by the commands.
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();

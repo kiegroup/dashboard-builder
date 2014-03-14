@@ -35,6 +35,11 @@ public class GenericFactoryTag extends BaseTag {
         this.bean = bean;
     }
 
+    // Required to avoid NoSuchMethodError on JBoss AS
+    public void setBean(String bean) {
+        this.bean = bean;
+    }
+
     public String getAction() {
         return action;
     }
