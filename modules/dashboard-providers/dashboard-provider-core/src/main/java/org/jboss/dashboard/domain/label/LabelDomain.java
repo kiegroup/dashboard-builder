@@ -16,7 +16,6 @@
 package org.jboss.dashboard.domain.label;
 
 import org.jboss.dashboard.dataset.AbstractDataSet;
-import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.index.DistinctValue;
 import org.jboss.dashboard.domain.AbstractDomain;
 import org.jboss.dashboard.domain.Interval;
@@ -63,7 +62,7 @@ public class LabelDomain extends AbstractDomain {
         this.convertedFromNumeric = convertedFromNumeric;
     }
 
-    public Class getValuesClass() {
+    public Class<String> getValuesClass() {
         return java.lang.String.class;
     }
 
@@ -173,7 +172,7 @@ public class LabelDomain extends AbstractDomain {
 
         // Include the aggregated interval only if visible.
         if (!isIntervalHidden(compositeInterval)) {
-            Set otherIntervals = new HashSet();
+            Set<Interval> otherIntervals = new HashSet<Interval>();
             for (int i = maxNumberOfIntervals; i < intervals.size(); i++) otherIntervals.add(intervals.get(i));
             compositeInterval.setIntervals(otherIntervals);
             results.add(compositeInterval);
@@ -184,7 +183,7 @@ public class LabelDomain extends AbstractDomain {
     public Domain cloneDomain() {
         LabelDomain clone = (LabelDomain) super.cloneDomain();
         clone.labelIntervals = null;
-        clone.labelIntervalsToHideI18nMap = new HashMap(labelIntervalsToHideI18nMap);
+        clone.labelIntervalsToHideI18nMap = new HashMap<Locale, String>(labelIntervalsToHideI18nMap);
         return clone;
     }
 
