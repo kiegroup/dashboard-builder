@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * A list of messages.
  */
-public class MessageList extends ArrayList {
+public class MessageList extends ArrayList<Message> {
 
     private Date created = new Date();
 
@@ -30,7 +30,7 @@ public class MessageList extends ArrayList {
         super();
     }
 
-    public MessageList(Collection c) {
+    public MessageList(Collection<Message> c) {
         super(c);
     }
 
@@ -38,15 +38,13 @@ public class MessageList extends ArrayList {
         return this.created;
     }
 
-    public boolean addAll(Collection c, boolean discardDuplicates) {
+    public boolean addAll(Collection<Message> c, boolean discardDuplicates) {
         if (c == null || c.isEmpty()) return false;
         if (!discardDuplicates) return super.addAll(c);
 
         int initialSize = size();
-        Iterator it = c.iterator();
-        while (it.hasNext()) {
-            Object o = it.next();
-            if (!contains(o)) add(o);
+        for (Message m : c) {
+            if (!contains(m)) add(m);
         }
         return initialSize != size();
     }
@@ -56,11 +54,9 @@ public class MessageList extends ArrayList {
      * @param messageCode The message code.
      * @return A list of Message instances.
      */
-    public List getMessagesWithCode(String messageCode) {
-        List results = new ArrayList();
-        Iterator it = iterator();
-        while (it.hasNext()) {
-            Message message = (Message) it.next();
+    public List<Message> getMessagesWithCode(String messageCode) {
+        List<Message> results = new ArrayList<Message>();
+        for (Message message : this) {
             if (message.getMessageCode().equals(messageCode)) results.add(message);
         }
         return results;
@@ -71,15 +67,13 @@ public class MessageList extends ArrayList {
      * @param element The process element.
      * @return A list of Message instances.
      */
-    public List getMessagesForElement(Object element) {
-        List results = new ArrayList();
-        Iterator it = iterator();
-        while (it.hasNext()) {
-            Message message = (Message) it.next();
+    public List<Message> getMessagesForElement(Object element) {
+        List<Message> results = new ArrayList<Message>();
+        for (Message message : this) {
             Object[] elements = message.getElements();
             if (elements != null) {
-                for (int i = 0; i < elements.length; i++) {
-                    if (element.equals(elements[i])) {
+                for (Object e : elements) {
+                    if (element.equals(e)) {
                         results.add(message);
                         break;
                     }
@@ -94,40 +88,38 @@ public class MessageList extends ArrayList {
     }
 
     public boolean containsMessagesOfType(int type) {
-        Iterator it = iterator();
+        Iterator<Message> it = iterator();
         while (it.hasNext()) {
-            Message message = (Message) it.next();
+            Message message = it.next();
             if (message.getMessageType() == type) return true;
         }
         return false;
     }
 
     public void removeMessagesOfType(int type) {
-        Iterator it = iterator();
+        Iterator<Message> it = iterator();
         while (it.hasNext()) {
-            Message message = (Message) it.next();
+            Message message = it.next();
             if (message.getMessageType() == type) it.remove();
         }
     }
 
     public void keepOnlyMessagesOfType(int type) {
-        Iterator it = iterator();
+        Iterator<Message> it = iterator();
         while (it.hasNext()) {
-            Message message = (Message) it.next();
+            Message message = it.next();
             if (message.getMessageType() != type) it.remove();
         }
     }
 
-    public List getMessagesOfType(int type) {
-        List l = new ArrayList();
-        Iterator it = iterator();
-        while (it.hasNext()) {
-            Message message = (Message) it.next();
+    public List<Message> getMessagesOfType(int type) {
+        List<Message> result = new ArrayList<Message>();
+        for (Message message : this) {
             if (message.getMessageType() == type) {
-                l.add(message);
+                result.add(message);
             }
         }
-        return l;
+        return result;
     }
 
     /**
@@ -145,7 +137,7 @@ public class MessageList extends ArrayList {
                 Locale locale = LocaleManager.currentLocale();
                 messages = new String[l.size()];
                 for (int i = 0; i < l.size(); i++) {
-                    messages[i] = ((Message)l.get(i)).getMessage(locale);
+                    messages[i] = l.get(i).getMessage(locale);
                 }
             }
         }

@@ -24,7 +24,6 @@ import org.jboss.dashboard.LocaleManager;
 
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.w3c.dom.Node;
@@ -238,25 +237,21 @@ public class TableDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             printIndent(out, indent);
             out.print("<viewindex>"); out.print(columnIndex); out.println("</viewindex>");
 
-            Map columnName = column.getNameI18nMap();
-            Iterator it = columnName.keySet().iterator();
-            while (it.hasNext()) {
-                Locale l = (Locale) it.next();
+            Map<Locale,String> columnName = column.getNameI18nMap();
+            for (Locale l : columnName.keySet()) {
                 printIndent(out, indent);
                 out.print("<name language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(l.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) columnName.get(l)));
+                out.print(StringEscapeUtils.escapeXml(columnName.get(l)));
                 out.println("</name>");
             }
 
-            Map columnHint = column.getHintI18nMap();
-            it = columnHint.keySet().iterator();
-            while (it.hasNext()) {
-                Locale l = (Locale) it.next();
+            Map<Locale, String> columnHint = column.getHintI18nMap();
+            for (Locale l : columnHint.keySet()) {
                 printIndent(out, indent);
                 out.print("<hint language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(l.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) columnHint.get(l)));
+                out.print(StringEscapeUtils.escapeXml(columnHint.get(l)));
                 out.println("</hint>");
             }
 

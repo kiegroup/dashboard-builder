@@ -17,7 +17,6 @@ package org.jboss.dashboard.export;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -64,9 +63,7 @@ public class ExportManagerImpl implements ExportManager {
     }
 
     public void formatKPIs(ExportOptions options, PrintWriter out, int indent) throws Exception {
-        Iterator it = options.getKPIs().iterator();
-        while (it.hasNext()) {
-            KPI kpi = (KPI) it.next();
+        for (KPI kpi : options.getKPIs()) {
             DataProvider provider = kpi.getDataProvider();
             DataDisplayer displayer = kpi.getDataDisplayer();
             DataDisplayerXMLFormat displayerXMLFormat = displayer.getDataDisplayerType().getXmlFormat();
@@ -76,13 +73,12 @@ public class ExportManagerImpl implements ExportManager {
             out.println("<kpi code=\"" + StringEscapeUtils.escapeXml(kpi.getCode()) + "\">");
 
             // Description
-            Map descriptions = kpi.getDescriptionI18nMap();
-            for (Object o : descriptions.keySet()) {
-                String key = (String) o;
+            Map<String,String> descriptions = kpi.getDescriptionI18nMap();
+            for (String key : descriptions.keySet()) {
                 printIndent(out, indent);
                 out.print("<description language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(key) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) descriptions.get(key)));
+                out.print(StringEscapeUtils.escapeXml(descriptions.get(key)));
                 out.println("</description>");
             }
 
@@ -110,14 +106,12 @@ public class ExportManagerImpl implements ExportManager {
             printIndent(out, indent++);
             out.println("<dataprovider code=\"" + StringEscapeUtils.escapeXml(dataProvider.getCode()) + "\" type=\"" + StringEscapeUtils.escapeXml(providerType.getUid()) + "\">");
 
-            Map descriptions = dataProvider.getDescriptionI18nMap();
-            Iterator keys = descriptions.keySet().iterator();
-            while (keys.hasNext()) {
-                Locale key = (Locale) keys.next();
+            Map<Locale,String> descriptions = dataProvider.getDescriptionI18nMap();
+            for (Locale key : descriptions.keySet()) {
                 printIndent(out, indent);
                 out.print("<description language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(key.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) descriptions.get(key)));
+                out.print(StringEscapeUtils.escapeXml(descriptions.get(key)));
                 out.println("</description>");
             }           
 

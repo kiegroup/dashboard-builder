@@ -29,8 +29,6 @@ import org.junit.runner.RunWith;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
 @RunWith(Arquillian.class)
 public class ServicesLookupTest {
 
@@ -58,15 +56,13 @@ public class ServicesLookupTest {
         System.out.println("\nData displayer types");
         System.out.println("-------------------------");
         DataDisplayerType[] displayerType = displayerServices.getDataDisplayerManager().getDataDisplayerTypes();
-        for (int i = 0; i < displayerType.length; i++) {
-            DataDisplayerType dataDisplayerType = displayerType[i];
+        for (DataDisplayerType dataDisplayerType : displayerType) {
             System.out.println(dataDisplayerType.getUid());
         }
         System.out.println("\nDisplayer renderers");
         System.out.println("------------------------");
         DataDisplayerRenderer[] displayerRenderers = displayerServices.getDataDisplayerManager().getDataDisplayerRenderers();
-        for (int i = 0; i < displayerRenderers.length; i++) {
-            DataDisplayerRenderer renderer = displayerRenderers[i];
+        for (DataDisplayerRenderer renderer : displayerRenderers) {
             System.out.println(renderer.getUid());
         }
     }

@@ -39,11 +39,11 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
     protected double maxValue;
     protected double criticalThreshold;
     protected double warningThreshold;
-    protected Map descripCriticalIntervalI18nMap;
+    protected Map<Locale, String> descripCriticalIntervalI18nMap;
     protected Color colorCriticalInterval;
-    protected Map descripWarningIntervalI18nMap;
+    protected Map<Locale, String> descripWarningIntervalI18nMap;
     protected Color colorWarningInterval;
-    protected Map descripNormalIntervalI18nMap;
+    protected Map<Locale, String> descripNormalIntervalI18nMap;
     protected Color colorNormalInterval;
 
     // Thermometer properties.
@@ -83,9 +83,9 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
         colorNormalInterval = Color.green;
         colorWarningInterval = Color.yellow;
         colorCriticalInterval = Color.red;
-        descripNormalIntervalI18nMap = new HashMap();
-        descripWarningIntervalI18nMap = new HashMap();
-        descripCriticalIntervalI18nMap = new HashMap();
+        descripNormalIntervalI18nMap = new HashMap<Locale, String>();
+        descripWarningIntervalI18nMap = new HashMap<Locale, String>();
+        descripCriticalIntervalI18nMap = new HashMap<Locale, String>();
 
         // Thresholds.
         warningThreshold = -1;
@@ -198,17 +198,17 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
 
     // Critical interval.
 
-    public Map getDescripCriticalIntervalI18nMap() {
+    public Map<Locale, String> getDescripCriticalIntervalI18nMap() {
         return descripCriticalIntervalI18nMap;
     }
 
-    public void setDescripCriticalIntervalI18nMap(Map descripCriticalIntervalI18nMap) {
+    public void setDescripCriticalIntervalI18nMap(Map<Locale, String> descripCriticalIntervalI18nMap) {
         this.descripCriticalIntervalI18nMap.clear();
         this.descripCriticalIntervalI18nMap.putAll(descripCriticalIntervalI18nMap);
     }
 
     public String getDescripCriticalInterval(Locale l) {
-        String result = (String) descripCriticalIntervalI18nMap.get(l);
+        String result = descripCriticalIntervalI18nMap.get(l);
         if (result == null) {
             ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripCriticalIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.criticalDefault"));
@@ -230,17 +230,17 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
 
     // Warning interval.
 
-    public Map getDescripWarningIntervalI18nMap() {
+    public Map<Locale, String> getDescripWarningIntervalI18nMap() {
         return descripWarningIntervalI18nMap;
     }
 
-    public void setDescripWarningIntervalI18nMap(Map descripWarningIntervalI18nMap) {
+    public void setDescripWarningIntervalI18nMap(Map<Locale, String> descripWarningIntervalI18nMap) {
         this.descripWarningIntervalI18nMap.clear();
         this.descripWarningIntervalI18nMap.putAll(descripWarningIntervalI18nMap);
     }
 
     public String getDescripWarningInterval(Locale l) {
-        String result = (String) descripWarningIntervalI18nMap.get(l);
+        String result = descripWarningIntervalI18nMap.get(l);
         if (result == null) {
             ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripWarningIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.warningDefault"));
@@ -262,17 +262,17 @@ public class MeterChartDisplayer extends AbstractChartDisplayer {
 
     // Normal interval.
 
-    public Map getDescripNormalIntervalI18nMap() {
+    public Map<Locale, String> getDescripNormalIntervalI18nMap() {
         return descripNormalIntervalI18nMap;
     }
 
-    public void setDescripNormalIntervalI18nMap(Map descripNormalIntervalI18nMap) {
+    public void setDescripNormalIntervalI18nMap(Map<Locale, String> descripNormalIntervalI18nMap) {
         this.descripNormalIntervalI18nMap.clear();
         this.descripNormalIntervalI18nMap.putAll(descripNormalIntervalI18nMap);
     }
 
     public String getDescripNormalInterval(Locale l) {
-        String result = (String) descripNormalIntervalI18nMap.get(l);
+        String result = descripNormalIntervalI18nMap.get(l);
         if (result == null) {
             ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", LocaleManager.currentLocale());
             descripNormalIntervalI18nMap.put(l, result = i18n.getString("meterChartDisplayer.normalDefault"));

@@ -120,13 +120,13 @@ public class KPIImpl implements KPI {
         }
     }
 
-    public void setDescriptionI18nMap(Map descriptions) {
+    public void setDescriptionI18nMap(Map<String, String> descriptions) {
         this.descriptions.clear();
         this.descriptions.putAll(descriptions);
     }
 
     public Map<String,String> getDescriptionI18nMap() {
-        Map results = new HashMap();
+        Map<String,String> results = new HashMap<String,String>();
         for (String locale : descriptions.keySet()) {
             results.put(locale, descriptions.get(locale));
         }
@@ -259,12 +259,12 @@ public class KPIImpl implements KPI {
     }
 
     // For Hibernate
-    protected Map getDescriptions() {
+    protected Map<String, String> getDescriptions() {
         return descriptions;
     }
 
     // For Hibernate
-    protected void setDescriptions(Map descriptions) {
+    protected void setDescriptions(Map<String, String> descriptions) {
         this.descriptions = descriptions;
     }
 }

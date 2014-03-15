@@ -36,14 +36,14 @@ public class ImportExportMessage extends AbstractMessage {
     public static final String DISPLAYER_TYPE_NOT_FOUND     = "BAM_10002";
     public static final String DISPLAYER_RENDERER_NOT_FOUND = "BAM_10003";
 
-    private static List ERRORS = Arrays.asList(new String[] {PROVIDER_CODE_NOT_FOUND, PROVIDER_TYPE_NOT_FOUND,
-            DISPLAYER_TYPE_NOT_FOUND, DISPLAYER_RENDERER_NOT_FOUND});
+    private static List<String> ERRORS = Arrays.asList(new String[]{PROVIDER_CODE_NOT_FOUND, PROVIDER_TYPE_NOT_FOUND,
+        DISPLAYER_TYPE_NOT_FOUND, DISPLAYER_RENDERER_NOT_FOUND});
 
     // WARNINGS
     public static final String PROVIDER_ALREADY_EXISTS = "BAM_90000";
     public static final String KPI_ALREADY_EXISTS      = "BAM_90001";
 
-    private static List WARNINGS = Arrays.asList(new String[] {PROVIDER_ALREADY_EXISTS, KPI_ALREADY_EXISTS});
+    private static List<String> WARNINGS = Arrays.asList(new String[] {PROVIDER_ALREADY_EXISTS, KPI_ALREADY_EXISTS});
 
     // INFOS
     public static final String PROVIDER_CREATED         = "BAM_00000";
@@ -51,7 +51,7 @@ public class ImportExportMessage extends AbstractMessage {
     public static final String PROVIDER_UPDATED         = "BAM_00002";
     public static final String KPI_UPDATED              = "BAM_00003";
 
-    private static List INFOS = Arrays.asList(new String[] {PROVIDER_CREATED, KPI_CREATED, PROVIDER_UPDATED, KPI_UPDATED});
+    private static List<String> INFOS = Arrays.asList(new String[]{PROVIDER_CREATED, KPI_CREATED, PROVIDER_UPDATED, KPI_UPDATED});
 
     /** The locale manager. */
     protected LocaleManager localeManager;

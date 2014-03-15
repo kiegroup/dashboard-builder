@@ -17,7 +17,6 @@ package org.jboss.dashboard.export;
 
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.Iterator;
 import java.util.Locale;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,7 +29,6 @@ import org.jboss.dashboard.displayer.DataDisplayerManager;
 import org.jboss.dashboard.displayer.DataDisplayerRenderer;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.kpi.KPI;
-import org.jboss.dashboard.provider.DataProviderImpl;
 import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.provider.*;
 import org.jboss.dashboard.LocaleManager;
@@ -83,9 +81,7 @@ public class ImportManagerImpl implements ImportManager {
         Locale locale = LocaleManager.currentLocale();
         MessageList messages = importResults.getMessages();
         if (messages.containsMessagesOfType(Message.ERROR)) {
-            Iterator errors = messages.getMessagesOfType(Message.ERROR).iterator();
-            while (errors.hasNext()) {
-                Message bProcessDescriptorMessage = (Message) errors.next();
+            for (Message bProcessDescriptorMessage : messages.getMessagesOfType(Message.ERROR)) {
                 throw new RuntimeException(bProcessDescriptorMessage.getMessage(locale));
             }
         }

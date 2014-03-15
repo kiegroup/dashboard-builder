@@ -16,7 +16,6 @@
 package org.jboss.dashboard.displayer.chart;
 
 import org.jboss.dashboard.displayer.AbstractDataDisplayerType;
-import org.jboss.dashboard.displayer.DataDisplayer;
 
 public abstract class AbstractChartDisplayerType extends AbstractDataDisplayerType {
 

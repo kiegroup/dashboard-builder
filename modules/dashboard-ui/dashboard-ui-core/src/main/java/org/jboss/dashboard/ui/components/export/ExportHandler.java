@@ -22,7 +22,6 @@ import org.jboss.dashboard.commons.message.Message;
 import org.jboss.dashboard.commons.message.MessageList;
 import org.jboss.dashboard.export.ImportManager;
 import org.jboss.dashboard.export.ImportResults;
-import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.DataDisplayerServices;
@@ -305,9 +304,7 @@ public class ExportHandler extends UIBeanHandler {
                 // Show import messages.
                 MessageList messages = importResults.getMessages();
                 Locale locale = LocaleManager.currentLocale();
-                Iterator it = messages.iterator();
-                while (it.hasNext()) {
-                    Message message = (Message) it.next();
+                for (Message message : messages) {
                     switch (message.getMessageType()) {
                         case Message.ERROR: messagesHandler.addError(message.getMessage(locale)); break;
                         case Message.WARNING: messagesHandler.addWarning(message.getMessage(locale)); break;

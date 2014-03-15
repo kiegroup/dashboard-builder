@@ -39,7 +39,7 @@ public class DataSetTable extends Table {
     protected transient DataProperty groupByProperty;
     protected transient DomainConfiguration groupByConfig;
 
-    protected Map groupByFunctions;
+    protected Map<Integer, String> groupByFunctions;
     protected boolean groupByShowTotals;
     protected String groupByTotalsHtmlStyle;
 
@@ -51,7 +51,7 @@ public class DataSetTable extends Table {
         dataSet = null;
         dataSetRowCount = 0;
         groupByProperty = null;
-        groupByFunctions = new HashMap();
+        groupByFunctions = new HashMap<Integer, String>();
         groupByConfig = null;
         groupByShowTotals = false;
         groupByTotalsHtmlStyle = null;
@@ -104,8 +104,8 @@ public class DataSetTable extends Table {
             DataProperty prop = props[i];
             TableColumn column = createColumn();
             column.setPropertyId(prop.getPropertyId());
-            column.setNameI18nMap(new HashMap(prop.getNameI18nMap()));
-            column.setHintI18nMap(new HashMap(prop.getNameI18nMap()));
+            column.setNameI18nMap(new HashMap<Locale,String>(prop.getNameI18nMap()));
+            column.setHintI18nMap(new HashMap<Locale,String>(prop.getNameI18nMap()));
             addColumn(column);
             column.setSortable(true);
             column.setSelectable(false);
@@ -143,8 +143,7 @@ public class DataSetTable extends Table {
 
         // If not then get the property from the grouped data set and then get the corresponding property from the original one.
         DataProperty[] properties = getOriginalDataSet().getProperties();
-        for (int i = 0; i < properties.length; i++) {
-            DataProperty property = properties[i];
+        for (DataProperty property : properties) {
             if (property.equals(currentProp)) return property;
         }
         return null;
@@ -185,14 +184,14 @@ public class DataSetTable extends Table {
    public String getGroupByFunctionCode(int columnIndex) {
         if (columnIndex >= getColumnCount()) return null;
         Integer index = new Integer(columnIndex);
-        String code = (String) groupByFunctions.get(index);
+        String code = groupByFunctions.get(index);
         if (code == null) groupByFunctions.put(index, code = CountFunction.CODE);
         return code;
     }
 
     public void setGroupByFunctionCode(int columnIndex, String functionCode) {
         Integer key = new Integer(columnIndex);
-        String currentCode = (String) groupByFunctions.get(key);
+        String currentCode = groupByFunctions.get(key);
         if (currentCode == null || !currentCode.equals(functionCode)) {
             groupByFunctions.put(key, functionCode);
             refreshGroupBy();
@@ -227,15 +226,15 @@ public class DataSetTable extends Table {
     public int[] getNonGroupByColumnIndexes() {
         if (groupByProperty == null) return new int[] {};
 
-        List temp = new ArrayList();
+        List<Integer> temp = new ArrayList<Integer>();
         for (int i=0; i<getColumnCount(); i++) {
             DataProperty prop = getDataProperty(i);
             if (prop != null && !groupByProperty.equals(prop)) {
-                temp.add(new Integer(i));
+                temp.add(Integer.valueOf(i));
             }
         }
         int [] results = new int[temp.size()];
-        for (int i = 0; i < results.length; i++) results[i] = ((Integer) temp.get(i)).intValue();
+        for (int i = 0; i < results.length; i++) results[i] = temp.get(i).intValue();
         return results;
     }
 
