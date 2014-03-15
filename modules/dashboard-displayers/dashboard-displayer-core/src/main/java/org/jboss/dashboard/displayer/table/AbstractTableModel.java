@@ -15,9 +15,6 @@
  */
 package org.jboss.dashboard.displayer.table;
 
-import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
-import org.jboss.dashboard.commons.filter.FilterByCriteria;
-
 public abstract class AbstractTableModel implements TableModel {
 
     public int getColumnPosition(String columnName) {

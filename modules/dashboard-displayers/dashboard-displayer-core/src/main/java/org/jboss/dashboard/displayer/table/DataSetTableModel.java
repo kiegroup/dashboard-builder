@@ -18,7 +18,6 @@ package org.jboss.dashboard.displayer.table;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.dataset.DataSet;
-import org.jboss.dashboard.dataset.DataSetComparator;
 
 /**
  * Table model which feeds from a data set. 

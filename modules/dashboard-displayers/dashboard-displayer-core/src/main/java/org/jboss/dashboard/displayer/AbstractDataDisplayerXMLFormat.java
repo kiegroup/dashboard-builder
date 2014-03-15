@@ -22,7 +22,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.StringReader;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Locale;
 
@@ -163,14 +162,12 @@ public abstract class AbstractDataDisplayerXMLFormat implements DataDisplayerXML
         out.print(StringEscapeUtils.escapeXml(config.getPropertyId()));
         out.println("</propertyid>");
 
-        Map domainNames = config.getPropertyNameI18nMap();
-        Iterator domainKeys = domainNames.keySet().iterator();
-        while (domainKeys.hasNext()) {
-            Locale locale = (Locale) domainKeys.next();
+        Map<Locale,String> domainNames = config.getPropertyNameI18nMap();
+        for (Locale locale : domainNames.keySet()) {
             printIndent(out, indent);
             out.print("<name language");
             out.print("=\"" + StringEscapeUtils.escapeXml(locale.toString()) + "\">");
-            out.print(StringEscapeUtils.escapeXml((String) domainNames.get(locale)));
+            out.print(StringEscapeUtils.escapeXml(domainNames.get(locale)));
             out.println("</name>");
         }
 
@@ -182,18 +179,15 @@ public abstract class AbstractDataDisplayerXMLFormat implements DataDisplayerXML
         // Label domain specifics.
         Domain domain = config.getDomainProperty().getDomain();
         if (domain instanceof LabelDomain) {
-            Map intervalsToHide = config.getLabelIntervalsToHideI18nMap();
-            Iterator intervalsIt = intervalsToHide.keySet().iterator();
-            while (intervalsIt.hasNext()) {
-                Locale locale = (Locale) intervalsIt.next();
+            Map<Locale,String> intervalsToHide = config.getLabelIntervalsToHideI18nMap();
+            for (Locale locale : intervalsToHide.keySet()) {
                 printIndent(out, indent);
                 out.print("<intervalstohide language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(locale.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) intervalsToHide.get(locale)));
+                out.print(StringEscapeUtils.escapeXml(intervalsToHide.get(locale)));
                 out.println("</intervalstohide>");
             }
         }
-        // Date domain specifics.
         else if (domain instanceof DateDomain) {
 
             if (config.getDateTamInterval() != null) {
@@ -273,15 +267,13 @@ public abstract class AbstractDataDisplayerXMLFormat implements DataDisplayerXML
         out.println("</propertyid>");
 
         // Range properties.
-        Map rangeDescriptions = config.getNameI18nMap();
+        Map<Locale,String> rangeDescriptions = config.getNameI18nMap();
         if (rangeDescriptions != null) {
-            Iterator rangeKeys = rangeDescriptions.keySet().iterator();
-            while (rangeKeys.hasNext()) {
-                Locale rangeKey = (Locale) rangeKeys.next();
+            for (Locale rangeKey : rangeDescriptions.keySet()) {
                 printIndent(out, indent);
                 out.print("<name language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(rangeKey.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) rangeDescriptions.get(rangeKey)));
+                out.print(StringEscapeUtils.escapeXml(rangeDescriptions.get(rangeKey)));
                 out.println("</name>");
             }
         }
@@ -294,15 +286,13 @@ public abstract class AbstractDataDisplayerXMLFormat implements DataDisplayerXML
         }
 
         // Unit
-        Map unitDescriptions = config.getUnitI18nMap();
+        Map<Locale,String> unitDescriptions = config.getUnitI18nMap();
         if (unitDescriptions != null) {
-            Iterator unitKeys = unitDescriptions.keySet().iterator();
-            while (unitKeys.hasNext()) {
-                Locale unitKey = (Locale) unitKeys.next();
+            for (Locale unitKey : unitDescriptions.keySet()) {
                 printIndent(out, indent);
                 out.print("<unit language");
                 out.print("=\"" + StringEscapeUtils.escapeXml(unitKey.toString()) + "\">");
-                out.print(StringEscapeUtils.escapeXml((String) unitDescriptions.get(unitKey)));
+                out.print(StringEscapeUtils.escapeXml(unitDescriptions.get(unitKey)));
                 out.println("</unit>");
             }
         }

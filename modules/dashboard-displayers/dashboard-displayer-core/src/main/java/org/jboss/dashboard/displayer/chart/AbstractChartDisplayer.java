@@ -51,7 +51,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected transient DataProperty domainProperty;
     protected transient DataProperty rangeProperty;
     protected transient ScalarFunction rangeScalarFunction;
-    protected transient Map unitI18nMap;
+    protected transient Map<Locale, String> unitI18nMap;
     protected transient DomainConfiguration domainConfig;
     protected transient RangeConfiguration rangeConfig;
 
@@ -90,7 +90,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         domainConfig = null;
         rangeConfig = null;
         rangeScalarFunction = null;
-        unitI18nMap = new HashMap();
+        unitI18nMap = new HashMap<Locale, String>();
         color = "#FFFFFF";
         backgroundColor = "#FFFFFF";
         width = 600;
@@ -122,44 +122,30 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
      * Get the list of properties valid as domain.
      */
     public DataProperty[] getDomainPropertiesAvailable() {
-        List results = new ArrayList();
+        List<DataProperty> dpList = new ArrayList<DataProperty>();
         try {
             DataProperty[] props = dataProvider.getDataSet().getProperties();
-            for (int i = 0; i < props.length; i++) {
-                DataProperty prop = props[i];
-                results.add(prop);
-            }
+            dpList.addAll(Arrays.asList(props));
         } catch (Exception e) {
             log.error("Can not retrieve dataset properties.", e);
         }
         // Build the data property array
-        DataProperty[] resultsDataProperty = new DataProperty[results.size()];
-        Iterator iterator = results.listIterator();
-        for (int i = 0; i < results.size(); i++) resultsDataProperty[i] = (DataProperty) iterator.next();
-        return resultsDataProperty;
+        return dpList.toArray(new DataProperty[dpList.size()]);
     }
 
     /**
      * Get the list of properties valid as range.
      */
     public DataProperty[] getRangePropertiesAvailable() {
-        List results = new ArrayList();
+        List<DataProperty> dpList = new ArrayList<DataProperty>();
         try {
             DataProperty[] props = dataProvider.getDataSet().getProperties();
-            for (int i = 0; i < props.length; i++) {
-                DataProperty prop = props[i];
-                results.add(prop);
-            }
+            dpList.addAll(Arrays.asList(props));
         } catch (Exception e) {
             log.error("Can not retrieve dataset properties.", e);
         }
         // Build the data property array
-        DataProperty[] resultsDataProperty = new DataProperty[results.size()];
-        Iterator iterator = results.listIterator();
-        for (int i = 0; i < results.size(); i++) {
-            resultsDataProperty[i] = (DataProperty) iterator.next();
-        }
-        return resultsDataProperty;
+        return dpList.toArray(new DataProperty[dpList.size()]);
     }
 
     public boolean hasDataSetChanged(DataProperty property) {
@@ -229,7 +215,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
                 if (rangeConfig != null) {
                     rangeConfig.apply(rangeProperty);
                     rangeScalarFunction = DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(rangeConfig.getScalarFunctionCode());
-                    unitI18nMap = new HashMap(rangeConfig.getUnitI18nMap());
+                    unitI18nMap = new HashMap<Locale, String>(rangeConfig.getUnitI18nMap());
                 }
             }
         } catch (Exception e) {
@@ -253,11 +239,11 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         this.rangeScalarFunction = rangeScalarFunction;
     }
 
-    public Map getUnitI18nMap() {
+    public Map<Locale, String> getUnitI18nMap() {
         return unitI18nMap;
     }
 
-    public void setUnitI18nMap(Map unitI18nMap) {
+    public void setUnitI18nMap(Map<Locale, String> unitI18nMap) {
         this.unitI18nMap.clear();
         this.unitI18nMap.putAll(unitI18nMap);
     }

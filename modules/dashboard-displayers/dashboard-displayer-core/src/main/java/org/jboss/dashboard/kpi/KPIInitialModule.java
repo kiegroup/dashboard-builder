@@ -26,7 +26,6 @@ import org.jboss.dashboard.commons.message.MessageList;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -85,9 +84,7 @@ public class KPIInitialModule extends InitialModule {
             // Show import messages.
             MessageList messages = importResults.getMessages();
             Locale locale = LocaleManager.currentLocale();
-            Iterator it = messages.iterator();
-            while (it.hasNext()) {
-                Message message = (Message) it.next();
+            for (Message message : messages) {
                 switch (message.getMessageType()) {
                     case Message.ERROR: log.error(message.getMessage(locale)); break;
                     case Message.WARNING: log.warn(message.getMessage(locale)); break;

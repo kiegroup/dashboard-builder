@@ -15,25 +15,8 @@
  */
 package org.jboss.dashboard.displayer.map;
 
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.displayer.AbstractDataDisplayerXMLFormat;
-import org.jboss.dashboard.displayer.DataDisplayer;
-import org.jboss.dashboard.displayer.chart.ChartDisplayerXMLFormat;
-import org.jboss.dashboard.displayer.table.DataSetTable;
-import org.jboss.dashboard.displayer.table.TableColumn;
-import org.jboss.dashboard.displayer.table.TableDisplayer;
-import org.jboss.dashboard.domain.DomainConfiguration;
-import org.jboss.dashboard.export.ImportResults;
-import org.jboss.dashboard.provider.DataProperty;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * This class offers both XML parsing and formatting services for Map displayers.

@@ -52,7 +52,7 @@ public interface KPI extends Cloneable, Persistent {
     /**
      * The localized descriptions.
      */
-    void setDescriptionI18nMap(Map descriptions);
+    void setDescriptionI18nMap(Map<String, String> descriptions);
     Map<String,String> getDescriptionI18nMap();
 
     /**

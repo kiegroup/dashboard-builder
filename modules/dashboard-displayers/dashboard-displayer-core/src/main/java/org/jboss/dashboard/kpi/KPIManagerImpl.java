@@ -67,7 +67,7 @@ public class KPIManagerImpl implements KPIManager {
     }
 
     public KPI getKPIById(final Long id) throws Exception {
-        final List results = new ArrayList();
+        final List<KPI> results = new ArrayList<KPI>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -83,13 +83,13 @@ public class KPIManagerImpl implements KPIManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        if (results != null && results.size() > 0) return (KPIImpl) results.get(0);
+        if (results.size() > 0) return (KPIImpl) results.get(0);
         else log.debug("KPI with id =" + id + " does not exist.");
         return null;
     }
 
     public KPI getKPIByCode(final String code) throws Exception {
-        final List results = new ArrayList();
+        final List<KPI> results = new ArrayList<KPI>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -105,7 +105,7 @@ public class KPIManagerImpl implements KPIManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        if (results != null && results.size() > 0) return (KPIImpl) results.get(0);
+        if (results.size() > 0) return (KPIImpl) results.get(0);
         else log.debug("KPI with code=" + code + " does not exist.");
         return null;
     }

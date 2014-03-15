@@ -16,7 +16,6 @@
 package org.jboss.dashboard.displayer.table;
 
 import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
-import org.jboss.dashboard.commons.filter.FilterByCriteria;
 
 public interface TableModel {
 

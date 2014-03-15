@@ -16,7 +16,6 @@
 package org.jboss.dashboard.export;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.jboss.dashboard.kpi.KPI;
@@ -39,7 +38,7 @@ public class ImportResultsImpl implements ImportResults {
     }
 
     public Set<KPI> getKPIs() {
-        return new HashSet(KPIs);
+        return new HashSet<KPI>(KPIs);
     }
 
     public void addKPI(KPI k) {
@@ -51,7 +50,7 @@ public class ImportResultsImpl implements ImportResults {
     }
 
     public Set<DataProvider> getDataProviders() {
-        return new HashSet(dataProviders);
+        return new HashSet<DataProvider>(dataProviders);
     }
 
     public void addDataProvider(DataProvider p) {

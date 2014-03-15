@@ -97,16 +97,16 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             displayer.setHeight(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
         }
         else if (item.getNodeName().equals("showlegend") && item.hasChildNodes()) {
-            displayer.setShowLegend((Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()))).booleanValue());
+            displayer.setShowLegend(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
         else if (item.getNodeName().equals("axisinteger") && item.hasChildNodes()) {
-            displayer.setAxisInteger((Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()))).booleanValue());
+            displayer.setAxisInteger(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
         else if (item.getNodeName().equals("legendanchor") && item.hasChildNodes()) {
             displayer.setLegendAnchor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
         else if (item.getNodeName().equals("showtitle") && item.hasChildNodes()) {
-            displayer.setShowTitle((Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()))).booleanValue());
+            displayer.setShowTitle(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
         else if (item.getNodeName().equals("align") && item.hasChildNodes()) {
             displayer.setGraphicAlign(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));

@@ -136,7 +136,7 @@ public class Table {
     }
 
     public int getNumberOfPages() {
-        return (int) ((getRowCount() - 1) / getMaxRowsPerPage() + 1);
+        return ((getRowCount() - 1) / getMaxRowsPerPage() + 1);
     }
 
     public int getCurrentPage() {
