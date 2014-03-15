@@ -61,16 +61,14 @@ public class ServicesLookupTest {
         System.out.println("\nData provider types");
         System.out.println("-----------------------");
         DataProviderType[] dataProviders = providerServices.getDataProviderManager().getDataProviderTypes();
-        for (int i = 0; i < dataProviders.length; i++) {
-            DataProviderType providerType = dataProviders[i];
+        for (DataProviderType providerType : dataProviders) {
             System.out.println(providerType.getUid());
         }
 
         System.out.println("Scalar functions");
         System.out.println("------------------------");
         ScalarFunction[] scalarFunctions = providerServices.getScalarFunctionManager().getAllScalarFunctions();
-        for (int i = 0; i < scalarFunctions.length; i++) {
-            ScalarFunction scalarFunction = scalarFunctions[i];
+        for (ScalarFunction scalarFunction : scalarFunctions) {
             System.out.println(scalarFunction.getCode());
         }
     }

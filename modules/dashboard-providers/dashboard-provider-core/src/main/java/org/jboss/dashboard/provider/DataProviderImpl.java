@@ -152,9 +152,7 @@ public class DataProviderImpl implements DataProvider {
 
     public Map<Locale,String> getDescriptionI18nMap() {
         Map<Locale,String> results = new HashMap<Locale,String>();
-        Iterator it = descriptions.keySet().iterator();
-        while (it.hasNext()) {
-            String language = (String) it.next();
+        for (String language : descriptions.keySet()) {
             results.put(new Locale(language), descriptions.get(language));
         }
         return results;

@@ -15,10 +15,8 @@
  */
 package org.jboss.dashboard.domain;
 
-import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.date.DateInterval;
 import org.jboss.dashboard.domain.label.LabelDomain;
-import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.domain.numeric.NumericInterval;
 import org.jboss.dashboard.provider.DataProperty;
 
@@ -30,31 +28,31 @@ import java.util.*;
 public class CompositeInterval extends AbstractInterval {
 
     protected Set<Interval> intervals;
-    protected Map descriptionI18nMap;
+    protected Map<Locale, String> descriptionI18nMap;
 
     public CompositeInterval() {
         super();
-        descriptionI18nMap = new HashMap();
-        intervals = new HashSet();
+        descriptionI18nMap = new HashMap<Locale, String>();
+        intervals = new HashSet<Interval>();
     }
 
-    public Map getDescriptionI18nMap() {
+    public Map<Locale, String> getDescriptionI18nMap() {
         return Collections.unmodifiableMap(descriptionI18nMap);
     }
 
     public String getDescription(Locale l) {        
-        return (String) descriptionI18nMap.get(l);
+        return descriptionI18nMap.get(l);
     }
 
     public void setDescription(String descr, Locale l) {
         descriptionI18nMap.put(l, descr);
     }
 
-    public Set getIntervals() {
+    public Set<Interval> getIntervals() {
         return Collections.unmodifiableSet(intervals);
     }
 
-    public void setIntervals(Set intervals) {
+    public void setIntervals(Set<Interval> intervals) {
         this.intervals = intervals;
     }
 
@@ -74,9 +72,7 @@ public class CompositeInterval extends AbstractInterval {
         if (intervals.contains(value)) {
             return true;
         }
-        Iterator it = intervals.iterator();
-        while (it.hasNext()) {
-            Interval interval = (Interval) it.next();
+        for (Interval interval : intervals) {
             if (interval.contains(value)) {
                 return true;
             }
@@ -85,7 +81,7 @@ public class CompositeInterval extends AbstractInterval {
     }
 
     public Object getMinValue() {
-        if (intervals.size() == 0) return null;
+        if (intervals.isEmpty()) return null;
         Interval interval = (Interval) intervals.toArray()[0];
         if (interval instanceof NumericInterval) return ((NumericInterval)interval).getMinValue();
         if (interval instanceof DateInterval) return ((DateInterval)interval).getMinDate();
@@ -93,7 +89,7 @@ public class CompositeInterval extends AbstractInterval {
     }
 
     public Object getMaxValue() {
-        if (intervals.size() == 0) return null;
+        if (intervals.isEmpty()) return null;
         int intervalsSize = intervals.size();
         Interval interval = (Interval) intervals.toArray()[intervalsSize-1];
         if (interval instanceof NumericInterval) return ((NumericInterval)interval).getMaxValue();
@@ -102,7 +98,7 @@ public class CompositeInterval extends AbstractInterval {
     }
 
     public boolean isMinValueIncluded() {
-        if (intervals.size() == 0) return false;
+        if (intervals.isEmpty()) return false;
         Interval interval = (Interval) intervals.toArray()[0];
         if (interval instanceof NumericInterval) {
             if (((NumericInterval)interval).getMinValue() != null) return true;
@@ -114,7 +110,7 @@ public class CompositeInterval extends AbstractInterval {
     }
 
     public boolean isMaxValueIncluded() {
-        if (intervals.size() == 0) return false;
+        if (intervals.isEmpty()) return false;
         int intervalsSize = intervals.size();
         Interval interval = (Interval) intervals.toArray()[intervalsSize-1];
         if (interval instanceof NumericInterval) {

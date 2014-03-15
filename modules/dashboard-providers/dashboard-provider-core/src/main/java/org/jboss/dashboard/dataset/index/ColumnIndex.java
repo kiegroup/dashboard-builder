@@ -25,5 +25,5 @@ public interface ColumnIndex {
     int getNumberOfItems(Object value);
     List<DistinctValue> getDistinctValues();
     List getValues();
-    List getSiblingValues(Collection values, List targetValues);
+    List<Integer> getSiblingValues(Collection values, List<Integer> targetValues);
 }

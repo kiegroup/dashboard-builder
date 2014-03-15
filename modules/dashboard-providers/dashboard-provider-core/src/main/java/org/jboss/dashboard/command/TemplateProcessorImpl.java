@@ -103,7 +103,7 @@ public class TemplateProcessorImpl implements TemplateProcessor {
             return results;
         } catch (Exception e) {
             log.error("Error getting commands from template: " + template, e);
-            return Collections.EMPTY_LIST;
+            return Collections.<Command>emptyList();
         }
     }
 

@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.dataset.index;
 
-import org.jboss.dashboard.commons.comparator.ComparatorUtils;
 import org.jboss.dashboard.profiler.ProfilerHelper;
 
 import java.util.*;
@@ -73,7 +72,7 @@ public class LabelIndex implements ColumnIndex {
         return null;
     }
 
-    public synchronized List getSiblingValues(Collection values, List targetValues) {
+    public synchronized List<Integer> getSiblingValues(Collection values, List<Integer> targetValues) {
         HashSet<Integer> targetRows = new HashSet<Integer>();
         for (DistinctValue distinctValue : disctinctValues) {
             if (values.contains(distinctValue.value)) {
@@ -81,8 +80,8 @@ public class LabelIndex implements ColumnIndex {
             }
         }
 
-        if (targetRows.isEmpty()) return Collections.EMPTY_LIST;
-        List result = new ArrayList();
+        if (targetRows.isEmpty()) return Collections.<Integer>emptyList();
+        List<Integer> result = new ArrayList<Integer>();
         for (Integer targetRow : targetRows) {
             result.add(targetValues.get(targetRow));
         }

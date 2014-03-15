@@ -18,13 +18,11 @@ package org.jboss.dashboard.dataset;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.profiler.CodeBlockHelper;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
-import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
 import org.jboss.dashboard.provider.DataFilter;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderImpl;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -117,8 +115,8 @@ public class DataSetManagerImpl implements DataSetManager, Serializable {
         }
     }
 
-    protected Map createDataProviderContext(DataProvider dataProvider) {
-        Map m = new HashMap();
+    protected Map<String, Object> createDataProviderContext(DataProvider dataProvider) {
+        Map<String, Object> m = new HashMap<String, Object>();
         m.put("Provider code", dataProvider.getCode());
         m.put("Provider description", dataProvider.getDescription(LocaleManager.currentLocale()));
         return m;

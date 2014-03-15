@@ -48,8 +48,7 @@ public class ScalarFunctionManagerImpl implements ScalarFunctionManager {
     }
 
     public ScalarFunction getScalarFunctionByCode(String code) {
-        for (int i = 0; i < scalarFunctionsArray.length; i++) {
-            ScalarFunction scalarFunction = scalarFunctionsArray[i];
+        for (ScalarFunction scalarFunction : scalarFunctionsArray) {
             if (scalarFunction.getCode().equals(code)) return scalarFunction;
         }
         return null;
