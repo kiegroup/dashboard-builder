@@ -187,8 +187,7 @@ public class DateDomain extends AbstractDomain {
             // New composite interval.
             CompositeInterval compositeMaxInterval = new CompositeInterval();
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i=0; i<locales.length; i++) {
-                Locale l = locales[i];
+            for (Locale l : locales) {
                 compositeMaxInterval.setDescription("> " + listOfIntervals.get(listOfIntervals.size()-1).getDescription(l), l);
             }
             Set<Interval> listOfMaxIntervals = new HashSet<Interval>();

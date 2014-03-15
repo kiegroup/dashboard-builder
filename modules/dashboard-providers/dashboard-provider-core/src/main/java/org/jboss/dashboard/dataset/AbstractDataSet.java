@@ -39,7 +39,6 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataFilter;
 import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.function.ScalarFunction;
-import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -434,7 +433,7 @@ public abstract class AbstractDataSet implements DataSet {
         // Get the indexed labels
         int groupByColumn = getPropertyColumn(groupByProperty);
         List<DistinctValue> _distinctValues = index.getDistinctValues(groupByColumn);
-        List<DistinctValue> _sortedValues = new ArrayList(_distinctValues);
+        List<DistinctValue> _sortedValues = new ArrayList<DistinctValue>(_distinctValues);
         if (sortOrder != 0) {
             if (sortIndex < 0 || sortIndex == pivotColumn) index.sortByValue(_sortedValues, sortOrder);
             else index.sortByScalar(_sortedValues, functionCodes[sortIndex], columns[sortIndex], sortOrder);
@@ -502,7 +501,9 @@ public abstract class AbstractDataSet implements DataSet {
 
         // Update the internal data set matrix.
         List[] propertyValues = getPropertyValues();
-        for (int i = 0; i < propertyValues.length; i++) propertyValues[i].clear();
+        for (List propertyValue : propertyValues) {
+            propertyValue.clear();
+        }
         Iterator it = sortedPropertyValues.iterator();
         while (it.hasNext()) {
             Object[] valuesAtRow = (Object[]) it.next();
@@ -516,8 +517,7 @@ public abstract class AbstractDataSet implements DataSet {
         out.println("<dataproperties>");
 
         DataProperty[] properties = getProperties();
-        for (int i = 0; i < properties.length; i++) {
-            DataProperty property = properties[i];
+        for (DataProperty property : properties) {
             printIndent(out, indent++);
             out.println("<dataproperty id=\"" + StringEscapeUtils.escapeXml(property.getPropertyId()) + "\">");
             printIndent(out, indent);
@@ -525,13 +525,11 @@ public abstract class AbstractDataSet implements DataSet {
             String convertedFromNumeric = "";
             if (domain instanceof LabelDomain && ((LabelDomain)domain).isConvertedFromNumeric()) convertedFromNumeric = " convertedFromNumeric=\"true\" ";
             out.println("<domain" + convertedFromNumeric + ">" + StringEscapeUtils.escapeXml(property.getDomain().getClass().getName()) + "</domain>");
-            Map names = property.getNameI18nMap();
+            Map<Locale,String> names = property.getNameI18nMap();
             if (names != null) {
-                Iterator it = names.keySet().iterator();
-                while (it.hasNext()) {
-                    Locale locale = (Locale) it.next();
+                for (Locale locale : names.keySet()) {
                     printIndent(out, indent);
-                    out.println("<name language=\"" + locale + "\">" + StringEscapeUtils.escapeXml((String) names.get(locale)) + "</name>");
+                    out.println("<name language=\"" + locale + "\">" + StringEscapeUtils.escapeXml(names.get(locale)) + "</name>");
                 }
             }
             printIndent(out, --indent);

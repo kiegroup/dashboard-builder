@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import org.jboss.dashboard.commons.comparator.AbstractComparatorByCriteria;
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class that can be used to compare two dataset rows by a given column index.

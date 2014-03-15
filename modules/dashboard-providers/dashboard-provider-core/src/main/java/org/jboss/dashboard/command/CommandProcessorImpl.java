@@ -79,7 +79,7 @@ public class CommandProcessorImpl implements CommandProcessor {
         Command command = createCommand(commandName);
         if (command == null) return null;
 
-        List args = new ArrayList();
+        List<String> args = new ArrayList<String>();
         args.addAll(Arrays.asList(expression));
         args.remove(0);
         command.setName(commandName);

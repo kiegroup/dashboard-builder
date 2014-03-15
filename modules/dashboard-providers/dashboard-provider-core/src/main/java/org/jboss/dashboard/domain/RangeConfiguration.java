@@ -31,8 +31,8 @@ public class RangeConfiguration {
 
     protected DataProperty rangeProperty;
     protected String propertyId;
-    protected Map nameI18nMap;
-    protected Map unitI18nMap;
+    protected Map<Locale, String> nameI18nMap;
+    protected Map<Locale, String> unitI18nMap;
     protected String scalarFunctionCode;
     protected String numericMinInterval;
     protected String numericMaxInterval;
@@ -41,12 +41,12 @@ public class RangeConfiguration {
 
 
     public RangeConfiguration() {
-        nameI18nMap = new HashMap();
-        unitI18nMap = new HashMap();
+        nameI18nMap = new HashMap<Locale, String>();
+        unitI18nMap = new HashMap<Locale, String>();
         rangeProperty = null;
     }
 
-    public RangeConfiguration(DataProperty property, ScalarFunction scalarFunction, Map unitI18nMap) {
+    public RangeConfiguration(DataProperty property, ScalarFunction scalarFunction, Map<Locale, String> unitI18nMap) {
         this();
         read(property, scalarFunction, unitI18nMap);
     }
@@ -63,11 +63,11 @@ public class RangeConfiguration {
         this.propertyId = propertyId;
     }
 
-    public Map getNameI18nMap() {
+    public Map<Locale, String> getNameI18nMap() {
         return nameI18nMap;
     }
 
-    public void setNameI18nMap(Map rangeNameI18nMap) {
+    public void setNameI18nMap(Map<Locale, String> rangeNameI18nMap) {
         nameI18nMap.clear();
         nameI18nMap.putAll(rangeNameI18nMap);
     }
@@ -83,11 +83,11 @@ public class RangeConfiguration {
         nameI18nMap.put(l, description);
     }
 
-    public Map getUnitI18nMap() {
+    public Map<Locale, String> getUnitI18nMap() {
         return unitI18nMap;
     }
 
-    public void setUnitI18nMap(Map unitI18nMap) {
+    public void setUnitI18nMap(Map<Locale, String> unitI18nMap) {
         this.unitI18nMap.clear();
         this.unitI18nMap.putAll(unitI18nMap);
     }
@@ -126,7 +126,7 @@ public class RangeConfiguration {
         if (name != null) range.setName(name, locale);        
     }
 
-    public void read(DataProperty range, ScalarFunction function, Map unitI18n) {
+    public void read(DataProperty range, ScalarFunction function, Map<Locale, String> unitI18n) {
         clear();
         rangeProperty = range;
         if (range != null) propertyId = range.getPropertyId();

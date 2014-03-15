@@ -43,7 +43,7 @@ public class RawDataSet implements Serializable {
     protected transient DateFormat _dateFormat;
     protected transient DecimalFormat _numberFormat;
 
-    public static final List SUPPORTED_TYPES = Arrays.asList(String.class, Double.class, Integer.class, Date.class);
+    public static final List<Class<?>> SUPPORTED_TYPES = Arrays.asList(new Class<?>[]{String.class, Double.class, Integer.class, Date.class});
 
     public RawDataSet(String[] columnIds, Class[] types, String numberPattern, String datePattern, String[][] data) {
         this.columnIds = columnIds;
@@ -58,7 +58,7 @@ public class RawDataSet implements Serializable {
         this._numberFormat = new DecimalFormat(numberPattern, numberSymbols);
         this._dateFormat = new SimpleDateFormat(datePattern);
 
-        for (Class type : types) {
+        for (Class<?> type : types) {
             if (!SUPPORTED_TYPES.contains(type)) {
                 throw new IllegalArgumentException("Type not supported: " + type);
             }
@@ -83,7 +83,7 @@ public class RawDataSet implements Serializable {
     }
 
 
-    public Object parseValue(String rawValue, Class type) throws ParseException {
+    public Object parseValue(String rawValue, Class<?> type) throws ParseException {
         if (Date.class.isAssignableFrom(type)) {
             return _dateFormat.parse(rawValue);
         }
@@ -100,9 +100,7 @@ public class RawDataSet implements Serializable {
             DataProperty prop = createProperty(i);
             dataSet.addProperty(prop, i);
         }
-
-        for (int i = 0; i < data.length; i++) {
-            String[] rawRow = data[i];
+        for (String[] rawRow : data) {
             Object[] row = new Object[rawRow.length];
             for (int j = 0; j < rawRow.length; j++) {
                 String rawValue = rawRow[j];
@@ -121,7 +119,7 @@ public class RawDataSet implements Serializable {
         return prop;
     }
 
-    public Domain createDomain(Class type) {
+    public Domain createDomain(Class<?> type) {
         if (Date.class.isAssignableFrom(type)) return new DateDomain();
         if (Number.class.isAssignableFrom(type)) return new NumericDomain();
         return new LabelDomain();

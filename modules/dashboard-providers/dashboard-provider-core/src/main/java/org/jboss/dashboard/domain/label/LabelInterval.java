@@ -16,10 +16,8 @@
 package org.jboss.dashboard.domain.label;
 
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.dataset.index.DistinctValue;
 import org.jboss.dashboard.domain.AbstractInterval;
-import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.provider.DataFormatterRegistry;
 import org.jboss.dashboard.provider.DataPropertyFormatter;
 import org.jboss.dashboard.provider.DataProperty;
