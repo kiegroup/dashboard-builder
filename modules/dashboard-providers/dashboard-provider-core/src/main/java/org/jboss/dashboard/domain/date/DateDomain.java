@@ -69,7 +69,7 @@ public class DateDomain extends AbstractDomain {
         intervalMode = -1;
     }
 
-    public Class getValuesClass() {
+    public Class<Date> getValuesClass() {
         return java.util.Date.class;
     }
 
@@ -117,9 +117,10 @@ public class DateDomain extends AbstractDomain {
         Date absoluteMinDate = null;
         Date absoluteMaxDate = null;
         if (!domainValues.isEmpty()) {
-            Collections.sort(domainValues);
-            absoluteMinDate = (Date) domainValues.get(0);
-            absoluteMaxDate = (Date) domainValues.get(domainValues.size() - 1);
+            //Don't sort the whole collection (n*log(n) complexity) just to get min/max values (doable in linear time)!
+            //Collections.sort(domainValues);
+            absoluteMinDate = (Date) Collections.min(domainValues);
+            absoluteMaxDate = (Date) Collections.max(domainValues);
         }
 
         // Ranges can not be created if limits are not defined.
@@ -129,7 +130,7 @@ public class DateDomain extends AbstractDomain {
         if (minDateLimit.after(maxDateLimit)) return new ArrayList<Interval>();
 
         // If min/max are equals then create a single interval.
-        if (minDateLimit != null && minDateLimit.compareTo(maxDateLimit) == 0) {
+        if (minDateLimit.compareTo(maxDateLimit) == 0) {
             DateInterval interval = new DateInterval();
             interval.setMinDate(minDateLimit);
             interval.setMaxDate(minDateLimit);
@@ -162,11 +163,10 @@ public class DateDomain extends AbstractDomain {
             // New composite interval.
             CompositeInterval compositeMinInterval = new CompositeInterval();
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i=0; i<locales.length; i++) {
-                Locale l = locales[i];
+            for (Locale l : locales) {
                 compositeMinInterval.setDescription("< " + listOfIntervals.get(0).getDescription(l), l);
             }
-            Set listOfMinIntervals = new HashSet();
+            Set<Interval> listOfMinIntervals = new HashSet<Interval>();
             listOfMinIntervals.add(dateInterval);
             compositeMinInterval.setIntervals(listOfMinIntervals);
             compositeMinInterval.setDomain(this);
@@ -191,7 +191,7 @@ public class DateDomain extends AbstractDomain {
                 Locale l = locales[i];
                 compositeMaxInterval.setDescription("> " + listOfIntervals.get(listOfIntervals.size()-1).getDescription(l), l);
             }
-            Set listOfMaxIntervals = new HashSet();
+            Set<Interval> listOfMaxIntervals = new HashSet<Interval>();
             listOfMaxIntervals.add(dateInterval);
             compositeMaxInterval.setIntervals(listOfMaxIntervals);
             compositeMaxInterval.setDomain(this);
@@ -245,7 +245,7 @@ public class DateDomain extends AbstractDomain {
         }
         // The last interval must include the maxDateLimit
         if (!resultIntervals.isEmpty()) {
-            DateInterval lastInterval = (DateInterval) resultIntervals.get(resultIntervals.size() - 1);
+            DateInterval lastInterval = resultIntervals.get(resultIntervals.size() - 1);
             lastInterval.setMaxDateIncluded(true);
         }
         return resultIntervals;
@@ -261,13 +261,13 @@ public class DateDomain extends AbstractDomain {
     }
 
     public String toString(List<Interval> intervals) {
-        StringBuffer buf = new StringBuffer();
-        buf.append("Number of ranges=" + intervals.size()).append("\r\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Number of ranges=").append(intervals.size()).append("\r\n");
         for (int i = 0; i < intervals.size(); i++) {
             DateInterval r = (DateInterval) intervals.get(i);
-            buf.append("Interval ").append(i).append("=").append(r.getMinDate()).append(" TO ").append(r.getMaxDate()).append("\r\n");
+            sb.append("Interval ").append(i).append("=").append(r.getMinDate()).append(" TO ").append(r.getMaxDate()).append("\r\n");
         }
-        return buf.toString();
+        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -280,7 +280,7 @@ public class DateDomain extends AbstractDomain {
         System.out.println(dd.toString(dd.getIntervals()));
 
         System.out.println("Dynamic domain: init based on a set of dates.");
-        List dates = new ArrayList();
+        List<Date> dates = new ArrayList<Date>();
         dates.add(new Date(System.currentTimeMillis() + INTERVAL_DURATION_IN_SECONDS[INTERVAL_SECOND]*1000));
         dates.add(new Date(System.currentTimeMillis() + INTERVAL_DURATION_IN_SECONDS[INTERVAL_DAY]*1000 * 6));
         dates.add(new Date(System.currentTimeMillis() + INTERVAL_DURATION_IN_SECONDS[INTERVAL_YEAR]*1000 * 1));

@@ -82,7 +82,7 @@ public class NumericDomain extends AbstractDomain {
         intervalMode = -1;
     }
 
-    public Class getValuesClass() {
+    public Class<Number> getValuesClass() {
         return java.lang.Number.class;
     }
 
@@ -130,9 +130,10 @@ public class NumericDomain extends AbstractDomain {
         Number absoluteMinValue = null;
         Number absoluteMaxValue = null;
         if (!domainValues.isEmpty()) {
-            Collections.sort(domainValues);
-            absoluteMinValue = (Number) domainValues.get(0);
-            absoluteMaxValue = (Number) domainValues.get(domainValues.size() - 1);
+            //Don't sort the whole collection (n*log(n) complexity) just to get min/max values (doable in linear time)!
+            //Collections.sort(domainValues);
+            absoluteMinValue = (Number) Collections.min(domainValues);
+            absoluteMaxValue = (Number) Collections.max(domainValues);
         }
 
         // Ranges can not be created if limits are not defined.
@@ -142,7 +143,7 @@ public class NumericDomain extends AbstractDomain {
         if (minValueLimit.longValue() > maxValueLimit.longValue()) return results;
 
         // If min/max are equals then create a single interval.
-        if (minValueLimit != null && minValueLimit.longValue() == maxValueLimit.longValue()) {
+        if (minValueLimit.longValue() == maxValueLimit.longValue()) {
             NumericInterval interval = new NumericInterval();
             interval.setMinValue(minValueLimit);
             interval.setMaxValue(minValueLimit);
@@ -161,7 +162,7 @@ public class NumericDomain extends AbstractDomain {
         if (tamInterval != -1 && intervalMode < tamInterval) intervalMode = tamInterval;
 
         // Don't exceed the maximum number of intervals. In case there are more intervals than the maximum number, increase the interval mode.
-        List listOfIntervals = getListOfIntervals(intervalMode, minValueLimit, maxValueLimit);
+        List<Interval> listOfIntervals = getListOfIntervals(intervalMode, minValueLimit, maxValueLimit);
 
         // If there are values before the minValue, create the initial composite interval.
         if (minValue != null && absoluteMinValue.longValue() < minValue.longValue()) {
@@ -175,11 +176,10 @@ public class NumericDomain extends AbstractDomain {
             // New composite interval.
             CompositeInterval compositeMinInterval = new CompositeInterval();
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i=0; i<locales.length; i++) {
-                Locale l = locales[i];
+            for (Locale l : locales) {
                 compositeMinInterval.setDescription("< " + ((NumericInterval) listOfIntervals.get(0)).getDescription(l), l);
             }
-            Set listOfMinIntervals = new HashSet();
+            Set<Interval> listOfMinIntervals = new HashSet<Interval>();
             listOfMinIntervals.add(numericInterval);
             compositeMinInterval.setIntervals(listOfMinIntervals);
             compositeMinInterval.setDomain(this);
@@ -200,11 +200,10 @@ public class NumericDomain extends AbstractDomain {
             // New composite interval.
             CompositeInterval compositeMaxInterval = new CompositeInterval();
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i=0; i<locales.length; i++) {
-                Locale l = locales[i];
+            for (Locale l : locales) {
                 compositeMaxInterval.setDescription("> " + ((NumericInterval) listOfIntervals.get(listOfIntervals.size()-1)).getDescription(l), l);
             }
-            Set listOfMaxIntervals = new HashSet();
+            Set<Interval> listOfMaxIntervals = new HashSet<Interval>();
             listOfMaxIntervals.add(numericInterval);
             compositeMaxInterval.setIntervals(listOfMaxIntervals);
             compositeMaxInterval.setDomain(this);
@@ -213,7 +212,7 @@ public class NumericDomain extends AbstractDomain {
         return results;
     }
 
-    public List getListOfIntervals(int intervalMode, Number minValueLimit, Number maxValueLimit) {
+    public List<Interval> getListOfIntervals(int intervalMode, Number minValueLimit, Number maxValueLimit) {
         // Calculate the first interval minimum numeric. For instance: If you have a number like 255639 and the interval mode is CENTENAS_DE_MILLAR,
         // this code round the number to 200000. 255639/100000 = 2; 2*100000 = 200000
         long minInterval = minValueLimit.longValue();
@@ -239,12 +238,12 @@ public class NumericDomain extends AbstractDomain {
         }
 
         // Loop until all intervals are created.
-        List intervals = new ArrayList();
+        List<Interval> intervals = new ArrayList<Interval>();
         long count = minIntervalResult;
         while (count <= maxValueLimit.longValue()) {
             // Create the interval instance.
             NumericInterval interval = new NumericInterval();
-            interval.setMinValue(new Long(count));
+            interval.setMinValue(Long.valueOf(count));
             interval.setMinValueIncluded(true);
             long min = count;
             long max = 0;
@@ -292,8 +291,8 @@ public class NumericDomain extends AbstractDomain {
     }
 
     public String toString(List<Interval> intervals) {
-        StringBuffer buf = new StringBuffer();
-        buf.append("Number of ranges=" + intervals.size()).append("\r\n");
+        StringBuilder buf = new StringBuilder();
+        buf.append("Number of ranges=").append(intervals.size()).append("\r\n");
         for (int i = 0; i < intervals.size(); i++) {
             NumericInterval r = (NumericInterval) intervals.get(i);
             buf.append("Interval ").append(i).append("=").append(r.getMinValue()).append(" TO ").append(r.getMaxValue()).append("\r\n");
@@ -312,7 +311,7 @@ public class NumericDomain extends AbstractDomain {
         System.out.println(dd.toString(dd.getIntervals()));
 
         System.out.println("Dynamic domain: init based on a set of dates.");
-        List numbers = new ArrayList();
+        List<Number> numbers = new ArrayList<Number>();
         numbers.add(new Double(123456));
         numbers.add(new Double(120333));
         numbers.add(new Double(125896));

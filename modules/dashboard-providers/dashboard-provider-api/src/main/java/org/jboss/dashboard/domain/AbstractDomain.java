@@ -32,7 +32,7 @@ public abstract class AbstractDomain implements Domain {
 
     protected DataProperty property;
     protected int maxNumberOfIntervals;
-    protected List scalarFunctionsSupported;
+    protected List<ScalarFunction> scalarFunctionsSupported;
 
     public AbstractDomain() {
         property = null;
@@ -62,19 +62,18 @@ public abstract class AbstractDomain implements Domain {
         return isScalarFunctionSupported(function);
     }
 
-    public List getScalarFunctionsSupported() {
+    public List<ScalarFunction> getScalarFunctionsSupported() {
         // This change allow you to restrict the scalar functions supported
         if (scalarFunctionsSupported != null) return scalarFunctionsSupported;
-        List results = new ArrayList();
+        List<ScalarFunction> supported = new ArrayList<ScalarFunction>();
         ScalarFunction[] sfs = DataProviderServices.lookup().getScalarFunctionManager().getAllScalarFunctions();
-        for (int i = 0; i < sfs.length; i++) {
-            ScalarFunction sf = sfs[i];
-            if (sf != null && isScalarFunctionSupported(sf)) results.add(sf);
+        for (ScalarFunction sf : sfs) {
+            if (sf != null && isScalarFunctionSupported(sf)) supported.add(sf);
         }
-        return results;
+        return supported;
     }
 
-    public void setScalarFunctionsSupported(List scalarFunctionsSupported) {
+    public void setScalarFunctionsSupported(List<ScalarFunction> scalarFunctionsSupported) {
         this.scalarFunctionsSupported = scalarFunctionsSupported;
     }
 
