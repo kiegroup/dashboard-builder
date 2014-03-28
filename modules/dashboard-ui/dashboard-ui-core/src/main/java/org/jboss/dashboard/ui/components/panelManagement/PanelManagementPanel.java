@@ -84,10 +84,21 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     @Override
-    public void afterRenderBean() {
-        super.afterRenderBean();
+    public void beforeRenderBean() {
         try {
-            getPanel().getPanelSession().setAttribute(PanelDriver.PARAMETER_ACTION_EXECUTED_ENABLED, Boolean.TRUE);
+            Panel panel = getPanel();
+            RequestContext.lookup().activatePanel(panel);
+        } catch (Exception e) {
+            getLogger().warn("Error setting current panel: ", e);
+        }
+    }
+
+    @Override
+    public void afterRenderBean() {
+        try {
+            Panel panel = getPanel();
+            panel.getPanelSession().setAttribute(PanelDriver.PARAMETER_ACTION_EXECUTED_ENABLED, Boolean.TRUE);
+            RequestContext.lookup().deactivatePanel(panel);
         } catch (Exception e) {
             getLogger().warn("Error enabling ajax action execution: ", e);
         }

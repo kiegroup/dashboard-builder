@@ -56,10 +56,11 @@ public class RenderPanelContentFormatter extends Formatter {
                     renderFragment("outputNotRegistered");
                 } else {
                     PanelProvider provider = panel.getProvider();
+                    provider.getDriver().fireBeforeRenderPanel(panel, request, response);
                     String screen = status.getCurrentPageId();
                     if (!status.isEditMode()) {
                         if (screen != null) {
-                            String jsp = panel.getProvider().getPage(screen);
+                            String jsp = provider.getPage(screen);
                             if (jsp != null) {
                                 setAttribute("jsp", jsp);
                                 setAttribute("panel", panel);

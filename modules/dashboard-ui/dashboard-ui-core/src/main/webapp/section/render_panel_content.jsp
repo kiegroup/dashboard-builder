@@ -43,7 +43,6 @@
     <mvc:fragmentValue name="jsp" id="jsp">
     <mvc:fragmentValue name="panel" id="panel">
         <% try { %>
-            <% ((Panel)panel).getProvider().getDriver().fireBeforeRenderPanel((Panel)panel, request, response); %>
             <mvc:include page="/common/panels/commonRefreshFormPanels.jsp"/>
             <mvc:include page="/common/panels/beforePanel.jsp"/>
             <mvc:include page="<%= (String)jsp %>" flush="true" />

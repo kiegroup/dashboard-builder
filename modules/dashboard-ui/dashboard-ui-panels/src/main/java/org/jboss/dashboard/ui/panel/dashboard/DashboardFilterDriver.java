@@ -124,6 +124,8 @@ public class DashboardFilterDriver extends PanelDriver implements DashboardDrive
         Set<DataProvider> results = new HashSet<DataProvider>();
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         DashboardFilterHandler handler = dashboard.getDashboardFilter().getHandler(panel);
+        if (handler == null) return results; // It happens on drill down.
+
         for (DashboardFilterProperty filterProperty : handler.getVisibleProperties()) {
             DataProvider dataProvider = filterProperty.getDataProperty().getDataSet().getDataProvider();
             results.add(dataProvider);
