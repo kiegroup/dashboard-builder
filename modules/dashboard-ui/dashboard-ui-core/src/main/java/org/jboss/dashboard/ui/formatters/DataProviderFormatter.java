@@ -80,13 +80,12 @@ public class DataProviderFormatter extends Formatter {
             renderFragment("outputDataProviderTypes");
             DataProvider dataProvider = handler.getDataProvider();
             if (dataProvider != null) {
-                // Provider type selected, show type editor page.
-                DataProviderEditor editor = UIBeanLocator.lookup().getEditor(dataProvider.getDataProviderType());
-                editor.setDataProvider(dataProvider);
                 setAttribute("error", Boolean.valueOf(handler.getFieldErrors().size() > 0));
-
                 setAttribute("value", handler.getDescriptions());
                 renderFragment("outputProviderName");
+
+                // Provider type selected, show type editor page.
+                DataProviderEditor editor = UIBeanLocator.lookup().getEditor(dataProvider.getDataProviderType());
                 setAttribute("componentPath", editor.getName());
                 renderFragment("outputEditProviderPage");
             } else {
