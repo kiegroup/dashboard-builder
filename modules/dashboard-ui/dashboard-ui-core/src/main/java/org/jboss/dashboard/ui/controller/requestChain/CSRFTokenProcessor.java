@@ -71,8 +71,9 @@ public class CSRFTokenProcessor extends AbstractChainProcessor {
             String servletPath = request.getServletPath();
             boolean isAjax = (ajaxParam != null && Boolean.parseBoolean(ajaxParam));
             boolean isFriendly = servletPath.startsWith(FriendlyUrlProcessor.FRIENDLY_MAPPING);
+            boolean isJsp = servletPath.startsWith(JspUrlProcessor.JSP_MAPPING);
             boolean isKPI = servletPath.startsWith(KPIProcessor.KPI_MAPPING);
-            if (isAjax || !(isFriendly || isKPI)) {
+            if (isAjax || !(isFriendly || isJsp || isKPI)) {
                 // Throw an exception aborting the request flow.
                 throw new ServletException("CSRF token missing.");
             }

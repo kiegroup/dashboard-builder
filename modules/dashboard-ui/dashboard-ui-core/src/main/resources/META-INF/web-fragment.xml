@@ -43,6 +43,11 @@
 
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
+        <url-pattern>/jsp/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
         <url-pattern>/kpi/*</url-pattern>
     </servlet-mapping>
 

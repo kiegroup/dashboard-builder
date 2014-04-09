@@ -19,6 +19,8 @@
 <%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) UIBeanLocator.lookup().getCurrentBean(request);
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
@@ -28,14 +30,17 @@
 <%-- EDIT MODE --%>
 
 <% if( editor != null ) {
-  session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
-  String basehref = UIServices.lookup().getUrlMarkupGenerator().getBaseHref(request);
+    session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
+    String jsp = "/components/bam/displayer/chart/nvd3_linechart_viewer_iframe.jsp";
+    Map params = new HashMap();
+    params.put("chartId", chartId);
+    String iframeUrl = UIServices.lookup().getUrlMarkupGenerator().getLinkToJsp(jsp, params);
 %>
 <%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
 <iframe
     width="650px" height="450px"
     style="border:0px;overflow: auto;"
-    src="<%=basehref %>components/bam/displayer/chart/nvd3_linechart_viewer_iframe.jsp?chartId=<%=chartId%>">
+    src="<%=iframeUrl %>">
 </iframe>
 <%
   } else {
