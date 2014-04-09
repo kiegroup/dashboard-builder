@@ -27,6 +27,7 @@ DashboardProcessor ->
 FreeMemoryProcessor ->
 SessionInitializer ->
 FriendlyUrlProcessor ->
+JspUrlProcessor ->
 NavigationCookieProcessor ->
 FactoryActionRequestExecutor ->
 

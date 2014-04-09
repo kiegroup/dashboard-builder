@@ -19,6 +19,8 @@
 <%@ page import="org.jboss.dashboard.ui.UIServices" %>
 <%@ page import="org.jboss.dashboard.ui.components.chart.NVD3ChartViewer" %>
 <%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
 <%
     NVD3ChartViewer viewer = (NVD3ChartViewer) Factory.lookup("org.jboss.dashboard.ui.components.PieChartViewer_nvd3");
     AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
@@ -29,13 +31,16 @@
 
 <% if( editor != null ) {
     session.setAttribute("chartId_iframe_viewer"+chartId, viewer);
-    String basehref = UIServices.lookup().getUrlMarkupGenerator().getBaseHref(request);
+    String jsp = "/components/bam/displayer/chart/nvd3_piechart_viewer_iframe.jsp";
+    Map params = new HashMap();
+    params.put("chartId", chartId);
+    String iframeUrl = UIServices.lookup().getUrlMarkupGenerator().getLinkToJsp(jsp, params);
 %>
      <%-- Editing preview will be performed inside an IFRAME due to library problems with AJAX --%>
      <iframe
          width="650px" height="450px"
          style="border:0px;overflow: auto;"
-          src="<%=basehref %>components/bam/displayer/chart/nvd3_piechart_viewer_iframe.jsp?chartId=<%=chartId%>">
+          src="<%=iframeUrl %>">
      </iframe>
 <% }
    else {

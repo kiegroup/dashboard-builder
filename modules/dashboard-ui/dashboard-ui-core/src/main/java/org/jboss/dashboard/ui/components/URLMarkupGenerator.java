@@ -46,6 +46,7 @@ public class URLMarkupGenerator {
 
     public static final String COMMAND_RUNNER = "Controller";
     public static final String FRIENDLY_PREFIX = "workspace";
+    public static final String JSP_PREFIX = "jsp";
     public static final String PARAM_SEPARATOR = "\u0026";
 
     /**
@@ -288,6 +289,25 @@ public class URLMarkupGenerator {
         }
         sb.append(RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath() + "/" + FRIENDLY_PREFIX + "/").append(lang).append("/").append(friendlyUrl);
         return sb;
+    }
+
+    /**
+     * Generate a link to the given JSP
+     * @param jsp The JSP file path relative to the webapp root.
+     * @param paramsMap Extra params to be added to the URL.
+     */
+    public String getLinkToJsp(String jsp, Map paramsMap) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(RequestContext.getCurrentContext().getRequest().getRequestObject().getContextPath());
+        sb.append("/").append(JSP_PREFIX);
+        if (!jsp.startsWith("/")) sb.append("/");
+        sb.append(jsp);
+
+        if (paramsMap != null && !paramsMap.isEmpty()) {
+            String paramsMarkup = getParamsMarkup(paramsMap);
+            sb.append("?").append(paramsMarkup);
+        }
+        return postProcessURL(sb).toString();
     }
 
     /**

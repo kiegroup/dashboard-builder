@@ -49,7 +49,8 @@ public class CSRFTokenProcessor extends RequestChainProcessor {
             String servletPath = getRequest().getServletPath();
             boolean isAjax = (ajaxParam != null && Boolean.parseBoolean(ajaxParam));
             boolean isFriendly = servletPath.startsWith(FriendlyUrlProcessor.FRIENDLY_MAPPING);
-            if (isAjax || !isFriendly) {
+            boolean isJsp = servletPath.startsWith(JspUrlProcessor.JSP_MAPPING);
+            if (isAjax || !(isFriendly || isJsp)) {
                 // Throw an exception aborting the request flow.
                 throw new ServletException("CSRF token missing.");
             }

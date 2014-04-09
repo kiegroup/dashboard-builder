@@ -14,9 +14,8 @@
 # limitations under the License.
 #
 
-$class=org.jboss.dashboard.ui.controller.requestChain.FriendlyUrlProcessor
+$class=org.jboss.dashboard.ui.controller.requestChain.JspUrlProcessor
 $scope=volatile
 
-nextStep=.JspUrlProcessor
-navigationManager=org.jboss.dashboard.ui.NavigationManager
+nextStep=.NavigationCookieProcessor
 
