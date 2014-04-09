@@ -62,7 +62,7 @@
                     submitAjaxForm(document.getElementById('<panel:encode name="refreshForm"/>')); return false;">
         </td>
         <td nowrap="nowrap">
-            <span id="<panel:encode name="p_timeout"/>" style="color:#FFFFFF;"><%=handler.getAutoRefreshTimeout()%></span>&nbsp;''
+            <span id="<panel:encode name="p_timeout"/>"><%=handler.getAutoRefreshTimeout()%></span>&nbsp;''
         </td>
     </tr>
 </table>
