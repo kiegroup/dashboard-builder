@@ -98,7 +98,7 @@ public class ClusterNodesManager implements Startable {
 
         if (result[0] != null) this.currentNodeId = result[0].getId();
 
-        log.info("Successfuly resgister cluster node with ip address " + currentNodeIpAddress + " and identifier " + this.currentNodeId);
+        log.info("Successfully registered cluster node with ip address " + currentNodeIpAddress + " and identifier " + this.currentNodeId);
     }
 
     /**

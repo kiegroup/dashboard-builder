@@ -241,6 +241,10 @@ public class DataProviderHandler extends UIBeanHandler {
                 descriptions = dataProvider.getDescriptionI18nMap();
                 providerName = (String) descriptions.get(LocaleManager.currentLocale());
                 setEdit(true);
+
+                // Go the the edit screen.
+                DataProviderEditor editor = UIBeanLocator.lookup().getEditor(providerType);
+                editor.setDataProvider(dataProvider);
                 setComponentIncludeJSP(componentIncludeJSPeditCreate);
             }
         } catch (Exception e) {
@@ -373,29 +377,19 @@ public class DataProviderHandler extends UIBeanHandler {
                 setHasErrors(true);
                 return;
             }
-            if (isTestConfigButtonPressed()) return;
-
-            // Merge property configurations.
-            DataProvider dpDO = getDataProvider();
-            DataSet newDataSetConfigured = dpDO.getDataSet(); // Cached data set with properties configured (deserialized).
-            DataSet newDataSetNotConfigured = dpDO.refreshDataSet(); // New data set. No configuration applied to it's properties.
-            DataProperty[] properties = newDataSetConfigured.getProperties();
-            for (int i = 0; i < properties.length; i++) {
-                DataProperty configuredProperty = properties[i];
-                DataProperty notConfiguredProperty = newDataSetNotConfigured.getPropertyById(configuredProperty.getPropertyId());
-
-                Domain oldDomain = configuredProperty.getDomain();
-                if (!(oldDomain instanceof LabelDomain && ((LabelDomain) oldDomain).isConvertedFromNumeric())) {
-                    configuredProperty.setDomain(notConfiguredProperty.getDomain());
-                }
+            if (isTestConfigButtonPressed()) {
+                return;
             }
 
-            checkConfig();
+            // Merge property configurations.
+            DataProvider dataProvider = getDataProvider();
+            dataProvider.setDataLoader(editor.getDataProvider().getDataLoader());
 
             // Save if requested and all is ok.
+            checkConfig();
             if (!hasErrors() && editor.isConfiguredOk() && isSaveButtonPressed()) {
-                setProviderDescriptions(dpDO);
-                dpDO.save();
+                setProviderDescriptions(dataProvider);
+                dataProvider.save();
                 clearAttributes();
                 setComponentIncludeJSP(componentIncludeJSPshow);
             }
@@ -450,9 +444,7 @@ public class DataProviderHandler extends UIBeanHandler {
             DataProvider dataProvider = getDataProvider();
             if (dataProvider == null) return null;
 
-            DataProviderEditor editor = UIBeanLocator.lookup().getEditor(dataProvider.getDataProviderType());
-            editor.setDataProvider(dataProvider);
-            return editor;
+            return UIBeanLocator.lookup().getEditor(dataProvider.getDataProviderType());
         } catch (Exception e) {
             log.error("Cannot get data provider editor.", e);
         }
