@@ -87,7 +87,7 @@
 
 <mvc:fragment name="tableoutput">
     <td valign="top" >
-    <table style="<%=table.getHtmlStyle()%>" class="<%=table.getHtmlClass()%>">
+    <table id="tablePreview" style="<%=table.getHtmlStyle()%>" class="<%=table.getHtmlClass()%>">
 </mvc:fragment>
 
 <mvc:fragment name="tableempty">
