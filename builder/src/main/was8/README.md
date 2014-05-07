@@ -64,7 +64,17 @@ Deploy the application
   - We also recommend to set is the context patch of the webapp to _dashbuilder_.
   - Click _Next_ until finished.
 
-  Once deployed you can start/stop the application from the Websphere console.
+* Set class loading settings:
+
+   Go to _Applications > Application types > Websphere enterprise applications > dashbuilder app > Class loading and update detection_
+
+   Ensure the following radio buttons are checked:
+
+   - _Classes loaded with local class loader first (parent last)_
+   - _Single class loader for application_
+
+
+Once deployed you can start/stop the application from the Websphere console.
 
 
 Authentication and authorization
@@ -91,6 +101,11 @@ Two user roles must be defined: "admin" and "user", as configured in the <code>w
   - Click search and select users.
   - Use the arrows to move the selected users/groups to the right hand box.
   - Click ok and save to master configuration and restart the server.
+
+   Try the following if you want to grant access to any user having one or more of the app. roles:
+
+   - Check all the app. roles.
+   - Click on _Map Special Subjects_ and select the _All Authenticated in Application's Realm_ option.
 
 * Create users
 
