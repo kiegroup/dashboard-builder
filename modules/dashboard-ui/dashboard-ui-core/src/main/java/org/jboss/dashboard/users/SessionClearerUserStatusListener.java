@@ -48,7 +48,12 @@ public class SessionClearerUserStatusListener implements UserStatusListener {
                 String attrName = (String) iterator.next();
                 session.removeAttribute(attrName);
             }
-            ctx.getRequest().getRequestObject().getSession().invalidate();
+            try {
+                ctx.getRequest().getRequestObject().getSession().invalidate();
+                ctx.getRequest().getRequestObject().logout();
+            } catch (Throwable e) {
+                // Just ignore
+            }
         }
     }
 }
