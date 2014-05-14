@@ -76,6 +76,7 @@ public class RolesManagerImpl implements RolesManager {
 
             // Register a role instance for every <security-role> defined in the web.xml descriptor.
             List bundleNodes = root.getChildren("security-role");
+            if (bundleNodes.isEmpty()) bundleNodes = root.getChildren("security-role", null);
             for (Iterator iterator = bundleNodes.iterator(); iterator.hasNext();) {
                 Element el_role = (Element) iterator.next();
                 List ch_role = el_role.getChildren();
