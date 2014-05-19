@@ -22,8 +22,6 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
-import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
-import org.jboss.dashboard.ui.panel.parameters.IntParameter;
 import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.apache.commons.lang.StringUtils;
@@ -79,7 +77,7 @@ public class PanelInstance implements Cloneable, Visitable {
     /**
      * Parameters provided to this panel
      */
-    private Set<PanelParameter> panelParams = new HashSet();
+    private Set<PanelParameter> panelParams = new HashSet<PanelParameter>();
 
     /**
      * Panel content (information stored by the panel driver) - optional
@@ -193,11 +191,11 @@ public class PanelInstance implements Cloneable, Visitable {
         this.workspace = workspace;
     }
 
-    public Set getPanelParams() {
+    public Set<PanelParameter> getPanelParams() {
         return panelParams;
     }
 
-    public void setPanelParams(Set panelParams) {
+    public void setPanelParams(Set<PanelParameter> panelParams) {
         this.panelParams = panelParams;
     }
 
@@ -312,7 +310,7 @@ public class PanelInstance implements Cloneable, Visitable {
 
     public void addPanelParameter(final PanelParameter param) {
         if (this.panelParams == null) {
-            this.panelParams = new HashSet();
+            this.panelParams = new HashSet<PanelParameter>();
         }
         final PanelInstance theInstance = this;
         HibernateTxFragment txFragment = new HibernateTxFragment() {
@@ -346,9 +344,7 @@ public class PanelInstance implements Cloneable, Visitable {
     }
 
     public PanelParameter getPanelParameter(String id, String lang) {
-        Iterator it = panelParams.iterator();
-        while (it.hasNext()) {
-            PanelParameter param = (PanelParameter) it.next();
+        for (PanelParameter param : panelParams) {
             if (param.getIdParameter().equals(id) &&
                     (lang == null || lang.trim().length() == 0 || param.getLanguage().equalsIgnoreCase(lang)))
                 return param;
@@ -357,7 +353,7 @@ public class PanelInstance implements Cloneable, Visitable {
     }
 
     public PanelParameter[] getPanelParameters() {
-        return (PanelParameter[]) panelParams.toArray(new PanelParameter[panelParams.size()]);
+        return panelParams.toArray(new PanelParameter[panelParams.size()]);
     }
 
     public String getParameterValue(String id) {
@@ -393,10 +389,8 @@ public class PanelInstance implements Cloneable, Visitable {
             return "";
         } else {
             final boolean isI18n = providerParam.isI18n();
-            Set panelParams = getPanelParams();
-            final List instanceParameters = new ArrayList();
-            for (Iterator iterator = panelParams.iterator(); iterator.hasNext();) {
-                PanelParameter panelParameter = (PanelParameter) iterator.next();
+            final List<PanelParameter> instanceParameters = new ArrayList<PanelParameter>();
+            for (PanelParameter panelParameter : panelParams) {
                 if (id.equals(panelParameter.getIdParameter())) {
                     if (!isI18n || language.equals(panelParameter.getLanguage())) {
                         instanceParameters.add(panelParameter);
@@ -404,10 +398,10 @@ public class PanelInstance implements Cloneable, Visitable {
                 }
             }
             if (instanceParameters.size() == 1) {
-                return ((PanelParameter) instanceParameters.get(0)).getValue();
+                return (instanceParameters.get(0)).getValue();
             } else if (instanceParameters.size() > 1) {
                 log.error("There are " + instanceParameters.size() + " values for parameter " + id + " in lang " + language);
-                return ((PanelParameter) instanceParameters.get(0)).getValue();
+                return (instanceParameters.get(0)).getValue();
             }
             return StringUtils.defaultString(providerParam.getDefaultValue(language));
         }
@@ -443,8 +437,8 @@ public class PanelInstance implements Cloneable, Visitable {
             defaultValue = providerParam.getDefaultValue(language);
         }
 
-        for (Iterator iterator = panelParams.iterator(); iterator.hasNext();) {
-            final PanelParameter panelParameter = (PanelParameter) iterator.next();
+        for (Iterator<PanelParameter> iterator = panelParams.iterator(); iterator.hasNext();) {
+            final PanelParameter panelParameter = iterator.next();
             if (panelParameter.getIdParameter().equals(id)) {
                 if (!StringUtils.isBlank(panelParameter.getLanguage())) {
                     if (language.equals(" ")) {
@@ -653,7 +647,7 @@ public class PanelInstance implements Cloneable, Visitable {
         try {
             PanelInstance instance = (PanelInstance) super.clone();
             instance.setContentData(null);
-            instance.panelParams = new HashSet();
+            instance.panelParams = new HashSet<PanelParameter>();
             instance.panelParams.addAll(this.panelParams);
             return instance;
         } catch (CloneNotSupportedException e) {

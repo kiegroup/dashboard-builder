@@ -53,6 +53,11 @@ public class PanelParameter implements Serializable, Visitable {
         }
     }
 
+    @Override
+    public int hashCode() {
+        return dbid == null ? 0 : dbid.hashCode();
+    }
+
     public Long getDbid() {
         return dbid;
     }
