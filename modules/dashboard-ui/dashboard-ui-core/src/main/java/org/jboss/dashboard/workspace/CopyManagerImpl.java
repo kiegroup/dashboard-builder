@@ -59,11 +59,10 @@ public class CopyManagerImpl implements CopyManager {
                 UIServices.lookup().getPanelsManager().store(panelInstanceCopy);
 
                 log.debug("Setting PanelInstance parameters.");
-                Set panelParams = panelInstance.getPanelParams();
+                Set<PanelParameter> panelParams = panelInstance.getPanelParams();
                 if (panelParams != null) {
-                    Set paramsClone = new HashSet();
-                    for (Iterator it = panelParams.iterator(); it.hasNext();) {
-                        PanelParameter param = (PanelParameter) it.next();
+                    Set<PanelParameter> paramsClone = new HashSet<PanelParameter>();
+                    for (PanelParameter param : panelParams) {
                         log.debug("Copying parameter " + param);
                         PanelParameter paramClone = (PanelParameter) param.clone();
                         paramClone.setPanelInstance(panelInstanceCopy);
