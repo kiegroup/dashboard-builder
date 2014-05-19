@@ -376,8 +376,7 @@ public class PanelInstance implements Cloneable, Visitable {
         /* Get the PanelProviderParameter object from driver */
         PanelProviderParameter providerParam = null;
         PanelProviderParameter[] allParams = getProvider().getDriver().getAllParameters();
-        for (int i = 0; i < allParams.length; i++) {
-            PanelProviderParameter param = allParams[i];
+        for (PanelProviderParameter param : allParams) {
             if (param.getId().equals(id)) {
                 providerParam = param;
                 break;
@@ -423,8 +422,7 @@ public class PanelInstance implements Cloneable, Visitable {
         /* Get the PanelProviderParameter object from driver */
         PanelProviderParameter providerParam = null;
         PanelProviderParameter[] allParams = getProvider().getDriver().getAllParameters();
-        for (int i = 0; i < allParams.length; i++) {
-            PanelProviderParameter param = allParams[i];
+        for (PanelProviderParameter param : allParams) {
             if (param.getId().equals(id)) {
                 providerParam = param;
                 break;
@@ -504,14 +502,16 @@ public class PanelInstance implements Cloneable, Visitable {
      * @return all system parameters defined for this panel
      */
     public PanelProviderParameter[] getSystemParameters() {
-        List sysParams = new ArrayList();
+        List<PanelProviderParameter> sysParams = new ArrayList<PanelProviderParameter>();
         PanelProviderParameter[] params = getProvider().getDriver().getAllParameters();
         if (params != null) {
-            for (int i = 0; i < params.length; i++) {
-                if (params[i].isSystemParameter()) sysParams.add(params[i]);
+            for (PanelProviderParameter param : params) {
+                if (param.isSystemParameter()) {
+                    sysParams.add(param);
+                }
             }
         }
-        return (PanelProviderParameter[]) sysParams.toArray(new PanelProviderParameter[sysParams.size()]);
+        return sysParams.toArray(new PanelProviderParameter[sysParams.size()]);
     }
 
     /**
@@ -520,15 +520,16 @@ public class PanelInstance implements Cloneable, Visitable {
      * @return all custom parameters defined for this panel
      */
     public PanelProviderParameter[] getCustomParameters() {
-        List customParams = new ArrayList();
+        List<PanelProviderParameter> customParams = new ArrayList<PanelProviderParameter>();
         PanelProviderParameter[] params = getProvider().getDriver().getAllParameters();
         if (params != null) {
-            for (int i = 0; i < params.length; i++) {
-                if (!params[i].isSystemParameter())
-                    customParams.add(params[i]);
+            for (PanelProviderParameter param : params) {
+                if (!param.isSystemParameter()) {
+                    customParams.add(param);
+                }
             }
         }
-        return (PanelProviderParameter[]) customParams.toArray(new PanelProviderParameter[customParams.size()]);
+        return customParams.toArray(new PanelProviderParameter[customParams.size()]);
     }
 
     /**
@@ -537,15 +538,16 @@ public class PanelInstance implements Cloneable, Visitable {
      * @return all internationalizable parameters defined for this panel
      */
     public PanelProviderParameter[] getI18nParameters() {
-        List i18nParams = new ArrayList();
+        List<PanelProviderParameter> i18nParams = new ArrayList<PanelProviderParameter>();
         PanelProviderParameter[] params = getProvider().getDriver().getAllParameters();
         if (params != null) {
-            for (int i = 0; i < params.length; i++) {
-                if (params[i].isI18n())
-                    i18nParams.add(params[i]);
+            for (PanelProviderParameter param : params) {
+                if (param.isI18n()) {
+                    i18nParams.add(param);
+                }
             }
         }
-        return (PanelProviderParameter[]) i18nParams.toArray(new PanelProviderParameter[i18nParams.size()]);
+        return i18nParams.toArray(new PanelProviderParameter[i18nParams.size()]);
     }
 
     /**
@@ -687,12 +689,12 @@ public class PanelInstance implements Cloneable, Visitable {
         log.debug("Init PanelInstance " + instanceId);
         PanelProviderParameter[] params = getProvider().getDriver().getAllParameters();
 
-        for (int i = 0; i < params.length; i++) {
-            String id = params[i].getId();
-            String value = params[i].getDefaultValue();
-
-            if ((getParameterValue(id) == null || getParameterValue(id).trim().length() == 0) && value != null)
-                setParameterValue(params[i].getId(), value);
+        for (PanelProviderParameter param : params) {
+            String id = param.getId();
+            String value = param.getDefaultValue();
+            if ((getParameterValue(id) == null || getParameterValue(id).trim().length() == 0) && value != null) {
+                setParameterValue(param.getId(), value);
+            }
         }
 
         log.debug("Init panel instance");

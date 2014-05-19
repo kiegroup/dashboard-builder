@@ -49,7 +49,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -85,7 +84,7 @@ public class PanelDriver {
     /**
      * Parameters definitions to be supplied to the panel
      */
-    protected List parameters = new ArrayList();
+    protected List<PanelProviderParameter> parameters = new ArrayList<PanelProviderParameter>();
 
     /**
      * Security table
@@ -96,7 +95,7 @@ public class PanelDriver {
      * Returns all the parameters this panel driver allows to configure.
      */
     public PanelProviderParameter[] getAllParameters() {
-        return (PanelProviderParameter[]) parameters.toArray(new PanelProviderParameter[parameters.size()]);
+        return parameters.toArray(new PanelProviderParameter[parameters.size()]);
     }
 
     /**
@@ -115,8 +114,8 @@ public class PanelDriver {
      * @param parameters Parameters to add.
      */
     protected void addParameters(PanelProviderParameter[] parameters) {
-        for (int i = 0; i < parameters.length; i++) {
-            addParameter(parameters[i]);
+        for (PanelProviderParameter parameter : parameters) {
+            addParameter(parameter);
         }
     }
 
@@ -126,8 +125,7 @@ public class PanelDriver {
         if (parameter.isI18n()) {
             LocaleManager localeManager = LocaleManager.lookup();
             String[] langs = localeManager.getPlatformAvailableLangs();
-            for (int i = 0; i < langs.length; i++) {
-                String lang = langs[i];
+            for (String lang : langs) {
                 String defaultValueInLang = properties.getProperty("parameter." + parameterId + "." + lang + ".default");
                 if (!StringUtils.isEmpty(defaultValueInLang))
                     parameter.setDefaultValue(defaultValueInLang, lang);
@@ -136,7 +134,7 @@ public class PanelDriver {
             parameter.setDefaultValue(properties.getProperty("parameter." + parameterId + ".default", parameter.getDefaultValue()));
         }
         parameters.remove(parameter);
-        this.parameters.add(parameter);
+        parameters.add(parameter);
     }
 
     /**
@@ -194,8 +192,7 @@ public class PanelDriver {
 
     protected void initPermissionsParameters() throws NoSuchMethodException {
         Method[] methods = this.getClass().getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            Method method = methods[i];
+        for (Method method : methods) {
             if ((method.getName().startsWith("action") || method.getName().startsWith("panelAction"))
                 && method.getParameterTypes().length == 2
                 && method.getParameterTypes()[0].equals(Panel.class)
@@ -303,8 +300,7 @@ public class PanelDriver {
     protected void beforeRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
         PanelProviderParameter[] params = panel.getProvider().getDriver().getAllParameters();
         String lang = LocaleManager.currentLang();
-        for (int i = 0; i < params.length; i++) {
-            PanelProviderParameter param = params[i];
+        for (PanelProviderParameter param : params) {
             String paramId = param.getId();
             String value = panel.getParameterValue(paramId);
             if (param.isI18n()) {
@@ -323,8 +319,7 @@ public class PanelDriver {
      */
     protected void afterRenderPanel(Panel panel, HttpServletRequest request, HttpServletResponse response) {
         PanelParameter[] panelParameters = panel.getInstance().getPanelParameters();
-        for (int i = 0; i < panelParameters.length; i++) {
-            PanelParameter panelParameter = panelParameters[i];
+        for (PanelParameter panelParameter : panelParameters) {
             request.removeAttribute(panelParameter.getIdParameter());
         }
         PanelSession session = panel.getPanelSession();
@@ -725,7 +720,7 @@ public class PanelDriver {
             }
         }
 
-        if (StringUtils.defaultString(request.getRequestObject().getHeader("user-agent")).indexOf("MSIE") != -1)
+        if (StringUtils.defaultString(request.getRequestObject().getHeader("user-agent")).contains("MSIE"))
             return new ShowPanelPage();
 
         return new ShowJSPAjaxResponse("/section/render_tabbed_region.jsp", panel.getRegion());
