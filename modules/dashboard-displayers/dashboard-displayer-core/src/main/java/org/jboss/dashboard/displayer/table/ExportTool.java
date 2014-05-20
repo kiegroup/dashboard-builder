@@ -123,34 +123,33 @@ public class ExportTool {
         }
 
         // Create data rows
-        for(; row < rowCount; row++){
+        for (; row < rowCount; row++) {
             Row _row = sh.createRow(row);
-            for(int cellnum = 0; cellnum < columnCount; cellnum++){
+            for (int cellnum = 0; cellnum < columnCount; cellnum++) {
                 Cell cell = _row.createCell(cellnum);
-                Object value = tableModel.getValueAt(row-1, cellnum);
+                Object value = tableModel.getValueAt(row - 1, cellnum);
                 if (value instanceof Short || value instanceof Long || value instanceof Integer || value instanceof BigInteger) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellStyle(styles.get("integer_number_cell"));
-                    if (value!= null) cell.setCellValue( ((Number)value).doubleValue());
+                    cell.setCellValue(((Number) value).doubleValue());
                 } else if (value instanceof Float || value instanceof Double || value instanceof BigDecimal) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellStyle(styles.get("decimal_number_cell"));
-                    if (value!= null) cell.setCellValue( ((Number)value).doubleValue());
+                    cell.setCellValue(((Number) value).doubleValue());
                 } else if (value instanceof Date) {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     cell.setCellStyle(styles.get("date_cell"));
-                    if (value!= null) cell.setCellValue( (Date)value );
+                    cell.setCellValue((Date) value);
                 } else if (value instanceof Interval) {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     cell.setCellStyle(styles.get("text_cell"));
-                    if (value!= null) cell.setCellValue( ((Interval)value).getDescription(LocaleManager.currentLocale()) );
+                    cell.setCellValue(((Interval) value).getDescription(LocaleManager.currentLocale()));
                 } else {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     cell.setCellStyle(styles.get("text_cell"));
-                    if (value!= null) cell.setCellValue( value.toString() );
+                    cell.setCellValue(value.toString());
                 }
             }
-
         }
 
         // Adjust column size
