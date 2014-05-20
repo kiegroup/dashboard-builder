@@ -124,8 +124,8 @@ public class Envelope extends GraphicElement implements Comparable, Cloneable {
     }
 
     protected String getPrefixForResourcePath(String path) {
-        Map fpMap = (Map) resources.get("FULL_PAGE");
-        Map spMap = (Map) resources.get("SHARED_PAGE");
+        Map<String, String> fpMap = resources.get("FULL_PAGE");
+        Map<String, String> spMap = resources.get("SHARED_PAGE");
         if (fpMap != null && path.equals(fpMap.get(null)))
             return JSPS_PREFIX;
         if (spMap != null && path.equals(spMap.get(null)))
@@ -134,8 +134,8 @@ public class Envelope extends GraphicElement implements Comparable, Cloneable {
     }
 
     protected String getSuffixForResourcePath(String path) {
-        Map fpMap = (Map) resources.get("FULL_PAGE");
-        Map spMap = (Map) resources.get("SHARED_PAGE");
+        Map<String, String> fpMap = resources.get("FULL_PAGE");
+        Map<String, String> spMap = resources.get("SHARED_PAGE");
         if (fpMap != null && path.equals(fpMap.get(null)))
             return JSPS_SUFFIX;
         if (spMap != null && path.equals(spMap.get(null)))
@@ -161,5 +161,4 @@ public class Envelope extends GraphicElement implements Comparable, Cloneable {
         }
         return null;
     }
-
 }

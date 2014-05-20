@@ -17,8 +17,6 @@ package org.jboss.dashboard.ui.resources;
 
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.GraphicElementManager;
-import org.jboss.dashboard.workspace.GraphicElementManager;
-import org.jboss.dashboard.workspace.LayoutRegion;
 import org.jboss.dashboard.workspace.LayoutsManager;
 import org.jboss.dashboard.workspace.LayoutRegion;
 import org.jdom.Document;
@@ -42,7 +40,7 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
     /**
      * List containing all this template's regions.
      */
-    private List regions;
+    private List<LayoutRegion> regions;
 
     static {
         DEFAULT_PROPERTIES = new Properties();
@@ -196,10 +194,10 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
         ZipEntry e;
         SAXBuilder builder = new SAXBuilder();
         Document doc = null;
-        Map descriptorPathMap = (Map) resources.get("XML");
+        Map<String, String> descriptorPathMap = resources.get("XML");
         if (descriptorPathMap == null)
             throw new IllegalArgumentException("No valid xml descriptor in layout " + getId());
-        String descriptorPath = (String) descriptorPathMap.get(null);
+        String descriptorPath = descriptorPathMap.get(null);
         if (descriptorPath == null)
             throw new IllegalArgumentException("No valid xml descriptor in layout " + getId());
 
@@ -215,10 +213,11 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
         Element root = doc.getRootElement();
 
         if (root.getName().equalsIgnoreCase("layout")) {
-            List xmlRegions = loadRegions(root);
-            regions = new ArrayList();
-            for (int i = 0; i < xmlRegions.size(); i++)
-                addRegion((LayoutRegion) xmlRegions.get(i));
+            List<LayoutRegion> xmlRegions = loadRegions(root);
+            regions = new ArrayList<LayoutRegion>();
+            for (LayoutRegion xmlRegion : xmlRegions) {
+                addRegion(xmlRegion);
+            }
         } else {
             throw new IOException("Invalid layout format in xml descriptor");
         }
@@ -234,12 +233,12 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
     protected void deployFiles() throws Exception {
         log.debug("Deploying layout files. Will have to move the jsp if it is old format.");
         super.deployFiles();
-        Map jspNameMap = (Map) resources.get("JSP");
+        Map<String, String> jspNameMap = resources.get("JSP");
         if (jspNameMap == null) {
             log.error("Layout has no JSP!!");
             return;
         }
-        String jspName = (String) jspNameMap.get(null);
+        String jspName = jspNameMap.get(null);
         if (jspName == null) {
             log.error("Layout has no JSP!!");
             return;
@@ -255,30 +254,30 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
     }
 
     protected String getPrefixForResourcePath(String path) {
-        Map fpMap = (Map) resources.get("JSP");
+        Map<String, String> fpMap = resources.get("JSP");
         if (fpMap != null && path.equals(fpMap.get(null)))
             return JSPS_PREFIX;
         return super.getPrefixForResourcePath(path);
     }
 
     protected String getSuffixForResourcePath(String path) {
-        Map fpMap = (Map) resources.get("JSP");
+        Map<String, String> fpMap = resources.get("JSP");
         if (fpMap != null && path.equals(fpMap.get(null)))
             return JSPS_SUFFIX;
         return super.getSuffixForResourcePath(path);
     }
 
     public String getJSPName() {
-        Map jspMap = (Map) resources.get("JSP");
-        String name = (String) jspMap.get(null);
+        Map<String, String> jspMap = resources.get("JSP");
+        String name = jspMap.get(null);
         return name.substring(0, name.length() - 4);
     }
 
     /**
      *
      */
-    private List loadRegions(Element root) {
-        List results = new ArrayList();
+    private List<LayoutRegion> loadRegions(Element root) {
+        List<LayoutRegion> results = new ArrayList<LayoutRegion>();
         List regions = root.getChildren("region");
         for (Iterator iterator = regions.iterator(); iterator.hasNext();) {
             Element element = (Element) iterator.next();
@@ -315,7 +314,7 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
     protected void addRegion(LayoutRegion region) {
         region.setLayout(this);
         if (regions == null)
-            regions = new ArrayList();
+            regions = new ArrayList<LayoutRegion>();
         regions.add(region);
     }
 
@@ -325,9 +324,7 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
     public LayoutRegion getRegion(String id) {
         if (id == null)
             return null;
-        Iterator it = regions.iterator();
-        while (it.hasNext()) {
-            LayoutRegion r = (LayoutRegion) it.next();
+        for (LayoutRegion r : regions) {
             if (r.getId() != null && r.getId().equals(id))
                 return r;
         }
@@ -338,15 +335,13 @@ public class Layout extends GraphicElement implements Comparable, Cloneable {
      * Returns all regions
      */
     public LayoutRegion[] getRegions() {
-        return (LayoutRegion[]) regions.toArray(new LayoutRegion[regions.size()]);
+        return regions.toArray(new LayoutRegion[regions.size()]);
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" Layout with dbid ");
-        sb.append(getDbid());
-        sb.append(" and regions: ");
-        sb.append(regions);
+        StringBuilder sb = new StringBuilder();
+        sb.append(" Layout with dbid ").append(getDbid());
+        sb.append(" and regions: ").append(regions);
         return sb.toString();
     }
 }

@@ -75,9 +75,8 @@ public abstract class Resource {
      */
     public String getResourceUrl(ServletRequest request, ServletResponse response, boolean portableUrl) {
         URLMarkupGenerator markupGenerator = UIServices.lookup().getUrlMarkupGenerator();
-        Map params = new HashMap();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("resName", portableUrl ? getPortableResourceName() : getResourceName());
         return markupGenerator.getPermanentLink("org.jboss.dashboard.ui.components.ResourcesHandler", "retrieve", params);
     }
-
 }
