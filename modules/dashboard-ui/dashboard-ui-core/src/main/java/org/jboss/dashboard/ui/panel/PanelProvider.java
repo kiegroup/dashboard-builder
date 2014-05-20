@@ -75,12 +75,12 @@ public class PanelProvider {
     /**
      * Resource Bundles
      */
-    private List bundles = new ArrayList();
+    private List<File> bundles = new ArrayList<File>();
 
     /**
      * Mapping from pages names to JSPs names
      */
-    private Map jsps = new HashMap();
+    private Map<String, String> jsps = new HashMap<String, String>();
 
     /**
      * Driver class that will handle requests to this panel
@@ -183,14 +183,14 @@ public class PanelProvider {
     }
 
     public String getPage(String id) {
-        return (String) jsps.get(id);
+        return jsps.get(id);
     }
 
     public Properties getProperties() {
         return properties;
     }
 
-    public List getBundles() {
+    public List<File> getBundles() {
         return bundles;
     }
 
@@ -263,19 +263,19 @@ public class PanelProvider {
         this.thumbnail = thumbnail;
     }
 
-    private Map resourcesCache = new HashMap();
+    private Map<Locale, Map<String, String>> resourcesCache = new HashMap<Locale, Map<String, String>>();
 
     public String getResource(String key, Locale l) {
         Locale locale = l != null ? l : LocaleManager.currentLocale();
-        Map localeMap = (Map) resourcesCache.get(locale);
-        if (localeMap == null) resourcesCache.put(locale, localeMap = new HashMap());
-        String result = (String) localeMap.get(key);
+        Map<String, String> localeMap = resourcesCache.get(locale);
+        if (localeMap == null) resourcesCache.put(locale, localeMap = new HashMap<String, String>());
+        String result = localeMap.get(key);
         if (result != null) return result;
 
         String value = null;
         boolean resourceFound = false;
         for (int iBundle = 0; iBundle < bundles.size() && !resourceFound; iBundle++) {
-            File bundleFile = (File) bundles.get(iBundle);
+            File bundleFile = bundles.get(iBundle);
             try {
                 URLClassLoader loader = new URLClassLoader(new URL[]{bundleFile.getParentFile().toURL()});
                 ResourceBundle bundle = null;
@@ -310,7 +310,7 @@ public class PanelProvider {
         this.properties = properties;
     }
 
-    public void setBundles(List bundles) {
+    public void setBundles(List<File> bundles) {
         this.bundles = bundles;
     }
 
@@ -353,8 +353,7 @@ public class PanelProvider {
 
     @PostConstruct
     public void start() {
-        for (int i = 0; i < defaultBundleFiles.length; i++) {
-            String defaultBundleFile = defaultBundleFiles[i];
+        for (String defaultBundleFile : defaultBundleFiles) {
             File bundleFile = new File(Application.lookup().getBaseAppDirectory() + defaultBundleFile);
             bundles.add(bundleFile);
         }

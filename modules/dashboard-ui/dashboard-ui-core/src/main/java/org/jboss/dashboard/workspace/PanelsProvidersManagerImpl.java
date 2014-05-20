@@ -31,7 +31,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.xml.sax.SAXException;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -89,7 +88,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
 
     @Inject @Config("panel_group_navigation=panels/groups/navigation.png," +
                     "panel_group_contents=panels/groups/contents.png")
-    private Map<String,String> providerGroupImg = new HashMap<String,String>();
+    private Map<String, String> providerGroupImg = new HashMap<String, String>();
 
     @Inject
     private PanelHelpManager panelHelpManager;
@@ -97,7 +96,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
     @Inject
     protected InvalidPanelDriver invalidPanelDriver;
 
-    private Map<String,PanelProvider> panels = new HashMap<String,PanelProvider>();
+    private Map<String, PanelProvider> panels = new HashMap<String, PanelProvider>();
 
     public Priority getPriority() {
         return Priority.HIGH;
@@ -213,13 +212,13 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
         this.defaultProviderGroupThumbnail = defaultProviderGroupThumbnail;
     }
 
-    public Map getProviderGroupImg() {
+    public Map<String, String> getProviderGroupImg() {
         if (providerGroupImg == null)
-            providerGroupImg = new HashMap();
+            providerGroupImg = new HashMap<String, String>();
         return providerGroupImg;
     }
 
-    public void setProviderGroupImg(Map providerGroupImg) {
+    public void setProviderGroupImg(Map<String, String> providerGroupImg) {
         this.providerGroupImg = providerGroupImg;
     }
 
@@ -238,15 +237,14 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @param workspace Workspace that allows returned providers.
      */
     public PanelProvider[] getProviders(Workspace workspace) {
-        HashSet panelProviders = new HashSet();
-        for (Iterator it = panels.values().iterator(); it.hasNext();) {
-            PanelProvider p = (PanelProvider) it.next();
+        HashSet<PanelProvider> panelProviders = new HashSet<PanelProvider>();
+        for (PanelProvider p : panels.values()) {
             if (!p.isEnabled()) continue;
             if (workspace != null && !workspace.isProviderAllowed(p.getId()) && !workspace.isProviderAllowed("*"))
                 continue;
             panelProviders.add(p);
         }
-        PanelProvider[] p = (PanelProvider[]) panelProviders.toArray(new PanelProvider[panels.size()]);
+        PanelProvider[] p = panelProviders.toArray(new PanelProvider[panels.size()]);
         // Sort providers by description (just for display purpouses)
         Arrays.sort(p, new PanelProviderComparator());
         return p;
@@ -268,16 +266,15 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return
      */
     public String[] enumerateProvidersGroups(Workspace workspace) {
-        Set groups = new HashSet();
-        for (Iterator iterator = panels.values().iterator(); iterator.hasNext();) {
-            PanelProvider panelProvider = (PanelProvider) iterator.next();
+        Set<String> groups = new HashSet<String>();
+        for (PanelProvider panelProvider : panels.values()) {
             if (workspace != null && !workspace.isProviderAllowed(panelProvider.getId()) && !workspace.isProviderAllowed("*"))
                 continue;
             if (panelProvider.isEnabled() && panelProvider.getGroup() != null) {
                 groups.add(panelProvider.getGroup());
             }
         }
-        return (String[]) groups.toArray(new String[groups.size()]);
+        return groups.toArray(new String[groups.size()]);
     }
 
     /**
@@ -295,8 +292,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return
      */
     public String getGroupDisplayName(String groupId, Locale locale) {
-        for (Iterator iterator = panels.values().iterator(); iterator.hasNext();) {
-            PanelProvider panelProvider = (PanelProvider) iterator.next();
+        for (PanelProvider panelProvider : panels.values()) {
             if (panelProvider.getGroup().equals(groupId)) {
                 String resourceStr = panelProvider.getResource(groupId, locale);
                 if (!resourceStr.equals(groupId)) {
@@ -326,9 +322,8 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return
      */
     public PanelProvider[] getProvidersInGroup(String group, Workspace workspace) {
-        List groupPanels = new ArrayList();
-        for (Iterator iterator = panels.values().iterator(); iterator.hasNext();) {
-            PanelProvider panelProvider = (PanelProvider) iterator.next();
+        List<PanelProvider> groupPanels = new ArrayList<PanelProvider>();
+        for (PanelProvider panelProvider : panels.values()) {
             if (!panelProvider.isEnabled()) continue;
             if (workspace != null && !workspace.isProviderAllowed(panelProvider.getId()) && !workspace.isProviderAllowed("*"))
                 continue;
@@ -337,7 +332,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                 groupPanels.add(panelProvider);
             }
         }
-        PanelProvider[] p = (PanelProvider[]) groupPanels.toArray(new PanelProvider[groupPanels.size()]);
+        PanelProvider[] p = groupPanels.toArray(new PanelProvider[groupPanels.size()]);
         Arrays.sort(p, new PanelProviderComparator());
         return p;
     }
@@ -346,12 +341,11 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return The providers installed, but not licensed for use in the workspace.
      */
     public PanelProvider[] getDisabledProviders() {
-        HashSet panelProviders = new HashSet();
-        for (Iterator it = panels.values().iterator(); it.hasNext();) {
-            PanelProvider p = (PanelProvider) it.next();
+        HashSet<PanelProvider> panelProviders = new HashSet<PanelProvider>();
+        for (PanelProvider p : panels.values()) {
             if (!p.isEnabled()) panelProviders.add(p);
         }
-        PanelProvider[] p = (PanelProvider[]) panelProviders.toArray(new PanelProvider[panels.size()]);
+        PanelProvider[] p = panelProviders.toArray(new PanelProvider[panels.size()]);
         // Sort providers by description (just for display purpouses)
         Arrays.sort(p, new PanelProviderComparator());
         return p;
@@ -365,16 +359,15 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return
      */
     public PanelProvider[] getDisabledProvidersInGroup(String group) {
-        List groupPanels = new ArrayList();
-        for (Iterator iterator = panels.values().iterator(); iterator.hasNext();) {
-            PanelProvider panelProvider = (PanelProvider) iterator.next();
+        List<PanelProvider> groupPanels = new ArrayList<PanelProvider>();
+        for (PanelProvider panelProvider : panels.values()) {
             if (panelProvider.isEnabled()) continue;
             if ((group == null && panelProvider.getGroup() == null) ||
                     (group != null && group.equals(panelProvider.getGroup()))) {
                 groupPanels.add(panelProvider);
             }
         }
-        PanelProvider[] p = (PanelProvider[]) groupPanels.toArray(new PanelProvider[groupPanels.size()]);
+        PanelProvider[] p = groupPanels.toArray(new PanelProvider[groupPanels.size()]);
         Arrays.sort(p, new PanelProviderComparator());
         return p;
     }
@@ -385,14 +378,13 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
      * @return all existing groups of providers containing only disabled panel Instances
      */
     public String[] enumerateDisabledProvidersGroups() {
-        Set groups = new HashSet();
-        for (Iterator iterator = panels.values().iterator(); iterator.hasNext();) {
-            PanelProvider panelProvider = (PanelProvider) iterator.next();
+        Set<String> groups = new HashSet<String>();
+        for (PanelProvider panelProvider : panels.values()) {
             if (!panelProvider.isEnabled() && panelProvider.getGroup() != null) {
                 groups.add(panelProvider.getGroup());
             }
         }
-        return (String[]) groups.toArray(new String[groups.size()]);
+        return groups.toArray(new String[groups.size()]);
     }
 
     public PanelProvider getProvider(String id) {
@@ -457,8 +449,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
                 String bundleName = value;
                 if (value.endsWith(".properties")) bundleName = value.substring(0, value.length() - 11);
                 String[] locales = LocaleManager.lookup().getInstalledLocaleIds();
-                for (int i = 0; i < locales.length; i++) {
-                    String locale = locales[i];
+                for (String locale : locales) {
                     File localeFile = new File(f.getParent() + "/" + bundleName + "_" + locale + ".properties");
                     if (localeFile.exists() && localeFile.isFile()) {
                         File bundleFile = new File(f.getParent() + "/" + bundleName + ".properties");
@@ -488,7 +479,7 @@ public class PanelsProvidersManagerImpl implements PanelsProvidersManager, Start
 
     public String getProviderGroupImage(String groupId){
         try{
-            String img=(String)providerGroupImg.get(groupId.replace(".","_"));
+            String img = providerGroupImg.get(groupId.replace(".", "_"));
             if(img!=null)
                 return img;
         }catch (Exception e){
