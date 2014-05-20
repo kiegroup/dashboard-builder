@@ -29,6 +29,7 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.apache.commons.io.IOUtils;
 
 /**
  * This class represents a graphic element, that is a Skin, an Envelope, or a Layout
@@ -285,9 +286,10 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
      * @return Zipped file content
      */
     public byte[] getZipFile() {
+        InputStream is = null;
         try {
             if (tmpZipFile != null) {
-                InputStream is = new BufferedInputStream(new FileInputStream(tmpZipFile));
+                is = new BufferedInputStream(new FileInputStream(tmpZipFile));
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 int bytesIn;
                 byte[] readBuffer = new byte[2048];
@@ -301,6 +303,8 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
             log.error("Error: ", e);
         } catch (IOException e) {
             log.error("Error: ", e);
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         return null;
     }
@@ -317,14 +321,18 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
 
         tmpZipFile = File.createTempFile("graphicElement", ".tmp");
         tmpZipFile.deleteOnExit();
-        OutputStream os = new BufferedOutputStream(new FileOutputStream(tmpZipFile));
-        ByteArrayInputStream is = new ByteArrayInputStream(zipFile);
-        int bytesIn;
-        byte[] readBuffer = new byte[2048];
-        while ((bytesIn = is.read(readBuffer)) != -1) {
-            os.write(readBuffer, 0, bytesIn);
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(tmpZipFile));
+            ByteArrayInputStream is = new ByteArrayInputStream(zipFile);
+            int bytesIn;
+            byte[] readBuffer = new byte[2048];
+            while ((bytesIn = is.read(readBuffer)) != -1) {
+                os.write(readBuffer, 0, bytesIn);
+            }
+        } finally {
+            if (os != null) os.close();
         }
-        os.close();
         deploy();
     }
 
@@ -337,14 +345,18 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
     public void setZipFile(File f) throws Exception {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         OutputStream os = new BufferedOutputStream(bos);
-        InputStream is = new BufferedInputStream(new FileInputStream(f));
-        byte[] b = new byte[1024];
-        int len = 0;
-        while ((len = is.read(b)) != -1) {
-            os.write(b, 0, len);
+        InputStream is = null;
+        try {
+            is = new BufferedInputStream(new FileInputStream(f));
+            byte[] b = new byte[1024];
+            int len = 0;
+            while ((len = is.read(b)) != -1) {
+                os.write(b, 0, len);
+            }
+        } finally {
+            os.close();
+            if (is != null) is.close();
         }
-        os.close();
-        is.close();
         setZipFile(bos.toByteArray());
     }
 
@@ -411,14 +423,18 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
         Properties prop = new Properties();
         resources = new HashMap();
         InputStream in = new BufferedInputStream(new FileInputStream(tmpZipFile));
-        ZipInputStream zin = new ZipInputStream(in);
-        ZipEntry e;
-        while ((e = zin.getNextEntry()) != null) {
-            if (getDescriptorFileName().equals(e.getName())) {
-                prop.load(zin);
+        ZipInputStream zin = null;
+        try {
+            zin = new ZipInputStream(in);
+            ZipEntry e;
+            while ((e = zin.getNextEntry()) != null) {
+                if (getDescriptorFileName().equals(e.getName())) {
+                    prop.load(zin);
+                }
             }
+        } finally {
+            if (zin != null) zin.close();
         }
-        zin.close();
         if (prop.isEmpty()) {
             log.error("No properties inside descriptor " + getDescriptorFileName() + " for item with id " + id);
         }
@@ -500,15 +516,19 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
         File f = new File(s);
         File parent = new File(f.getParent());
         parent.mkdirs();
-        FileOutputStream out = new FileOutputStream(s);
-        out.write(getPrefixForResourcePath(resourcePath).getBytes());
-        byte[] b = new byte[1024];
-        int len = 0;
-        while ((len = zin.read(b)) != -1) {
-            out.write(b, 0, len);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(s);
+            out.write(getPrefixForResourcePath(resourcePath).getBytes());
+            byte[] b = new byte[1024];
+            int len;
+            while ((len = zin.read(b)) != -1) {
+                out.write(b, 0, len);
+            }
+            out.write(getSuffixForResourcePath(resourcePath).getBytes());
+        } finally {
+            if (out != null) out.close();
         }
-        out.write(getSuffixForResourcePath(resourcePath).getBytes());
-        out.close();
     }
 
     /**

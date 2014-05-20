@@ -1198,21 +1198,26 @@ public class PanelDriver {
         log.debug("   " + src);
         log.debug("to");
         log.debug("   " + dest);
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(src));
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest));
-        for (int byteRead = bis.read(); byteRead != -1; byteRead = bis.read()) {
-            bos.write(byteRead);
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(src));
+            bos = new BufferedOutputStream(new FileOutputStream(dest));
+            int byteRead;
+            while ((byteRead = bis.read()) != -1) {
+                bos.write(byteRead);
+            }
+        } finally {
+            if (bos != null) bos.close();
+            if (bis != null) bis.close();
         }
-        bos.close();
-        bis.close();
     }
 
     private void recursiveDelete(File f) {
         if (f.isDirectory()) {
             File[] files = f.listFiles();
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    File file = files[i];
+                for (File file : files) {
                     recursiveDelete(file);
                 }
             }

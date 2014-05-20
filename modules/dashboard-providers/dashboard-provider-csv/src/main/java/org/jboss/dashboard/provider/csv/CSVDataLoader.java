@@ -49,8 +49,8 @@ public class CSVDataLoader extends AbstractDataLoader {
 
         String filePath = calculateUrl(getFileURL());
         InputStream in = null;
-        if(getFileURL().indexOf("$APPLICATION_DIR") !=-1){ // local file URL
-            in =new FileInputStream(filePath.replace("file://",""))  ;
+        if (getFileURL().contains("$APPLICATION_DIR")) { // local file URL
+            in = new FileInputStream(filePath.replace("file://", ""));
         } else {
             URL url = new URL(filePath);
             in = url.openStream();
@@ -72,16 +72,16 @@ public class CSVDataLoader extends AbstractDataLoader {
         byte[] buf = new byte[512];
         int len;
 
-        FileOutputStream fout = new FileOutputStream(f);
-        while (true) {
-            len = in.read(buf);
-            if (len == -1) {
-                break;
+        FileOutputStream fout = null;
+        try {
+            fout = new FileOutputStream(f);
+            while ((len = in.read(buf)) != -1) {
+                fout.write(buf, 0, len);
             }
-            fout.write(buf, 0, len);
+        } finally {
+            if (fout != null) fout.close();
+            in.close();
         }
-        fout.close();
-        in.close();
 
         setCsvProviderFile(f);
         return new CSVDataSet(provider, this);
