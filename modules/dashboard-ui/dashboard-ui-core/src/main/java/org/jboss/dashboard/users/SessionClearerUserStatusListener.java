@@ -22,7 +22,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -35,17 +34,16 @@ public class SessionClearerUserStatusListener implements UserStatusListener {
         if (us.isAnonymous()) { // just logout
             RequestContext ctx = RequestContext.lookup();
             HttpSession session = ctx.getRequest().getSessionObject();
-            Enumeration en = session.getAttributeNames();
-            Set attributesToDelete = new HashSet();
+            Enumeration<String> en = session.getAttributeNames();
+            Set<String> attributesToDelete = new HashSet<String>();
             while (en.hasMoreElements()) {
-                String attrName = (String) en.nextElement();
+                String attrName = en.nextElement();
                 Object obj = session.getAttribute(attrName);
                 if (obj == null || !(obj instanceof LogoutSurvivor)) {
                     attributesToDelete.add(attrName);
                 }
             }
-            for (Iterator iterator = attributesToDelete.iterator(); iterator.hasNext();) {
-                String attrName = (String) iterator.next();
+            for (String attrName : attributesToDelete) {
                 session.removeAttribute(attrName);
             }
             try {

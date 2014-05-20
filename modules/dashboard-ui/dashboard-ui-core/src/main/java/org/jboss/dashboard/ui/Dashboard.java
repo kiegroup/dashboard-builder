@@ -180,15 +180,12 @@ public class Dashboard {
         // Search for the property both in this dashboard and in its parents.
         Dashboard dashboard = this;
         while (dashboard != null) {
-            Iterator it = dashboard.getDataProviders().iterator();
-            while (it.hasNext()) {
-                DataProvider provider = (DataProvider) it.next();
+            for (DataProvider provider : dashboard.getDataProviders()) {
                 try {
                     DataProperty p = provider.getDataSet().getPropertyById(propertyId);
                     if (p != null) return p;
                 } catch (Exception e) {
                     log.error("Dashboard provider dataset load: " + provider.getCode(), e);
-                    continue;
                 }
             }
             // If the property is not found look at the parent dashboard (if exists).
@@ -359,8 +356,7 @@ public class Dashboard {
 
             // Add properties from parentFilter.
             String[] props = parentFilter.getPropertyIds();
-            for (int i = 0; i < props.length; i++) {
-                String prop = props[i];
+            for (String prop : props) {
                 Object minValue = parentFilter.getPropertyMinValue(prop);
                 Object maxValue = parentFilter.getPropertyMaxValue(prop);
                 boolean minValueIncluded = parentFilter.minValueIncluded(prop);
@@ -416,7 +412,7 @@ public class Dashboard {
      */
     protected void refreshPanels(String[] propertySet) throws Exception {
         AjaxRefreshManager ajaxMgr = AjaxRefreshManager.lookup();
-        List panelIdsToRefresh = ajaxMgr.getPanelIdsToRefresh();
+        List<Long> panelIdsToRefresh = ajaxMgr.getPanelIdsToRefresh();
         panelIdsToRefresh.clear();
 
         // Inspect all the dashboard's panels.
@@ -442,8 +438,7 @@ public class Dashboard {
             if (propertySet == null) {
                 panelIdsToRefresh.add(panelId);
             } else {
-                for (int i = 0; i < propertySet.length; i++) {
-                    String propertyId = propertySet[i];
+                for (String propertyId : propertySet) {
                     for (DataProvider dataProvider : providersUsed) {
                         if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
                             panelIdsToRefresh.add(panelId);
