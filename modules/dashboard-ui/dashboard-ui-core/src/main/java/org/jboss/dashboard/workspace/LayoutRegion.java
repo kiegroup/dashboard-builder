@@ -18,7 +18,6 @@ package org.jboss.dashboard.workspace;
 import org.jboss.dashboard.ui.resources.Layout;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.io.Serializable;
 
@@ -46,7 +45,7 @@ public class LayoutRegion implements Serializable {
     /**
      * Attributes to be applied to region rendering
      */
-    private Map renderAttributes = new HashMap();
+    private Map<String, String> renderAttributes = new HashMap<String, String>();
 
     public LayoutRegion() {
     }
@@ -100,7 +99,7 @@ public class LayoutRegion implements Serializable {
         return type == ROW;
     }
 
-    public Map getRenderAttributes() {
+    public Map<String, String> getRenderAttributes() {
         return renderAttributes;
     }
 
@@ -114,14 +113,12 @@ public class LayoutRegion implements Serializable {
      */
     public String getRenderAttributesAsString() {
         // Build attributes string
-        Map attributes = getRenderAttributes();
-        StringBuffer attrString = new StringBuffer();
+        Map<String, String> attributes = getRenderAttributes();
+        StringBuilder attrString = new StringBuilder();
         if (attributes != null) {
-            Iterator it = attributes.keySet().iterator();
-            while (it.hasNext()) {
-                String attr = (String) it.next();
-                String value = (String) attributes.get(attr);
-                attrString.append(" " + attr + "='" + value + "'");
+            for (String attr : attributes.keySet()) {
+                String value = attributes.get(attr);
+                attrString.append(" ").append(attr).append("='").append(value).append("'");
             }
         }
 
@@ -140,12 +137,9 @@ public class LayoutRegion implements Serializable {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Region: id=");
-        sb.append(id);
-        sb.append(" type=");
-        sb.append(type);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Region:\n id=").append(id);
+        sb.append(" type=").append(type);
         return sb.toString();
     }
-
 }

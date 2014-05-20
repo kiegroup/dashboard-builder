@@ -40,7 +40,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
     protected Long dbid;
     protected String id;
     protected Properties description = new Properties();
-    protected HashMap resources;
+    protected Map<String, Map<String, String>> resources;
     private File tmpZipFile;
     protected String workspaceId;
     protected Long sectionId;
@@ -203,7 +203,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
      *
      * @return a set of resource identifiers stored in this element
      */
-    public Set getResources() {
+    public Set<String> getResources() {
         return Collections.unmodifiableSet(resources.keySet());
     }
 
@@ -219,16 +219,16 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
         if (resourceId == null) { //Retrieve the whole zip file !!!!
             return ByteArrayResource.getInstance(resourceName, getZipFile(), getId() + ".zip");
         } else {
-            Map resMap = (Map) resources.get(resourceId);
+            Map<String, String> resMap = resources.get(resourceId);
             if (resMap == null) {
                 log.debug("Cannot find resource " + resourceId + " for " + getClass());
                 return null;
             }
-            String res = (String) resMap.get(lang);
+            String res = resMap.get(lang);
             if (res == null)
-                res = (String) resMap.get(null);//Try with no-language resource.
+                res = resMap.get(null);//Try with no-language resource.
             if (res == null)
-                res = (String) resMap.get(getLocaleManager().getDefaultLang());//Try with default lang
+                res = resMap.get(getLocaleManager().getDefaultLang());//Try with default lang
 
             res = getBaseDir() + "/" + res;
             RequestContext reqCtx = RequestContext.lookup();
@@ -421,7 +421,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
      */
     protected void deploy() throws Exception {
         Properties prop = new Properties();
-        resources = new HashMap();
+        resources = new HashMap<String, Map<String, String>>();
         InputStream in = new BufferedInputStream(new FileInputStream(tmpZipFile));
         ZipInputStream zin = null;
         try {
@@ -458,9 +458,9 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
                     }
                 }
                 String resourcePath = prop.getProperty(propName);
-                Map existingResource = (Map) resources.get(resourceName);
+                Map<String, String> existingResource = resources.get(resourceName);
                 if (existingResource == null)
-                    resources.put(resourceName, existingResource = new HashMap());
+                    resources.put(resourceName, existingResource = new HashMap<String, String>());
                 existingResource.put(langId, resourcePath);
             } else {
                 log.error("Unknown property in descriptor " + propName);
@@ -595,8 +595,7 @@ public abstract class GraphicElement implements Cloneable, Serializable, Resourc
         if (f.isDirectory()) {
             File[] files = f.listFiles();
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    File file = files[i];
+                for (File file : files) {
                     recursiveDelete(file);
                 }
             }
