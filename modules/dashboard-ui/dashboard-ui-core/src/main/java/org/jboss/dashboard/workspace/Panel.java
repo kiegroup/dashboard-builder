@@ -40,7 +40,7 @@ import java.util.Properties;
 /**
  * A panel instance published on a page region.
  */
-public class Panel implements Cloneable, Comparable, Visitable {
+public class Panel implements Cloneable, Comparable<Panel>, Visitable {
 
     /**
      * logger
@@ -105,10 +105,10 @@ public class Panel implements Cloneable, Comparable, Visitable {
         return dbid.equals(other.getDbid());
     }
 
-    public int compareTo(Object obj) {
+    @Override
+    public int compareTo(Panel other) {
         // Compare references
-        if (this == obj) return 0;
-        Panel other = (Panel) obj;
+        if (this == other) return 0;
 
         // Try by position...
         if (position > other.position) return 1;

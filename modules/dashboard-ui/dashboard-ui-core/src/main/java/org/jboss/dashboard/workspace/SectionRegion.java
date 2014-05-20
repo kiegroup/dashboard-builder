@@ -16,7 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,10 +25,10 @@ public class SectionRegion {
 
     private Section section;
     private LayoutRegion layoutRegion;
-    private List regionPanels;
+    private List<Panel> regionPanels;
 
 
-    public SectionRegion(Section section, LayoutRegion layoutRegion, List panels) {
+    public SectionRegion(Section section, LayoutRegion layoutRegion, List<Panel> panels) {
         this.section = section;
         this.layoutRegion = layoutRegion;
         regionPanels = panels;
@@ -74,9 +73,7 @@ public class SectionRegion {
 
     private void recalculatePanelsPosition() {
         int posIdx = 0;
-        Iterator panelIt = regionPanels.iterator();
-        while (panelIt.hasNext()) {
-            Panel panel = (Panel) panelIt.next();
+        for (Panel panel : regionPanels) {
             panel.setPosition(posIdx++);
         }
         // Sort panels list according to their position
@@ -95,12 +92,8 @@ public class SectionRegion {
         if (regionPanels.get(0).equals(panel)) return;
 
         // Move panel back
-        Panel regionPanel = null;
         int currentPos = panel.getPosition();
-        Iterator it = regionPanels.iterator();
-        while (it.hasNext()) {
-            regionPanel = (Panel) it.next();
-
+        for (Panel regionPanel : regionPanels) {
             // Exchange position between panel and the porlet placed into the new panel position
             if (regionPanel.getPosition() == currentPos - 1) {
                 panel.setPosition(currentPos - 1);
@@ -124,12 +117,8 @@ public class SectionRegion {
         if (regionPanels.get(regionPanels.size() - 1).equals(panel)) return;
 
         // Move panel back
-        Panel regionPanel = null;
         int currentPos = panel.getPosition();
-        Iterator it = regionPanels.iterator();
-        while (it.hasNext()) {
-            regionPanel = (Panel) it.next();
-
+        for (Panel regionPanel : regionPanels) {
             // Exchange position between panel and the porlet placed into the new panel position
             if (regionPanel.getPosition() == currentPos + 1) {
                 panel.setPosition(currentPos + 1);
@@ -175,6 +164,6 @@ public class SectionRegion {
      */
     public Panel[] getPanels() {
         if (layoutRegion == null) return new Panel[0];
-        return (Panel[]) regionPanels.toArray(new Panel[regionPanels.size()]);
+        return regionPanels.toArray(new Panel[regionPanels.size()]);
     }
 }

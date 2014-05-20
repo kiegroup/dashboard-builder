@@ -38,13 +38,13 @@ public class AjaxRefreshManager {
     @Inject @Config("50")
     protected int maxAjaxRequests;
 
-    List panelIdsToRefresh = new ArrayList();
+    List<Long> panelIdsToRefresh = new ArrayList<Long>();
 
-    public List getPanelIdsToRefresh() {
+    public List<Long> getPanelIdsToRefresh() {
         return panelIdsToRefresh;
     }
 
-    public void setPanelIdsToRefresh(List panelIdsToRefresh) {
+    public void setPanelIdsToRefresh(List<Long> panelIdsToRefresh) {
         this.panelIdsToRefresh = panelIdsToRefresh;
     }
 

@@ -64,7 +64,7 @@ public class PanelSession implements HttpSession {
     /**
      * Stored values
      */
-    private Map values = new HashMap();
+    private Map<String, Object> values = new HashMap<String, Object>();
 
     /**
      * Reference to current http session
@@ -127,7 +127,7 @@ public class PanelSession implements HttpSession {
         this.workMode = workMode;
     }
 
-    public Map getValues() {
+    public Map<String, Object> getValues() {
         return values;
     }
 
@@ -216,13 +216,13 @@ public class PanelSession implements HttpSession {
         return session.getAttribute(attributePrefix + s);
     }
 
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return session.getAttributeNames();
     }
 
     public String[] getValueNames() {
-        Set keys = values.keySet();
-        return (String[]) keys.toArray(new String[keys.size()]);
+        Set<String> keys = values.keySet();
+        return keys.toArray(new String[keys.size()]);
     }
 
     public void setAttribute(String s, Object o) {
@@ -247,16 +247,15 @@ public class PanelSession implements HttpSession {
     }
 
     public synchronized void clear() {
-        values = new HashMap();
-        ArrayList list = new ArrayList();
-        for (Enumeration en = session.getAttributeNames(); en.hasMoreElements();) {
-            String attrName = (String) en.nextElement();
+        values = new HashMap<String, Object>();
+        List<String> list = new ArrayList<String>();
+        for (Enumeration<String> en = session.getAttributeNames(); en.hasMoreElements();) {
+            String attrName = en.nextElement();
             if (attrName != null && attrName.startsWith(attributePrefix)) {
                 list.add(attrName);
             }
         }
-        for (int i = 0; i < list.size(); i++) {
-            String attrName = (String) list.get(i);
+        for (String attrName : list) {
             session.removeAttribute(attrName);
         }
     }

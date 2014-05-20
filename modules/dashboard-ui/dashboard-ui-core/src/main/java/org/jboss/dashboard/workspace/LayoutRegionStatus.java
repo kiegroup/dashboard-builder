@@ -16,7 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 
 /**
  * Class holding a section status for each session

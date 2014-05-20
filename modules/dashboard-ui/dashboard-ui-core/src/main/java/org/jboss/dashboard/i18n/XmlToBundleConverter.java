@@ -88,7 +88,7 @@ public abstract class XmlToBundleConverter {
     }
 
     public Element lookupNode(Document doc, Locale locale, String bundleKey) throws Exception {
-        List<String> keyList = new ArrayList(Arrays.asList(StringUtils.split(bundleKey, ".")));
+        List<String> keyList = new ArrayList<String>(Arrays.asList(StringUtils.split(bundleKey, ".")));
         List<Element> nodes = lookupNodes(doc.getRootElement(), keyList);
 
         if (nodes.isEmpty()) throw new RuntimeException("Node not found: " + bundleKey);
@@ -148,9 +148,8 @@ public abstract class XmlToBundleConverter {
         }
     }
 
-    protected Element getElementForLocale(List elements, Locale l) {
-        for (Iterator iterator = elements.iterator(); iterator.hasNext();) {
-            Element element = (Element) iterator.next();
+    protected Element getElementForLocale(List<Element> elements, Locale l) {
+        for (Element element : elements) {
             Attribute attrLang = getLanguageAttr(element);
             if (attrLang == null) continue;
 
