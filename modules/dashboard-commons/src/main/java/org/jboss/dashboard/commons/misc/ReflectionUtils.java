@@ -24,6 +24,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -568,13 +569,19 @@ public class ReflectionUtils {
         }
     }
 
-    public static byte[] toByteArray(File f) throws Exception {
+    public static byte[] toByteArray(File f) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(f));
-        int byteRead = -1;
-        while ((byteRead = bis.read()) != -1) bos.write(byteRead);
-        bis.close();
-        bos.close();
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(f));
+            int byteRead;
+            while ((byteRead = bis.read()) != -1) {
+                bos.write(byteRead);
+            }
+        } finally {
+            if (bis != null) bis.close();
+            bos.close();
+        }
         return bos.toByteArray();
     }
 
