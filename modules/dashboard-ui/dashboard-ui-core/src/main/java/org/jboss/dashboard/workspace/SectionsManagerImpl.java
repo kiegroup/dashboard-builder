@@ -17,7 +17,6 @@ package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.workspace.events.ListenerQueueImpl;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.hibernate.FlushMode;
@@ -28,6 +27,8 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.jboss.dashboard.workspace.events.EventListener;
+import org.jboss.dashboard.workspace.events.ListenerQueue;
 
 @ApplicationScoped
 public class SectionsManagerImpl implements SectionsManager {
@@ -40,7 +41,7 @@ public class SectionsManagerImpl implements SectionsManager {
     /**
      * Handles the management of event listeners
      */
-    private transient ListenerQueueImpl listenerQueue = new ListenerQueueImpl();
+    private transient ListenerQueue<EventListener> listenerQueue = new ListenerQueueImpl<EventListener>();
 
     public Section getSectionByDbId(final Long dbid) throws Exception {
         if (dbid == null) return null;
@@ -77,11 +78,9 @@ public class SectionsManagerImpl implements SectionsManager {
 
                 //Delete own resources
                 GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-                for (int i = 0; i < managers.length; i++) {
-                    GraphicElementManager manager = managers[i];
+                for (GraphicElementManager manager : managers) {
                     GraphicElement[] elements = manager.getElements(section.getWorkspace().getId(), section.getId());
-                    for (int j = 0; j < elements.length; j++) {
-                        GraphicElement element = elements[j];
+                    for (GraphicElement element : elements) {
                         manager.delete(element);
                     }
                 }
@@ -111,7 +110,7 @@ public class SectionsManagerImpl implements SectionsManager {
      *
      * @param listener EventListener to add
      */
-    public void addListener(org.jboss.dashboard.workspace.events.EventListener listener) {
+    public void addListener(EventListener listener) {
         listenerQueue.addListener(listener);
     }
 
@@ -121,7 +120,7 @@ public class SectionsManagerImpl implements SectionsManager {
      * @param listener EventListener to add
      * @param eventId  Event id the listener is interested in.
      */
-    public void addListener(org.jboss.dashboard.workspace.events.EventListener listener, String eventId) {
+    public void addListener(EventListener listener, String eventId) {
         listenerQueue.addListener(listener, eventId);
     }
 
@@ -130,7 +129,7 @@ public class SectionsManagerImpl implements SectionsManager {
      *
      * @param listener listener EventListener to remove
      */
-    public void removeListener(org.jboss.dashboard.workspace.events.EventListener listener) {
+    public void removeListener(EventListener listener) {
         listenerQueue.removeListener(listener);
     }
 
@@ -140,7 +139,7 @@ public class SectionsManagerImpl implements SectionsManager {
      * @param listener listener EventListener to remove
      * @param eventId  Event id queue to remove listener from.
      */
-    public void removeListener(org.jboss.dashboard.workspace.events.EventListener listener, String eventId) {
+    public void removeListener(EventListener listener, String eventId) {
         listenerQueue.removeListener(listener, eventId);
     }
 
@@ -151,7 +150,7 @@ public class SectionsManagerImpl implements SectionsManager {
      * @param eventId
      * @return A List of listeners
      */
-    public List getListeners(String eventId) {
+    public List<EventListener> getListeners(String eventId) {
         return listenerQueue.getListeners(eventId);
     }
 
@@ -161,7 +160,7 @@ public class SectionsManagerImpl implements SectionsManager {
      * @param eventId
      * @return A Set with listeners that should be notified of givent event id.
      */
-    public Set getUniqueListeners(String eventId) {
+    public Set<EventListener> getUniqueListeners(String eventId) {
         return listenerQueue.getUniqueListeners(eventId);
     }
 }

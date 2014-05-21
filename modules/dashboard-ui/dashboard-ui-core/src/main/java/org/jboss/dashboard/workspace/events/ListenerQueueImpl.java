@@ -15,20 +15,24 @@
  */
 package org.jboss.dashboard.workspace.events;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Date: 27-may-2004
  * Time: 18:02:57
+ * @param <T> Type of EventListener this queue can hold
  */
-public class ListenerQueueImpl implements ListenerQueue {
-    /**
-     * Logger
-     */
+public class ListenerQueueImpl<T extends EventListener> implements ListenerQueue<T> {
+
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ListenerQueueImpl.class.getName());
 
-    protected Hashtable queues = new Hashtable();
-    protected List allEventsQueue = new ArrayList();
+    protected Map<String, List<T>> queues = new HashMap<String, List<T>>();
+    protected List<T> allEventsQueue = new ArrayList<T>();
 
     public ListenerQueueImpl() {
     }
@@ -38,7 +42,7 @@ public class ListenerQueueImpl implements ListenerQueue {
      *
      * @param listener EventListener to add
      */
-    public synchronized void addListener(EventListener listener) {
+    public synchronized void addListener(T listener) {
         allEventsQueue.add(listener);
     }
 
@@ -48,10 +52,11 @@ public class ListenerQueueImpl implements ListenerQueue {
      * @param listener EventListener to add
      * @param eventId  Event id the listener is interested in.
      */
-    public synchronized void addListener(EventListener listener, String eventId) {
-        List list = (List) queues.get(eventId);
-        if (list == null)
-            list = new ArrayList();
+    public synchronized void addListener(T listener, String eventId) {
+        List<T> list = queues.get(eventId);
+        if (list == null) {
+            list = new ArrayList<T>();
+        }
         list.add(listener);
         queues.put(eventId, list);
     }
@@ -61,10 +66,9 @@ public class ListenerQueueImpl implements ListenerQueue {
      *
      * @param listener listener EventListener to remove
      */
-    public synchronized void removeListener(EventListener listener) {
+    public synchronized void removeListener(T listener) {
         allEventsQueue.remove(listener);
-        for (Iterator it = queues.values().iterator(); it.hasNext();) {
-            List list = (List) it.next();
+        for (List<T> list : queues.values()) {
             list.remove(listener);
         }
     }
@@ -75,11 +79,11 @@ public class ListenerQueueImpl implements ListenerQueue {
      * @param listener listener EventListener to remove
      * @param eventId  Event id queue to remove listener from.
      */
-    public synchronized void removeListener(EventListener listener, String eventId) {
-        List list = (List) queues.get(eventId);
-        if (list == null)
-            return;
-        list.remove(listener);
+    public synchronized void removeListener(T listener, String eventId) {
+        List<T> list = queues.get(eventId);
+        if (list != null) {
+            list.remove(listener);
+        }
     }
 
     /**
@@ -89,11 +93,11 @@ public class ListenerQueueImpl implements ListenerQueue {
      * @param eventId
      * @return A List of listeners
      */
-    public List getListeners(String eventId) {
-        List list = new ArrayList();
-        list.addAll(allEventsQueue);
-        if (queues.containsKey(eventId))
-            list.addAll((List) queues.get(eventId));
+    public List<T> getListeners(String eventId) {
+        List<T> list = new ArrayList<T>(allEventsQueue);
+        if (queues.containsKey(eventId)) {
+            list.addAll(queues.get(eventId));
+        }
         return list;
     }
 
@@ -102,10 +106,7 @@ public class ListenerQueueImpl implements ListenerQueue {
      *
      * @return A Set with listeners that should be notified of givent event id.
      */
-    public Set getUniqueListeners(String eventId) {
-        List list = getListeners(eventId);
-        Set set = new HashSet(list.size());
-        set.addAll(list);
-        return set;
+    public Set<T> getUniqueListeners(String eventId) {
+        return new HashSet<T>(getListeners(eventId));
     }
 }

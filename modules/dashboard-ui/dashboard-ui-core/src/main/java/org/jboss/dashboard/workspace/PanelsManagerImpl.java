@@ -16,10 +16,6 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.jboss.dashboard.ui.Dashboard;
-import org.jboss.dashboard.workspace.Panel;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.PanelsManager;
 import org.jboss.dashboard.workspace.events.ListenerQueueImpl;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
@@ -31,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.jboss.dashboard.workspace.events.EventListener;
+import org.jboss.dashboard.workspace.events.ListenerQueue;
 
 /**
  * PanelsManagerImpl
@@ -47,7 +45,7 @@ public class PanelsManagerImpl implements PanelsManager {
     /**
      * Handles the management of event listeners
      */
-    private transient ListenerQueueImpl listenerQueue = new ListenerQueueImpl();
+    private transient ListenerQueue<EventListener> listenerQueue = new ListenerQueueImpl<EventListener>();
 
     /**
      * Removes a panel instance
@@ -109,7 +107,7 @@ public class PanelsManagerImpl implements PanelsManager {
 
     public Panel getPaneltByDbId(final Long panelId) throws Exception {
         if (panelId != null) {
-            final List results = new ArrayList();
+            final List<Panel> results = new ArrayList<Panel>();
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 FlushMode flushMode = session.getFlushMode();
@@ -126,14 +124,14 @@ public class PanelsManagerImpl implements PanelsManager {
                 results.addAll(query.list());
                 session.setFlushMode(flushMode);
             }}.execute();
-            if (results.size() > 0) return (Panel)results.get(0);
+            if (results.size() > 0) return results.get(0);
             else log.debug("Does not exists panel with DB id: " + panelId);
         }
         return null;
     }
 
     public Panel getPaneltById(final Long panelId) throws Exception {
-        final List results = new ArrayList();
+        final List<Panel> results = new ArrayList<Panel>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             FlushMode flushMode = session.getFlushMode();
@@ -150,7 +148,7 @@ public class PanelsManagerImpl implements PanelsManager {
             results.addAll(query.list());
             session.setFlushMode(flushMode);
         }}.execute();
-        if (results.size() > 0) return (Panel)results.get(0);
+        if (results.size() > 0) return results.get(0);
         else log.debug("Does not exists panel with id: " + panelId);
         return null;
     }
@@ -198,7 +196,7 @@ public class PanelsManagerImpl implements PanelsManager {
      *
      * @param listener EventListener to add
      */
-    public void addListener(org.jboss.dashboard.workspace.events.EventListener listener) {
+    public void addListener(EventListener listener) {
         listenerQueue.addListener(listener);
     }
 
@@ -208,7 +206,7 @@ public class PanelsManagerImpl implements PanelsManager {
      * @param listener EventListener to add
      * @param eventId  Event id the listener is interested in.
      */
-    public void addListener(org.jboss.dashboard.workspace.events.EventListener listener, String eventId) {
+    public void addListener(EventListener listener, String eventId) {
         listenerQueue.addListener(listener, eventId);
     }
 
@@ -217,7 +215,7 @@ public class PanelsManagerImpl implements PanelsManager {
      *
      * @param listener listener EventListener to remove
      */
-    public void removeListener(org.jboss.dashboard.workspace.events.EventListener listener) {
+    public void removeListener(EventListener listener) {
         listenerQueue.removeListener(listener);
     }
 
@@ -227,7 +225,7 @@ public class PanelsManagerImpl implements PanelsManager {
      * @param listener listener EventListener to remove
      * @param eventId  Event id queue to remove listener from.
      */
-    public void removeListener(org.jboss.dashboard.workspace.events.EventListener listener, String eventId) {
+    public void removeListener(EventListener listener, String eventId) {
         listenerQueue.removeListener(listener, eventId);
     }
 
@@ -238,7 +236,7 @@ public class PanelsManagerImpl implements PanelsManager {
      * @param eventId
      * @return A List of listeners
      */
-    public List getListeners(String eventId) {
+    public List<EventListener> getListeners(String eventId) {
         return listenerQueue.getListeners(eventId);
     }
 
@@ -247,7 +245,7 @@ public class PanelsManagerImpl implements PanelsManager {
      *
      * @return A Set with listeners that should be notified of givent event id.
      */
-    public Set getUniqueListeners(String eventId) {
+    public Set<EventListener> getUniqueListeners(String eventId) {
         return listenerQueue.getUniqueListeners(eventId);
     }
 }

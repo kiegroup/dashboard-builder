@@ -21,14 +21,15 @@ import java.util.Set;
 /**
  * Date: 27-may-2004
  * Time: 17:53:07
+ * @param <T> type of event listener this queue can hold
  */
-public interface ListenerQueue {
+public interface ListenerQueue<T extends EventListener> {
     /**
      * Adds a listener for all queues
      *
      * @param listener EventListener to add
      */
-    public void addListener(EventListener listener);
+    public void addListener(T listener);
 
     /**
      * Adds a listener to the queue for events with given id
@@ -36,14 +37,14 @@ public interface ListenerQueue {
      * @param listener EventListener to add
      * @param eventId  Event id the listener is interested in.
      */
-    public void addListener(EventListener listener, String eventId);
+    public void addListener(T listener, String eventId);
 
     /**
      * Removes Listener from all queues
      *
      * @param listener listener EventListener to remove
      */
-    public void removeListener(EventListener listener);
+    public void removeListener(T listener);
 
     /**
      * Removes a Listener from given queue
@@ -51,7 +52,7 @@ public interface ListenerQueue {
      * @param listener listener EventListener to remove
      * @param eventId  Event id queue to remove listener from.
      */
-    public void removeListener(EventListener listener, String eventId);
+    public void removeListener(T listener, String eventId);
 
     /**
      * Return listeners that should be notified of given event ID. May contain
@@ -60,7 +61,7 @@ public interface ListenerQueue {
      * @param eventId
      * @return A List of listeners
      */
-    public List getListeners(String eventId);
+    public List<T> getListeners(String eventId);
 
     /**
      * Return listeners that should be notified of given event ID.
@@ -68,5 +69,5 @@ public interface ListenerQueue {
      * @param eventId
      * @return A Set with listeners that should be notified of givent event id.
      */
-    public Set getUniqueListeners(String eventId);
+    public Set<T> getUniqueListeners(String eventId);
 }
