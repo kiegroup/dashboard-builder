@@ -258,10 +258,8 @@ public class CopyManagerImpl implements CopyManager {
                 // SECTIONS
                 log.debug("Copying sections from Workspace " + workspace.getId() + " to Workspace " + id);
                 Section[] sections = workspace.getAllSections();
-                for (int i = 0; i < sections.length; i++) {
-                    Section originalSection = sections[i];
-                    Section s;
-                    s = copy(originalSection, workspaceClone, CopyOption.DEFAULT_SECTION_COPY_OPTION_SAME_WORKSPACE);
+                for (Section originalSection : sections) {
+                    Section s = copy(originalSection, workspaceClone, CopyOption.DEFAULT_SECTION_COPY_OPTION_SAME_WORKSPACE);
                     if (s == null)
                         log.error("Cannot copy section " + originalSection.getId());
                     else
@@ -274,11 +272,10 @@ public class CopyManagerImpl implements CopyManager {
                 results[0] = workspaceClone;
 
                 //Fires the workspace duplicated event to all listeners
-                List list = UIServices.lookup().getWorkspacesManager().getListeners(EventConstants.WORKSPACE_DUPLICATED);
+                List<WorkspaceListener> workspaceListeners = UIServices.lookup().getWorkspacesManager().getListeners(EventConstants.WORKSPACE_DUPLICATED);
                 WorkspaceDuplicationEvent event = new WorkspaceDuplicationEvent(EventConstants.WORKSPACE_DUPLICATED, workspace, workspaceClone);
                 log.debug("Firing event " + event);
-                for (Iterator it = list.iterator(); it.hasNext();) {
-                    WorkspaceListener listener = (WorkspaceListener) it.next();
+                for (WorkspaceListener listener : workspaceListeners) {
                     try {
                         listener.workspaceDuplicated(event);
                     } catch (Exception e) {
@@ -428,64 +425,59 @@ public class CopyManagerImpl implements CopyManager {
 
     protected void copyResources(Workspace workspace, Workspace workspaceClone) throws Exception {
         GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-        for (int j = 0; j < managers.length; j++) {
-            GraphicElementManager manager = managers[j];
+        for (GraphicElementManager manager : managers) {
             GraphicElement[] elements = manager.getElements(workspace.getId(), null, null);
-            if (elements != null)
-                for (int i = 0; i < elements.length; i++) {
-                    GraphicElement element = elements[i];
+            if (elements != null) {
+                for (GraphicElement element : elements) {
                     GraphicElement elementClone = (GraphicElement) element.clone();
                     elementClone.setWorkspaceId(workspaceClone.getId());
                     manager.createOrUpdate(elementClone);
                 }
+            }
         }
     }
 
     protected void copyResources(Section section, Section sectionClone) throws Exception {
         GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-        for (int j = 0; j < managers.length; j++) {
-            GraphicElementManager manager = managers[j];
+        for (GraphicElementManager manager : managers) {
             GraphicElement[] elements = manager.getElements(section.getWorkspace().getId(), section.getId(), null);
-            if (elements != null)
-                for (int i = 0; i < elements.length; i++) {
-                    GraphicElement element = elements[i];
+            if (elements != null) {
+                for (GraphicElement element : elements) {
                     GraphicElement elementClone = (GraphicElement) element.clone();
                     elementClone.setWorkspaceId(sectionClone.getWorkspace().getId());
                     elementClone.setSectionId(sectionClone.getId());
                     manager.createOrUpdate(elementClone);
                 }
+            }
         }
     }
 
     protected void copyResources(Panel panel, Panel panelClone) throws Exception {
         GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-        for (int j = 0; j < managers.length; j++) {
-            GraphicElementManager manager = managers[j];
+        for (GraphicElementManager manager : managers) {
             if (!manager.getElementScopeDescriptor().isAllowedPanel())
                 continue;//Ignore manager, as it does not define elements for panels
             GraphicElement[] elements = manager.getElements(panel.getWorkspace().getId(), panel.getSection().getId(), panel.getPanelId());
-            if (elements != null)
-                for (int i = 0; i < elements.length; i++) {
-                    GraphicElement element = elements[i];
+            if (elements != null) {
+                for (GraphicElement element : elements) {
                     GraphicElement elementClone = (GraphicElement) element.clone();
                     elementClone.setWorkspaceId(panelClone.getWorkspace().getId());
                     elementClone.setSectionId(panelClone.getSection().getId());
                     elementClone.setPanelId(panel.getPanelId());
                     manager.createOrUpdate(elementClone);
                 }
+            }
         }
     }
 
     protected void copyResources(PanelInstance panel, PanelInstance panelClone) throws Exception {
         GraphicElementManager[] managers = UIServices.lookup().getGraphicElementManagers();
-        for (int j = 0; j < managers.length; j++) {
-            GraphicElementManager manager = managers[j];
+        for (GraphicElementManager manager : managers) {
             if (!manager.getElementScopeDescriptor().isAllowedInstance())
                 continue;//Ignore manager, as it does not define elements for panel instances
             GraphicElement[] elements = manager.getElements(panel.getWorkspace().getId(), null, panel.getInstanceId());
             if (elements != null) {
-                for (int i = 0; i < elements.length; i++) {
-                    GraphicElement element = elements[i];
+                for (GraphicElement element : elements) {
                     GraphicElement elementClone = (GraphicElement) element.clone();
                     elementClone.setWorkspaceId(panelClone.getWorkspace().getId());
                     elementClone.setSectionId(null);

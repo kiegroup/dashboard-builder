@@ -20,7 +20,6 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.workspace.events.*;
-import org.jboss.dashboard.workspace.events.EventListener;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.jboss.dashboard.ui.resources.GraphicElement;
@@ -52,7 +51,7 @@ public class WorkspacesManager {
     /**
      * Handles the management of event listeners
      */
-    private transient ListenerQueueImpl listenerQueue = new ListenerQueueImpl();
+    private transient ListenerQueue<WorkspaceListener> listenerQueue = new ListenerQueueImpl<WorkspaceListener>();
 
     @Inject
     protected SkinsManager skinsManager;
@@ -301,11 +300,10 @@ public class WorkspacesManager {
     }
 
     public void fireWorkspaceWizardFinished(Workspace src, Workspace clone) {
-        List list = getListeners(EventConstants.WORKSPACE_WIZARD_FINISHED);
+        List<WorkspaceListener> list = getListeners(EventConstants.WORKSPACE_WIZARD_FINISHED);
         WorkspaceDuplicationEvent event = new WorkspaceDuplicationEvent(EventConstants.WORKSPACE_WIZARD_FINISHED, src, clone);
         log.debug("Firing event " + event);
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            WorkspaceListener listener = (WorkspaceListener) it.next();
+        for (WorkspaceListener listener : list) {
             listener.workspaceWizardFinished(event);
         }
     }
@@ -315,7 +313,7 @@ public class WorkspacesManager {
      *
      * @param listener EventListener to add
      */
-    public void addListener(EventListener listener) {
+    public void addListener(WorkspaceListener listener) {
         listenerQueue.addListener(listener);
     }
 
@@ -325,7 +323,7 @@ public class WorkspacesManager {
      * @param listener EventListener to add
      * @param eventId  Event id the listener is interested in.
      */
-    public void addListener(EventListener listener, String eventId) {
+    public void addListener(WorkspaceListener listener, String eventId) {
         listenerQueue.addListener(listener, eventId);
     }
 
@@ -334,7 +332,7 @@ public class WorkspacesManager {
      *
      * @param listener listener EventListener to remove
      */
-    public void removeListener(EventListener listener) {
+    public void removeListener(WorkspaceListener listener) {
         listenerQueue.removeListener(listener);
     }
 
@@ -344,7 +342,7 @@ public class WorkspacesManager {
      * @param listener listener EventListener to remove
      * @param eventId  Event id queue to remove listener from.
      */
-    public void removeListener(EventListener listener, String eventId) {
+    public void removeListener(WorkspaceListener listener, String eventId) {
         listenerQueue.removeListener(listener, eventId);
     }
 
@@ -355,7 +353,7 @@ public class WorkspacesManager {
      * @param eventId
      * @return A List of listeners
      */
-    public List getListeners(String eventId) {
+    public List<WorkspaceListener> getListeners(String eventId) {
         return listenerQueue.getListeners(eventId);
     }
 
@@ -364,7 +362,7 @@ public class WorkspacesManager {
      *
      * @return A Set with listeners that should be notified of givent event id.
      */
-    public Set getUniqueListeners(String eventId) {
+    public Set<WorkspaceListener> getUniqueListeners(String eventId) {
         return listenerQueue.getUniqueListeners(eventId);
     }
 
@@ -374,11 +372,10 @@ public class WorkspacesManager {
      * @param p The workspace created.
      */
     protected void fireWorkspaceCreated(Workspace p) {
-        List list = getListeners(EventConstants.WORKSPACE_CREATED);
+        List<WorkspaceListener> list = getListeners(EventConstants.WORKSPACE_CREATED);
         WorkspaceEvent event = new WorkspaceEvent(EventConstants.WORKSPACE_CREATED, p);
         log.debug("Firing event " + event);
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            WorkspaceListener listener = (WorkspaceListener) it.next();
+        for (WorkspaceListener listener : list) {
             listener.workspaceCreated(event);
         }
     }
@@ -390,11 +387,10 @@ public class WorkspacesManager {
      */
     protected void fireWorkspaceRemoved(Workspace p) {
         JavascriptTree.regenerateTrees(p.getId());
-        List list = getListeners(EventConstants.WORKSPACE_REMOVED);
+        List<WorkspaceListener> list = getListeners(EventConstants.WORKSPACE_REMOVED);
         WorkspaceEvent event = new WorkspaceEvent(EventConstants.WORKSPACE_REMOVED, p);
         log.debug("Firing event " + event);
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            WorkspaceListener listener = (WorkspaceListener) it.next();
+        for (WorkspaceListener listener : list) {
             listener.workspaceRemoved(event);
         }
     }
@@ -406,11 +402,10 @@ public class WorkspacesManager {
      */
     protected void fireWorkspaceUpdated(Workspace p) {
         JavascriptTree.regenerateTrees(p.getId());
-        List list = getListeners(EventConstants.WORKSPACE_UPDATED);
+        List<WorkspaceListener> list = getListeners(EventConstants.WORKSPACE_UPDATED);
         WorkspaceEvent event = new WorkspaceEvent(EventConstants.WORKSPACE_UPDATED, p);
         log.debug("Firing event " + event);
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            WorkspaceListener listener = (WorkspaceListener) it.next();
+        for (WorkspaceListener listener : list) {
             listener.workspaceUpdated(event);
         }
     }
