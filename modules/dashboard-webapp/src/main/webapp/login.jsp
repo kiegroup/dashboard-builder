@@ -164,7 +164,8 @@
             SessionInitializer.PreferredLocale preferredLocale =  SessionInitializer.getPreferredLocale(request);
             if (preferredLocale != null) currentLocale = preferredLocale.asLocale();
             ResourceBundle i18nBundle = LocaleManager.lookup().getBundle("org.jboss.dashboard.login.messages", currentLocale);
-            String messageKey = request.getParameter("message");
+
+            String messageKey = (String) request.getSession().getAttribute("login.message");
             if (messageKey == null) messageKey = "login.hint";
         %>
         <h3><%= i18nBundle.getString(messageKey) %></h3>

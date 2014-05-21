@@ -16,7 +16,6 @@
 
 --%>
 <%
-    request.getSession().invalidate();
-    String redirectURL = request.getContextPath()  +"?message=login.not_authorized";
-    response.sendRedirect(redirectURL);
+  request.getSession().setAttribute("login.message", "login.not_authorized");
+  response.sendRedirect(request.getContextPath());
 %>
