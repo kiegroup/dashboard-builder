@@ -108,7 +108,7 @@ public class DashboardHandler implements Serializable {
      */
     public boolean containsKPIs(Section section) {
         for (Panel panel : section.getPanels()) {
-            if (panel.getInstance().getProvider().getDriver().getClass().getName().endsWith("KPIDriver")) return true;
+            if (panel.getInstance().getProvider().getDriver().getClass().getName().contains("KPIDriver")) return true;
         }
         return false;
     }
