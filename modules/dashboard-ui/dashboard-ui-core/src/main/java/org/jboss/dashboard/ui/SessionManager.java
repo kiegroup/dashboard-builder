@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.*;
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.slf4j.Logger;
 
@@ -79,12 +78,5 @@ public class SessionManager {
         }
 
         return sectionStatus;
-    }
-
-    /**
-     * @deprecated Use LocaleManager instead
-     */
-    public static String getLang() {
-        return LocaleManager.currentLang();
     }
 }

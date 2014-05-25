@@ -16,12 +16,12 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 import javax.inject.Inject;
+import org.jboss.dashboard.LocaleManager;
 
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancePropertiesHandler;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.utils.forms.FormStatus;
 import org.jboss.dashboard.workspace.Panel;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public abstract class PanelPropertiesNode extends AbstractNode {
 
     private void prepareConfigure(Panel panel) {
         FormStatus formStatus = new FormStatus();
-        formStatus.setValue("lang", SessionManager.getLang());
+        formStatus.setValue("lang", LocaleManager.currentLang());
         formStatus.setValue("multilanguage", isMultilanguage());
 
         getHandler().setFormStatus(formStatus);

@@ -16,7 +16,6 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.workspace.PanelInstance;
@@ -26,6 +25,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 import javax.inject.Inject;
+import org.jboss.dashboard.LocaleManager;
 
 public class PanelInstancesProvidersNode extends AbstractNode {
 
@@ -70,7 +70,7 @@ public class PanelInstancesProvidersNode extends AbstractNode {
     protected List listChildren() {
         List children = new ArrayList();
         PanelInstancesNode parent = (PanelInstancesNode) getParent();
-        final String language = SessionManager.getLang();
+        final String language = LocaleManager.currentLang();
         try {
             String workspaceId = parent.getHandler().getWorkspaceId();
             WorkspaceImpl workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceId);

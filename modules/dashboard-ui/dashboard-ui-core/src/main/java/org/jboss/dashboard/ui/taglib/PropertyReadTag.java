@@ -17,7 +17,6 @@ package org.jboss.dashboard.ui.taglib;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.apache.commons.jxpath.JXPathContext;
 
@@ -27,6 +26,7 @@ import javax.servlet.jsp.tagext.TagData;
 import javax.servlet.jsp.tagext.TagExtraInfo;
 import javax.servlet.jsp.tagext.VariableInfo;
 import java.util.Map;
+import org.jboss.dashboard.LocaleManager;
 
 /**
  *
@@ -140,6 +140,6 @@ public class PropertyReadTag extends BaseTag {
     }
 
     protected Object localize(Map map) {
-        return LocalizeTag.getLocalizedValue(map, SessionManager.getLang(), true);
+        return LocalizeTag.getLocalizedValue(map, LocaleManager.currentLang(), true);
     }
 }
