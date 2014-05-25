@@ -15,11 +15,8 @@
  */
 package org.jboss.dashboard.ui.panel.parameters;
 
-import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.users.UserStatus;
@@ -29,6 +26,7 @@ import org.jboss.dashboard.workspace.Section;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jboss.dashboard.LocaleManager;
 
 /**
  * PanelSupplier presents a list of panels for a given class or subclasses.
@@ -61,8 +59,8 @@ public class PanelSupplier implements ComboListParameterDataSupplier {
             String key = (String) keys.get(i);
             Panel p = getPanelForKey(instance.getWorkspace(), key);
             if (p != null) {
-                String panelTitle = LocalizeTag.getLocalizedValue(p.getTitle(), SessionManager.getLang(), true);
-                String sectionTitle = LocalizeTag.getLocalizedValue(p.getSection().getTitle(), SessionManager.getLang(), true);
+                String panelTitle = LocalizeTag.getLocalizedValue(p.getTitle(), LocaleManager.currentLang(), true);
+                String sectionTitle = LocalizeTag.getLocalizedValue(p.getSection().getTitle(), LocaleManager.currentLang(), true);
                 values.add(panelTitle + " (" + sectionTitle + ")");
             }
         }

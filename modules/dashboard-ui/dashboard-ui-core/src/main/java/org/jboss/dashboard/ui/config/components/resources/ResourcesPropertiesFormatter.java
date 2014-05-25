@@ -67,7 +67,7 @@ public class ResourcesPropertiesFormatter extends Formatter {
                 for (Iterator it = workspacesManager.getAllWorkspacesIdentifiers().iterator(); it.hasNext();) {
                     String id = (String) it.next();
                     setAttribute("workspaceId", id);
-                    setAttribute("workspaceTitle", workspacesManager.getWorkspace(id).getTitle().get(SessionManager.getLang()));
+                    setAttribute("workspaceTitle", workspacesManager.getWorkspace(id).getTitle().get(LocaleManager.currentLang()));
                     renderFragment("outputUploadResourceScope");
                 }
                 renderFragment("outputUploadResourceScopeEnd");

@@ -19,7 +19,6 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.ui.resources.GraphicElement;
@@ -128,7 +127,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 for (int i = 0; i < skins.length; i++) {
                     Skin skin = (Skin) skins[i];
                     setAttribute("skinId", skin.getId());
-                    setAttribute("skinTitle", skin.getDescription().get(SessionManager.getLang()));
+                    setAttribute("skinTitle", skin.getDescription().get(LocaleManager.currentLang()));
                     if (skin.getId().equals(UIServices.lookup().getSkinsManager().getDefaultElement().getId()))
                         setAttribute("selected", "selected");
                     else
@@ -142,7 +141,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
                 for (int i = 0; i < envelopes.length; i++) {
                     Envelope envelope = (Envelope) envelopes[i];
                     setAttribute("envelopeId", envelope.getId());
-                    setAttribute("envelopeTitle", envelope.getDescription().get(SessionManager.getLang()));
+                    setAttribute("envelopeTitle", envelope.getDescription().get(LocaleManager.currentLang()));
                     if (envelope.getId().equals(UIServices.lookup().getEnvelopesManager().getDefaultElement().getId()))
                         setAttribute("selected", "selected");
                     else

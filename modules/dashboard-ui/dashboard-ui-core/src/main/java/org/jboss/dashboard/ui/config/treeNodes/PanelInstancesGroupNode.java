@@ -17,7 +17,6 @@ package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.commons.text.Base64;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
@@ -28,6 +27,7 @@ import org.slf4j.Logger;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import javax.inject.Inject;
+import org.jboss.dashboard.LocaleManager;
 
 public class PanelInstancesGroupNode extends AbstractNode {
 
@@ -84,7 +84,7 @@ public class PanelInstancesGroupNode extends AbstractNode {
 
     protected List listChildren() {
         List<PanelInstanceNode> children = new ArrayList<PanelInstanceNode>();
-        final String language = SessionManager.getLang();
+        final String language = LocaleManager.currentLang();
         try {
             Set<PanelInstance> panelInstances = new TreeSet<PanelInstance>(new Comparator<PanelInstance>() {
                 public int compare(PanelInstance p1, PanelInstance p2) {

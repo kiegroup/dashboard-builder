@@ -18,8 +18,6 @@ package org.jboss.dashboard.ui.formatters;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.ui.SessionManager;
-import org.jboss.dashboard.workspace.GraphicElementManager;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.workspace.GraphicElementManager;
@@ -30,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import org.jboss.dashboard.LocaleManager;
 
 /**
  * This class extends Formatter to provide support for rendering graphic resources.
@@ -123,7 +122,7 @@ public class RenderResourcesFormatter extends Formatter {
             for (int i = 0; i < resourcesToShow.size(); i++) {
                 GraphicElement graphicElement = (GraphicElement) resourcesToShow.get(i);
                 setAttribute("graphicElement", graphicElement);
-                setAttribute("description", LocalizeTag.getLocalizedValue(graphicElement.getDescription(), SessionManager.getLang(), true));
+                setAttribute("description", LocalizeTag.getLocalizedValue(graphicElement.getDescription(), LocaleManager.currentLang(), true));
                 setAttribute("id", graphicElement.getId());
                 setAttribute("class", graphicElement.getClass().getName());
                 setAttribute("type", graphicElement.getCategoryName());

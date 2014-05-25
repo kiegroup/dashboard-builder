@@ -15,6 +15,7 @@
     limitations under the License.
 
 --%>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.taglib.LocalizeTag"%>
 <%@ page import="org.jboss.dashboard.ui.UISettings" %>
 <%@ page import="org.jboss.dashboard.ui.controller.RequestContext" %>
@@ -26,7 +27,7 @@
 <%
     Panel maximizedPanel = currentSection.getMaximizedPanel(session);
     Panel panel = maximizedPanel;
-    String panelTitle = LocalizeTag.getLocalizedValue(panel.getTitle(), SessionManager.getLang(),true);
+    String panelTitle = LocalizeTag.getLocalizedValue(panel.getTitle(), LocaleManager.currentLang(),true);
 %>
 <div id="Region_Panel_Container_<%= panel.getPanelId()%>" style=" border: solid; border-width: 1px; border-color: gray; width: 100%; height: 100%; position: relative; text-align:left; top:0; left:0;
              <%=panel.getHeight()>0?"height: "+panel.getHeight():""%>">
