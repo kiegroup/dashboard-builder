@@ -65,7 +65,7 @@ public class RenderPanelHeaderFormatter extends Formatter {
 
     protected void renderButtons(boolean administratorMode) {
         UserStatus userStatus = UserStatus.lookup();
-        PanelSession status = SessionManager.getPanelSession(panel);
+        PanelSession status = panel.getPanelSession();
         SectionRegion sectionRegion = panel.getSection().getSectionRegion(panel.getRegion().getId());
         PanelPermission editPanelPerm = PanelPermission.newInstance(panel, PanelPermission.ACTION_EDIT);
         PanelPermission minPanelPerm = PanelPermission.newInstance(panel, PanelPermission.ACTION_MINIMIZE);

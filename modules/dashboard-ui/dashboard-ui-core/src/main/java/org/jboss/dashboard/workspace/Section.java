@@ -583,7 +583,7 @@ public class Section implements Comparable<Section>, Visitable {
     public Panel getMaximizedPanel(HttpSession session) {
         for (Panel panel : getAllPanels()) {
             if (panel.getRegion() != null) {
-                PanelSession status = SessionManager.getPanelSession(panel);
+                PanelSession status = panel.getPanelSession();
                 LayoutRegionStatus regionStatus = SessionManager.getRegionStatus(panel.getSection(), panel.getRegion());
                 LayoutRegion region = panel.getRegion();
                 if (status != null && status.isMaximized() && (region.isColumnRegion() || regionStatus.isSelected(panel))) {
@@ -601,7 +601,7 @@ public class Section implements Comparable<Section>, Visitable {
     public void restorePanelSize(HttpSession session) {
         for (Panel panel : getAllPanels()) {
             if (panel.getRegion() != null) {
-                PanelSession status = SessionManager.getPanelSession(panel);
+                PanelSession status = panel.getPanelSession();
                 status.setStatus(PanelSession.STATUS_REGULAR_SIZE);
             }
         }

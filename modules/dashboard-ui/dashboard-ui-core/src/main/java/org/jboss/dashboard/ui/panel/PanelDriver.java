@@ -240,21 +240,21 @@ public class PanelDriver {
      * @return The panel session related to this panel.
      */
     public PanelSession getPanelSession(Panel panel) {
-        return SessionManager.getPanelSession(panel);
+        return panel.getPanelSession();
     }
 
     /**
      * @deprecated use getPanelSession(Panel panel)
      */
     public PanelSession getPanelSession(CommandRequest req, Panel panel) {
-        return SessionManager.getPanelSession(panel);
+        return panel.getPanelSession();
     }
 
     /**
      * @deprecated use getPanelSession(Panel panel)
      */
     public PanelSession getPanelSession(HttpServletRequest req, Panel panel) {
-        return SessionManager.getPanelSession(panel);
+        return panel.getPanelSession();
     }
 
     /**
@@ -1271,7 +1271,7 @@ public class PanelDriver {
     public CommandResponse actionChangePage(final Panel panel, CommandRequest request) {
         String pageId = request.getParameter("pageId");
         if (pageId == null || "".equals(pageId)) {
-            pageId = SessionManager.getPanelSession(panel).getCurrentPageId();
+            pageId = panel.getPanelSession().getCurrentPageId();
         }
         return new ShowPanelPage(panel, request, pageId);
     }

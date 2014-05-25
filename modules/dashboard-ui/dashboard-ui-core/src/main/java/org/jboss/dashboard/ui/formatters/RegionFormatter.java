@@ -16,12 +16,9 @@
 package org.jboss.dashboard.ui.formatters;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.security.WorkspacePermission;
@@ -132,7 +129,7 @@ public class RegionFormatter extends Formatter {
         setAttribute("recommendedWidth", panelRecommendedWidth + "%");
         renderFragment("panelOutputStart");
         if (panel.isPaintTitle() ||
-                SessionManager.getPanelSession(panel).isMinimized() ||
+                panel.getPanelSession().isMinimized() ||
                 (userAdmin) ||
                 (panel.getProvider().getDriver().supportsEditMode(panel) && canEditPanel)) {
             setAttribute("panel", panel);
@@ -165,7 +162,7 @@ public class RegionFormatter extends Formatter {
         // When a panel is maximized in region, only show it.
         for (int i = 0; i < allPanels.length; i++) {
             Panel panel = allPanels[i];
-            PanelSession status = SessionManager.getPanelSession(panel);
+            PanelSession status = panel.getPanelSession();
             if (status.isMaximizedInRegion()) {
                 PanelPermission viewPerm = PanelPermission.newInstance(panel, PanelPermission.ACTION_VIEW);
                 boolean canViewPanel = getUserStatus().hasPermission( viewPerm);

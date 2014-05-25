@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.taglib;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.*;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.LocaleManager;
@@ -160,7 +159,7 @@ public class DefineObjectsTag extends BaseTag {
         // Current workspace
         WorkspaceImpl currentWorkspace = currentSection.getWorkspace();
 
-        PanelSession panelSession = SessionManager.getPanelSession(currentPanel);
+        PanelSession panelSession = currentPanel.getPanelSession();
 
         // Provider
         PanelProvider panelProvider = currentPanel.getInstance().getProvider();

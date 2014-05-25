@@ -15,9 +15,7 @@
  */
 package org.jboss.dashboard.ui.controller.responses;
 
-import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.Panel;
 
 /**
@@ -38,7 +36,7 @@ public class ShowPanelPage extends ShowCurrentScreenResponse {
      * @param pageId
      */
     public ShowPanelPage(Panel panel, CommandRequest req, String pageId) {
-        SessionManager.getPanelSession(panel).setCurrentPageId(pageId);
+        panel.getPanelSession().setCurrentPageId(pageId);
         this.panel = panel;
         this.pageId = pageId;
     }
