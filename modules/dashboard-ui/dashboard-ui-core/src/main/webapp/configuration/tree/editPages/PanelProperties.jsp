@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -23,7 +23,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%try {%>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <mvc:formatter name="<%=formatterName%>">
     <mvc:fragment name="outputStart">
         <form name="config" action="<factory:formUrl friendly="false"/>" id="<panel:encode name="saveConfig"/>" method="POST">

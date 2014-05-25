@@ -15,21 +15,20 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager,
+<%@ page import="org.jboss.dashboard.LocaleManager,
                  org.jboss.dashboard.workspace.*,
                  org.jboss.dashboard.ui.taglib.LocalizeTag,
                  org.jboss.dashboard.ui.resources.GraphicElement,
                  org.jboss.dashboard.ui.resources.GraphicElementScopeDescriptor,
+                 org.jboss.dashboard.ui.UIServices,
                  java.util.Iterator,
                  java.util.Set" %>
-<%@ page import="org.jboss.dashboard.ui.UIServices" %>
-<%@ page import="org.jboss.dashboard.workspace.*" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     String graphicElement = (String) request.getAttribute("graphicElement");
     String graphicElementClassName = (String) request.getAttribute("graphicElementClassName");
@@ -85,10 +84,10 @@
         }
     }
 
-    String elementWorkspaceName = (String) (elementWorkspace == null ? global : (workspaceI18n + ":" + LocalizeTag.getLocalizedValue(elementWorkspace.getName(), SessionManager.getCurrentLocale().getLanguage(), true)));
-    String elementSectionName = (String) (elementSection == null ? global : (sectionI18n + ":" + LocalizeTag.getLocalizedValue(elementSection.getTitle(), SessionManager.getCurrentLocale().getLanguage(), true)));
-    String elementPanelName = (String) (elementPanel == null ? global : (panelI18n + ":" + LocalizeTag.getLocalizedValue(elementPanel.getTitle(), SessionManager.getCurrentLocale().getLanguage(), true)));
-    String elementInstanceName = (String) (elementInstance == null ? global : (instanceI18n + ":" + LocalizeTag.getLocalizedValue(elementInstance.getTitle(), SessionManager.getCurrentLocale().getLanguage(), true)));
+    String elementWorkspaceName = (String) (elementWorkspace == null ? global : (workspaceI18n + ":" + LocalizeTag.getLocalizedValue(elementWorkspace.getName(), LocaleManager.currentLocale().getLanguage(), true)));
+    String elementSectionName = (String) (elementSection == null ? global : (sectionI18n + ":" + LocalizeTag.getLocalizedValue(elementSection.getTitle(), LocaleManager.currentLocale().getLanguage(), true)));
+    String elementPanelName = (String) (elementPanel == null ? global : (panelI18n + ":" + LocalizeTag.getLocalizedValue(elementPanel.getTitle(), LocaleManager.currentLocale().getLanguage(), true)));
+    String elementInstanceName = (String) (elementInstance == null ? global : (instanceI18n + ":" + LocalizeTag.getLocalizedValue(elementInstance.getTitle(), LocaleManager.currentLocale().getLanguage(), true)));
 
     if (manager.isBaseElement(element)) {
 %>

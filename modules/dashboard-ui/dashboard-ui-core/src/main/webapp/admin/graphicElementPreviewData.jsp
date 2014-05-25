@@ -15,22 +15,22 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager,
+<%@ page import="org.jboss.dashboard.LocaleManager,
                  org.jboss.dashboard.workspace.GraphicElementManager,
                  org.jboss.dashboard.workspace.WorkspaceImpl,
                  org.jboss.dashboard.ui.resources.GraphicElementPreview,
-                 java.lang.reflect.Method" %>
-<%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler"%>
-<%@ page import="org.jboss.dashboard.ui.UIServices" %>
-<%@ page import="org.jboss.dashboard.workspace.WorkspaceImpl" %>
-<%@ page import="org.jboss.dashboard.workspace.GraphicElementManager" %>
-<%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+                 java.lang.reflect.Method,
+                 org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler,
+                 org.jboss.dashboard.ui.UIServices,
+                 org.jboss.dashboard.workspace.WorkspaceImpl,
+                 org.jboss.dashboard.workspace.GraphicElementManager,
+                 org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%
     ResourcesPropertiesHandler handler = ResourcesPropertiesHandler.lookup();
     String resultMessage = null;

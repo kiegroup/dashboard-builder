@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="java.util.Locale"%>
@@ -25,7 +25,7 @@
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 
 
 <factory:setProperty bean="org.jboss.dashboard.ui.components.MessagesComponentHandler"

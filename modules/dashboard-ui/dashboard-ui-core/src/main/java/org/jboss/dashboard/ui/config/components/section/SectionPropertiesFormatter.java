@@ -19,7 +19,6 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Layout;
@@ -56,7 +55,7 @@ public class SectionPropertiesFormatter extends Formatter {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         try {
-            ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.messages", SessionManager.getCurrentLocale());
+            ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.ui.messages", LocaleManager.currentLocale());
 
             renderFragment("outputStart");
 
@@ -108,7 +107,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 renderFragment("outputSelectedSkin");
                 for (int i = 0; i < skins.length; i++) {
                     Skin skin = (Skin) skins[i];
-                    setAttribute("skinDescription", skin.getDescription().get(SessionManager.getCurrentLocale().getLanguage()));
+                    setAttribute("skinDescription", skin.getDescription().get(LocaleManager.currentLocale().getLanguage()));
                     setAttribute("skinId", skin.getId());
                     renderFragment("outputSkin");
                 }
@@ -120,7 +119,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 for (int i = 0; i < skins.length; i++) {
                     Skin skin = (Skin) skins[i];
                     boolean currentSkin = skin.getId().equals(getSectionPropertiesHandler().getSkin());
-                    setAttribute("skinDescription", skin.getDescription().get(SessionManager.getCurrentLocale().getLanguage()));
+                    setAttribute("skinDescription", skin.getDescription().get(LocaleManager.currentLocale().getLanguage()));
                     setAttribute("skinId", skin.getId());
                     renderFragment(currentSkin ? "outputSelectedSkin" : "outputSkin");
                 }
@@ -139,7 +138,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 renderFragment("outputSelectedEnvelope");
                 for (int i = 0; i < envelopes.length; i++) {
                     Envelope envelope = (Envelope) envelopes[i];
-                    setAttribute("envelopeDescription", envelope.getDescription().get(SessionManager.getCurrentLocale().getLanguage()));
+                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLocale().getLanguage()));
                     setAttribute("envelopeId", envelope.getId());
                     renderFragment("outputEnvelope");
                 }
@@ -151,7 +150,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 for (int i = 0; i < envelopes.length; i++) {
                     Envelope envelope = (Envelope) envelopes[i];
                     boolean currentEnvelope = envelope.getId().equals(getSectionPropertiesHandler().getEnvelope());
-                    setAttribute("envelopeDescription", envelope.getDescription().get(SessionManager.getCurrentLocale().getLanguage()));
+                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLocale().getLanguage()));
                     setAttribute("envelopeId", envelope.getId());
                     renderFragment(currentEnvelope ? "outputSelectedEnvelope" : "outputEnvelope");
                 }

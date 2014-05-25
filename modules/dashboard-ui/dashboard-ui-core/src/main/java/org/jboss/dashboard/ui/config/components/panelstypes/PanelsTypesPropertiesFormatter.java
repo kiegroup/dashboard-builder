@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.config.components.panelstypes;
 
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.PanelsProvidersManager;
 import org.jboss.dashboard.ui.panel.PanelProvider;
@@ -28,6 +27,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jboss.dashboard.LocaleManager;
 
 public class PanelsTypesPropertiesFormatter extends Formatter {
 
@@ -61,7 +61,7 @@ public class PanelsTypesPropertiesFormatter extends Formatter {
             String[] groups = getPanelsProvidersManager().enumerateProvidersGroups();
             for (int i = 0; i < groups.length; i++) {
                 String group = groups[i];
-                String groupName = getPanelsProvidersManager().getGroupDisplayName(group, SessionManager.getCurrentLocale());
+                String groupName = getPanelsProvidersManager().getGroupDisplayName(group, LocaleManager.currentLocale());
                 PanelProvider[] providers = getPanelsProvidersManager().getProvidersInGroup(group);
                 int nProviders = providers.length;
                 setAttribute("groupName", groupName);
@@ -72,7 +72,7 @@ public class PanelsTypesPropertiesFormatter extends Formatter {
                 renderFragment("outputDescriptionStart");
                 for (int j = 0; j < providers.length; j++) {
                     PanelProvider provider = providers[j];
-                    String providerDescription = provider.getResource(provider.getDescription(), SessionManager.getCurrentLocale());
+                    String providerDescription = provider.getResource(provider.getDescription(), LocaleManager.currentLocale());
                     setAttribute("providerAllowed", workspace.isProviderAllowed(provider.getId()));
                     setAttribute("providerDescription", providerDescription);
                     setAttribute("providerId", provider.getId());

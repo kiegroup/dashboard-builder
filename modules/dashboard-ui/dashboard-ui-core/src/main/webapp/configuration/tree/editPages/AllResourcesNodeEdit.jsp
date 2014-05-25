@@ -16,13 +16,13 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler" %>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.utils.forms.FormStatus" %>
 <%@ page import="org.jboss.dashboard.workspace.GraphicElementManager" %>
 <%@ page import="org.jboss.dashboard.ui.resources.GraphicElement" %>
 <%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 
