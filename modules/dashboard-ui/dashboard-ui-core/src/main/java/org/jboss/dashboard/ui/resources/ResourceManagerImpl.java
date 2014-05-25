@@ -22,7 +22,6 @@ import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.workspace.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,7 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Properties;
+import org.jboss.dashboard.LocaleManager;
 
 @ApplicationScoped
 public class ResourceManagerImpl implements ResourceManager, Startable {
@@ -110,7 +110,7 @@ public class ResourceManagerImpl implements ResourceManager, Startable {
             HttpSession session = RequestContext.lookup().getRequest().getSessionObject();
             holder = (ResourceHolder) session.getAttribute(ResourcesPropertiesHandler.PREVIEW_ATTRIBUTE); //Only one preview at a time...
             try {
-                return holder.getResource(resName, SessionManager.getCurrentLocale().getLanguage());
+                return holder.getResource(resName, LocaleManager.currentLocale().getLanguage());
             } catch (Exception e) {
                 log.error("Error getting resource from holder " + holder + ":", e);
             }
@@ -229,7 +229,7 @@ public class ResourceManagerImpl implements ResourceManager, Startable {
         if (holder != null) {
             holder.checkDeployment();
             try {
-                return holder.getResource(resName, SessionManager.getCurrentLocale().getLanguage());
+                return holder.getResource(resName, LocaleManager.currentLocale().getLanguage());
             } catch (Exception e) {
                 log.error("Error getting resource from holder " + holder + ":", e);
             }

@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
@@ -23,7 +23,7 @@
 <%@ taglib prefix="static" uri="static-resources.tld" %>
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.panel.export.messages"
-             locale="<%=SessionManager.getCurrentLocale()%>"/>
+             locale="<%=LocaleManager.currentLocale()%>"/>
 
 <table width="55%" border="0" cellpadding="0" cellspacing="0">
     <tr><td>

@@ -15,13 +15,13 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.panel.export.messages"
-             locale="<%=SessionManager.getCurrentLocale()%>"/>
+             locale="<%=LocaleManager.currentLocale()%>"/>
 <div style="height:auto;">
 
 <div style="text-align:left;">

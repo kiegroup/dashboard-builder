@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import java.util.Locale;
 
 /**
  * Simple interface to some objects stored in session
@@ -80,13 +79,6 @@ public class SessionManager {
         }
 
         return sectionStatus;
-    }
-
-    /**
-     * @deprecated Use LocaleManager instead
-     */
-    public static Locale getCurrentLocale() {
-        return LocaleManager.currentLocale();
     }
 
     /**

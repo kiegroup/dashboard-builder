@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.workspace.Parameters" %>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -27,7 +27,7 @@
     String preffix = request.getContextPath();
     while (preffix.endsWith("/")) preffix = preffix.substring(preffix.length() - 1);
 %>
-<i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"></i18n:bundle>
+<i18n:bundle baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"></i18n:bundle>
 
 <link rel="StyleSheet" media="screen" type="text/css"
       href="<mvc:context uri="/templates/css/administration_bar.css"/>">

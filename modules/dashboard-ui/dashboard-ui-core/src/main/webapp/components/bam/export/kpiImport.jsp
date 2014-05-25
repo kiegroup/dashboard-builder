@@ -15,12 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.export.messages"
-			 locale="<%=SessionManager.getCurrentLocale()%>"/>
+			 locale="<%=LocaleManager.currentLocale()%>"/>
 <table width="700px" border="0" cellpadding="0" cellspacing="0" style="text-align:center; background-color:#ffffff;">
 	<tr height="100%">
 		<td width="100%"><div class="skn-table_border"><div class="skn-table_header" style="padding-top:5px;"><i18n:message key="import.kpis.importing">!!!Import</i18n:message></div></div></td>

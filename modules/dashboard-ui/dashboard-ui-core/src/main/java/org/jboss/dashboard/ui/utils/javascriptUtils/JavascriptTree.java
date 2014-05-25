@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.utils.javascriptUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.text.StringUtil;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
@@ -199,7 +198,7 @@ public class JavascriptTree implements Comparable {
         else
             section = (Section) request.getAttribute("section");
 
-        Locale currentLocale = SessionManager.getCurrentLocale();
+        Locale currentLocale = LocaleManager.currentLocale();
         PanelInstance[] instances = workspace.getPanelInstances();
         if (instances == null || instances.length == 0)
             return null;
@@ -590,7 +589,7 @@ public class JavascriptTree implements Comparable {
      */
     public static synchronized String getTreeOfInstancesForNewInstance(Workspace selectWorkspace) {
 
-        Locale currentLocale = SessionManager.getCurrentLocale();
+        Locale currentLocale = LocaleManager.currentLocale();
         WorkspaceImpl workspace = (WorkspaceImpl) selectWorkspace;
         String cache = null;
         Map cacheMap = (Map) treeOfInstancesForNewInstance.get(workspace.getId());

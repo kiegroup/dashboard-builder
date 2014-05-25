@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager,
+<%@ page import="org.jboss.dashboard.LocaleManager,
                  java.util.Arrays,
                  java.util.Set" %>
 <%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler"%>
@@ -31,7 +31,7 @@
     String[] resources = (String[]) resourcesSet.toArray(new String[resourcesSet.size()]);
     Arrays.sort(resources);
 %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <tr class="skn-odd_row">
     <td nowrap="nowrap" align="left"><i18n:message key='<%="ui.admin.workarea."+graphicElement+"s.preview"%>'>
         !!!Preview</i18n:message></td>

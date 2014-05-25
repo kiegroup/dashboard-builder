@@ -15,14 +15,14 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.panel.export.ExportDriver" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.panel.export.messages"
-             locale="<%=SessionManager.getCurrentLocale()%>"/> <panel:defineObjects/> <%
+             locale="<%=LocaleManager.currentLocale()%>"/> <panel:defineObjects/> <%
     try {
         String showExportParam = (String) request.getAttribute(ExportDriver.PARAM_SHOW_EXPORT);
         String showImportParam = (String) request.getAttribute(ExportDriver.PARAM_SHOW_IMPORT);

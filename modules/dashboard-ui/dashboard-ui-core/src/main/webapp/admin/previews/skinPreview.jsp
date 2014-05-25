@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager,
+<%@ page import="org.jboss.dashboard.LocaleManager,
                  org.jboss.dashboard.ui.resources.GraphicElementPreview,
                  org.jboss.dashboard.ui.resources.Skin,
                  java.util.Arrays,
@@ -29,7 +29,7 @@
     String graphicElement = (String) request.getAttribute("graphicElement");
     GraphicElementPreview preview = (GraphicElementPreview) request.getSession().getAttribute(ResourcesPropertiesHandler.PREVIEW_ATTRIBUTE);
 %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <tr>
     <td nowrap="nowrap" align="left" valign="top"><i18n:message key='<%="ui.admin.workarea."+graphicElement+"s.preview"%>'>!!!Preview</i18n:message>
     </td>

@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.workspace.Panel" %>
 <%@ page import="org.jboss.dashboard.ui.HTTPSettings" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -23,7 +23,7 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>
-<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=SessionManager.getCurrentLocale()%>"/>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
 <% Panel panel = (Panel) request.getAttribute("panel"); %>
 
 <mvc:formatter name="org.jboss.dashboard.ui.formatters.RenderPanelMenuFormatter">

@@ -16,7 +16,6 @@
 package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancesPropertiesHandler;
 import org.jboss.dashboard.workspace.PanelsProvidersManager;
@@ -27,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.inject.Inject;
+import org.jboss.dashboard.LocaleManager;
 
 public class PanelInstancesNode extends AbstractNode {
 
@@ -87,7 +87,7 @@ public class PanelInstancesNode extends AbstractNode {
     protected PanelInstancesProvidersNode getNewPanelInstanceProvidersNode(String provider) {
         PanelInstancesProvidersNode node = CDIBeanLocator.getBeanByType(PanelInstancesProvidersNode.class);
         node.setProviderId(provider);
-        node.setProviderName(getPanelsProvidersManager().getGroupDisplayName(provider, SessionManager.getCurrentLocale()));
+        node.setProviderName(getPanelsProvidersManager().getGroupDisplayName(provider, LocaleManager.currentLocale()));
         node.setParent(this);
         node.setTree(getTree());
         return node;
