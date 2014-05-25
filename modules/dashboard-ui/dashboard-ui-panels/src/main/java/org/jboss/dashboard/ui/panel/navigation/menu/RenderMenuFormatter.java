@@ -17,7 +17,6 @@ package org.jboss.dashboard.ui.panel.navigation.menu;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -54,7 +53,7 @@ public class RenderMenuFormatter extends Formatter {
         renderOutputStart();
         Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
         List selectedLangIds = menuDriver.getSelectedLangIds(getPanel());
-        boolean isEditMode = SessionManager.getPanelSession(getPanel()).isEditMode();
+        boolean isEditMode = getPanel().getPanelSession().isEditMode();
         for (int j = 0; j < locales.length; j++) {
             Locale locale = locales[j];
             MenuItem menuItem = new LangMenuItem();
@@ -87,7 +86,7 @@ public class RenderMenuFormatter extends Formatter {
         }
 
         List selectedWorkspaceIds = menuDriver.getSelectedWorkspaceIds(getPanel());
-        boolean isEditMode = SessionManager.getPanelSession(getPanel()).isEditMode();
+        boolean isEditMode = getPanel().getPanelSession().isEditMode();
         if (workspacesIdentifiers != null && workspacesIdentifiers.size() > 0) {
             Iterator itWorkspacesIdentifiers = workspacesIdentifiers.iterator();
             while (itWorkspacesIdentifiers.hasNext()) {
@@ -121,7 +120,7 @@ public class RenderMenuFormatter extends Formatter {
         renderOutputStart();
         Section[] sections = ((WorkspaceImpl) getWorkspace()).getAllSections();
         List selectedPageIds = menuDriver.getSelectedPageIds(getPanel());
-        boolean isEditMode = SessionManager.getPanelSession(getPanel()).isEditMode();
+        boolean isEditMode = getPanel().getPanelSession().isEditMode();
         if (sections != null && sections.length > 0) {
             for (int i = 0; i < sections.length; i++) {
                 Section section = sections[i];

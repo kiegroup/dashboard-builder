@@ -55,13 +55,6 @@ public class SessionManager {
     }
 
     /**
-     * @deprecated Use Panel.getPanelSession() instead.
-     */
-    public static PanelSession getPanelSession(Panel panel) {
-        return panel.getPanelSession();
-    }
-
-    /**
      * Returns the section status object for a given region. If it doesn't exist,
      * creates and stores it in the session.
      */

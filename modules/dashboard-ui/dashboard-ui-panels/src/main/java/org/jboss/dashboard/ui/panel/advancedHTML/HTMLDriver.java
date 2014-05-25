@@ -17,7 +17,6 @@ package org.jboss.dashboard.ui.panel.advancedHTML;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowPanelPage;
@@ -107,7 +106,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
     public void activateEditMode(Panel panel, CommandRequest request) throws Exception {
         super.activateEditMode(panel, request);
         HTMLText text = load(panel.getInstance());
-        SessionManager.getPanelSession(panel).setAttribute(ATTR_TEXT, toEditableObject(text));
+        panel.getPanelSession().setAttribute(ATTR_TEXT, toEditableObject(text));
     }
 
     protected Map toEditableObject(HTMLText text) {
@@ -125,8 +124,8 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      */
     public void activateNormalMode(Panel panel, CommandRequest request) throws Exception {
         super.activateNormalMode(panel, request);
-        SessionManager.getPanelSession(panel).removeAttribute(ATTR_TEXT);
-        SessionManager.getPanelSession(panel).removeAttribute(ATTR_EDITING_LANGUAGE);
+        panel.getPanelSession().removeAttribute(ATTR_TEXT);
+        panel.getPanelSession().removeAttribute(ATTR_EDITING_LANGUAGE);
     }
 
     /**
@@ -156,7 +155,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      * @return The text shown, i18n.
      */
     public Map getHtmlCode(Panel panel) {
-        PanelSession pSession = SessionManager.getPanelSession(panel);
+        PanelSession pSession = panel.getPanelSession();
         Map m = (Map) pSession.getAttribute(ATTR_TEXT);
         if (m != null) return m;
         HTMLText text = load(panel.getInstance());
@@ -186,27 +185,27 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      * @return The text shown, i18n.
      */
     public String getEditingLanguage(Panel panel) {
-        String lang = (String) SessionManager.getPanelSession(panel).getAttribute(ATTR_EDITING_LANGUAGE);
+        String lang = (String) panel.getPanelSession().getAttribute(ATTR_EDITING_LANGUAGE);
         return lang == null ? LocaleManager.lookup().getDefaultLang() : lang;
     }
 
     public CommandResponse actionChangeEditingLanguage(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
-        Map text = (Map) SessionManager.getPanelSession(panel).getAttribute(ATTR_TEXT);
+        Map text = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
         if (text == null) {
             text = toEditableObject(load(panel.getInstance()));
-            SessionManager.getPanelSession(panel).setAttribute(ATTR_TEXT, text);
+            panel.getPanelSession().setAttribute(ATTR_TEXT, text);
         }
         text.put(getEditingLanguage(panel), currentText);
-        SessionManager.getPanelSession(panel).setAttribute(ATTR_TEXT, text);
+        panel.getPanelSession().setAttribute(ATTR_TEXT, text);
         String paramLang = request.getRequestObject().getParameter(PARAMETER_EDITING_LANG);
-        SessionManager.getPanelSession(panel).setAttribute(ATTR_EDITING_LANGUAGE, paramLang);
+        panel.getPanelSession().setAttribute(ATTR_EDITING_LANGUAGE, paramLang);
         return new ShowPanelPage();
     }
 
     public CommandResponse actionSaveChanges(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
-        Map m = (Map) SessionManager.getPanelSession(panel).getAttribute(ATTR_TEXT);
+        Map m = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
         HTMLText text = load(panel.getInstance());
         for (Iterator it = m.keySet().iterator(); it.hasNext();) {
             String lang = (String) it.next();

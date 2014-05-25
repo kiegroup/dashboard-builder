@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.formatters;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.NavigationManager;
-import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -81,7 +80,7 @@ public class RenderPanelMenuFormatter extends Formatter {
      */
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         Panel panel = (Panel) getParameter("panel");
-        PanelSession status = SessionManager.getPanelSession(panel);
+        PanelSession status = panel.getPanelSession();
         SectionRegion sectionRegion = panel.getSection().getSectionRegion(panel.getRegion().getId());
         boolean columnRegion = panel.getRegion().isColumnRegion();
         WorkspaceImpl workspace = NavigationManager.lookup().getCurrentWorkspace();

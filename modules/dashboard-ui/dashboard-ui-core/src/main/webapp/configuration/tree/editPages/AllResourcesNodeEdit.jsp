@@ -16,6 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler" %>
+<%@ page import="org.jboss.dashboard.ui.SessionManager" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.utils.forms.FormStatus" %>
 <%@ page import="org.jboss.dashboard.workspace.GraphicElementManager" %>
