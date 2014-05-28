@@ -52,17 +52,16 @@ public class RenderMenuFormatter extends Formatter {
     protected void renderLanguage(HttpServletRequest request, HttpServletResponse response, MenuDriver menuDriver) {
         renderOutputStart();
         Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
-        List selectedLangIds = menuDriver.getSelectedLangIds(getPanel());
+        List<String> selectedLangIds = menuDriver.getSelectedLangIds(getPanel());
         boolean isEditMode = getPanel().getPanelSession().isEditMode();
-        for (int j = 0; j < locales.length; j++) {
-            Locale locale = locales[j];
+        for (Locale locale : locales) {
             MenuItem menuItem = new LangMenuItem();
             menuItem.setId(locale.toString());
-            Map text = new HashMap();
+            Map<String, String> text = new HashMap<String, String>();
             text.put(LocaleManager.currentLang(), StringUtils.capitalize(locale.getDisplayName(locale)));
             menuItem.setText(text);
             menuItem.setUrl(menuDriver.getChangeLanguageLink(getPanel().getSection(), locale.toString()));
-            menuItem.setSelected(Boolean.valueOf(selectedLangIds.contains(locale.toString())));
+            menuItem.setSelected(selectedLangIds.contains(locale.toString()));
             menuItem.setVisible(Boolean.TRUE);
             if (locale.toString().equals(getLang())) {
                 menuItem.setCurrent(Boolean.TRUE);
@@ -78,19 +77,17 @@ public class RenderMenuFormatter extends Formatter {
 
     protected void renderWorkspace(HttpServletRequest request, HttpServletResponse response, MenuDriver menuDriver) throws FormatterException {
         renderOutputStart();
-        Set workspacesIdentifiers;
+        Set<String> workspacesIdentifiers;
         try {
             workspacesIdentifiers = UIServices.lookup().getWorkspacesManager().getAvailableWorkspacesIds();
         } catch (Exception e) {
             throw new FormatterException("No available workspace identifiers: ", e);
         }
 
-        List selectedWorkspaceIds = menuDriver.getSelectedWorkspaceIds(getPanel());
+        List<String> selectedWorkspaceIds = menuDriver.getSelectedWorkspaceIds(getPanel());
         boolean isEditMode = getPanel().getPanelSession().isEditMode();
         if (workspacesIdentifiers != null && workspacesIdentifiers.size() > 0) {
-            Iterator itWorkspacesIdentifiers = workspacesIdentifiers.iterator();
-            while (itWorkspacesIdentifiers.hasNext()) {
-                String id = (String) itWorkspacesIdentifiers.next();
+            for (String id : workspacesIdentifiers) {
                 WorkspaceImpl workspace;
                 try {
                     workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(id);
@@ -101,7 +98,7 @@ public class RenderMenuFormatter extends Formatter {
                 menuItem.setId(workspace.getId());
                 menuItem.setText(workspace.getName());
                 menuItem.setUrl(menuDriver.getChangeWorkspaceLink(request, response, workspace.getId()));
-                menuItem.setSelected(Boolean.valueOf(selectedWorkspaceIds.contains(workspace.getId())));
+                menuItem.setSelected(selectedWorkspaceIds.contains(workspace.getId()));
                 menuItem.setVisible(Boolean.TRUE);
                 if (workspace.getId().equals(getWorkspace().getId())) {
                     menuItem.setCurrent(Boolean.TRUE);
@@ -119,17 +116,16 @@ public class RenderMenuFormatter extends Formatter {
     protected void renderPage(HttpServletRequest request, HttpServletResponse response, MenuDriver menuDriver) {
         renderOutputStart();
         Section[] sections = ((WorkspaceImpl) getWorkspace()).getAllSections();
-        List selectedPageIds = menuDriver.getSelectedPageIds(getPanel());
+        List<String> selectedPageIds = menuDriver.getSelectedPageIds(getPanel());
         boolean isEditMode = getPanel().getPanelSession().isEditMode();
         if (sections != null && sections.length > 0) {
-            for (int i = 0; i < sections.length; i++) {
-                Section section = sections[i];
-                if (section.isVisible().booleanValue()) {
+            for (Section section : sections) {
+                if (section.isVisible()) {
                     MenuItem menuItem = new PageMenuItem();
                     menuItem.setId(section.getId().toString());
                     menuItem.setText(section.getTitle());
                     menuItem.setUrl(menuDriver.getChangePageLink(request, response, section));
-                    menuItem.setSelected(Boolean.valueOf(selectedPageIds.contains(section.getId().toString())));
+                    menuItem.setSelected(selectedPageIds.contains(section.getId().toString()));
                     SectionPermission viewPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_VIEW);
                     boolean canView = UserStatus.lookup().hasPermission(viewPerm);
                     if (canView) {

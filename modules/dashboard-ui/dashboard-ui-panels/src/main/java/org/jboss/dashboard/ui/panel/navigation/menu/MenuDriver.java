@@ -19,14 +19,10 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.panel.parameters.HTMLTextAreaParameter;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
-import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.parameters.ComboListParameter;
-import org.jboss.dashboard.ui.panel.parameters.TextAreaParameter;
 import org.jboss.dashboard.ui.taglib.LinkToWorkspaceTag;
-import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelSession;
 import org.jboss.dashboard.workspace.Section;
@@ -37,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -184,7 +181,7 @@ public class MenuDriver extends PanelDriver {
      * @return the URL.
      */
     protected String getChangeLanguageLink(Section currentPage, String lang) {
-        Map paramsMap = new HashMap();
+        Map<String, String> paramsMap = new HashMap<String, String>();
         paramsMap.put("lang", lang);
         String linkStr = UIServices.lookup().getUrlMarkupGenerator().getLinkToPage(currentPage, true, lang);
         return linkStr;
@@ -222,17 +219,17 @@ public class MenuDriver extends PanelDriver {
      * @param panel Panel.
      * @return selectedMenuItemsIds
      */
-    protected HashMap getSelectedMenuItemsIds(Panel panel) {
-        HashMap selectedMenuItemsIds = (HashMap) panel.getContentData();
-        if (selectedMenuItemsIds == null || selectedMenuItemsIds.size() == 0) {
-            ArrayList allPages = new ArrayList();
+    protected Map<String, List<String>> getSelectedMenuItemsIds(Panel panel) {
+        Map<String, List<String>> selectedMenuItemsIds = (Map) panel.getContentData();
+        if (selectedMenuItemsIds == null || selectedMenuItemsIds.isEmpty()) {
+            ArrayList<String> allPages = new ArrayList<String>();
             allPages.add(PARAMETER_ALL_ITEMS);
-            ArrayList allWorkspaces = new ArrayList();
+            ArrayList<String> allWorkspaces = new ArrayList<String>();
             allWorkspaces.add(PARAMETER_ALL_ITEMS);
-            ArrayList allLangs = new ArrayList();
+            ArrayList<String> allLangs = new ArrayList<String>();
             allLangs.add(PARAMETER_ALL_ITEMS);
 
-            selectedMenuItemsIds = new HashMap();
+            selectedMenuItemsIds = new HashMap<String, List<String>>();
             selectedMenuItemsIds.put(PARAMETER_PAGE, allPages);
             selectedMenuItemsIds.put(PARAMETER_WORKSPACE, allWorkspaces);
             selectedMenuItemsIds.put(PARAMETER_LANG, allLangs);
@@ -246,8 +243,8 @@ public class MenuDriver extends PanelDriver {
      * @param panel Panel.
      * @return selectedLangIds
      */
-    public ArrayList getSelectedLangIds(Panel panel) {
-        return (ArrayList) getSelectedMenuItemsIds(panel).get(PARAMETER_LANG);
+    public List<String> getSelectedLangIds(Panel panel) {
+        return getSelectedMenuItemsIds(panel).get(PARAMETER_LANG);
     }
 
     /**
@@ -256,8 +253,8 @@ public class MenuDriver extends PanelDriver {
      * @param panel Panel.
      * @return selectedPageIds
      */
-    public ArrayList getSelectedPageIds(Panel panel) {
-        return (ArrayList) getSelectedMenuItemsIds(panel).get(PARAMETER_PAGE);
+    public List<String> getSelectedPageIds(Panel panel) {
+        return getSelectedMenuItemsIds(panel).get(PARAMETER_PAGE);
     }
 
     /**
@@ -266,8 +263,8 @@ public class MenuDriver extends PanelDriver {
      * @param panel Panel.
      * @return selectedWorkspaceIds
      */
-    public ArrayList getSelectedWorkspaceIds(Panel panel) {
-        return (ArrayList) getSelectedMenuItemsIds(panel).get(PARAMETER_WORKSPACE);
+    public List<String> getSelectedWorkspaceIds(Panel panel) {
+        return getSelectedMenuItemsIds(panel).get(PARAMETER_WORKSPACE);
     }
 
     /**
@@ -280,11 +277,11 @@ public class MenuDriver extends PanelDriver {
     public CommandResponse actionSaveLangs(Panel panel, CommandRequest request) throws Exception {
         removeAllVisibleMenuItem(panel, PARAMETER_LANG);
 
-        String[] visible_items = request.getRequestObject().getParameterValues(ATTRIBUTE_SELECTED_LANG);
-        if (visible_items != null && visible_items.length > 0) {
-            for (int i = 0; i < visible_items.length; i++) {
-                if (visible_items[i] != null && visible_items[i].trim().length() > 0) {
-                    addVisibleMenuItem(panel, visible_items[i], PARAMETER_LANG);
+        String[] visibleItems = request.getRequestObject().getParameterValues(ATTRIBUTE_SELECTED_LANG);
+        if (visibleItems != null) {
+            for (String item : visibleItems) {
+                if (item != null && item.trim().length() > 0) {
+                    addVisibleMenuItem(panel, item, PARAMETER_LANG);
                 }
             }
         } else {
@@ -330,11 +327,11 @@ public class MenuDriver extends PanelDriver {
     public CommandResponse actionSavePages(Panel panel, CommandRequest request) throws Exception {
         removeAllVisibleMenuItem(panel, PARAMETER_PAGE);
 
-        String[] visible_items = request.getRequestObject().getParameterValues(ATTRIBUTE_SELECTED_PAGE);
-        if (visible_items != null && visible_items.length > 0) {
-            for (int i = 0; i < visible_items.length; i++) {
-                if (visible_items[i] != null && visible_items[i].trim().length() > 0) {
-                    addVisibleMenuItem(panel, visible_items[i], PARAMETER_PAGE);
+        String[] visibleItems = request.getRequestObject().getParameterValues(ATTRIBUTE_SELECTED_PAGE);
+        if (visibleItems != null) {
+            for (String item : visibleItems) {
+                if (item != null && item.trim().length() > 0) {
+                    addVisibleMenuItem(panel, item, PARAMETER_PAGE);
                 }
             }
         } else {
@@ -352,9 +349,9 @@ public class MenuDriver extends PanelDriver {
      * @param menuItem MenuItem.
      */
     private void removeAllVisibleMenuItem(Panel panel, String menuItem) {
-        HashMap selectedMenuItemsIds = getSelectedMenuItemsIds(panel);
-        selectedMenuItemsIds.put(menuItem, new ArrayList());
-        panel.setContentData(selectedMenuItemsIds);
+        Map<String, List<String>> selectedMenuItemsIds = getSelectedMenuItemsIds(panel);
+        selectedMenuItemsIds.put(menuItem, new ArrayList<String>());
+        panel.setContentData((HashMap) selectedMenuItemsIds);
     }
 
     /**
@@ -364,11 +361,10 @@ public class MenuDriver extends PanelDriver {
      * @param menuItem MenuItem.
      */
     private void addVisibleMenuItem(Panel panel, String itemId, String menuItem) {
-        HashMap selectedMenuItemsIds = getSelectedMenuItemsIds(panel);
-        ArrayList item = (ArrayList) selectedMenuItemsIds.get(menuItem);
+        Map<String, List<String>> selectedMenuItemsIds = getSelectedMenuItemsIds(panel);
+        List<String> item = selectedMenuItemsIds.get(menuItem);
         if (itemId != null && itemId.length() > 0 && !item.contains(itemId)) {
             item.add(itemId);
         }
     }
-
 }
