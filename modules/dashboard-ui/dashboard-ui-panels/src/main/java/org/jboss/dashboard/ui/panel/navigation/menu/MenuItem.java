@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public abstract class MenuItem {
     private String id;
-    private Map text;
+    private Map<String, String> text;
     private String url;
     private Boolean selected;
     private Boolean visible;
@@ -35,7 +35,7 @@ public abstract class MenuItem {
 
     public MenuItem() {
         id = null;
-        text = new HashMap();
+        text = new HashMap<String, String>();
         url = "";
         selected = Boolean.FALSE;
         visible = Boolean.FALSE;
@@ -54,28 +54,28 @@ public abstract class MenuItem {
         this.id = id;
     }
 
-    public Map getText() {
+    public Map<String, String> getText() {
         return this.text;
     }
 
     public String getText(String language) {
-        String result = (String) this.text.get(language);
+        String result = this.text.get(language);
         if (result != null)
             return result;
         else
             return "";
     }
 
-    public void setText(Map text) {
+    public void setText(Map<String, String> text) {
         if (text == null)
-            this.text = new HashMap();
+            this.text = new HashMap<String, String>();
         else
             this.text = text;
     }
 
     public void setText(String language, String value) {
         if (text == null)
-            text = new HashMap();
+            text = new HashMap<String, String>();
 
         if (value == null)
             value = "";
@@ -92,7 +92,7 @@ public abstract class MenuItem {
     }
 
     public boolean isSelected() {
-        return this.selected != null && this.selected.booleanValue();
+        return this.selected != null && this.selected;
     }
 
     public void setSelected(Boolean selected) {
@@ -100,7 +100,7 @@ public abstract class MenuItem {
     }
 
     public boolean isVisible() {
-        return this.visible != null && this.visible.booleanValue();
+        return this.visible != null && this.visible;
     }
 
     public void setVisible(Boolean visible) {
@@ -108,7 +108,7 @@ public abstract class MenuItem {
     }
 
     public boolean isCurrent() {
-        return this.current != null && this.current.booleanValue();
+        return this.current != null && this.current;
     }
 
     public void setCurrent(Boolean current) {
