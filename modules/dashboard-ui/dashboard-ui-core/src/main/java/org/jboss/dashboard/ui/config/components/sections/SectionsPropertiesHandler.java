@@ -95,7 +95,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
     private int regionsCellSpacing;
     private int panelsCellSpacing;
     private String action;
-    private ArrayList errorPermission = new ArrayList();
+    private ArrayList<String> errorPermission = new ArrayList<String>();
     private Boolean moveLoop = Boolean.FALSE;
 
     public MessagesComponentHandler getMessagesComponentHandler() {
@@ -122,11 +122,11 @@ public class SectionsPropertiesHandler extends BeanHandler {
         this.moveLoop = moveLoop;
     }
 
-    public ArrayList getErrorPermission() {
+    public ArrayList<String> getErrorPermission() {
         return errorPermission;
     }
 
-    public void setErrorPermission(ArrayList errorPermission) {
+    public void setErrorPermission(ArrayList<String> errorPermission) {
         this.errorPermission = errorPermission;
     }
 
@@ -833,18 +833,18 @@ public class SectionsPropertiesHandler extends BeanHandler {
     private void reorderSections(WorkspaceImpl workspace, Section root, Section sectionToMove) throws Exception {
 
         Section[] sections;
-        if (root != null)
+        if (root != null) {
             sections = workspace.getAllChildSections(root.getId());
-        else
+        } else {
             sections = workspace.getAllRootSections();
+        }
 
         int count = 0;
-        for (int i = 0; i < sections.length; i++) {
-            if (!sections[i].getSectionId().equals(sectionToMove.getSectionId())) {
-
-                sections[i].setPosition(count);
+        for (Section section : sections) {
+            if (!section.getSectionId().equals(sectionToMove.getSectionId())) {
+                section.setPosition(count);
                 count++;
-                UIServices.lookup().getSectionsManager().store(sections[i]);
+                UIServices.lookup().getSectionsManager().store(section);
             }
         }
     }
@@ -905,14 +905,14 @@ public class SectionsPropertiesHandler extends BeanHandler {
                 return new BasicSectionCopyOption(false);
             default:
                 SectionCopyOption sco = CopyOption.DEFAULT_SECTION_COPY_OPTION_SAME_WORKSPACE;
-                for (Enumeration en = request.getRequestObject().getParameterNames(); en.hasMoreElements();) {
-                    String paramName = (String) en.nextElement();
+                for (Enumeration<String> en = request.getRequestObject().getParameterNames(); en.hasMoreElements();) {
+                    String paramName = en.nextElement();
                     if (!paramName.startsWith("duplicatePanelInstance_"))
                         continue;
                     String sDuplicate = request.getParameter(paramName);
                     boolean duplicate = false;
                     if (sDuplicate != null)
-                        duplicate = Boolean.valueOf(sDuplicate).booleanValue();
+                        duplicate = Boolean.parseBoolean(sDuplicate);
                     String panelInstanceId = paramName.substring("duplicatePanelInstance_".length());
                     log.debug("PanelInstance with id=" + panelInstanceId + " will " + (duplicate ? "" : "not ") + "be duplicated.");
                     sco.addPanelInstanceToDuplicate(panelInstanceId, duplicate);

@@ -23,7 +23,6 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -31,6 +30,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import org.jboss.dashboard.LocaleManager;
 
 public class SectionsPropertiesFormatter extends Formatter {
 
@@ -40,22 +40,22 @@ public class SectionsPropertiesFormatter extends Formatter {
     @Inject
     private SectionsPropertiesHandler sectionsPropertiesHandler;
 
-    private List pageTitles = new ArrayList();
-    private List pageIds = new ArrayList();
+    private List<String> pageTitles = new ArrayList<String>();
+    private List<Long> pageIds = new ArrayList<Long>();
 
-    public List getPageIds() {
+    public List<Long> getPageIds() {
         return pageIds;
     }
 
-    public void setPageIds(List pageIds) {
+    public void setPageIds(List<Long> pageIds) {
         this.pageIds = pageIds;
     }
 
-    public List getPageTitles() {
+    public List<String> getPageTitles() {
         return pageTitles;
     }
 
-    public void setPageTitles(List pageTitles) {
+    public void setPageTitles(List<String> pageTitles) {
         this.pageTitles = pageTitles;
     }
 
@@ -83,15 +83,15 @@ public class SectionsPropertiesFormatter extends Formatter {
             renderFragment("outputCommandsBarStart");
 
             String preffix = (String) getParameter("preffix");
-            List pages = initSections(preffix == null ? "--" : preffix, workspace);
+            List<Section> pages = initSections(preffix == null ? "--" : preffix, workspace);
 
             if (!pages.isEmpty()) {
                 renderFragment("outputStartSelect");
                 renderFragment("outputNoneSelected");
 
                 for (int i = 0; i < pages.size(); i++) {
-                    Section section = (Section) pages.get(i);
-                    String title = (String) pageTitles.get(i);
+                    Section section = pages.get(i);
+                    String title = pageTitles.get(i);
                     setAttribute("id", section.getId());
                     setAttribute("title", StringEscapeUtils.escapeHtml(title));
                     renderFragment("outputSelect");
@@ -112,7 +112,7 @@ public class SectionsPropertiesFormatter extends Formatter {
                     setAttribute("errorCommand", getSectionsPropertiesHandler().getErrorPermission().get(i));
                     renderFragment("outputErrorCommands");
                 }
-                getSectionsPropertiesHandler().setErrorPermission(new ArrayList());
+                getSectionsPropertiesHandler().setErrorPermission(new ArrayList<String>());
             }
 
             renderFragment("outputTreeStart");
@@ -133,8 +133,8 @@ public class SectionsPropertiesFormatter extends Formatter {
 
     }
 
-    protected List initSections(String preffix, WorkspaceImpl workspace) {
-        List pages = new ArrayList();
+    protected List<Section> initSections(String preffix, WorkspaceImpl workspace) {
+        List<Section> pages = new ArrayList<Section>();
         if (workspace != null) {
             Section[] sections = workspace.getAllSections(); //Sorted!
             for (int i = 0; i < sections.length; i++) {
@@ -153,12 +153,11 @@ public class SectionsPropertiesFormatter extends Formatter {
         return pages;
     }
 
-    public Map setLangTitle(HttpServletRequest request) throws Exception {
-        Map m = new HashMap();
+    public Map<String, String> setLangTitle(HttpServletRequest request) throws Exception {
+        Map<String, String> m = new HashMap<String, String>();
 
-        Map params = request.getParameterMap();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-            String paramName = (String) it.next();
+        Map<String, String[]> params = request.getParameterMap();
+        for (String paramName : params.keySet()) {
             if (paramName.startsWith("name_")) {
                 String lang = paramName.substring("name_".length());
                 String paramValue = request.getParameter(paramName);
@@ -178,19 +177,19 @@ public class SectionsPropertiesFormatter extends Formatter {
             Section[] sections = rootSection != null ?
                     workspace.getAllChildSections(rootSection.getId()) :
                     workspace.getAllRootSections();
-            for (int i = 0; i < sections.length; i++) {
-                SectionPermission viewPerm = SectionPermission.newInstance(sections[i], SectionPermission.ACTION_VIEW);
+            for (Section section : sections) {
+                SectionPermission viewPerm = SectionPermission.newInstance(section, SectionPermission.ACTION_VIEW);
                 if (UserStatus.lookup().hasPermission(viewPerm)) {
-                    pageIds.add(sections[i].getId());
-                    pageTitles.add(indent + getTitle(sections[i]));
-                    initSections(sections[i], indent + preffix, preffix);
+                    pageIds.add(section.getId());
+                    pageTitles.add(indent + getTitle(section));
+                    initSections(section, indent + preffix, preffix);
                 }
             }
         }
     }
 
     protected String getTitle(Section section) {
-        return LocalizeTag.getLocalizedValue(section.getTitle(), getLang(), true);
+        return (String) LocaleManager.lookup().localize(section.getTitle());
     }
 
     /**
