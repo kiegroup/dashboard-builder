@@ -16,7 +16,6 @@
 package org.jboss.dashboard.ui.panel.advancedHTML;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.jboss.dashboard.workspace.PanelInstance;
 import org.hibernate.Session;
 import org.jboss.dashboard.workspace.PanelInstance;
 
@@ -30,11 +29,11 @@ import java.util.Map;
 public class HTMLText implements Serializable {
 
     protected Long dbid;
-    protected Map text;
+    protected Map<String, String> text;
     protected PanelInstance panelInstance;
 
     public HTMLText() {
-        text = new HashMap();
+        text = new HashMap<String, String>();
     }
 
     public Long getDbid() {
@@ -53,23 +52,23 @@ public class HTMLText implements Serializable {
         this.panelInstance = panelInstance;
     }
 
-    public Map getText() {
+    public Map<String, String> getText() {
         return text;
     }
 
-    public void setText(Map text) {
-        if (text == null) this.text = new HashMap();
+    public void setText(Map<String, String> text) {
+        if (text == null) this.text = new HashMap<String, String>();
         else this.text = text;
     }
 
     public String getText(String language) {
-        String result = (String) text.get(language);
+        String result = text.get(language);
         if (result != null) return result;
         else return "";
     }
 
     public void setText(String language, String value) {
-        if (text == null) text = new HashMap();
+        if (text == null) text = new HashMap<String, String>();
         if (value == null) value = "";
 
         text.put(language, value);

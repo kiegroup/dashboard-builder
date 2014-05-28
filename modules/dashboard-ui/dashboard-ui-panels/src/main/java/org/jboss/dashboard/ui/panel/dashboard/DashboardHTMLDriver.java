@@ -30,7 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -91,18 +90,16 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
     protected transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DashboardHTMLDriver.class);
 
     /**
-     * OVERWRITTEN in order to process commands embedded in the HTML.
+     * OVERRIDDEN in order to process commands embedded in the HTML.
      */
-    public Map getHtmlCode(Panel panel) {
-        Map origMap = super.getHtmlCode(panel);
+    public Map<String, String> getHtmlCode(Panel panel) {
+        Map<String, String> origMap = super.getHtmlCode(panel);
         if (origMap == null || !getPanelSession(panel).isShowMode()) return origMap;
 
         // Process the commands embedded into the HTML.
-        Map modifiedMap = new HashMap();
-        Iterator it = origMap.keySet().iterator();
-        while (it.hasNext()) {
-            String language = (String) it.next();
-            String html = (String) origMap.get(language);
+        Map<String, String> modifiedMap = new HashMap<String, String>();
+        for (String language : origMap.keySet()) {
+            String html = origMap.get(language);
 
             try {
                 TemplateProcessor tp = DataProviderServices.lookup().getTemplateProcessor();
@@ -110,7 +107,6 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
                 modifiedMap.put(language, parsedHtml);
             } catch (Exception e) {
                 log.error("HTML template processing error.", e);
-                continue;
             }
         }
         return modifiedMap;
@@ -120,10 +116,10 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
 
     public Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception {
         Set<DataProvider> results = new HashSet<DataProvider>();
-        Map origMap = super.getHtmlCode(panel);
+        Map<String, String> origMap = super.getHtmlCode(panel);
         if (origMap == null || !getPanelSession(panel).isShowMode()) return results;
 
-        String html = (String) origMap.get(LocaleManager.currentLang());
+        String html = origMap.get(LocaleManager.currentLang());
         if (StringUtils.isBlank(html)) return results;
 
         // Get the commands embedded into the HTML.
@@ -139,8 +135,7 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
         Set<DataProvider> dataProviders = dashboard.getDataProviders();
         for (DataProvider dataProvider : dataProviders) {
             DataProperty[] dataProperties = dataProvider.getDataSet().getProperties();
-            for (int i = 0; i < dataProperties.length; i++) {
-                DataProperty dataProperty = dataProperties[i];
+            for (DataProperty dataProperty : dataProperties) {
                 for (Command command : commandList) {
                     if (command.containsProperty(dataProperty.getPropertyId())) {
                         results.add(dataProvider);
