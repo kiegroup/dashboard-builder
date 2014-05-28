@@ -20,8 +20,6 @@ import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
-import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.PanelProviderParameter;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -56,12 +54,12 @@ public class ShowPanelConfigComponentFormatter extends Formatter {
 
     protected void renderPanelParameters(HttpServletRequest request, PanelInstance instance, PanelProviderParameter[] params) {
         if (params != null && params.length > 0) {
-            for (int i = 0; i < params.length; i++) {
-                if (params[i].getProvider().getProperties().containsKey("parameter." + params[i].getId())) {
+            for (PanelProviderParameter param : params) {
+                if (param.getProvider().getProperties().containsKey("parameter." + param.getId())) {
                     continue;
                 }
-                setAttribute("param", params[i]);
-                setAttribute("html", params[i].renderHTML(request, instance, params[i], instance.getParameterValue(params[i].getId(), LocaleManager.currentLang())));
+                setAttribute("param", param);
+                setAttribute("html", param.renderHTML(request, instance, param, instance.getParameterValue(param.getId(), LocaleManager.currentLang())));
                 setAttribute("formStatus", showPanelConfigComponent.getFormStatus());
                 renderFragment("outputParam");
             }

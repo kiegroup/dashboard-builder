@@ -69,8 +69,8 @@ public class SectionCreationFormatter extends SectionsPropertiesFormatter {
                     renderFragment("outputParentsStart");
                     String parent = getSectionsPropertiesHandler().getParent();
                     for (int i = 0; i < getPageIds().size(); i++) {
-                        Long id = (Long) getPageIds().get(i);
-                        String title = (String) getPageTitles().get(i);
+                        Long id = getPageIds().get(i);
+                        String title = getPageTitles().get(i);
                         setAttribute("parentId", id);
                         setAttribute("parentTitle", title);
                         setAttribute("selected", id.toString().equals(parent) ? "selected" : "");
