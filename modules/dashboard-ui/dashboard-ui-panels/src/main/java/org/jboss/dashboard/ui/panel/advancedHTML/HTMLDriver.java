@@ -65,8 +65,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         super.init(provider);
         addParameter(new BooleanParameter(provider, PARAMETER_USE_DEFAULTS, false, true));
         String[] methodsForEditMode = new String[]{"actionChangeEditingLanguage", "actionSaveChanges"};
-        for (int i = 0; i < methodsForEditMode.length; i++) {
-            String method = methodsForEditMode[i];
+        for (String method : methodsForEditMode) {
             addMethodPermission(method, PanelPermission.class, PanelPermission.ACTION_EDIT);
         }
     }
@@ -109,10 +108,9 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         panel.getPanelSession().setAttribute(ATTR_TEXT, toEditableObject(text));
     }
 
-    protected Map toEditableObject(HTMLText text) {
-        Map m = new HashMap();
-        for (Iterator it = text.getText().keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
+    protected Map<String, String> toEditableObject(HTMLText text) {
+        Map<String, String> m = new HashMap<String, String>();
+        for (String lang : text.getText().keySet()) {
             String val = text.getText(lang);
             m.put(lang, val);
         }
@@ -135,7 +133,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      * @return if this driver is using default language
      */
     public boolean isUsingDefaultLanguage(Panel panel) {
-        return Boolean.valueOf(panel.getParameterValue(PARAMETER_USE_DEFAULTS)).booleanValue();
+        return Boolean.parseBoolean(panel.getParameterValue(PARAMETER_USE_DEFAULTS));
     }
 
     /**
@@ -145,7 +143,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      * @return if this driver is using default language
      */
     public boolean isUsingDefaultLanguage(PanelInstance panel) {
-        return Boolean.valueOf(panel.getParameterValue(PARAMETER_USE_DEFAULTS)).booleanValue();
+        return Boolean.parseBoolean(panel.getParameterValue(PARAMETER_USE_DEFAULTS));
     }
 
     /**
@@ -154,9 +152,9 @@ public class HTMLDriver extends PanelDriver implements Exportable {
      * @param panel
      * @return The text shown, i18n.
      */
-    public Map getHtmlCode(Panel panel) {
+    public Map<String, String> getHtmlCode(Panel panel) {
         PanelSession pSession = panel.getPanelSession();
-        Map m = (Map) pSession.getAttribute(ATTR_TEXT);
+        Map<String, String> m = (Map) pSession.getAttribute(ATTR_TEXT);
         if (m != null) return m;
         HTMLText text = load(panel.getInstance());
         if (text != null) return text.getText();
@@ -164,8 +162,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
             HTMLText textToCreate = new HTMLText();
             textToCreate.setPanelInstance(panel.getInstance());
             Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i = 0; i < locales.length; i++) {
-                Locale locale = locales[i];
+            for (Locale locale : locales) {
                 ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
                 textToCreate.setText(locale.getLanguage(), i18n.getString("defaultContent"));
             }
@@ -191,7 +188,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
 
     public CommandResponse actionChangeEditingLanguage(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
-        Map text = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
+        Map<String, String> text = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
         if (text == null) {
             text = toEditableObject(load(panel.getInstance()));
             panel.getPanelSession().setAttribute(ATTR_TEXT, text);
@@ -205,11 +202,10 @@ public class HTMLDriver extends PanelDriver implements Exportable {
 
     public CommandResponse actionSaveChanges(Panel panel, CommandRequest request) throws Exception {
         String currentText = request.getRequestObject().getParameter(PARAMETER_HTML);
-        Map m = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
+        Map<String, String> m = (Map) panel.getPanelSession().getAttribute(ATTR_TEXT);
         HTMLText text = load(panel.getInstance());
-        for (Iterator it = m.keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String val = (String) m.get(lang);
+        for (String lang : m.keySet()) {
+            String val = m.get(lang);
             text.setText(lang, val);
         }
         text.setText(getEditingLanguage(panel), currentText);
@@ -219,7 +215,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
     }
 
     public HTMLText load(final PanelInstance instance) {
-        final List results = new ArrayList();
+        final List<HTMLText> results = new ArrayList<HTMLText>();
         try {
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
@@ -232,7 +228,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
                 session.setFlushMode(oldFlushMode);
             }}.execute();
             HTMLText text = null;
-            if (results.size() > 0) text = (HTMLText) results.get(0);
+            if (results.size() > 0) text = results.get(0);
             else log.debug("Does not exist a html_text for HTML panel");
             return text;
         } catch (Exception e) {
@@ -274,15 +270,14 @@ public class HTMLDriver extends PanelDriver implements Exportable {
             log.debug("Nothing to replicate from PanelInstance " + src.getDbid() + " to " + dest.getDbid());
             return;
         }
-        Map htmlSrc = text.getText();
+        Map<String, String> htmlSrc = text.getText();
 
         log.debug("htmlCode to replicate = " + htmlSrc);
         HTMLText htmlDest = new HTMLText();
         htmlDest.setPanelInstance(dest.getInstance());
-        for (Iterator it = htmlSrc.keySet().iterator(); it.hasNext();) {
-            String key = (String) it.next();
-            String val = (String) htmlSrc.get(key);
-            htmlDest.setText(key, val);
+        for (String lang : htmlSrc.keySet()) {
+            String val = htmlSrc.get(lang);
+            htmlDest.setText(lang, val);
         }
         try {
             log.debug("Updating HTMLText: IDText " + htmlDest.getDbid() + " Text " + htmlDest.getText());
@@ -308,7 +303,7 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         }
         ObjectOutputStream oos = new ObjectOutputStream(os);
         if (log.isDebugEnabled()) log.debug("Exporting content: " + text.getText());
-        HashMap h = new HashMap(); // Avoids serializing a hibernate map
+        HashMap<String, String> h = new HashMap<String, String>(); // Avoids serializing a hibernate map
         h.putAll(text.getText());
         oos.writeObject(h);
     }
@@ -320,11 +315,10 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         HTMLText currentText = new HTMLText();
         currentText.setPanelInstance(instance);
         ObjectInputStream ois = new ObjectInputStream(is);
-        Map text = (Map) ois.readObject();
+        Map<String, String> text = (Map) ois.readObject();
         if (log.isDebugEnabled()) log.debug("Importing content: " + text);
-        for (Iterator it = text.keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String value = (String) text.get(lang);
+        for (String lang : text.keySet()) {
+            String value = text.get(lang);
             currentText.setText(lang, value);
         }
         currentText.save();

@@ -72,7 +72,7 @@ public class HTMLDriverEditFormatter extends Formatter {
                 }
             }
             renderFragment("languagesOutputEnd");
-            String content = (String) htmlDriver.getHtmlCode(getPanel()).get(htmlDriver.getEditingLanguage(getPanel()));
+            String content = htmlDriver.getHtmlCode(getPanel()).get(htmlDriver.getEditingLanguage(getPanel()));
             setAttribute("content", content == null ? "" : content);
             setAttribute("contentParamName", HTMLDriver.PARAMETER_HTML);
             renderFragment("output");
