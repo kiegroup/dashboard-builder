@@ -199,18 +199,18 @@ public class PanelInstance implements Cloneable, Visitable {
         this.panelParams = panelParams;
     }
 
-    public Map getTitle() {
+    public Map<String, String> getTitle() {
         LocaleManager localeManager = LocaleManager.lookup();
         final String[] langs = localeManager.getPlatformAvailableLangs();
-        Map title = new AbstractMap() {
-            public Set entrySet() {
-                return new AbstractSet() {
+        Map<String, String> title = new AbstractMap<String, String>() {
+            public Set<Entry<String, String>> entrySet() {
+                return new AbstractSet<Entry<String, String>>() {
                     public int size() {
                         return langs.length;
                     }
 
-                    public Iterator iterator() {
-                        return new Iterator() {
+                    public Iterator<Map.Entry<String, String>> iterator() {
+                        return new Iterator<Map.Entry<String, String>>() {
                             int i = 0;
 
                             public void remove() {
@@ -221,20 +221,20 @@ public class PanelInstance implements Cloneable, Visitable {
                                 return i < langs.length;
                             }
 
-                            public Object next() {
+                            public Map.Entry<String, String> next() {
                                 i++;
-                                return new Entry() {
+                                return new Map.Entry<String, String>() {
                                     int index = i - 1;
 
-                                    public Object getKey() {
+                                    public String getKey() {
                                         return langs[index];
                                     }
 
-                                    public Object getValue() {
+                                    public String getValue() {
                                         return getParameterValue(PARAMETER_TITLE, langs[index]);
                                     }
 
-                                    public Object setValue(Object value) {
+                                    public String setValue(String value) {
                                         throw new UnsupportedOperationException();
                                     }
                                 };
@@ -252,10 +252,9 @@ public class PanelInstance implements Cloneable, Visitable {
         return (String) localeManager.localize(getTitle());
     }
 
-    public void setTitle(Map title) {
-        for (Iterator it = title.keySet().iterator(); it.hasNext();) {
-            String lang = (String) it.next();
-            String val = (String) title.get(lang);
+    public void setTitle(Map<String, String> title) {
+        for (String lang : title.keySet()) {
+            String val = title.get(lang);
             setParameterValue(PARAMETER_TITLE, val, lang);
         }
     }

@@ -277,8 +277,8 @@ public class Panel implements Cloneable, Comparable<Panel>, Visitable {
         }
     }
 
-    public Map getTitle() {
-        if (getInstance() == null) return Collections.EMPTY_MAP;
+    public Map<String, String> getTitle() {
+        if (getInstance() == null) return Collections.emptyMap();
         return getInstance().getTitle();
     }
 
@@ -287,7 +287,7 @@ public class Panel implements Cloneable, Comparable<Panel>, Visitable {
         return getInstance().getTitle(language);
     }
 
-    public void setTitle(Map title) {
+    public void setTitle(Map<String, String> title) {
         if (getInstance() != null) {
             getInstance().setTitle(title);
         }
@@ -447,8 +447,7 @@ public class Panel implements Cloneable, Comparable<Panel>, Visitable {
         Map panelPermissions = securityPolicy.getPermissions(this, PanelPermission.class);
         Map sectionPermissions = securityPolicy.getPermissions(this, SectionPermission.class);
         Map[] permissions = new Map[]{workspacePermissions, panelPermissions, sectionPermissions};
-        for (int i = 0; i < permissions.length; i++) {
-            Map permissionMap = permissions[i];
+        for (Map permissionMap : permissions) {
             for (Iterator it = permissionMap.keySet().iterator(); it.hasNext();) {
                 Principal principal = (Principal) it.next();
                 Permission perm = (Permission) permissionMap.get(principal);

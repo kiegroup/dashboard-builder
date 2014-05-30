@@ -187,10 +187,9 @@ public class DataProviderFormatter extends Formatter {
                     // To print property names is necessary to call property.getName for each locale and create a i18n Map.
                     // Use of method property.getNameI18nMap() is not correct. This does not apply DataPropertyFormatter pattern,
                     // just returns the Map, although it's empty. Method getName uses DataPropertyFormatter pattern.
-                    Map names = new HashMap();
+                    Map<Locale, String> names = new HashMap<Locale, String>();
                     Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
-                    for (int j = 0; j < locales.length; j++) {
-                        Locale locale = locales[j];
+                    for (Locale locale : locales) {
                         String name = property.getName(locale);
                         if (name != null && name.trim().length() > 0)
                             names.put(locale, StringEscapeUtils.escapeHtml(name));
