@@ -51,7 +51,7 @@ public class RegionFormatter extends Formatter {
 
         regionPanels = getRegionPanels();
 
-        panelRecommendedWidth = regionPanels.size() == 0 ? 100 : (currentRegion.isRowRegion() ? (100 / regionPanels.size()) : 100);
+        panelRecommendedWidth = regionPanels.isEmpty() ? 100 : (currentRegion.isRowRegion() ? (100 / regionPanels.size()) : 100);
 
         WorkspaceImpl workspace = NavigationManager.lookup().getCurrentWorkspace();
 

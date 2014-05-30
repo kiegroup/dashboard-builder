@@ -45,14 +45,14 @@ public class DataSourceManagementTableListFormatter extends Formatter {
                 renderFragment("outputTitleForm");
                 if(handler.getINTROSPECT_RESULT().equals(handler.RESULT_OK)){
                     renderFragment("outputTitleTableTD");
-                    List existingTableEntries = handler.getIntrospectedTables(dsName);
-                    List selectedTablesList = DataSourceTableManager.lookup().getSelectedTablesName(dsName);
+                    List<DataSourceTableEntry> existingTableEntries = handler.getIntrospectedTables(dsName);
+                    List<String> selectedTablesList = DataSourceTableManager.lookup().getSelectedTablesName(dsName);
                     Collections.sort(selectedTablesList);
                     int i, index;
                     String checked, trClass, currentTrClass;
                     for (i=0; i < existingTableEntries.size(); i++) {
                         checked = "";
-                        DataSourceTableEntry entry = (DataSourceTableEntry) existingTableEntries.get(i);
+                        DataSourceTableEntry entry = existingTableEntries.get(i);
 
                         if((i%2)==0)
                             trClass = TR_ALT_CLASS;

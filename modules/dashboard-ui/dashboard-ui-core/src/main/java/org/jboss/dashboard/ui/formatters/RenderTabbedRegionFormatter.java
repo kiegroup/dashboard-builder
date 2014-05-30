@@ -22,7 +22,6 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.LayoutRegionStatus;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.security.PanelPermission;
-import org.jboss.dashboard.users.UserStatus;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -57,8 +56,7 @@ public class RenderTabbedRegionFormatter extends RegionFormatter {
 
         if (regionPanels.size() > 0) {
             renderTabbedRegionHeader();
-            for (int i = 0; i < regionPanels.size(); i++) {
-                Panel panel = regionPanels.get(i);
+            for (Panel panel : regionPanels) {
                 if (!SessionManager.getRegionStatus(currentSection, currentRegion).isSelected(panel))
                     continue;
                 PanelPermission editPerm = PanelPermission.newInstance(panel, PanelPermission.ACTION_EDIT);
@@ -85,7 +83,7 @@ public class RenderTabbedRegionFormatter extends RegionFormatter {
             renderTabbedDropRegion(0, !regionPanels.isEmpty());
         LayoutRegionStatus regionStatus = SessionManager.getRegionStatus(currentSection, currentRegion);
         if (regionStatus.getSelectedPanel() == null && !regionPanels.isEmpty()) {
-            regionStatus.setSelectedPanel((Panel) regionPanels.get(0));
+            regionStatus.setSelectedPanel(regionPanels.get(0));
         }
         for (int i = 0; i < regionPanels.size(); i++) {
             Panel panel = regionPanels.get(i);

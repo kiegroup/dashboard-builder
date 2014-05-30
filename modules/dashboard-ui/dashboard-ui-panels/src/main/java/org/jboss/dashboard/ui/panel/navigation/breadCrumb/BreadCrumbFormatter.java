@@ -18,7 +18,6 @@ package org.jboss.dashboard.ui.panel.navigation.breadCrumb;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Section;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ import java.util.List;
 public class BreadCrumbFormatter extends Formatter {
 
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
-        List pagesList = new ArrayList();
+        List<Section> pagesList = new ArrayList<Section>();
         Section page = getSection();
         do {
             pagesList.add(page);
@@ -38,9 +37,8 @@ public class BreadCrumbFormatter extends Formatter {
         } while (page != null);
 
         Collections.reverse(pagesList);
-        List itemsList = new ArrayList();
-        for (int i = 0; i < pagesList.size(); i++) {
-            Section section = (Section) pagesList.get(i);
+        List<SectionBreadCrumbItem> itemsList = new ArrayList<SectionBreadCrumbItem>();
+        for (Section section : pagesList) {
             itemsList.add(new SectionBreadCrumbItem(section, UIServices.lookup().getUrlMarkupGenerator(), getLocaleManager()));
         }
         BreadCrumbRenderingInfo renderingInfo = new BreadCrumbRenderingInfo();
@@ -52,7 +50,7 @@ public class BreadCrumbFormatter extends Formatter {
     }
 
     protected void renderItems(BreadCrumbRenderingInfo renderingInfo) {
-        List itemsList = renderingInfo.getItemsToRender();
+        List<SectionBreadCrumbItem> itemsList = renderingInfo.getItemsToRender();
         if (itemsList != null && !itemsList.isEmpty()) {
             renderFragment("outputStart");
             for (int i = 0; i < itemsList.size(); i++) {

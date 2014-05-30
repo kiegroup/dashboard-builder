@@ -52,7 +52,7 @@ public class DataSourceManagementFormatter extends Formatter {
         try {
             boolean isEditing = dataSourceManagementHandler.isEDIT_MODE();
             boolean isCreating = dataSourceManagementHandler.isCreating();
-            List existingDataSources = dataSourceManagementHandler.getDataSourceManager().getDataSourceEntries();
+            List<DataSourceEntry> existingDataSources = dataSourceManagementHandler.getDataSourceManager().getDataSourceEntries();
             renderFragment("outputStart");
 
             // If editing cannot create new DS.
@@ -68,7 +68,7 @@ public class DataSourceManagementFormatter extends Formatter {
                 renderFragment("outputStartTable");
                 renderFragment("outputDataSource");
                 for (int i = 0; i < existingDataSources.size(); i++) {
-                    DataSourceEntry entry = (DataSourceEntry) existingDataSources.get(i);
+                    DataSourceEntry entry = existingDataSources.get(i);
 
                     if (dataSourceManagementHandler.isEDIT_MODE() && entry.getName().equals(dataSourceManagementHandler.getDS_EDIT()))
                     {

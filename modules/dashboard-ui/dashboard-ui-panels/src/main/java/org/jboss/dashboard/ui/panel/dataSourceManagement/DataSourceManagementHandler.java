@@ -33,7 +33,6 @@ import org.slf4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.inject.Inject;
@@ -222,8 +221,8 @@ public class DataSourceManagementHandler extends BeanHandler {
     /**
      * Get all tables of the datasource selected.
      */
-    public List getIntrospectedTables( String datasource) throws Exception {
-        List result = new ArrayList();
+    public List<DataSourceTableEntry> getIntrospectedTables(String datasource) throws Exception {
+        List<DataSourceTableEntry> result = new ArrayList<DataSourceTableEntry>();
         Connection connection = getConnection();
         ResultSet tables = null;
         try {
@@ -251,8 +250,8 @@ public class DataSourceManagementHandler extends BeanHandler {
         return result;
     }
 
-    private List getTableColumns(String tableName) throws Exception {
-        List result = new ArrayList();
+    private List<DataSourceColumnEntry> getTableColumns(String tableName) throws Exception {
+        List<DataSourceColumnEntry> result = new ArrayList<DataSourceColumnEntry>();
         Connection connection = getConnection();
         ResultSet columns = null;
         try {
@@ -516,14 +515,14 @@ public class DataSourceManagementHandler extends BeanHandler {
         //complete selected tables columns, delete previous introspect and save new introspect
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
-                String[] arrTableName=getSelectedTables().split(",");
+                String[] selectedTableNames = getSelectedTables().split(",");
                 String deleteHql = "delete from "+DataSourceTableEntry.class.getName() + " where datasource = '"+getName()+"'";
                 Query deleteQuery = session.createQuery(deleteHql);
                 deleteQuery.executeUpdate();
-                for(int i=0;i<arrTableName.length;i++){
+                for (String tableName : selectedTableNames) {
                     DataSourceTableEntry tableEntry = new DataSourceTableEntry();
                     tableEntry.setDatasource(getName());
-                    tableEntry.setName(arrTableName[i]);
+                    tableEntry.setName(tableName);
                     tableEntry.setSelected("true");
                     session.saveOrUpdate(tableEntry);
                 }
@@ -531,11 +530,9 @@ public class DataSourceManagementHandler extends BeanHandler {
                 deleteHql = "delete from " + DataSourceColumnEntry.class.getName() + " where datasource = '"+getName()+"'";
                 deleteQuery = session.createQuery(deleteHql);
                 deleteQuery.executeUpdate();
-                for(int i=0;i<arrTableName.length;i++){
-                    List tableColumns = getTableColumns(arrTableName[i]);
-                    Iterator it = tableColumns.iterator();
-                    while(it.hasNext()){
-                        DataSourceColumnEntry columnEntry = (DataSourceColumnEntry) it.next();
+                for (String tableName : selectedTableNames) {
+                    List<DataSourceColumnEntry> tableColumns = getTableColumns(tableName);
+                    for (DataSourceColumnEntry columnEntry : tableColumns) {
                         session.saveOrUpdate(columnEntry);
                     }
                 }

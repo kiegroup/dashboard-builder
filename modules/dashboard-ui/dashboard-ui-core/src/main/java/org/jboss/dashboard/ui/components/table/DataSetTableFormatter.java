@@ -15,9 +15,6 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import org.jboss.dashboard.displayer.table.Table;
 import org.jboss.dashboard.displayer.table.TableColumn;
 import org.jboss.dashboard.provider.DataFormatterRegistry;

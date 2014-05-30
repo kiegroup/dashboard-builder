@@ -23,7 +23,6 @@ import org.hibernate.Session;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,8 +38,8 @@ public class DataSourceTableManager {
         return CDIBeanLocator.getBeanByType(DataSourceTableManager.class);
     }
 
-     public List getSelectedTablesEntries(final String datasource) throws Exception {
-        final List existingEntries = new ArrayList();
+     public List<DataSourceTableEntry> getSelectedTablesEntries(final String datasource) throws Exception {
+        final List<DataSourceTableEntry> existingEntries = new ArrayList<DataSourceTableEntry>();
         new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 Query query = session.createQuery(" from " + DataSourceTableEntry.class.getName() + " entry where entry.datasource = :datasource");
@@ -55,19 +54,17 @@ public class DataSourceTableManager {
         return existingEntries;
     }
 
-    public List getSelectedTablesName(String datasource) throws Exception {
-        ArrayList results = new ArrayList();
-        Iterator it = getSelectedTablesEntries(datasource).iterator();
-        while(it.hasNext()){
-            DataSourceTableEntry tableEntry = (DataSourceTableEntry) it.next();
+    public List<String> getSelectedTablesName(String datasource) throws Exception {
+        ArrayList<String> results = new ArrayList<String>();
+        for (DataSourceTableEntry tableEntry : getSelectedTablesEntries(datasource)) {
             String tableName = tableEntry.getName();
             results.add(tableName);
         }
         return results;
     }
 
-    public List getSelectedColumnsEntries(final String datasource, final String tableName) throws Exception {
-        final List existingEntries = new ArrayList();
+    public List<DataSourceColumnEntry> getSelectedColumnsEntries(final String datasource, final String tableName) throws Exception {
+        final List<DataSourceColumnEntry> existingEntries = new ArrayList<DataSourceColumnEntry>();
         new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 Query query = session.createQuery(" from " + DataSourceColumnEntry.class.getName() + " entry where entry.datasource = :datasource and entry.tableName = :tableName");

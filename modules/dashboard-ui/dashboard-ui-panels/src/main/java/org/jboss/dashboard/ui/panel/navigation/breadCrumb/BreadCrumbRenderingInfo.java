@@ -26,16 +26,16 @@ public class BreadCrumbRenderingInfo {
     public static final String TOKEN_LINK = "{LINK}";
     public static final String TOKEN_NAME = "{NAME}";
 
-    private List renderingItems;
+    private List<SectionBreadCrumbItem> renderingItems;
     private String separator;
     private int initialTrimDepth = 0;
     private String itemTemplate;
 
-    public List getRenderingItems() {
+    public List<SectionBreadCrumbItem> getRenderingItems() {
         return renderingItems;
     }
 
-    public void setRenderingItems(List renderingItems) {
+    public void setRenderingItems(List<SectionBreadCrumbItem> renderingItems) {
         this.renderingItems = renderingItems;
     }
 
@@ -68,8 +68,8 @@ public class BreadCrumbRenderingInfo {
      *
      * @return Items to render, excluding initialTrimDepth first
      */
-    public List getItemsToRender() {
-        List l = new ArrayList();
+    public List<SectionBreadCrumbItem> getItemsToRender() {
+        List<SectionBreadCrumbItem> l = new ArrayList<SectionBreadCrumbItem>();
         for (int i = initialTrimDepth; i < renderingItems.size(); i++) {
             l.add(renderingItems.get(i));
         }
