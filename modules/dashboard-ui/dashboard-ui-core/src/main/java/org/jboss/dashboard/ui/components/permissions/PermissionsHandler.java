@@ -63,7 +63,7 @@ public class PermissionsHandler extends UIBeanHandler {
 
     private Class permissionClass;
     private String resourceName;
-    private List selectedIds = new ArrayList();
+    private List<Long> selectedIds = new ArrayList<Long>();
 
     public Class getPermissionClass() {
         return permissionClass;
@@ -117,8 +117,9 @@ public class PermissionsHandler extends UIBeanHandler {
      * Select all editable permissions
      */
     public void actionSelectAllObjects(CommandRequest request) throws Exception {
-        for (Iterator<PermissionDescriptor> it = permissionManager.find(permissionClass.getName(), resourceName, Boolean.FALSE).iterator(); it.hasNext();) {
-            selectedIds.add(it.next().getDbid());
+        List<PermissionDescriptor> allPerms = permissionManager.find(permissionClass.getName(), resourceName, Boolean.FALSE);
+        for (PermissionDescriptor pd : allPerms) {
+            selectedIds.add(pd.getDbid());
         }
     }
 
@@ -148,8 +149,7 @@ public class PermissionsHandler extends UIBeanHandler {
      * Delete all selected permissions
      */
     public void actionDeleteSelectedObjects(CommandRequest request) throws Exception {
-        for (Iterator<PermissionDescriptor> pdIt = permissionManager.find(selectedIds).iterator(); pdIt.hasNext(); ) {
-            PermissionDescriptor pd = pdIt.next();
+        for (PermissionDescriptor pd : permissionManager.find(selectedIds)) {
             securityPolicy.removePermission(pd.getPrincipal(), pd.getPermission());
         }
         securityPolicy.save();
@@ -181,11 +181,10 @@ public class PermissionsHandler extends UIBeanHandler {
         if (StringUtils.isNotBlank(roleName)) {
             Role role = rolesManager.getRoleById(roleName);
             //Calculate actions
-            Set paramNames = req.getParameterNames();
-            List grantedActions = new ArrayList();
-            List deniedActions = new ArrayList();
-            for (Iterator iterator = paramNames.iterator(); iterator.hasNext();) {
-                String paramName = (String) iterator.next();
+            Set<String> paramNames = req.getParameterNames();
+            List<String> grantedActions = new ArrayList<String>();
+            List<String> deniedActions = new ArrayList<String>();
+            for (String paramName : paramNames) {
                 if (paramName.startsWith("action_")) {
                     String paramValue = req.getParameter(paramName);
                     String actionName = paramName.substring("action_".length());
@@ -220,13 +219,11 @@ public class PermissionsHandler extends UIBeanHandler {
         selectedIds.clear();
     }
 
-    protected void grantActionsToPermission(DefaultPermission perm, List grantedActions, List deniedActions) {
-        for (int i = 0; i < grantedActions.size(); i++) {
-            String grantedAction = (String) grantedActions.get(i);
+    protected void grantActionsToPermission(DefaultPermission perm, List<String> grantedActions, List<String> deniedActions) {
+        for (String grantedAction : grantedActions) {
             perm.grantAction(grantedAction);
         }
-        for (int i = 0; i < deniedActions.size(); i++) {
-            String deniedAction = (String) deniedActions.get(i);
+        for (String deniedAction : deniedActions) {
             perm.denyAction(deniedAction);
         }
     }

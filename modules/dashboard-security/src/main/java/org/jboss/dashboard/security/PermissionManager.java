@@ -27,7 +27,6 @@ import org.hibernate.Session;
 import java.security.Permission;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -54,7 +53,7 @@ public class PermissionManager {
      * Find the permission descriptor for given principal and permission
      */
     public PermissionDescriptor find(final Principal prpal, final Permission perm) {
-        final List results = new ArrayList(1);
+        final List<PermissionDescriptor> results = new ArrayList<PermissionDescriptor>(1);
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 StringBuffer buf = new StringBuffer();
@@ -82,7 +81,7 @@ public class PermissionManager {
         try {
             txFragment.execute();
             if (!results.isEmpty())
-                return (PermissionDescriptor) results.get(0);
+                return results.get(0);
             else
                 return null;
         } catch (Exception e) {
@@ -95,7 +94,7 @@ public class PermissionManager {
      * Recover the Permissions for the given permission resource name
      */
     public List<PermissionDescriptor> find(final String resourceName) throws Exception {
-        final List results = new ArrayList();
+        final List<PermissionDescriptor> results = new ArrayList<PermissionDescriptor>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {
             StringBuffer buf = new StringBuffer();
@@ -159,7 +158,7 @@ public class PermissionManager {
         try {
             new HibernateTxFragment() {
                 protected void txFragment(Session session) throws Exception {
-                    String sql = new String(" from " + PermissionDescriptor.class.getName() + " as item where item.dbid = :dbid");
+                    String sql = " from " + PermissionDescriptor.class.getName() + " as item where item.dbid = :dbid";
                     Query query = session.createQuery(sql);
                     query.setLong("dbid", idPermission);
                     FlushMode oldFlushMode = session.getFlushMode();

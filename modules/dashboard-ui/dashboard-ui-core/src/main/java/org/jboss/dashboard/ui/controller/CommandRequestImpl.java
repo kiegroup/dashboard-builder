@@ -36,7 +36,7 @@ public class CommandRequestImpl implements CommandRequest {
     private HttpServletResponse res = null;
 
 
-    private Map filesByParamName;
+    private Map<String, File> filesByParamName;
 
     /**
      * Logger
@@ -63,11 +63,11 @@ public class CommandRequestImpl implements CommandRequest {
              */
             if (req instanceof RequestMultipartWrapper) {
                 RequestMultipartWrapper wrap = (RequestMultipartWrapper) req;
-                Enumeration en = wrap.getFileParameterNames();
+                Enumeration<String> en = wrap.getFileParameterNames();
                 if (en != null && en.hasMoreElements()) {
-                    filesByParamName = new HashMap();
+                    filesByParamName = new HashMap<String, File>();
                     while (en.hasMoreElements()) {
-                        String name = (String) en.nextElement();
+                        String name = en.nextElement();
                         File file = wrap.getUploadedFile(name);
                         if (file != null) {
                             filesByParamName.put(name, file);
@@ -89,11 +89,11 @@ public class CommandRequestImpl implements CommandRequest {
      * @return
      * @deprecated Access request object directly
      */
-    public Set getParameterNames() {
-        Set s = new HashSet();
-        Enumeration en = getRequestObject().getParameterNames();
+    public Set<String> getParameterNames() {
+        Set<String> s = new HashSet<String>();
+        Enumeration<String> en = getRequestObject().getParameterNames();
         while (en.hasMoreElements()) {
-            Object o = en.nextElement();
+            String o = en.nextElement();
             s.add(o);
         }
         return s;
@@ -103,8 +103,8 @@ public class CommandRequestImpl implements CommandRequest {
         return res;
     }
 
-    public Map getFilesByParamName() {
-        return filesByParamName == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(filesByParamName);
+    public Map<String, File> getFilesByParamName() {
+        return filesByParamName == null ? Collections.<String, File>emptyMap() : Collections.unmodifiableMap(filesByParamName);
     }
 
     public String getParameter(String name) {

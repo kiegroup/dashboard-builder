@@ -16,7 +16,6 @@
 package org.jboss.dashboard.security;
 
 import org.jboss.dashboard.database.Persistent;
-
 import java.io.Serializable;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -68,7 +67,7 @@ public interface Policy extends Serializable, Persistent {
      * @param permClass The permission class.
      * @return A map containing the principal and the permission assigned to the resource for that principal.
      */
-    Map getPermissions(Object resource, Class permClass) throws Exception;
+    Map<Principal, Permission> getPermissions(Object resource, Class<? extends Permission> permClass) throws Exception;
 
 
     /**
@@ -78,5 +77,5 @@ public interface Policy extends Serializable, Persistent {
      * @param permName The name of the permission.
      * @return
      */
-    Permission getPermission(Principal prpal, Class permClass, String permName);
+    Permission getPermission(Principal prpal, Class<? extends Permission>  permClass, String permName);
 }

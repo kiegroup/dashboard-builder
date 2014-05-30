@@ -905,14 +905,13 @@ public class Section implements Comparable<Section>, Visitable {
 
         //Visit permissions
         Policy securityPolicy = SecurityServices.lookup().getSecurityPolicy();
-        Map workspacePermissions = securityPolicy.getPermissions(this, WorkspacePermission.class);
-        Map panelPermissions = securityPolicy.getPermissions(this, PanelPermission.class);
-        Map sectionPermissions = securityPolicy.getPermissions(this, SectionPermission.class);
+        Map<Principal, Permission> workspacePermissions = securityPolicy.getPermissions(this, WorkspacePermission.class);
+        Map<Principal, Permission> panelPermissions = securityPolicy.getPermissions(this, PanelPermission.class);
+        Map<Principal, Permission> sectionPermissions = securityPolicy.getPermissions(this, SectionPermission.class);
         Map[] permissions = new Map[]{workspacePermissions, panelPermissions, sectionPermissions};
-        for (Map permissionMap : permissions) {
-            for (Iterator it = permissionMap.keySet().iterator(); it.hasNext();) {
-                Principal principal = (Principal) it.next();
-                Permission perm = (Permission) permissionMap.get(principal);
+        for (Map<Principal, Permission> permissionMap : permissions) {
+            for (Principal principal : permissionMap.keySet()) {
+                Permission perm = permissionMap.get(principal);
                 if (perm instanceof UIPermission) {
                     ((UIPermission) perm).setRelatedPrincipal(principal);
                     ((UIPermission) perm).acceptVisit(visitor);
