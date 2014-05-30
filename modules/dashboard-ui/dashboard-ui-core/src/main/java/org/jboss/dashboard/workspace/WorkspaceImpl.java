@@ -846,18 +846,15 @@ public class WorkspaceImpl implements Workspace {
         StringBuffer sb = new StringBuffer();
         sb.append("Workspace id=").append(getId()).append(" dbid=").append(getDbid()).append("\n");
         PanelInstance[] instances = this.getPanelInstances();
-        for (int i = 0; i < instances.length; i++) {
-            PanelInstance instance = instances[i];
+        for (PanelInstance instance : instances) {
             sb.append("|__PI(dbid=").append(instance.getDbid()).append(", id=").append(instance.getInstanceId()).append(", provider=").append(instance.getProviderName()).append(")\n");
         }
 
         Section[] pages = this.getAllSections();
-        for (int i = 0; i < pages.length; i++) {
-            Section section = pages[i];
+        for (Section section : pages) {
             sb.append("|__S (dbid=").append(section.getDbid()).append(", id=").append(section.getId()).append(" title=").append(section.getTitle()).append(" path=").append(section.getPathNumber()).append(" )\n");
             Panel[] panels = section.getAllPanels();
-            for (int j = 0; j < panels.length; j++) {
-                Panel panel = panels[j];
+            for (Panel panel : panels) {
                 sb.append("   |__P (dbid=").append(panel.getDbid()).append(", id=").append(panel.getPanelId()).append(", instanceId=").append(panel.getInstanceId()).append(")\n");
             }
         }
@@ -898,15 +895,13 @@ public class WorkspaceImpl implements Workspace {
 
         //Workspace permissions
         Policy policy = SecurityServices.lookup().getSecurityPolicy();
-        Map workspacePermissions = policy.getPermissions(this, WorkspacePermission.class);
-        Map panelPermissions = policy.getPermissions(this, PanelPermission.class);
-        Map sectionPermissions = policy.getPermissions(this, SectionPermission.class);
+        Map<Principal, Permission> workspacePermissions = policy.getPermissions(this, WorkspacePermission.class);
+        Map<Principal, Permission> panelPermissions = policy.getPermissions(this, PanelPermission.class);
+        Map<Principal, Permission> sectionPermissions = policy.getPermissions(this, SectionPermission.class);
         Map[] permissions = new Map[]{workspacePermissions, panelPermissions, sectionPermissions};
-        for (int i = 0; i < permissions.length; i++) {
-            Map permissionMap = permissions[i];
-            for (Iterator it = permissionMap.keySet().iterator(); it.hasNext();) {
-                Principal principal = (Principal) it.next();
-                Permission perm = (Permission) permissionMap.get(principal);
+        for (Map<Principal, Permission> permissionMap : permissions) {
+            for (Principal principal : permissionMap.keySet()) {
+                Permission perm = permissionMap.get(principal);
                 if (perm instanceof UIPermission) {
                     ((UIPermission) perm).setRelatedPrincipal(principal);
                     ((UIPermission) perm).acceptVisit(visitor);
@@ -922,10 +917,8 @@ public class WorkspaceImpl implements Workspace {
         GraphicElement[] envelopes = UIServices.lookup().getEnvelopesManager().getElements(getId(), null, null);
         GraphicElement[] layouts = UIServices.lookup().getLayoutsManager().getElements(getId(), null, null);
         GraphicElement[][] elements = {skins, envelopes, layouts};
-        for (int i = 0; i < elements.length; i++) {
-            GraphicElement[] elementsArray = elements[i];
-            for (int j = 0; j < elementsArray.length; j++) {
-                GraphicElement element = elementsArray[j];
+        for (GraphicElement[] elementsArray : elements) {
+            for (GraphicElement element : elementsArray) {
                 element.acceptVisit(visitor);
             }
         }
@@ -958,10 +951,10 @@ public class WorkspaceImpl implements Workspace {
         sectionsDiagnose(Arrays.asList(getAllRootSections()), true);
     }
 
-    private int sectionsDiagnose(List sections, boolean fixing) throws Exception {
+    private int sectionsDiagnose(List<Section> sections, boolean fixing) throws Exception {
         int errors = 0;
         for (int i = 0; i < sections.size(); i++) {
-            final Section section = (Section) sections.get(i);
+            final Section section = sections.get(i);
             if (section.getPosition() != i) {
                 if (fixing) {
                     final int i1 = i;

@@ -27,7 +27,6 @@ import org.jboss.dashboard.security.principals.DefaultPrincipal;
 import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jboss.dashboard.workspace.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -60,17 +59,17 @@ public class UIPolicy implements Policy, Startable {
      * @link aggregation
      * @clientCardinality 1
      */
-    protected Map permissionMap = new HashMap();
+    protected Map<Principal, Permissions> permissionMap = new HashMap<Principal, Permissions>();
 
     /**
      * Hard-coded permissions. Granted by default.
      */
-    private List defaultPermissions = new ArrayList();
+    private final List<Object[]> defaultPermissions = new ArrayList<Object[]>();
 
     // Buffers containing permissions added or removed.
     // Persistent operations (save, load and delete) flush these buffers.
-    private List updateBuffer = new ArrayList();
-    private List deleteBuffer = new ArrayList();
+    private final List<PermissionDescriptor> updateBuffer = new ArrayList<PermissionDescriptor>();
+    private final List<PermissionDescriptor> deleteBuffer = new ArrayList<PermissionDescriptor>();
 
     @Inject
     protected LocaleManager localeManager;
@@ -131,7 +130,7 @@ public class UIPolicy implements Policy, Startable {
      * @throws Exception If any error occurs when retrieving resource.
      * @see <i>getResourceName</i> method explains the resource naming format.
      */
-    public Object getResource(Class permissionClass, String resourceName) throws Exception {
+    public Object getResource(Class<? extends Permission> permissionClass, String resourceName) throws Exception {
         if (permissionClass.equals(WorkspacePermission.class)) {
             // All workspace
             if (resourceName.equals("*")) return null;
@@ -197,8 +196,7 @@ public class UIPolicy implements Policy, Startable {
                 bPerm.grantAction(BackOfficePermission.ACTION_CREATE_WORKSPACE);
                 defaultPermissions.add(new Object[]{rolePrincipal, bPerm});
 
-                for (int i = 0; i < workspacesManager.getWorkspaces().length; i++) {
-                    WorkspaceImpl workspace = workspacesManager.getWorkspaces()[i];
+                for (WorkspaceImpl workspace : workspacesManager.getWorkspaces()) {
                     for (Permission permission : createDefaultPermissions(workspace)) {
                         defaultPermissions.add(new Object[] {rolePrincipal, permission});
                     }
@@ -206,8 +204,7 @@ public class UIPolicy implements Policy, Startable {
             }
         }
 
-        for (int i = 0; i < defaultPermissions.size(); i++) {
-            Object[] objects = (Object[]) defaultPermissions.get(i);
+        for (Object[] objects : defaultPermissions) {
             this.addPermission((Principal) objects[0], (Permission) objects[1]);
         }
     }
@@ -232,8 +229,7 @@ public class UIPolicy implements Policy, Startable {
     }
 
     public boolean isPermissionGrantedByDefault(PermissionDescriptor permissionDescriptor) {
-        for (int i = 0; i < defaultPermissions.size(); i++) {
-            Object[] objects = (Object[]) defaultPermissions.get(i);
+        for (Object[] objects : defaultPermissions) {
             try {
                 if (objects[0].equals(permissionDescriptor.getPrincipal())) {
                     if ((objects[1]).getClass().getName().equals(permissionDescriptor.getPermissionClass())) {
@@ -272,7 +268,7 @@ public class UIPolicy implements Policy, Startable {
             if (key == null) key = UNSPECIFIED_PRINCIPAL;
 
             log.debug("Adding permission " + perm + " for principal " + prpal);
-            Permissions prpalPermissions = (Permissions) permissionMap.get(key);
+            Permissions prpalPermissions = permissionMap.get(key);
             if (prpalPermissions == null) {
                 prpalPermissions = new Permissions();
                 permissionMap.put(key, prpalPermissions);
@@ -299,30 +295,28 @@ public class UIPolicy implements Policy, Startable {
 
     public void removePermissions(Principal p, String resourceName) {
 
-        Permissions prpalPermissions = (Permissions)permissionMap.get(p);
+        Permissions prpalPermissions = permissionMap.get(p);
         if (prpalPermissions != null && resourceName != null) {
 
             // Search for permissions related with the specified resource.
-            List toRemove = new ArrayList();
-            Enumeration en = prpalPermissions.elements();
+            List<Permission> toRemove = new ArrayList<Permission>();
+            Enumeration<Permission> en = prpalPermissions.elements();
             DefaultPermission resPerm = new DefaultPermission(resourceName, null);
             DefaultPermission regPerm = new DefaultPermission(resourceName, null);
             while (en.hasMoreElements()) {
-                Permission permission = (Permission) en.nextElement();
+                Permission permission = en.nextElement();
                 regPerm.setResourceName(permission.getName());
                 if (resPerm.implies(regPerm)) toRemove.add(permission);
             }
 
             // Remove permissions
-            Iterator it = toRemove.iterator();
-            while (it.hasNext()) this.removePermission(p, (Permission)it.next());
+            Iterator<Permission> it = toRemove.iterator();
+            while (it.hasNext()) this.removePermission(p, it.next());
         }
     }
 
     public void removePermissions(String resourceName) {
-        Iterator it = permissionMap.keySet().iterator();
-        while (it.hasNext()) {
-            Principal targetPrpal = (Principal) it.next();
+        for (Principal targetPrpal : permissionMap.keySet()) {
             this.removePermissions(targetPrpal, resourceName);
         }
     }
@@ -338,12 +332,12 @@ public class UIPolicy implements Policy, Startable {
 
             // Remove the permission from memory
             if (log.isDebugEnabled()) log.debug("Removing permission " + perm + " for principal " + p);
-            Permissions prpalPermissions = (Permissions)permissionMap.get(p);
+            Permissions prpalPermissions = permissionMap.get(p);
             if (prpalPermissions != null) {
                 Permissions newPermissions = new Permissions();
-                Enumeration en = prpalPermissions.elements();
+                Enumeration<Permission> en = prpalPermissions.elements();
                 while (en.hasMoreElements()) {
-                    Permission permission = (Permission) en.nextElement();
+                    Permission permission = en.nextElement();
                     if (!perm.equals(permission)) newPermissions.add(permission);
                 }
                 permissionMap.put(p, newPermissions);
@@ -352,34 +346,30 @@ public class UIPolicy implements Policy, Startable {
     }
 
     public void removePermission(Permission oldPerm) {
-        Iterator it = permissionMap.keySet().iterator();
-        while (it.hasNext()) {
-            Principal targetPrpal = (Principal) it.next();
+        for (Principal targetPrpal : permissionMap.keySet()) {
             this.removePermission(targetPrpal, oldPerm);
         }
     }
 
     public PermissionCollection getPermissions(Subject usr) {
         Permissions userPermissions = new Permissions();
-        Iterator it = usr.getPrincipals().iterator();
-        while (it.hasNext()) {
-            Principal principal = (Principal) it.next();
-            Permissions permissions = (Permissions)permissionMap.get(principal);
+        for (Principal principal : usr.getPrincipals()) {
+            Permissions permissions = permissionMap.get(principal);
             if (permissions != null) {
-                Enumeration permEnum = permissions.elements();
+                Enumeration<Permission> permEnum = permissions.elements();
                 while (permEnum.hasMoreElements()) {
-                    Permission perm = (Permission)permEnum.nextElement();
+                    Permission perm = permEnum.nextElement();
                     userPermissions.add(perm);
                 }
             }
         }
 
         // Also retrieve permission assigned to the unspecified principal
-        Permissions permissions = (Permissions)permissionMap.get(UNSPECIFIED_PRINCIPAL);
+        Permissions permissions = permissionMap.get(UNSPECIFIED_PRINCIPAL);
         if (permissions != null) {
-            Enumeration permEnum = permissions.elements();
+            Enumeration<Permission> permEnum = permissions.elements();
             while (permEnum.hasMoreElements()) {
-                Permission perm = (Permission)permEnum.nextElement();
+                Permission perm = permEnum.nextElement();
                 userPermissions.add(perm);
             }
         }
@@ -390,15 +380,15 @@ public class UIPolicy implements Policy, Startable {
     public PermissionCollection getPermissions(Principal prpal) {
         Principal principal = prpal;
         if (principal == null) principal = UNSPECIFIED_PRINCIPAL;
-        return (Permissions)permissionMap.get(principal);
+        return permissionMap.get(principal);
     }
 
-    public Permission getPermission(Principal prpal, Class permClass, String permName) {
+    public Permission getPermission(Principal prpal, Class<? extends Permission> permClass, String permName) {
         PermissionCollection permCollection = getPermissions(prpal);
         if (permCollection != null) {
-            Enumeration en = permCollection.elements();
+            Enumeration<Permission> en = permCollection.elements();
             while (en.hasMoreElements()) {
-                Permission perm = (Permission)en.nextElement();
+                Permission perm = en.nextElement();
                 if (perm.getName().equals(permName) && perm.getClass().getName().equals(permClass.getName())) {
                     return perm;
                 }
@@ -407,17 +397,16 @@ public class UIPolicy implements Policy, Startable {
         return null;
     }
 
-    public Map getPermissions(Object resource, Class permClass) throws Exception {
-        final Map results = new HashMap();
+    public Map<Principal, Permission> getPermissions(Object resource, Class<? extends Permission>  permClass) throws Exception {
+        final Map<Principal, Permission> results = new HashMap<Principal, Permission>();
 
-        Method getResName = permClass.getMethod("getResourceName", new Class[]{Object.class});
+        Method getResName = permClass.getMethod("getResourceName", new Class<?>[]{Object.class});
         String resourceName = (String) getResName.invoke(permClass, new Object[]{resource});
 
-        for (Iterator it = permissionMap.entrySet().iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            Permissions perms = (Permissions) entry.getValue();
-            for (Enumeration en = perms.elements(); en.hasMoreElements();) {
-                Permission perm = (Permission) en.nextElement();
+        for (Map.Entry<Principal, Permissions> entry : permissionMap.entrySet()) {
+            Permissions perms = entry.getValue();
+            for (Enumeration<Permission> en = perms.elements(); en.hasMoreElements();) {
+                Permission perm = en.nextElement();
                 if (perm.getName().equals(resourceName) && permClass.equals(perm.getClass())) {
                     results.put(entry.getKey(), perm);
                 }
@@ -430,11 +419,8 @@ public class UIPolicy implements Policy, Startable {
         // Retrieve permission related with resource.
         final String resourceName = getResourceName(resource);
         log.debug("Removing all permissions for resource named " + resourceName);
-        final List results = PermissionManager.lookup().find(resourceName);
-        // Update buffers
-        Iterator it = results.iterator();
-        while (it.hasNext()) {
-            PermissionDescriptor pd = (PermissionDescriptor) it.next();
+        final List<PermissionDescriptor> results = PermissionManager.lookup().find(resourceName);
+        for (PermissionDescriptor pd : results) {
             int pos = updateBuffer.indexOf(pd);
             if (pos != -1) updateBuffer.remove(pos);
             pos = deleteBuffer.indexOf(pd);
@@ -464,16 +450,12 @@ public class UIPolicy implements Policy, Startable {
         if (!updateBuffer.isEmpty() || !deleteBuffer.isEmpty()) {
 
             // Flush update buffer
-            Iterator it = updateBuffer.iterator();
-            while (it.hasNext()) {
-                PermissionDescriptor descriptor = (PermissionDescriptor) it.next();
+            for (PermissionDescriptor descriptor : updateBuffer) {
                 descriptor.save();
             }
 
             // Flush delete buffer
-            it = deleteBuffer.iterator();
-            while (it.hasNext()) {
-                PermissionDescriptor descriptor = (PermissionDescriptor) it.next();
+            for (PermissionDescriptor descriptor : deleteBuffer) {
                 descriptor.delete();
             }
 
@@ -490,24 +472,24 @@ public class UIPolicy implements Policy, Startable {
     public synchronized void load() throws Exception {
         // Load permission descriptors from persistent storage
         log.debug("Load policy.");
-        List results = PermissionManager.lookup().getAllInstances();
+        List<PermissionDescriptor> results = PermissionManager.lookup().getAllInstances();
 
         // Initialize policy
         clear();
-        Iterator it = results.iterator();
-        while (it.hasNext()) {
-            PermissionDescriptor pd = (PermissionDescriptor) it.next();
-            if (pd != null)
+        for (PermissionDescriptor pd : results) {
+            if (pd != null) {
                 try {
-                    if (log.isDebugEnabled()) log.debug("Adding permission " + pd.getPermission() + " for principal " + pd.getPrincipal());
+                    if (log.isDebugEnabled()) {
+                        log.debug("Adding permission " + pd.getPermission() + " for principal " + pd.getPrincipal());
+                    }
                     Principal prpal = pd.getPrincipal();
                     UIPermission perm = (UIPermission) pd.getPermission();
                     perm.setReadOnly(pd.isReadonly());
                     addPermission(prpal, perm);
-                }
-                catch (InstantiationException ie) {
+                } catch (InstantiationException ie) {
                     log.error("Ignoring permission descriptor " + pd);
                 }
+            }
         }
     }
 

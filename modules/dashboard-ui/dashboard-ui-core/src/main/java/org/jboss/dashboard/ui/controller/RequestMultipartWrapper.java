@@ -35,15 +35,15 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
     /**
      * Map of parameters which are uploaded files *
      */
-    protected Map<String, FileItem> requestFiles = new Hashtable<String, FileItem>();
+    protected Map<String, FileItem> requestFiles = new HashMap<String, FileItem>();
     /**
      * Map of regular parameters and their values
      */
-    protected Map<String, List<String>> requestParameters = new Hashtable<String, List<String>>();
+    protected Map<String, List<String>> requestParameters = new HashMap<String, List<String>>();
     /**
      * Map of uploaded files
      */
-    protected Map<String, File> uploadedFiles = new Hashtable<String, File>();
+    protected Map<String, File> uploadedFiles = new HashMap<String, File>();
 
     /**
      * Directory where temporary files are bein stored
@@ -87,7 +87,7 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setSizeMax(maxPostSize);
 
-        List items = null;
+        List<FileItem> items = null;
         try {
             items = upload.parseRequest(request);
         } catch (FileUploadException e) {
@@ -95,10 +95,7 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
         }
 
         if (items != null) {
-            Iterator iter = items.iterator();
-            while (iter.hasNext()) {
-                FileItem item = (FileItem) iter.next();
-
+            for (FileItem item : items) {
                 if (item.isFormField()) {
                     addFormField(item);
                 } else {
@@ -172,8 +169,8 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
      *
      * @return An Enumeration containing all the Parameter Names
      */
-    public Enumeration getParameterNames() {
-        Vector names = new Vector(requestParameters.size() + requestFiles.size());
+    public Enumeration<String> getParameterNames() {
+        Vector<String> names = new Vector<String>(requestParameters.size() + requestFiles.size());
         names.addAll(requestParameters.keySet());
         names.addAll(requestFiles.keySet());
         return names.elements();
@@ -198,7 +195,7 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
      */
     public String[] getParameterValues(String name) {
         List<String> values = requestParameters.get(name);
-        return (values == null || values.isEmpty()) ? null : (String[]) values.toArray(new String[0]);
+        return (values == null || values.isEmpty()) ? null : values.toArray(new String[0]);
     }
 
     /**
@@ -206,11 +203,11 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
      *
      * @return Map containing all the parameters on the MultipartRequest
      */
-    public Map getParameterMap() {
-        Map map = new HashMap();
-        Enumeration enumParameters = getParameterNames();
+    public Map<String, String[]> getParameterMap() {
+        Map<String, String[]> map = new HashMap<String, String[]>();
+        Enumeration<String> enumParameters = getParameterNames();
         while (enumParameters.hasMoreElements()) {
-            String name = (String) enumParameters.nextElement();
+            String name = enumParameters.nextElement();
             String[] values = getParameterValues(name);
             if (values != null) {
                 map.put(name, values);
@@ -224,8 +221,8 @@ public class RequestMultipartWrapper extends HttpServletRequestWrapper {
      *
      * @return An Enumeration containing all the Parameter Names
      */
-    public Enumeration getFileParameterNames() {
-        Vector names = new Vector(requestFiles.size());
+    public Enumeration<String> getFileParameterNames() {
+        Vector<String> names = new Vector<String>(requestFiles.size());
         names.addAll(requestFiles.keySet());
         return names.elements();
     }

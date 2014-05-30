@@ -31,6 +31,7 @@ import org.jboss.dashboard.workspace.events.WorkspaceListener;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.lang.reflect.Method;
+import java.security.Permission;
 import java.security.Principal;
 import java.util.*;
 
@@ -183,9 +184,8 @@ public class CopyManagerImpl implements CopyManager {
                 // Panels inside section
                 LayoutRegion[] regions = section.getLayout().getRegions();
                 log.debug("Regions in section are " + Arrays.asList(regions));
-                Hashtable panelInstanceMappings = new Hashtable();
-                for (int i = 0; i < regions.length; i++) {
-                    LayoutRegion region = regions[i];
+                Map<String, PanelInstance> panelInstanceMappings = new HashMap<String, PanelInstance>();
+                for (LayoutRegion region : regions) {
                     Panel[] panels = section.getPanels(region);
                     if (log.isDebugEnabled())
                         log.debug("Copying " + panels.length + " panels in region " + region);
@@ -195,7 +195,7 @@ public class CopyManagerImpl implements CopyManager {
                         String panelInstanceId = panels[j].getInstanceId().toString();
                         if (copyOption.isDuplicatePanelInstance(panelInstanceId)) { //Duplicate Panel instance for this panel.
                             if (panelInstanceMappings.containsKey(panelInstanceId)) {
-                                instanceClone = (PanelInstance) panelInstanceMappings.get(panelInstanceId);
+                                instanceClone = panelInstanceMappings.get(panelInstanceId);
                             } else {
                                 instanceClone = copy(panels[j].getInstance(), workspace);
                                 panelInstanceMappings.put(panelInstanceId, instanceClone);
@@ -383,24 +383,19 @@ public class CopyManagerImpl implements CopyManager {
      * @param targetWorkspace    The workspace where copied resource will be stored.
      * @throws Exception
      */
-    protected void copyPermissions(Object resource, Object resourceCopy, Class permissionClass, Workspace targetWorkspace) throws Exception {
+    protected void copyPermissions(Object resource, Object resourceCopy, Class<? extends Permission> permissionClass, Workspace targetWorkspace) throws Exception {
 
         // First retrieve permissions (only permissionClass instances) assigned to resource.
         Policy securityPolicy = SecurityServices.lookup().getSecurityPolicy();
-        Map permissionMap = securityPolicy.getPermissions(resource, permissionClass);
+        Map<Principal, Permission> permissionMap = securityPolicy.getPermissions(resource, permissionClass);
 
-        // Start permissions and principals copy.
-        Iterator permIt = permissionMap.keySet().iterator();
-        while (permIt.hasNext()) {
-            Principal principal = (Principal) permIt.next();
-
+        for (Principal principal : permissionMap.keySet()) {
             // Copy permission
             DefaultPermission permission = (DefaultPermission) permissionMap.get(principal);
-            Method getInstance = permissionClass.getMethod("getInstance", new Class[]{Principal.class, Object.class});
+            Method getInstance = permissionClass.getMethod("getInstance", new Class<?>[]{Principal.class, Object.class});
             DefaultPermission permissionCopy = (DefaultPermission) getInstance.invoke(permissionClass, new Object[]{principal, resourceCopy});
-            List actionList = (List) permissionClass.getField("LIST_OF_ACTIONS").get(permissionClass);
-            for (int k = 0; k < actionList.size(); k++) {
-                String action = (String) actionList.get(k);
+            List<String> actionList = (List) permissionClass.getField("LIST_OF_ACTIONS").get(permissionClass);
+            for (String action : actionList) {
                 if (permission.isActionDenied(action))
                     permissionCopy.denyAction(action);
                 else if (permission.isActionGranted(action))

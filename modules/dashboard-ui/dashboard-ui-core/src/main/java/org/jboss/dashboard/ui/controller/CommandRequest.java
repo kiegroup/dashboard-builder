@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.controller;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public interface CommandRequest{
      */
     javax.servlet.http.HttpServletRequest getRequestObject();
 
-    Set getParameterNames();
+    Set<String> getParameterNames();
 
     /**
      * Returns the original session object
@@ -57,6 +58,6 @@ public interface CommandRequest{
      *
      * @return files parameter map.
      */
-    public Map getFilesByParamName();
+    public Map<String, File>  getFilesByParamName();
 
 }
