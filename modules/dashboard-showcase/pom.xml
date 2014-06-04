@@ -311,6 +311,7 @@
                     <plugin>
                         <groupId>org.mortbay.jetty</groupId>
                         <artifactId>jetty-maven-plugin</artifactId>
+                        <version>${version.org.eclipse.jetty}</version>
                         <configuration>
                             <scanIntervalSeconds>3</scanIntervalSeconds>
                             <stopPort>9966</stopPort>
@@ -358,4 +359,3 @@
     </profiles>
 
 </project>
-
