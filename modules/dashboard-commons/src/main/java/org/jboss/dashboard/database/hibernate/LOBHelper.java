@@ -100,7 +100,7 @@ public class LOBHelper {
             arglist[1] = Boolean.TRUE;
             arglist[2] = durationSession.get(null);
 
-            Object tempBlob;
+            Object tempBlob = null;
 
             // Needed to avoid JBoss AS class loading issues...
             Class connClassInCurrentClassLoader = Class.forName(conn.getClass().getName());
@@ -126,11 +126,41 @@ public class LOBHelper {
                 tempBlob = createTempMethod.invoke(null, arglist); // null is valid because of static method
 
             } else {
-                throw new HibernateException("JDBC connection object must be a oracle.jdbc.OracleConnection " +
-                        "a " + WrappedConnection.class.getName() +
-                        "a " + PoolableConnection.class.getName() +
-                        "or a " + NewProxyConnection.class.getName() +
-                        ". Connection class is " + connClassInCurrentClassLoader.getName());
+
+                boolean throwException = true;
+                //check if we are running in websphere
+                try {
+                    String wasConnectionWrapper = "com.ibm.ws.rsadapter.jdbc.WSJdbcConnection";
+                    Class wasConnectionWrapperClass = Class.forName(wasConnectionWrapper);
+
+                    if (wasConnectionWrapperClass.isAssignableFrom(connClassInCurrentClassLoader)) {
+
+                        String helperClass = "com.ibm.websphere.rsadapter.WSCallHelper";
+                        Class helper = Class.forName(helperClass);
+
+                        Method nativeConnMethod = helper.getMethod("getNativeConnection", new Class[]{Object.class});
+
+                        Connection nativeConn = (Connection) nativeConnMethod.invoke(null, conn);
+
+                        if (Class.forName(ORACLE_JDBC_ORACLE_CONNECTION).isAssignableFrom(nativeConn.getClass())) {
+
+                            arglist[0] = nativeConn;
+                            tempBlob = createTempMethod.invoke(null, arglist);
+                            throwException = false;
+                        }
+                    }
+
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    // do nothing
+                }
+                if(throwException){
+                    throw new HibernateException("JDBC connection object must be a oracle.jdbc.OracleConnection " +
+                            "a " + WrappedConnection.class.getName() +
+                            "a " + PoolableConnection.class.getName() +
+                            "or a " + NewProxyConnection.class.getName() +
+                            ". Connection class is " + connClassInCurrentClassLoader.getName());
+                }
             }
 
             Method openMethod = getMethod(oracleBlobClass, ORACLE_OPEN_METHOD, Integer.TYPE, null, null);
