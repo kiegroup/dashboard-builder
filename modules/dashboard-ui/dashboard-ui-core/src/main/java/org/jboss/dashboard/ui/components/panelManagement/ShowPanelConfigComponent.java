@@ -43,9 +43,6 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
     @Inject
     private transient Logger log;
 
-    @Inject
-    MessagesComponentHandler messagesComponentHandler;
-
     @Inject /** The locale manager. */
     protected LocaleManager localeManager;
 
@@ -63,7 +60,8 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.ui.components.panelManagement.messages", LocaleManager.currentLocale());
         title = i18n.getString("title.properties");
 
-        messagesComponentHandler.clearAll();
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        messagesHandler.clearAll();
 
         return super.openDialog(panel, request, title, width, height);
     }
@@ -88,17 +86,18 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
         PanelInstance instance = getPanelInstance();
 
         if (instance != null) {
-            messagesComponentHandler.clearAll();
+            MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+            messagesHandler.clearAll();
             boolean propertiesOk = setSystemParameters(request, instance) && setCustomParameters(request, instance);
             if (propertiesOk) {
                 resetFormStatus();
                 if (!closeDialog(request)) {
-                    messagesComponentHandler.addMessage(PROPERTIES_STORED);
+                    messagesHandler.addMessage(PROPERTIES_STORED);
                 } else {
                     reset();
                 }
             } else {
-                messagesComponentHandler.addError(PROPERTIES_NOT_STORED);
+                messagesHandler.addError(PROPERTIES_NOT_STORED);
             }
         }
     }
@@ -174,7 +173,7 @@ public class ShowPanelConfigComponent extends PanelManagementPanel {
     }
 
     public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
+        return MessagesComponentHandler.lookup();
     }
 
     @Override

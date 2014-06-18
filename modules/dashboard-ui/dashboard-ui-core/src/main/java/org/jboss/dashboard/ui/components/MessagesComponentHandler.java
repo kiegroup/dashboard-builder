@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.components;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.slf4j.Logger;
 
@@ -29,6 +30,10 @@ import javax.inject.Named;
 @PanelScoped
 @Named("messages_handler")
 public class MessagesComponentHandler extends PanelComponent {
+
+    public static MessagesComponentHandler lookup() {
+        return CDIBeanLocator.getBeanByType(MessagesComponentHandler.class);
+    }
 
     @Inject
     private transient Logger log;

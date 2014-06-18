@@ -46,9 +46,6 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
     protected transient Logger log;
 
     @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
-    @Inject
     private NavigationManager navigationManager;
 
     @Inject
@@ -59,14 +56,6 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
     private String envelopeId;
     private Map<String, String> name;
     private Map<String, String> title;
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
 
     public WorkspaceHandler getWorkspaceHandler() {
         return workspaceHandler;
@@ -132,6 +121,7 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
     }
 
     public void actionCreateWorkspace(CommandRequest request) {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         final WorkspaceImpl newWorkspace = new WorkspaceImpl();
         try {
             buildI18nValues(request);
@@ -166,33 +156,35 @@ public class WorkspacesPropertiesHandler extends BeanHandler {
                 name = null;
                 skinId = UIServices.lookup().getSkinsManager().getDefaultElement().getId();
                 envelopeId = UIServices.lookup().getEnvelopesManager().getDefaultElement().getId();
-                getMessagesComponentHandler().addMessage("ui.alert.workspaceCreation.OK");
+                messagesHandler.addMessage("ui.alert.workspaceCreation.OK");
             }
 
         } catch (Exception e) {
-            getMessagesComponentHandler().clearAll();
-            getMessagesComponentHandler().addError("ui.alert.workspaceCreation.KO");
+            messagesHandler.clearAll();
+            messagesHandler.addError("ui.alert.workspaceCreation.KO");
             log.error("Error: " + e.getMessage());
         }
     }
 
     protected boolean validateBeforeCreation() {
-        getMessagesComponentHandler().clearAll();
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        messagesHandler.clearAll();
         boolean valid = validate();
-        if (!valid) getMessagesComponentHandler().getErrorsToDisplay().add(0, "ui.alert.workspaceCreation.KO");
+        if (!valid) messagesHandler.getErrorsToDisplay().add(0, "ui.alert.workspaceCreation.KO");
         return valid;
     }
 
     public boolean validate() {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         boolean valid = true;
         if (name == null || name.isEmpty()) {
             addFieldError(new FactoryURL(getBeanName(), "name"), null, name);
-            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
+            messagesHandler.addError("ui.alert.workspaceErrors.name");
             valid = false;
         }
         if (title == null || title.isEmpty()) {
             addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
-            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
+            messagesHandler.addError("ui.alert.workspaceErrors.title");
             valid = false;
         }
         return valid;

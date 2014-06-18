@@ -24,26 +24,19 @@ import org.jboss.dashboard.ui.components.permissions.PermissionsHandler;
 @SessionScoped
 public class PermissionsPropertiesHandler extends BeanHandler {
 
-    @Inject
-    private PermissionsHandler permissionsHandler;
-
-    public PermissionsHandler getPermissionsHandler() {
-        return permissionsHandler;
-    }
-
     public void setWorkspaceId(String workspaceId) {
         // Do nothing with this for now
     }
 
     public void setPermissionClass(Class aClass) {
-        permissionsHandler.setPermissionClass(aClass);
+        PermissionsHandler.lookup().setPermissionClass(aClass);
     }
 
     public void setResourceName(String resourceName) {
-        permissionsHandler.setResourceName(resourceName);
+        PermissionsHandler.lookup().setResourceName(resourceName);
     }
 
     public void reset() {
-        permissionsHandler.reset();
+        PermissionsHandler.lookup().reset();
     }
 }

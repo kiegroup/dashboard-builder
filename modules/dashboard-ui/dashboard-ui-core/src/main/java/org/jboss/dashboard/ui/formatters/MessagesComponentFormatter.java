@@ -33,9 +33,6 @@ public class MessagesComponentFormatter extends Formatter {
     @Inject
     private transient Logger log;
 
-    @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
     @Inject @Config("5")
     private int maxVisibleErrors;
 
@@ -62,14 +59,6 @@ public class MessagesComponentFormatter extends Formatter {
 
     public MessagesComponentFormatter() {
         localeManager = LocaleManager.lookup();
-    }
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
     }
 
     public int getMaxVisibleErrors() {
@@ -129,12 +118,13 @@ public class MessagesComponentFormatter extends Formatter {
     }
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
-        if (messagesComponentHandler.getErrorsToDisplay() != null && messagesComponentHandler.getErrorsToDisplay().size() > 0) {
-            renderMessages(messagesComponentHandler.getErrorsToDisplay(), messagesComponentHandler.getErrorsParameters(), errorsImg, classForErrors);
-        } else if (messagesComponentHandler.getWarningsToDisplay() != null && messagesComponentHandler.getWarningsToDisplay().size() > 0) {
-            renderMessages(messagesComponentHandler.getWarningsToDisplay(), messagesComponentHandler.getWarningsParameters(), warningsImg, classForWarnings);
-        } else if (messagesComponentHandler.getMessagesToDisplay() != null && messagesComponentHandler.getMessagesToDisplay().size() > 0) {
-            renderMessages(messagesComponentHandler.getMessagesToDisplay(), messagesComponentHandler.getMessagesParameters(), messagesImg, classForMessages);
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        if (messagesHandler.getErrorsToDisplay() != null && messagesHandler.getErrorsToDisplay().size() > 0) {
+            renderMessages(messagesHandler.getErrorsToDisplay(), messagesHandler.getErrorsParameters(), errorsImg, classForErrors);
+        } else if (messagesHandler.getWarningsToDisplay() != null && messagesHandler.getWarningsToDisplay().size() > 0) {
+            renderMessages(messagesHandler.getWarningsToDisplay(), messagesHandler.getWarningsParameters(), warningsImg, classForWarnings);
+        } else if (messagesHandler.getMessagesToDisplay() != null && messagesHandler.getMessagesToDisplay().size() > 0) {
+            renderMessages(messagesHandler.getMessagesToDisplay(), messagesHandler.getMessagesParameters(), messagesImg, classForMessages);
         }
     }
 
@@ -142,6 +132,7 @@ public class MessagesComponentFormatter extends Formatter {
         while (messages.size() > params.size()) {
             params.add(null);
         }
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         long id = System.currentTimeMillis();
         boolean maxRised = false;
 
@@ -176,6 +167,7 @@ public class MessagesComponentFormatter extends Formatter {
     }
 
     protected String localizeMessage(String message) {
+        MessagesComponentHandler messagesComponentHandler = MessagesComponentHandler.lookup();
         try {
             if (messagesComponentHandler.getI18nBundle() != null) {
                 ResourceBundle bundle = localeManager.getBundle(messagesComponentHandler.getI18nBundle(), LocaleManager.currentLocale());

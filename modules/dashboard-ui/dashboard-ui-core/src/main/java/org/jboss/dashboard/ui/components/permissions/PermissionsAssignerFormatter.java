@@ -31,13 +31,6 @@ public class PermissionsAssignerFormatter extends Formatter {
     @Inject
     private transient Logger log;
 
-    @Inject
-    private PermissionsHandler permissionsHandler;
-
-    public PermissionsHandler getPermissionsHandler() {
-        return permissionsHandler;
-    }
-
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
             renderFragment("tableStart");
@@ -50,7 +43,7 @@ public class PermissionsAssignerFormatter extends Formatter {
 
     protected void renderActions() throws Exception {
         renderFragment("rolesSelection");
-        Class permissionClass = getPermissionsHandler().getPermissionClass();
+        Class permissionClass = PermissionsHandler.lookup().getPermissionClass();
         List actionList = (List) permissionClass.getField("LIST_OF_ACTIONS").get(permissionClass);
         Method actionNameMethod = null;
         try {

@@ -23,6 +23,7 @@ import org.jboss.dashboard.Application;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.misc.ReflectionUtils;
 import org.jboss.dashboard.database.DataSourceManager;
 import org.jboss.dashboard.database.DatabaseAutoSynchronizer;
 import org.jboss.dashboard.database.JNDIDataSourceEntry;
@@ -127,13 +128,15 @@ public class HibernateInitializer implements Startable {
         loadHibernateDescriptors(hbmConfig);
 
         // Initialize the Hibernate session factory.
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(hbmConfig.getProperties()).buildServiceRegistry();
+        ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder().applySettings(hbmConfig.getProperties());
+        ServiceRegistry serviceRegistry = (ServiceRegistry) ReflectionUtils.invokeMethod(serviceRegistryBuilder, "buildServiceRegistry", null);
+        if (serviceRegistry == null) serviceRegistry = (ServiceRegistry) ReflectionUtils.invokeMethod(serviceRegistryBuilder, "build", null);
         SessionFactory factory = hbmConfig.buildSessionFactory(serviceRegistry);
         hibernateSessionFactoryProvider.setSessionFactory(factory);
 
         // Set the default schema if specified via system property or via hibernate configuration.
         // NOTE: To set the default schema via hibernate configuration, the hibernate.cfg.xml file must be modified.
-        //       This file is located inside the geneated webapp. So, if the user wants to change the working schema,
+        //       This file is located inside the generated webapp. So, if the user wants to change the working schema,
         //       the fastest way is to add a System property when starting the application server to modify the
         //       defaultSchema bean property, instead of opening the war, modifying the file and reassembling it.
         if (StringUtils.isBlank(defaultSchema)) {

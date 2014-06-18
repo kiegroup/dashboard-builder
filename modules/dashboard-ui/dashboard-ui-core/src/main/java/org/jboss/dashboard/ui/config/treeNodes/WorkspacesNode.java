@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.workspace.WorkspacesPropertiesHandler;
@@ -110,7 +111,9 @@ public class WorkspacesNode extends AbstractNode {
             getWorkspacesPropertiesHandler().clearFieldErrors();
             getWorkspacesPropertiesHandler().setName(null);
             getWorkspacesPropertiesHandler().setTitle(null);
-            getWorkspacesPropertiesHandler().getMessagesComponentHandler().clearAll();
+
+            MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+            messagesHandler.clearAll();
         } catch (Exception e) {
             log.error("Error: ", e);
             return false;

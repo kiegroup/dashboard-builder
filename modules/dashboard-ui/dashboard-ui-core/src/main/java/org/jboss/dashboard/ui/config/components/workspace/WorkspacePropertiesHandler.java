@@ -43,9 +43,6 @@ public class WorkspacePropertiesHandler extends BeanHandler {
     @Inject
     protected transient Logger log;
 
-    @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
     private String workspaceId;
     private Map<String, String> name;
     private Map<String, String> title;
@@ -72,14 +69,6 @@ public class WorkspacePropertiesHandler extends BeanHandler {
 
     public WorkspacesManager getWorkspacesManager() {
         return UIServices.lookup().getWorkspacesManager();
-    }
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
     }
 
     public Map<String, String> getName() {
@@ -172,7 +161,7 @@ public class WorkspacePropertiesHandler extends BeanHandler {
                 };
 
                 txFragment.execute();
-                getMessagesComponentHandler().addMessage("ui.alert.workspaceEdition.OK");
+                MessagesComponentHandler.lookup().addMessage("ui.alert.workspaceEdition.OK");
             } catch (Exception e) {
                 log.error("Error: ", e);
             }
@@ -180,27 +169,29 @@ public class WorkspacePropertiesHandler extends BeanHandler {
     }
 
     protected boolean validateBeforeEdition() {
-        getMessagesComponentHandler().clearAll();
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        messagesHandler.clearAll();
         boolean valid = validate();
-        if (!valid) getMessagesComponentHandler().getErrorsToDisplay().add(0, "ui.alert.workspaceEdition.KO");
+        if (!valid) messagesHandler.getErrorsToDisplay().add(0, "ui.alert.workspaceEdition.KO");
         return valid;
     }
 
     protected boolean validate() {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         boolean valid = true;
         if (name == null || name.isEmpty()) {
             addFieldError(new FactoryURL(getBeanName(), "name"), null, name);
-            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.name");
+            messagesHandler.addError("ui.alert.workspaceErrors.name");
             valid = false;
         }
         if (title == null || title.isEmpty()) {
             addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
-            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.title");
+            messagesHandler.addError("ui.alert.workspaceErrors.title");
             valid = false;
         }
         if (!isValidURL(url)) {
             addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
-            getMessagesComponentHandler().addError("ui.alert.workspaceErrors.url");
+            messagesHandler.addError("ui.alert.workspaceErrors.url");
             valid = false;
         }
         return valid;

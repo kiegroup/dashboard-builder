@@ -20,6 +20,7 @@
     <deployment>
 
         <dependencies>
+            <module name="org.javassist" />
             <module name="org.hibernate" />
             <module name="org.dom4j" />
             <module name="org.jdom" />
