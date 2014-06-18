@@ -38,18 +38,7 @@ public class PaginationComponentFormatter extends Formatter {
     public static final String PARAM_INVERSE_POSITION = "inversePosition";
 
     @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
-    @Inject
     private PaginationComponentHandler paginationComponentHandler;
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
 
     public PaginationComponentHandler getPaginationComponentHandler() {
         return paginationComponentHandler;
@@ -74,7 +63,9 @@ public class PaginationComponentFormatter extends Formatter {
                 } catch (Exception e) {
                     log.warn("Error getting elements to paginate: ", e);
                     paginationError = true;
-                    getMessagesComponentHandler().addError("pagination.error");
+
+                    MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+                    messagesHandler.addError("pagination.error");
                     renderFragment("outputError");
                 }
                 if (elements != null && !paginationError) {

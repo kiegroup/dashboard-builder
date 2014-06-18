@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.config.treeNodes;
 
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
+import org.jboss.dashboard.ui.components.MessagesComponentHandler;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.components.workspace.WorkspacePropertiesHandler;
@@ -104,7 +105,7 @@ public class WorkspaceNode extends AbstractNode {
         try {
             getWorkspacePropertiesHandler().clearFieldErrors();
             getWorkspacePropertiesHandler().setCurrentWorkspace(getWorkspace());
-            getWorkspacePropertiesHandler().getMessagesComponentHandler().clearAll();
+            MessagesComponentHandler.lookup().clearAll();
         } catch (Exception e) {
             log.error("Error: ", e);
             return false;

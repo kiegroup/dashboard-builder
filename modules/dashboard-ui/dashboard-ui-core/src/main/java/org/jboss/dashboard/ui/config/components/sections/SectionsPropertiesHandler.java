@@ -72,9 +72,6 @@ public class SectionsPropertiesHandler extends BeanHandler {
     private SectionsHandler sectionsHandler;
 
     @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
-    @Inject
     private ConfigurationTree configTree;
 
     @Inject
@@ -97,14 +94,6 @@ public class SectionsPropertiesHandler extends BeanHandler {
     private String action;
     private ArrayList errorPermission = new ArrayList();
     private Boolean moveLoop = Boolean.FALSE;
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
 
     public CopyManager getCopyManager() {
         return UIServices.lookup().getCopyManager();
@@ -386,6 +375,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
      * Duplicates Section in workspace
      */
     public void actionDuplicateSection(final CommandRequest request) {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         try {
             if (action != null && action.equals(ACTION_SAVE)) {
                 final Long selectedSectionId = Long.decode(getSelectedSectionId());
@@ -417,7 +407,7 @@ public class SectionsPropertiesHandler extends BeanHandler {
                     };
 
                     txFragment.execute();
-                    getMessagesComponentHandler().addMessage("ui.alert.sectionCopy.OK");
+                    messagesHandler.addMessage("ui.alert.sectionCopy.OK");
                 }
             }
             this.setDuplicateSection(Boolean.FALSE);
@@ -426,8 +416,8 @@ public class SectionsPropertiesHandler extends BeanHandler {
             defaultValues();
         } catch (Exception e) {
             log.error("Error: " + e.getMessage());
-            getMessagesComponentHandler().clearAll();
-            getMessagesComponentHandler().addError("ui.alert.sectionCopy.KO");
+            messagesHandler.clearAll();
+            messagesHandler.addError("ui.alert.sectionCopy.KO");
         }
     }
 
@@ -628,6 +618,8 @@ public class SectionsPropertiesHandler extends BeanHandler {
     }
 
     public synchronized void actionCreateSection(CommandRequest request) throws Exception {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+
         if (action != null && (action.equals(ACTION_SAVE) || action.equals(ACTION_PREVIEW))) {
 
             setLangTitle(request);
@@ -665,12 +657,12 @@ public class SectionsPropertiesHandler extends BeanHandler {
                     defaultValues();
 
                     // Print an ok message and move the user into the new page
-                    getMessagesComponentHandler().addMessage("ui.alert.sectionCreation.OK");
+                    messagesHandler.addMessage("ui.alert.sectionCreation.OK");
                     NavigationManager.lookup().setCurrentSection(newSection);
                 } catch (Exception e) {
                     log.error("Error creating section: ", e);
-                    getMessagesComponentHandler().clearAll();
-                    getMessagesComponentHandler().addError("ui.alert.sectionCreation.KO");
+                    messagesHandler.clearAll();
+                    messagesHandler.addError("ui.alert.sectionCreation.KO");
                 }
             }
         } else {
@@ -695,22 +687,24 @@ public class SectionsPropertiesHandler extends BeanHandler {
     }
 
     protected boolean validateBeforeEdition() {
-        getMessagesComponentHandler().clearAll();
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        messagesHandler.clearAll();
         boolean valid = validate();
-        if (!valid) getMessagesComponentHandler().getErrorsToDisplay().add(0, "ui.alert.sectionCreation.KO");
+        if (!valid) messagesHandler.getErrorsToDisplay().add(0, "ui.alert.sectionCreation.KO");
         return valid;
     }
 
     protected boolean validate() {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         try {
             if (titleMap == null || titleMap.isEmpty()) {
                 addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
-                getMessagesComponentHandler().addError("ui.alert.sectionErrors.title");
+                messagesHandler.addError("ui.alert.sectionErrors.title");
             }
 
             if (!isValidURL(url)) {
                 addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
-                getMessagesComponentHandler().addError("ui.alert.sectionErrors.url");
+                messagesHandler.addError("ui.alert.sectionErrors.url");
             }
 
             return getFieldErrors().isEmpty();

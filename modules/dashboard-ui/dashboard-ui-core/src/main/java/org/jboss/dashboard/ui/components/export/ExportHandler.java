@@ -70,9 +70,6 @@ public class ExportHandler extends UIBeanHandler {
     @Inject
     private transient Logger log;
 
-    @Inject
-    private MessagesComponentHandler messagesHandler;
-
     @Inject @Config("/components/bam/export/show.jsp")
     protected String componentIncludeJSP;
 
@@ -289,6 +286,7 @@ public class ExportHandler extends UIBeanHandler {
     }
 
     public CommandResponse actionImportKPIs(CommandRequest request) {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         messagesHandler.clearAll();
         if (request.getUploadedFilesCount() > 0) {
             File file = (File) request.getFilesByParamName().get("importFile");

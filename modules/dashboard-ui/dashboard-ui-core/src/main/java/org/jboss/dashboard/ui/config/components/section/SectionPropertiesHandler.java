@@ -41,9 +41,6 @@ public class SectionPropertiesHandler extends BeanHandler {
     @Inject
     private transient Logger log;
 
-    @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
     private String workspaceId;
     private Long sectionId;
     private Map<String, String> titleMap;
@@ -58,14 +55,6 @@ public class SectionPropertiesHandler extends BeanHandler {
     private int panelsCellSpacing;
 
     private String saveButtonPressed;
-
-    public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
-    }
 
     public void setWorkspace(Workspace p) {
         workspaceId = p.getId();
@@ -207,6 +196,7 @@ public class SectionPropertiesHandler extends BeanHandler {
             return;
         }
 
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
         setTitle(setLangTitle(request).get(LocaleManager.lookup().getDefaultLang()));
         if (validateBeforeEdition()) {
             try {
@@ -229,12 +219,12 @@ public class SectionPropertiesHandler extends BeanHandler {
                 };
 
                 txFragment.execute();
-                getMessagesComponentHandler().addMessage("ui.alert.sectionEdition.OK");
+                messagesHandler.addMessage("ui.alert.sectionEdition.OK");
                 setSection(section);
             } catch (Exception e) {
                 log.error("Error: ", e);
-                getMessagesComponentHandler().clearAll();
-                getMessagesComponentHandler().addError("ui.alert.sectionEdition.KO");
+                messagesHandler.clearAll();
+                messagesHandler.addError("ui.alert.sectionEdition.KO");
             }
         }
     }
@@ -254,21 +244,23 @@ public class SectionPropertiesHandler extends BeanHandler {
     }
 
     protected boolean validateBeforeEdition() {
-        getMessagesComponentHandler().clearAll();
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
+        messagesHandler.clearAll();
         boolean valid = validate();
-        if (!valid) getMessagesComponentHandler().getErrorsToDisplay().add(0, "ui.alert.sectionEdition.KO");
+        if (!valid) messagesHandler.getErrorsToDisplay().add(0, "ui.alert.sectionEdition.KO");
         return valid;
     }
 
     protected boolean validate() {
+        MessagesComponentHandler messagesHandler = MessagesComponentHandler.lookup();
 
         if (title == null || "".equals(title)) {
             addFieldError(new FactoryURL(getBeanName(), "title"), null, title);
-            getMessagesComponentHandler().addError("ui.alert.sectionErrors.title");
+            messagesHandler.addError("ui.alert.sectionErrors.title");
         }
         if (!isValidURL(url)) {
             addFieldError(new FactoryURL(getBeanName(), "url"), null, url);
-            getMessagesComponentHandler().addError("ui.alert.sectionErrors.url");
+            messagesHandler.addError("ui.alert.sectionErrors.url");
         }
 
         return getFieldErrors().isEmpty();

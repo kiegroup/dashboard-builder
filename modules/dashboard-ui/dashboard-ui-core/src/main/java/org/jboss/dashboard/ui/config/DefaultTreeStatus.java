@@ -44,15 +44,8 @@ public class DefaultTreeStatus implements TreeStatus {
     protected String[] initiallyExpandedPaths = {"root"};
     protected String[] initiallyEditedPaths = {"root"};
 
-    @Inject
-    private MessagesComponentHandler messagesComponentHandler;
-
     public MessagesComponentHandler getMessagesComponentHandler() {
-        return messagesComponentHandler;
-    }
-
-    public void setMessagesComponentHandler(MessagesComponentHandler messagesComponentHandler) {
-        this.messagesComponentHandler = messagesComponentHandler;
+        return MessagesComponentHandler.lookup();
     }
 
     protected Set getEditedPaths() {
