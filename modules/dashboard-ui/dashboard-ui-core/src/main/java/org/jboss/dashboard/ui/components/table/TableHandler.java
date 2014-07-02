@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.displayer.table.*;
 import org.jboss.dashboard.domain.Interval;
@@ -164,15 +165,15 @@ public class TableHandler extends UIBeanHandler {
         String rowOddClass = request.getRequestObject().getParameter("rowoddclass");
         String rowHoverClass = request.getRequestObject().getParameter("rowhoverclass");
 
-        table.setHeaderPosition(headerPos);
-        table.setHtmlStyle(htmlStyle);
-        table.setRowEvenStyle(rowEvenStyle);
-        table.setRowOddStyle(rowOddStyle);
-        table.setRowHoverStyle(rowHoverStyle);
-        table.setHtmlClass(htmlClass);
-        table.setRowEventClass(rowEvenClass);
-        table.setRowHoverClass(rowHoverClass);
-        table.setRowOddClass(rowOddClass);
+        if (StringUtils.isNotBlank(headerPos)) table.setHeaderPosition(headerPos);
+        if (StringUtils.isNotBlank(htmlStyle)) table.setHtmlStyle(htmlStyle);
+        if (StringUtils.isNotBlank(rowEvenStyle)) table.setRowEvenStyle(rowEvenStyle);
+        if (StringUtils.isNotBlank(rowOddStyle)) table.setRowOddStyle(rowOddStyle);
+        if (StringUtils.isNotBlank(rowHoverStyle)) table.setRowHoverStyle(rowHoverStyle);
+        if (StringUtils.isNotBlank(htmlClass)) table.setHtmlClass(htmlClass);
+        if (StringUtils.isNotBlank(rowEvenClass)) table.setRowEventClass(rowEvenClass);
+        if (StringUtils.isNotBlank(rowHoverClass)) table.setRowHoverClass(rowHoverClass);
+        if (StringUtils.isNotBlank(rowOddClass)) table.setRowOddClass(rowOddClass);
         table.setCurrentPage(1);
 
         // Capture the changes in the selected column (if any).
