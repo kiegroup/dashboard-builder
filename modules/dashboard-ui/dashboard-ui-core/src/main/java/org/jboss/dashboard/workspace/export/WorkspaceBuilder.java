@@ -119,8 +119,7 @@ public class WorkspaceBuilder {
         }
 
         //Children
-        for (int i = 0; i < node.getChildren().size(); i++) {
-            XMLNode child = (XMLNode) node.getChildren().get(i);
+        for (XMLNode child : node.getChildren()) {
             if (ExportVisitor.PARAMETER.equals(child.getObjectName())) {
                 createWorkspaceParameter(child, workspace);
             } else if (ExportVisitor.PANEL_INSTANCE.equals(child.getObjectName())) {
@@ -225,8 +224,7 @@ public class WorkspaceBuilder {
         UIServices.lookup().getWorkspacesManager().store(workspace);
 
         //Children
-        for (int i = 0; i < node.getChildren().size(); i++) {
-            XMLNode child = (XMLNode) node.getChildren().get(i);
+        for (XMLNode child : node.getChildren()) {
             if (ExportVisitor.PARAMETER.equals(child.getObjectName())) {
                 String name = child.getAttributes().getProperty(ExportVisitor.PARAMETER_ATTR_NAME);
                 if (ExportVisitor.SECTION_CHILD_TITLE.equals(name)) {
@@ -263,8 +261,7 @@ public class WorkspaceBuilder {
         section.assignPanel(panel, regionId);
         UIServices.lookup().getSectionsManager().store(section);
         panel.getProvider().getDriver().fireAfterPanelPlacedInRegion(panel, null);
-        for (int i = 0; i < node.getChildren().size(); i++) {
-            XMLNode child = (XMLNode) node.getChildren().get(i);
+        for (XMLNode child : node.getChildren()) {
             if (ExportVisitor.PERMISSION.equals(child.getObjectName())) {
                 createPermission(result, panel.getWorkspace(), panel, child, attributes);
             }
@@ -298,7 +295,7 @@ public class WorkspaceBuilder {
     protected void createResource(CreateResult result, String workspaceId, Long sectionId, Long panelId, XMLNode node, Map attributes, boolean onStartup) throws Exception {
         String className = node.getAttributes().getProperty(ExportVisitor.RESOURCE_ATTR_CATEGORY);
         String id = node.getAttributes().getProperty(ExportVisitor.RESOURCE_ATTR_ID);
-        byte[] rawContent = ((XMLNode) node.getChildren().get(0)).getContent();
+        byte[] rawContent = (node.getChildren().get(0)).getContent();
 
         GraphicElement element = (GraphicElement) Class.forName(className).newInstance();
 
@@ -335,8 +332,7 @@ public class WorkspaceBuilder {
         UIServices.lookup().getPanelsManager().store(pi);
         pi.init();
         //Children
-        for (int i = 0; i < node.getChildren().size(); i++) {
-            XMLNode child = (XMLNode) node.getChildren().get(i);
+        for (XMLNode child : node.getChildren()) {
             if (ExportVisitor.PARAMETER.equals(child.getObjectName())) {
                 createPanelInstanceParameter(child, pi);
             } else if (ExportVisitor.RESOURCE.equals(child.getObjectName())) {

@@ -39,7 +39,7 @@ public class XMLNode implements Serializable {
     private String objectName;
 
     private Properties attributes;
-    private List children;
+    private List<XMLNode> children;
     private byte[] content;
     private List warnings;
     private List warningArguments;
@@ -49,7 +49,7 @@ public class XMLNode implements Serializable {
         this.parent = parent;
         this.objectName = objectName;
         attributes = new Properties();
-        children = new ArrayList();
+        children = new ArrayList<XMLNode>();
         warnings = new ArrayList();
         warningArguments = new ArrayList();
     }
@@ -62,7 +62,7 @@ public class XMLNode implements Serializable {
         return attributes;
     }
 
-    public List getChildren() {
+    public List<XMLNode> getChildren() {
         return children;
     }
 
@@ -123,8 +123,7 @@ public class XMLNode implements Serializable {
             writer.write("/>");
         } else {
             writer.write(">");
-            for (int i = 0; i < children.size(); i++) {
-                XMLNode child = (XMLNode) children.get(i);
+            for (XMLNode child : children) {
                 child.writeXML(writer, blanks);
             }
             if (content != null)
