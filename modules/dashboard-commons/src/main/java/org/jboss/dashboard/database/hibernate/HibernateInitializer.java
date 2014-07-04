@@ -226,7 +226,7 @@ public class HibernateInitializer implements Startable {
             connection = ds.getConnection();
             String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
             if (dbProductName.contains("h2")) return DB_H2;
-            if (dbProductName.contains("postgre")) return DB_POSTGRES;
+            if (dbProductName.contains("postgre") || dbProductName.contains("enterprisedb")) return DB_POSTGRES;
             if (dbProductName.contains("mysql")) return DB_MYSQL;
             if (dbProductName.contains("oracle")) return DB_ORACLE;
             if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
