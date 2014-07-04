@@ -96,16 +96,16 @@ public class RenderImportPreviewFormatter extends Formatter {
 
     protected void renderElementsInEntry(ImportResult result, int index) {
         XMLNode node = result.getRootNode();
-        List children = node.getChildren();
+        List<XMLNode> children = node.getChildren();
         if (children == null || children.isEmpty()) {
             renderFragment("emptyEntry");
         } else {
             renderFragment("entryElementsOutputStart");
             BackOfficePermission createPerm = BackOfficePermission.newInstance(null, BackOfficePermission.ACTION_CREATE_WORKSPACE);
             boolean canCreate = UserStatus.lookup().hasPermission(createPerm);
-            for (int j = 0; j < children.size(); j++) {
-                XMLNode childNode = (XMLNode) children.get(j);
-                setAttribute("inputName", ExportDriver.IMPORT_PREFFIX + index + " " + j);
+            int j = 0;
+            for (XMLNode childNode : children) {
+                setAttribute("inputName", ExportDriver.IMPORT_PREFFIX + index + " " + j++);
                 if (childNode.getObjectName().equals(ExportVisitor.WORKSPACE)) {
                     if (canCreate) {
                         setAttribute("entryElementName", childNode.getAttributes().getProperty("id"));
