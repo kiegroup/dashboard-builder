@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.export;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.commons.xml.XMLNode;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -108,7 +109,7 @@ public class RenderImportPreviewFormatter extends Formatter {
                 setAttribute("inputName", ExportDriver.IMPORT_PREFFIX + index + " " + j++);
                 if (childNode.getObjectName().equals(ExportVisitor.WORKSPACE)) {
                     if (canCreate) {
-                        setAttribute("entryElementName", childNode.getAttributes().getProperty("id"));
+                        setAttribute("entryElementName", getWorkspaceName( childNode ));
                         renderFragment("workspaceEntryElement");
                     }
                 } else if (childNode.getObjectName().equals(ExportVisitor.RESOURCE)) {
@@ -121,5 +122,27 @@ public class RenderImportPreviewFormatter extends Formatter {
             }
             renderFragment("entryElementsOutputEnd");
         }
+    }
+
+    private String getWorkspaceName(XMLNode childNode) {
+        String currentLocale = getLocaleManager().getCurrentLang();
+        String ws_id = childNode.getAttributes().getProperty( "id" );
+        String ws_title = null;
+        String ws_name = null;
+        for (XMLNode child :  childNode.getChildren()) {
+            if ( "param".equalsIgnoreCase( child.getObjectName() ) ) {
+                String lang = child.getAttributes().getProperty( "lang" );
+                if ( StringUtils.isBlank( lang ) || !lang.equalsIgnoreCase( currentLocale ) ) continue;
+                String key = child.getAttributes().getProperty( "name" );
+                String value = child.getAttributes().getProperty( "value" );
+                if ( "title".equalsIgnoreCase( key ) ) {
+                    ws_title = value;
+                } else if ( "name".equalsIgnoreCase( key ) ) {
+                    ws_name = value;
+                }
+            }
+        }
+        // Preferably return the title, if none is available, the name and only last the id
+        return StringUtils.isNotBlank( ws_title ) ? ws_title : ( StringUtils.isNotBlank( ws_name ) ? ws_name : ws_id );
     }
 }
