@@ -121,6 +121,7 @@ public class TreeMenuDriver extends PanelDriver {
         h.put("visibleIds", listOfChecked);
         panel.setContentData(h);
         panel.getInstance().persist();
+        super.activateNormalMode( panel, request );
     }
 
     public boolean isChecked(Panel p, String token) {
