@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.jboss.dashboard-builder</groupId>
         <artifactId>dashboard-displayers</artifactId>
-        <version>6.1.0-SNAPSHOT</version>
+        <version>6.1.0.CR2</version>
     </parent>
 
     <artifactId>dashboard-displayer-api</artifactId>
