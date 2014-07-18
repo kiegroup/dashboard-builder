@@ -24,6 +24,7 @@ import java.util.HashMap;
 public class TableColumn {
 
     public static final String DEFAULT_HTMLVALUE = "{value}";
+    public static final String DEFAULT_HTMLVALUE_RAW = "{value|raw}";
 
     protected String propertyId;
     protected Table table;

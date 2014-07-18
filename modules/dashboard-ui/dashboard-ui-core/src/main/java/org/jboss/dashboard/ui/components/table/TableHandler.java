@@ -234,7 +234,13 @@ public class TableHandler extends UIBeanHandler {
             String headerHTML = request.getRequestObject().getParameter("columnheaderhtmlstyle");
             String cellHTML = request.getRequestObject().getParameter("columncellhtmlstyle");
             String htmlValue = request.getRequestObject().getParameter("htmlvalue");
-            if (htmlValue == null || htmlValue.indexOf(TableColumn.DEFAULT_HTMLVALUE) == -1) htmlValue = TableColumn.DEFAULT_HTMLVALUE;
+            
+            boolean columnContainsValue = htmlValue.indexOf(TableColumn.DEFAULT_HTMLVALUE)     != -1;
+            columnContainsValue        |= htmlValue.indexOf(TableColumn.DEFAULT_HTMLVALUE_RAW) != -1;
+            if (htmlValue == null || !columnContainsValue) {
+              htmlValue = TableColumn.DEFAULT_HTMLVALUE;
+            }
+            
             boolean selectable = Boolean.valueOf(request.getRequestObject().getParameter("columnselectable")).booleanValue();
             boolean sortable = Boolean.valueOf(request.getRequestObject().getParameter("columnsortable")).booleanValue();
             Locale locale = LocaleManager.currentLocale();
