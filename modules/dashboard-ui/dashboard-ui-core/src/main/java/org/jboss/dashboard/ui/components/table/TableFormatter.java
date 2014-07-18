@@ -198,7 +198,12 @@ public class TableFormatter extends Formatter {
     protected String formatHtmlCellValue(Table table, TableColumn tableColumn, int row, int column) {
         if (StringUtils.isBlank(tableColumn.getHtmlValue())) return "";
         String result = tableColumn.getHtmlValue();
-        return StringUtils.replace(result, TableColumn.DEFAULT_HTMLVALUE, formatCellValue(table,row,column));
+        result = StringUtils.replace(result, TableColumn.DEFAULT_HTMLVALUE, formatCellValue(table,row,column)); // Replace {value} with html escaped value
+        String rawValue = null;
+        if (table.getValueAt(row, column) != null) {
+          rawValue = table.getValueAt(row, column).toString();
+        }
+        return StringUtils.replace(result, TableColumn.DEFAULT_HTMLVALUE_RAW, rawValue); // Replace {value|raw} with raw value
     }
 
     protected String getSortIcon(TableColumn column, int columnIndex) {
