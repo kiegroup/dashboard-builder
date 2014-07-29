@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2014 JBoss Inc
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+    <id>eap-6_1</id>
+    <formats>
+        <format>war</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <includes>
+                <include>org.jboss.dashboard-builder:dashboard-showcase:war</include>
+            </includes>
+            <outputDirectory>.</outputDirectory>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>WEB-INF/jetty-*.xml</exclude>
+                    <exclude>WEB-INF/jboss-web.xml</exclude>
+                    <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
+                    <exclude>WEB-INF/web.xml</exclude>
+                    <exclude>WEB-INF/lib/jboss-*.jar</exclude>
+                    <exclude>WEB-INF/lib/jta-*.jar</exclude>
+                    <exclude>WEB-INF/lib/javax.*.jar</exclude>
+                    <exclude>WEB-INF/lib/jsr250-*.jar</exclude>
+                    <exclude>WEB-INF/lib/mail-*.jar</exclude>
+                    <exclude>WEB-INF/lib/stax-*.jar</exclude>
+                    <exclude>WEB-INF/lib/cdi-*.jar</exclude>
+                    <exclude>WEB-INF/lib/activation-*.jar</exclude>
+                    <exclude>WEB-INF/lib/mchange-*.jar</exclude>
+                    <exclude>WEB-INF/lib/fontbox-*.jar</exclude>
+                    <exclude>WEB-INF/lib/itext-*.jar</exclude>
+                    <exclude>WEB-INF/lib/pdfbox-*.jar</exclude>
+                    <exclude>WEB-INF/lib/xml-apis-*.jar</exclude>
+                    <exclude>WEB-INF/lib/slf4j-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-lang-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-collections-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-io-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-codec-*.jar</exclude>
+                    <exclude>WEB-INF/lib/commons-dbcp-*.jar</exclude>
+                    <exclude>WEB-INF/lib/xercesImpl-*.jar</exclude>
+                    <exclude>WEB-INF/lib/c3p0-*.jar</exclude>
+                    <exclude>WEB-INF/lib/ironjacamar-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-core-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-jpa-*.jar</exclude>
+                    <exclude>WEB-INF/lib/hibernate-commons-*.jar</exclude>
+                    <exclude>WEB-INF/lib/antlr-*.jar</exclude>
+                    <exclude>WEB-INF/lib/dom4j-*.jar</exclude>
+                    <exclude>WEB-INF/lib/jdom-*.jar</exclude>
+                    <exclude>WEB-INF/lib/javassist-*.jar</exclude>
+                    <exclude>WEB-INF/lib/weld-*.jar</exclude>
+                </excludes>
+            </unpackOptions>
+            <useStrictFiltering>true</useStrictFiltering>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/eap6_1/</directory>
+            <outputDirectory>.</outputDirectory>
+        </fileSet>
+    </fileSets>
+
+</assembly>
