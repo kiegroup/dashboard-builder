@@ -67,7 +67,12 @@ public class SessionInitializer extends AbstractChainProcessor {
         HttpServletRequest request = getHttpRequest();
         HttpServletResponse response = getHttpResponse();
         HttpSession session = request.getSession(true);
-        if (isNewSession(request)) initSession(request, response);
+
+        // Catch new sessions
+        if (isNewSession(request)) {
+            initSession(request, response);
+            return true;
+        }
 
         // Check session expiration
         if (request.getRequestedSessionId() != null && !request.getRequestedSessionId().equals(session.getId())) {

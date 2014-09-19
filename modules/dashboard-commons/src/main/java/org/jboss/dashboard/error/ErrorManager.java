@@ -175,7 +175,9 @@ public class ErrorManager {
     public ErrorReport notifyError(Throwable t, boolean doLog) {
         // Only save the very first error notification within the current thread.
         ThreadProfile threadProfile = Profiler.lookup().getCurrentThreadProfile();
-        if (threadProfile.getErrorReport() != null) return threadProfile.getErrorReport();
+        if (threadProfile != null && threadProfile.getErrorReport() != null) {
+            return threadProfile.getErrorReport();
+        }
 
         // Build the report.
         ErrorReport report = new ErrorReport();
@@ -186,7 +188,9 @@ public class ErrorManager {
         CodeBlockTrace trace = new ErrorTrace(report).begin();
         try {
             // Store the report into the current thread.
-            threadProfile.setErrorReport(report);
+            if (threadProfile != null) {
+                threadProfile.setErrorReport(report);
+            }
 
             // Logger the error.
             if (doLog) logError(report);
