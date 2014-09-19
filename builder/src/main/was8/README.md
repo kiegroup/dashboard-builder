@@ -8,7 +8,7 @@ Configure a data source
 
 The application requires a datasource. To create it, please follow the next steps:
 
-* Open the WebSphere's Adminitration Console _http://127.0.0.1:9060/ibm/console_
+* Open the WebSphere's Administration Console _http://127.0.0.1:9060/ibm/console_
 
    Then login (if you have administrative security setup)
 
