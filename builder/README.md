@@ -41,6 +41,12 @@ Currently, the following artifacts are generated:
 
   Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/was8/README.md).
 
+* **dashbuilder-weblogic-12c.war:**  Product distribution for Weblogic 12c server.
+
+  It requires to set up a data source connection for any of the supported databases (at the time of this writing: DB2, Postgres, Mysql, H2, Oracle or SQLServer).
+
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/weblogic12c/README.md).
+
 * **dashbuilder-demo-installer.zip:** App. server-independent self-contained demo of the product.
 
   Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/standalone-demo/README.md).
