@@ -20,9 +20,7 @@ import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.LocaleManager;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.DateFormatConverter;
-import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import java.io.*;
@@ -157,17 +155,6 @@ public class ExportTool {
         for (int i = 0; i < columnCount; i++) {
             sh.autoSizeColumn(i);
         }
-
-        // Put border around table data
-        CellRangeAddress range = new CellRangeAddress(0, rowCount-1, 0, columnCount-1);
-        RegionUtil.setBorderRight(BorderFormatting.BORDER_THIN, range, sh, wb);
-        RegionUtil.setRightBorderColor(IndexedColors.BLACK.getIndex(), range, sh, wb);
-        RegionUtil.setBorderLeft(BorderFormatting.BORDER_THIN, range, sh, wb);
-        RegionUtil.setLeftBorderColor(IndexedColors.BLACK.getIndex(), range, sh, wb);
-        RegionUtil.setBorderTop(BorderFormatting.BORDER_THIN, range, sh, wb);
-        RegionUtil.setTopBorderColor(IndexedColors.BLACK.getIndex(), range, sh, wb);
-        RegionUtil.setBorderBottom(BorderFormatting.BORDER_THIN, range, sh, wb);
-        RegionUtil.setBottomBorderColor(IndexedColors.BLACK.getIndex(), range, sh, wb);
 
         ByteArrayInputStream bis = null;
         try {
