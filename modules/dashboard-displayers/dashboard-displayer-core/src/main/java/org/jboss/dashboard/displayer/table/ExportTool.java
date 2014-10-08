@@ -48,23 +48,23 @@ public class ExportTool {
     private DecimalFormat decf = new DecimalFormat(numberFormatPattern);
     private DateFormat datef = new SimpleDateFormat(dateFormatPattern);
 
-    public InputStream exportCSV(TableModel tableModel) throws Exception {
-        if (tableModel == null) throw new IllegalArgumentException("Invalid tabla data model!");
-        int columnCount = tableModel.getColumnCount();
-        int rowCount = tableModel.getRowCount();
+    public InputStream exportCSV(Table table) throws Exception {
+        if (table == null) throw new IllegalArgumentException("Null table specified!");
+        int columnCount = table.getColumnCount();
+        int rowCount = table.getRowCount();
 
         List<String[]> lines = new ArrayList<String[]>(rowCount+1);
 
         String[] line = new String[columnCount];
         for (int cc = 0; cc < columnCount; cc++) {
-            line[cc] = tableModel.getColumnName(cc);
+            line[cc] = table.getColumnName(cc);
         }
         lines.add(line);
 
         for (int rc = 0; rc < rowCount; rc++) {
             line = new String[columnCount];
             for (int cc = 0; cc < columnCount; cc++) {
-                line[cc] = formatAsString(tableModel.getValueAt(rc, cc));
+                line[cc] = formatAsString(table.getValueAt(rc, cc));
             }
             lines.add(line);
         }
@@ -92,11 +92,11 @@ public class ExportTool {
         else return value.toString();
     }
 
-    public InputStream exportExcel(TableModel tableModel) {
+    public InputStream exportExcel(Table table) {
         // TODO?: Excel 2010 limits: 1,048,576 rows by 16,384 columns; row width 255 characters
-        if (tableModel == null) throw new IllegalArgumentException("Invalid tabla data model!");
-        int columnCount = tableModel.getColumnCount();
-        int rowCount = tableModel.getRowCount() + 1; //Include header row
+        if (table == null) throw new IllegalArgumentException("Null table specified!");
+        int columnCount = table.getColumnCount();
+        int rowCount = table.getRowCount() + 1; //Include header row
         int row = 0;
 
         SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk
@@ -117,7 +117,7 @@ public class ExportTool {
         for (int i = 0; i < columnCount; i++) {
             Cell cell = header.createCell(i);
             cell.setCellStyle(styles.get("header"));
-            cell.setCellValue(tableModel.getColumnName(i));
+            cell.setCellValue(table.getColumnName(i));
         }
 
         // Create data rows
@@ -125,7 +125,7 @@ public class ExportTool {
             Row _row = sh.createRow(row);
             for (int cellnum = 0; cellnum < columnCount; cellnum++) {
                 Cell cell = _row.createCell(cellnum);
-                Object value = tableModel.getValueAt(row - 1, cellnum);
+                Object value = table.getValueAt(row - 1, cellnum);
                 if (value instanceof Short || value instanceof Long || value instanceof Integer || value instanceof BigInteger) {
                     cell.setCellType(Cell.CELL_TYPE_NUMERIC);
                     cell.setCellStyle(styles.get("integer_number_cell"));

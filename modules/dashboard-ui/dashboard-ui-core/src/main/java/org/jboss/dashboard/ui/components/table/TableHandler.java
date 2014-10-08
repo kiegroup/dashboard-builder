@@ -335,9 +335,9 @@ public class TableHandler extends UIBeanHandler {
 
     public CommandResponse actionExportData(String format) throws Exception {
         if (ExportTool.FORMAT_EXCEL.equalsIgnoreCase(format))
-            return new SendStreamResponse(new ExportTool().exportExcel(getTable().getModel()), "inline;filename=data.xlsx;");
+            return new SendStreamResponse(new ExportTool().exportExcel(getTable()), "inline;filename=data.xlsx;");
         else if (ExportTool.FORMAT_CSV.equalsIgnoreCase(format))
-            return new SendStreamResponse(new ExportTool().exportCSV(getTable().getModel()), "inline;filename=data.csv;");
+            return new SendStreamResponse(new ExportTool().exportCSV(getTable()), "inline;filename=data.csv;");
         else {
             throw new IllegalArgumentException("Null or unsupported export format!");
         }
