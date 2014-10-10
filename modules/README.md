@@ -60,6 +60,36 @@ The parameters that you can configure are: db.url, db.user and db.password
 
   (The currently tested DB2 version for development is 9.7)
 
+* **MySQL**
+
+  In MySQL, both the database as well as the database server need to be configured for UTF8 encoding.
+
+  The database create-clause should look similar to:
+
+    <pre>
+        CREATE DATABASE dashbuilder
+          DEFAULT CHARACTER SET utf8
+          DEFAULT COLLATE utf8_general_ci;
+    </pre>
+
+  The database server configuration can either be specified at server startup by adding the following options to the boot sequence:
+
+    <pre>
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+    </pre>
+
+   or, in a more permanent manner, by adding the following two lines to the mysqld service configuration file (my.cnf or my.ini):
+
+    <pre>
+      [mysqld]
+      character-set-server=utf8
+      collation-server=utf8_general_ci
+    </pre>
+
+  For more information, you may, for example, want to refer to :
+  <a href="http://dev.mysql.com/doc/refman/5.0/en/charset-applications.html">Configuring the Character Set and Collation for Applications</a>
+  <a href="http://dev.mysql.com/doc/refman/5.0/en/faqs-cjk.html">MySQL 5.0 FAQ: MySQL Chinese, Japanese, and Korean Character Sets</a>
 
 Compile and build
 ----------------------
