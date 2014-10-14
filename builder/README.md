@@ -23,11 +23,11 @@ Currently, the following artifacts are generated:
 
   Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/wildfly8/README.md).
 
-* **dashbuilder-eap-6_1.war:**  Product distribution for the RedHat EAP 6.1 application server.
+* **dashbuilder-eap-6_3.war:**  Product distribution for the JBoss EAP 6.3 application server.
 
   By the default the distribution is configured to use the default H2 in-memory database provided by the app server.
 
-  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/eap6_1/README.md).
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/eap6_3/README.md).
 
 * **dashbuilder-tomcat-7.war:**  Product distribution for Apache Tomcat 7 server.
 
