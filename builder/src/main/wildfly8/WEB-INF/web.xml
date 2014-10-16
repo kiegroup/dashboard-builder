@@ -35,7 +35,7 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Free access</web-resource-name>
-      <url-pattern>/redhat/*</url-pattern>
+      <url-pattern>/images/jb_logo.png</url-pattern>
     </web-resource-collection>
   </security-constraint>
 
