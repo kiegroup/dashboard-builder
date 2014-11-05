@@ -32,11 +32,22 @@
     <description>Bundled CSV data provider</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-provider-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-commons</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-api</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-core</artifactId>
+        <scope>compile</scope>
+      </dependency>
 
       <dependency>
         <groupId>org.jboss.dashboard-builder</groupId>
@@ -44,5 +55,6 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+
     </dependencies>
 </project>
