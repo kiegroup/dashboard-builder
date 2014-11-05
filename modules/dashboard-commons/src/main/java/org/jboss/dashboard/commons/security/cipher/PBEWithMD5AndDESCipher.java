@@ -15,9 +15,6 @@
  */
 package org.jboss.dashboard.commons.security.cipher;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -26,6 +23,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+
+import org.jboss.dashboard.commons.text.Base64;
 
 public class PBEWithMD5AndDESCipher {
 
@@ -41,7 +40,7 @@ public class PBEWithMD5AndDESCipher {
         SecretKey key = keyFactory.generateSecret(new PBEKeySpec(SECRET));
         Cipher pbeCipher = Cipher.getInstance(CIPHER);
         pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-        return new BASE64Encoder().encode(pbeCipher.doFinal(text.getBytes()));
+        return Base64.encode(pbeCipher.doFinal(text.getBytes()));
     }
 
     public String decrypt(String text) throws GeneralSecurityException, IOException {
@@ -49,7 +48,7 @@ public class PBEWithMD5AndDESCipher {
         SecretKey key = keyFactory.generateSecret(new PBEKeySpec(SECRET));
         Cipher pbeCipher = Cipher.getInstance(CIPHER);
         pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-        return new String(pbeCipher.doFinal(new BASE64Decoder().decodeBuffer(text)));
+        return new String(pbeCipher.doFinal(Base64.decode(text)));
     }
 
     public static void main(String[] args) throws Exception {
