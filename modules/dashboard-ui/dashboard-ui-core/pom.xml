@@ -32,36 +32,52 @@
     <description>Dashboard Builder Core</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-security</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-provider-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-provider-csv</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-provider-sql</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-displayer-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency> <!-- Enable unit testing -->
-          <groupId>org.jboss.dashboard-builder</groupId>
-          <artifactId>dashboard-commons</artifactId>
-          <type>test-jar</type>
-          <scope>test</scope>
-        </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-commons</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-displayer-api</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-api</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-core</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-security</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-core</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-csv</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-sql</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-displayer-core</artifactId>
+        <scope>compile</scope>
+      </dependency>
+      <dependency> <!-- Enable unit testing -->
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-commons</artifactId>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
 </project>

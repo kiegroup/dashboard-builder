@@ -32,15 +32,25 @@
   <description>Data displayer API implementation + Core displayers</description>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-commons</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-provider-api</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.jboss.dashboard-builder</groupId>
       <artifactId>dashboard-displayer-api</artifactId>
-      <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>org.jboss.dashboard-builder</groupId>
       <artifactId>dashboard-provider-core</artifactId>
-      <scope>compile</scope>
     </dependency>
 
     <!-- Unit testing -->

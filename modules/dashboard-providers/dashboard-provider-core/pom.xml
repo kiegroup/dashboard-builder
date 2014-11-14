@@ -38,6 +38,11 @@
       <scope>compile</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.jboss.dashboard-builder</groupId>
+      <artifactId>dashboard-commons</artifactId>
+    </dependency>
+
     <!-- Unit testing -->
 
     <dependency>

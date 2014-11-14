@@ -32,11 +32,36 @@
     <description>Open Flash Chart 2 - based implementation for Line, Pie and Bar displayers</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jboss.dashboard-builder</groupId>
-            <artifactId>dashboard-ui-core</artifactId>
-            <classifier>classes</classifier>
-        </dependency>
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-commons</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-api</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-displayer-api</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-displayer-core</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-provider-api</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.dashboard-builder</groupId>
+        <artifactId>dashboard-ui-core</artifactId>
+        <classifier>classes</classifier>
+      </dependency>
     </dependencies>
 
 </project>
