@@ -19,36 +19,10 @@ import org.jboss.dashboard.users.UserStatus;
 import java.io.File;
 import java.io.Serializable;
 
-/**
- *
- */
 public class EnvelopePreview extends GraphicElementPreview implements Serializable, ResourceHolder {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EnvelopePreview.class.getName());
 
     public EnvelopePreview(File f, String workspaceId, Long sectionId, Long panelId, String id) {
         super(f, workspaceId, sectionId, panelId, id);
-        boolean isRoot = UserStatus.lookup().isRootUser();
-        if (!isRoot && status == STATUS_OK) {
-            byte[] jsp = (byte[]) resourcesDeployed.get("FULL_PAGE");
-            if (new String(jsp).indexOf("<%") != -1)
-                status = STATUS_JSP_INSECURE;
-            if (new String(jsp).indexOf("<jsp:include") != -1)
-                status = STATUS_JSP_INSECURE;
-            jsp = (byte[]) resourcesDeployed.get("SHARED_PAGE");
-            if (new String(jsp).indexOf("<%") != -1)
-                status = STATUS_JSP_INSECURE;
-            if (new String(jsp).indexOf("<jsp:include") != -1)
-                status = STATUS_JSP_INSECURE;
-        }
-    }
-
-    /**
-     * Convert this preview into an envelope.
-     *
-     * @return
-     */
-    public Envelope toEnvelope() {
-        return (Envelope) toElement();
     }
 
     protected String getDescriptorFilename() {

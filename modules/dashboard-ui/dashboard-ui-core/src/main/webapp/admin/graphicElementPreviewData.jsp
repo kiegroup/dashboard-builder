@@ -23,8 +23,7 @@
                  org.jboss.dashboard.ui.config.components.resources.ResourcesPropertiesHandler,
                  org.jboss.dashboard.ui.UIServices,
                  org.jboss.dashboard.workspace.WorkspaceImpl,
-                 org.jboss.dashboard.workspace.GraphicElementManager,
-                 org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
+                 org.jboss.dashboard.workspace.GraphicElementManager" %>
 
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -50,9 +49,6 @@
             break;
         case GraphicElementPreview.STATUS_ZIP_CORRUPT:
             resultMessage = "ui.admin.workarea." + graphicElement + "s.corruptZip";
-            break;
-        case GraphicElementPreview.STATUS_JSP_INSECURE:
-            resultMessage = "ui.admin.workarea." + graphicElement + "s.insecure";
             break;
     }
     if (handler.isZipHasError()) resultMessage = "ui.admin.workarea." + graphicElement + "s.errorImport";

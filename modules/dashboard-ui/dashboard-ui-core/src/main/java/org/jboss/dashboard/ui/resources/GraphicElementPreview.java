@@ -20,16 +20,14 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-/**
- *
- */
 public abstract class GraphicElementPreview implements Serializable, ResourceHolder {
+
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GraphicElementPreview.class.getName());
+
     public static final int STATUS_OK = 0;
     public static final int STATUS_ZIP_CORRUPT = 1;
     public static final int STATUS_MISSING_DESCRIPTOR = 2;
     public static final int STATUS_DESCRIPTOR_CORRUPT = 3;
-    public static final int STATUS_JSP_INSECURE = 4;
 
     protected byte[] zipData;
     protected String workspaceId;
