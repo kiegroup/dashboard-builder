@@ -19,31 +19,10 @@ import org.jboss.dashboard.users.UserStatus;
 import java.io.File;
 import java.io.Serializable;
 
-/**
- *
- */
 public class LayoutPreview extends GraphicElementPreview implements Serializable, ResourceHolder {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LayoutPreview.class.getName());
 
     public LayoutPreview(File f, String workspaceId, Long sectionId, Long panelId, String id) {
         super(f, workspaceId, sectionId, panelId, id);
-        boolean isRoot = UserStatus.lookup().isRootUser();
-        if (!isRoot && status == STATUS_OK) {
-            byte[] jsp = (byte[]) resourcesDeployed.get("JSP");
-            if (new String(jsp).indexOf("<%") != -1)
-                status = STATUS_JSP_INSECURE;
-            if (new String(jsp).indexOf("<jsp:include") != -1)
-                status = STATUS_JSP_INSECURE;
-        }
-    }
-
-    /**
-     * Convert this preview into a layout.
-     *
-     * @return
-     */
-    public Layout toLayout() {
-        return (Layout) toElement();
     }
 
     protected String getDescriptorFilename() {
