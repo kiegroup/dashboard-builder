@@ -71,7 +71,6 @@ public class PanelAllPropertiesNode extends AbstractNode {
         FormStatus formStatus = new FormStatus();
         formStatus.setValue("lang", LocaleManager.lookup().getCurrentLang());
         getHandler().setWorkspaceId(workspaceId);
-        getHandler().setPanelId(panelId);
         getHandler().setPanelInstanceId(panelInstanceId);
         getHandler().clearFieldErrors();
         getHandler().setFormStatus(formStatus);
