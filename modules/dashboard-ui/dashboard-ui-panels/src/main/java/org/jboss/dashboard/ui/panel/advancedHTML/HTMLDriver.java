@@ -161,10 +161,11 @@ public class HTMLDriver extends PanelDriver implements Exportable {
         try {
             HTMLText textToCreate = new HTMLText();
             textToCreate.setPanelInstance(panel.getInstance());
-            Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (Locale locale : locales) {
-                ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", locale);
-                textToCreate.setText(locale.getLanguage(), i18n.getString("defaultContent"));
+            String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+            for (int i = 0; i < langs.length; i++) {
+                String lang = langs[i];
+                ResourceBundle i18n = LocaleManager.lookup().getBundle("org.jboss.dashboard.ui.panel.advancedHTML.messages", new Locale(lang));
+                textToCreate.setText(lang, i18n.getString("defaultContent"));
             }
             textToCreate.save();
         } catch (Exception e) {

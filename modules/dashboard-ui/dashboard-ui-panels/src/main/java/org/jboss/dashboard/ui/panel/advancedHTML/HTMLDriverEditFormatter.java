@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.advancedHTML;
 
+import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -55,17 +56,19 @@ public class HTMLDriverEditFormatter extends Formatter {
 
     public void service(HttpServletRequest request, HttpServletResponse response) throws FormatterException {
         HTMLDriver htmlDriver = (HTMLDriver) getPanel().getProvider().getDriver();
-        Locale[] langs = getLocaleManager().getPlatformAvailableLocales();
+        String[] langs = getLocaleManager().lookup().getPlatformAvailableLangs();
         setAttribute("url", UIServices.lookup().getUrlMarkupGenerator().getLinkToPanelAction(getPanel(), "saveChanges", true));
         renderFragment("outputStart");
         if (langs != null) {
             renderFragment("languagesOutputStart");
             for (int i = 0; i < langs.length; i++) {
-                setAttribute("langId", langs[i].getLanguage());
-                setAttribute("langName", StringUtils.capitalize(langs[i].getDisplayName(langs[i])));
+                String lang = langs[i];
+
+                setAttribute("langId", lang);
+                setAttribute("langName", StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName(lang)));
                 setAttribute("langParamName", HTMLDriver.PARAMETER_EDITING_LANG);
-                setAttribute("url", UIServices.lookup().getUrlMarkupGenerator().getLinkToPanelAction(getPanel(), "changeEditingLanguage", HTMLDriver.PARAMETER_EDITING_LANG + "=" + langs[i].getLanguage(), true));
-                if (htmlDriver.getEditingLanguage(getPanel()).equals(langs[i].getLanguage())) {
+                setAttribute("url", UIServices.lookup().getUrlMarkupGenerator().getLinkToPanelAction(getPanel(), "changeEditingLanguage", HTMLDriver.PARAMETER_EDITING_LANG + "=" + lang, true));
+                if (htmlDriver.getEditingLanguage(getPanel()).equals(lang)) {
                     renderFragment("selectedLanguageOutput");
                 } else {
                     renderFragment("languageOutput");

@@ -51,19 +51,20 @@ public class RenderMenuFormatter extends Formatter {
 
     protected void renderLanguage(HttpServletRequest request, HttpServletResponse response, MenuDriver menuDriver) {
         renderOutputStart();
-        Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
+        String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
         List<String> selectedLangIds = menuDriver.getSelectedLangIds(getPanel());
         boolean isEditMode = getPanel().getPanelSession().isEditMode();
-        for (Locale locale : locales) {
+        for (int i = 0; i < langs.length; i++) {
+            String lang = langs[i];
             MenuItem menuItem = new LangMenuItem();
-            menuItem.setId(locale.toString());
+            menuItem.setId(lang);
             Map<String, String> text = new HashMap<String, String>();
-            text.put(LocaleManager.currentLang(), StringUtils.capitalize(locale.getDisplayName(locale)));
+            text.put(LocaleManager.currentLang(), StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName(lang)));
             menuItem.setText(text);
-            menuItem.setUrl(menuDriver.getChangeLanguageLink(getPanel().getSection(), locale.toString()));
-            menuItem.setSelected(selectedLangIds.contains(locale.toString()));
+            menuItem.setUrl(menuDriver.getChangeLanguageLink(getPanel().getSection(), lang));
+            menuItem.setSelected(selectedLangIds.contains(lang));
             menuItem.setVisible(Boolean.TRUE);
-            if (locale.toString().equals(getLang())) {
+            if (lang.equals(getLang())) {
                 menuItem.setCurrent(Boolean.TRUE);
             } else {
                 menuItem.setCurrent(Boolean.FALSE);

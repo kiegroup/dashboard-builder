@@ -239,7 +239,7 @@ public class DataProviderHandler extends UIBeanHandler {
                 dataProviderId = dataProvider.getId();
                 currentProviderTypeUid = providerType.getUid();
                 descriptions = dataProvider.getDescriptionI18nMap();
-                providerName = (String) descriptions.get(LocaleManager.currentLocale());
+                providerName = (String) LocaleManager.lookup().localize(descriptions);
                 setEdit(true);
 
                 // Go the the edit screen.
@@ -492,10 +492,10 @@ public class DataProviderHandler extends UIBeanHandler {
 
     protected void checkConfig() {
         // Name must exist al least for the current locale.
-        Locale locale = LocaleManager.currentLocale();
-        String name = (String) descriptions.get(locale);
+        String name = (String) localeManager.localize(descriptions);
         if (name == null || "".equals(name)) {
-            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameInvalid"), locale.getDisplayName(locale)) );
+            setProviderMessage( MessageFormat.format(getMessage("dataProviderComponent.nameInvalid"),
+                    localeManager.getLangDisplayName(localeManager.getCurrentLang())) );
             setHasErrors(true);
             return;
         }

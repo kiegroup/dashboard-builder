@@ -70,12 +70,12 @@
                                     }
                                 }">
                           <%
-                              Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-                              for (int i = 0; i < locales.length; i++) {
-                                Locale locale = locales[i];
+                              String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+                              for (int i = 0; i < langs.length; i++) {
+                                  String lang = langs[i];
                           %>
-                              <option <%= LocaleManager.currentLang().equals(locale.getLanguage()) ? "selected" : ""%> value="<%=locale%>">
-                                <%= StringUtils.capitalize(locale.getDisplayName(locale)) %>
+                              <option <%= LocaleManager.currentLang().equals(lang) ? "selected" : ""%> value="<%=lang%>">
+                                <%= StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName(lang)) %>
                               </option>
                           <%
                               }
@@ -84,7 +84,6 @@
                         </td>
                         <td>
                           <%
-                              String[] langs = LocaleManager.lookup().getLangs();
                                 for (int i = 0; i < langs.length; i++) {
                                   String langId = langs[i];
                           %>

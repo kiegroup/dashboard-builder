@@ -57,7 +57,7 @@
                             <td>
                 <mvc:formatter name="org.jboss.dashboard.ui.formatters.ForFormatter">
                     <mvc:formatterParam name="factoryElement" value="org.jboss.dashboard.LocaleManager"/>
-                    <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                    <mvc:formatterParam name="property" value="platformAvailableLangs"/>
                     <mvc:fragment name="outputStart">
                                 <select class="skn-input" onchange="
                                     var elements = this.form.elements;
@@ -78,10 +78,10 @@
                     </mvc:fragment>
                     <mvc:fragment name="output">
                         <mvc:fragmentValue name="index" id="index">
-                        <mvc:fragmentValue name="element" id="locale">
-                                    <option <%= LocaleManager.currentLang().equals(((Locale)locale).getLanguage()) ? "selected" : ""%>
-                                            value="<%=locale%>">
-                                             <%=StringUtils.capitalize(((Locale)locale).getDisplayName((Locale)locale))%>
+                        <mvc:fragmentValue name="element" id="lang">
+                                    <option <%= LocaleManager.currentLang().equals(lang) ? "selected" : ""%>
+                                            value="<%=lang%>">
+                                             <%=StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName((String) lang))%>
                                     </option>
                         </mvc:fragmentValue>
                         </mvc:fragmentValue>

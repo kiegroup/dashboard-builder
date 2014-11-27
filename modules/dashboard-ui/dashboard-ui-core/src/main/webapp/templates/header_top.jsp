@@ -39,19 +39,19 @@
                       <factory:handler bean="org.jboss.dashboard.ui.config.TreeShortcutHandler" action="changeLanguage"/>
                       <mvc:formatter name="org.jboss.dashboard.ui.formatters.ForFormatter">
                           <mvc:formatterParam name="factoryElement" value="org.jboss.dashboard.LocaleManager"/>
-                          <mvc:formatterParam name="property" value="platformAvailableLocales"/>
+                          <mvc:formatterParam name="property" value="platformAvailableLangs"/>
                           <mvc:fragment name="outputStart">
-                             <div class="select"><select class="select" onchange="this.form.submit();" name="lang" >
+                              <div class="select"><select class="select" onchange="this.form.submit();" name="lang" >
                           </mvc:fragment>
                           <mvc:fragment name="output">
                               <mvc:fragmentValue name="index" id="index">
-                                  <mvc:fragmentValue name="element" id="locale">
+                                  <mvc:fragmentValue name="element" id="lang">
                                       <%  String selected;
-                                          if (((Locale) locale).toString().equals(LocaleManager.currentLang())) selected = "selected class=\"skn-important\"";
+                                          if (((String) lang).equals(LocaleManager.currentLang())) selected = "selected class=\"skn-important\"";
                                           else selected="";
                                       %>
-                                      <option <%=selected%>  value="<%=((Locale)locale).toString()%>">
-                                          <%=StringUtils.capitalize(((Locale)locale).getDisplayName((Locale)locale))%>
+                                      <option <%=selected%>  value="<%=lang%>">
+                                          <%=StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName((String) lang))%>
                                       </option>
                                   </mvc:fragmentValue>
                               </mvc:fragmentValue>

@@ -42,13 +42,13 @@ public class LocaleManager {
     /**
      * The list of locales supported.
      */
-    @Inject @Config("en,es,de,fr,pt,ja,zh")
+    @Inject @Config("en_GB,es,de,fr,pt,ja,zh")
     protected String[] installedLocaleIds;
 
     /**
      * The default localeId.
      */
-    @Inject @Config("en")
+    @Inject @Config("en_GB")
     protected String defaultLocaleId;
 
     private transient Locale[] availableLocales;
@@ -125,22 +125,6 @@ public class LocaleManager {
     }
 
     /**
-     * Current locale for editing contents
-     */
-    public Locale getCurrentEditLocale() {
-        return currentEditLocale == null ? defaultLocale : currentEditLocale;
-    }
-
-    public void setCurrentEditLocale(Locale l) {
-        currentEditLocale = defaultLocale;
-        Locale platformLocale = getPlatformLocale(l);
-        if (platformLocale != null) {
-            // Avoid setting a non supported locale.
-            currentEditLocale = platformLocale;
-        }
-    }
-
-    /**
      * Current locale for viewing contents
      */
     public Locale getCurrentLocale() {
@@ -157,11 +141,17 @@ public class LocaleManager {
     }
 
     public Locale getPlatformLocale(Locale l) {
+        Locale result = null;
         for (Locale locale : availableLocales) {
+            if (locale.equals(l)) {
+                return locale;
+            }
             String lang = locale.getLanguage();
-            if (lang.equals(l.getLanguage())) return locale;
+            if (lang.equals(l.getLanguage())) {
+                result = locale;
+            }
         }
-        return null;
+        return result;
     }
 
     /**
@@ -173,64 +163,50 @@ public class LocaleManager {
 
     // Language methods
 
-    protected String[] localeToString(Locale[] locales) {
+    protected String[] getLanguages(Locale[] locales) {
         List<String> langs = new ArrayList<String>();
         for (Locale locale : locales) {
-            String s = locale.toString();
-            langs.add(s);
+            String s = locale.getLanguage();
+            if (!langs.contains(s)) {
+                langs.add(s);
+            }
         }
         return langs.toArray(new String[langs.size()]);
+    }
+
+    /**
+     * Return the display name (in current locale) of the specified lang
+     */
+    public String getLangDisplayName(String lang) {
+        return new Locale(lang).getDisplayName(getCurrentLocale());
     }
 
     /**
      * Get all language identifiers
      */
     public String[] getAllLanguages() {
-        return localeToString(getAllLocales());
+        return getLanguages(getAllLocales());
     }
 
     /**
      * Langs supported.
      */
     public String[] getPlatformAvailableLangs() {
-        return localeToString(getPlatformAvailableLocales());
-    }
-
-    /**
-     * Langs supported.
-     */
-    public String[] getLangs() {
-        return getPlatformAvailableLangs();
-    }
-
-    /**
-     * Get the language in which the system is editing contents.
-     */
-    public String getCurrentEditLang() {
-        return getCurrentEditLocale().toString();
-    }
-
-    /**
-     * Set the language in which the system is editing contents.
-     */
-    public void setCurrentEditLang(String langId) {
-        Locale locale = getLocaleById(langId);
-        if (locale != null) setCurrentEditLocale(locale);
-        else log.error("Can't set edit lang to " + langId);
+        return getLanguages(getPlatformAvailableLocales());
     }
 
     /**
      * Get the current language for displaying contents
      */
     public String getCurrentLang() {
-        return getCurrentLocale().toString();
+        return getCurrentLocale().getLanguage().toString();
     }
 
     /**
      * Set the current language for displaying contents
      */
     public void setCurrentLang(String langId) {
-        Locale locale = getLocaleById(langId);
+        Locale locale = getPlatformLocale(getLocaleById(langId));
         if (locale != null) setCurrentLocale(locale);
         else log.error("Can't set current lang to " + langId);
     }
@@ -239,7 +215,7 @@ public class LocaleManager {
      * Get the default language for the platform
      */
     public String getDefaultLang() {
-        return getDefaultLocale().toString();
+        return getDefaultLocale().getLanguage();
     }
 
     /**
@@ -261,6 +237,11 @@ public class LocaleManager {
         }
 
         data = localizedData.get(getCurrentLocale());
+        if (null != data && (!(data instanceof String) || !"".equals(data))) {
+            return data;
+        }
+
+        data = localizedData.get(new Locale(getCurrentLang()));
         if (null != data && (!(data instanceof String) || !"".equals(data))) {
             return data;
         }
