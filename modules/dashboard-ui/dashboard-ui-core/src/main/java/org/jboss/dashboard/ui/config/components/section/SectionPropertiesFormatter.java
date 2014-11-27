@@ -119,7 +119,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 for (int i = 0; i < skins.length; i++) {
                     Skin skin = (Skin) skins[i];
                     boolean currentSkin = skin.getId().equals(getSectionPropertiesHandler().getSkin());
-                    setAttribute("skinDescription", skin.getDescription().get(LocaleManager.currentLocale().getLanguage()));
+                    setAttribute("skinDescription", skin.getDescription().get(LocaleManager.currentLang()));
                     setAttribute("skinId", skin.getId());
                     renderFragment(currentSkin ? "outputSelectedSkin" : "outputSkin");
                 }
@@ -138,7 +138,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 renderFragment("outputSelectedEnvelope");
                 for (int i = 0; i < envelopes.length; i++) {
                     Envelope envelope = (Envelope) envelopes[i];
-                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLocale().getLanguage()));
+                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLang()));
                     setAttribute("envelopeId", envelope.getId());
                     renderFragment("outputEnvelope");
                 }
@@ -150,7 +150,7 @@ public class SectionPropertiesFormatter extends Formatter {
                 for (int i = 0; i < envelopes.length; i++) {
                     Envelope envelope = (Envelope) envelopes[i];
                     boolean currentEnvelope = envelope.getId().equals(getSectionPropertiesHandler().getEnvelope());
-                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLocale().getLanguage()));
+                    setAttribute("envelopeDescription", envelope.getDescription().get(LocaleManager.currentLang()));
                     setAttribute("envelopeId", envelope.getId());
                     renderFragment(currentEnvelope ? "outputSelectedEnvelope" : "outputEnvelope");
                 }

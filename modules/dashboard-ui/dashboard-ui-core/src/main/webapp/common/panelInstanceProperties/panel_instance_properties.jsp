@@ -56,12 +56,12 @@
         <td align="left">
             <select name="editing" class="skn-input" onchange="document.config.submit();">
 <%
-            Locale[] locales = localeManager.getPlatformAvailableLocales();
-            for (int i = 0; i < locales.length; i++) {
-                Locale locale = locales[i];
+            String[] langs = localeManager.getPlatformAvailableLangs();
+            for (int i = 0; i < langs.length; i++) {
+                String lang = langs[i];
 %>
-                <option value="<%=locale%>" <%=formStatus.getValue("lang").toString().equalsIgnoreCase(locale.toString()) ? "selected" : ""%>>
-                    <%=StringUtils.capitalize(locale.getDisplayName(locale))%>
+                <option value="<%=lang%>" <%=formStatus.getValue("lang").toString().equalsIgnoreCase(lang) ? "selected" : ""%>>
+                    <%=StringUtils.capitalize(localeManager.getLangDisplayName(lang))%>
                 </option>
 <%
             }

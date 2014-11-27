@@ -26,18 +26,18 @@
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%
     LocaleManager lm = LocaleManager.lookup();
-    Locale current = lm.getCurrentLocale();
-    Locale[] locales = lm.getPlatformAvailableLocales();
+    String current = lm.getCurrentLang();
+    String[] langs = lm.getPlatformAvailableLangs();
 %>
 <select name="<%= "localeLang" %>" class="skn-input"
          style="width:120px; height:18px; text-align:center; overflow:hidden; vertical-align:middle"
          onchange="return bam_kpiedit_submitProperties(this);">
 <%
-    for (int i = 0; i < locales.length; i++) {
-        Locale locale = locales[i];
+    for (int i = 0; i < langs.length; i++) {
+      String lang = langs[i];
 %>
-    <option value="<%= locale.getLanguage() %>" <%= locale.getLanguage().equals(current.getLanguage()) ? "selected" : "" %>>
-        <%= StringUtils.capitalize(locale.getDisplayName(locale)) %>
+    <option value="<%= lang %>" <%= lang.equals(current) ? "selected" : "" %>>
+        <%= StringUtils.capitalize(lm.getLangDisplayName(lang)) %>
     </option>
 <%
    }

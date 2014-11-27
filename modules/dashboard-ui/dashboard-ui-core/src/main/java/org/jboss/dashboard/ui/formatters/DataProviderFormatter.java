@@ -67,7 +67,7 @@ public class DataProviderFormatter extends Formatter {
     private void renderEdit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             renderFragment("outputStart");
-            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getDataProvider().getDescription(getLocale())));
+            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getProviderName()));
             renderFragment("outputEditTitle");
             if (handler.hasErrors()) {
                 setAttribute("message", handler.getProviderMessage());
@@ -140,7 +140,7 @@ public class DataProviderFormatter extends Formatter {
     private void renderEditProperties(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             renderFragment("outputStart");
-            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getDataProvider().getDescription(getLocale())));
+            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getProviderName()));
             renderFragment("outputTitle");
             renderFragment("outputFormStart");
             renderFragment("outputStartProperties");
@@ -187,12 +187,13 @@ public class DataProviderFormatter extends Formatter {
                     // To print property names is necessary to call property.getName for each locale and create a i18n Map.
                     // Use of method property.getNameI18nMap() is not correct. This does not apply DataPropertyFormatter pattern,
                     // just returns the Map, although it's empty. Method getName uses DataPropertyFormatter pattern.
-                    Map<Locale, String> names = new HashMap<Locale, String>();
-                    Locale[] locales = getLocaleManager().getPlatformAvailableLocales();
-                    for (Locale locale : locales) {
-                        String name = property.getName(locale);
+                    Map<String,String> names = new HashMap<String,String>();
+                    String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+                    for (int j = 0; j < langs.length; j++) {
+                        String lang = langs[j];
+                        String name = property.getName(new Locale(lang));
                         if (name != null && name.trim().length() > 0)
-                            names.put(locale, StringEscapeUtils.escapeHtml(name));
+                            names.put(lang, StringEscapeUtils.escapeHtml(name));
                     }
                     setAttribute("value", names);
                     renderFragment("outputPropertyTitle");
@@ -246,7 +247,7 @@ public class DataProviderFormatter extends Formatter {
 
                         setAttribute("index", new Integer(i));
                         setAttribute("code", StringEscapeUtils.escapeHtml(dataProvider.getCode()));
-                        setAttribute("dataProviderName", StringEscapeUtils.escapeHtml(dataProvider.getDescription(getLocale())));
+                        setAttribute("dataProviderName", StringEscapeUtils.escapeHtml((String) getLocaleManager().localize(dataProvider.getDescriptionI18nMap())));
                         setAttribute("dataProviderType", StringEscapeUtils.escapeHtml(providerType));
                         setAttribute("canEdit", Boolean.valueOf(dataProvider.isCanEdit()));
                         setAttribute("canEditProperties", Boolean.valueOf(dataProvider.isCanEditProperties()));
@@ -267,7 +268,9 @@ public class DataProviderFormatter extends Formatter {
 
     private final Comparator<DataProvider> DATA_PROVIDER_COMPARATOR = new Comparator<DataProvider>() {
         public int compare(DataProvider d1, DataProvider d2) {
-            int result = ComparatorUtils.compare(d1.getDescription(getLocale()), d2.getDescription(getLocale()), ComparatorByCriteria.ORDER_ASCENDING);
+            String s1 = (String) getLocaleManager().localize(d1.getDescriptionI18nMap());
+            String s2 = (String) getLocaleManager().localize(d2.getDescriptionI18nMap());
+            int result = ComparatorUtils.compare(s1, s2, ComparatorByCriteria.ORDER_ASCENDING);
             if (result == 0) {
                 result = ComparatorUtils.compare(d1.getId(), d2.getId(), ComparatorByCriteria.ORDER_ASCENDING);
             }

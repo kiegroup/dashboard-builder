@@ -194,12 +194,12 @@ public class PanelsHandler extends BeanHandler {
 
                     newInstance.setProvider(provider);
                     newInstance.setWorkspace(workspace);
-                    Locale[] locales = (LocaleManager.lookup()).getPlatformAvailableLocales();
-                    for (int i = 0; i < locales.length; i++) {
-                        Locale locale = locales[i];
-                        String panelTitle = provider.getResource(provider.getDescription(), locale);
+                    String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+                    for (int i = 0; i < langs.length; i++) {
+                        String lang = langs[i];
+                        String panelTitle = provider.getResource(provider.getDescription(), new Locale(lang));
                         if (panelTitle != null)
-                            newInstance.setTitle(StringEscapeUtils.unescapeHtml(panelTitle), locale.toString());
+                            newInstance.setTitle(StringEscapeUtils.unescapeHtml(panelTitle), lang);
                     }
                     // Add instance to workspace
                     workspace.addPanelInstance(newInstance);

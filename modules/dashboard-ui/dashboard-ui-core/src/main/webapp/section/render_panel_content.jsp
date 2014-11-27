@@ -16,10 +16,13 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.workspace.Panel"%>
+<%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
+<i18n:bundle id="bundle" baseName="org.jboss.dashboard.ui.messages" locale="<%=LocaleManager.currentLocale()%>"/>
+
   <mvc:formatter name="org.jboss.dashboard.ui.formatters.RenderPanelContentFormatter">
     <mvc:fragment name="minimized">
         <table cellspacing="0" cellpadding="0" width="100%" height="100%" border="0">

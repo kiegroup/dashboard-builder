@@ -92,12 +92,12 @@ public class PanelHelpManager {
         for (int i = 0; i < paramNames.length; i++) {
             String paramName = paramNames[i];
             writer.write("\n<panel-parameter name=\"" + paramName + "\">");
-            Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int j = 0; j < locales.length; j++) {
-                Locale locale = locales[j];
-                String usage = help.getParameterUsage(paramName, locale);
+            String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+            for (int j = 0; j < langs.length; j++) {
+                String lang = langs[i];
+                String usage = help.getParameterUsage(paramName, new Locale(lang));
                 if (usage != null) {
-                    writeText(writer, usage, locale.toString());
+                    writeText(writer, usage, lang);
                 }
             }
             writer.write("</panel-parameter>");
@@ -106,24 +106,24 @@ public class PanelHelpManager {
 
     protected void writeUsage(Writer writer, PanelHelp help) throws IOException {
         writer.write("\n<usage>");
-        Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-        for (int j = 0; j < locales.length; j++) {
-            Locale locale = locales[j];
-            String usage = help.getUsage(locale);
+        String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+        for (int i = 0; i < langs.length; i++) {
+            String lang = langs[i];
+            String usage = help.getUsage(new Locale(lang));
             if (usage != null)
-                writeText(writer, usage, locale.toString());
+                writeText(writer, usage, lang);
         }
         writer.write("\n</usage>");
     }
 
     protected void writeEditUsage(Writer writer, PanelHelp help) throws IOException {
         writer.write("\n<edit-usage>");
-        Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-        for (int j = 0; j < locales.length; j++) {
-            Locale locale = locales[j];
-            String usage = help.getEditModeUsage(locale);
+        String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+        for (int i = 0; i < langs.length; i++) {
+            String lang = langs[i];
+            String usage = help.getEditModeUsage(new Locale(lang));
             if (usage != null)
-                writeText(writer, usage, locale.toString());
+                writeText(writer, usage, lang);
         }
         writer.write("\n</edit-usage>");
     }

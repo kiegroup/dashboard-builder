@@ -17,9 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataProviderHandler" %>
-<%@ page import="org.jboss.dashboard.ui.formatters.DataProviderFormatter" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
 <%@ page import="java.util.Map" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
@@ -142,15 +140,15 @@
         <mvc:fragmentValue name="propertyId" id="propertyId">
         <td nowrap="nowrap" colspan="2">
           <%
-            Locale[] locales = LocaleManager.lookup().getPlatformAvailableLocales();
-            for (int i = 0; i < locales.length; i++) {
-              Locale locale = locales[i];
+            String[] langs = LocaleManager.lookup().getPlatformAvailableLangs();
+            for (int i = 0; i < langs.length; i++) {
+              String lang = langs[i];
           %>
-          <input id="<factory:encode name="listName"/><%= "_" + propertyId + "_" + locale.toString()%>"
-                 name='name<%="/"+propertyId + "/" + locale.toString()%>'
+          <input id="<factory:encode name="listName"/><%= "_" + propertyId + "_" + lang%>"
+                 name='name<%="/"+propertyId + "/" + lang%>'
                  class="skn-input"
-                 style='<%="width:250px;"+ (locale.getLanguage().equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>'
-                 value='<%=StringUtils.defaultString((value == null || "".equals(value)) ? "" : (String)((Map) value).get(locale))%>'>
+                 style='<%="width:250px;"+ (lang.equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>'
+                 value='<%=StringUtils.defaultString((value == null || "".equals(value)) ? "" : (String)((Map) value).get(lang))%>'>
           <% } %>
                     <select class="skn-input" onchange="
                     var elements = this.form.elements;
@@ -168,12 +166,12 @@
                         }
                     }">
               <%
-                for (int i = 0; i < locales.length; i++) {
-                  Locale locale = locales[i];
+                for (int i = 0; i < langs.length; i++) {
+                  String lang = langs[i];
               %>
-                  <option <%= locale.getLanguage().equals(LocaleManager.currentLang()) ? "selected" : ""%> value="<%=locale%>">
-                    <%=StringUtils.capitalize(locale.getDisplayName(locale))%>
-                  </option>
+              <option <%= lang.equals(LocaleManager.currentLang()) ? "selected" : ""%> value="<%=lang%>">
+                <%=StringUtils.capitalize(LocaleManager.lookup().getLangDisplayName(lang))%>
+              </option>
               <% } %>
               </select>
         </td>

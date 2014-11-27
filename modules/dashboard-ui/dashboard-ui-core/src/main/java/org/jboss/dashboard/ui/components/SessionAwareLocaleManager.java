@@ -39,16 +39,4 @@ public class SessionAwareLocaleManager extends LocaleManager {
         if (ctx != null) ctx.setCurrentLocale(currentLocale);
         else super.setCurrentLocale(currentLocale);
     }
-
-    public Locale getCurrentEditLocale() {
-        SessionContext ctx = getSessionContext();
-        Locale locale = ctx != null ? ctx.getCurrentEditLocale() : super.getCurrentEditLocale();
-        return (locale != null) ? locale : getDefaultLocale();
-    }
-
-    public void setCurrentEditLocale(Locale currentEditLocale) {
-        SessionContext ctx = getSessionContext();
-        if (ctx != null) ctx.setCurrentEditLocale(currentEditLocale);
-        else super.setCurrentEditLocale(currentEditLocale);
-    }
 }
