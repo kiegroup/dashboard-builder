@@ -28,6 +28,8 @@ var ajaxAlertsEnabled = false;
 var ajaxRequestNumber = 0;
 var ajaxMaxRequestNumber = <%=AjaxRefreshManager.lookup().getMaxAjaxRequests()%>;
 var value;
+var ajaxedElements=[];
+var ajaxedRefreshElements=[];
 
 // Boundary for multipart forms.  DO NOT CHANGE IT !!!
 var boundary = "AJAX_Boundary_" + new Date().getMilliseconds() * new Date().getMilliseconds() * new Date().getMilliseconds();
@@ -136,6 +138,8 @@ function doAjaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScri
 
     var ajaxLoadingDivTimeout;
     function beforeAjaxRequest(){
+        ajaxedElements=[];
+        ajaxedRefreshElements=[];
         if (document.getElementById('modalAjaxLoadingDiv')) {
             ajaxLoadingDivTimeout = setTimeout('if(document.body)document.body.style.cursor = "wait"; if(document.getElementById(\'modalAjaxLoadingDiv\')); document.getElementById(\'modalAjaxLoadingDiv\').style.display=\'block\';',300);
         } else {
@@ -435,17 +439,41 @@ function doSetAjax(elementId, onAjaxRequestScript, onAjaxResponseScript) {
     }
 };
 
+function isAjaxed(elementId) {
+    if (!elementId) return false;    
+    for (var i = 0; i < ajaxedElements.length; i++) {
+        if(ajaxedElements[i]==elementId) return true;
+    }
+    return false;
+}
+
 function setAjax(elementId) {
-    if (ajaxRequestNumber > ajaxMaxRequestNumber) return false;
-    setTimeout("doSetAjax('" + elementId + "', null, null)", 1);
+    if (ajaxRequestNumber > ajaxMaxRequestNumber) return false;    
+    if (!isAjaxed(elementId)) {
+        setTimeout("doSetAjax('" + elementId + "', null, null)", 1);
+        ajaxedElements.push(elementId);
+    }
 };
 
 function isFileUploadSupported() {
     return false;
 };
 
+function isRefreshApplied(elementId) {
+    if (!elementId) return false;
+    for (var i = 0; i < ajaxedRefreshElements.length; i++) {
+        if(ajaxedRefreshElements[i]==elementId) return true;
+    }
+    return false;
+}
+
 function refreshPanel(id) {
-    setTimeout("doRefreshPanel('"+ id + "')",10);
+    if (id) {
+        if (!isRefreshApplied(id)) { 
+            setTimeout("doRefreshPanel('"+ id + "')",10);
+            ajaxedRefreshElements.push(id)
+        }
+    }
 };
 
 function doRefreshPanel(id) {
