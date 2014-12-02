@@ -89,7 +89,10 @@ function doAjaxRequest(url, body, tagId, onAjaxRequestScript, onAjaxResponseScri
                     var newElement = document.createElement(element.tagName);
                     newElement.id = element.id;
                     //alert("Setting "+ ajaxHandler.ajaxReq.responseText);
-                    newElement.innerHTML = ajaxHandler.ajaxReq.responseText;
+                    var rText = ajaxHandler.ajaxReq.responseText;
+                    // JBPM-4369 - Fixing IE9 bug that create whitespaces bewtween td elements that produce table column's offsets.
+                    var expr = new RegExp('>[ \t\r\n\v\f]*<', 'g');
+                    newElement.innerHTML = rText.replace(expr, '><');
                     if (ajaxAlertsEnabled) alert("Set " + newElement.outerHTML);
 
                     // remove embedded objects from the old content to avoid js errors caused by flash
