@@ -19,6 +19,7 @@ import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderImpl;
@@ -142,11 +143,16 @@ public class KPIImpl implements KPI {
     }
 
     public DataDisplayer getDataDisplayer() {
-        if (dataDisplayer == null) deserializeDataDisplayer();
+        try {
+            if (dataDisplayer == null) deserializeDataDisplayer();
+        } catch (DataDisplayerInvalidConfiguration dataDisplayerInvalidConfiguration) {
+            // Data displayer is deserialized but does not match with current data provider properties.
+            // Returns the non valid deserialized displayer in order to fix it by the UI.
+        }
         return dataDisplayer;
     }
 
-    public void setDataDisplayer(DataDisplayer dataDisplayer) {
+    public void setDataDisplayer(DataDisplayer dataDisplayer) throws DataDisplayerInvalidConfiguration {
         this.dataDisplayer = dataDisplayer;
         if (dataDisplayer != null) this.dataDisplayer.setDataProvider(dataProvider);
         serializeDataDisplayer();
@@ -211,11 +217,11 @@ public class KPIImpl implements KPI {
             dataDisplayerUid = type.getUid();
             dataDisplayerXML = type.getXmlFormat().format(dataDisplayer);
         } catch (Exception e) {
-            log.error("Error serializing data displayer for KPI: " + id, e);
+            log.error("Error serializing data displayer for KPI with id: " + id, e);
         }
     }
 
-    protected void deserializeDataDisplayer() {
+    protected void deserializeDataDisplayer() throws DataDisplayerInvalidConfiguration{
         try {
             if (dataDisplayerUid == null) return;
             DataDisplayerType type = DataDisplayerServices.lookup().getDataDisplayerManager().getDisplayerTypeByUid(dataDisplayerUid);
@@ -227,14 +233,16 @@ public class KPIImpl implements KPI {
                 }
                 Locale locale = LocaleManager.currentLocale();
                 dataDisplayer.setDataDisplayerType(type);
-                dataDisplayer.setDataProvider(getDataProvider());
                 if (dataDisplayer instanceof AbstractChartDisplayer) {
                     AbstractChartDisplayer displayer = (AbstractChartDisplayer) dataDisplayer;
                     displayer.setTitle(getDescription(locale));
                 }
+                dataDisplayer.setDataProvider(getDataProvider());
             }
+        } catch (DataDisplayerInvalidConfiguration e) {
+            throw e;
         } catch (Exception e) {
-            log.error("Error deserializing data provider for KPI: " + id, e);
+            log.error("Error deserializing data displayer for KPI with id: " + id, e);
         }
     }
 

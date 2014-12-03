@@ -16,6 +16,7 @@
 package org.jboss.dashboard.kpi;
 
 import org.jboss.dashboard.displayer.DataDisplayer;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.database.Persistent;
 
@@ -59,7 +60,7 @@ public interface KPI extends Cloneable, Persistent {
      * The KPI data diplayer.
      */
     DataDisplayer getDataDisplayer();
-    void setDataDisplayer(DataDisplayer displayer);
+    void setDataDisplayer(DataDisplayer displayer) throws DataDisplayerInvalidConfiguration;
 
     /**
      * The KPI data provider.

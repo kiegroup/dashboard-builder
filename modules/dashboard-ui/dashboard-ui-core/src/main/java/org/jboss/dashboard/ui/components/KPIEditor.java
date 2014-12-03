@@ -18,6 +18,7 @@ package org.jboss.dashboard.ui.components;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
@@ -28,6 +29,8 @@ import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.DataDisplayer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import javax.inject.Inject;
@@ -37,6 +40,9 @@ import javax.inject.Named;
 @Named("kpi_editor")
 public class KPIEditor extends KPIViewer {
 
+    /** Logger */
+    private transient static Logger log = LoggerFactory.getLogger(KPIEditor.class);
+    
     /** Get the instance. */
     public static KPIEditor lookup() {
         return CDIBeanLocator.getBeanByType(KPIEditor.class);
@@ -140,5 +146,34 @@ public class KPIEditor extends KPIViewer {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isReady() {
+        return kpi.getDataProvider() != null && kpi.getDataProvider().isReady();
+    }
+
+    @Override
+    public void beforeRenderBean() {
+        super.beforeRenderBean();
+        
+        // If provider definition has changed and the changes collision with current displayer editor configuration, reset the configuration.
+        if (!validate()) {
+            Locale currentLocale = LocaleManager.currentLocale();
+            log.info("Data provider '" + kpi.getDataProvider().getDescription(currentLocale)+ "' definition has been changed. " +
+                    "KPI '" + getKpi().getDescription(currentLocale) + "' configuration has been reinitialized.");
+            
+            DataDisplayer kpiDisplayer = kpi.getDataDisplayer();
+            DataDisplayerType kpiDisplayerType = kpiDisplayer.getDataDisplayerType();
+            DataDisplayer newDisplayer = kpiDisplayerType.createDataDisplayer();
+            newDisplayer.setDefaultSettings();
+            try {
+                kpi.setDataDisplayer(newDisplayer);
+            } catch (DataDisplayerInvalidConfiguration dataDisplayerInvalidConfiguration) {
+                // This situation can never occur as data displayer validation against the data provider has been done some lines above.
+            }
+            setKpi(kpi);
+        }
+        
     }
 }

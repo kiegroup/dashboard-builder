@@ -15,26 +15,27 @@
  */
 package org.jboss.dashboard.ui.panel.dashboard;
 
+import org.jboss.dashboard.provider.DataProperty;
+import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.DashboardFilter;
+import org.jboss.dashboard.ui.components.DashboardFilterHandler;
 import org.jboss.dashboard.ui.components.DashboardFilterProperty;
 import org.jboss.dashboard.ui.components.DashboardHandler;
+import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowPanelPage;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
-import org.jboss.dashboard.provider.DataProvider;
-import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.parameters.StringParameter;
-import org.jboss.dashboard.ui.controller.CommandResponse;
-import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.components.DashboardFilterHandler;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DashboardFilterDriver extends PanelDriver implements DashboardDriver {
 
@@ -127,8 +128,24 @@ public class DashboardFilterDriver extends PanelDriver implements DashboardDrive
         if (handler == null) return results; // It happens on drill down.
 
         for (DashboardFilterProperty filterProperty : handler.getVisibleProperties()) {
-            DataProvider dataProvider = filterProperty.getDataProperty().getDataSet().getDataProvider();
-            results.add(dataProvider);
+            DataProperty property = filterProperty.getDataProperty();
+            if (property != null) {
+                DataProvider dataProvider = property.getDataSet().getDataProvider();
+                results.add(dataProvider);
+            } else {
+                log.info("Filter property '" + filterProperty.getPropertyId() + "' is no longer available in data provider. Removing from filter.");
+
+                // If the filtered property is no longer available in the data provider, remove it from being filtered properties.
+                DashboardFilterHandler filterHandler = getDashboardFilterHandler(panel);
+                DashboardFilterProperty[] filteredProperties = filterHandler.getBeingFilteredProperties();
+                for (int i = 0; i < filteredProperties.length; i++) {
+                    DashboardFilterProperty dashboardFilterProperty = filteredProperties[i];
+                    if (dashboardFilterProperty.getPropertyId().equals(filterProperty.getPropertyId())) {
+                        filterHandler.getFilter().removeProperty(filterProperty.getPropertyId());
+                    }
+                }
+                
+            }
         }
         return results;
     }

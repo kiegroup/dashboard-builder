@@ -16,6 +16,7 @@
 package org.jboss.dashboard.displayer.chart;
 
 import org.jboss.dashboard.displayer.DataDisplayer;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 
 public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
 
@@ -48,7 +49,7 @@ public abstract class AbstractXAxisDisplayer extends AbstractChartDisplayer {
         this.showLinesArea = showLinesArea;
     }
 
-    public void copyFrom(DataDisplayer sourceDisplayer) {
+    public void copyFrom(DataDisplayer sourceDisplayer) throws DataDisplayerInvalidConfiguration {
         try {
             super.copyFrom(sourceDisplayer);
 
