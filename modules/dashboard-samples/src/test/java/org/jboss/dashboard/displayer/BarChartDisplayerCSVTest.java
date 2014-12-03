@@ -86,7 +86,7 @@ public class BarChartDisplayerCSVTest {
     }
 
     @Test
-    public void buildDataSet() {
+    public void buildDataSet() throws Exception {
         // Read properties
         Assertions.assertThat(dataSet).isNotNull();
         DataProperty propDept = dataSet.getPropertyById("department");

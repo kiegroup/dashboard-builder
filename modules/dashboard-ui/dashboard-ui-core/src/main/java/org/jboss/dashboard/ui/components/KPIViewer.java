@@ -19,23 +19,29 @@ import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.kpi.KPIListener;
 import org.jboss.dashboard.kpi.KPIListenerAdapter;
 import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
-import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Locale;
 
 @PanelScoped
 @Named("kpi_viewer")
 public class KPIViewer extends UIBeanHandler {
 
+    /** Logger */
+    private transient static Logger log = LoggerFactory.getLogger(KPIViewer.class);
+    
     /** Get the instance. */
     public static KPIViewer lookup() {
         return CDIBeanLocator.getBeanByType(KPIViewer.class);
@@ -83,7 +89,7 @@ public class KPIViewer extends UIBeanHandler {
     }
 
     public boolean isReady() {
-        return kpi.getDataProvider() != null && kpi.getDataProvider().isReady();
+        return kpi.getDataProvider() != null && kpi.getDataProvider().isReady() && validate();
     }
 
     // UIBeanHandler interface
@@ -92,6 +98,24 @@ public class KPIViewer extends UIBeanHandler {
         return this.viewJSP;
     }
 
+    /**
+     * BZ-1100635: Check if data provider definition (all properties) match with the serialized in the current displayer
+     */
+    protected boolean validate() {
+        if (kpi.getDataDisplayer() != null) {
+            try {
+                kpi.getDataDisplayer().validate(kpi.getDataProvider());
+            } catch (DataDisplayerInvalidConfiguration dataDisplayerConfigurationInvalid) {
+                Locale currentLocale = LocaleManager.currentLocale();
+                log.info("Data provider '" + kpi.getDataProvider().getDescription(currentLocale)+ "' definition has been changed. " +
+                        "KPI '" + getKpi().getDescription(currentLocale) + "' must be reconfigured.");
+
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public void beforeRenderBean() {
         // The displayer's title must be the kpi's description.
         // So set it before render the component.

@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer;
 
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.provider.DataProvider;
 
 /**
@@ -30,9 +31,11 @@ public interface DataDisplayer extends Cloneable {
 
     /**
      * The data provider which feeds this displayer with data.
+     * 
+     * @throws IllegalArgumentException If a property in data displayer is not present in the given data provider.
      */
     DataProvider getDataProvider();
-    void setDataProvider(DataProvider provider);
+    void setDataProvider(DataProvider provider) throws DataDisplayerInvalidConfiguration;
 
     /**
      * The library used to render the displayer.
@@ -48,6 +51,15 @@ public interface DataDisplayer extends Cloneable {
     /**
      * Copies the configuration of one displayer into this.
      * @param source The displayer with the configuration to copy.
+     * @throws IllegalArgumentException If a property in data displayer is not present in the given data provider.
      */
-    void copyFrom(DataDisplayer source);
+    void copyFrom(DataDisplayer source) throws DataDisplayerInvalidConfiguration;
+
+    /**
+     * Check if the current displayer properties are present in the given data provider.
+     * 
+     * @param provider The data provider.
+     * @throws IllegalArgumentException If a property in data displayer is not present in the given data provider.
+     */
+    void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration;
 }

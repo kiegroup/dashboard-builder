@@ -15,21 +15,22 @@
  */
 package org.jboss.dashboard.displayer.chart;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.AbstractDataDisplayer;
 import org.jboss.dashboard.displayer.DataDisplayer;
-import org.jboss.dashboard.provider.DataProperty;
-import org.jboss.dashboard.provider.DataProvider;
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.domain.DomainConfiguration;
 import org.jboss.dashboard.domain.RangeConfiguration;
-import org.jboss.dashboard.function.ScalarFunction;
 import org.jboss.dashboard.function.CountFunction;
-import org.jboss.dashboard.dataset.DataSet;
-import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.function.ScalarFunction;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
-import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.provider.DataProperty;
+import org.jboss.dashboard.provider.DataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,13 +110,17 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         marginBottom=30;
     }
 
-    public void setDataProvider(DataProvider dp) {
+    public void setDataProvider(DataProvider dp) throws DataDisplayerInvalidConfiguration {
+        dataProvider = dp;
+
+        // If data provider definition does not match with displayer configuration, do not set the provider to the table object.
+        validate(dp);
+        
         if (dataProvider != null && !dataProvider.equals(dp)) {
             // If the provider changes then reset the current configuration.
             setDomainProperty(null);
             setRangeProperty(null);
         }
-        dataProvider = dp;
     }
 
     /**
@@ -159,6 +164,44 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         return false;
     }
 
+    /**
+     * Check if data provider definition (all properties) match with the serialized in the current displayer.
+     * @param provider The data provider.
+     * @throws org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration Current displayer configuration is invalid.
+     */
+    @Override
+    public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
+        if (provider != null) {
+            boolean hasChanged = hasProviderPropertiesChanged(getDomainProperty(), provider) || hasProviderPropertiesChanged(getRangeProperty(), provider);
+            if (hasChanged) throw new DataDisplayerInvalidConfiguration();    
+        }
+    }
+
+    /**
+     * Check if a data provider property match with the serialized in the displayer.
+     * @param property The data property from this displayer to check if exist in the data provider.
+     * @param dataProvider The current data provider definition.
+     * @return If the data displayer property exists in current data provider.
+     */
+    public boolean hasProviderPropertiesChanged(DataProperty property, DataProvider dataProvider) {
+        if (property == null) return false;
+        
+        try {
+            DataSet dataSet = dataProvider.getDataSet();
+            DataProperty[] datasetProperties = dataSet.getProperties();
+            if (datasetProperties != null && datasetProperties.length > 0) {
+                for (DataProperty datasetProperty : datasetProperties) {
+                    String datasetPropertyId = datasetProperty.getPropertyId();
+                    if (datasetPropertyId.equals(property.getPropertyId())) return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("Error getting data set.", e);
+        }
+        return false;
+    }
+    
     /**
      * Get the property selected as the domain.
      */
@@ -430,7 +473,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         }
     }
 
-    public void copyFrom(DataDisplayer sourceDisplayer) {
+    public void copyFrom(DataDisplayer sourceDisplayer) throws DataDisplayerInvalidConfiguration {
         try {
             super.copyFrom(sourceDisplayer);
 

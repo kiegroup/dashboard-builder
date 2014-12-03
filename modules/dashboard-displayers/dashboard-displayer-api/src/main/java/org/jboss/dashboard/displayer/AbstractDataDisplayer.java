@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.displayer;
 
+import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;
 import org.jboss.dashboard.provider.DataProvider;
 
 import java.util.List;
@@ -42,8 +43,13 @@ public abstract class AbstractDataDisplayer implements DataDisplayer {
         this.dataDisplayerType = type;
     }
 
-    public void setDataProvider(DataProvider dp) {
+    public void setDataProvider(DataProvider dp) throws DataDisplayerInvalidConfiguration {
+
+        // If provider is valid, set it.
         dataProvider = dp;
+
+        // If data provider definition does not match with displayer configuration, do not set the provider to the table object.
+        validate(dp);
     }
 
     public DataProvider getDataProvider() {
@@ -70,7 +76,7 @@ public abstract class AbstractDataDisplayer implements DataDisplayer {
         getDataDisplayerRenderer().setDefaultSettings(this);
     }
 
-    public void copyFrom(DataDisplayer sourceDisplayer) {
+    public void copyFrom(DataDisplayer sourceDisplayer) throws DataDisplayerInvalidConfiguration {
         try {
             AbstractDataDisplayer source = (AbstractDataDisplayer) sourceDisplayer;
             setDataDisplayerRenderer(source.getDataDisplayerRenderer());
