@@ -36,27 +36,14 @@ public class ResponseHeadersProcessor extends AbstractChainProcessor {
     @Inject @Config("text/html")
     private String responseContentType;
 
-    @Inject @Config("false")
-    private boolean xssProtectionEnabled;
-
-    @Inject @Config("false")
-    private boolean xssProtectionBlock;
-
-    /** There are three possible values for the X-Frame-Options headers:<ul>
-     *  <li>DENY, which prevents any domain from framing the content.</li>
-     *  <li>SAMEORIGIN, which only allows the current site to frame the content.</li>
-     *  <li>ALLOW-FROM uri, which permits the specified 'uri' to frame this page. (e.g., ALLOW-FROM http://www.example.com) The ALLOW-FROM option is a relatively recent addition (circa 2012) and may not be supported by all browsers yet. BE CAREFUL ABOUT DEPENDING ON ALLOW-FROM. If you apply it and the browser does not support it, then you will have NO clickjacking defense in place.</li>
-     * </ul>
-     */
-    @Inject @Config("")
-    private String xFrameOptions;
-
     public boolean processRequest() throws Exception {
         HttpServletRequest request = getHttpRequest();
         HttpServletResponse response = getHttpResponse();
+        HTTPSettings httpSettings = HTTPSettings.lookup();
+
         if (responseContentType != null && !"".equals(responseContentType)) {
             response.setContentType(responseContentType);
-            response.setHeader("Content-Type", responseContentType + "; charset=" + HTTPSettings.lookup().getEncoding());
+            response.setHeader("Content-Type", responseContentType + "; charset=" + httpSettings.getEncoding());
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.US);
         response.setHeader("Expires", "Mon, 06 Jan 2003 21:29:02 GMT");
@@ -64,12 +51,12 @@ public class ResponseHeadersProcessor extends AbstractChainProcessor {
         response.setHeader("Cache-Control", "no-cache, must-revalidate");
         response.setHeader("Pragma", "no-cache");
 
-        if (xssProtectionEnabled) {
-            if (xssProtectionBlock) response.setHeader("X-XSS-Protection", "1; mode=block");
+        if (httpSettings.isXSSProtectionEnabled()) {
+            if (httpSettings.isXSSProtectionBlock()) response.setHeader("X-XSS-Protection", "1; mode=block");
             else response.setHeader("X-XSS-Protection", "1");
         }
-        if (!StringUtils.isBlank(xFrameOptions)) {
-            response.setHeader("X-FRAME-OPTIONS", xFrameOptions);
+        if (!StringUtils.isBlank(httpSettings.getXFrameOptions())) {
+            response.setHeader("X-FRAME-OPTIONS", httpSettings.getXFrameOptions());
         }
         if (useRefreshHeader) {
             response.setHeader("Refresh", java.lang.String.valueOf(request.getSession().getMaxInactiveInterval() + 61));

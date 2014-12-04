@@ -31,8 +31,22 @@ else
   GCHARTS_ENABLED=-DGoogleDisplayerRenderer.enabled=false
   GCHARTS_API_URL=-DGoogleDisplayerRenderer.jsApiUrl=https://www.google.com/jsapi
 
-  echo mvn jetty:run -P $1,jetty $LOCALE_DEFAULT $LOCALE_INSTALLED $DS_SIZE $DS_MEM_USE $DS_LOAD_TIME $DS_FILTER_TIME $DS_GROUP_TIME $DS_SORT_TIME $FILTER_MAX_ENTRIES $GCHARTS_ENABLED $GCHARTS_API_URL $OFC2_ENABLED
-  mvn jetty:run -P $1,jetty $LOCALE_DEFAULT $LOCALE_INSTALLED $DS_SIZE $DS_MEM_USE $DS_LOAD_TIME $DS_FILTER_TIME $DS_GROUP_TIME $DS_SORT_TIME $FILTER_MAX_ENTRIES $GCHARTS_ENABLED $GCHARTS_API_URL $OFC2_ENABLED
+  # XSS Protection
+  XXS_PROTECTION=-DHTTPSettings.XSSProtectionEnabled=true
+
+  # Frame busting prevention:
+  #
+  # - DENY, which prevents any domain from framing the content.
+  # - SAMEORIGIN,  which only allows the current site to frame the content.
+  # - ALLOW-FROM uri, which permits the specified 'uri' to frame this page. (e.g., ALLOW-FROM http://www.example.com)
+  #   (The ALLOW-FROM option is a relatively recent addition (circa 2012) and may not be supported by all browsers yet.
+  #    BE CAREFUL ABOUT DEPENDING ON ALLOW-FROM. If you apply it and the browser does not support it,
+  #    then you will have NO clickjacking defense in place)
+  #
+  XFRAME_OPTIONS=-DHTTPSettings.XFrameOptions=SAMEORIGIN
+
+  echo mvn jetty:run -P $1,jetty $LOCALE_DEFAULT $LOCALE_INSTALLED $DS_SIZE $DS_MEM_USE $DS_LOAD_TIME $DS_FILTER_TIME $DS_GROUP_TIME $DS_SORT_TIME $FILTER_MAX_ENTRIES $GCHARTS_ENABLED $GCHARTS_API_URL $OFC2_ENABLED $XXS_PROTECTION $XFRAME_OPTIONS
+  mvn jetty:run -P $1,jetty $LOCALE_DEFAULT $LOCALE_INSTALLED $DS_SIZE $DS_MEM_USE $DS_LOAD_TIME $DS_FILTER_TIME $DS_GROUP_TIME $DS_SORT_TIME $FILTER_MAX_ENTRIES $GCHARTS_ENABLED $GCHARTS_API_URL $OFC2_ENABLED $XXS_PROTECTION $XFRAME_OPTIONS
 fi
 
 
