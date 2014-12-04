@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.DashboardSettings;
 import org.jboss.dashboard.workspace.Section;
@@ -251,7 +252,7 @@ public class DashboardFilterFormatter extends Formatter {
                     if (property.isStaticProperty())
                         dataProviderName = getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "staticProperty");
                     else {
-                        DataProvider provider = getDashboardFilterHandler().getDashboard().getDataProviderByCode(property.getDataProviderCode());
+                        DataProvider provider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(property.getDataProviderCode());
                         dataProviderName = provider.getDescription(getLocale());
                     }
                 } catch (Exception e) {
@@ -282,11 +283,17 @@ public class DashboardFilterFormatter extends Formatter {
             Iterator it = notAllowedProps.iterator();
             while (it.hasNext()) {
                 DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
-                DataProvider provider = getDashboardFilterHandler().getDashboard().getDataProviderByCode(dashboardFilterProperty.getDataProviderCode());
-                String dataProviderName = StringEscapeUtils.escapeHtml(provider.getDescription(getLocale()));
-                setAttribute("dataProviderName", dataProviderName);
-                setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
-                renderFragment("outputNotAllowedProperty");
+                String providerCode = dashboardFilterProperty.getDataProviderCode();
+                try {
+                    DataProvider provider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(providerCode);
+                    String dataProviderName = StringEscapeUtils.escapeHtml(provider.getDescription(getLocale()));
+                    setAttribute("dataProviderName", dataProviderName);
+                    setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
+                    renderFragment("outputNotAllowedProperty");
+                } catch (Exception e) {
+                    log.error("Cannot get data provider with code " + providerCode);
+                    continue;
+                }
             }
             renderFragment("outputNotAllowedPropertiesEnd");
         }

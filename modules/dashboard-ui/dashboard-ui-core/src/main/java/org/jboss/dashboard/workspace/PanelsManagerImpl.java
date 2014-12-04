@@ -105,7 +105,7 @@ public class PanelsManagerImpl implements PanelsManager {
         }
     }
 
-    public Panel getPaneltByDbId(final Long panelId) throws Exception {
+    public Panel getPanelByDbId(final Long panelId) throws Exception {
         if (panelId != null) {
             final List<Panel> results = new ArrayList<Panel>();
             new HibernateTxFragment() {
@@ -130,7 +130,7 @@ public class PanelsManagerImpl implements PanelsManager {
         return null;
     }
 
-    public Panel getPaneltById(final Long panelId) throws Exception {
+    public Panel getPanelById(final Long panelId) throws Exception {
         final List<Panel> results = new ArrayList<Panel>();
         new HibernateTxFragment() {
         protected void txFragment(Session session) throws Exception {

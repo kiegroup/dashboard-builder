@@ -71,7 +71,7 @@ public class RequestDispatcher extends AbstractChainProcessor {
         Panel panel = currentPage.getPanel(idPanel);
         if (panel == null) {
             // If not found then try to get the panel from wherever the request comes from.
-            panel = UIServices.lookup().getPanelsManager().getPaneltById(new Long(idPanel));
+            panel = UIServices.lookup().getPanelsManager().getPanelById(new Long(idPanel));
             if (panel == null) {
                 log.error("Cannot dispatch to panel " + idPanel + ". Panel not found.");
                 return true;

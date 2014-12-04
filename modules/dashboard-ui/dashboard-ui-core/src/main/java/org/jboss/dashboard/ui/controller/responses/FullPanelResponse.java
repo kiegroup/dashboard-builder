@@ -35,7 +35,7 @@ public class FullPanelResponse implements CommandResponse {
 
     public Panel getPanel() throws Exception {
         if (panelId == null) return null;
-        return UIServices.lookup().getPanelsManager().getPaneltByDbId(panelId);
+        return UIServices.lookup().getPanelsManager().getPanelByDbId(panelId);
     }
 
     public boolean execute(CommandRequest cmdReq) throws Exception {

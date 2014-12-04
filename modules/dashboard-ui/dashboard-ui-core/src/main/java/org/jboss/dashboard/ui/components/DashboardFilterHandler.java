@@ -743,8 +743,8 @@ public class DashboardFilterHandler extends UIBeanHandler {
         DashboardFilterProperty[] beingFilteredProps = getBeingFilteredProperties();
         for (int i = 0; i < beingFilteredProps.length; i++) {
             List dfProperties = Arrays.asList(filter.getPropertyIds());
-            DashboardFilterProperty beignFilteredProp = beingFilteredProps[i];
-            if (!dfProperties.contains(beignFilteredProp.getPropertyId())) beignFilteredProp.setBeingFiltered(false);
+            DashboardFilterProperty beingFilteredProp = beingFilteredProps[i];
+            if (!dfProperties.contains(beingFilteredProp.getPropertyId())) beingFilteredProp.setBeingFiltered(false);
         }
 
         // Check filtered properties and hide from available filter properties (set property not visible)

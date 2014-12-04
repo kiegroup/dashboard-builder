@@ -57,9 +57,7 @@ public class PanelSession implements HttpSession {
      */
     private String currentPageId = null;
 
-    private String workspaceId;
-    private Long pageId;
-    private Long panelId;
+    private Long panelDbId;
 
     /**
      * Stored values
@@ -77,26 +75,19 @@ public class PanelSession implements HttpSession {
     }
 
     public PanelSession(Panel panel) {
-        setPanel(panel);
+        panelDbId = panel.getDbid();
+        String workspaceId = panel.getWorkspace().getId();
+        Long pageId = panel.getSection().getId();
+        attributePrefix = "_panel_" + workspaceId + "." + pageId + "." + panelDbId + ".";
     }
 
     public Panel getPanel() {
-        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
         try {
-            WorkspaceImpl workspace = ((WorkspaceImpl) workspacesManager.getWorkspace(workspaceId));
-            Section section = workspace.getSection(pageId);
-            return section.getPanel(panelId.toString());
+            return UIServices.lookup().getPanelsManager().getPanelByDbId(panelDbId);
         } catch (Exception e) {
             log.error("Error: ", e);
             return null;
         }
-    }
-
-    public void setPanel(Panel panel) {
-        workspaceId = panel.getWorkspace().getId();
-        pageId = panel.getSection().getId();
-        panelId = panel.getPanelId();
-        attributePrefix = "_panel_" + workspaceId + "." + pageId + "." + panelId + ".";
     }
 
     public String getCurrentPageId() {
