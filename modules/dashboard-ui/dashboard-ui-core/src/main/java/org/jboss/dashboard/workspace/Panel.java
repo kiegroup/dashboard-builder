@@ -463,7 +463,7 @@ public class Panel implements Cloneable, Comparable<Panel>, Visitable {
     public PanelSession getPanelSession() {
         RequestContext reqCtx = RequestContext.lookup();
         HttpSession session = reqCtx.getRequest().getSessionObject();
-        String key = "_panel_" + getWorkspace().getId() + "." + getSection().getId() + "." + getPanelId();
+        String key = "_panel_" + getWorkspace().getId() + "." + getSection().getId() + "." + getDbid();
         PanelSession panelStatus = (PanelSession) session.getAttribute(key);
 
         if (panelStatus == null) {

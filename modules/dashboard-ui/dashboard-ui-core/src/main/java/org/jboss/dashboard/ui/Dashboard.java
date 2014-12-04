@@ -154,22 +154,16 @@ public class Dashboard {
 
     public Set<DataProvider> getDataProviders() {
         Set<DataProvider> results = new HashSet<DataProvider>();
-        for (Panel panel : getSection().getPanels()) {
+        Section section = getSection();
+        if (section == null) return results;
+
+        for (Panel panel : section.getPanels()) {
             KPI kpi = DashboardHandler.lookup().getKPI(panel);
 
             // The KPI is null if the panel is not assigned to a region.
             if (kpi != null) results.add(kpi.getDataProvider());
         }
         return results;
-    }
-
-    public DataProvider getDataProviderByCode(String code) {
-        if (code == null) return null;
-        for (Object o : getDataProviders()) {
-            DataProvider p = (DataProvider) o;
-            if (code.equals(p.getCode())) return p;
-        }
-        return null;
     }
 
     /**

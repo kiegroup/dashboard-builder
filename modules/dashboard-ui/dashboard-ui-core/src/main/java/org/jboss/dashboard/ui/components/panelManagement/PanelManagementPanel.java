@@ -22,7 +22,6 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
-import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
@@ -110,7 +109,7 @@ public abstract class PanelManagementPanel extends PanelComponent {
     }
 
     protected Panel getPanel() throws Exception {
-        return UIServices.lookup().getPanelsManager().getPaneltByDbId(panelId);
+        return UIServices.lookup().getPanelsManager().getPanelByDbId(panelId);
     }
 
     protected WorkspaceImpl getWorkspace() throws Exception {

@@ -47,12 +47,12 @@ public interface PanelsManager extends ListenerQueue {
     /**
      * Get a panel by its logical id.
      */
-    Panel getPaneltById(Long panelId) throws Exception;
+    Panel getPanelById(Long panelId) throws Exception;
 
     /**
      * Get a panel by its database id.
      */
-    Panel getPaneltByDbId(Long panelId) throws Exception;
+    Panel getPanelByDbId(Long panelId) throws Exception;
 
     /**
      * Get a set of panels containing a parameter with a given value.

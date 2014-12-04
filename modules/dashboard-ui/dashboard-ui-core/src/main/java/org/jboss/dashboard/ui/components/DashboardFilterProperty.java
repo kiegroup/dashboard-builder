@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.provider.DataFormatterRegistry;
 import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.provider.DataPropertyFormatter;
@@ -51,12 +52,12 @@ public class DashboardFilterProperty {
         this(property.getDataSet().getDataProvider().getCode(), property.getPropertyId(), filter, null, false);
     }
 
-    public DashboardFilterProperty(String dataProviderCode, String propertyId, DashboardFilter filter, Long sectionId, boolean isBeignFiltered) {
+    public DashboardFilterProperty(String dataProviderCode, String propertyId, DashboardFilter filter, Long sectionId, boolean isBeingFiltered) {
         this.filter = filter;
         this.dataProviderCode = dataProviderCode;
         this.propertyId = propertyId;
         this.sectionId = sectionId;
-        this.isBeingFiltered = isBeignFiltered;
+        this.isBeingFiltered = isBeingFiltered;
         this.visible = false;
     }
 
@@ -114,8 +115,8 @@ public class DashboardFilterProperty {
         return isBeingFiltered;
     }
 
-    public void setBeingFiltered(boolean isBeignFiltered) {
-        this.isBeingFiltered = isBeignFiltered;
+    public void setBeingFiltered(boolean isBeingFiltered) {
+        this.isBeingFiltered = isBeingFiltered;
     }
 
     public boolean equals(Object obj) {
@@ -134,7 +135,7 @@ public class DashboardFilterProperty {
     public DataProperty getDataProperty() {
         if (isStaticProperty()) return null;
         try {
-            DataProvider provider = filter.getDashboard().getDataProviderByCode(dataProviderCode);
+            DataProvider provider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(dataProviderCode);
             if (provider != null) return provider.getDataSet().getPropertyById(propertyId);
             return null;
         } catch (Exception e) {
