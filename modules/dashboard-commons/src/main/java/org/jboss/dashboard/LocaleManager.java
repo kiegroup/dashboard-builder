@@ -42,13 +42,13 @@ public class LocaleManager {
     /**
      * The list of locales supported.
      */
-    @Inject @Config("en_GB,es,de,fr,pt,ja,zh")
+    @Inject @Config("en,es,de,fr,pt,ja,zh")
     protected String[] installedLocaleIds;
 
     /**
      * The default localeId.
      */
-    @Inject @Config("en_GB")
+    @Inject @Config("en")
     protected String defaultLocaleId;
 
     private transient Locale[] availableLocales;
