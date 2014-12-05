@@ -32,16 +32,29 @@
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
+<i18n:bundle baseName="org.jboss.dashboard.displayer.ofc2.messages" locale="<%= LocaleManager.currentLocale() %>" />
 <%
   AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
   OFC2ChartViewer viewer = (OFC2ChartViewer) request.getAttribute("viewer");
   boolean animateChart = (editor == null);
   AbstractChartDisplayer displayer = (AbstractChartDisplayer) viewer.getDataDisplayer();
   DataSet xyDataSet = displayer.buildXYDataSet();
+
   if (xyDataSet == null) {
 %>
-<span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
+    <span class="skn-error">
+      <i18n:message key="ofc2.error">The data cannot be displayed due to an unexpected problem</i18n:message>
+    </span>
 <%
+    return;
+  }
+  if (xyDataSet.getRowCount() == 0) {
+%>
+    <table width="<%= displayer.getWidth()%>" height="<%= displayer.getHeight()%>">
+      <tr><td align="center" valign="center"><i18n:message key="ofc2.noData">NO DATA</i18n:message></td></tr>
+    </table>
+<%
+    return;
   }
 
   Locale locale = LocaleManager.currentLocale();
