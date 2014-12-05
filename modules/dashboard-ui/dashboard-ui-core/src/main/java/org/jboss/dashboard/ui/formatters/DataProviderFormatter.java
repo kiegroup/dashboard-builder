@@ -21,6 +21,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.provider.*;
+import org.jboss.dashboard.ui.controller.requestChain.KPIProcessor;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.commons.comparator.ComparatorUtils;
@@ -40,6 +41,8 @@ import java.text.MessageFormat;
 import java.util.*;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.jboss.dashboard.workspace.Panel;
+import org.jboss.dashboard.workspace.Workspace;
 import org.slf4j.Logger;
 
 public class DataProviderFormatter extends Formatter {
@@ -61,6 +64,7 @@ public class DataProviderFormatter extends Formatter {
         if (handler.isEdit()) renderEdit(httpServletRequest, httpServletResponse);
         else if (handler.isCreate()) renderCreate(httpServletRequest, httpServletResponse);
         else if (handler.isEditProperties()) renderEditProperties(httpServletRequest, httpServletResponse);
+        else if (handler.isRemove()) renderRemove(httpServletRequest, httpServletResponse);
         else renderShow(httpServletRequest, httpServletResponse);
     }
 
@@ -231,20 +235,7 @@ public class DataProviderFormatter extends Formatter {
                     for (DataProvider dataProvider : orderedDataProviders) {
                         if (dataProvider == null) continue;
 
-                        int numberOfKPIs = 0;
-                        setAttribute("usedByOtherKpis", Boolean.FALSE);
-                        for (KPI kpi : kpis) {
-                            if (kpi.getDataProvider().equals(dataProvider)) numberOfKPIs++;
-                        }
-
                         String providerType = dataProvider.getDataProviderType().getDescription(getLocale());
-                        ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", getLocale());
-                        String deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "confirmDelete");
-                        if (numberOfKPIs > 0) {
-                            deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "cannotDelete");
-                            deleteMessage = MessageFormat.format(deleteMessage, numberOfKPIs);
-                        }
-
                         setAttribute("index", new Integer(i));
                         setAttribute("code", StringEscapeUtils.escapeHtml(dataProvider.getCode()));
                         setAttribute("dataProviderName", StringEscapeUtils.escapeHtml((String) getLocaleManager().localize(dataProvider.getDescriptionI18nMap())));
@@ -252,8 +243,6 @@ public class DataProviderFormatter extends Formatter {
                         setAttribute("canEdit", Boolean.valueOf(dataProvider.isCanEdit()));
                         setAttribute("canEditProperties", Boolean.valueOf(dataProvider.isCanEditProperties()));
                         setAttribute("canDelete", Boolean.valueOf(dataProvider.isCanDelete()));
-                        setAttribute("numberOfKPIs", numberOfKPIs);
-                        setAttribute("deleteMessage", deleteMessage);
                         renderFragment("outputDataProvider");
                         i++;
                     }
@@ -261,6 +250,70 @@ public class DataProviderFormatter extends Formatter {
                 }
                 renderFragment("outputEnd");
             }
+        } catch (Exception e) {
+            log.error("Cannot render data providers.", e);
+        }
+    }
+
+    private void renderRemove(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        try {
+            KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
+            Set<KPI> kpis = kpiManager.getAllKPIs();
+
+            DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
+            DataProvider provider = dataProviderManager.getDataProviderById(handler.getDataProviderId());
+
+            renderFragment("outputStart");
+
+            if (provider != null) {
+                setAttribute("description",provider.getDescription(localeManager.getCurrentLocale()) );
+                renderFragment("outputTitle");
+
+                // Get the list of KPI that are using this data provider.
+                List<KPI> providerKpis = new ArrayList<KPI>();
+                int kpiCount = 0;
+                for (KPI kpi : kpis) {
+                    if (kpi.getDataProvider().getCode().equals(provider.getCode())) {
+                        providerKpis.add(kpi);
+                        kpiCount++;
+                    }
+                }
+                
+                if (!providerKpis.isEmpty()) {
+                    renderFragment("outputTableStart");
+                    renderFragment("outputKpiHeaders");
+                    
+                    int i = 0;
+                    for (KPI kpi : providerKpis) {
+                        String kpiDescription = kpi.getDescription(localeManager.getCurrentLocale());
+                        setAttribute("description", kpiDescription);
+                        Panel kpiPanel = KPIProcessor.getKPIPanel(kpi);
+                        if (kpiPanel != null) {
+                            String kpiPanelTitle = kpiPanel.getTitle().get(localeManager.getCurrentLang());
+                            setAttribute("pageTitle", kpiPanelTitle);
+                            Workspace kpiWorkspace = kpiPanel.getWorkspace();
+                            if (kpiWorkspace != null) {
+                                String kpiWorkspaceTitle = kpiWorkspace.getTitle().get(localeManager.getCurrentLang());
+                                setAttribute("workspaceTitle", kpiWorkspaceTitle);
+                            }
+                        }
+                        setAttribute("index", new Integer(i));
+                        renderFragment("outputKpi");
+                        i++;
+                    }
+
+                    renderFragment("outputTableEnd");
+                    ResourceBundle i18n = localeManager.getBundle("org.jboss.dashboard.displayer.messages", getLocale());
+                    String deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "cannotDelete");
+                    deleteMessage = MessageFormat.format(deleteMessage, kpiCount);
+                    setAttribute("message", deleteMessage);
+                    renderFragment("outputMessage");
+                }
+            }
+
+            renderFragment("outputButtons");
+            renderFragment("outputEnd");
+            
         } catch (Exception e) {
             log.error("Cannot render data providers.", e);
         }
