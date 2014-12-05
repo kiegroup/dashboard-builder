@@ -307,7 +307,9 @@ public class DataProviderFormatter extends Formatter {
                     String deleteMessage = i18n.getString(DataProviderHandler.I18N_PREFFIX + "cannotDelete");
                     deleteMessage = MessageFormat.format(deleteMessage, kpiCount);
                     setAttribute("message", deleteMessage);
-                    renderFragment("outputMessage");
+                    renderFragment("outputKPIMessage");
+                } else {
+                    renderFragment("outputNO_KPIMessage");
                 }
             }
 

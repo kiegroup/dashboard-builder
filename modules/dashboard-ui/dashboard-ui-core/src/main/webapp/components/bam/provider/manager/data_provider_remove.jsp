@@ -96,7 +96,7 @@
         </tr>
     </mvc:fragment>
 
-    <mvc:fragment name="outputMessage">
+    <mvc:fragment name="outputKPIMessage">
         <mvc:fragmentValue name="message" id="message">
             <tr style="height: 10px;">
                 <td>
@@ -110,13 +110,21 @@
             </tr>
         </mvc:fragmentValue>
     </mvc:fragment>
-    
-    <mvc:fragment name="outputButtons">
+
+    <mvc:fragment name="outputNO_KPIMessage">
+        <tr style="height: 10px;">
+            <td>
+                &nbsp;
+            </td>
+        </tr>
         <tr>
             <td>
                 <i18n:message bundleRef="bundle"  key='<%=DataProviderHandler.I18N_PREFFIX + "confirmDelete"%>'>!!!Seguro que desea eliminar el proveedor de datos</i18n:message>
             </td>
         </tr>
+    </mvc:fragment>
+    
+    <mvc:fragment name="outputButtons">
         <tr>
             <td width="100%" align="center" style="padding-top: 10px;">
                 <input class="skn-button" type="button" value="<i18n:message bundleRef="bundleUI" key='ui.admin.workarea.envelopes.delete'>!!!Borrar</i18n:message>"
