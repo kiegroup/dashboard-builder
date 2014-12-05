@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
@@ -64,13 +66,13 @@ public class ConfigReader {
                 if (is != null)  beanProperties.load(is);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
-            }            
+            }
         }
-        
+
         // Read from the bean config
         String configKey = p.getMember().getName();
         String configValue = beanProperties.getProperty(configKey);
-        if (configValue != null) return configValue;        
+        if (configValue != null) return configValue;
 
         // Read from global - by the fully qualified class name and field name
         for (Type type : p.getBean().getTypes()) {
@@ -78,7 +80,14 @@ public class ConfigReader {
             configValue = globalProperties.getProperty(configKey);
             if (configValue != null) return configValue;
 
-            // Read also from System.properties
+            // Try class name from System.properties
+            configValue = System.getProperty(configKey);
+            if (configValue != null) {
+                log.info(String.format("System property: %s=%s", configKey, configValue));
+                return configValue;
+            }
+            // Try class simple name from System.properties
+            configKey = ((Class)type).getSimpleName() + "." + p.getMember().getName();
             configValue = System.getProperty(configKey);
             if (configValue != null) {
                 log.info(String.format("System property: %s=%s", configKey, configValue));
@@ -140,6 +149,16 @@ public class ConfigReader {
             result[i] = result[i].trim();
         }
         return result;
+    }
+
+    public @Produces @Config List<String> readStringList(InjectionPoint p) {
+        String val = readConfig(p);
+        String[] array = StringUtils.split(val, ",");
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < array.length; i++) {
+            list.add(array[i].trim());
+        }
+        return list;
     }
 
     public @Produces @Config Map<String,String> readStringMap(InjectionPoint p) {

@@ -15,54 +15,41 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
+import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.ui.HTTPSettings;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- */
 public class ResponseHeadersProcessor extends RequestChainProcessor {
-    private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ResponseHeadersProcessor.class.getName());
 
     private boolean useRefreshHeader = false;
     private String responseContentType = "text/html";
 
-    public boolean isUseRefreshHeader() {
-        return useRefreshHeader;
-    }
-
-    public void setUseRefreshHeader(boolean useRefreshHeader) {
-        this.useRefreshHeader = useRefreshHeader;
-    }
-
-    public String getResponseContentType() {
-        return responseContentType;
-    }
-
-    public void setResponseContentType(String responseContentType) {
-        this.responseContentType = responseContentType;
-    }
-
-    /**
-     * Make required processing of request.
-     *
-     * @return true if processing must continue, false otherwise.
-     */
     protected boolean processRequest() {
+        HttpServletResponse response = getResponse();
         if (responseContentType != null && !"".equals(responseContentType)) {
-            getResponse().setContentType(responseContentType);
-            getResponse().setHeader("Content-Type", responseContentType + "; charset=" + HTTPSettings.lookup().getEncoding());
+            response.setContentType(responseContentType);
+            response.setHeader("Content-Type", responseContentType + "; charset=" + HTTPSettings.lookup().getEncoding());
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.US);
-        getResponse().setHeader("Expires", "Mon, 06 Jan 2003 21:29:02 GMT");
-        getResponse().setHeader("Last-Modified", sdf.format(new Date()) + " GMT");
-        getResponse().setHeader("Cache-Control", "no-cache, must-revalidate");
-        getResponse().setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "Mon, 06 Jan 2003 21:29:02 GMT");
+        response.setHeader("Last-Modified", sdf.format(new Date()) + " GMT");
+        response.setHeader("Cache-Control", "no-cache, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+
+        HTTPSettings httpSettings = HTTPSettings.lookup();
+        if (httpSettings.isXSSProtectionEnabled()) {
+            if (httpSettings.isXSSProtectionBlock()) response.setHeader("X-XSS-Protection", "1; mode=block");
+            else response.setHeader("X-XSS-Protection", "1");
+        }
+        if (!StringUtils.isBlank(httpSettings.getXFrameOptions())) {
+            response.setHeader("X-FRAME-OPTIONS", httpSettings.getXFrameOptions());
+        }
         if (useRefreshHeader) {
-            getResponse().setHeader("Refresh", java.lang.String.valueOf(getRequest().getSession().getMaxInactiveInterval() + 61));
+            response.setHeader("Refresh", java.lang.String.valueOf(getRequest().getSession().getMaxInactiveInterval() + 61));
         }
         return true;
     }
