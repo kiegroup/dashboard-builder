@@ -26,6 +26,12 @@
     AbstractXAxisDisplayer displayer = (AbstractXAxisDisplayer) viewer.getDataDisplayer();
 %>
 <%@include file="nvd3_chart_common.jsp"%>
+<%
+  if (xyDataSet == null || xyDataSet.getRowCount() == 0) {
+    // No data available
+    return;
+  }
+%>
 
 <%-- EDIT MODE --%>
 

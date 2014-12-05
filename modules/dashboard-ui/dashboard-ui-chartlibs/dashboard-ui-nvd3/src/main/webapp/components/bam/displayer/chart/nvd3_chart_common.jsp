@@ -33,6 +33,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
+<i18n:bundle baseName="org.jboss.dashboard.displayer.ofc2.messages" locale="<%= LocaleManager.currentLocale() %>" />
 <%
 
     DataSet xyDataSet = null;
@@ -47,9 +48,19 @@
 
     if (xyDataSet == null) {
 %>
-<span class="skn-error">The data cannot be displayed due to an unexpected problem.</span>
+    <span class="skn-error">
+        <i18n:message key="nvd3.error">The data cannot be displayed due to an unexpected problem</i18n:message>
+    </span>
 <%
        return;
+    }
+    if (xyDataSet.getRowCount() == 0) {
+%>
+    <table width="<%= displayer.getWidth()%>" height="<%= displayer.getHeight()%>">
+        <tr><td align="center" valign="center"><i18n:message key="nvd3.noData">NO DATA</i18n:message></td></tr>
+    </table>
+<%
+        return;
     }
 
     DataProperty domainProperty = displayer.getDomainProperty();
