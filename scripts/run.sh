@@ -27,7 +27,7 @@ else
   FILTER_MAX_ENTRIES=-DDashboardSettings.maxEntriesInFilters=1000
 
   # Chart libs settings
-  OFC2_ENABLED=-DOFC2DisplayerRenderer.enabled=false
+  OFC2_ENABLED=-DOFC2DisplayerRenderer.enabled=true
   GCHARTS_ENABLED=-DGoogleDisplayerRenderer.enabled=false
   GCHARTS_API_URL=-DGoogleDisplayerRenderer.jsApiUrl=https://www.google.com/jsapi
 
