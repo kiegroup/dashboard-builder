@@ -84,17 +84,18 @@ public class CSVDataSet extends AbstractDataSet {
             FileReader fileReader = new FileReader(f);
             BufferedReader br = new BufferedReader(fileReader);
             csvReader = new CSVReader(br, csvLoader.getCsvSeparatedBy().charAt(0), csvLoader.getCsvQuoteChar().charAt(0), csvLoader.getCsvEscapeChar().charAt(0));
+
             String[] header = csvReader.readNext();
-            String[] firstRow = csvReader.readNext();
             if (header == null) throw new IOException("The CSV file has no header: '" + f + "'");
-            if (firstRow == null) throw new IOException("The CSV file has no entries: '" + f + "'");
+
+            String[] firstRow = csvReader.readNext();
+            if (firstRow == null || firstRow.length < header.length) firstRow = null;
 
             // Build the data set properties
             setPropertySize(header.length);
-            for (int i = 0; i < firstRow.length; i++) {
+            for (int i = 0; i < header.length; i++) {
                 String token = header[i];
-                String value = firstRow[i];
-                Domain domain = calculateDomain(value);
+                Domain domain = (firstRow != null ? calculateDomain(firstRow[i]) : new LabelDomain());
                 CSVDataProperty dp = createCSVProperty();
                 dp.setPropertyId(token.toLowerCase());
                 dp.setDomain(domain);
@@ -102,19 +103,21 @@ public class CSVDataSet extends AbstractDataSet {
             }
 
             // Load the CSV rows
-            Object[] row = processLine(firstRow);
-            this.addRowValues(row);
-            String[] line = csvReader.readNext();
-            while (line != null) {
-                // Read 10,000 lines
-                for (int i=0; line!=null && i<10000; i++) {
-                    row = processLine(line);
-                    this.addRowValues(row);
-                    line = csvReader.readNext();
+            if (firstRow != null) {
+                Object[] row = processLine(firstRow);
+                this.addRowValues(row);
+                String[] line = csvReader.readNext();
+                while (line != null) {
+                    // Read 10,000 lines
+                    for (int i = 0; line != null && i < 10000; i++) {
+                        row = processLine(line);
+                        this.addRowValues(row);
+                        line = csvReader.readNext();
+                    }
+                    // Check load constraints (every 10,000 rows)
+                    trace.update(this);
+                    trace.checkRuntimeConstraints();
                 }
-                // Check load constraints (every 10,000 rows)
-                trace.update(this);
-                trace.checkRuntimeConstraints();
             }
         } finally {
             trace.end();
