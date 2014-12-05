@@ -189,7 +189,7 @@ public class KPIProcessor extends AbstractChainProcessor {
      * Returns the panel where KPI has been configured. If more than one panel is showing this KPI,
      * then the first one is returned.
      */
-    protected Panel getKPIPanel(KPI kpi) throws Exception {
+    public static Panel getKPIPanel(KPI kpi) throws Exception {
         Panel currentPanel = null;
         PanelsManager panelsManager = UIServices.lookup().getPanelsManager();
         Set<PanelInstance> panelsI = panelsManager.getPanelsByParameter(DashboardHandler.KPI_CODE, kpi.getCode());

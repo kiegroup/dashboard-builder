@@ -17,11 +17,14 @@ package org.jboss.dashboard.ui.components;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
+import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.domain.label.LabelDomain;
+import org.jboss.dashboard.kpi.KPI;
+import org.jboss.dashboard.kpi.KPIManager;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.provider.*;
 import org.jboss.dashboard.LocaleManager;
@@ -68,6 +71,9 @@ public class DataProviderHandler extends UIBeanHandler {
     @Inject @Config("/components/bam/provider/manager/data_provider_edit_properties.jsp")
     protected String componentIncludeJSPeditProperties;
 
+    @Inject @Config("/components/bam/provider/manager/data_provider_remove.jsp")
+    protected String componentIncludeJSPRemove;
+
     // Component parameters for factory mapping to html objects.
     protected String currentProviderTypeUid;
     protected String currentProviderTypeChanged;
@@ -79,6 +85,7 @@ public class DataProviderHandler extends UIBeanHandler {
     protected boolean isEdit;
     protected boolean isEditProperties;
     protected boolean isCreate;
+    protected boolean isRemove;
 
     protected Long dataProviderId;
     protected Map descriptions;
@@ -139,6 +146,14 @@ public class DataProviderHandler extends UIBeanHandler {
 
     public void setEditProperties(boolean editProperties) {
         isEditProperties = editProperties;
+    }
+
+    public boolean isRemove() {
+        return isRemove;
+    }
+
+    public void setRemove(boolean isRemove) {
+        this.isRemove = isRemove;
     }
 
     public String getCurrentProviderTypeChanged() {
@@ -225,6 +240,14 @@ public class DataProviderHandler extends UIBeanHandler {
         this.componentIncludeJSPeditProperties = componentIncludeJSPeditProperties;
     }
 
+    public String getComponentIncludeJSPRemove() {
+        return componentIncludeJSPRemove;
+    }
+
+    public void setComponentIncludeJSPRemove(String componentIncludeJSPRemove) {
+        this.componentIncludeJSPRemove = componentIncludeJSPRemove;
+    }
+
     // --------------------------------
     // Action methods.
     // --------------------------------
@@ -252,14 +275,60 @@ public class DataProviderHandler extends UIBeanHandler {
         }
     }
 
-    public void actionDeleteDataProvider(CommandRequest request) {
+    /**
+     * User wants to remove the provider.
+     * Show the remove page.
+     *
+     * @param request The request object.
+     */
+    public void actionStartDeleteDataProvider(CommandRequest request) {
         String dataProviderCode = getDataProviderCodeFromRequest(request);
         if (dataProviderCode != null) {
             try {
-                DataProvider dataProvider = dataProviderManager.getDataProviderByCode(dataProviderCode);
-                dataProviderManager.removeDataProvider(dataProvider);
+                DataProvider dataProvider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(dataProviderCode);
+                dataProviderId = dataProvider.getId();
+
+                setRemove(true);
+                setComponentIncludeJSP(componentIncludeJSPRemove);
+                
             } catch (Exception e) {
                 log.error("Cannot delete data provider with id " + dataProviderCode, e);
+            }
+        }
+    }
+    
+    /**
+     * Removes the given data provider and the KPI instances that are using it.
+     * 
+     * @param request The request object.
+     */
+    public void actionDeleteDataProvider(CommandRequest request) throws Exception {
+        DataProviderManager dataProviderManager = DataProviderServices.lookup().getDataProviderManager();
+        DataProvider provider = dataProviderManager.getDataProviderById(getDataProviderId());
+        
+        if (provider != null) {
+            try {
+                String dataProviderCode = provider.getCode();
+                
+                // Remove the KPI instances that are using this data provider.
+                KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
+                Set<KPI> kpis = kpiManager.getAllKPIs();
+                for (KPI kpi : kpis) {
+                    if (kpi.getDataProvider().getCode().equals(dataProviderCode)) {
+                        // Remove the related KPI.
+                        kpi.delete();
+                    }
+                }
+                
+                // Remove the data provider instance.
+                DataProvider dataProvider = dataProviderManager.getDataProviderByCode(dataProviderCode);
+                dataProviderManager.removeDataProvider(dataProvider);
+                
+                // Clear and return to show page.
+                clearAttributes();
+                setComponentIncludeJSP(componentIncludeJSPshow);
+            } catch (Exception e) {
+                log.error("Cannot delete data provider with id " + provider.getId(), e);
             }
         }
     }
@@ -484,6 +553,7 @@ public class DataProviderHandler extends UIBeanHandler {
         setDescriptions(new HashMap());
         setEdit(false);
         setCreate(false);
+        setRemove(false);
         setEditProperties(false);
         setProviderMessage(null);
         setHasErrors(false);
