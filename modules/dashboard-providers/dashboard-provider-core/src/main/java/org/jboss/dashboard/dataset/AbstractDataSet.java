@@ -22,6 +22,7 @@ import org.jboss.dashboard.dataset.profiler.DataSetGroupByConstraints;
 import org.jboss.dashboard.dataset.profiler.DataSetSortConstraints;
 import org.jboss.dashboard.profiler.ProfilerHelper;
 import org.jboss.dashboard.profiler.memory.SizeEstimations;
+import org.jboss.dashboard.provider.DefaultDataProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.DataProviderServices;
@@ -541,13 +542,30 @@ public abstract class AbstractDataSet implements DataSet {
     }
 
     public void parseXMLProperties(NodeList nodes) throws Exception {
+        boolean update = getProperties().length > 0;
+        List<DataProperty> result = _parseXMLProperties(nodes, update);
+        if (!update) {
+            setPropertySize(result.size());
+            for (int i = 0; i < result.size(); i++) {
+                DataProperty p = result.get(i);
+                addProperty(p, i);
+            }
+        }
+    }
+
+    public List<DataProperty> _parseXMLProperties(NodeList nodes, boolean update) throws Exception {
+        List<DataProperty> result = new ArrayList<DataProperty>();
         for (int x = 0; x < nodes.getLength(); x++) {
             Node node = nodes.item(x);
             if (node.getNodeName().equals("dataproperty")) {
                 String idDataProperty = StringEscapeUtils.unescapeXml(node.getAttributes().getNamedItem("id").getNodeValue());
                 DataProperty property = getPropertyById(idDataProperty);
-                if (property == null) continue; // Be aware of deleted properties.
+                if (property == null) {
+                    if (update) continue; // Be aware of deleted properties.
+                    else property = new DefaultDataProperty(idDataProperty);
+                }
 
+                result.add(property);
                 NodeList dataProperties = node.getChildNodes();
                 for (int y = 0; y < dataProperties.getLength(); y++) {
                     Node dataProperty = dataProperties.item(y);
@@ -564,6 +582,7 @@ public abstract class AbstractDataSet implements DataSet {
                 }
             }
         }
+        return result;
     }
 
     protected  void printIndent(PrintWriter out, int indent) {
