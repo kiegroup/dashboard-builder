@@ -33,7 +33,7 @@
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"  %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
-<i18n:bundle baseName="org.jboss.dashboard.displayer.ofc2.messages" locale="<%= LocaleManager.currentLocale() %>" />
+<i18n:bundle baseName="org.jboss.dashboard.displayer.nvd3.messages" locale="<%= LocaleManager.currentLocale() %>" />
 <%
 
     DataSet xyDataSet = null;
