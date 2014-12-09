@@ -35,6 +35,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.message.Message;
 import org.jboss.dashboard.commons.message.MessageList;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -42,6 +43,9 @@ import org.xml.sax.InputSource;
 
 @ApplicationScoped
 public class ImportManagerImpl implements ImportManager {
+
+    @Inject
+    private transient Logger log;
 
     @Inject
     protected DataDisplayerManager dataDisplayerManager;
@@ -246,6 +250,7 @@ public class ImportManagerImpl implements ImportManager {
                     }
                     results.addKPI(kpi);
                 } catch (Exception e) {
+                    log.error("Error parsing KPI", e);
                     // Continue with the next KPI...
                 }
             }

@@ -20,4 +20,9 @@ public class DefaultDataProperty extends AbstractDataProperty {
     public DefaultDataProperty() {
         super();
     }
+
+    public DefaultDataProperty(String id) {
+        super();
+        super.setPropertyId(id);
+    }
 }
