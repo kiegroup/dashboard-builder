@@ -219,6 +219,7 @@ public class HibernateInitializer implements Startable {
     }
 
     public String inferDatabaseName(DataSource ds) throws Exception {
+        if (ds == null) return null;
         Connection connection = null;
         try {
             connection = ds.getConnection();

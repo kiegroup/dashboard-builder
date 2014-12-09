@@ -156,7 +156,7 @@ public class DataProviderFormatter extends Formatter {
                 renderFragment("outputEndRow");
             } else {
                 for (int i = 0; i < properties.length; i++) {
-                    AbstractDataProperty property = (AbstractDataProperty) properties[i];
+                    DataProperty property = properties[i];
                     setAttribute("index", new Integer(i));
                     renderFragment("outputStartRow");
                     setAttribute("propertyId", property.getPropertyId());

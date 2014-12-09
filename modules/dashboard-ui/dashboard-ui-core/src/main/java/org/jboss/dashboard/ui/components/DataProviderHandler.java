@@ -284,13 +284,13 @@ public class DataProviderHandler extends UIComponentHandlerFactoryElement {
                 if (param_name.startsWith("name/")) {
                     String propId = param_name.substring(param_name.indexOf("/") + 1, param_name.lastIndexOf("/"));
                     String lang = param_name.substring(param_name.lastIndexOf("/") + 1, param_name.length());
-                    AbstractDataProperty adp = (AbstractDataProperty) dataProvider.getDataSet().getPropertyById(propId);
+                    DataProperty adp = dataProvider.getDataSet().getPropertyById(propId);
                     if (!"".equals(param_value)) adp.getNameI18nMap().put(new Locale(lang), param_value);
                     else adp.getNameI18nMap().remove(new Locale(lang));
                 }
                 if (param_name.startsWith(PARAM_PROPERTY_TYPE)) {
                     String pId = param_name.substring(param_name.indexOf("_") + 1, param_name.length());
-                    AbstractDataProperty adp = (AbstractDataProperty) dataProvider.getDataSet().getPropertyById(pId);
+                    DataProperty adp = dataProvider.getDataSet().getPropertyById(pId);
                     Domain domnain = (Domain) Class.forName(param_value).newInstance();
                     if (domnain instanceof LabelDomain) ((LabelDomain) domnain).setConvertedFromNumeric(true);
                     adp.setDomain(domnain);
