@@ -19,6 +19,7 @@ import org.jboss.dashboard.database.DataSourceManager;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.database.hibernate.HibernateSessionFactoryProvider;
 import org.jboss.dashboard.error.ErrorManager;
+import org.jboss.dashboard.export.DataSourceImportManager;
 import org.jboss.dashboard.profiler.Profiler;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.scheduler.Scheduler;
@@ -52,6 +53,9 @@ public class CoreServices {
 
     @Inject
     protected DataSourceManager dataSourceManager;
+
+    @Inject
+    protected DataSourceImportManager dataSourceImportManager;
 
     public HibernateSessionFactoryProvider getHibernateSessionFactoryProvider() {
         return hibernateSessionFactoryProvider;
@@ -99,5 +103,13 @@ public class CoreServices {
 
     public void setDataSourceManager(DataSourceManager dataSourceManager) {
         this.dataSourceManager = dataSourceManager;
+    }
+
+    public DataSourceImportManager getDataSourceImportManager() {
+        return dataSourceImportManager;
+    }
+
+    public void setDataSourceImportManager(DataSourceImportManager dataSourceImportManager) {
+        this.dataSourceImportManager = dataSourceImportManager;
     }
 }
