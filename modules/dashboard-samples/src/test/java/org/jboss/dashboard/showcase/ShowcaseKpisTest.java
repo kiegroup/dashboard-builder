@@ -77,7 +77,7 @@ public class ShowcaseKpisTest {
         webAppDir = new File(rootDir, "src/main/webapp");
         Application.lookup().setBaseAppDirectory(webAppDir.getAbsolutePath());
 
-        File kpisFile = new File(webAppDir, "WEB-INF/etc/appdata/initialData/showcaseKPIs.xml");
+        File kpisFile = new File(webAppDir, "WEB-INF/deployments/showcaseKPIs.kpis");
         FileInputStream is = new FileInputStream(kpisFile);
 
         ImportManager importManager = DataDisplayerServices.lookup().getImportManager();
