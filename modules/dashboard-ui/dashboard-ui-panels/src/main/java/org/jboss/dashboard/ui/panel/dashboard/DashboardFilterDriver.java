@@ -121,8 +121,8 @@ public class DashboardFilterDriver extends PanelDriver implements DashboardDrive
 
     // DashboardDriver interface
 
-    public Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception {
-        Set<DataProvider> results = new HashSet<DataProvider>();
+    public Set<String> getPropertiesReferenced(Panel panel) throws Exception {
+        Set<String> results = new HashSet<String>();
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         DashboardFilterHandler handler = dashboard.getDashboardFilter().getHandler(panel);
         if (handler == null) return results; // It happens on drill down.
@@ -130,8 +130,7 @@ public class DashboardFilterDriver extends PanelDriver implements DashboardDrive
         for (DashboardFilterProperty filterProperty : handler.getVisibleProperties()) {
             DataProperty property = filterProperty.getDataProperty();
             if (property != null) {
-                DataProvider dataProvider = property.getDataSet().getDataProvider();
-                results.add(dataProvider);
+                results.add(property.getPropertyId());
             } else {
                 log.info("Filter property '" + filterProperty.getPropertyId() + "' is no longer available in data provider. Removing from filter.");
 
@@ -144,7 +143,6 @@ public class DashboardFilterDriver extends PanelDriver implements DashboardDrive
                         filterHandler.getFilter().removeProperty(filterProperty.getPropertyId());
                     }
                 }
-                
             }
         }
         return results;

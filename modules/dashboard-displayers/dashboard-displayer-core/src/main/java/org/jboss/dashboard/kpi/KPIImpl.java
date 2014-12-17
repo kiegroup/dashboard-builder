@@ -158,6 +158,15 @@ public class KPIImpl implements KPI {
         serializeDataDisplayer();
     }
 
+    public void merge(KPI source) {
+        KPIImpl other = (KPIImpl) source;
+        this.code = other.code;
+        this.setDescriptionI18nMap(other.getDescriptionI18nMap());
+        this.setDataProvider(other.getDataProvider());
+        this.dataDisplayer = other.dataDisplayer;
+        this.serializeDataDisplayer();
+    }
+
     public void save() throws Exception {
         if (!getDataProvider().isReady()) {
             log.warn("Cannot save KPI because its data provider is not well configured.");

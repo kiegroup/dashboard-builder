@@ -27,7 +27,9 @@ import org.jboss.dashboard.workspace.Panel;
 public interface DashboardDriver {
 
     /**
-     * Get the data providers used by the given panel.
+     * Get all the properties this panel references to (directly or indirectly). A property is a reference
+     * if any potential change on the property values has an impact on the data displayed by the referencing
+     * panel. This typically occurs on filter/unfilter requests.
      */
-    Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception;
+    Set<String> getPropertiesReferenced(Panel panel) throws Exception;
 }

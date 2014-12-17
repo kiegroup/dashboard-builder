@@ -21,9 +21,11 @@ import org.jboss.dashboard.function.ScalarFunction;
 import org.jboss.dashboard.LocaleManager;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Iterator;
 import java.text.NumberFormat;
+import java.util.Set;
 
 /**
  * It applies a scalar function over a data set property. 
@@ -68,8 +70,9 @@ public class ScalarFunctionCommand extends AbstractCommand {
         return NumberFormat.getInstance(locale).format(scalarFunction.scalar(values));
     }
 
-    public boolean containsProperty(String propertyId) throws Exception {
-        String arg = getArgument(0);
-        return (arg != null && arg.equals(propertyId));
+    public Set<String> getPropertyIds() {
+        Set<String> results = new HashSet<String>();
+        results.add(getArgument(0));
+        return results;
     }
 }

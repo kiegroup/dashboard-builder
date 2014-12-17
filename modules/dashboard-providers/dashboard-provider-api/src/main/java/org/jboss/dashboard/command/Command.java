@@ -18,6 +18,7 @@ package org.jboss.dashboard.command;
 import org.jboss.dashboard.provider.DataFilter;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * A command
@@ -32,7 +33,7 @@ public interface Command {
     void setName(String name);
     void setArguments(List<String> args);
     void setDataFilter(DataFilter dataFilter);
-    boolean containsProperty(String propertyId) throws Exception;
+    Set<String> getPropertyIds();
 
     String execute() throws Exception;
 }

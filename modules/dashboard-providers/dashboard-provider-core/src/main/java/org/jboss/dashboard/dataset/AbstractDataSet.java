@@ -126,6 +126,15 @@ public abstract class AbstractDataSet implements DataSet {
         return properties;
     }
 
+    public Set<String> getPropertiesReferenced() {
+        Set<String> results = new HashSet<String>();
+        for (int i = 0; i < properties.length; i++) {
+            DataProperty property = properties[i];
+            results.add(property.getPropertyId());
+        }
+        return results;
+    }
+
     public void addProperty(DataProperty dp, int index) {
         properties[index] = dp;
         propertyValues[index] = new ArrayList();

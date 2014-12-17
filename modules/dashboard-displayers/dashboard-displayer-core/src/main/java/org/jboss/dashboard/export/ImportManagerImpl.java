@@ -64,23 +64,6 @@ public class ImportManagerImpl implements ImportManager {
      * @throws Exception If the specified import results contains ERROR messages.
      */
     public void save(ImportResults importResults) throws Exception {
-        saveOrUpdate(importResults, false);
-    }
-
-    /**
-     * Updates the elements (KPI, DataProvider) contained in the import results instance.
-     * The ImportResults message list gives us feedback about any problem found while saving.
-     * @throws Exception If the specified import results contains ERROR messages.
-     */
-    public void update(ImportResults importResults) throws Exception {
-        saveOrUpdate(importResults, true);
-    }
-
-    /**
-     * Saves or update from persistence the elements (KPI, DataProvider) contained in the import results instance.
-     */
-    protected void saveOrUpdate(ImportResults importResults, boolean update) throws Exception {
-
         // Get errors.
         Locale locale = LocaleManager.currentLocale();
         MessageList messages = importResults.getMessages();
@@ -97,14 +80,9 @@ public class ImportManagerImpl implements ImportManager {
             if (oldProvider != null) {
                 // If the provider is already present in the database then simply replace the references to the old provider.
                 importResults.replaceDataProvider(newProvider, oldProvider);
-                if (update) {
-                    oldProvider.setDataLoader(newProvider.getDataLoader());
-                    oldProvider.save();
-                    importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.PROVIDER_UPDATED, new Object[] {oldProvider}));
-                }
-                else {
-                    importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.PROVIDER_ALREADY_EXISTS, new Object[] {oldProvider}));
-                }
+                oldProvider.setDataLoader(newProvider.getDataLoader());
+                oldProvider.save();
+                importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.PROVIDER_UPDATED, new Object[] {oldProvider}));
             } else {
                 newProvider.save();
                 importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.PROVIDER_CREATED, new Object[] {newProvider}));
@@ -118,16 +96,9 @@ public class ImportManagerImpl implements ImportManager {
             if (oldKPI != null) {
                 // If the KPI is already present in the database then simply replace the references to the old KPI.
                 importResults.replaceKPI(newKPI, oldKPI);
-                if (update) {
-                    oldKPI.setDescriptionI18nMap(newKPI.getDescriptionI18nMap());
-                    oldKPI.setDataProvider(newKPI.getDataProvider());
-                    oldKPI.setDataDisplayer(newKPI.getDataDisplayer());
-                    oldKPI.save();
-                    importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.KPI_UPDATED, new Object[] {oldKPI}));
-                }
-                else {
-                    importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.KPI_ALREADY_EXISTS, new Object[] {oldKPI}));
-                }
+                oldKPI.merge(newKPI);
+                oldKPI.save();
+                importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.KPI_UPDATED, new Object[] {oldKPI}));
             } else {
                 newKPI.save();
                 importResults.getMessages().add(new ImportExportMessage(ImportExportMessage.KPI_CREATED, new Object[] {newKPI}));
