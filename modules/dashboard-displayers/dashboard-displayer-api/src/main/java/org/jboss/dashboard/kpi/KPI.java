@@ -67,4 +67,10 @@ public interface KPI extends Cloneable, Persistent {
      */
     DataProvider getDataProvider();
     void setDataProvider(DataProvider provider);
+
+    /**
+     * Merge two KPIs
+     * @param source The source KPI
+     */
+    void merge(KPI source);
 }

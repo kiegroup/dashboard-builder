@@ -143,7 +143,7 @@ public class WorkspacesManager {
     /**
      * Removes a workspace from the system
      */
-    public void delete(final WorkspaceImpl workspace) throws Exception {
+    public void delete(final Workspace workspace) throws Exception {
 
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
@@ -160,12 +160,12 @@ public class WorkspacesManager {
                 // Remove attached workspace permissions.
                 Policy policy = SecurityServices.lookup().getSecurityPolicy();
                 policy.removePermissions(workspace);
-                for (PanelInstance pi : workspace.getPanelInstancesSet()) {
+                for (PanelInstance pi : ((WorkspaceImpl)workspace).getPanelInstancesSet()) {
                     pi.instanceRemoved(session);
                 }
 
                 // Notify panels before deleting workspace.
-                for (Section section : workspace.getSections()) {
+                for (Section section : ((WorkspaceImpl)workspace).getSections()) {
                     for (Panel panel : section.getAllPanels()) {
                         panel.getProvider().getDriver().fireBeforePanelRemoved(panel);
                         panel.panelRemoved();

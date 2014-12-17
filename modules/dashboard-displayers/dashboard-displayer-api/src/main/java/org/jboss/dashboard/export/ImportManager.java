@@ -35,13 +35,6 @@ public interface ImportManager {
     void save(ImportResults importResults) throws Exception;
 
     /**
-     * Updates the elements (KPI, DataProvider) contained in the import results instance.
-     * The ImportResults message list gives us feedback about any problem found while saving.
-     * @throws Exception If the specified import results contains ERROR messages.
-     */
-    void update(ImportResults importResults) throws Exception;
-
-    /**
      * Creates elements (KPI, DataProvider ,..) parsing the specified XML fragment.
      */
     ImportResults parse(String xml) throws Exception;

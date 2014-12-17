@@ -76,15 +76,15 @@ public class DeploymentScanner implements Startable {
     }
 
     public void start() throws Exception {
-        
-        // Deploy the datasources found in the deployment folder.
-        doDeployDataSources();
+
+        // Deploy the workspaces found in the deployment folder.
+        doDeployWorkspaces();
 
         // Deploy the KPIs and dataproviders found in the deployment folder.
         doDeployKPIs();
 
-        // Deploy the workspaces found in the deployment folder.
-        doDeployWorkspaces();
+        // Deploy the datasources found in the deployment folder.
+        doDeployDataSources();
     }
 
     /**

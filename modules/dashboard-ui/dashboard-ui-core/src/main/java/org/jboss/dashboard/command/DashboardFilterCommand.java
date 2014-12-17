@@ -22,9 +22,11 @@ import org.jboss.dashboard.ui.components.DashboardFilterProperty;
 import org.jboss.dashboard.LocaleManager;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Command for the access to the data filter of the current dashboard.
@@ -96,8 +98,9 @@ public class DashboardFilterCommand extends AbstractCommand {
         return "[" + commandName + ", command not supported]";
     }
 
-    public boolean containsProperty(String propertyId) throws Exception {
-        String arg = getArgument(0);
-        return (arg != null && arg.equals(propertyId));
+    public Set<String> getPropertyIds() {
+        Set<String> results = new HashSet<String>();
+        results.add(getArgument(0));
+        return results;
     }
 }

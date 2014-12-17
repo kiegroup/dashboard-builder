@@ -30,6 +30,7 @@ import org.jboss.dashboard.provider.DataFilter;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A data set implementation that holds as a matrix in-memory all the rows returned by a given SQL query executed
@@ -83,6 +84,14 @@ public class SQLDataSet extends AbstractDataSet {
 
     public SQLStatement createSQLStatament() throws Exception {
         return new SQLStatement(sqlQuery);
+    }
+
+    public Set<String> getPropertiesReferenced() {
+        Set<String> results = super.getPropertiesReferenced();
+        if (lastExecutedStmt != null) {
+            results.addAll(lastExecutedStmt.getFilterPropertyIds());
+        }
+        return results;
     }
 
     public void load() throws Exception {

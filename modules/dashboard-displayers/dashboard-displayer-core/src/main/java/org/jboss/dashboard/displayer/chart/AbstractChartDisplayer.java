@@ -111,16 +111,16 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     }
 
     public void setDataProvider(DataProvider dp) throws DataDisplayerInvalidConfiguration {
-        dataProvider = dp;
 
-        // If data provider definition does not match with displayer configuration, do not set the provider to the table object.
-        validate(dp);
-        
+        // If the provider changes then reset the current configuration.
         if (dataProvider != null && !dataProvider.equals(dp)) {
-            // If the provider changes then reset the current configuration.
             setDomainProperty(null);
             setRangeProperty(null);
         }
+
+        // If data provider definition does not match with displayer configuration, do not set the provider
+        validate(dp);
+        dataProvider = dp;
     }
 
     /**
@@ -172,7 +172,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     @Override
     public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
         if (provider != null) {
-            boolean hasChanged = hasProviderPropertiesChanged(getDomainProperty(), provider) || hasProviderPropertiesChanged(getRangeProperty(), provider);
+            boolean hasChanged = hasProviderPropertiesChanged(domainProperty, provider) || hasProviderPropertiesChanged(rangeProperty, provider);
             if (hasChanged) throw new DataDisplayerInvalidConfiguration();    
         }
     }

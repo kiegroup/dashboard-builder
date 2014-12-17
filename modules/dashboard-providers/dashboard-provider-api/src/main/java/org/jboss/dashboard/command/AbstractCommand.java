@@ -18,7 +18,9 @@ package org.jboss.dashboard.command;
 import org.jboss.dashboard.provider.DataFilter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Base class for the implementation of custom commands.
@@ -67,8 +69,8 @@ public abstract class AbstractCommand implements Command {
         return getArguments().get(index);
     }
 
-    public boolean containsProperty(String propertyId) throws Exception {
-        return false;
+    public Set<String> getPropertyIds() {
+        return Collections.emptySet();
     }
 
     public abstract String execute() throws Exception;

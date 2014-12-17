@@ -297,7 +297,7 @@ public class ExportHandler extends UIBeanHandler {
                 ImportResults importResults = importMgr.parse(new FileInputStream(file));
 
                 // Save the imported results.
-                importMgr.update(importResults);
+                importMgr.save(importResults);
 
                 // Show import messages.
                 MessageList messages = importResults.getMessages();

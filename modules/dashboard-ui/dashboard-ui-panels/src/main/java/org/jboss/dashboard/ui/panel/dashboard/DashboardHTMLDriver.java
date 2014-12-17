@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.panel.dashboard;
 
 import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.command.*;
+import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
 import org.jboss.dashboard.ui.components.DashboardHandler;
@@ -114,8 +115,8 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
 
     // DashboardDriver interface
 
-    public Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception {
-        Set<DataProvider> results = new HashSet<DataProvider>();
+    public Set<String> getPropertiesReferenced(Panel panel) throws Exception {
+        Set<String> results = new HashSet<String>();
         Map<String, String> origMap = super.getHtmlCode(panel);
         if (origMap == null || !getPanelSession(panel).isShowMode()) return results;
 
@@ -123,23 +124,25 @@ public class DashboardHTMLDriver extends HTMLDriver implements DashboardDriver {
         if (StringUtils.isBlank(html)) return results;
 
         // Get the commands embedded into the HTML.
-        DashboardCommandProcessor cp = new DashboardCommandProcessor();
-        cp.setCommandExecutionEnabled(false);
         TemplateProcessor tp = DataProviderServices.lookup().getTemplateProcessor();
-        tp.processTemplate(html, cp);
-        List<Command> commandList = cp.getSuccessfulCommands();
+        List<Command> commandList = tp.getCommands(html);
         if (commandList.isEmpty()) return results;
 
-        // Get the data providers used by the commands.
+        // Get the properties referenced by each command.
+        Set<String> htmlProps = new HashSet<String>();
+        for (Command command : commandList) {
+            Set<String> propIds = command.getPropertyIds();
+            if (propIds != null) htmlProps.addAll(propIds);
+        }
+        // Get all the data set properties referenced by any of the HTML commands
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
         Set<DataProvider> dataProviders = dashboard.getDataProviders();
         for (DataProvider dataProvider : dataProviders) {
-            DataProperty[] dataProperties = dataProvider.getDataSet().getProperties();
+            DataSet dataSet = dataProvider.getDataSet();
+            DataProperty[] dataProperties = dataSet.getProperties();
             for (DataProperty dataProperty : dataProperties) {
-                for (Command command : commandList) {
-                    if (command.containsProperty(dataProperty.getPropertyId())) {
-                        results.add(dataProvider);
-                    }
+                if (htmlProps.contains(dataProperty.getPropertyId())) {
+                    results.addAll(dataSet.getPropertiesReferenced());
                 }
             }
         }

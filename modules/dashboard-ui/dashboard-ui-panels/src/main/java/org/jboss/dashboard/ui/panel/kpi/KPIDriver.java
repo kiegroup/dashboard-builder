@@ -17,11 +17,9 @@ package org.jboss.dashboard.ui.panel.kpi;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
+import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.DataDisplayerType;
 import org.jboss.dashboard.displayer.chart.BarChartDisplayerType;
-import org.jboss.dashboard.kpi.KPIManager;
-import org.jboss.dashboard.ui.Dashboard;
-import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.ui.components.KPIViewer;
@@ -73,8 +71,15 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
     /**
      * Get the panel KPI from the current dashboard. The KPI is loaded if necessary.
      */
-    public KPI getKPI(Panel panel) throws Exception {
-        return DashboardHandler.lookup().getKPI(panel);
+    public KPI getKPI(PanelInstance panelInstance) {
+        String kpiCode = panelInstance.getParameterValue(DashboardHandler.KPI_CODE);
+        try {
+            if (kpiCode == null || kpiCode.trim().equals("")) return null;
+            return DataDisplayerServices.lookup().getKPIManager().getKPIByCode(kpiCode);
+        } catch (Exception e) {
+            log.error("Can not retrieve selected KPI: " + kpiCode, e);
+            return null;
+        }
     }
 
     // PanelDriver interface
@@ -96,12 +101,8 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
         super.beforeRenderPanel(panel, req, res);
 
         // Ensure the KPI editor/viewer component is initialized (at session level).
-        KPI kpi = null;
-        try {
-            kpi = getKPI(panel);
-        } catch (Exception e) {
-            log.error("Error: ",e);
-        }
+        KPI kpi = getKPI(panel.getInstance());
+
         PanelSession panelSession = getPanelSession(panel);
         if (kpi == null) panelSession.setCurrentPageId(PAGE_PROVIDER_SELECTION);
         else panelSession.setCurrentPageId(PAGE_SHOW);
@@ -120,7 +121,7 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     protected void beforePanelInstanceRemove(PanelInstance instance) throws Exception {
         // Delete from persistence the KPI attached to the panel.
-        KPI kpi = DashboardHandler.lookup().getKPI(instance);
+        KPI kpi = getKPI(instance);
 
         // Only delete not null KPIs based on deleteable providers.
         if (kpi != null && kpi.getDataProvider().isCanDelete()) {
@@ -140,16 +141,11 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     public boolean supportsEditMode(Panel panel) {
         // Until a KPI is created do not enable the edit mode.
-        try {
-            return getKPI(panel) != null;
-        } catch (Exception e) {
-            log.error("Error: ",e);
-        }
-        return false;
+        return getKPI(panel.getInstance()) != null;
     }
 
     public void replicateData(PanelInstance src, PanelInstance dest) throws Exception {
-        KPI kpiSrc = DashboardHandler.lookup().getKPI(src);
+        KPI kpiSrc = getKPI(src);
         if (kpiSrc != null) {
             // Clone the original KPI.
             KPI kpiDest = DataDisplayerServices.lookup().getKPIManager().createKPI();
@@ -222,10 +218,13 @@ public class KPIDriver extends PanelDriver implements DashboardDriver {
 
     // DashboardDriver interface
 
-    public Set<DataProvider> getDataProvidersUsed(Panel panel) throws Exception {
-        Set<DataProvider> results = new HashSet<DataProvider>();
-        KPI kpi = getKPI(panel);
-        if (kpi != null) results.add(kpi.getDataProvider());
+    public Set<String> getPropertiesReferenced(Panel panel) throws Exception {
+        Set<String> results = new HashSet<String>();
+        KPI kpi = getKPI(panel.getInstance());
+        if (kpi != null) {
+            DataSet ds = kpi.getDataProvider().getDataSet();
+            results.addAll(ds.getPropertiesReferenced());
+        }
         return results;
     }
 }

@@ -75,9 +75,10 @@ public class SQLConditionCommand extends AbstractCommand {
         else return "1 = 1";
     }
 
-    public boolean containsProperty(String propertyId) throws Exception {
-        String arg = getArgument(2);
-        return (arg != null && arg.equals(propertyId));
+    public Set<String> getPropertyIds() {
+        Set<String> results = new HashSet<String>();
+        results.add(getArgument(2));
+        return results;
     }
 
     public String getFilterPropertyId() {

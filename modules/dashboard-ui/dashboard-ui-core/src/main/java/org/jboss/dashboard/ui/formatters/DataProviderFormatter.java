@@ -289,11 +289,11 @@ public class DataProviderFormatter extends Formatter {
                         setAttribute("description", kpiDescription);
                         Panel kpiPanel = KPIProcessor.getKPIPanel(kpi);
                         if (kpiPanel != null) {
-                            String kpiPanelTitle = kpiPanel.getTitle().get(localeManager.getCurrentLang());
+                            String kpiPanelTitle = kpiPanel.getSection().getTitle().get(localeManager.getCurrentLang());
                             setAttribute("pageTitle", kpiPanelTitle);
                             Workspace kpiWorkspace = kpiPanel.getWorkspace();
                             if (kpiWorkspace != null) {
-                                String kpiWorkspaceTitle = kpiWorkspace.getTitle().get(localeManager.getCurrentLang());
+                                String kpiWorkspaceTitle = kpiWorkspace.getName().get(localeManager.getCurrentLang());
                                 setAttribute("workspaceTitle", kpiWorkspaceTitle);
                             }
                         }

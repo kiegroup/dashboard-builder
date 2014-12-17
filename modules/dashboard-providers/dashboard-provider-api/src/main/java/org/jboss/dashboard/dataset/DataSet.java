@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A data set represents a matrix of data with a fixed number of properties and a fixed number of rows.
@@ -150,4 +151,11 @@ public interface DataSet {
      * It updates the dataset properties with the definition coming from the specified XML.
      */
     void parseXMLProperties(NodeList nodes) throws Exception;
+
+    /**
+     * Get all the properties this data set references to (directly or indirectly). A property is a reference
+     * if any potential change on the property values has an impact on the data hold by this data set,
+     * This typically occurs on filter/unfilter requests.
+     */
+    Set<String> getPropertiesReferenced() throws Exception;
 }

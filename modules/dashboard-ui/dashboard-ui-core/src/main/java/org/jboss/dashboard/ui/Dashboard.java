@@ -401,7 +401,7 @@ public class Dashboard {
     }
 
     /**
-     * Refresh those dashboard panels that are handling any of the properties specified.
+     * Refresh those dashboard panels that are related with any of the properties specified.
      * @param propertySet If null then refresh all the dashboard panels.
      */
     protected void refreshPanels(String[] propertySet) throws Exception {
@@ -424,8 +424,8 @@ public class Dashboard {
                 continue;
             }
             // Don't refresh panels that are not displaying any dashboard data.
-            Set<DataProvider> providersUsed = ((DashboardDriver) driver).getDataProvidersUsed(panel);
-            if (providersUsed.isEmpty()) {
+            Set<String> propRefs = ((DashboardDriver) driver).getPropertiesReferenced(panel);
+            if (propRefs.isEmpty()) {
                 continue;
             }
             // Mark panel as refreshable.
@@ -433,10 +433,8 @@ public class Dashboard {
                 panelIdsToRefresh.add(panelId);
             } else {
                 for (String propertyId : propertySet) {
-                    for (DataProvider dataProvider : providersUsed) {
-                        if (!panelIdsToRefresh.contains(panelId) && dataProvider.getDataSet().getPropertyById(propertyId) != null) {
-                            panelIdsToRefresh.add(panelId);
-                        }
+                    if (!panelIdsToRefresh.contains(panelId) && propRefs.contains(propertyId)) {
+                        panelIdsToRefresh.add(panelId);
                     }
                 }
             }

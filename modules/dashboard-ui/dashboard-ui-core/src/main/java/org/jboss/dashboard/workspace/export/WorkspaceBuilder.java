@@ -87,19 +87,6 @@ public class WorkspaceBuilder {
         String friendlyUrl = node.getAttributes().getProperty(ExportVisitor.WORKSPACE_ATTR_FR_URL);
         String homeMode = node.getAttributes().getProperty(ExportVisitor.WORKSPACE_ATTR_HOME_MODE);
 
-        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
-        synchronized (workspacesManager) {
-            if (workspacesManager.existsWorkspace(workspaceId)) {
-                workspaceId = workspacesManager.generateWorkspaceId();
-                result.getWarnings().add("workspaceIdChanged");
-                result.getWarningArguments().add(new String[]{workspaceId, workspaceId = workspacesManager.generateWorkspaceId()});
-            }
-            if (friendlyUrl != null && workspacesManager.getWorkspaceByUrl(friendlyUrl) != null) {
-                result.getWarnings().add("workspaceUrlChanged");
-                result.getWarningArguments().add(new String[]{friendlyUrl});
-                friendlyUrl = null;
-            }
-        }
         log.debug("Creando workspace " + workspaceId);
         final WorkspaceImpl workspace = new WorkspaceImpl();
         workspace.setId(workspaceId);
@@ -109,13 +96,20 @@ public class WorkspaceBuilder {
         workspace.setHomeSearchMode(Integer.parseInt(homeMode));
         // TODO. Modify export format so it can be read from them
         Set<String> allowedPanelIds = new HashSet<String>();
-        if (onStartup)
-            allowedPanelIds.add("*");
+        if (onStartup) allowedPanelIds.add("*");
         workspace.setPanelProvidersAllowed(allowedPanelIds);
 
+        WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
         synchronized (workspacesManager) {
-            if (onStartup) workspacesManager.addNewWorkspace(workspace);
-            else workspacesManager.addNewWorkspace(workspace);
+            if (onStartup) {
+                // Delete the old workspace (if any)
+                Workspace currentWorkspace = workspacesManager.getWorkspace(workspaceId);
+                if (currentWorkspace != null) {
+                    workspacesManager.delete(currentWorkspace);
+                }
+            }
+            // Register the new one
+            workspacesManager.addNewWorkspace(workspace);
         }
 
         //Children

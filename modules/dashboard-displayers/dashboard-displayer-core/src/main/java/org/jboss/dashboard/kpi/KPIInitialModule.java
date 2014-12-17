@@ -50,17 +50,17 @@ public class KPIInitialModule extends InitialModule {
     }
 
     protected boolean install() {
-        return installOrUpgrade(false);
+        return _install();
     }
 
     protected boolean upgrade(long currentVersion) {
         long newVersion = getVersion();
         if (newVersion <= currentVersion) return false;
 
-        return installOrUpgrade(true);
+        return _install();
     }
 
-    protected boolean installOrUpgrade(boolean upgrade) {
+    protected boolean _install() {
         try {
             if (!check()) return false;
 
@@ -78,8 +78,7 @@ public class KPIInitialModule extends InitialModule {
             ImportResults importResults = importMgr.parse(new FileInputStream(pf));
 
             // Save the imported results.
-            if (upgrade) importMgr.update(importResults);
-            else importMgr.save(importResults);
+            importMgr.save(importResults);
 
             // Show import messages.
             MessageList messages = importResults.getMessages();
