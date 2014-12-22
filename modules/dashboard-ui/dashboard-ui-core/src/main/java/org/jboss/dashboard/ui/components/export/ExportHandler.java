@@ -66,6 +66,7 @@ public class ExportHandler extends UIBeanHandler {
     public static final String MODE_IMPORT = "import";
     public static final String PARAM_WORKSPACE_ID = "workspaceId";
     public static final String PARAM_SECTION_ID = "sectionId";
+    public static final String KPIS_EXTENSION = "kpis";
 
     @Inject
     private transient Logger log;
@@ -282,7 +283,8 @@ public class ExportHandler extends UIBeanHandler {
         // Send XML bytes as a stream response.
         int id = xml.hashCode();
         if (id < 0) id = id*-1;
-        return new SendStreamResponse(new ByteArrayInputStream(xml.getBytes()), "inline;filename=kpiExport_" + id + ".kpiex");
+        
+        return new SendStreamResponse(new ByteArrayInputStream(xml.getBytes()), new StringBuilder("inline;filename=kpiExport_").append(id).append(".").append(KPIS_EXTENSION).toString());
     }
 
     public CommandResponse actionImportKPIs(CommandRequest request) {

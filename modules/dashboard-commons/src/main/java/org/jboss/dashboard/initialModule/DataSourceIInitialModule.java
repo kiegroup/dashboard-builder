@@ -18,6 +18,7 @@ package org.jboss.dashboard.initialModule;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.DataSourceEntry;
+import org.jboss.dashboard.database.DataSourceManager;
 import org.jboss.dashboard.export.DataSourceImportManager;
 
 import java.io.BufferedInputStream;
@@ -70,6 +71,17 @@ public class DataSourceIInitialModule extends InitialModule {
             }
             DataSourceImportManager dataSourceImportManager = CoreServices.lookup().getDataSourceImportManager();
             DataSourceEntry entry = dataSourceImportManager.doImport(new BufferedInputStream(new FileInputStream(pf)));
+
+            DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
+            
+            // CHeck if datasource exist, then override it.
+            DataSourceEntry existingEntry = dataSourceManager.getDataSourceEntry(entry.getName()); 
+            if ( entry != null && existingEntry != null) {
+                log.info("Datasource with name " + entry.getName() + " already exists. Overriding it.");
+                existingEntry.delete();
+            }
+
+            // Save the new datasource entry.
             if (entry != null) entry.save();
             
             return true;

@@ -20,9 +20,12 @@ import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
+import org.jboss.dashboard.export.DataSourceImportManager;
 import org.jboss.dashboard.initialModule.DataSourceIInitialModule;
 import org.jboss.dashboard.initialModule.InitialModuleRegistry;
 import org.jboss.dashboard.kpi.KPIInitialModule;
+import org.jboss.dashboard.ui.components.export.ExportHandler;
+import org.jboss.dashboard.workspace.export.ExportManager;
 import org.jboss.dashboard.workspace.export.ImportWorkspacesModule;
 import org.slf4j.Logger;
 
@@ -47,9 +50,6 @@ import java.io.File;
 @ApplicationScoped
 public class DeploymentScanner implements Startable {
 
-    protected static final String DATASOURCE_EXTENSION = "datasource";
-    protected static final String KPIS_EXTENSION = "kpis";
-    protected static final String WORKSPACE_EXTENSION = "workspace";
     protected static final String INITIAL_MODULES_NAMESPACE_KPI = "org.jboss.dashboard.deployments.kpi.";
     protected static final String INITIAL_MODULES_NAMESPACE_WORKSPACE = "org.jboss.dashboard.deployments.workspace.";
     protected static final String INITIAL_MODULES_NAMESPACE_DATASOURCE = "org.jboss.dashboard.deployments.datasource.";
@@ -92,7 +92,7 @@ public class DeploymentScanner implements Startable {
      */
     protected void doDeployDataSources() {
         if (StringUtils.isBlank(deploymentFolder)) return;
-        DirectoriesScanner dirScanner = new DirectoriesScanner(DATASOURCE_EXTENSION);
+        DirectoriesScanner dirScanner = new DirectoriesScanner(DataSourceImportManager.DATASOURCE_EXTENSION);
         File[]  files = dirScanner.findFiles(new File(baseAppDirectory, deploymentFolder));
         if (files == null) return;
 
@@ -118,7 +118,7 @@ public class DeploymentScanner implements Startable {
      */
     protected void doDeployKPIs() {
         if (StringUtils.isBlank(deploymentFolder)) return;
-        DirectoriesScanner dirScanner = new DirectoriesScanner(KPIS_EXTENSION);
+        DirectoriesScanner dirScanner = new DirectoriesScanner(ExportHandler.KPIS_EXTENSION);
         File[]  files = dirScanner.findFiles(new File(baseAppDirectory, deploymentFolder));
         if (files == null) return;
         
@@ -144,7 +144,7 @@ public class DeploymentScanner implements Startable {
      */
     protected void doDeployWorkspaces() {
         if (StringUtils.isBlank(deploymentFolder)) return;
-        DirectoriesScanner dirScanner = new DirectoriesScanner(WORKSPACE_EXTENSION);
+        DirectoriesScanner dirScanner = new DirectoriesScanner(ExportManager.WORKSPACE_EXTENSION);
         File[]  files = dirScanner.findFiles(new File(baseAppDirectory, deploymentFolder));
         if (files == null) return;
 

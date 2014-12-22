@@ -44,6 +44,7 @@ import java.util.zip.ZipInputStream;
 public class ExportManager {
 
     private static transient Logger log = LoggerFactory.getLogger(ExportManager.class.getName());
+    public static final String WORKSPACE_EXTENSION = "workspace";
 
     @Inject
     private WorkspaceBuilder workspaceBuilder;
@@ -54,7 +55,7 @@ public class ExportManager {
     @Inject @Config("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
     private String xmlHeader;
 
-    @Inject @Config("xml")
+    @Inject @Config(WORKSPACE_EXTENSION)
     private String[] allowedEntryExtensions;
 
     public String getXmlHeader() {

@@ -15,10 +15,12 @@
  */
 package org.jboss.dashboard.ui.panel.export;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
+import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowCurrentScreenResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowPanelPage;
 import org.jboss.dashboard.ui.panel.PanelDriver;
@@ -30,20 +32,11 @@ import org.jboss.dashboard.workspace.export.structure.ExportResult;
 import org.jboss.dashboard.workspace.export.structure.ImportResult;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
-import org.jboss.dashboard.ui.panel.parameters.StringParameter;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.net.FileNameMap;
-import java.net.URLConnection;
+import java.io.*;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * Driver that handles the import/export procedures.
@@ -61,16 +54,14 @@ public class ExportDriver extends PanelDriver {
 
 
     public static final String PARAM_USE_BLANKS = "useBlanks";
-    public static final String RETURNED_FILE_NAME = "returnedFileName";
-    public static final String EXPORT_ENTRY_NAME = "entryName";
     public static final String PARAM_SHOW_EXPORT = "showExport";
     public static final String PARAM_SHOW_IMPORT = "showImport";
+    
+    private static final String EXPORT_FILE_NAME = "export." + ExportManager.WORKSPACE_EXTENSION;
 
     public void init(PanelProvider provider) throws Exception {
         super.init(provider);
         addParameter(new BooleanParameter(provider, PARAM_USE_BLANKS, true, false));
-        addParameter(new StringParameter(provider, RETURNED_FILE_NAME, true, "export.cex", false));
-        addParameter(new StringParameter(provider, EXPORT_ENTRY_NAME, true, "content", false));
         addParameter(new BooleanParameter(provider, PARAM_SHOW_EXPORT, true, true));
         addParameter(new BooleanParameter(provider, PARAM_SHOW_IMPORT, true, true));
     }
@@ -99,37 +90,15 @@ public class ExportDriver extends PanelDriver {
     }
 
     public CommandResponse actionDownloadExport(final Panel panel, CommandRequest request) throws Exception {
-        FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        final String contentType = fileNameMap.getContentTypeFor(panel.getParameterValue(RETURNED_FILE_NAME));
-
-        final String disposition = "inline; filename=" + panel.getParameterValue(RETURNED_FILE_NAME) + ";";
-        /*ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ZipOutputStream zos = new ZipOutputStream(bos);
-        zos.putNextEntry(new ZipEntry(panel.getParameterValue(EXPORT_ENTRY_NAME) + "." + exportManager.getAllowedEntryExtensions()[0]));
-        OutputStreamWriter wos = new OutputStreamWriter(zos);
-        getSessionInfo().getExportResult().writeXMLversion(wos, BooleanParameter.value(panel.getParameterValue(PARAM_USE_BLANKS), false));
-        wos.close();
-        return new SendStreamResponse(new ByteArrayInputStream(bos.toByteArray()), disposition);*/
-        final String entryName = panel.getParameterValue(EXPORT_ENTRY_NAME) + "." + getExportManager().getAllowedEntryExtensions()[0];
         final boolean useBlanks = BooleanParameter.value(panel.getParameterValue(PARAM_USE_BLANKS), false);
         final ExportResult exportResult = getSessionInfo().getExportResult();
 
         super.fireAfterRenderPanel(panel,request.getRequestObject(), null);
 
-        return new CommandResponse() {
-            public boolean execute(CommandRequest cmdReq) throws Exception {
-                HttpServletResponse response = cmdReq.getResponseObject();
-                response.setHeader("Content-Disposition", disposition);
-                response.setContentType(contentType != null ? contentType : "application/force-download");
-                ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
-                zos.putNextEntry(new ZipEntry(entryName));
-                OutputStreamWriter wos = new OutputStreamWriter(zos);
-                exportResult.writeXMLversion(wos, useBlanks);
-                wos.close();
-                return true;
-            }
-        };
-
+        StringWriter writer = new StringWriter();
+        exportResult.writeXMLversion(writer, useBlanks);
+        writer.close();
+        return new SendStreamResponse(new ByteArrayInputStream(writer.toString().getBytes("UTF-8")), new StringBuilder("inline;filename=").append(EXPORT_FILE_NAME).toString());
     }
 
     public CommandResponse actionStartExport(Panel panel, CommandRequest request) throws Exception {
@@ -182,14 +151,40 @@ public class ExportDriver extends PanelDriver {
         return new ShowPanelPage(panel, request, PAGE_EXPORT_RESULT);
     }
 
-    public CommandResponse actionStartImport(Panel panel, CommandRequest request) throws FileNotFoundException {
+    /**
+     * <p>Starts importing a workspace file.</p>
+     * <p>For backwards compatibility, import allowed formats are <code>ZIP</code> and <code>XML</code></p>
+     */
+    public CommandResponse actionStartImport(Panel panel, CommandRequest request) throws FileNotFoundException, IOException {
         if (request.getUploadedFilesCount() > 0) {
             File file = (File) request.getFilesByParamName().get("importFile");
-            ImportResult[] results = getExportManager().load(new FileInputStream(file));
+            ImportResult[] results = null;
+            boolean isZipFile = isZipFile(file);
+            if (isZipFile) results = getExportManager().load(new FileInputStream(file));
+            else results = new ImportResult[] { getExportManager().loadXML(file.getName(), new FileInputStream(file)) };
             getSessionInfo().setImportResult(results);
             return new ShowPanelPage(panel, request, PAGE_IMPORT_PREVIEW);
         }
         return new ShowCurrentScreenResponse();
+    }
+
+    /**
+     * <p>Determine whether a file is a ZIP File by reading the the magic bytes for the ZIP format, that must be <code>0x504b0304</code></p>
+     */
+    protected  boolean isZipFile(File file) throws IOException {
+        if(file.isDirectory()) {
+            return false;
+        }
+        if(!file.canRead()) {
+            throw new IOException("Cannot read file "+file.getAbsolutePath());
+        }
+        if(file.length() < 4) {
+            return false;
+        }
+        DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
+        int test = in.readInt();
+        in.close();
+        return test == 0x504b0304;
     }
 
     public CommandResponse actionImport(final Panel panel, final CommandRequest request) {
