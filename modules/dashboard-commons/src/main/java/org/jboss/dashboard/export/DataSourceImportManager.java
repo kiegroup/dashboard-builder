@@ -47,6 +47,9 @@ public class DataSourceImportManager {
     protected static final String PROPERTY_PASSWORD = "password";
     protected static final String PROPERTY_TEST_QUERY = "testQuery";
 
+    public static final String DATASOURCE_EXTENSION = "datasource";
+
+
     protected enum DataSourceType {
         JNDI, JDBC;
     }
