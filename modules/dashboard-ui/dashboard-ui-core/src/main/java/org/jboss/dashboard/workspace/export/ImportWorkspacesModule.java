@@ -71,7 +71,7 @@ public class ImportWorkspacesModule extends InitialModule {
                 }
             }
 
-            exportManager.create(new ImportResult[]{result}, null, true);
+            exportManager.create(new ImportResult[]{result}, null);
             return true;
         } catch (Exception e) {
             log.error("Error importing module " + getName() + " version " + getVersion(), e);
