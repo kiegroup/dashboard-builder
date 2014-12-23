@@ -45,22 +45,18 @@ public class WorkspaceBuilder {
     private static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(WorkspaceBuilder.class.getName());
 
     public CreateResult create(XMLNode node) {
-        return create(node, false);
+        return create(node, Collections.EMPTY_MAP);
     }
 
-    public CreateResult create(final XMLNode node, final boolean onStartup) {
-        return create(node, Collections.EMPTY_MAP, onStartup);
-    }
-
-    public CreateResult create(final XMLNode node, final Map attributes, final boolean onStartup) {
+    public CreateResult create(final XMLNode node, final Map attributes) {
         final CreateResult result = new CreateResult();
 
         HibernateTxFragment txFragment = new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 if (ExportVisitor.WORKSPACE.equals(node.getObjectName())) {
-                    createWorkspace(result, node, attributes, onStartup);
+                    createWorkspace(result, node, attributes);
                 } else if (ExportVisitor.RESOURCE.equals(node.getObjectName())) {
-                    createResource(result, null, null, null, node, attributes, onStartup);
+                    createResource(result, null, null, null, node, attributes);
                 } else {
                     throw new IllegalArgumentException("Invalid workspace node.");
                 }
@@ -76,11 +72,7 @@ public class WorkspaceBuilder {
     }
 
 
-    protected void createWorkspace(CreateResult result, Map attributes, XMLNode node) throws Exception {
-        createWorkspace(result, node, attributes, false);
-    }
-
-    protected void createWorkspace(CreateResult result, XMLNode node, Map attributes, boolean onStartup) throws Exception {
+    protected void createWorkspace(CreateResult result, XMLNode node, Map attributes) throws Exception {
         String workspaceId = node.getAttributes().getProperty(ExportVisitor.WORKSPACE_ATTR_ID);
         String skinId = node.getAttributes().getProperty(ExportVisitor.WORKSPACE_ATTR_SKIN_ID);
         String envelopeId = node.getAttributes().getProperty(ExportVisitor.WORKSPACE_ATTR_ENVELOPE_ID);
@@ -94,19 +86,16 @@ public class WorkspaceBuilder {
         workspace.setEnvelopeId(envelopeId);
         workspace.setFriendlyUrl(friendlyUrl);
         workspace.setHomeSearchMode(Integer.parseInt(homeMode));
-        // TODO. Modify export format so it can be read from them
         Set<String> allowedPanelIds = new HashSet<String>();
-        if (onStartup) allowedPanelIds.add("*");
         workspace.setPanelProvidersAllowed(allowedPanelIds);
 
         WorkspacesManager workspacesManager = UIServices.lookup().getWorkspacesManager();
         synchronized (workspacesManager) {
-            if (onStartup) {
-                // Delete the old workspace (if any)
-                Workspace currentWorkspace = workspacesManager.getWorkspace(workspaceId);
-                if (currentWorkspace != null) {
-                    workspacesManager.delete(currentWorkspace);
-                }
+
+            // Delete the old workspace (if any)
+            Workspace currentWorkspace = workspacesManager.getWorkspace(workspaceId);
+            if (currentWorkspace != null) {
+                workspacesManager.delete(currentWorkspace);
             }
             // Register the new one
             workspacesManager.addNewWorkspace(workspace);
@@ -117,20 +106,13 @@ public class WorkspaceBuilder {
             if (ExportVisitor.PARAMETER.equals(child.getObjectName())) {
                 createWorkspaceParameter(child, workspace);
             } else if (ExportVisitor.PANEL_INSTANCE.equals(child.getObjectName())) {
-                createPanelInstance(result, child, workspace, attributes, onStartup);
+                createPanelInstance(result, child, workspace, attributes);
             } else if (ExportVisitor.RESOURCE.equals(child.getObjectName())) {
-                createResource(result, workspace.getId(), null, null, child, attributes, onStartup);
+                createResource(result, workspace.getId(), null, null, child, attributes);
             } else if (ExportVisitor.SECTION.equals(child.getObjectName())) {
-                createSection(result, workspace, child, attributes, onStartup);
+                createSection(result, workspace, child, attributes);
             } else if (ExportVisitor.PERMISSION.equals(child.getObjectName())) {
                 createPermission(result, workspace, workspace, child, attributes);
-            }
-        }
-
-        if (!onStartup) {
-            synchronized (workspacesManager) {
-                Map<String, String> names = workspacesManager.generateUniqueWorkspaceName(workspace);
-                workspace.setName(names);
             }
         }
 
@@ -188,7 +170,7 @@ public class WorkspaceBuilder {
     }
 
 
-    protected void createSection(CreateResult result, WorkspaceImpl workspace, XMLNode node, Map attributes, boolean onStartup) throws Exception {
+    protected void createSection(CreateResult result, WorkspaceImpl workspace, XMLNode node, Map attributes) throws Exception {
         String id = node.getAttributes().getProperty(ExportVisitor.SECTION_ATTR_ID);
         String idTemplate = node.getAttributes().getProperty(ExportVisitor.SECTION_ATTR_ID_TEMPLATE);
         String position = node.getAttributes().getProperty(ExportVisitor.SECTION_ATTR_POSITION);
@@ -227,16 +209,16 @@ public class WorkspaceBuilder {
                     section.setTitle(value, lang);
                 }
             } else if (ExportVisitor.RESOURCE.equals(child.getObjectName())) {
-                createResource(result, workspace.getId(), section.getId(), null, child, attributes, onStartup);
+                createResource(result, workspace.getId(), section.getId(), null, child, attributes);
             } else if (ExportVisitor.PANEL.equals(child.getObjectName())) {
-                createPanel(result, section, child, attributes, onStartup);
+                createPanel(result, section, child, attributes);
             } else if (ExportVisitor.PERMISSION.equals(child.getObjectName())) {
                 createPermission(result, section.getWorkspace(), section, child, attributes);
             }
         }
     }
 
-    protected void createPanel(CreateResult result, Section section, XMLNode node, Map attributes, boolean onStartup) throws Exception {
+    protected void createPanel(CreateResult result, Section section, XMLNode node, Map attributes) throws Exception {
         String id = node.getAttributes().getProperty(ExportVisitor.PANEL_ATTR_ID);
         String instanceId = node.getAttributes().getProperty(ExportVisitor.PANEL_ATTR_INSTANCE_ID);
         String regionId = node.getAttributes().getProperty(ExportVisitor.PANEL_ATTR_REGION_ID);
@@ -286,7 +268,7 @@ public class WorkspaceBuilder {
         }
     }
 
-    protected void createResource(CreateResult result, String workspaceId, Long sectionId, Long panelId, XMLNode node, Map attributes, boolean onStartup) throws Exception {
+    protected void createResource(CreateResult result, String workspaceId, Long sectionId, Long panelId, XMLNode node, Map attributes) throws Exception {
         String className = node.getAttributes().getProperty(ExportVisitor.RESOURCE_ATTR_CATEGORY);
         String id = node.getAttributes().getProperty(ExportVisitor.RESOURCE_ATTR_ID);
         byte[] rawContent = (node.getChildren().get(0)).getContent();
@@ -309,7 +291,7 @@ public class WorkspaceBuilder {
         }
     }
 
-    protected void createPanelInstance(CreateResult result, XMLNode node, WorkspaceImpl workspace, Map attributes, boolean onStartup) throws Exception {
+    protected void createPanelInstance(CreateResult result, XMLNode node, WorkspaceImpl workspace, Map attributes) throws Exception {
         String id = node.getAttributes().getProperty(ExportVisitor.PANELINSTANCE_ATTR_ID);
         String serialization = node.getAttributes().getProperty(ExportVisitor.PANELINSTANCE_ATTR_SERIALIZATION);
         String provider = node.getAttributes().getProperty(ExportVisitor.PANELINSTANCE_ATTR_PROVIDER);
@@ -330,7 +312,7 @@ public class WorkspaceBuilder {
             if (ExportVisitor.PARAMETER.equals(child.getObjectName())) {
                 createPanelInstanceParameter(child, pi);
             } else if (ExportVisitor.RESOURCE.equals(child.getObjectName())) {
-                createResource(result, workspace.getId(), null, pi.getInstanceId(), child, attributes, onStartup);
+                createResource(result, workspace.getId(), null, pi.getInstanceId(), child, attributes);
             } else if (ExportVisitor.RAWCONTENT.equals(child.getObjectName())) {
                 if (pi.getProvider().getDriver() instanceof Exportable) {
                     try {

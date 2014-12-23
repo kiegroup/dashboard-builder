@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.workspace;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.panel.PanelProvider;
@@ -29,12 +29,12 @@ import org.jboss.dashboard.security.Policy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;
-import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 /**
@@ -62,65 +62,16 @@ public class WorkspacesManager {
     @Inject
     protected LayoutsManager layoutsManager;
 
+
     /**
-     * Generate a unused workspace identifier
+     * Generate a unique workspace identifier
      */
     public synchronized String generateWorkspaceId() throws Exception {
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-            String id = Integer.toString(i);
-            if (!existsWorkspace(id, true)) {
-                return id;
-            }
-        }
-        return null;
-    }
-
-    public boolean existsWorkspace(final String id) throws Exception {
-        return existsWorkspace(id, false);
-    }
-
-    public boolean existsWorkspace(final String id, final boolean lock) throws Exception {
-        final boolean[] exists = new boolean[]{false};
-        HibernateTxFragment txFragment = new HibernateTxFragment() {
-            protected void txFragment(Session session) throws Exception {
-                Object workspaceFound = session.get(WorkspaceImpl.class, id, lock ? LockMode.UPGRADE : LockMode.NONE);
-                exists[0] = workspaceFound != null;
-            }
-        };
-        txFragment.execute();
-        return exists[0];
-    }
-
-    public Map<String, String> generateUniqueWorkspaceName(Workspace workspace) throws Exception {
-        return generateUniqueWorkspaceName(1, workspace, null);
-    }
-
-    private Map<String, String> generateUniqueWorkspaceName(int index, Workspace workspace, Map<String, String> newProposed) throws Exception {
-        if (workspace == null) return null;
-        Map<String, String> toEval = new HashMap<String, String>();
-        toEval.putAll(newProposed != null ? newProposed : workspace.getName());
-        if (existsWorkspaceName(workspace, toEval)) {
-            Map<String, String> originalNames = workspace.getName();
-            for (Map.Entry<String, String> entry : toEval.entrySet()) {
-                entry.setValue(originalNames.get(entry.getKey()) + " (" + index + ")");
-            }
-            return generateUniqueWorkspaceName(++index, workspace, toEval);
-        }
-        return toEval;
-    }
-
-    private boolean existsWorkspaceName(Workspace workspace, Map<String, String> proposedNames) {
-        boolean found = false;
-        Workspace[] workspaces = getWorkspaces();
-        int i = 0;
-        while (i < workspaces.length && !found) {
-            if ( !workspace.getId().equals(workspaces[i].getId()) ) {
-                Map<String, String> wnames = workspaces[i].getName();
-                found = CollectionUtils.containsAny(wnames.values(), proposedNames.values());
-            }
-            i++;
-        }
-        return found;
+        UUID uuid = UUID.randomUUID();
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return Base64.encodeBase64URLSafeString(bb.array());
     }
 
     /**

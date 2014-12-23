@@ -159,10 +159,6 @@ public class ExportManager {
      * @return an array of create results, representing the operation result.
      */
     public CreateResult[] create(ImportResult[] results, int[][] indexes) {
-        return create(results, indexes, false);
-    }
-
-    public CreateResult[] create(ImportResult[] results, int[][] indexes, boolean onStartup) {
         List elementsToCreate = new ArrayList();
         List attributesForCreation = new ArrayList();
         if (indexes == null) {
@@ -200,7 +196,7 @@ public class ExportManager {
                     ||
                     ExportVisitor.RESOURCE.equals(nodeToCreate.getObjectName())
                     ) {
-                CreateResult result = workspaceBuilder.create(nodeToCreate, attributes, onStartup);
+                CreateResult result = workspaceBuilder.create(nodeToCreate, attributes);
                 createResults.add(result);
             }
         }
