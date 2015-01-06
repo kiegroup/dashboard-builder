@@ -65,12 +65,14 @@
 
     DataProperty domainProperty = displayer.getDomainProperty();
     DataProperty rangeProperty = displayer.getRangeProperty();
+	DataProperty range2Property = displayer.getRange2Property();
     Locale locale = LocaleManager.currentLocale();
     DecimalFormat numberFormat = (DecimalFormat) DecimalFormat.getInstance(Locale.US);
     numberFormat.setGroupingUsed(false);
     List<String> xvalues = new ArrayList<String>();
     List<String> yvalues = new ArrayList<String>();
-    double minDsValue = -1;
+    List<String> y2values = new ArrayList<String>();
+	double minDsValue = -1;
     double maxDsValue = -1;
 
     for (int i=0; i< xyDataSet.getRowCount(); i++) {
@@ -79,10 +81,17 @@
 
         xvalues.add(StringUtil.escapeQuotes(xvalue));
         yvalues.add(numberFormat.format(yvalue));
-
+		
         // Get the minimum and the maximum value of the dataset.
         if ((minDsValue == -1) || (yvalue < minDsValue)) minDsValue = yvalue;
         if ((maxDsValue == -1) || (yvalue > maxDsValue)) maxDsValue = yvalue;
+		
+		if(range2Property != null){
+			double y2value = ((Number) xyDataSet.getValueAt(i, 2)).doubleValue();
+			y2values.add(numberFormat.format(y2value));
+			if ((minDsValue == -1) || (y2value < minDsValue)) minDsValue = y2value;
+			if ((maxDsValue == -1) || (y2value > maxDsValue)) maxDsValue = y2value;
+		}
     }
 
     // Every chart must have a different identifier so as to do not merge tooltips.
@@ -93,5 +102,10 @@
     String selectedColor = displayer.getColor();
     if (selectedColor == null || selectedColor.equals(displayer.getBackgroundColor())) {
        selectedColor = "#0000FF"; // Default blue if not changed
+    }
+	
+	String selectedColor2 = displayer.getColor2();
+    if (selectedColor2 == null) {
+       selectedColor2 = "#FF0000"; // Default red if not changed
     }
 %>

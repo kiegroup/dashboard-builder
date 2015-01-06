@@ -117,6 +117,18 @@
 </tr>
 -->
 <% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_FOREGRND_COLOR2)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "color"%>'>!!Color externo</i18n:message> 2:
+    </td>
+    <td  align="left">
+        <input class="skn-input" name="color2" type="text" size="14" value="<%=displayer.getColor2()%>" onClick="startColorPicker(this);" onkeyup="maskedHex(this)"
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
 
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND)) { %>
 <tr>

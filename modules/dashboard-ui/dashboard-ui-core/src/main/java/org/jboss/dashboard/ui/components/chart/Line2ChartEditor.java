@@ -13,26 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.displayer;
+package org.jboss.dashboard.ui.components.chart;
 
-public enum DataDisplayerFeature {
-    ALIGN_CHART,
-    SHOW_TITLE,
-    SHOW_HIDE_LABELS,
-    SHOW_LEGEND_POSITION,
-    SHOW_LEGEND,
-    SHOW_LINES_AREA,
-    SET_MARGIN_LEFT,
-    SET_MARGIN_RIGHT,
-    SET_MARGIN_TOP,
-    SET_MARGIN_BOTTOM,
-    ROUND_TO_INTEGER,
-    SET_CHART_TYPE,
-    SET_CHART_WIDTH,
-    SET_CHART_HEIGHT,
-    SET_FOREGRND_COLOR,
-    SET_BARS_WIDTH,
-    SET_LABELS_ANGLE,
-	SET_RANGE2,
-	SET_FOREGRND_COLOR2;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+
+/**
+ * Line2 chart editor displayer configurator component.
+ */
+@PanelScoped
+@Named("line2chart_editor")
+public class Line2ChartEditor extends AbstractXAxisDisplayerEditor {
+
+    @Inject @Config("/components/bam/displayer/chart/line2chart_editor.jsp")
+    protected String beanJSP;
+
+    public String getBeanJSP() {
+        return beanJSP;
+    }
 }

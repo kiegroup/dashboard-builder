@@ -15,12 +15,25 @@
     limitations under the License.
 
 --%>
-<%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
-<%@ taglib uri="mvc_taglib.tld" prefix="mvc"%>
+<%@ page import="org.jboss.dashboard.displayer.chart.AbstractChartDisplayer"%>
+<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor"%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.jboss.dashboard.ui.components.chart.AbstractChartDisplayerEditor" %>
-<i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
+<%@ page import="java.util.ResourceBundle" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="org.jboss.dashboard.domain.Domain" %>
+<%@ page import="org.jboss.dashboard.displayer.DataDisplayerRenderer" %>
+<%@ page import="org.jboss.dashboard.displayer.DataDisplayerFeature" %>
+<%@taglib uri="factory.tld" prefix="factory"%>
+<%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
+<%@ taglib uri="bui_taglib.tld" prefix="panel"%>
+<%@taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n"%>
 
+<i18n:bundle baseName="org.jboss.dashboard.displayer.messages" locale="<%=LocaleManager.currentLocale()%>"/>
+<%
+	AbstractChartDisplayerEditor editor = (AbstractChartDisplayerEditor) request.getAttribute("editor");
+    AbstractChartDisplayer displayer = (AbstractChartDisplayer) editor.getDataDisplayer();
+	DataDisplayerRenderer renderer = displayer.getDataDisplayerRenderer();
+%>
 <!-- Domain axis selection and edition -->
 <tr>
     <td align="left" nowrap="nowrap">
@@ -35,3 +48,11 @@
     </td>
     <mvc:include page="../range/range_selector_component.jsp"  flush="true" />
 </tr>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_RANGE2)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		<i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "range"%>'>!!Range</i18n:message> 2:
+	</td>
+	<mvc:include page="../range/range2_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>

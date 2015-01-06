@@ -64,6 +64,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             NodeList rangeNodes = item.getChildNodes();
             displayer.setRangeConfiguration(parseRange(rangeNodes));
         }
+		// Range2.
+        else if (item.getNodeName().equals("range2") && item.hasChildNodes()) {
+            NodeList rangeNodes = item.getChildNodes();
+            displayer.setRange2Configuration(parseRange(rangeNodes));
+        }
         else if (item.getNodeName().equals("type") && item.hasChildNodes()) {
             displayer.setType(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
@@ -86,6 +91,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         }
         else if (item.getNodeName().equals("color") && item.hasChildNodes()) {
             displayer.setColor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
+        }
+		else if (item.getNodeName().equals("color2") && item.hasChildNodes()) {
+            displayer.setColor2(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
         else if (item.getNodeName().equals("backgroundcolor") && item.hasChildNodes()) {
             displayer.setBackgroundColor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
@@ -146,6 +154,15 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             formatRange(rangeConfig, out, indent);
             printIndent(out, --indent);
             out.println("</range>");
+			
+			// Format the range2.
+            printIndent(out, indent++);
+            out.println("<range2>");
+            RangeConfiguration range2Config = new RangeConfiguration(displayerToFormat.getRange2Property(), displayerToFormat.getRange2ScalarFunction(), displayerToFormat.getUnitI18nMap());
+            displayerToFormat.setRange2Configuration(range2Config);
+            formatRange(range2Config, out, indent);
+            printIndent(out, --indent);
+            out.println("</range2>");
 
             printIndent(out, indent);
             out.print("<type>");
@@ -179,6 +196,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<color>");
             out.print(StringEscapeUtils.escapeXml(displayerToFormat.getColor()));
             out.println("</color>");
+
+			printIndent(out, indent);
+            out.print("<color2>");
+            out.print(StringEscapeUtils.escapeXml(displayerToFormat.getColor2()));
+            out.println("</color2>");
 
             printIndent(out, indent);
             out.print("<backgroundcolor>");

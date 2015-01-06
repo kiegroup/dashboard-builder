@@ -51,10 +51,13 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     protected transient DataProperty domainProperty;
     protected transient DataProperty rangeProperty;
+    protected transient DataProperty range2Property;
     protected transient ScalarFunction rangeScalarFunction;
+    protected transient ScalarFunction range2ScalarFunction;
     protected transient Map<Locale, String> unitI18nMap;
     protected transient DomainConfiguration domainConfig;
     protected transient RangeConfiguration rangeConfig;
+    protected transient RangeConfiguration range2Config;
 
     public static final int INTERVALS_SORT_CRITERIA_LABEL = 0;
     public static final int INTERVALS_SORT_CRITERIA_VALUE = 1;
@@ -64,6 +67,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     protected String type;
     protected String color;
+    protected String color2;
     protected String backgroundColor;
     protected int width;
     protected int height;
@@ -88,11 +92,15 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public AbstractChartDisplayer() {
         domainProperty = null;
         rangeProperty = null;
+        range2Property = null;
         domainConfig = null;
         rangeConfig = null;
+        range2Config = null;
         rangeScalarFunction = null;
+        range2ScalarFunction = null;
         unitI18nMap = new HashMap<Locale, String>();
         color = "#FFFFFF";
+        color2 = "#FFFFFF";
         backgroundColor = "#FFFFFF";
         width = 600;
         height = 300;
@@ -116,6 +124,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         if (dataProvider != null && !dataProvider.equals(dp)) {
             setDomainProperty(null);
             setRangeProperty(null);
+            setRange2Property(null);
         }
 
         // If data provider definition does not match with displayer configuration, do not set the provider
@@ -172,7 +181,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     @Override
     public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
         if (provider != null) {
-            boolean hasChanged = hasProviderPropertiesChanged(domainProperty, provider) || hasProviderPropertiesChanged(rangeProperty, provider);
+            boolean hasChanged = hasProviderPropertiesChanged(domainProperty, provider) || hasProviderPropertiesChanged(rangeProperty, provider) || hasProviderPropertiesChanged(range2Property, provider);
             if (hasChanged) throw new DataDisplayerInvalidConfiguration();    
         }
     }
@@ -266,20 +275,67 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         }
         return rangeProperty;
     }
+	
+	/**
+     * Get the property selected as the range.
+     */
+    public DataProperty getRange2Property() {
+        try {
+            // Get the range property. Be aware of both property removal and data set refresh.
+            DataSet dataSet = dataProvider.getDataSet();
+            if (range2Property == null || hasDataSetChanged(range2Property)) {
+
+                // If a range is currently configured then try to get the property from that.
+                if (range2Config != null) range2Property = dataSet.getPropertyById(range2Config.getPropertyId());
+
+                // If the property has been removed for any reason then reset the range.
+                if (range2Property == null && range2Config != null) range2Config = null;
+                if (range2Property == null) range2Property = getRangePropertiesAvailable()[0];
+
+                // Create a copy of the property to avoid changes to the original data set.
+                range2Property = range2Property.cloneProperty();
+
+                // If a range config exists then apply it to the range.
+                if (range2Config != null) {
+                    range2Config.apply(range2Property);
+                    range2ScalarFunction = DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(range2Config.getScalarFunctionCode());
+                    unitI18nMap = new HashMap<Locale, String>(range2Config.getUnitI18nMap());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return range2Property;
+    }
 
     public void setRangeProperty(DataProperty property) {
         rangeProperty = property;
         rangeScalarFunction = new CountFunction();
         if (rangeProperty == null) rangeConfig = null;
     }
+	
+	public void setRange2Property(DataProperty property) {
+        range2Property = property;
+        range2ScalarFunction = new CountFunction();
+        if (range2Property == null) range2Config = null;
+    }
 
     public ScalarFunction getRangeScalarFunction() {
         if (rangeScalarFunction != null) return rangeScalarFunction;
         return rangeScalarFunction = new CountFunction();
     }
+	
+	public ScalarFunction getRange2ScalarFunction() {
+        if (range2ScalarFunction != null) return range2ScalarFunction;
+        return range2ScalarFunction = new CountFunction();
+    }
 
     public void setRangeScalarFunction(ScalarFunction rangeScalarFunction) {
         this.rangeScalarFunction = rangeScalarFunction;
+    }
+	
+	public void setRange2ScalarFunction(ScalarFunction range2ScalarFunction) {
+        this.range2ScalarFunction = range2ScalarFunction;
     }
 
     public Map<Locale, String> getUnitI18nMap() {
@@ -322,6 +378,14 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     public void setColor(String color) {
         this.color = color;
+    }
+	
+	public String getColor2() {
+        return color2;
+    }
+
+    public void setColor2(String color2) {
+        this.color2 = color2;
     }
 
     public String getBackgroundColor() {
@@ -455,7 +519,9 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public DataSet buildXYDataSet() {
         DataProperty domainProperty = getDomainProperty();
         DataProperty rangeProperty = getRangeProperty();
+        DataProperty range2Property = getRange2Property();
         ScalarFunction scalarFunction = getRangeScalarFunction();
+        ScalarFunction scalar2Function = getRange2ScalarFunction();
         DataSet sourceDataSet = domainProperty.getDataSet();
         CodeBlockTrace trace = new BuildXYDataSetTrace(domainProperty, rangeProperty, scalarFunction).begin();
         try {
@@ -465,8 +531,24 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             // Group the original data set by the domain property.
             int pivot = sourceDataSet.getPropertyColumn(domainProperty);
             int range = sourceDataSet.getPropertyColumn(rangeProperty);
-            int[] columns = new int[] {pivot, range};
-            String[] functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode()};
+            int[] columns;
+			
+			if(range2Property != null){
+				int range2 = sourceDataSet.getPropertyColumn(range2Property);
+				columns = new int[] {pivot, range, range2};
+			}
+			else{
+				columns = new int[] {pivot, range};
+			}
+            
+			String[] functionCodes;
+			if(scalar2Function == null){
+				functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode()};
+			}
+			else{
+				functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode(), scalar2Function.getCode()};
+			}
+			
             return sourceDataSet.groupBy(domainProperty, columns, functionCodes, intervalsSortCriteria, intervalsSortOrder);
         } finally {
             trace.end();
@@ -480,14 +562,18 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             AbstractChartDisplayer source = (AbstractChartDisplayer) sourceDisplayer;
             setBackgroundColor(source.getBackgroundColor());
             setColor(source.getColor());
+            setColor2(source.getColor2());
             setDomainConfiguration(source.domainConfig);
             setDomainProperty(source.getDomainProperty());
             setGraphicAlign(source.getGraphicAlign());
             setHeight(source.getHeight());
             setLegendAnchor(source.getLegendAnchor());
             setRangeConfiguration(source.rangeConfig);
+            setRange2Configuration(source.range2Config);
             setRangeProperty(source.getRangeProperty());
+            setRange2Property(source.getRange2Property());
             setRangeScalarFunction(source.getRangeScalarFunction());
+            setRange2ScalarFunction(source.getRange2ScalarFunction());
             setMarginBottom(source.getMarginBottom());
             setMarginTop(source.getMarginTop());
             setMarginLeft(source.getMarginLeft());
@@ -512,6 +598,10 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public void setRangeConfiguration(RangeConfiguration config) {
         rangeConfig = config;
     }
+	
+	public void setRange2Configuration(RangeConfiguration config) {
+        range2Config = config;
+    }
 
     public DomainConfiguration getDomainConfiguration() {
         return domainConfig;
@@ -519,6 +609,10 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 
     public RangeConfiguration getRangeConfiguration() {
         return rangeConfig;
+    }
+	
+	public RangeConfiguration getRange2Configuration() {
+        return range2Config;
     }
 
     class BuildXYDataSetTrace extends CodeBlockTrace {

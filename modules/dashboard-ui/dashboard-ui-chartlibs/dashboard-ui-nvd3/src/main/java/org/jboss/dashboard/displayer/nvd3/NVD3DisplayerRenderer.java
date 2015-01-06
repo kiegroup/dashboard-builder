@@ -21,6 +21,7 @@ import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
+import org.jboss.dashboard.displayer.annotation.Line2Chart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.chart.*;
 import org.jboss.dashboard.ui.UIServices;
@@ -34,6 +35,7 @@ import java.util.*;
 @BarChart
 @PieChart
 @LineChart
+@Line2Chart
 public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
@@ -58,6 +60,12 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     @Inject @Config("")
     protected String lineChartDefault;
+	
+	@Inject @Config("")
+    protected String[] line2ChartTypes;
+
+    @Inject @Config("")
+    protected String line2ChartDefault;
 
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String, List<String>> availableChartTypes;
@@ -90,12 +98,14 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         availableChartTypes.put(BarChartDisplayerType.UID, Arrays.asList(barChartTypes));
         availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pieChartTypes));
         availableChartTypes.put(LineChartDisplayerType.UID, Arrays.asList(lineChartTypes));
+        availableChartTypes.put(Line2ChartDisplayerType.UID, Arrays.asList(line2ChartTypes));
 
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
         defaultChartTypes.put(BarChartDisplayerType.UID, barChartDefault);
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
+        defaultChartTypes.put(Line2ChartDisplayerType.UID, line2ChartDefault);
     }
 
     public boolean isEnabled() {
@@ -119,10 +129,16 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LEGEND)) {
             return true;
         } else
-        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
+        if (((displayer instanceof LineChartDisplayer) || (displayer instanceof Line2ChartDisplayer)) && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
             return true;
         }
-        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR)) {
+		if (((displayer instanceof LineChartDisplayer) || (displayer instanceof Line2ChartDisplayer)) && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR)) {
+            return true;
+        }
+		if (displayer instanceof Line2ChartDisplayer && feature.equals(DataDisplayerFeature.SET_RANGE2)) {
+            return true;
+        }
+		if (displayer instanceof Line2ChartDisplayer && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR2)) {
             return true;
         }
         else {
@@ -162,6 +178,10 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         if (displayer instanceof LineChartDisplayer) {
             LineChartDisplayer lineChartDisplayer = (LineChartDisplayer) displayer;
             lineChartDisplayer.setShowLinesArea(true);
+        }
+		if (displayer instanceof Line2ChartDisplayer) {
+            Line2ChartDisplayer line2ChartDisplayer = (Line2ChartDisplayer) displayer;
+            line2ChartDisplayer.setShowLinesArea(true);
         }
     }
 }

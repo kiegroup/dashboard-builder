@@ -40,6 +40,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
     public static final String I18N_PREFFIX = "abstractChartDisplayer.";
     public static final String DOMAIN_SAVE_BUTTON_PRESSED = "updateDomainDetails";
     public static final String RANGE_SAVE_BUTTON_PRESSED = "updateRangeDetails";
+    public static final String RANGE2_SAVE_BUTTON_PRESSED = "updateRange2Details";
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         AbstractChartDisplayer displayer = (AbstractChartDisplayer) getDataDisplayer();
@@ -92,6 +93,27 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
                 displayer.setUnitI18nMap(rangeConfig.getUnitI18nMap());
             }
         }
+		
+		String idRange2Details = request.getRequestObject().getParameter("idRange2Details");
+        if (idRange2Details != null) {
+
+            // If the range2 property has been changed, load it.
+            DataProperty range2Property = displayer.getRange2Property();
+            if (!idRange2Details.equals(range2Property.getPropertyId())) displayer.setRange2Property(ds.getPropertyById(idRange2Details));
+
+            // If range2 save button has been pressed, update its configuration parameters.
+            String range2SaveButtonPressed = request.getRequestObject().getParameter(RANGE2_SAVE_BUTTON_PRESSED);
+            boolean updateRange2Details =  (range2SaveButtonPressed != null) && Boolean.valueOf(range2SaveButtonPressed).booleanValue();
+            // TODO: Also save if the enter key has been pressed.
+            if (updateRange2Details) {
+                RangeConfiguration range2Config = displayer.getRange2Configuration();
+                RangeConfigurationParser parser = new RangeConfigurationParser(range2Config);
+                parser.parse2(request);
+                range2Config.apply(displayer.getRange2Property());
+                displayer.setRange2ScalarFunction(DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(range2Config.getScalarFunctionCode()));
+                displayer.setUnitI18nMap(range2Config.getUnitI18nMap());
+            }
+        }
 
         // Retrieve other configuration parameters and set the new properties to the displayer.
         String chartType = request.getRequestObject().getParameter("chartType");
@@ -102,6 +124,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String showLegend = request.getRequestObject().getParameter("showLegend");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
         String color = request.getRequestObject().getParameter("color");
+        String color2 = request.getRequestObject().getParameter("color2");
         String backgroundColor = request.getRequestObject().getParameter("backgroundColor");
         String width = request.getRequestObject().getParameter("width");
         String height = request.getRequestObject().getParameter("height");
@@ -117,6 +140,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         displayer.setAxisInteger(axisInteger != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);
+        if (color2 != null && !"".equals(color2)) displayer.setColor2(color2);
         if (backgroundColor != null && !"".equals(backgroundColor)) displayer.setBackgroundColor(backgroundColor);
         try {
             if (!StringUtils.isBlank(width)) displayer.setWidth(Integer.parseInt(width));
