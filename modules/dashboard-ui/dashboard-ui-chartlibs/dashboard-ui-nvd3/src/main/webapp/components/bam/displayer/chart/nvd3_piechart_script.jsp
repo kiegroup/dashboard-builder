@@ -60,7 +60,7 @@
        <% if( enableDrillDown ) {%>
           graph.pie.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.index;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.label;
           submitAjaxForm(form);
           });
        <% } %>

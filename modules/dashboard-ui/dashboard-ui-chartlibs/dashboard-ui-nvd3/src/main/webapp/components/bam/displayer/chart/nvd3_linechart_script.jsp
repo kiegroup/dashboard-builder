@@ -86,7 +86,7 @@
   <% if( enableDrillDown ) {%>
     graph.lines.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = chartLabels<%=chartId%>[e.pointIndex];
           submitAjaxForm(form);
           });
   <% } %>

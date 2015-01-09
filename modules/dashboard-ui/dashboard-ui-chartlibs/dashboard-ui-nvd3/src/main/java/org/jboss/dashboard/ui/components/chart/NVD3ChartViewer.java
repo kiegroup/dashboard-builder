@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 package org.jboss.dashboard.ui.components.chart;
-
+import java.util.*;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.chart.AbstractChartDisplayer;
 import org.jboss.dashboard.domain.Interval;
+import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.ui.components.DataDisplayerViewer;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.provider.DataProperty;
@@ -36,12 +37,11 @@ public abstract class NVD3ChartViewer extends DataDisplayerViewer {
 
     public CommandResponse actionApplyLink(CommandRequest request) throws Exception {
         AbstractChartDisplayer abstractChartDisplayer = (AbstractChartDisplayer) getDataDisplayer();
-        DataProperty property = abstractChartDisplayer.getDomainProperty();
-        Integer series = Integer.decode(request.getRequestObject().getParameter(PARAM_NSERIE));
-        DataSet dataSet = abstractChartDisplayer.buildXYDataSet();
-        Interval interval = (Interval) dataSet.getValueAt(series, 0);
+        DataProperty property = abstractChartDisplayer.getDomainProperty();		
+        ArrayList<String> list = new ArrayList<String>();
+        list.add(request.getRequestObject().getParameter(PARAM_NSERIE));		        
         Dashboard dashboard = DashboardHandler.lookup().getCurrentDashboard();
-        if (dashboard.filter(property.getPropertyId(), interval, FilterByCriteria.ALLOW_ANY)) {
+        if (dashboard.filter(property.getPropertyId(), null, true, null, true, list, FilterByCriteria.ALLOW_ANY)) {
             return new ShowCurrentScreenResponse();
         }
         return null;

@@ -76,7 +76,7 @@
        <% if( enableDrillDown ) {%>
           graph.discretebar.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.point.label;
           submitAjaxForm(form);
           });
        <% } %>
