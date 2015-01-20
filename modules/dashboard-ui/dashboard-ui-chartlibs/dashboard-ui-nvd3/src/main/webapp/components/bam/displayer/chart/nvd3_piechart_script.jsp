@@ -34,6 +34,17 @@
         }
     ];
 
+	var tooltipShowFn_<%=chartId%> = function(e, offsetElement) {
+       <% if(enableTooltips) { %>
+		x = e.label;
+		y = d3.format(',.<%=decimalPrecision%>f')(e.value);
+
+		content = x + " : " + y;
+		document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+
+		<% } %>
+	}
+	
     nv.addGraph({
       generate: function() {
             var chart = nv.models.pieChart();
@@ -65,16 +76,7 @@
           });
        <% } %>
 
-        graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-        <% if(enableTooltips) { %>
-            x = e.label;
-            y = d3.format(',.<%=decimalPrecision%>f')(e.value);
-
-            content = x + " : " + y;
-            document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-
-            <% } %>
-          });
+        graph.dispatch.on('tooltipShow', tooltipShowFn_<%=chartId%>);
       }
   });
 </script>

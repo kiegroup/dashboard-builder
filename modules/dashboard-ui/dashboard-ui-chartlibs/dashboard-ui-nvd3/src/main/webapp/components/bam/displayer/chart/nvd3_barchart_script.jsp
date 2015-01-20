@@ -33,6 +33,14 @@
             ]
         }
     ];
+	
+	var tooltipShowFn_<%=chartId%> = function(e, offsetElement) {
+		x = e.point.label;
+		y = e.value,
+		content = x + " : " + y;
+
+		document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+	}
 
     nv.addGraph({
       generate: function() {
@@ -81,13 +89,7 @@
           });
        <% } %>
 
-          graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = e.point.label;
-              y = graph.yAxis.tickFormat()(graph.discretebar.y()(e.point, e.pointIndex)),
-              content = x + " : " + y;
-
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-          });
+          graph.dispatch.on('tooltipShow', tooltipShowFn_<%=chartId%>);
       }
   });
 </script>
