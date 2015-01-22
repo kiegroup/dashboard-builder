@@ -145,8 +145,7 @@ public class FriendlyUrlProcessor extends AbstractChainProcessor {
             WorkspaceImpl workspace = null;
             Section section = null;
             if (workspaceCandidate != null) {
-                boolean canbeWorkspaceId = canBeWorkspaceId(workspaceCandidate);
-                if (canbeWorkspaceId) workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceCandidate);
+                workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspace(workspaceCandidate);
                 if (workspace == null) workspace = (WorkspaceImpl) UIServices.lookup().getWorkspacesManager().getWorkspaceByUrl(workspaceCandidate);
             }
             if (workspace != null && sectionCandidate != null) {
@@ -209,14 +208,5 @@ public class FriendlyUrlProcessor extends AbstractChainProcessor {
             log.error("Exception processing friendly URI", e);
         }
         return true;
-    }
-
-    protected boolean canBeWorkspaceId(String workspaceCandidate) {
-        try {
-            Long.decode(workspaceCandidate);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
     }
 }
