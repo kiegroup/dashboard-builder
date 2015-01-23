@@ -183,8 +183,12 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     @Override
     public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
         if (provider != null) {
-            boolean hasChanged = hasProviderPropertiesChanged(domainProperty, provider) || hasProviderPropertiesChanged(rangeProperty, provider) || hasProviderPropertiesChanged(range2Property, provider);
-            if (hasChanged) throw new DataDisplayerInvalidConfiguration();    
+            boolean hasDomainPropChanged = hasProviderPropertiesChanged(domainProperty, provider);
+            boolean hasRangePropChanged = hasProviderPropertiesChanged(rangeProperty, provider);
+            boolean hasRange2PropChanged = hasProviderPropertiesChanged(range2Property, provider);
+            if (hasDomainPropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasRangePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasRange2PropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range2 property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
         }
     }
 

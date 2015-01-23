@@ -63,7 +63,7 @@ public class TableDisplayer extends AbstractDataDisplayer {
                 String propId = column.getPropertyId();
                 try {
                     if ( hasProviderPropertiesChanged(propId, provider.getDataSet()) ) {
-                        throw new DataDisplayerInvalidConfiguration();
+                        throw new DataDisplayerInvalidConfiguration("The current table displayer property [" + propId + "] is no longer available in data provider with code [" + dataProvider.getCode() + "].");
                     }
                 } catch (DataDisplayerInvalidConfiguration e) {
                     throw e;

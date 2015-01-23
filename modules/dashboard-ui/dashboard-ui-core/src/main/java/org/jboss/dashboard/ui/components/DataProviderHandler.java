@@ -339,6 +339,8 @@ public class DataProviderHandler extends UIBeanHandler {
             if (dataProviderCode != null) {
                 DataProvider dataProvider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(dataProviderCode);
                 dataProviderId = dataProvider.getId();
+                descriptions = dataProvider.getDescriptionI18nMap();
+                providerName = (String) LocaleManager.lookup().localize(descriptions);
                 setEditProperties(true);
 
                 setComponentIncludeJSP(componentIncludeJSPeditProperties);
