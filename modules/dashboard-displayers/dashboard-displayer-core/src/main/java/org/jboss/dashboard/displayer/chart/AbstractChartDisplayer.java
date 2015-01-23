@@ -71,6 +71,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected String backgroundColor;
     protected int width;
     protected int height;
+    protected boolean disableDrillDown;
     protected boolean showLegend;
     protected boolean axisInteger;
     protected String legendAnchor;
@@ -104,6 +105,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         backgroundColor = "#FFFFFF";
         width = 600;
         height = 300;
+        disableDrillDown = false;
         showLegend = false;
         axisInteger = false;
         legendAnchor = "south";
@@ -419,6 +421,14 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public void setShowLegend(boolean showLegend) {
         this.showLegend = showLegend;
     }
+	
+	public boolean isDisableDrillDown() {
+        return disableDrillDown;
+    }
+
+    public void setDisableDrillDown(boolean disableDrillDown) {
+        this.disableDrillDown = disableDrillDown;
+    }
 
     public boolean isAxisInteger() {
         return axisInteger;
@@ -582,6 +592,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setWidth(source.getWidth());
             setAxisInteger(source.isAxisInteger());
             setShowLegend(source.isShowLegend());
+            setDisableDrillDown(source.isDisableDrillDown());
             setShowTitle(source.isShowTitle());
             setIntervalsSortCriteria(source.getIntervalsSortCriteria());
             setIntervalsSortOrder(source.getIntervalsSortOrder());

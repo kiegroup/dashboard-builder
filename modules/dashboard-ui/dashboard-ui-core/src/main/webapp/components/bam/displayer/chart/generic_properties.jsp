@@ -147,6 +147,23 @@
 </tr>
 <% } %>
 
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.DISABLE_DRILL_DOWN)) { %>
+<tr>
+    <td height="15" align="left" width="33%" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "disableDrillDown"%>'>!!Disable Drill Down</i18n:message>:
+    </td>
+    <td height="15" width="66%" align="left">
+        <%
+            boolean disableDrillDown = false;
+            if (displayer.isDisableDrillDown()) disableDrillDown = true;
+        %>
+        <input name="disableDrillDown" id="<factory:encode name="disableDrillDown"/>" type="checkbox" value="true" <%=disableDrillDown ? "checked" : ""%>
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
+
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND_POSITION)) { %>
 <tr>
     <td height="15" align="left" nowrap="nowrap">

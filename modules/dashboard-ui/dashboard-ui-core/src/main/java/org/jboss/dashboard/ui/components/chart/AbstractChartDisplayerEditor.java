@@ -122,6 +122,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         // Other properties.
         String showTitle = request.getRequestObject().getParameter("showTitle");
         String showLegend = request.getRequestObject().getParameter("showLegend");
+        String disableDrillDown = request.getRequestObject().getParameter("disableDrillDown");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
         String color = request.getRequestObject().getParameter("color");
         String color2 = request.getRequestObject().getParameter("color2");
@@ -137,6 +138,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
 
         displayer.setShowTitle(showTitle != null);
         displayer.setShowLegend(showLegend != null);
+        displayer.setDisableDrillDown(disableDrillDown != null);
         displayer.setAxisInteger(axisInteger != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);

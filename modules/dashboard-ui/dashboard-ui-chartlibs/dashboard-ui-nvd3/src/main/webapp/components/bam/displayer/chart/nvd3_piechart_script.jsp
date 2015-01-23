@@ -68,7 +68,7 @@
 
       },
       callback: function(graph) {
-       <% if( enableDrillDown ) {%>
+       <% if( enableDrillDown && !disableDrillDown) {%>
           graph.pie.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
           form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.label;

@@ -107,6 +107,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("showlegend") && item.hasChildNodes()) {
             displayer.setShowLegend(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
+		else if (item.getNodeName().equals("disabledrilldown") && item.hasChildNodes()) {
+            displayer.setDisableDrillDown(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
         else if (item.getNodeName().equals("axisinteger") && item.hasChildNodes()) {
             displayer.setAxisInteger(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
@@ -221,6 +224,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<showlegend>");
             out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isShowLegend())));
             out.println("</showlegend>");
+			
+			printIndent(out, indent);
+            out.print("<disabledrilldown>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isDisableDrillDown())));
+            out.println("</disabledrilldown>");
 
             printIndent(out, indent);
             out.print("<axisinteger>");

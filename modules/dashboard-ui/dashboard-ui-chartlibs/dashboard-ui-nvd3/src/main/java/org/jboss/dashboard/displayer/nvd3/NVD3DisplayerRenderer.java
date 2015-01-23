@@ -92,6 +92,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_LEFT);
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_RIGHT);
         //featuresSupported.add(DataDisplayerFeature.SHOW_LINES_AREA);
+        featuresSupported.add(DataDisplayerFeature.DISABLE_DRILL_DOWN);
 
         // Register the available chart types.
         availableChartTypes = new HashMap<String, List<String>>();

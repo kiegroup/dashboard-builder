@@ -97,7 +97,7 @@
 
   },
   callback: function(graph) {
-  <% if( enableDrillDown ) {%>
+  <% if( enableDrillDown && !disableDrillDown) {%>
     graph.lines.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
           form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = chartLabels<%=chartId%>[e.pointIndex];

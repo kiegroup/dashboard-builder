@@ -108,4 +108,6 @@
     if (selectedColor2 == null) {
        selectedColor2 = "#FF0000"; // Default red if not changed
     }
+	
+	boolean disableDrillDown = displayer.isDisableDrillDown();    
 %>
