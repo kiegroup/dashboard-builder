@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jboss.dashboard-builder</groupId>
     <artifactId>dashboard-builder</artifactId>
-    <version>6.2.0-SNAPSHOT</version>
+    <version>6.3.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>builder</artifactId>
@@ -104,7 +104,7 @@
               <descriptors>
                 <descriptor>src/main/assembly/assembly-jboss-as-7.xml</descriptor>
                 <descriptor>src/main/assembly/assembly-wildfly-8.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-eap-6_3.xml</descriptor>
+                <descriptor>src/main/assembly/assembly-eap-6_4.xml</descriptor>
                 <descriptor>src/main/assembly/assembly-tomcat-7.xml</descriptor>
                 <descriptor>src/main/assembly/assembly-websphere-as-8.xml</descriptor>
                 <descriptor>src/main/assembly/assembly-weblogic-12c.xml</descriptor>
