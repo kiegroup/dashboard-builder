@@ -135,6 +135,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String marginRight = request.getRequestObject().getParameter("marginRight");
         String marginTop = request.getRequestObject().getParameter("marginTop");
         String marginBottom = request.getRequestObject().getParameter("marginBottom");
+        String labelThreshold = request.getRequestObject().getParameter("labelThreshold");
 
         displayer.setShowTitle(showTitle != null);
         displayer.setShowLegend(showLegend != null);
@@ -151,6 +152,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
             if (!StringUtils.isBlank(marginRight)) displayer.setMarginRight(Integer.parseInt(marginRight));
             if (!StringUtils.isBlank(marginTop)) displayer.setMarginTop(Integer.parseInt(marginTop));
             if (!StringUtils.isBlank(marginBottom)) displayer.setMarginBottom(Integer.parseInt(marginBottom));
+            if (!StringUtils.isBlank(labelThreshold)) displayer.setLabelThreshold(Integer.parseInt(labelThreshold));
         } catch (NumberFormatException e) {
             log.warn("Cannot parse value width or height value as number.");
         }

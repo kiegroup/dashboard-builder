@@ -55,6 +55,7 @@
                     .height(<%= displayer.getHeight() %>)
                     .showLegend(<%=displayer.isShowLegend() %>)
                     .showLabels(<%=displayer.isShowLabelsXAxis() %>)
+					.labelThreshold(<%=displayer.getLabelThreshold()%>/100)
                     .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>});
 
                d3.select('#<%= chartId %> svg')

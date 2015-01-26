@@ -84,6 +84,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected int marginRight;
     protected int marginBottom;
     protected int marginTop;
+    protected int labelThreshold;
 
     /** The flag indicating if the X-aAxis labels should be displayed. */
     protected boolean showLabelsXAxis;
@@ -118,6 +119,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         marginRight=30;
         marginTop=30;
         marginBottom=30;
+        labelThreshold=0;
     }
 
     public void setDataProvider(DataProvider dp) throws DataDisplayerInvalidConfiguration {
@@ -521,6 +523,14 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public void setMarginTop(int marginTop) {
         this.marginTop = marginTop;
     }
+	
+	public int getLabelThreshold() {
+        return labelThreshold;
+    }
+
+    public void setLabelThreshold(int labelThreshold) {
+        this.labelThreshold = labelThreshold;
+    }
 
     public boolean isShowLabelsXAxis() {
         return showLabelsXAxis;
@@ -592,6 +602,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setMarginTop(source.getMarginTop());
             setMarginLeft(source.getMarginLeft());
             setMarginRight(source.getMarginRight());
+            setLabelThreshold(source.getLabelThreshold());
             setTitle(source.getTitle());
             setWidth(source.getWidth());
             setAxisInteger(source.isAxisInteger());

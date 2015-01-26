@@ -134,6 +134,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("marginbottom") && item.hasChildNodes()) {
             displayer.setMarginBottom(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
         }
+		else if (item.getNodeName().equals("labelthreshold") && item.hasChildNodes()) {
+            displayer.setLabelThreshold(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
+        }
     }
 
     protected void formatDisplayer(DataDisplayer displayer, PrintWriter out, int indent) throws Exception {
@@ -269,6 +272,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<marginbottom>");
             out.print(StringEscapeUtils.escapeXml(Integer.toString(displayerToFormat.getMarginBottom())));
             out.println("</marginbottom>");
+			
+            printIndent(out, indent);
+            out.print("<labelthreshold>");
+            out.print(StringEscapeUtils.escapeXml(Integer.toString(displayerToFormat.getLabelThreshold())));
+            out.println("</labelthreshold>");
 
         } catch (ClassCastException e) {
             throw new RuntimeException("Can not format non-chart displayers: " + displayer.getClass().getName());

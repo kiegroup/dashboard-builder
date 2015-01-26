@@ -274,6 +274,19 @@
     </td>
 </tr>
 <% } %>
+
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_LABEL_THRESHOLD)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "label_threshold"%>'>!!Label Threshold</i18n:message>:
+    </td>
+    <td align="left">
+        <input class="skn-input" name="labelThreshold" type="text" size="14" value="<%= displayer.getLabelThreshold() %>"
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
 <tr>
   <td height="15" nowrap="nowrap" align="left" >
     <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "intervalsSortCriteria"%>'>!!Sort intervals by</i18n:message>:

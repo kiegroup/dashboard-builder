@@ -129,6 +129,9 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
     public boolean isFeatureSupported(DataDisplayer displayer, DataDisplayerFeature feature) {
         if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LEGEND)) {
             return true;
+        }
+		if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SET_LABEL_THRESHOLD)) {
+            return true;
         } else
         if (((displayer instanceof LineChartDisplayer) || (displayer instanceof Line2ChartDisplayer)) && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
             return true;
