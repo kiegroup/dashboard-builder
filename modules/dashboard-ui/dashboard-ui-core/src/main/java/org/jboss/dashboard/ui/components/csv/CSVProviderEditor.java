@@ -15,23 +15,23 @@
  */
 package org.jboss.dashboard.ui.components.csv;
 
-import org.jboss.dashboard.LocaleManager;
-import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.dataset.DataSet;
-import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
-import org.jboss.dashboard.ui.components.DataProviderEditor;
-import org.jboss.dashboard.provider.csv.CSVDataLoader;
-import org.jboss.dashboard.commons.misc.Chronometer;
-import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.dashboard.LocaleManager;
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.misc.Chronometer;
+import org.jboss.dashboard.dataset.DataSet;
+import org.jboss.dashboard.provider.csv.CSVDataLoader;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+import org.jboss.dashboard.ui.components.DataProviderEditor;
+import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.slf4j.Logger;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @PanelScoped
 @Named("csv_editor")
@@ -91,6 +91,8 @@ public class CSVProviderEditor extends DataProviderEditor {
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         loadAttemptOk = false;
 
+        DataSet oldDs = dataProvider.getDataSet();
+        
         // Get the parameters
         String csvSeparatedBy = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvSeparatedBy"));
         String csvQuoteChar = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvQuoteChar"));
@@ -127,19 +129,26 @@ public class CSVProviderEditor extends DataProviderEditor {
         csvLoader.setCsvNumberPattern(csvNumberPattern);
         csvLoader.setFileURL(csvUrlFile);
 
+        DataSet newDs = null;
         try {
             // Ensure data retrieved is refreshed.
             Chronometer crono = new Chronometer();
             crono.start();
-            DataSet ds = dataProvider.refreshDataSet();
+            newDs = dataProvider.refreshDataSet();
             crono.stop();
             elapsedTime = crono.elapsedTime();
             nrows = 0;
-            if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
+            if (newDs != null && newDs.getProperties().length > 0) nrows = newDs.getRowCount();
             loadAttemptOk = true;
         } catch (Exception e) {
             throw new Exception(e.getMessage() != null ? e.getMessage() : getErrorMessage("error5") );
         }
+
+        if (hasDefinitionChanged(oldDs, newDs)) 
+        {
+            removeKPIs();
+        }
+
         return null;
     }
 

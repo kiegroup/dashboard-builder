@@ -18,20 +18,20 @@ package org.jboss.dashboard.ui.components.sql;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.error.ErrorManager;
+import org.jboss.dashboard.provider.sql.SQLDataLoader;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DataProviderEditor;
-import org.jboss.dashboard.provider.sql.SQLDataLoader;
-import org.jboss.dashboard.commons.misc.Chronometer;
-import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.CommandRequest;
+import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.slf4j.Logger;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @PanelScoped
 @Named("sql_editor")
@@ -85,6 +85,8 @@ public class SQLProviderEditor extends DataProviderEditor {
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         loadAttemptOk = false;
 
+        DataSet oldDs = dataProvider.getDataSet();
+        
         // Get the parameters
         String dataSource = request.getRequestObject().getParameter("dataSource");
         String sqlQuery = request.getRequestObject().getParameter("sqlQuery");
@@ -97,24 +99,31 @@ public class SQLProviderEditor extends DataProviderEditor {
         SQLDataLoader sqlLoader = getSQLDataLoader();
 
         // Ensure data retrieved is refreshed.
+        DataSet newDs = null;
         try {
             if (dataSource != null) sqlLoader.setDataSource(dataSource);
             sqlLoader.setSQLQuery(sqlQuery);
 
             Chronometer crono = new Chronometer(); crono.start();
-            DataSet ds = dataProvider.refreshDataSet();
+            newDs = dataProvider.refreshDataSet();
             crono.stop();
             elapsedTime = crono.elapsedTime();
             nrows = 0;
-            if (ds != null && ds.getProperties().length > 0) nrows = ds.getRowCount();
+            if (newDs != null && newDs.getProperties().length > 0) nrows = newDs.getRowCount();
             loadAttemptOk = true;
         } catch (Exception e) {
             Throwable cause = ErrorManager.lookup().getRootCause(e);
             throw new Exception(!StringUtils.isBlank(cause.getMessage()) ? cause.getMessage() : getErrorMessage("query.error") );
         }
+
+        if (hasDefinitionChanged(oldDs, newDs))
+        {
+            removeKPIs();
+        }
+        
         return null;
     }
-
+    
     public CommandResponse actionCancel(CommandRequest request) throws Exception {
         clear();
         return null;

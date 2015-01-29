@@ -172,36 +172,39 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     @Override
     public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
         if (provider != null) {
-            boolean hasDomainPropChanged = hasProviderPropertiesChanged(domainProperty, provider);
-            boolean hasRangePropChanged = hasProviderPropertiesChanged(rangeProperty, provider);
-            if (hasDomainPropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-            if (hasRangePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            boolean hasDomainPropChanged = false;
+            boolean hasRangePropChanged = false;
+            try {
+                String domainPropertyId = (domainProperty != null) ? domainProperty.getPropertyId() : (domainConfig != null) ? domainConfig.getPropertyId() : null;
+                hasDomainPropChanged = hasProviderPropertiesChanged(domainPropertyId, provider);
+                String rangePropertyId = (rangeProperty != null) ? rangeProperty.getPropertyId() : (rangeConfig != null) ? rangeConfig.getPropertyId() : null;
+                hasRangePropChanged = hasProviderPropertiesChanged(rangePropertyId, provider);
+            } catch (Exception e) {
+                throw new DataDisplayerInvalidConfiguration("Error during displayer initialization.", e);
+            }
+            if (hasDomainPropChanged && domainConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasRangePropChanged && rangeConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + rangeConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
         }
     }
 
     /**
      * Check if a data provider property match with the serialized in the displayer.
-     * @param property The data property from this displayer to check if exist in the data provider.
+     * @param propertyId The data property identifier of this displayer to check against data provider properties.
      * @param dataProvider The current data provider definition.
      * @return If the data displayer property exists in current data provider.
      */
-    public boolean hasProviderPropertiesChanged(DataProperty property, DataProvider dataProvider) {
-        if (property == null) return false;
+    public boolean hasProviderPropertiesChanged(String propertyId, DataProvider dataProvider) throws Exception{
+        if (propertyId == null) return false;
         
-        try {
-            DataSet dataSet = dataProvider.getDataSet();
-            DataProperty[] datasetProperties = dataSet.getProperties();
-            if (datasetProperties != null && datasetProperties.length > 0) {
-                for (DataProperty datasetProperty : datasetProperties) {
-                    String datasetPropertyId = datasetProperty.getPropertyId();
-                    if (datasetPropertyId.equals(property.getPropertyId())) return false;
-                }
+        DataSet dataSet = dataProvider.getDataSet();
+        DataProperty[] datasetProperties = dataSet.getProperties();
+        if (datasetProperties != null && datasetProperties.length > 0) {
+            for (DataProperty datasetProperty : datasetProperties) {
+                String datasetPropertyId = datasetProperty.getPropertyId();
+                if (datasetPropertyId.equals(propertyId)) return false;
             }
-            return true;
-        } catch (Exception e) {
-            log.error("Error getting data set.", e);
         }
-        return false;
+        return true;
     }
     
     /**
