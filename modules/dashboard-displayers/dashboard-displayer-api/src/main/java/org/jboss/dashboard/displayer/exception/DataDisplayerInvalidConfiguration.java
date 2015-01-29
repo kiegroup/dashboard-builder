@@ -27,5 +27,13 @@ public class DataDisplayerInvalidConfiguration extends Exception {
     public DataDisplayerInvalidConfiguration() {
         super();
     }
-    
+
+    public DataDisplayerInvalidConfiguration(String message) {
+        super(message);
+    }
+
+    public DataDisplayerInvalidConfiguration(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }
