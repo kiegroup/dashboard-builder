@@ -49,9 +49,6 @@ public class ExportManager {
     @Inject
     private WorkspaceBuilder workspaceBuilder;
 
-    @Inject
-    private ExportVisitor exportVisitor;
-
     @Inject @Config("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
     private String xmlHeader;
 
@@ -80,6 +77,7 @@ public class ExportManager {
     public ExportResult export(ExportData data) throws Exception {
         GraphicElement[] resources = data.getResourcesToExport();
         Workspace[] workspaces = data.getWorkspacesToExport();
+        ExportVisitor exportVisitor = new ExportVisitor();
         try {
             if (resources != null)
                 for (int i = 0; i < resources.length; i++) {
