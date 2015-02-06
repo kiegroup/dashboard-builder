@@ -114,6 +114,35 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
                 displayer.setUnitI18nMap(range2Config.getUnitI18nMap());
             }
         }
+		
+		//StartDate
+		String idStartDateDetails = request.getRequestObject().getParameter("idStartDateDetails");
+        if (idStartDateDetails != null) {            
+            DataProperty startDateProperty = displayer.getStartDateProperty();
+            if (!idStartDateDetails.equals(startDateProperty.getPropertyId())) displayer.setStartDateProperty(ds.getPropertyById(idStartDateDetails));
+        }
+		
+		//EndDate
+		String idEndDateDetails = request.getRequestObject().getParameter("idEndDateDetails");
+        if (idEndDateDetails != null) {            
+            DataProperty endDateProperty = displayer.getEndDateProperty();
+            if (!idEndDateDetails.equals(endDateProperty.getPropertyId())) displayer.setEndDateProperty(ds.getPropertyById(idEndDateDetails));
+        }
+		
+		//Size
+		String idSizeDetails = request.getRequestObject().getParameter("idSizeDetails");
+        if (idSizeDetails != null) {            
+            DataProperty sizeProperty = displayer.getSizeProperty();
+            if (!idSizeDetails.equals(sizeProperty.getPropertyId())) displayer.setSizeProperty(ds.getPropertyById(idSizeDetails));
+        }
+		
+		//Done
+		String idDoneDetails = request.getRequestObject().getParameter("idDoneDetails");
+        if (idDoneDetails != null) {            
+            DataProperty doneProperty = displayer.getDoneProperty();
+            if (!idDoneDetails.equals(doneProperty.getPropertyId())) displayer.setDoneProperty(ds.getPropertyById(idDoneDetails));
+        }
+		
 
         // Retrieve other configuration parameters and set the new properties to the displayer.
         String chartType = request.getRequestObject().getParameter("chartType");
@@ -123,6 +152,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String showTitle = request.getRequestObject().getParameter("showTitle");
         String showLegend = request.getRequestObject().getParameter("showLegend");
         String disableDrillDown = request.getRequestObject().getParameter("disableDrillDown");
+        String useProgressColumns = request.getRequestObject().getParameter("useProgressColumns");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
         String color = request.getRequestObject().getParameter("color");
         String color2 = request.getRequestObject().getParameter("color2");
@@ -140,6 +170,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         displayer.setShowTitle(showTitle != null);
         displayer.setShowLegend(showLegend != null);
         displayer.setDisableDrillDown(disableDrillDown != null);
+        displayer.setUseProgressColumns(useProgressColumns != null);
         displayer.setAxisInteger(axisInteger != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);

@@ -13,32 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.displayer;
+package org.jboss.dashboard.ui.components.chart;
 
-public enum DataDisplayerFeature {
-    ALIGN_CHART,
-    SHOW_TITLE,
-    SHOW_HIDE_LABELS,
-    SHOW_LEGEND_POSITION,
-    SHOW_LEGEND,
-    SHOW_LINES_AREA,
-    SET_MARGIN_LEFT,
-    SET_MARGIN_RIGHT,
-    SET_MARGIN_TOP,
-    SET_MARGIN_BOTTOM,
-    ROUND_TO_INTEGER,
-    SET_CHART_TYPE,
-    SET_CHART_WIDTH,
-    SET_CHART_HEIGHT,
-    SET_FOREGRND_COLOR,
-    SET_BARS_WIDTH,
-    SET_LABELS_ANGLE,
-	SET_RANGE2,
-	SET_FOREGRND_COLOR2,
-	DISABLE_DRILL_DOWN,
-	SET_LABEL_THRESHOLD,
-	SET_STARTDATE_PROP,
-	SET_ENDDATE_PROP,
-	SET_SIZE_PROP,
-	SET_DONE_PROP;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.dashboard.annotation.config.Config;
+import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
+
+@PanelScoped
+@Named("nvd3_progressbarchart_viewer")
+public class NVD3ProgressBarChartViewer extends NVD3ChartViewer {
+
+    @Inject @Config("/components/bam/displayer/chart/nvd3_progressbarchart_viewer.jsp")
+    protected String beanJSP;
+
+    public String getBeanJSP() {
+        return beanJSP;
+    }
 }

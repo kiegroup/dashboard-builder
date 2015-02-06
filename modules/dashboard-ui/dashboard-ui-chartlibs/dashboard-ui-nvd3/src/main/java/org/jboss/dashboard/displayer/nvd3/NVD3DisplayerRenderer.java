@@ -23,6 +23,7 @@ import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.Line2Chart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
+import org.jboss.dashboard.displayer.annotation.ProgressBarChart;
 import org.jboss.dashboard.displayer.chart.*;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.js.JSIncluder;
@@ -36,6 +37,7 @@ import java.util.*;
 @PieChart
 @LineChart
 @Line2Chart
+@ProgressBarChart
 public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
@@ -66,6 +68,12 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     @Inject @Config("")
     protected String line2ChartDefault;
+	
+	@Inject @Config("")
+    protected String[] progressBarChartTypes;
+
+    @Inject @Config("")
+    protected String progressBarChartDefault;
 
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String, List<String>> availableChartTypes;
@@ -100,6 +108,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pieChartTypes));
         availableChartTypes.put(LineChartDisplayerType.UID, Arrays.asList(lineChartTypes));
         availableChartTypes.put(Line2ChartDisplayerType.UID, Arrays.asList(line2ChartTypes));
+        availableChartTypes.put(ProgressBarChartDisplayerType.UID, Arrays.asList(progressBarChartTypes));
 
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
@@ -107,6 +116,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
         defaultChartTypes.put(Line2ChartDisplayerType.UID, line2ChartDefault);
+        defaultChartTypes.put(ProgressBarChartDisplayerType.UID, progressBarChartDefault);
     }
 
     public boolean isEnabled() {
@@ -145,6 +155,9 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 		if (displayer instanceof Line2ChartDisplayer && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR2)) {
             return true;
         }
+		if (displayer instanceof ProgressBarChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP) )) {
+            return true;
+        }
         else {
             return featuresSupported.contains(feature);
         }
@@ -174,6 +187,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
             AbstractChartDisplayer chartDisplayer = (AbstractChartDisplayer) displayer;
             chartDisplayer.setMarginLeft(80);
             chartDisplayer.setMarginBottom(100);
+			chartDisplayer.setUseProgressColumns(false);
         }
         if (displayer instanceof AbstractXAxisDisplayer) {
             AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
@@ -186,6 +200,10 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 		if (displayer instanceof Line2ChartDisplayer) {
             Line2ChartDisplayer line2ChartDisplayer = (Line2ChartDisplayer) displayer;
             line2ChartDisplayer.setShowLinesArea(true);
+        }
+		if (displayer instanceof ProgressBarChartDisplayer) {
+            ProgressBarChartDisplayer progressBarChartDisplayer = (ProgressBarChartDisplayer) displayer;
+            progressBarChartDisplayer.setUseProgressColumns(true);
         }
     }
 }

@@ -110,6 +110,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
 		else if (item.getNodeName().equals("disabledrilldown") && item.hasChildNodes()) {
             displayer.setDisableDrillDown(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
+		else if (item.getNodeName().equals("useprogresscolumns") && item.hasChildNodes()) {
+            displayer.setUseProgressColumns(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
         else if (item.getNodeName().equals("axisinteger") && item.hasChildNodes()) {
             displayer.setAxisInteger(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
@@ -137,6 +140,24 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
 		else if (item.getNodeName().equals("labelthreshold") && item.hasChildNodes()) {
             displayer.setLabelThreshold(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
         }
+		
+		else if (item.getNodeName().equals("startdate") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setStartDateConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("enddate") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setEndDateConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("size") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setSizeConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("done") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setDoneConfiguration(parseDomain(domainNodes));
+        }
+		
     }
 
     protected void formatDisplayer(DataDisplayer displayer, PrintWriter out, int indent) throws Exception {
@@ -232,6 +253,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<disabledrilldown>");
             out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isDisableDrillDown())));
             out.println("</disabledrilldown>");
+			
+			printIndent(out, indent);
+            out.print("<useprogresscolumns>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isUseProgressColumns())));
+            out.println("</useprogresscolumns>");
 
             printIndent(out, indent);
             out.print("<axisinteger>");
@@ -277,6 +303,39 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<labelthreshold>");
             out.print(StringEscapeUtils.escapeXml(Integer.toString(displayerToFormat.getLabelThreshold())));
             out.println("</labelthreshold>");
+			
+			
+            printIndent(out, indent++);
+            out.println("<startdate>");
+            DomainConfiguration startDateConfig = new DomainConfiguration(displayerToFormat.getStartDateProperty());
+            displayerToFormat.setStartDateConfiguration(startDateConfig);
+            formatDomain(startDateConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</startdate>");
+			
+			printIndent(out, indent++);
+            out.println("<enddate>");
+            DomainConfiguration endDateConfig = new DomainConfiguration(displayerToFormat.getEndDateProperty());
+            displayerToFormat.setEndDateConfiguration(endDateConfig);
+            formatDomain(endDateConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</enddate>");
+			
+			printIndent(out, indent++);
+            out.println("<size>");
+            DomainConfiguration sizeConfig = new DomainConfiguration(displayerToFormat.getSizeProperty());
+            displayerToFormat.setSizeConfiguration(sizeConfig);
+            formatDomain(sizeConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</size>");
+			
+			printIndent(out, indent++);
+            out.println("<done>");
+            DomainConfiguration doneConfig = new DomainConfiguration(displayerToFormat.getDoneProperty());
+            displayerToFormat.setDoneConfiguration(doneConfig);
+            formatDomain(doneConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</done>");
 
         } catch (ClassCastException e) {
             throw new RuntimeException("Can not format non-chart displayers: " + displayer.getClass().getName());

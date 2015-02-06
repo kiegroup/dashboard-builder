@@ -56,3 +56,35 @@
 	<mvc:include page="../range/range2_selector_component.jsp"  flush="true" />
 </tr>
 <% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_STARTDATE_PROP)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		Start Date:
+	</td>
+	<mvc:include page="../domain/fieldStartDate_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_ENDDATE_PROP)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		End Date:
+	</td>
+	<mvc:include page="../domain/fieldEndDate_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_SIZE_PROP)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		Size:
+	</td>
+	<mvc:include page="../domain/fieldSize_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_DONE_PROP)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		Done:
+	</td>
+	<mvc:include page="../domain/fieldDone_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>

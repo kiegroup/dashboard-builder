@@ -59,6 +59,15 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected transient RangeConfiguration rangeConfig;
     protected transient RangeConfiguration range2Config;
 
+	protected transient DataProperty startDateProperty;
+	protected transient DataProperty endDateProperty;
+	protected transient DataProperty sizeProperty;
+	protected transient DataProperty doneProperty;
+	protected transient DomainConfiguration startDateConfig;
+	protected transient DomainConfiguration endDateConfig;
+	protected transient DomainConfiguration sizeConfig;
+	protected transient DomainConfiguration doneConfig;	
+	
     public static final int INTERVALS_SORT_CRITERIA_LABEL = 0;
     public static final int INTERVALS_SORT_CRITERIA_VALUE = 1;
     public static final int INTERVALS_SORT_ORDER_NONE = 0;
@@ -72,6 +81,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected int width;
     protected int height;
     protected boolean disableDrillDown;
+    protected boolean useProgressColumns;
     protected boolean showLegend;
     protected boolean axisInteger;
     protected String legendAnchor;
@@ -92,7 +102,17 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     // Constructor of the class
 
     public AbstractChartDisplayer() {
-        domainProperty = null;
+        startDateProperty = null;
+		endDateProperty = null;
+		sizeProperty = null;
+		doneProperty = null;
+		startDateConfig = null;
+		endDateConfig = null;
+		sizeConfig = null;
+		doneConfig = null;
+		
+		
+		domainProperty = null;
         rangeProperty = null;
         range2Property = null;
         domainConfig = null;
@@ -107,6 +127,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         width = 600;
         height = 300;
         disableDrillDown = false;
+        useProgressColumns = false;
         showLegend = false;
         axisInteger = false;
         legendAnchor = "south";
@@ -129,6 +150,11 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setDomainProperty(null);
             setRangeProperty(null);
             setRange2Property(null);
+			
+			setStartDateProperty(null);
+			setEndDateProperty(null);
+			setSizeProperty(null);
+			setDoneProperty(null);
         }
 
         // If data provider definition does not match with displayer configuration, do not set the provider
@@ -191,6 +217,15 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             if (hasDomainPropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
             if (hasRangePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
             if (hasRange2PropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range2 property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+			
+			boolean hasStartDatePropChanged = hasProviderPropertiesChanged(startDateProperty, provider);
+            boolean hasEndDatePropChanged = hasProviderPropertiesChanged(endDateProperty, provider);
+            boolean hasSizePropChanged = hasProviderPropertiesChanged(sizeProperty, provider);
+			boolean hasDonePropChanged = hasProviderPropertiesChanged(doneProperty, provider);
+			if (hasStartDatePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Start Date property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasEndDatePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer End Date property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasSizePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Size property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");			
+			if (hasDonePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Done property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
         }
     }
 
@@ -250,6 +285,126 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public void setDomainProperty(DataProperty property) {
         domainProperty = property;
         if (domainProperty == null) domainConfig = null;
+    }
+	
+	public DataProperty getStartDateProperty() {
+        try {
+            // Get the domain property. Be aware of both property removal and data set refresh.
+            DataSet dataSet = dataProvider.getDataSet();
+            if (startDateProperty == null || hasDataSetChanged(startDateProperty)) {
+
+                // If a domain is currently configured the try to get the property form that.
+                if (startDateConfig != null) startDateProperty = dataSet.getPropertyById(startDateConfig.getPropertyId());
+
+                // If the property has been removed for any reason then reset the domain.
+                if (startDateProperty == null && startDateConfig != null) startDateConfig = null;
+                if (startDateProperty == null) startDateProperty = getDomainPropertiesAvailable()[0];
+
+                // Create a copy of the domain property to avoid changes to the original data set.
+                startDateProperty = startDateProperty.cloneProperty();
+
+                // If a domain config exists then apply it to the domain.
+                if (startDateConfig != null) startDateConfig.apply(startDateProperty);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return startDateProperty;
+    }
+
+    public void setStartDateProperty(DataProperty property) {
+        startDateProperty = property;
+        if (startDateProperty == null) startDateConfig = null;
+    }
+	
+	public DataProperty getEndDateProperty() {
+        try {
+            // Get the domain property. Be aware of both property removal and data set refresh.
+            DataSet dataSet = dataProvider.getDataSet();
+            if (endDateProperty == null || hasDataSetChanged(endDateProperty)) {
+
+                // If a domain is currently configured the try to get the property form that.
+                if (endDateConfig != null) endDateProperty = dataSet.getPropertyById(endDateConfig.getPropertyId());
+
+                // If the property has been removed for any reason then reset the domain.
+                if (endDateProperty == null && endDateConfig != null) endDateConfig = null;
+                if (endDateProperty == null) endDateProperty = getDomainPropertiesAvailable()[0];
+
+                // Create a copy of the domain property to avoid changes to the original data set.
+                endDateProperty = endDateProperty.cloneProperty();
+
+                // If a domain config exists then apply it to the domain.
+                if (endDateConfig != null) endDateConfig.apply(endDateProperty);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return endDateProperty;
+    }
+
+    public void setEndDateProperty(DataProperty property) {
+        endDateProperty = property;
+        if (endDateProperty == null) endDateConfig = null;
+    }
+	
+	public DataProperty getSizeProperty() {
+        try {
+            // Get the domain property. Be aware of both property removal and data set refresh.
+            DataSet dataSet = dataProvider.getDataSet();
+            if (sizeProperty == null || hasDataSetChanged(sizeProperty)) {
+
+                // If a domain is currently configured the try to get the property form that.
+                if (sizeConfig != null) sizeProperty = dataSet.getPropertyById(sizeConfig.getPropertyId());
+
+                // If the property has been removed for any reason then reset the domain.
+                if (sizeProperty == null && sizeConfig != null) sizeConfig = null;
+                if (sizeProperty == null) sizeProperty = getDomainPropertiesAvailable()[0];
+
+                // Create a copy of the domain property to avoid changes to the original data set.
+                sizeProperty = sizeProperty.cloneProperty();
+
+                // If a domain config exists then apply it to the domain.
+                if (sizeConfig != null) sizeConfig.apply(sizeProperty);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sizeProperty;
+    }
+
+    public void setSizeProperty(DataProperty property) {
+        sizeProperty = property;
+        if (sizeProperty == null) sizeConfig = null;
+    }
+	
+	public DataProperty getDoneProperty() {
+        try {
+            // Get the domain property. Be aware of both property removal and data set refresh.
+            DataSet dataSet = dataProvider.getDataSet();
+            if (doneProperty == null || hasDataSetChanged(doneProperty)) {
+
+                // If a domain is currently configured the try to get the property form that.
+                if (doneConfig != null) doneProperty = dataSet.getPropertyById(doneConfig.getPropertyId());
+
+                // If the property has been removed for any reason then reset the domain.
+                if (doneProperty == null && doneConfig != null) doneConfig = null;
+                if (doneProperty == null) doneProperty = getDomainPropertiesAvailable()[0];
+
+                // Create a copy of the domain property to avoid changes to the original data set.
+                doneProperty = doneProperty.cloneProperty();
+
+                // If a domain config exists then apply it to the domain.
+                if (doneConfig != null) doneConfig.apply(doneProperty);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return doneProperty;
+    }
+
+    public void setDoneProperty(DataProperty property) {
+        doneProperty = property;
+        if (doneProperty == null) doneConfig = null;
     }
 
     /**
@@ -435,6 +590,14 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     public void setDisableDrillDown(boolean disableDrillDown) {
         this.disableDrillDown = disableDrillDown;
     }
+	
+	public boolean isUseProgressColumns() {
+        return useProgressColumns;
+    }
+
+    public void setUseProgressColumns(boolean useProgressColumns) {
+        this.useProgressColumns = useProgressColumns;
+    }
 
     public boolean isAxisInteger() {
         return axisInteger;
@@ -547,6 +710,12 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         ScalarFunction scalarFunction = getRangeScalarFunction();
         ScalarFunction scalar2Function = getRange2ScalarFunction();
         DataSet sourceDataSet = domainProperty.getDataSet();
+		
+		DataProperty startDateProperty = getStartDateProperty();
+		DataProperty endDateProperty = getEndDateProperty();
+		DataProperty sizeProperty = getSizeProperty();
+		DataProperty doneProperty = getDoneProperty();
+		
         CodeBlockTrace trace = new BuildXYDataSetTrace(domainProperty, rangeProperty, scalarFunction).begin();
         try {
             if (domainProperty == null || domainProperty.getDomain() == null) return null;
@@ -556,23 +725,34 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             int pivot = sourceDataSet.getPropertyColumn(domainProperty);
             int range = sourceDataSet.getPropertyColumn(rangeProperty);
             int[] columns;
+			String[] functionCodes;
 			
-			if(range2Property != null){
+			if(isUseProgressColumns()){
+				int startDate = sourceDataSet.getPropertyColumn(startDateProperty);
+				int endDate = sourceDataSet.getPropertyColumn(endDateProperty);
+				int size = sourceDataSet.getPropertyColumn(sizeProperty);
+				int done = sourceDataSet.getPropertyColumn(doneProperty);
+				
+				if(range2Property != null){
+					int range2 = sourceDataSet.getPropertyColumn(range2Property);
+					columns = new int[] {pivot, range, range2, startDate, endDate, size, done};
+					functionCodes = new String[] {CountFunction.CODE, scalar2Function.getCode(), scalarFunction.getCode()};
+				}
+				else{
+					columns = new int[] {pivot, range, startDate, endDate, size, done};
+					functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode()};
+				}
+			}
+			else if(range2Property != null){
 				int range2 = sourceDataSet.getPropertyColumn(range2Property);
 				columns = new int[] {pivot, range, range2};
+				functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode(), scalar2Function.getCode()};
 			}
 			else{
 				columns = new int[] {pivot, range};
-			}
-            
-			String[] functionCodes;
-			if(scalar2Function == null){
 				functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode()};
 			}
-			else{
-				functionCodes = new String[] {CountFunction.CODE, scalarFunction.getCode(), scalar2Function.getCode()};
-			}
-			
+            
             return sourceDataSet.groupBy(domainProperty, columns, functionCodes, intervalsSortCriteria, intervalsSortOrder);
         } finally {
             trace.end();
@@ -598,6 +778,12 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setRange2Property(source.getRange2Property());
             setRangeScalarFunction(source.getRangeScalarFunction());
             setRange2ScalarFunction(source.getRange2ScalarFunction());
+			
+			setStartDateProperty(source.getStartDateProperty());
+			setEndDateProperty(source.getEndDateProperty());
+			setSizeProperty(source.getSizeProperty());
+			setDoneProperty(source.getDoneProperty());
+			
             setMarginBottom(source.getMarginBottom());
             setMarginTop(source.getMarginTop());
             setMarginLeft(source.getMarginLeft());
@@ -639,6 +825,38 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
 	
 	public RangeConfiguration getRange2Configuration() {
         return range2Config;
+    }
+	
+	public void setStartDateConfiguration(DomainConfiguration config) {
+        startDateConfig = config;
+    }
+	
+	public DomainConfiguration getStartDateConfiguration() {
+        return startDateConfig;
+    }
+	
+	public void setEndDateConfiguration(DomainConfiguration config) {
+        endDateConfig = config;
+    }
+	
+	public DomainConfiguration getEndDateConfiguration() {
+        return endDateConfig;
+    }
+	
+	public void setSizeConfiguration(DomainConfiguration config) {
+        sizeConfig = config;
+    }
+	
+	public DomainConfiguration getSizeConfiguration() {
+        return sizeConfig;
+    }
+	
+	public void setDoneConfiguration(DomainConfiguration config) {
+        doneConfig = config;
+    }
+	
+	public DomainConfiguration getDoneConfiguration() {
+        return doneConfig;
     }
 
     class BuildXYDataSetTrace extends CodeBlockTrace {

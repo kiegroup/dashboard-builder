@@ -13,32 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.displayer;
+package org.jboss.dashboard.displayer.chart;
 
-public enum DataDisplayerFeature {
-    ALIGN_CHART,
-    SHOW_TITLE,
-    SHOW_HIDE_LABELS,
-    SHOW_LEGEND_POSITION,
-    SHOW_LEGEND,
-    SHOW_LINES_AREA,
-    SET_MARGIN_LEFT,
-    SET_MARGIN_RIGHT,
-    SET_MARGIN_TOP,
-    SET_MARGIN_BOTTOM,
-    ROUND_TO_INTEGER,
-    SET_CHART_TYPE,
-    SET_CHART_WIDTH,
-    SET_CHART_HEIGHT,
-    SET_FOREGRND_COLOR,
-    SET_BARS_WIDTH,
-    SET_LABELS_ANGLE,
-	SET_RANGE2,
-	SET_FOREGRND_COLOR2,
-	DISABLE_DRILL_DOWN,
-	SET_LABEL_THRESHOLD,
-	SET_STARTDATE_PROP,
-	SET_ENDDATE_PROP,
-	SET_SIZE_PROP,
-	SET_DONE_PROP;
+/**
+ * ProgressBar chart displayer implementation.
+ */
+public class ProgressBarChartDisplayer extends AbstractXAxisDisplayer {
+
+    public ProgressBarChartDisplayer() {
+        super();
+    }
 }
