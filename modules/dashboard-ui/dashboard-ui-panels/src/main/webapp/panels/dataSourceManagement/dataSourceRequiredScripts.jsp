@@ -16,23 +16,26 @@
 
 --%>
 <script language="javascript" type="text/javascript">
-    //script for datasource management panel
-    var testQuerys = new Array();
+  //script for datasource management panel
+  var testQuerys = new Array();
 
-		testQuerys[0]= "";
-    testQuerys[1]= "SELECT 1"; <%-- test query for mysql --%>
-    testQuerys[2]= "SELECT 1"; <%-- test query for postgresql --%>
-    testQuerys[3]= "SELECT SYSDATE FROM DUAL"; <%-- test query for oracle --%>
-    testQuerys[4]= "SELECT 1"; <%-- test query for sqlServer --%>
-		testQuerys[5]= "SELECT 1"; <%-- test query for h2 --%>
+  testQuerys[0] = "";
+  testQuerys[1] = "SELECT 1 FROM SYSIBM.SYSDUMMY1";  <%-- db2 --%>
+  testQuerys[2] = "SELECT 1";  <%-- h2 --%>
+  testQuerys[3] = "SELECT 1";  <%-- mysql --%>
+  testQuerys[4] = "SELECT SYSDATE FROM DUAL";  <%-- test query for oracle --%>
+  testQuerys[5] = "SELECT 1";  <%-- postgresql --%>
+  testQuerys[6] = "SELECT 1";  <%-- sqlServer --%>
+  testQuerys[7] = "SELECT 1";  <%-- Sybase --%>
+  testQuerys[8] = "SELECT 1";  <%-- Teiid --%>
 
-    function changeTestQuery(select, id) {
-        var textArea = document.getElementById(id);
-        textArea.value = testQuerys[select.selectedIndex]
-    }
-		function changeDriverClass(select, id) {
-			var className=select.options[select.selectedIndex].value;
-			var input=document.getElementById(id);
-			input.value=className;
-		}
+  function changeTestQuery(select, id) {
+      var textArea = document.getElementById(id);
+      textArea.value = testQuerys[select.selectedIndex];
+  }
+  function changeDriverClass(select, id) {
+      var className = select.options[select.selectedIndex].value;
+      var input = document.getElementById(id);
+      input.value = className;
+  }
 </script>

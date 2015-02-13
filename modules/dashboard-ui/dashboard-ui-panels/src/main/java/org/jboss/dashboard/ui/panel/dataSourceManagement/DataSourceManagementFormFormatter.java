@@ -32,6 +32,7 @@ public class DataSourceManagementFormFormatter extends Formatter {
     @Inject
     private DataSourceManagementHandler dataSourceManagementHandler;
 
+    @Override
     public void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws FormatterException {
         try {
 
@@ -75,13 +76,15 @@ public class DataSourceManagementFormFormatter extends Formatter {
 
                 String driverClass = dataSourceManagementHandler.getDriverClass();
                 if (driverClass != null) {
-                    setAttribute("selectedNone", "".equals(dataSourceManagementHandler.getDriverClass()) ? "selected" : "");
-                    setAttribute("selectedMySQL", dataSourceManagementHandler.getDriverClass().equals("com.mysql.jdbc.Driver") ? "selected" : "");
-                    setAttribute("selectedPostgres", dataSourceManagementHandler.getDriverClass().equals("org.postgresql.Driver") ? "selected" : "");
-                    setAttribute("selectedOracle", dataSourceManagementHandler.getDriverClass().equals("oracle.jdbc.driver.OracleDriver") ? "selected" : "");
-                    setAttribute("selectedSQLServer", dataSourceManagementHandler.getDriverClass().equals("com.microsoft.sqlserver.jdbc.SQLServerDriver") ? "selected" : "");
-                    setAttribute("selectedH2", dataSourceManagementHandler.getDriverClass().equals("org.h2.Driver") ? "selected" : "");
-                    setAttribute("selectedTeiid", dataSourceManagementHandler.getDriverClass().equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
+                    setAttribute("selectedNone", driverClass.equals("") ? "selected" : "");
+                    setAttribute("selectedDB2", driverClass.equals("com.ibm.db2.jcc.DB2Driver") ? "selected" : "");
+                    setAttribute("selectedH2", driverClass.equals("org.h2.Driver") ? "selected" : "");
+                    setAttribute("selectedMySQL", driverClass.equals("com.mysql.jdbc.Driver") ? "selected" : "");
+                    setAttribute("selectedOracle", driverClass.equals("oracle.jdbc.driver.OracleDriver") ? "selected": "");
+                    setAttribute("selectedPostgres", driverClass.equals("org.postgresql.Driver") ? "selected" : "");
+                    setAttribute("selectedSQLServer", driverClass.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver") ? "selected" : "");
+                    setAttribute("selectedSybase", driverClass.equals("com.sybase.jdbc4.jdbc.SybDriver") ? "selected" : "");
+                    setAttribute("selectedTeiid", driverClass.equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
                 }
                 setAttribute("DriverClassName", driverClass != null ? StringEscapeUtils.escapeHtml(driverClass) : "");
 
