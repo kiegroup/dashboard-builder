@@ -668,7 +668,7 @@ public class PanelInstance implements Cloneable, Visitable {
         // Update PanelInstance content data
         data = null;
         try {
-            if (persistence != null && !"".equals(persistence)) {
+            if (persistence != null && !"".equals(persistence.trim())) {
                 byte[] bytes = Base64.decode(persistence);
                 ObjectInputStream s = new ObjectInputStream(new ByteArrayInputStream(bytes));
                 Serializable object = (Serializable) s.readObject();
