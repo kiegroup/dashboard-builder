@@ -234,14 +234,14 @@ public class HibernateInitializer implements Startable {
         try {
             connection = ds.getConnection();
             dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
-            if ("h2".contains(dbProductName)) return DB_H2;
-            if ("postgre".contains(dbProductName) || dbProductName.contains("enterprisedb")) return DB_POSTGRES;
-            if ("mysql".contains(dbProductName)) return DB_MYSQL;
-            if ("oracle".contains(dbProductName)) return DB_ORACLE;
-            if ("microsoft".contains(dbProductName) || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
-            if ("db2".contains(dbProductName)) return DB_DB2;
-            if ("teiid".contains(dbProductName)) return DB_TEIID;
-            if ("ase".contains(dbProductName)) return DB_SYBASE;
+            if (dbProductName.contains("h2")) return DB_H2;
+            if (dbProductName.contains("postgre") || dbProductName.contains("enterprisedb")) return DB_POSTGRES;
+            if (dbProductName.contains("mysql")) return DB_MYSQL;
+            if (dbProductName.contains("oracle")) return DB_ORACLE;
+            if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
+            if (dbProductName.contains("db2")) return DB_DB2;
+            if (dbProductName.contains("teiid")) return DB_TEIID;
+            if (dbProductName.contains("ase")) return DB_SYBASE;
         } finally {
             if (connection != null) {
                 connection.close();
