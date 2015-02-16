@@ -241,7 +241,7 @@ public class HibernateInitializer implements Startable {
             if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
             if (dbProductName.contains("db2")) return DB_DB2;
             if (dbProductName.contains("teiid")) return DB_TEIID;
-            if (dbProductName.contains("ase")) return DB_SYBASE;
+            if (dbProductName.contains("ase") || dbProductName.contains("adaptive")) return DB_SYBASE;
         } finally {
             if (connection != null) {
                 connection.close();
