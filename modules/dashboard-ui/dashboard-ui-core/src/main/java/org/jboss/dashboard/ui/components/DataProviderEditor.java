@@ -53,10 +53,9 @@ public abstract class DataProviderEditor extends DataProviderViewer {
      * Removes all KPI instances that are using this data provider (currently edited).
      */
     protected void removeKPIs() {
-        if (dataProvider != null) {
+        String dataProviderCode = (dataProvider != null ? dataProvider.getCode() : null);
+        if (dataProviderCode != null) {
             try {
-                String dataProviderCode = dataProvider.getCode();
-
                 // Remove the KPI instances that are using this data provider.
                 KPIManager kpiManager = DataDisplayerServices.lookup().getKPIManager();
                 Set<KPI> kpis = kpiManager.getAllKPIs();
