@@ -91,7 +91,7 @@ public class CSVProviderEditor extends DataProviderEditor {
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         loadAttemptOk = false;
 
-        DataSet oldDs = dataProvider.getDataSet();
+        DataSet oldDs = dataProvider.isPersistent() ? dataProvider.getDataSet() : null;
         
         // Get the parameters
         String csvSeparatedBy = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvSeparatedBy"));
