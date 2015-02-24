@@ -60,7 +60,6 @@ public class HibernateInitializer implements Startable {
     public static final String DB_SQLSERVER = "sqlserver";
     public static final String DB_DB2 = "db2";
     public static final String DB_TEIID = "teiid";
-    public static final String DB_SYBASE = "sybase";
 
     @Inject
     protected HibernateSessionFactoryProvider hibernateSessionFactoryProvider;
@@ -77,8 +76,7 @@ public class HibernateInitializer implements Startable {
                     DB_MYSQL +     "=org.hibernate.dialect.MySQLDialect," +
                     DB_SQLSERVER + "=org.hibernate.dialect.SQLServerDialect," +
                     DB_DB2 + "=org.hibernate.dialect.DB2Dialect," +
-                    DB_TEIID + "=org.teiid.dialect.TeiidDialect," +
-                    DB_SYBASE + "=org.hibernate.dialect.SybaseASE157Dialect")
+                    DB_TEIID + "=org.teiid.dialect.TeiidDialect")
     protected Map<String,String> supportedDialects;
 
     @Inject @Config("org.hibernate.dialect.H2Dialect," +
@@ -87,8 +85,7 @@ public class HibernateInitializer implements Startable {
     protected String[] nativeToSequenceReplaceableDialects;
 
     @Inject @Config("org.hibernate.dialect.MySQLDialect," +
-                    "org.hibernate.dialect.SQLServerDialect," +
-                    "org.hibernate.dialect.SybaseASE157Dialect")
+                    "org.hibernate.dialect.SQLServerDialect")
     protected String[] nativeToHiloReplaceableDialects;
 
     @Inject @Config("org.jboss.dashboard.ui.resources.Envelope," +
@@ -196,10 +193,6 @@ public class HibernateInitializer implements Startable {
         return isDatabase(DB_TEIID);
     }
 
-    public boolean isSybaseDatabase() {
-        return isDatabase(DB_SYBASE);
-    }
-
     protected boolean isDatabase(String dbId) {
         return dbId.equals(databaseName);
     }
@@ -239,7 +232,6 @@ public class HibernateInitializer implements Startable {
             if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
             if (dbProductName.contains("db2")) return DB_DB2;
             if (dbProductName.contains("teiid")) return DB_TEIID;
-            if (dbProductName.contains("ase") || dbProductName.contains("adaptive")) return DB_SYBASE;
         } finally {
             if (connection != null) {
                 connection.close();

@@ -81,8 +81,6 @@ public class StringBlobType implements UserType, Serializable {
                     st.setString(index, (String) value);
                 } else if (hi.isTeiidDatabase()) {
                     st.setString(index, (String) value);
-                } else if (hi.isSybaseDatabase()) {
-                    st.setString(index, (String) value);
                 }
                 else {
                     throw new IllegalArgumentException("Unknown database name: " + hi.getDatabaseName());
