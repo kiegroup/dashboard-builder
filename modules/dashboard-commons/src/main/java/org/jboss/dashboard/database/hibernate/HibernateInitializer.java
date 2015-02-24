@@ -230,9 +230,10 @@ public class HibernateInitializer implements Startable {
     public String inferDatabaseName(DataSource ds) throws Exception {
         if (ds == null) return null;
         Connection connection = null;
+        String dbProductName = null;
         try {
             connection = ds.getConnection();
-            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
+            dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
             if (dbProductName.contains("h2")) return DB_H2;
             if (dbProductName.contains("postgre") || dbProductName.contains("enterprisedb")) return DB_POSTGRES;
             if (dbProductName.contains("mysql")) return DB_MYSQL;
@@ -240,12 +241,13 @@ public class HibernateInitializer implements Startable {
             if (dbProductName.contains("microsoft") || dbProductName.contains("sqlserver") || dbProductName.contains("sql server")) return DB_SQLSERVER;
             if (dbProductName.contains("db2")) return DB_DB2;
             if (dbProductName.contains("teiid")) return DB_TEIID;
-            if (dbProductName.contains("ase")) return DB_SYBASE;
+            if (dbProductName.contains("ase") || dbProductName.contains("adaptive")) return DB_SYBASE;
         } finally {
             if (connection != null) {
                 connection.close();
             }
         }
+        log.error("The underlying database code [" + dbProductName + "] is not supported.");
         return null;
     }
 

@@ -26,12 +26,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.dashboard.workspace.*;
 
-import javax.enterprise.context.ApplicationScoped;
-
 /**
  * Class that visits workspaces tree and creates a XMLNode object, ready for export procedures.
  */
-@ApplicationScoped
 public class ExportVisitor implements WorkspaceVisitor {
 
     public static final String WORKSPACE_EXPORT = "workspaceExport";

@@ -86,6 +86,7 @@ public class ExportTool {
     }
 
     protected String formatAsString(Object value) {
+        if (value == null) return "";
         if (value instanceof Number) return decf.format(value);
         else if (value instanceof Date) return datef.format(value);
         else if (value instanceof Interval) return ((Interval)value).getDescription(LocaleManager.currentLocale());

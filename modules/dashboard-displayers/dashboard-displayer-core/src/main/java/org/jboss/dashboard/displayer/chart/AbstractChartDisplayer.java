@@ -211,47 +211,63 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     @Override
     public void validate(DataProvider provider) throws DataDisplayerInvalidConfiguration {
         if (provider != null) {
-            boolean hasDomainPropChanged = hasProviderPropertiesChanged(domainProperty, provider);
-            boolean hasRangePropChanged = hasProviderPropertiesChanged(rangeProperty, provider);
-            boolean hasRange2PropChanged = hasProviderPropertiesChanged(range2Property, provider);
-            if (hasDomainPropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-            if (hasRangePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-            if (hasRange2PropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer range2 property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-			
-			boolean hasStartDatePropChanged = hasProviderPropertiesChanged(startDateProperty, provider);
-            boolean hasEndDatePropChanged = hasProviderPropertiesChanged(endDateProperty, provider);
-            boolean hasSizePropChanged = hasProviderPropertiesChanged(sizeProperty, provider);
-			boolean hasDonePropChanged = hasProviderPropertiesChanged(doneProperty, provider);
-			if (hasStartDatePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Start Date property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-            if (hasEndDatePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer End Date property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
-            if (hasSizePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Size property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");			
-			if (hasDonePropChanged) throw new DataDisplayerInvalidConfiguration("The current chart displayer Done property [" + domainProperty.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            boolean hasDomainPropChanged = false;
+            boolean hasRangePropChanged = false;
+
+            boolean hasRange2PropChanged = false;
+            boolean hasStartDatePropChanged = false;
+            boolean hasEndDatePropChanged = false;
+            boolean hasSizePropChanged = false;
+            boolean hasDonePropChanged = false;
+            try {
+                String domainPropertyId = (domainProperty != null) ? domainProperty.getPropertyId() : (domainConfig != null) ? domainConfig.getPropertyId() : null;
+                hasDomainPropChanged = hasProviderPropertiesChanged(domainPropertyId, provider);
+                String rangePropertyId = (rangeProperty != null) ? rangeProperty.getPropertyId() : (rangeConfig != null) ? rangeConfig.getPropertyId() : null;
+                hasRangePropChanged = hasProviderPropertiesChanged(rangePropertyId, provider);
+
+                String range2PropertyId = (range2Property != null) ? range2Property.getPropertyId() : (range2Config != null) ? range2Config.getPropertyId() : null;
+                hasRange2PropChanged = hasProviderPropertiesChanged(range2PropertyId, provider);
+                String startDatePropertyId = (startDateProperty != null) ? startDateProperty.getPropertyId() : (startDateConfig != null) ? startDateConfig.getPropertyId() : null;
+                hasStartDatePropChanged = hasProviderPropertiesChanged(startDatePropertyId, provider);
+                String endDatePropertyId = (endDateProperty != null) ? endDateProperty.getPropertyId() : (endDateConfig != null) ? endDateConfig.getPropertyId() : null;
+                hasEndDatePropChanged = hasProviderPropertiesChanged(endDatePropertyId, provider);
+                String sizePropertyId = (sizeProperty != null) ? sizeProperty.getPropertyId() : (sizeConfig != null) ? sizeConfig.getPropertyId() : null;
+                hasSizePropChanged = hasProviderPropertiesChanged(sizePropertyId, provider);
+                String donePropertyId = (doneProperty != null) ? doneProperty.getPropertyId() : (doneConfig != null) ? doneConfig.getPropertyId() : null;
+                hasDonePropChanged = hasProviderPropertiesChanged(donePropertyId, provider);
+
+            } catch (Exception e) {
+                throw new DataDisplayerInvalidConfiguration("Error during displayer initialization.", e);
+            }
+            if (hasDomainPropChanged && domainConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer domain property [" + domainConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasRangePropChanged && rangeConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer range property [" + rangeConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+
+            if (hasRange2PropChanged && range2Config != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer range2 property [" + range2Config.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasStartDatePropChanged && startDateConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer startDate property [" + startDateConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasEndDatePropChanged && endDateConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer endDate property [" + endDateConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasSizePropChanged && sizeConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer size property [" + sizeConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
+            if (hasDonePropChanged && doneConfig != null) throw new DataDisplayerInvalidConfiguration("The current chart displayer done property [" + doneConfig.getPropertyId() + "] is no longer available in data provider with code [" + provider.getCode() + "].");
         }
     }
 
     /**
      * Check if a data provider property match with the serialized in the displayer.
-     * @param property The data property from this displayer to check if exist in the data provider.
+     * @param propertyId The data property identifier of this displayer to check against data provider properties.
      * @param dataProvider The current data provider definition.
      * @return If the data displayer property exists in current data provider.
      */
-    public boolean hasProviderPropertiesChanged(DataProperty property, DataProvider dataProvider) {
-        if (property == null) return false;
+    public boolean hasProviderPropertiesChanged(String propertyId, DataProvider dataProvider) throws Exception{
+        if (propertyId == null) return false;
         
-        try {
-            DataSet dataSet = dataProvider.getDataSet();
-            DataProperty[] datasetProperties = dataSet.getProperties();
-            if (datasetProperties != null && datasetProperties.length > 0) {
-                for (DataProperty datasetProperty : datasetProperties) {
-                    String datasetPropertyId = datasetProperty.getPropertyId();
-                    if (datasetPropertyId.equals(property.getPropertyId())) return false;
-                }
+        DataSet dataSet = dataProvider.getDataSet();
+        DataProperty[] datasetProperties = dataSet.getProperties();
+        if (datasetProperties != null && datasetProperties.length > 0) {
+            for (DataProperty datasetProperty : datasetProperties) {
+                String datasetPropertyId = datasetProperty.getPropertyId();
+                if (datasetPropertyId.equals(propertyId)) return false;
             }
-            return true;
-        } catch (Exception e) {
-            log.error("Error getting data set.", e);
         }
-        return false;
+        return true;
     }
     
     /**

@@ -160,26 +160,24 @@
                         <td  align="left">
                             <select class="skn-input"
                                     name="db" onchange="changeTestQuery(this, '<panel:encode name="testQuery"/>'); changeDriverClass(this, '<panel:encode name="driverClassName"/>');">
-                                <option value="" <mvc:fragmentValue name="selectedNone"/>></option>
-                                <option value="com.mysql.jdbc.Driver" <mvc:fragmentValue name="selectedMySQL"/>>
-                                    MySQL</option>
-                                <option value="org.postgresql.Driver"
-                                        <mvc:fragmentValue name="selectedPostgres"/>>PostgreSQL</option>
-                                <option value="oracle.jdbc.driver.OracleDriver"
-                                        <mvc:fragmentValue name="selectedOracle"/>>Oracle</option>
-                                <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-                                        <mvc:fragmentValue name="selectedSQLServer"/>>SQLServer</option>
-                                <option value="org.h2.Driver"
-                                        <mvc:fragmentValue name="selectedH2"/>>H2</option>
-                                <option value="org.teiid.jdbc.TeiidDriver"
-                                        <mvc:fragmentValue name="selectedTeiid"/>>Teiid</option>
+                              <%-- sorted by DB option name--%>
+                              <option value="" <mvc:fragmentValue name="selectedNone"/>></option>
+                              <option value="com.ibm.db2.jcc.DB2Driver" <mvc:fragmentValue name="selectedDB2"/>>DB2</option>
+                              <option value="org.h2.Driver" <mvc:fragmentValue name="selectedH2"/>>H2</option>
+                              <option value="com.mysql.jdbc.Driver" <mvc:fragmentValue name="selectedMySQL"/>>MySQL</option>
+                              <option value="oracle.jdbc.driver.OracleDriver" <mvc:fragmentValue name="selectedOracle"/>>Oracle</option>
+                              <option value="org.postgresql.Driver" <mvc:fragmentValue name="selectedPostgres"/>>PostgreSQL</option>
+                              <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver" <mvc:fragmentValue name="selectedSQLServer"/>>SQLServer</option>
+                              <option value="com.sybase.jdbc4.jdbc.SybDriver" <mvc:fragmentValue name="selectedSybase"/>>Sybase ASE</option>
+                              <option value="org.teiid.jdbc.TeiidDriver" <mvc:fragmentValue name="selectedTeiid"/>>Teiid</option>
                             </select>
                         </td>&nbsp;&nbsp;
                         <td align="left">
                             &nbsp;&nbsp;<i18n:message key="datasource.data.database">* !!!database type</i18n:message>
                             <input class="skn-input" id="<panel:encode name="driverClassName"/>"
                                    name="<factory:bean bean="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" property="driverClass" />"
-                                   value="<mvc:fragmentValue name="DriverClassName"/>">
+                                   value="<mvc:fragmentValue name="DriverClassName"/>"
+                                   size="26">
                         </td>
                     </tr>
                 </table>

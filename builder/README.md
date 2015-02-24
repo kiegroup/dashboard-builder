@@ -11,12 +11,6 @@ type the following command:
 
 Currently, the following artifacts are generated:
 
-* **dashbuilder-jboss-as7.war:**  Product distribution for the JBoss AS 7.x application server.
-
-  By the default the distribution is configured to use the default H2 in-memory database provided by the app server.
-
-  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/jbossas7/README.md).
-
 * **dashbuilder-wildfly-8.war:**  Product distribution for the Widlfly 8.x application server.
 
   By the default the distribution is configured to use the default H2 in-memory database provided by the app server.

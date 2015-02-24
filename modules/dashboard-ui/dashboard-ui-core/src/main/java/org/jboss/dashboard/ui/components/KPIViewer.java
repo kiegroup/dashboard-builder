@@ -117,6 +117,10 @@ public class KPIViewer extends UIBeanHandler {
     }
     
     public void beforeRenderBean() {
+        
+        // Provider definition could have been modified.
+        validate();
+        
         // The displayer's title must be the kpi's description.
         // So set it before render the component.
         Locale locale = LocaleManager.currentLocale();
