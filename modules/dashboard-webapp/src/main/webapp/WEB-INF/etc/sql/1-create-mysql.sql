@@ -26,11 +26,17 @@ CREATE TABLE hibernate_unique_key (
 INSERT INTO hibernate_unique_key VALUES(1);
 -- CUSTOM_DELIMITER
 
+DELIMITER //
+-- CUSTOM_DELIMITER
+
 CREATE PROCEDURE nextVal()
 MODIFIES SQL DATA
 BEGIN
     UPDATE hibernate_unique_key SET next_hi = next_hi + 1;
 END
+-- CUSTOM_DELIMITER
+
+//
 -- CUSTOM_DELIMITER
 
 CREATE FUNCTION currVal()
@@ -39,6 +45,9 @@ READS SQL DATA
 BEGIN
     return (SELECT next_hi FROM hibernate_unique_key);
 END
+-- CUSTOM_DELIMITER
+
+// DELIMITER ;
 -- CUSTOM_DELIMITER
 
 CREATE TABLE dashb_data_source (
