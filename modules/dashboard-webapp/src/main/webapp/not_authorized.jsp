@@ -17,5 +17,6 @@
 --%>
 <%
   request.getSession().setAttribute("login.message", "login.not_authorized");
+  request.logout();
   response.sendRedirect(request.getContextPath());
 %>
