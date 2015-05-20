@@ -19,7 +19,7 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.SessionManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;

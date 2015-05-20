@@ -20,7 +20,7 @@
 <%@ page import="java.text.Collator" %>
 <%@ page import="org.hibernate.stat.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
 <%
     if (request.getSession().getAttribute("accessGranted") == null) {

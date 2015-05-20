@@ -26,7 +26,7 @@ import org.jboss.dashboard.LocaleManager;
 
 import java.util.*;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.provider.DataProperty;
 
 /**

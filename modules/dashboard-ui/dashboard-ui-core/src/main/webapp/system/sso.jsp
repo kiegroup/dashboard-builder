@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.users.UserStatus" %>
 <%@ page import="org.jboss.dashboard.Application" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%
     UserStatus userStatus = UserStatus.lookup();
     String copyright = Application.lookup().getCopyright();

@@ -16,7 +16,7 @@
 package org.jboss.dashboard.commons.xml;
 
 import org.jboss.dashboard.commons.text.Base64;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.xerces.util.XMLChar;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;

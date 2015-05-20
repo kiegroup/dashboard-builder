@@ -28,7 +28,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.commons.cdi.CDIBeanLocator" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
@@ -80,7 +80,7 @@
 <% if( displayer.isShowTitle() && displayer.getTitle() != null) { %>
     <tr>
        <td colspan="<%=nCols%>">
-            <div id="title<%="gauge" + suffix%>" class="skn-chart-title"><%=StringEscapeUtils.escapeHtml(displayer.getTitle())%></div>
+            <div id="title<%="gauge" + suffix%>" class="skn-chart-title"><%=StringEscapeUtils.ESCAPE_HTML4.translate(displayer.getTitle())%></div>
         </td>
     </tr>
 <% } %>

@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.components.sections;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.users.UserStatus;
@@ -23,7 +23,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -93,7 +93,7 @@ public class SectionsPropertiesFormatter extends Formatter {
                     Section section = pages.get(i);
                     String title = pageTitles.get(i);
                     setAttribute("id", section.getId());
-                    setAttribute("title", StringEscapeUtils.escapeHtml(title));
+                    setAttribute("title", StringEscapeUtils.ESCAPE_HTML4.translate(title));
                     renderFragment("outputSelect");
                 }
                 renderFragment("outputEndSelect");

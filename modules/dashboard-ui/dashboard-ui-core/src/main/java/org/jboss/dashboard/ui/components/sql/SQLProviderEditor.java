@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.components.sql;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.misc.Chronometer;

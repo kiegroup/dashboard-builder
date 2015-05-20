@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.*;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Workspace;
 import org.slf4j.Logger;
@@ -71,7 +71,7 @@ public class DataProviderFormatter extends Formatter {
     private void renderEdit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             renderFragment("outputStart");
-            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getProviderName()));
+            setAttribute("providerName", StringEscapeUtils.ESCAPE_HTML4.translate(handler.getProviderName()));
             renderFragment("outputEditTitle");
             if (handler.hasErrors()) {
                 setAttribute("message", handler.getProviderMessage());
@@ -144,7 +144,7 @@ public class DataProviderFormatter extends Formatter {
     private void renderEditProperties(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         try {
             renderFragment("outputStart");
-            setAttribute("providerName", StringEscapeUtils.escapeHtml(handler.getProviderName()));
+            setAttribute("providerName", StringEscapeUtils.ESCAPE_HTML4.translate(handler.getProviderName()));
             renderFragment("outputTitle");
             renderFragment("outputFormStart");
             renderFragment("outputStartProperties");
@@ -197,7 +197,7 @@ public class DataProviderFormatter extends Formatter {
                         String lang = langs[j];
                         String name = property.getName(new Locale(lang));
                         if (name != null && name.trim().length() > 0)
-                            names.put(lang, StringEscapeUtils.escapeHtml(name));
+                            names.put(lang, StringEscapeUtils.ESCAPE_HTML4.translate(name));
                     }
                     setAttribute("value", names);
                     renderFragment("outputPropertyTitle");
@@ -237,9 +237,9 @@ public class DataProviderFormatter extends Formatter {
 
                         String providerType = dataProvider.getDataProviderType().getDescription(getLocale());
                         setAttribute("index", new Integer(i));
-                        setAttribute("code", StringEscapeUtils.escapeHtml(dataProvider.getCode()));
-                        setAttribute("dataProviderName", StringEscapeUtils.escapeHtml((String) getLocaleManager().localize(dataProvider.getDescriptionI18nMap())));
-                        setAttribute("dataProviderType", StringEscapeUtils.escapeHtml(providerType));
+                        setAttribute("code", StringEscapeUtils.ESCAPE_HTML4.translate(dataProvider.getCode()));
+                        setAttribute("dataProviderName", StringEscapeUtils.ESCAPE_HTML4.translate((String) getLocaleManager().localize(dataProvider.getDescriptionI18nMap())));
+                        setAttribute("dataProviderType", StringEscapeUtils.ESCAPE_HTML4.translate(providerType));
                         setAttribute("canEdit", Boolean.valueOf(dataProvider.isCanEdit()));
                         setAttribute("canEditProperties", Boolean.valueOf(dataProvider.isCanEditProperties()));
                         setAttribute("canDelete", Boolean.valueOf(dataProvider.isCanDelete()));

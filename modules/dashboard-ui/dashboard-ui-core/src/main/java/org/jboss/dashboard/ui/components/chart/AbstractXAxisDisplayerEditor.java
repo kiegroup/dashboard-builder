@@ -17,7 +17,7 @@ package org.jboss.dashboard.ui.components.chart;
 
 import org.jboss.dashboard.displayer.chart.AbstractXAxisDisplayer;
 import org.jboss.dashboard.ui.controller.CommandRequest;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.jboss.dashboard.ui.controller.CommandResponse;

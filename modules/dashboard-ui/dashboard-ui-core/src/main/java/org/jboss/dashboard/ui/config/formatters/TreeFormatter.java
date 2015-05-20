@@ -22,7 +22,7 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +60,7 @@ public class TreeFormatter extends Formatter {
                 }
                 setAttribute("path_mainNode", mainNode.getPath());
                 setAttribute("id_mainNode", mainNode.getId());
-                setAttribute("name_mainNode", StringEscapeUtils.escapeHtml(mainNode.getName(getLocale())));
+                setAttribute("name_mainNode", StringEscapeUtils.ESCAPE_HTML4.translate(mainNode.getName(getLocale())));
                 setAttribute("icon_mainNode", mainNode.getIconId());
                 setAttribute("mainNode", mainNode);
                 setAttribute("level_mainNode", mainNode.getLevel());

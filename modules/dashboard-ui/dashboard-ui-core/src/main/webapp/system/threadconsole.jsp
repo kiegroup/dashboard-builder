@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.profiler.Profiler" %>
 <%@ page import="org.jboss.dashboard.profiler.*" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.*" %>
 <%
     if (request.getSession().getAttribute("accessGranted") == null) {

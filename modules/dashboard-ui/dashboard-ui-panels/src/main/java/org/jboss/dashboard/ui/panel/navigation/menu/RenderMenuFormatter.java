@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.navigation.menu;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -24,7 +24,7 @@ import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -162,7 +162,7 @@ public class RenderMenuFormatter extends Formatter {
     protected void renderItem(MenuItem menuItem, boolean allItemsSelected, boolean editMode) {
         if (((menuItem.isVisible()) && (allItemsSelected || menuItem.isSelected())) || editMode) {
             writeToOut(beforeLink);
-            setAttribute("text", StringEscapeUtils.escapeHtml(getLocalizedValue(menuItem.getText())));
+            setAttribute("text", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(menuItem.getText())));
             setAttribute("url", menuItem.getUrl());
             setAttribute("itemId", menuItem.getId());
             setAttribute("allItems", allItemsSelected);

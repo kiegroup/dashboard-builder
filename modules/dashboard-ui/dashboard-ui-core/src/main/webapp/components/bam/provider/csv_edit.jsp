@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.csv.CSVProviderEditor" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.provider.csv.CSVDataLoader" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
 <%@taglib uri="factory.tld" prefix="factory" %>
@@ -52,7 +52,7 @@
 				   title="<i18n:message key="editor.csv.csvSeparatedBy">!!!Data separator</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvSeparatedBy"
-				   value="<%= (csvLoader.getCsvSeparatedBy()!=null? StringEscapeUtils.escapeHtml(csvLoader.getCsvSeparatedBy()):"")%>">
+				   value="<%= (csvLoader.getCsvSeparatedBy()!=null? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvSeparatedBy()):"")%>">
 		</td>
 	</tr>
 	<tr>
@@ -64,7 +64,7 @@
 				   title="<i18n:message key="editor.csv.csvQuoteChar">!!!Quote character</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvQuoteChar"
-				   value="<%=(csvLoader.getCsvQuoteChar()!=null ? StringEscapeUtils.escapeHtml(csvLoader.getCsvQuoteChar()):"")%>">
+				   value="<%=(csvLoader.getCsvQuoteChar()!=null ? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvQuoteChar()):"")%>">
 		</td>
 	</tr>
 	<tr>
@@ -76,7 +76,7 @@
 				   title="<i18n:message key="editor.csv.csvEscapeChar">!!!Escape character</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvEscapeChar"
-				   value="<%=(csvLoader.getCsvEscapeChar()!=null ? StringEscapeUtils.escapeHtml(csvLoader.getCsvEscapeChar()):"")%>">
+				   value="<%=(csvLoader.getCsvEscapeChar()!=null ? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvEscapeChar()):"")%>">
 		</td>
 	</tr>
 	<tr>

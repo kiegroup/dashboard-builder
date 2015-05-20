@@ -28,7 +28,7 @@ import org.jboss.dashboard.workspace.export.Exportable;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
 import org.jboss.dashboard.security.PanelPermission;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;

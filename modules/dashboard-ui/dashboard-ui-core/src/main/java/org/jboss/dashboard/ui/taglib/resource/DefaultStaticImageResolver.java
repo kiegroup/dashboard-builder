@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.taglib.resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @ApplicationScoped
 @Named("staticImageResolver")

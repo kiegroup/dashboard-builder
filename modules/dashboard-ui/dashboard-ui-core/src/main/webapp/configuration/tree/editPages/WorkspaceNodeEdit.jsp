@@ -18,8 +18,8 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="java.util.Locale"%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -96,7 +96,7 @@
                                                maxlength="<%=maxlength%>"
                                                id="<%=name + "_" + langId%>"
                                                style="width:245px; <%=LocaleManager.currentLang().equals((String)langId) ? "" : "display:none" %>"
-                                               value="<%=StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)value))%>">
+                                               value="<%=StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(StringEscapeUtils.ESCAPE_HTML4.translate((String)value))%>">
         </mvc:fragmentValue>
         </mvc:fragmentValue>
         </mvc:fragmentValue>

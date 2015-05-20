@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.taglib.resource;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 import org.jboss.dashboard.ui.taglib.ContextTag;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

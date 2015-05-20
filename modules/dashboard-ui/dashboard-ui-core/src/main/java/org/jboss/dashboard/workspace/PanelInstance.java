@@ -24,7 +24,7 @@ import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
 import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.jboss.dashboard.ui.resources.GraphicElement;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 
 import java.io.*;

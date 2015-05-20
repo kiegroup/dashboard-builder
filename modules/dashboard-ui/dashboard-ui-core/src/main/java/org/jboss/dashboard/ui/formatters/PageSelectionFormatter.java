@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -50,7 +50,7 @@ public class PageSelectionFormatter extends Formatter {
                 for (Workspace workspace : workspaces) {
                     setAttribute("workspace", workspace);
                     setAttribute("workspaceId", workspace.getId());
-                    setAttribute("workspaceName", StringEscapeUtils.escapeHtml(getLocalizedValue(workspace.getTitle())));
+                    setAttribute("workspaceName", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(workspace.getTitle())));
                     Map params = new HashMap();
                     params.put(NavigationManager.WORKSPACE_ID, workspace.getId());
                     String workspaceURL = UIServices.lookup().getUrlMarkupGenerator().getPermanentLink("org.jboss.dashboard.ui.NavigationManager", "NavigateToWorkspace", params);

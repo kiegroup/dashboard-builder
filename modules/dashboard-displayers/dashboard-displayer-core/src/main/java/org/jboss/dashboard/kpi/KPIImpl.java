@@ -25,8 +25,8 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.DataProviderImpl;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import org.hibernate.Session;
 

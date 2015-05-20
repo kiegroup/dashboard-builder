@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.database;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.slf4j.Logger;

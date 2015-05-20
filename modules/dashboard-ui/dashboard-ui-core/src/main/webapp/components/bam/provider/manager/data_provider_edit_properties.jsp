@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataProviderHandler" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.Map" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>

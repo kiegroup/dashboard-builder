@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.ui.UIBeanLocator;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
@@ -42,7 +42,7 @@ public class FactoryUniqueIdEncoder {
         if (uiBean != null) {
             sb.append("uibean_").append(Math.abs(uiBean.getBeanName().hashCode())).append("_");
         }
-        sb.append(StringEscapeUtils.escapeHtml(name));
+        sb.append(StringEscapeUtils.ESCAPE_HTML4.translate(name));
         return sb.toString();
     }
 

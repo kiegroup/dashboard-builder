@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.workspace.Parameters"%>
 <%@ page import="java.util.Locale"%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>

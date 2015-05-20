@@ -44,7 +44,7 @@ import org.jboss.dashboard.security.PanelSecurity;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.ui.utils.javascriptUtils.JavascriptTree;
 import org.hibernate.Session;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

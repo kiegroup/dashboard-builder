@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory" %>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>

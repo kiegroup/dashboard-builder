@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.error.ErrorManager;

@@ -20,7 +20,7 @@ import org.jboss.dashboard.commons.misc.ReflectionUtils;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.io.File;

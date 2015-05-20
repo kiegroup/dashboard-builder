@@ -22,8 +22,8 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.Tree;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -96,7 +96,7 @@ public class TreeNodeFormatter extends Formatter {
                             setAttribute("isEditable", subNode.isEditable());
                             setAttribute("path_Node", subNode.getPath());
                             setAttribute("id_Node", subNode.getId());
-                            setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString(subNode.getName(getLocale()))));
+                            setAttribute("name_Node", StringEscapeUtils.ESCAPE_HTML4.translate(StringUtils.defaultString(subNode.getName(getLocale()))));
                             setAttribute("icon_Node", subNode.getIconId());
                             setAttribute("iconNodePath", subNode.getIconCategory());
                             setAttribute("parent_Node", subNode.getParent());

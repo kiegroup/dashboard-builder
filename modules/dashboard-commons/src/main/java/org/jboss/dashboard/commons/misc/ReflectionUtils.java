@@ -16,7 +16,7 @@
 package org.jboss.dashboard.commons.misc;
 
 import org.apache.commons.jxpath.JXPathContext;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.commons.text.StringUtil;
 

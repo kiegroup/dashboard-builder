@@ -22,7 +22,7 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;

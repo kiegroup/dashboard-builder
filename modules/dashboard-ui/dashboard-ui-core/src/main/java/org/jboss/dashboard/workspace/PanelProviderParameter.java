@@ -16,7 +16,7 @@
 package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.ui.panel.PanelProvider;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 
 import javax.servlet.http.HttpServletRequest;
@@ -253,7 +253,7 @@ public abstract class PanelProviderParameter implements Cloneable {
      * @return the scaped value
      */
     protected static String escapeParameterValue(String value) {
-        return StringEscapeUtils.escapeHtml(value);
+        return StringEscapeUtils.ESCAPE_HTML4.translate(value);
     }
 
     /**

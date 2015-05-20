@@ -26,7 +26,7 @@ import javax.enterprise.context.ApplicationScoped;
 import org.jboss.dashboard.export.ImportResults;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * This class it offers both Chart displayer XML parsing and formatting services.

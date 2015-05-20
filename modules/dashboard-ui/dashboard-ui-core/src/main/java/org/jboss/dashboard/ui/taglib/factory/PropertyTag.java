@@ -18,7 +18,7 @@ package org.jboss.dashboard.ui.taglib.factory;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.components.BeanHandler;
 import org.jboss.dashboard.ui.components.UIBeanHandler;
 
@@ -62,7 +62,7 @@ public class PropertyTag extends GenericFactoryTag {
             if (super.bodyContent == null) {
                 Object value = getValue();
                 String textValue = value == null ? "" : value.toString();
-                pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.escapeHtml(textValue));
+                pageContext.getOut().print(valueIsHTML ? textValue : StringEscapeUtils.ESCAPE_HTML4.translate(textValue));
             } else {
                 pageContext.getOut().print(bodyContent.getString());
             }

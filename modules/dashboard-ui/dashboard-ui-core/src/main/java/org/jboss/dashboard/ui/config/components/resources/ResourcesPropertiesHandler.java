@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.workspace.GraphicElementManager;
 import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.GraphicElementPreview;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -195,7 +195,7 @@ public class ResourcesPropertiesHandler extends BeanHandler {
         }
         preview = true;
         try {
-            resourceId = StringEscapeUtils.escapeHtml(resourceId);
+            resourceId = StringEscapeUtils.ESCAPE_HTML4.translate(resourceId);
             String graphicElementClassName = resourceType.substring(0, 1).toUpperCase() + resourceType.substring(1);
             Class graphicElementClass = Class.forName("org.jboss.dashboard.ui.resources." + graphicElementClassName);
             if ("".equals(socpeWorkspaceId)) socpeWorkspaceId = null;

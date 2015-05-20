@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.controller.CommandRequest;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 import org.jboss.dashboard.ui.controller.responses.SendStreamResponse;
 import org.jboss.dashboard.profiler.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

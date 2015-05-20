@@ -16,7 +16,7 @@
 package org.jboss.dashboard.displayer;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;

@@ -7,7 +7,7 @@ import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.users.Role;
 import org.jboss.dashboard.users.RolesManager;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;

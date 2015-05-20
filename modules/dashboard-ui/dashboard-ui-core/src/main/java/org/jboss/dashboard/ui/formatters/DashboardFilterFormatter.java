@@ -29,7 +29,7 @@ import org.jboss.dashboard.provider.DataProvider;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import java.util.Iterator;
@@ -101,7 +101,7 @@ public class DashboardFilterFormatter extends Formatter {
                 String[] keys = new String[allowedValues.size()+2];
                 String[] values = new String[allowedValues.size()+2];
                 keys[0] = DashboardFilterHandler.PARAM_NULL_VALUE;
-                values[0] = " - " + getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "select") + " " + StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())) + " - ";
+                values[0] = " - " + getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "select") + " " + StringEscapeUtils.ESCAPE_HTML4.translate(dashboardFilterProperty.getPropertyName(getLocale())) + " - ";
                 keys[1]=DashboardFilterHandler.PARAM_CUSTOM_VALUE;
                 values[1]= " - " + getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "custom") + " - ";
                 Iterator it1 = allowedValues.iterator();
@@ -109,7 +109,7 @@ public class DashboardFilterFormatter extends Formatter {
                     Object value = it1.next();
                     keys[i]= Integer.toString(i);
                     if (value != null && value.equals(allowedValue)) setAttribute("selected", Integer.toString(i));
-                    values[i] = StringEscapeUtils.escapeHtml(dashboardFilterProperty.formatPropertyValue(value, getLocale()));
+                    values[i] = StringEscapeUtils.ESCAPE_HTML4.translate(dashboardFilterProperty.formatPropertyValue(value, getLocale()));
                 }
                 if (allowedValue == null) setAttribute("selected","0");
                 setAttribute("keys",keys);
@@ -174,11 +174,11 @@ public class DashboardFilterFormatter extends Formatter {
                 for (int i = 0; i < filteredProperties.length; i++) {
                     DashboardFilterProperty dashboardFilterProperty = filteredProperties[i];
                     setAttribute("propertyId", dashboardFilterProperty.getPropertyId());
-                    setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
+                    setAttribute("propertyName", StringEscapeUtils.ESCAPE_HTML4.translate(dashboardFilterProperty.getPropertyName(getLocale())));
                     setAttribute("index", new Integer(i));
                     if (dashboardFilterProperty.isLabelProperty()) {
                         String filterValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertySelectedValues(), getLocale());
-                        setAttribute("propertyValue", StringEscapeUtils.escapeHtml(filterValue));
+                        setAttribute("propertyValue", StringEscapeUtils.ESCAPE_HTML4.translate(filterValue));
                         renderFragment("outputLegendStringProperty");
                     } else {
                         String minValue = dashboardFilterProperty.formatPropertyValue(dashboardFilterProperty.getPropertyMinValue(), getLocale());
@@ -269,9 +269,9 @@ public class DashboardFilterFormatter extends Formatter {
                 String currentSectionTitle = "-- " + getBundle().getString(DashboardFilterHandler.I18N_PREFFIX + "select") + " --";
                 Section section = property.getDrillDownPage();
                 if (section != null) currentSectionTitle = getLocalizedValue(section.getTitle());
-                setAttribute("currentSectionTitle", StringEscapeUtils.escapeHtml(currentSectionTitle));
-                setAttribute("dataProviderName", StringEscapeUtils.escapeHtml(dataProviderName));
-                setAttribute("propertyName",StringEscapeUtils.escapeHtml(property.getPropertyName(getLocale())));
+                setAttribute("currentSectionTitle", StringEscapeUtils.ESCAPE_HTML4.translate(currentSectionTitle));
+                setAttribute("dataProviderName", StringEscapeUtils.ESCAPE_HTML4.translate(dataProviderName));
+                setAttribute("propertyName",StringEscapeUtils.ESCAPE_HTML4.translate(property.getPropertyName(getLocale())));
                 renderFragment("outputTableElement");
             }
         }
@@ -286,9 +286,9 @@ public class DashboardFilterFormatter extends Formatter {
                 String providerCode = dashboardFilterProperty.getDataProviderCode();
                 try {
                     DataProvider provider = DataDisplayerServices.lookup().getDataProviderManager().getDataProviderByCode(providerCode);
-                    String dataProviderName = StringEscapeUtils.escapeHtml(provider.getDescription(getLocale()));
+                    String dataProviderName = StringEscapeUtils.ESCAPE_HTML4.translate(provider.getDescription(getLocale()));
                     setAttribute("dataProviderName", dataProviderName);
-                    setAttribute("propertyName", StringEscapeUtils.escapeHtml(dashboardFilterProperty.getPropertyName(getLocale())));
+                    setAttribute("propertyName", StringEscapeUtils.ESCAPE_HTML4.translate(dashboardFilterProperty.getPropertyName(getLocale())));
                     renderFragment("outputNotAllowedProperty");
                 } catch (Exception e) {
                     log.error("Cannot get data provider with code " + providerCode);
@@ -309,7 +309,7 @@ public class DashboardFilterFormatter extends Formatter {
 
     protected void renderPropertyName(DashboardFilterProperty property) {
         if (getDashboardFilterHandler().isShowPropertyNames()) {
-            setAttribute("propertyName", StringEscapeUtils.escapeHtml(property.getPropertyName(getLocale())));
+            setAttribute("propertyName", StringEscapeUtils.ESCAPE_HTML4.translate(property.getPropertyName(getLocale())));
             if (getDashboardFilterHandler().hasError(property.getPropertyId())) renderFragment("outputErrorPropertyName");
             else renderFragment("outputPropertyName");
         } else {

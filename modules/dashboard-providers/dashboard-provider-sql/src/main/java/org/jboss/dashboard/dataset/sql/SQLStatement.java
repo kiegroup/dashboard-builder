@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jboss.dashboard.domain.label.LabelInterval;
 
 /**

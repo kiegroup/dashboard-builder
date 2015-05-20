@@ -28,7 +28,7 @@ import java.util.Locale;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 

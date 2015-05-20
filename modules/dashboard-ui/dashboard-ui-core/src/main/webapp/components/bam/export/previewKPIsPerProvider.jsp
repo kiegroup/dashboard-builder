@@ -21,7 +21,7 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="org.jboss.dashboard.kpi.KPI" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -58,13 +58,13 @@
     <table width="100%">
         <% for (DataProvider dp : dataProviders) { %>
         <tr>
-            <td width="100%" align="left" class="skn-even_row" title="<%=StringEscapeUtils.escapeHtml(dp.getDescription(LocaleManager.currentLocale()))%>">
-                <%=StringEscapeUtils.escapeHtml(dp.getDescription(LocaleManager.currentLocale()))%>
+            <td width="100%" align="left" class="skn-even_row" title="<%=StringEscapeUtils.ESCAPE_HTML4.translate(dp.getDescription(LocaleManager.currentLocale()))%>">
+                <%=StringEscapeUtils.ESCAPE_HTML4.translate(dp.getDescription(LocaleManager.currentLocale()))%>
             </td>
         </tr>
         <% for (KPI kpi : exportHandler.getSelectedKPIs(dp)) { %>
         <tr>
-            <td align="left"><%=StringEscapeUtils.escapeHtml(kpi.getDescription(LocaleManager.currentLocale())) %></td>
+            <td align="left"><%=StringEscapeUtils.ESCAPE_HTML4.translate(kpi.getDescription(LocaleManager.currentLocale())) %></td>
         </tr>
         <% } %>
         <tr>

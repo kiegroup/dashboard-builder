@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.components.table;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.displayer.table.*;
 import org.jboss.dashboard.domain.Interval;

@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.components.ModalDialogComponent;
 import org.jboss.dashboard.ui.components.PanelComponent;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.SessionScoped;

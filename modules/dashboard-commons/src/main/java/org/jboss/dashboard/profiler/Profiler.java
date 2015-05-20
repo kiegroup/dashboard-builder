@@ -20,7 +20,7 @@ import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.misc.Chronometer;
 import org.jboss.dashboard.error.ErrorReport;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.profiler.memory.LowMemoryConstraints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

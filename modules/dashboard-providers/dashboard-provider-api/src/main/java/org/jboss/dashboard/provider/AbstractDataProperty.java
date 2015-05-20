@@ -18,7 +18,7 @@ package org.jboss.dashboard.provider;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.domain.Domain;
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.*;
 

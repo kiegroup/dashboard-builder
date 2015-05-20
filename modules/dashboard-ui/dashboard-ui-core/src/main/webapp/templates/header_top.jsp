@@ -15,7 +15,7 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ taglib prefix="static" uri="static-resources.tld" %>

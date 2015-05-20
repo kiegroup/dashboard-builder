@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.factory;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.ui.components.BeanHandler;
