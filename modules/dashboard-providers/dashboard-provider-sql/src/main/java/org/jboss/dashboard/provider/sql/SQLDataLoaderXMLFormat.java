@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * This class it offers both SQLDataLoader XML parsing and formatting services.

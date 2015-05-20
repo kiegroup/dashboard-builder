@@ -33,7 +33,7 @@ import org.jboss.dashboard.security.BackOfficePermission;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.workspace.Section;
 import org.slf4j.Logger;
 

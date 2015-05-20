@@ -27,7 +27,7 @@ import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.help.PanelHelp;
 import org.jboss.dashboard.ui.panel.help.PanelHelpManager;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.xml.sax.SAXException;
 

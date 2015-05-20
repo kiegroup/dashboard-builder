@@ -25,8 +25,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A table component formatter.
@@ -147,14 +147,14 @@ public class TableFormatter extends Formatter {
         setAttribute("rowcount", table.getRowCount());
         setAttribute("maxrowspage", table.getMaxRowsPerPage());
         setAttribute("headerposition", table.getHeaderPosition());
-        setAttribute("htmlstyleedit", StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getHtmlStyle())));
-        setAttribute("rowevenstyleedit",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowEvenStyle())));
-        setAttribute("rowoddstyleedit",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowOddStyle())));
-        setAttribute("rowhoverstyleedit",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowHoverStyle())));
-        setAttribute("htmlclass",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getHtmlClass())));
-        setAttribute("rowevenclass",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowEventClass())));
-        setAttribute("rowoddclass",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowOddClass())));
-        setAttribute("rowhoverclass",StringUtils.defaultString(StringEscapeUtils.escapeHtml(table.getRowHoverClass())));
+        setAttribute("htmlstyleedit", StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getHtmlStyle())));
+        setAttribute("rowevenstyleedit",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowEvenStyle())));
+        setAttribute("rowoddstyleedit",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowOddStyle())));
+        setAttribute("rowhoverstyleedit",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowHoverStyle())));
+        setAttribute("htmlclass",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getHtmlClass())));
+        setAttribute("rowevenclass",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowEventClass())));
+        setAttribute("rowoddclass",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowOddClass())));
+        setAttribute("rowhoverclass",StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(table.getRowHoverClass())));
         setAttribute("htmlstyleview", table.getHtmlStyle());
     }
 
@@ -176,23 +176,23 @@ public class TableFormatter extends Formatter {
         if (headerHTML == null) headerHTML = cellsHTML;
         if (headerHTML != null) {
             setAttribute("columnheaderhtmlstyle", StringUtils.defaultString(headerHTML));
-            setAttribute("columnheaderstyleedit", StringUtils.defaultString(StringEscapeUtils.escapeHtml(headerHTML)));
+            setAttribute("columnheaderstyleedit", StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(headerHTML)));
         }
         if (cellsHTML != null) {
             setAttribute("columncellhtmlstyle", StringUtils.defaultString(cellsHTML));
-            setAttribute("columncellstyleedit", StringUtils.defaultString(StringEscapeUtils.escapeHtml(cellsHTML)));
+            setAttribute("columncellstyleedit", StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(cellsHTML)));
         }
         String htmlValue = column.getHtmlValue();
         if (htmlValue != null) {
             setAttribute("columnhtmlvalue", StringUtils.defaultString(htmlValue));
-            setAttribute("columnhtmlvalueedit", StringUtils.defaultString(StringEscapeUtils.escapeHtml(htmlValue)));
+            setAttribute("columnhtmlvalueedit", StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate(htmlValue)));
         }
     }
 
     protected String formatCellValue(Table table, int row, int column) {
         Object value = table.getValueAt(row, column);
         if (value == null) return "";
-        return StringEscapeUtils.escapeHtml(value.toString());
+        return StringEscapeUtils.ESCAPE_HTML4.translate(value.toString());
     }
 
     protected String formatHtmlCellValue(Table table, TableColumn tableColumn, int row, int column) {

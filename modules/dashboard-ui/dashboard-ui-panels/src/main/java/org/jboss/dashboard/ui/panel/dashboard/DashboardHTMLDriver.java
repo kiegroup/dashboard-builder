@@ -26,7 +26,7 @@ import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.ui.panel.advancedHTML.HTMLDriver;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.List;

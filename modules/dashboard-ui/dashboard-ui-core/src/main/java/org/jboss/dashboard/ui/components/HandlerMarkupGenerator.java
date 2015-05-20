@@ -22,7 +22,7 @@ import org.jboss.dashboard.ui.controller.requestChain.CSRFTokenProcessor;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Parameters;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -75,8 +75,8 @@ public class HandlerMarkupGenerator {
     }
 
     protected String getHiddenMarkup(String name, String value) {
-        name = StringEscapeUtils.escapeHtml(name);
-        value = StringEscapeUtils.escapeHtml(value);
+        name = StringEscapeUtils.ESCAPE_HTML4.translate(name);
+        value = StringEscapeUtils.ESCAPE_HTML4.translate(value);
         return "<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">";
     }
 

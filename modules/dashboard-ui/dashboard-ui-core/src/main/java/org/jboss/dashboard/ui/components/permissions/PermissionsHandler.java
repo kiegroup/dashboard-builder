@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.components.permissions;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.security.*;
 import org.jboss.dashboard.security.principals.ComplementaryRolePrincipal;

@@ -17,7 +17,7 @@ package org.jboss.dashboard.ui.panel.dataSourceManagement;
 
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -54,14 +54,14 @@ public class DataSourceManagementFormFormatter extends Formatter {
             }
 
             setAttribute("errorName", dataSourceManagementHandler.hasError("name"));
-            setAttribute("Name", dataSourceManagementHandler.getName() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getName()) : "");
+            setAttribute("Name", dataSourceManagementHandler.getName() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getName()) : "");
 
             renderFragment("outputName");
 
             setAttribute("errorJndiPath", dataSourceManagementHandler.hasError("jndiPath"));
 
             if (dataSourceManagementHandler.getType() != null && dataSourceManagementHandler.getType().equals(DataSourceManagementHandler.JNDI_TYPE)) {
-                setAttribute("JndiPath", dataSourceManagementHandler.getJndiPath() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getJndiPath()) : "");
+                setAttribute("JndiPath", dataSourceManagementHandler.getJndiPath() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getJndiPath()) : "");
             }
 
             renderFragment("outputJNDI");
@@ -72,7 +72,7 @@ public class DataSourceManagementFormFormatter extends Formatter {
             setAttribute("errorPassw", dataSourceManagementHandler.hasError("password"));
             if (dataSourceManagementHandler.getType() != null && dataSourceManagementHandler.getType().equals(DataSourceManagementHandler.CUSTOM_TYPE)) {
 
-                setAttribute("Url", dataSourceManagementHandler.getUrl() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getUrl()) : "");
+                setAttribute("Url", dataSourceManagementHandler.getUrl() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getUrl()) : "");
 
                 String driverClass = dataSourceManagementHandler.getDriverClass();
                 if (driverClass != null) {
@@ -86,15 +86,15 @@ public class DataSourceManagementFormFormatter extends Formatter {
                     setAttribute("selectedSybase", driverClass.equals("com.sybase.jdbc4.jdbc.SybDriver") ? "selected" : "");
                     setAttribute("selectedTeiid", driverClass.equals("org.teiid.jdbc.TeiidDriver") ? "selected" : "");
                 }
-                setAttribute("DriverClassName", driverClass != null ? StringEscapeUtils.escapeHtml(driverClass) : "");
+                setAttribute("DriverClassName", driverClass != null ? StringEscapeUtils.ESCAPE_HTML4.translate(driverClass) : "");
 
-                setAttribute("UserName", dataSourceManagementHandler.getUserName() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getUserName()) : "");
-                setAttribute("Passw", dataSourceManagementHandler.getPassword() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getPassword()) : "");
+                setAttribute("UserName", dataSourceManagementHandler.getUserName() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getUserName()) : "");
+                setAttribute("Passw", dataSourceManagementHandler.getPassword() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getPassword()) : "");
             }
             renderFragment("outputLocal");
 
             setAttribute("errorTestQ", dataSourceManagementHandler.hasError("testQuery"));
-            setAttribute("TestQ", dataSourceManagementHandler.getTestQuery() != null ? StringEscapeUtils.escapeHtml(dataSourceManagementHandler.getTestQuery()) : "");
+            setAttribute("TestQ", dataSourceManagementHandler.getTestQuery() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getTestQuery()) : "");
 
             renderFragment("ouputTestQ");
             if (dataSourceManagementHandler.isCreating() || dataSourceManagementHandler.isEDIT_MODE()) {

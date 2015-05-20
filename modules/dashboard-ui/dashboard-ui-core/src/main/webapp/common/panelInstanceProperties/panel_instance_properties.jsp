@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.ui.utils.forms.RenderUtils"%>
 <%@ page import="org.jboss.dashboard.ui.config.components.panelInstance.PanelInstancePropertiesFormatter"%>
 <%@ page import="java.util.List"%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="org.jboss.dashboard.workspace.*" %>
 <%@ page import="org.jboss.dashboard.ui.utils.forms.FormStatus" %>
 <%@ include file="../global.jsp" %>

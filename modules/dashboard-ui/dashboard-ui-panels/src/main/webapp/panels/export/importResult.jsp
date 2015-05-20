@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
 <%@ taglib uri="bui_taglib.tld" prefix="panel" %>
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
@@ -175,7 +175,7 @@
                             </td>
                             <td>
                                 <i18n:message key="workspaceCreateSuccess">!!! Creado con éxito el workspace </i18n:message>
-                                &nbsp;<a href="<mvc:fragmentValue name="url"/>"><%=StringEscapeUtils.escapeHtml((String)name)%></a>
+                                &nbsp;<a href="<mvc:fragmentValue name="url"/>"><%=StringEscapeUtils.ESCAPE_HTML4.translate((String)name)%></a>
                            </td>
                         </tr>
                     </table>

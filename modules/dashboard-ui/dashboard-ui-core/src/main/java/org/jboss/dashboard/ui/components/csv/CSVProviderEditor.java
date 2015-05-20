@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.ui.components.csv;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.misc.Chronometer;
@@ -94,9 +94,9 @@ public class CSVProviderEditor extends DataProviderEditor {
         DataSet oldDs = dataProvider.isPersistent() ? dataProvider.getDataSet() : null;
         
         // Get the parameters
-        String csvSeparatedBy = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvSeparatedBy"));
-        String csvQuoteChar = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvQuoteChar"));
-        String csvEscapeChar = StringEscapeUtils.unescapeHtml(request.getRequestObject().getParameter("csvEscapeChar"));
+        String csvSeparatedBy = StringEscapeUtils.UNESCAPE_HTML4.translate(request.getRequestObject().getParameter("csvSeparatedBy"));
+        String csvQuoteChar = StringEscapeUtils.UNESCAPE_HTML4.translate(request.getRequestObject().getParameter("csvQuoteChar"));
+        String csvEscapeChar = StringEscapeUtils.UNESCAPE_HTML4.translate(request.getRequestObject().getParameter("csvEscapeChar"));
         String csvDatePattern = request.getRequestObject().getParameter("csvDatePattern");
         String csvNumberPattern = request.getRequestObject().getParameter("csvNumberPattern");
         String csvUrlFile = request.getRequestObject().getParameter("csvUrlFile");

@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.panel.help;
 
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

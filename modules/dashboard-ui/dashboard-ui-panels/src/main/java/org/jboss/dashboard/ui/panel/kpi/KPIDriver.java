@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.kpi;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.dataset.DataSet;
 import org.jboss.dashboard.displayer.DataDisplayerType;

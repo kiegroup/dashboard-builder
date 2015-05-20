@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.DataDisplayerServices;
 import org.jboss.dashboard.DataProviderServices;
 import org.jboss.dashboard.annotation.config.Config;

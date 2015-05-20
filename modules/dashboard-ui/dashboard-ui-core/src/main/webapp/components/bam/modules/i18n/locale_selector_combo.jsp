@@ -23,7 +23,7 @@
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="java.util.*" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%
     LocaleManager lm = LocaleManager.lookup();
     String current = lm.getCurrentLang();

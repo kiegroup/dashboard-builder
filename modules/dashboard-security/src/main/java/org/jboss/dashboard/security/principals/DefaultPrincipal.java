@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.security.principals;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.users.Role;

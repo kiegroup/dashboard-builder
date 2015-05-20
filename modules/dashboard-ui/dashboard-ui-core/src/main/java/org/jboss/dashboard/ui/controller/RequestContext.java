@@ -19,7 +19,7 @@ import java.util.Stack;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.controller.responses.RedirectToURLResponse;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;
 import org.jboss.dashboard.workspace.Panel;

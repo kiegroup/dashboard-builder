@@ -23,7 +23,7 @@
 <%@ taglib uri="http://dashboard.jboss.org/taglibs/i18n-1.0" prefix="i18n" %>
 <%@ page import="org.jboss.dashboard.ui.components.table.TableHandler" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.jboss.dashboard.displayer.table.Table" %>
 <%@ page import="org.jboss.dashboard.displayer.table.ExportTool" %>
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.table.messages" locale="<%= LocaleManager.currentLocale() %>" />

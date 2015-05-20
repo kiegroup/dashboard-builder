@@ -16,7 +16,7 @@
 package org.jboss.dashboard.ui.taglib;
 
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 
 import javax.servlet.jsp.JspTagException;
@@ -67,7 +67,7 @@ public class LocalizeTag extends BaseTag {
         }
 
         try {
-            pageContext.getOut().print(valueIsHTML ? result : StringEscapeUtils.escapeHtml(result));
+            pageContext.getOut().print(valueIsHTML ? result : StringEscapeUtils.ESCAPE_HTML4.translate(result));
         } catch (IOException e) {
             handleError(e);
         }

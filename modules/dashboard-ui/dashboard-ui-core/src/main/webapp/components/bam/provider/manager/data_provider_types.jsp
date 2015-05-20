@@ -18,7 +18,7 @@
 <%@ page import="org.jboss.dashboard.DataDisplayerServices" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DataProviderHandler" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.provider.DataProviderType" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
@@ -46,8 +46,8 @@
 <%
     for (int i = 0; i < providerTypes.length; i++) {
         DataProviderType providerType = providerTypes[i];
-        String uid = StringEscapeUtils.escapeHtml(providerType.getUid());
-        String description = StringEscapeUtils.escapeHtml(providerType.getDescription(LocaleManager.currentLocale()));
+        String uid = StringEscapeUtils.ESCAPE_HTML4.translate(providerType.getUid());
+        String description = StringEscapeUtils.ESCAPE_HTML4.translate(providerType.getDescription(LocaleManager.currentLocale()));
         String selected = (currentTypeUid != null && currentTypeUid.equals(uid) ? "selected" : "");
 %>
         <option value="<%= uid %>" <%= selected %>><%= description %></option>

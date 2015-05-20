@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -64,7 +64,7 @@ public class PanelInstancesProvidersNode extends AbstractNode {
     }
 
     public String getName(Locale l) {
-        return StringEscapeUtils.unescapeHtml(providerName);
+        return StringEscapeUtils.UNESCAPE_HTML4.translate(providerName);
     }
 
     protected List listChildren() {

@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.commons.text;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.File;

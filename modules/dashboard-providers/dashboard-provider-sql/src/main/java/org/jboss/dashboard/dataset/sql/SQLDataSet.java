@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.dataset.sql;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.CoreServices;
 import org.jboss.dashboard.database.hibernate.SQLStatementTrace;
 import org.jboss.dashboard.dataset.AbstractDataSet;

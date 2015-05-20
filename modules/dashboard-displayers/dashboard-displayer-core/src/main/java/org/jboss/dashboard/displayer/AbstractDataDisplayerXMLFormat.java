@@ -33,7 +33,7 @@ import org.jboss.dashboard.domain.numeric.NumericDomain;
 import org.jboss.dashboard.export.DataDisplayerXMLFormat;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

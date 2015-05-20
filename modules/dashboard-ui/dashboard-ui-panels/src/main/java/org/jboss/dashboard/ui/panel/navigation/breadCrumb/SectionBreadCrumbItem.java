@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.panel.navigation.breadCrumb;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Section;
@@ -37,6 +37,6 @@ public class SectionBreadCrumbItem implements BreadCrumbItem {
     }
 
     public String getName() {
-        return StringEscapeUtils.escapeHtml((String) localeManager.localize(section.getTitle()));
+        return StringEscapeUtils.ESCAPE_HTML4.translate((String) localeManager.localize(section.getTitle()));
     }
 }

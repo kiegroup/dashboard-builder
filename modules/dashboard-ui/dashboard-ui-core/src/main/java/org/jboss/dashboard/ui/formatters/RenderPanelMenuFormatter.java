@@ -25,7 +25,7 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.PanelPermission;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.users.UserStatus;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelSession;
@@ -98,7 +98,7 @@ public class RenderPanelMenuFormatter extends Formatter {
         renderFragment("movePanel");
 
         setAttribute("cursorStyle", "move");
-        setAttribute("title", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(panel.getTitle())));
+        setAttribute("title", StringEscapeUtils.ESCAPE_HTML4.translate((String) LocaleManager.lookup().localize(panel.getTitle())));
         renderFragment("menuLink");
         renderFragment("menuStart");
 

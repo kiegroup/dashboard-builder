@@ -20,7 +20,7 @@ import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.profiler.CodeBlockTrace;
 import org.jboss.dashboard.profiler.CodeBlockType;
 import org.jboss.dashboard.profiler.CoreCodeBlockTypes;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.jboss.dashboard.ui.taglib.BaseTag;
 

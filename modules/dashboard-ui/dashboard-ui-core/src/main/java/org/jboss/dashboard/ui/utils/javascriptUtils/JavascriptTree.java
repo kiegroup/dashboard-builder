@@ -23,7 +23,7 @@ import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.taglib.LocalizeTag;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +44,7 @@ public class JavascriptTree implements Comparable {
     protected boolean forceFirst = false;
 
     public static String HTMLfilter(String str) {
-        return StringEscapeUtils.escapeHtml(str);
+        return StringEscapeUtils.ESCAPE_HTML4.translate(str);
     }
 
     public JavascriptTree(String key, String val) {
@@ -114,11 +114,11 @@ public class JavascriptTree implements Comparable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("['");
-        sb.append(StringEscapeUtils.escapeJavaScript(key));
+        sb.append(StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(key));
         sb.append("',");
         if (val != null) {
             sb.append("'");
-            sb.append(StringEscapeUtils.escapeJavaScript(val));
+            sb.append(StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(val));
             sb.append("'");
         } else {
             sb.append(valInt);
@@ -145,10 +145,10 @@ public class JavascriptTree implements Comparable {
     /**
      * @param s
      * @return
-     * @deprecated Use StringEscapeUtils.escapeHtml(s)
+     * @deprecated Use StringEscapeUtils.ESCAPE_HTML4.translate(s)
      */
     public static String replaceTildes(String s) {
-        return StringEscapeUtils.escapeHtml(s);
+        return StringEscapeUtils.ESCAPE_HTML4.translate(s);
     }
 
     /**

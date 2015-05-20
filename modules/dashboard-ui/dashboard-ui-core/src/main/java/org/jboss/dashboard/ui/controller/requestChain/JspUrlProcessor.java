@@ -17,7 +17,7 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.controller.responses.ShowScreenResponse;

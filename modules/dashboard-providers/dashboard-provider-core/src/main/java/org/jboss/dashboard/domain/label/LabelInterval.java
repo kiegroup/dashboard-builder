@@ -24,7 +24,7 @@ import org.jboss.dashboard.provider.DataProperty;
 
 import java.util.*;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * A label interval always matchs a given value of the domain.<br/>

@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.apache.commons.jxpath.JXPathContext;
@@ -130,9 +130,10 @@ public class PropertyReadTag extends BaseTag {
         try {
             Object val = JXPathContext.newContext(subjectOfTheGetter).getValue(property);
             if (localize != null && localize.booleanValue() && val instanceof Map) {
-                return StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)(localize((Map) val))));
+                return StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(
+                        StringEscapeUtils.ESCAPE_HTML4.translate((String) (localize((Map) val))));
             }
-            return StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml((String)val));
+            return StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(StringEscapeUtils.ESCAPE_HTML4.translate((String)val));
         } catch (Exception e) {
             log.warn("Error accessing property " + property + " in " + object + "." + e);
             return null;

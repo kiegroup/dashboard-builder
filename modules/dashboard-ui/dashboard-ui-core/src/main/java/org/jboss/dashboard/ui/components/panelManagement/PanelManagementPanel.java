@@ -23,7 +23,7 @@ import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.ui.panel.PanelDriver;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.slf4j.Logger;
 

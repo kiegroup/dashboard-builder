@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.config.components.homePages;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.SecurityServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -80,7 +80,7 @@ public class HomePagesFormatter extends Formatter {
             Section section = sections[i];
             setAttribute("selected", section.getId().equals(selectedOption));
             setAttribute("sectionId", section.getId());
-            setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle())));
+            setAttribute("sectionName", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(section.getTitle())));
             renderFragment("outputPageSelectOption");
         }
         renderFragment("outputSelectEnd");

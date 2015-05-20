@@ -34,7 +34,7 @@ import org.jboss.dashboard.provider.*;
 import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.commons.message.Message;
 import org.jboss.dashboard.commons.message.MessageList;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

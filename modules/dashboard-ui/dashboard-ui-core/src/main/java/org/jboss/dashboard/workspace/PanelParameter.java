@@ -17,7 +17,7 @@ package org.jboss.dashboard.workspace;
 
 import org.jboss.dashboard.workspace.export.WorkspaceVisitor;
 import org.jboss.dashboard.workspace.export.Visitable;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 

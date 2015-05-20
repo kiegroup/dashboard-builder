@@ -25,7 +25,7 @@ import javax.enterprise.inject.Alternative;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.export.ImportResults;
 import org.jboss.dashboard.LocaleManager;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;

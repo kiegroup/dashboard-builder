@@ -21,8 +21,8 @@ import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -41,10 +41,10 @@ public class ConfigurationPageFormatter extends Formatter {
             TreeNode editedNode = treeStatus.getLastEditedNode(tree);
             if (editedNode != null) {
                 setAttribute("editPage", editedNode.getEditURI());
-                setAttribute("description", StringEscapeUtils.escapeHtml(editedNode.getDescription(getLocale())));
+                setAttribute("description", StringEscapeUtils.ESCAPE_HTML4.translate(editedNode.getDescription(getLocale())));
                 setAttribute("ajaxCompatible", editedNode.isEditURIAjaxCompatible());
                 setAttribute("path_Node", editedNode.getPath());
-                setAttribute("name_Node", StringEscapeUtils.escapeHtml(StringUtils.defaultString(editedNode.getName(getLocale()))));
+                setAttribute("name_Node", StringEscapeUtils.ESCAPE_HTML4.translate(StringUtils.defaultString(editedNode.getName(getLocale()))));
                 setAttribute("icon_Node", editedNode.getIconId());
                 setAttribute("iconNodePath", editedNode.getIconCategory());
             }

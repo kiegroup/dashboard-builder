@@ -23,7 +23,7 @@ import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.jboss.dashboard.ui.resources.Skin;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.workspace.Workspace;
 import org.slf4j.Logger;
 

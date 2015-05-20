@@ -23,7 +23,7 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -101,7 +101,7 @@ public class RenderWorkspacesFormatter extends Formatter {
                 setAttribute("count", i + 1);
                 setAttribute("workspace", workspace);
                 setAttribute("workspaceId", workspace.getId());
-                setAttribute("workspaceName", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(workspace.getName())));
+                setAttribute("workspaceName", StringEscapeUtils.ESCAPE_HTML4.translate((String) LocaleManager.lookup().localize(workspace.getName())));
                 setAttribute("current", workspace.getId().equals(navigationManager.getCurrentWorkspaceId()));
                 renderFragment("output");
             }

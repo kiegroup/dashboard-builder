@@ -16,4 +16,4 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.workspace.PanelInstance" %>
-<%=org.apache.commons.lang.StringUtils.defaultString((String) request.getAttribute(PanelInstance.PARAMETER_HTML_AFTER))%>
+<%=org.apache.commons.lang3.StringUtils.defaultString((String) request.getAttribute(PanelInstance.PARAMETER_HTML_AFTER))%>

@@ -22,7 +22,7 @@ import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
 import org.jboss.dashboard.error.ErrorManager;

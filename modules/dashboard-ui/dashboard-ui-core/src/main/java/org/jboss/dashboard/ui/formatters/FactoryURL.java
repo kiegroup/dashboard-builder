@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -43,8 +43,8 @@ public class FactoryURL {
         Object[] o = msgf.parse(value, pPos);
         if (o == null) throw new ParseException("Cannot parse " + value + ". Error at position " + pPos.getErrorIndex(), pPos.getErrorIndex());
 
-        beanName = StringEscapeUtils.unescapeHtml((String) o[0]);
-        fieldName = StringEscapeUtils.unescapeHtml((String) o[1]);
+        beanName = StringEscapeUtils.UNESCAPE_HTML4.translate((String) o[0]);
+        fieldName = StringEscapeUtils.UNESCAPE_HTML4.translate((String) o[1]);
     }
 
     public String getBeanName() {
@@ -59,9 +59,9 @@ public class FactoryURL {
         StringBuffer sb = new StringBuffer();
         sb.append(SCHEMA);
         sb.append("://");
-        sb.append(StringEscapeUtils.escapeHtml(beanName));
+        sb.append(StringEscapeUtils.ESCAPE_HTML4.translate(beanName));
         sb.append("/");
-        sb.append(StringEscapeUtils.escapeHtml(fieldName));
+        sb.append(StringEscapeUtils.ESCAPE_HTML4.translate(fieldName));
         return sb.toString();
     }
 }

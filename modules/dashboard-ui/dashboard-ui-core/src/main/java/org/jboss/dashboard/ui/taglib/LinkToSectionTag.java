@@ -19,7 +19,7 @@ import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +51,7 @@ public class LinkToSectionTag extends BaseTag {
             if (section != null) {
                 String linkStr = getLink((HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse(), section);
                 try {
-                    pageContext.getOut().print(StringEscapeUtils.escapeHtml(linkStr));
+                    pageContext.getOut().print(StringEscapeUtils.ESCAPE_HTML4.translate(linkStr));
                 } catch (java.io.IOException e) {
                     handleError(e);
                 }

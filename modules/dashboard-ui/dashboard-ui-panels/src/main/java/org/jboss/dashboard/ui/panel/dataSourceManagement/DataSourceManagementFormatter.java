@@ -21,7 +21,7 @@ import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.database.DataSourceEntry;
 import org.jboss.dashboard.database.JDBCDataSourceEntry;
 import org.jboss.dashboard.database.JNDIDataSourceEntry;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -78,15 +78,15 @@ public class DataSourceManagementFormatter extends Formatter {
                     }
                     setAttribute("dataSName", entry.getName());
                     setAttribute("entry", entry);
-                    setAttribute("Name", StringEscapeUtils.escapeHtml(entry.getName()));
+                    setAttribute("Name", StringEscapeUtils.ESCAPE_HTML4.translate(entry.getName()));
 
                     setAttribute("index", i);
                     if (entry instanceof JNDIDataSourceEntry) {
                         setAttribute("entryType", JNDI_DATA_SOURCE_ENTRY);
-                        setAttribute("entryPath", StringEscapeUtils.escapeHtml(entry.getJndiPath()));
+                        setAttribute("entryPath", StringEscapeUtils.ESCAPE_HTML4.translate(entry.getJndiPath()));
                     } else if (entry instanceof JDBCDataSourceEntry) {
                         setAttribute("entryType", JDBC_DATA_SOURCE_ENTRY);
-                        setAttribute("entryPath", StringEscapeUtils.escapeHtml(entry.getUrl()));
+                        setAttribute("entryPath", StringEscapeUtils.ESCAPE_HTML4.translate(entry.getUrl()));
                     }
 
                     setAttribute("statusIcon", checkDataSource(entry));

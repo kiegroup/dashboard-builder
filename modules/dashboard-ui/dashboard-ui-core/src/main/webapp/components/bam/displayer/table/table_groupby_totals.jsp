@@ -23,7 +23,7 @@
 <%@ page import="org.jboss.dashboard.function.ScalarFunction" %>
 <%@ page import="org.jboss.dashboard.DataDisplayerServices" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib uri="factory.tld" prefix="factory"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>
@@ -48,7 +48,7 @@
 %>
         <td title="<%= scalar %>" height="15" nowrap>
             <div style="<%= table.getGroupByTotalsHtmlStyle() %> height:18px; font:100-family: variant: font-style:italic; overflow:hidden; vertical-align:middle" title="<%= scalar %>">
-            <%= StringEscapeUtils.escapeHtml(scalar) %></div>
+            <%= StringEscapeUtils.ESCAPE_HTML4.translate(scalar) %></div>
         </td>
             <% } else { %>
         <td title="<i18n:message key="tableDisplayer.groupByTotal" />" height="15" nowrap>

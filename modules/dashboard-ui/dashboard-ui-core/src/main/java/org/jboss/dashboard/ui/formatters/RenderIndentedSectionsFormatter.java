@@ -24,8 +24,8 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -109,7 +109,7 @@ public class RenderIndentedSectionsFormatter extends Formatter {
     }
 
     protected String getTitle(Section section) {
-        return StringUtils.defaultString(StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(section.getTitle())));
+        return StringUtils.defaultString(StringEscapeUtils.ESCAPE_HTML4.translate((String) LocaleManager.lookup().localize(section.getTitle())));
     }
 
     protected String getPageUrl(HttpServletRequest request, Section section, boolean permanent) {
