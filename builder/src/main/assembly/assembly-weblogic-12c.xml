@@ -55,7 +55,6 @@
           <exclude>WEB-INF/lib/slf4j-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-fileupload-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-io-*.jar</exclude>
-          <exclude>WEB-INF/lib/commons-lang*.jar</exclude>
           <exclude>WEB-INF/lib/commons-logging-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-pool-*.jar</exclude>
           <exclude>WEB-INF/lib/jta-*.jar</exclude>
