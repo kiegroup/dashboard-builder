@@ -86,6 +86,11 @@ public class ImportResult extends ImportExportResult {
         //Set schema location
         parser.setProperty("http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation", schema);
 
+        // BZ-1211316: XXE/SSRF vulnerability
+        parser.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        parser.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
         //Set the error handler
         parser.setErrorHandler(new ErrorHandler() {
             public void error(SAXParseException exception) throws SAXParseException {

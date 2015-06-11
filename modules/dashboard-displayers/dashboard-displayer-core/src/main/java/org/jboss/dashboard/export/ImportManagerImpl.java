@@ -124,10 +124,8 @@ public class ImportManagerImpl implements ImportManager {
      * Creates elements (KPI, DataProvider ,..) parsing the specified XML fragment.
      */
     public ImportResults parse(String xml, ImportOptions options) throws Exception {
-        DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-        dFactory.setIgnoringComments(true);
         StringReader isr = new StringReader(xml);
+        DocumentBuilder dBuilder = createDocumentBuilder();
         Document doc = dBuilder.parse(new InputSource(isr));
         isr.close();
         return parse(doc.getChildNodes(), options);
@@ -137,11 +135,21 @@ public class ImportManagerImpl implements ImportManager {
      * Creates elements (KPI, DataProvider ,..) parsing the specified XML stream.
      */
     public ImportResults parse(InputStream xml, ImportOptions options) throws Exception {
-        DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
-        dFactory.setIgnoringComments(true);
+        DocumentBuilder dBuilder = createDocumentBuilder();
         Document doc = dBuilder.parse(xml);
         return parse(doc.getChildNodes(), options);
+    }
+
+    protected DocumentBuilder createDocumentBuilder() throws Exception {
+        DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+        dFactory.setIgnoringComments(true);
+
+        // BZ-1211316: XXE/SSRF vulnerability
+        dFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        dFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        dFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+
+        return dFactory.newDocumentBuilder();
     }
 
     /**
