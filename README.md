@@ -51,7 +51,7 @@ If you want to build the project and execute a quick demo, please, proceed as in
 
 1. Prerequisites:
 
-  This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.0.5+ (set as MAVEN_HOME) in your system.
+  This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.2.3+ (set as MAVEN_HOME) in your system.
   The <code>java</code> and <code>mvn</code> commands must be added to the executable's path as well.
 
 2. Open a terminal window, go to the <code>scripts</code> directory and type the following command (for linux systems):
