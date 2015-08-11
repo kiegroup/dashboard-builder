@@ -1,3 +1,4 @@
+@echo off
 echo.*****************************************************************************
 echo.*
 echo.* Starting the Dashboard Builder demo
@@ -7,4 +8,4 @@ echo.*
 echo.*
 echo.*****************************************************************************
 
-%JAVA_HOME%\bin\java %JAVA_OPTIONS% -jar jetty-runner.jar dashbuilder-demo.war
+"%JAVA_HOME%\bin\java" %JAVA_OPTIONS% -jar jetty-runner.jar dashbuilder-demo.war
