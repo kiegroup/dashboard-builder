@@ -41,7 +41,6 @@
           <exclude>WEB-INF/jboss-web.xml</exclude>
           <exclude>WEB-INF/jboss-deployment-structure.xml</exclude>
           <exclude>WEB-INF/web.xml</exclude>
-
           <exclude>WEB-INF/lib/cdi-*.jar</exclude>
           <exclude>WEB-INF/lib/jboss-*.jar</exclude>
           <exclude>WEB-INF/lib/ironjacamar-*.jar</exclude>
@@ -50,7 +49,6 @@
           <exclude>WEB-INF/lib/weld-*.jar</exclude>
           <exclude>WEB-INF/lib/xmlbeans-*.jar</exclude>
           <exclude>WEB-INF/lib/slf4j-*.jar</exclude>
-          <exclude>WEB-INF/lib/commons-fileupload-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-lang-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-logging-*.jar</exclude>
           <exclude>WEB-INF/lib/commons-pool-*.jar</exclude>
