@@ -46,7 +46,7 @@ public class DashboardHandler implements Serializable {
         return CDIBeanLocator.getBeanByType(DashboardHandler.class);
     }
 
-    @Inject
+    //@Inject
     protected Logger log;
 
     /**
