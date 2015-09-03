@@ -17,6 +17,7 @@ function CreateProgressBars(containerId, name, startDate, endDate, size, done, c
 				.style("padding-right", "5px")
 				.style("vertical-align", "top")
 				.style("height", "40px")
+                .style("width", "150px")
 				.html(name+'<BR>('+endDate+')');
 
 	var bars = 
