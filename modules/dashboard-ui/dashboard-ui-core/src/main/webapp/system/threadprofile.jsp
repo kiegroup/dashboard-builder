@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.commons.misc.Chronometer" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="org.jboss.dashboard.profiler.*" %>
 <%@ page import="java.util.Map" %>
@@ -158,7 +158,7 @@
 %>
             <tr>
                 <td valign="top" align="left"><%=propName%></td>
-                <td valign="top" align="left">= <%=StringEscapeUtils.escapeHtml(propValue) %></td>
+                <td valign="top" align="left">= <%=StringEscapeUtils.ESCAPE_HTML4.translate(propValue) %></td>
             </tr>
 <%
         }

@@ -15,8 +15,8 @@
  */
 package org.jboss.dashboard.i18n;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jdom.Attribute;
 import org.jdom.Document;

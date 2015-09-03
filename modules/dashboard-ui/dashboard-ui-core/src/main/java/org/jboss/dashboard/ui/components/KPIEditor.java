@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
 import org.jboss.dashboard.displayer.exception.DataDisplayerInvalidConfiguration;

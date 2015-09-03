@@ -16,7 +16,7 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.security.SectionPermission" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils"%>
 <%@ page import="org.jboss.dashboard.ui.config.components.sections.SectionsPropertiesHandler"%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="org.jboss.dashboard.security.WorkspacePermission"%>
@@ -293,7 +293,7 @@
     Boolean isLoop = (Boolean)moveLoop;
 %>
     if(<%=isLoop.booleanValue()%>){
-        window.alert('<%=StringEscapeUtils.escapeJavaScript(errorMoveLoop)%>');
+        window.alert('<%=StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(errorMoveLoop)%>');
     }
 
     function selectItem(id, isRoot, editSection, editPermissions, deleteSection) {
@@ -355,7 +355,7 @@
         if(document.getElementById('id').value != document.config.MoveSelected.value){
             submitFormAction('<%=SectionsPropertiesHandler.ACTION_MOVE_SELECTED%>')
         } else {
-            window.alert('<%=StringEscapeUtils.escapeJavaScript(sameSectionsSelected)%>');
+            window.alert('<%=StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(sameSectionsSelected)%>');
             document.config.MoveSelected.value = "";
             return false;
         }

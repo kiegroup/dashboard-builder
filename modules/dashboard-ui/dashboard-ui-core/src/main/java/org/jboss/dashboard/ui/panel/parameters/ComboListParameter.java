@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.workspace.PanelProviderParameter;
 
@@ -98,7 +98,7 @@ public class ComboListParameter extends PanelProviderParameter {
                 String key = (String) it.next();
                 String val = (String) itValues.next();
                 String selected = (key.equals(instance.getParameterValue(param.getId()))) ? "selected" : "";
-                buf.append("<option value='").append(StringEscapeUtils.escapeHtml(key)).append("' ").append(selected).append(">").append(StringEscapeUtils.escapeHtml(val)).append("</option>");
+                buf.append("<option value='").append(StringEscapeUtils.ESCAPE_HTML4.translate(key)).append("' ").append(selected).append(">").append(StringEscapeUtils.ESCAPE_HTML4.translate(val)).append("</option>");
             }
             buf.append("</select>");
         }

@@ -19,8 +19,8 @@ import org.jboss.dashboard.LocaleManager;
 import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.ui.components.URLMarkupGenerator;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 
@@ -87,7 +87,7 @@ public class NavigationPoint {
 
         try {
             Map params = new HashMap();
-            StringTokenizer strtk = new StringTokenizer(StringEscapeUtils.unescapeHtml(queryString), "&");
+            StringTokenizer strtk = new StringTokenizer(StringEscapeUtils.UNESCAPE_HTML4.translate(queryString), "&");
             while (strtk.hasMoreTokens()) {
                 String token = strtk.nextToken();
                 int dividerPoint = token.indexOf('=');

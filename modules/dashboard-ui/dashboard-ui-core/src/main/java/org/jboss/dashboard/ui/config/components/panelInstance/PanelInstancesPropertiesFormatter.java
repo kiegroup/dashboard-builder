@@ -19,7 +19,7 @@ import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
 import org.jboss.dashboard.workspace.*;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.workspace.*;
 import org.slf4j.Logger;
 
@@ -89,7 +89,7 @@ public class PanelInstancesPropertiesFormatter extends Formatter {
                 renderFragment("outputDelete");
                 setAttribute("estilo", estilo);
                 String title = instancesTitles.get(instance.getInstanceId());
-                setAttribute("value", StringEscapeUtils.escapeHtml(title));
+                setAttribute("value", StringEscapeUtils.ESCAPE_HTML4.translate(title));
                 renderFragment("outputTitle");
                 setAttribute("estilo", estilo);
                 Integer panelCount = panelStatistics.get(instance.getInstanceId());

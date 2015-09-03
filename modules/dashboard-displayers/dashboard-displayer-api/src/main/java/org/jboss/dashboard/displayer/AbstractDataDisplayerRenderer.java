@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.displayer;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.jboss.dashboard.annotation.config.Config;
 
 import java.util.List;

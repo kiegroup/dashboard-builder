@@ -15,13 +15,13 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="org.jboss.dashboard.profiler.ThreadProfile" %>
 <%@ page import="org.jboss.dashboard.commons.misc.Chronometer" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%
     List<ThreadProfile> allTxs = (List<ThreadProfile>) request.getAttribute("threadList");
     List<String> allPropNames = new ArrayList(ThreadProfile.getAllContextPropertyNames());
@@ -110,8 +110,8 @@
                     String propValue = (t.getContextProperty(propName) == null ? "" : t.getContextProperty(propName).toString());
 %>
                     <td width="150px" class="<%= css %>" align="center" valign="center">
-                        <div style="width:140px;height:14px;text-align:left;overflow:hidden;vertical-align:middle;" title="<%= StringEscapeUtils.escapeHtml(propValue) %>">
-                            <%= StringEscapeUtils.escapeHtml(propValue) %></div>
+                        <div style="width:140px;height:14px;text-align:left;overflow:hidden;vertical-align:middle;" title="<%= StringEscapeUtils.ESCAPE_HTML4.translate(propValue) %>">
+                            <%= StringEscapeUtils.ESCAPE_HTML4.translate(propValue) %></div>
                     </td>
 <%
                 }

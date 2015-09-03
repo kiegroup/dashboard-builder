@@ -32,9 +32,9 @@ import org.jboss.dashboard.commons.filter.FilterByCriteria;
 import java.util.*;
 
 import org.jboss.dashboard.ui.panel.AjaxRefreshManager;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;

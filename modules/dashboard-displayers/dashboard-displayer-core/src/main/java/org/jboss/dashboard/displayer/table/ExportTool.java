@@ -143,6 +143,10 @@ public class ExportTool {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     cell.setCellStyle(styles.get("text_cell"));
                     cell.setCellValue(((Interval) value).getDescription(LocaleManager.currentLocale()));
+                } else if (value == null) {
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellStyle(styles.get("text_cell"));
+                    cell.setCellValue("");
                 } else {
                     cell.setCellType(Cell.CELL_TYPE_STRING);
                     cell.setCellStyle(styles.get("text_cell"));

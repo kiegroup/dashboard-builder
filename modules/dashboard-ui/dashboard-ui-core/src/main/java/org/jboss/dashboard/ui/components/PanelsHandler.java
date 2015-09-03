@@ -25,7 +25,7 @@ import org.jboss.dashboard.workspace.*;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.resources.Layout;
 import org.hibernate.Session;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import java.util.Locale;
@@ -199,7 +199,7 @@ public class PanelsHandler extends BeanHandler {
                         String lang = langs[i];
                         String panelTitle = provider.getResource(provider.getDescription(), new Locale(lang));
                         if (panelTitle != null)
-                            newInstance.setTitle(StringEscapeUtils.unescapeHtml(panelTitle), lang);
+                            newInstance.setTitle(StringEscapeUtils.UNESCAPE_HTML4.translate(panelTitle), lang);
                     }
                     // Add instance to workspace
                     workspace.addPanelInstance(newInstance);

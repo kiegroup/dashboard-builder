@@ -20,7 +20,7 @@
 <%@ page import="org.jboss.dashboard.ui.NavigationManager" %>
 <%@ page import="org.jboss.dashboard.workspace.Section" %>
 <%@ page import="org.jboss.dashboard.ui.formatters.DashboardFilterFormatter" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -122,7 +122,7 @@
                                     <%
                                         for (int i = 0; i < sections.length; i++) {
                                             Section section = sections[i];
-                                            String sectionTitle = StringEscapeUtils.escapeHtml((String) localeManager.localize(section.getTitle()));
+                                            String sectionTitle = StringEscapeUtils.ESCAPE_HTML4.translate((String) localeManager.localize(section.getTitle()));
 
                                     %>
                                       <option title="<%=sectionTitle%>" value="<%=section.getId()%>" <%=section.getId().equals(sectionId) ? "selected" : ""%>><%=sectionTitle%></option>

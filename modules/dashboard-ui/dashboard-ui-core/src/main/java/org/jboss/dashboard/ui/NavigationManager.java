@@ -38,7 +38,7 @@ import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.users.LogoutSurvivor;
 import org.jboss.dashboard.users.UserStatus;
 import org.hibernate.Session;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.*;

@@ -4,7 +4,7 @@ It will assist you in compiling and running the project.
 Prerequisites
 --------------------
 
-This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.0.5+ (set as MAVEN_HOME)
+This guide assumes you have Java JDK 1.6 (set as JAVA_HOME), and Maven 3.2.5+ (set as MAVEN_HOME)
 
 * Additional configuration for Maven:
 

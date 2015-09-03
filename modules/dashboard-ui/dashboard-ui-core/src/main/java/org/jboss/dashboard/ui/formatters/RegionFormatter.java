@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.ui.NavigationManager;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
 import org.jboss.dashboard.ui.taglib.formatter.FormatterException;
@@ -134,7 +134,7 @@ public class RegionFormatter extends Formatter {
                 (panel.getProvider().getDriver().supportsEditMode(panel) && canEditPanel)) {
             setAttribute("panel", panel);
             setAttribute("administratorMode", userAdmin);
-            setAttribute("panelTitle", StringEscapeUtils.escapeHtml(getLocalizedValue(panel.getTitle())));
+            setAttribute("panelTitle", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(panel.getTitle())));
             setAttribute("recommendedWidth", panelRecommendedWidth + "%");
             setAttribute("editMode", panel.getPanelSession().isEditMode());
             renderFragment("panelContentWithMenu");

@@ -19,7 +19,7 @@
 <%@ page import="org.jboss.dashboard.database.hibernate.HibernateSessionFactoryProvider" %>
 <%@ page import="org.hibernate.stat.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.jboss.dashboard.database.hibernate.HibernateInitializer" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
 <%
@@ -89,17 +89,17 @@
 
     if (errors.length() > 0) {
 %>
-    <div class="error"><%=StringEscapeUtils.escapeHtml(errors.toString())%></div><br>
+    <div class="error"><%=StringEscapeUtils.ESCAPE_HTML4.translate(errors.toString())%></div><br>
 <%
     }
     if (warnings.length() > 0) {
 %>
-    <div class="warn"><%=StringEscapeUtils.escapeHtml(warnings.toString())%></div><br>
+    <div class="warn"><%=StringEscapeUtils.ESCAPE_HTML4.translate(warnings.toString())%></div><br>
 <%
     }
     if (info.length() > 0) {
 %>
-    <div class="success"><%=StringEscapeUtils.escapeHtml(info.toString())%></div><br>
+    <div class="success"><%=StringEscapeUtils.ESCAPE_HTML4.translate(info.toString())%></div><br>
 <%
     }
     boolean active = statistics.isStatisticsEnabled();

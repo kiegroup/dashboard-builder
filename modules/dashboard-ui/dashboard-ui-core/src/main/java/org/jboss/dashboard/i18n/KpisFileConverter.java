@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.i18n;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;

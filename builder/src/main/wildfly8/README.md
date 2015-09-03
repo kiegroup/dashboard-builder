@@ -3,8 +3,8 @@ Deployment onto Widlfly
 
 Please follow the next steps in order to deploy the application.
 
-Deploy the Dashboard Builder
-----------------------------
+Preparing the environment for running the Dashboard Builder
+-----------------------------------------------------------
 
 Get the proper WAR file (e.g. dashbuilder-wildfly-8.war) and execute the following command:
 
@@ -15,16 +15,95 @@ Get the proper WAR file (e.g. dashbuilder-wildfly-8.war) and execute the followi
     e.g. $ ./jboss-cli.sh --connect --command="deploy /home/myuser/myfiles/dashbuilder-wildfly-8.war" )
 
 
-The application is configured to use a datasource with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.
-Notice, this datasource is intended for development/demo purposes and it's present by default at any JBoss installation.
+The application is configured to use a data source with the following JNDI name: <code>java:jboss/datasources/ExampleDS</code>.
+Notice, this data source is intended for development/demo purposes and it's present by default at any JBoss installation.
 
 If you want to deploy on a database different from H2 like Oracle, MySQL, Postgres or MS SQL Server please follow the next steps:
 
-* Install the database driver on JBoss (read the JBoss documentation)
+**1.- Install the database driver on the JBoss Wildfly server (read the JBoss documentation)**                              
 
-* Create an empty database and a JBoss data source which connects to it
+Considering a PostgreSQL 9.3 database, the filesystem structure for adding a postgres 9.3 driver module for jdbc4 can be as:                       
+    
+        <JBOSS_HOME>/modules/system/layers/base/
+                                                org/
+                                                    postgres/
+                                                            main/
+                                                                 postgresql-9.3-1103.jdbc4.jar
+                                                                 module.xml
+The content for the `module.xml` can be as:                   
 
-* Modify the file *dashboard-builder/builder/src/main/wildfly8/WEB-INF/jboss-web.xml*:
+        <?xml version="1.0" encoding="UTF-8"?>  
+        
+        <!--
+          ~ JBoss, Home of Professional Open Source.  
+          ~ Copyright 2010, Red Hat, Inc., and individual contributors  
+          ~ as indicated by the @author tags. See the copyright.txt file in the  
+          ~ distribution for a full listing of individual contributors.  
+          ~  
+          ~ This is free software; you can redistribute it and/or modify it  
+          ~ under the terms of the GNU Lesser General Public License as  
+          ~ published by the Free Software Foundation; either version 2.1 of  
+          ~ the License, or (at your option) any later version.  
+          ~  
+          ~ This software is distributed in the hope that it will be useful,  
+          ~ but WITHOUT ANY WARRANTY; without even the implied warranty of  
+          ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU  
+          ~ Lesser General Public License for more details.  
+          ~  
+          ~ You should have received a copy of the GNU Lesser General Public  
+          ~ License along with this software; if not, write to the Free  
+          ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  
+          ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.  
+          -->
+        
+          <module xmlns="urn:jboss:module:1.1" name="org.postgres">
+          <resources>
+        	<resource-root path="postgresql-9.3-1103.jdbc4.jar"/>
+          </resources>
+          <dependencies>
+        	<module name="javax.api"/>
+        	<module name="javax.transaction.api"/>
+          </dependencies>
+        </module>
+
+**2.- Create an empty database & users**                        
+
+Considering the PostgreSQL example above, run the `psql` command and type:                
+
+        postgres=# CREATE USER myuser WITH PASSWORD 'myuser'; 
+        postgres=# CREATE DATABASE dashbuilder;
+        postgres=# GRANT ALL PRIVILEGES ON DATABASE dashbuilder to myuser;
+        
+Check you can connect successfully using the above user to the recently created database:                 
+
+        [root@host ~]# psql -U myuser -d dashbuilder -W
+
+**IMPORTANT NOTE**: If you have permission issues trying to connect the database from the Dashboard Builder, please configure your `pg_hba.conf` for allowing local TCP connections.              
+
+**3.- Create a JBoss data source**                          
+
+By default, the dashbuilder WAR file for JBoss Wildfly 8.X uses the default wildfly data source named `ExampleDS`.              
+
+The easiest way is just re-using the `ExampleDS` but configuring it the PostgreSQL connection, in that case, edit your `standalone-full.xml` and modify the default data source named `ExampleDS` as:                       
+
+        <datasources>
+            <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+                <connection-url>jdbc:postgresql://localhost:5432/dashbuilder</connection-url>
+                <driver>postgres</driver>
+                <security>
+                <user-name>myuser</user-name>
+                <password>myuser</password>
+                </security>
+            </datasource>
+            <drivers>
+                <driver name="postgres" module="org.postgres">
+                    <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                </driver>
+            </drivers>
+        </datasources>
+  
+Another option is to create a new data source for the PostgreSQL database, if you choose this option, you have to specify the data source to use in the dashbuilder application (instead of the `ExampleDS` one used by default):                      
+So you have to modify the file `dashboard-builder/builder/src/main/wildfly8/WEB-INF/jboss-web.xml` as:
 
         <jboss-web>
            <context-root>/dashbuilder</context-root>
@@ -37,15 +116,9 @@ If you want to deploy on a database different from H2 like Oracle, MySQL, Postgr
 
    Replace the *jndi-name* parameter value by the JNDI path of the JBoss data source you've just created.
 
-* Modify the file *dashboard-builder/builder/src/main/wildfly8/WEB-INF/jboss-deployment-structure.xml*.
+**4.- If the database user has several schemas available, you must specify the schema to use.**                                                  
 
-  Add the following snippet of configuration inside the *deployment* tag, where *jdbcDriverModuleName* is the name of the JBoss JDBC driver module.
-
-        <dependencies>
-            <module name="jdbcDriverModuleName" />
-        </dependencies>
-
-* If the database user has several schemas available, you must specify the schema to use.
+*If your database configuration does not care about handling different schemas for the user, you can skip this section.*                              
 
   There are three options:
 
@@ -118,3 +191,29 @@ Alternatively, you can define your own security domain and use, for instance, an
 There are plenty of examples in the JBoss AS documentation about.
 
 Feel free to change any settings regarding the application security and, once finished, to generate a distribution war that fits your needs.
+
+Run the Dashboard Builder
+-------------------------
+
+The above sections explains how to configure the application's data source & realm for your environment. Please pay attention to them.                             
+
+If you didn't read how to create an application user yet, here is quick code snippet of how to create a user and run the Dashboard Builder quickly:                      
+
+        [root@host ~]# cd $JBOSS_HOME/bin
+        [root@host ~]# ./add-user.sh
+            * Select option "b) Application User (application-users.properties)"
+            * username: myuser
+            * password: myuser@mypassword
+            * groups: admin
+            * Is this new user going to be used for one AS process to connect to another AS process? -> Type "no"
+
+Once having a user in the application server, let's start the server:             
+
+        [root@host ~]# cd $JBOSS_HOME/bin
+        [root@host ~]# ./standalone.sh -b 0.0.0.0 --server-config=standalone-full.xml
+        
+Once application started, navigate to:                     
+
+        http://localhost:8080/dashbuilder
+        
+And use the recently created user `myuser/myuser@mypassword`.                     

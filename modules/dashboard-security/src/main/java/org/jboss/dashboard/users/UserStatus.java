@@ -25,7 +25,7 @@ import org.jboss.dashboard.security.principals.ComplementaryRolePrincipal;
 import org.jboss.dashboard.security.principals.RolePrincipal;
 import org.jboss.dashboard.security.principals.UserPrincipal;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

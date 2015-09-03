@@ -22,7 +22,7 @@ import org.jboss.dashboard.commons.io.DirectoriesScanner;
 import org.jboss.dashboard.database.hibernate.HibernateInitializer;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
 import org.jboss.dashboard.error.ErrorManager;
@@ -47,7 +47,7 @@ public class DatabaseAutoSynchronizer {
     @Inject @Config("dashb_installed_module")
     protected String installedModulesTable;
 
-    @Inject @Config("delimiter //, //, , delimiter ;, GO")
+    @Inject @Config("DELIMITER //,//,// DELIMITER ;,GO")
     protected String[] excludedScriptStatements;
 
     @Inject @Config("-- CUSTOM_DELIMITER")
@@ -109,8 +109,8 @@ public class DatabaseAutoSynchronizer {
         if (ddl.startsWith(customDelimiterEnabler)) separator = customDelimiter;
         String[] statements = splitString(ddl, separator);
         for (int i = 0; i < statements.length; i++) {
-            final String ddlStatement = removeComments(statements[i]);
-            if (ArrayUtils.contains(excludedScriptStatements, ddlStatement)) {
+            final String ddlStatement = removeComments(statements[i]).trim();
+            if (ddlStatement.length() == 0 || ArrayUtils.contains(excludedScriptStatements, ddlStatement)) {
                 continue;
             }
 

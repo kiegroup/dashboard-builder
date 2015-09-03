@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.components.DashboardFilterHandler" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib prefix="i18n" uri="http://dashboard.jboss.org/taglibs/i18n-1.0" %>
 

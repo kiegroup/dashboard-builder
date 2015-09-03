@@ -25,6 +25,7 @@ import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.PanelInstance;
 import org.jboss.dashboard.workspace.Section;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.*;
@@ -46,8 +47,7 @@ public class DashboardHandler implements Serializable {
         return CDIBeanLocator.getBeanByType(DashboardHandler.class);
     }
 
-    @Inject
-    protected Logger log;
+    protected Logger log = LoggerFactory.getLogger(DashboardHandler.class);
 
     /**
      * Dashboards displayed by the user.

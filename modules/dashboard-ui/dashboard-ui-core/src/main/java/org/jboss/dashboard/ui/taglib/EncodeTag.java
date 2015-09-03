@@ -20,7 +20,7 @@ import org.jboss.dashboard.ui.components.UIBeanHandler;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.taglib.factory.UseComponentTag;
 import org.jboss.dashboard.workspace.Panel;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.servlet.jsp.JspTagException;
 
@@ -101,7 +101,7 @@ public class EncodeTag extends BaseTag {
                 sb.append("_component_").append(Math.abs(beanName.hashCode()));
             }
         }
-        sb.append("_").append(StringEscapeUtils.escapeHtml(name));
+        sb.append("_").append(StringEscapeUtils.ESCAPE_HTML4.translate(name));
         return sb.toString();
     }
 

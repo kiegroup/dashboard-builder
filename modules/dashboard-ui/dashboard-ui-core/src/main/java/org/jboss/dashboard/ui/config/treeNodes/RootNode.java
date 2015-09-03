@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import org.jboss.dashboard.ui.config.AbstractNode;
 import org.jboss.dashboard.ui.config.TreeNode;
 
-public final class RootNode extends AbstractNode {
+public class RootNode extends AbstractNode {
 
     @Inject
     private WorkspacesNode workspacesNode;

@@ -26,7 +26,7 @@ import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.domain.DomainConfiguration;
 import org.jboss.dashboard.domain.RangeConfiguration;
 import org.jboss.dashboard.dataset.DataSet;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.controller.CommandResponse;
 
 /**

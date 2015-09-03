@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.export.ExportHandler;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -80,7 +80,7 @@ public class ExportFormatter extends Formatter {
                 setAttribute("expandAction", getExpandAction(workspace));
                 setAttribute("expandIcon", getExpandIcon(workspace));
                 setAttribute("workspaceId", workspace.getId());
-                setAttribute("workspaceName", StringEscapeUtils.escapeHtml(getLocalizedValue(workspace.getName())));
+                setAttribute("workspaceName", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(workspace.getName())));
                 setAttribute("thumbnail", thumbnail);
                 renderFragment("workspaceSelector");
 
@@ -94,7 +94,7 @@ public class ExportFormatter extends Formatter {
                     for (Section section: sections) {
                         Long sectionId = section.getId();
                         setAttribute("sectionId", sectionId);
-                        setAttribute("sectionName", StringEscapeUtils.escapeHtml(getLocalizedValue(section.getTitle())));
+                        setAttribute("sectionName", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(section.getTitle())));
                         setAttribute("checked", exportHandler.isSectionSelected(sectionId));
                         renderFragment("workspaceSection");
                     }

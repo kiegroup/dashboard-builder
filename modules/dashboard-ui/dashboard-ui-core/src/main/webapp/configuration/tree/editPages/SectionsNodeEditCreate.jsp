@@ -17,7 +17,7 @@
 --%>
 <%@ page import="org.jboss.dashboard.LocaleManager"%>
 <%@ page import="java.util.Locale"%>
-<%@ page import="org.apache.commons.lang.StringUtils"%>
+<%@ page import="org.apache.commons.lang3.StringUtils"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="org.jboss.dashboard.ui.config.components.sections.SectionsPropertiesHandler"%>
 <%@ taglib uri="mvc_taglib.tld" prefix="mvc" %>

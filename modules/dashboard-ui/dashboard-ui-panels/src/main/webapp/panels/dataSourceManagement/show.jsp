@@ -16,8 +16,8 @@
 
 --%>
 <%@ page import="org.jboss.dashboard.ui.panel.dataSourceManagement.DataSourceManagementHandler" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
@@ -183,7 +183,7 @@
                                                 <%  String sIcon = (String) statusIcon; if (sIcon  != null && sIcon.equals(DataSourceManagementHandler.RESULT_OK)) { %>
                                                     <img src="<static:image relativePath="general/16x16/ico-menu_permissions_g.png"/>" border="0" title="<i18n:message key='datasource.test.ok'>!!!OK</i18n:message>"/>
                                                 <% } else {
-                                                    String messageAlt = StringUtils.replace(StringUtils.remove(StringEscapeUtils.escapeHtml(((String) statusIcon)), '\n'), "\"", "\'");
+                                                    String messageAlt = StringUtils.replace(StringUtils.remove(StringEscapeUtils.ESCAPE_HTML4.translate(((String) statusIcon)), '\n'), "\"", "\'");
                                                     String messageAlert = StringUtils.replace(messageAlt, "'", "\\'"); %>
                                                 <a href="#" onclick="window.alert('<i18n:message key='datasource.test.wrong'>!!!Bad</i18n:message>');return false;">
                                                     <img src="<static:image relativePath="general/16x16/ico-menu_permissions_r.png"/>" border="0" title="<i18n:message key='datasource.test.wrong'>!!!Bad</i18n:message>"/></a>

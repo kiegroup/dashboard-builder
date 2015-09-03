@@ -17,7 +17,7 @@ package org.jboss.dashboard.provider.csv;
 
 import org.jboss.dashboard.export.AbstractDataLoaderXMLFormat;
 import org.jboss.dashboard.provider.DataLoader;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

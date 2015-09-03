@@ -28,7 +28,7 @@ import org.jboss.dashboard.profiler.memory.MemoryProfiler;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.provider.csv.CSVDataLoader;
 import org.jboss.dashboard.provider.csv.CSVDataProperty;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import au.com.bytecode.opencsv.CSVReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

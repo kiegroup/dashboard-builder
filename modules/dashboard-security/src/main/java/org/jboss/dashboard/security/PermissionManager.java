@@ -17,7 +17,7 @@ package org.jboss.dashboard.security;
 
 import org.jboss.dashboard.database.hibernate.HibernateTxFragment;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.FlushMode;

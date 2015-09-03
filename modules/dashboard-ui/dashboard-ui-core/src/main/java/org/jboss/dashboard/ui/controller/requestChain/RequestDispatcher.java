@@ -31,7 +31,7 @@ import org.jboss.dashboard.security.WorkspacePermission;
 import org.jboss.dashboard.security.SectionPermission;
 import org.jboss.dashboard.profiler.*;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import java.util.LinkedHashMap;

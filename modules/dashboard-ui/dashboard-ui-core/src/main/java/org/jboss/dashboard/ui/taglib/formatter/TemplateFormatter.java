@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.ui.taglib.formatter;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

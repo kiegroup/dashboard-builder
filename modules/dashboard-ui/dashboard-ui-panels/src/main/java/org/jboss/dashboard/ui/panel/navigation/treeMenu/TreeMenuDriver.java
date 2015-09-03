@@ -26,7 +26,7 @@ import org.jboss.dashboard.ui.panel.PanelDriver;
 import org.jboss.dashboard.ui.panel.PanelProvider;
 import org.jboss.dashboard.ui.panel.parameters.BooleanParameter;
 import org.jboss.dashboard.ui.panel.parameters.HTMLTextAreaParameter;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 import org.slf4j.Logger;

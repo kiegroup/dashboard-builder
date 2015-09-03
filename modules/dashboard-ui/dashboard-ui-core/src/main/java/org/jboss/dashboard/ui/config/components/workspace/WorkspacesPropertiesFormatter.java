@@ -25,7 +25,7 @@ import org.jboss.dashboard.ui.resources.GraphicElement;
 import org.jboss.dashboard.ui.resources.Envelope;
 import org.jboss.dashboard.ui.resources.Skin;
 import org.jboss.dashboard.users.UserStatus;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.WorkspacesManager;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
 
                 renderFragment(canDelete ? "outputDelete" : "outputCantDelete");
 
-                setAttribute("value", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(workspace.getName())));
+                setAttribute("value", StringEscapeUtils.ESCAPE_HTML4.translate((String) LocaleManager.lookup().localize(workspace.getName())));
                 setAttribute("workspaceId", workspaceId);
                 setAttribute("estilo", estilo);
 
@@ -103,7 +103,7 @@ public class WorkspacesPropertiesFormatter extends Formatter {
 
                 renderFragment(canEdit ? "outputName" : "outputNameDisabled");
 
-                setAttribute("value", StringEscapeUtils.escapeHtml((String) LocaleManager.lookup().localize(workspace.getTitle())));
+                setAttribute("value", StringEscapeUtils.ESCAPE_HTML4.translate((String) LocaleManager.lookup().localize(workspace.getTitle())));
                 setAttribute("estilo", estilo);
                 renderFragment("outputTitle");
                 renderFragment("outputEndRow");

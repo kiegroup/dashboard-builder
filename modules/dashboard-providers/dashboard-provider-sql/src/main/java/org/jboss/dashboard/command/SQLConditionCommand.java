@@ -15,7 +15,7 @@
  */
 package org.jboss.dashboard.command;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.filter.SQLFilterByCriteria;
 import org.jboss.dashboard.provider.DataFilter;
 

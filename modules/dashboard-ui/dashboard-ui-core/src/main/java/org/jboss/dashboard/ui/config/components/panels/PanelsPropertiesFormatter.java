@@ -25,7 +25,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Section;
 import org.jboss.dashboard.security.WorkspacePermission;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -91,11 +91,11 @@ public class PanelsPropertiesFormatter extends Formatter {
                 else setAttribute("sectionId", PanelsPropertiesHandler.PARAM_NO_SECTION);
                 renderFragment("outputDelete");
 
-                setAttribute("value", StringEscapeUtils.escapeHtml(getLocalizedValue(panels[i].getTitle())));
+                setAttribute("value", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(panels[i].getTitle())));
                 setAttribute("estilo", estilo);
                 renderFragment("outputTitle");
                 if (section == null) {
-                    setAttribute("value", StringEscapeUtils.escapeHtml(getLocalizedValue(panels[i].getSection().getTitle())));
+                    setAttribute("value", StringEscapeUtils.ESCAPE_HTML4.translate(getLocalizedValue(panels[i].getSection().getTitle())));
                     setAttribute("estilo", estilo);
                     renderFragment("outputSection");
                 }

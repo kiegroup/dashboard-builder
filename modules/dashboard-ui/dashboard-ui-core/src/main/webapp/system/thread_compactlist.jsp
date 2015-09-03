@@ -15,12 +15,12 @@
     limitations under the License.
 
 --%>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="org.jboss.dashboard.profiler.ThreadProfile" %>
 <%@ page import="org.jboss.dashboard.commons.misc.Chronometer" %>
 <%@ page import="java.util.List" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%
     List<ThreadProfile> allTxs = (List<ThreadProfile>) request.getAttribute("threadList");
     String filterProp = (String) request.getAttribute("filterProperty");
@@ -83,8 +83,8 @@
         <td width="220px" align="center">&nbsp;&nbsp;&nbsp;<%=  t.isRunning() ? "" : dateFormat.format(t.getEndDate()) %>&nbsp;&nbsp;&nbsp;</td>
         <%  if (!StringUtils.isBlank(filterProp)) { %>
         <td width="250px" align="left">
-            <div style="width:240px;height:14px;text-align:left;overflow:hidden;vertical-align:middle;" title="<%=StringEscapeUtils.escapeHtml(filterPropValue) %>)">
-                <%= StringEscapeUtils.escapeHtml(filterPropValue) %></div>
+            <div style="width:240px;height:14px;text-align:left;overflow:hidden;vertical-align:middle;" title="<%=StringEscapeUtils.ESCAPE_HTML4.translate(filterPropValue) %>)">
+                <%= StringEscapeUtils.ESCAPE_HTML4.translate(filterPropValue) %></div>
         </td>
         <%  } %>
     </tr>

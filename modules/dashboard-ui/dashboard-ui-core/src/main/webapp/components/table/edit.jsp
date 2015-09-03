@@ -26,7 +26,7 @@
 <%@ page import="org.jboss.dashboard.displayer.table.Table" %>
 <%@ page import="org.jboss.dashboard.displayer.table.TableModel" %>
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
-<%@ page import="org.apache.commons.lang.StringUtils" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 
 <i18n:bundle baseName="org.jboss.dashboard.ui.components.table.messages" locale="<%= LocaleManager.currentLocale() %>" />
 <%

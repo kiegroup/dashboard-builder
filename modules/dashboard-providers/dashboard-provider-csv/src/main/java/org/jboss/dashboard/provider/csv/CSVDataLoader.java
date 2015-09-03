@@ -20,7 +20,7 @@ import org.jboss.dashboard.dataset.csv.CSVDataSet;
 import org.jboss.dashboard.provider.AbstractDataLoader;
 import org.jboss.dashboard.provider.DataProvider;
 import org.jboss.dashboard.Application;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -29,6 +29,12 @@ Currently, the following artifacts are generated:
 
   Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/tomcat7/README.md).
 
+* **dashbuilder-tomee-1.7.1.war:**  Product distribution for Apache TomEE 1.7.1 server.
+
+  By the default the distribution is configured to use a local H2 database file.
+
+  Detailed installation instructions [here](https://github.com/droolsjbpm/dashboard-builder/blob/master/builder/src/main/tomee1.7.1/README.md).
+
 * **dashbuilder-was-8.war:**  Product distribution for Websphere 8.5 server.
 
   It requires to set up a data source connection for any of the supported databases (at the time of this writing: DB2, Postgres, Mysql, H2, Oracle or SQLServer).

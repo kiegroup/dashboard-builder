@@ -35,7 +35,7 @@ public class DataSetLoadConstraints implements RuntimeConstraint {
 
     public DataSetLoadConstraints(DataSet dataSet) {
         dataSetRef = new WeakReference<DataSet>(dataSet);
-        MemoryProfiler memoryProfiler = MemoryProfiler.lookup().freeMemory();
+        MemoryProfiler memoryProfiler = MemoryProfiler.lookup();
         startMemory = memoryProfiler.getMemoryUsedInBytes();
         startTime = System.currentTimeMillis();
     }
@@ -48,7 +48,7 @@ public class DataSetLoadConstraints implements RuntimeConstraint {
         DataProvider dataProvider = dataSet.getDataProvider();
         if (dataProvider == null) return;
 
-        MemoryProfiler memoryProfiler = MemoryProfiler.lookup().freeMemory();
+        MemoryProfiler memoryProfiler = MemoryProfiler.lookup();
         long memoryUsed = memoryProfiler.getMemoryUsedInBytes() - startMemory;
         long elapsedTime = System.currentTimeMillis() - startTime;
         long sizeInBytes = dataSet.sizeOf();

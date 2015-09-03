@@ -26,7 +26,7 @@ import org.jboss.dashboard.workspace.WorkspaceImpl;
 import org.jboss.dashboard.ui.HTTPSettings;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.formatters.FactoryURL;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import javax.enterprise.context.ApplicationScoped;

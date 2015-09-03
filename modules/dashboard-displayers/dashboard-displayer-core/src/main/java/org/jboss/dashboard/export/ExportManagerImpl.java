@@ -23,7 +23,7 @@ import java.util.Map;
 import org.jboss.dashboard.displayer.DataDisplayer;
 import org.jboss.dashboard.kpi.KPI;
 import org.jboss.dashboard.provider.*;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

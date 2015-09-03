@@ -16,7 +16,7 @@
 package org.jboss.dashboard.command;
 
 import org.jboss.dashboard.annotation.config.Config;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

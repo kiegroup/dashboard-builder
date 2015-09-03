@@ -24,7 +24,7 @@ import org.jboss.dashboard.commons.comparator.ComparatorByCriteria;
 import org.jboss.dashboard.provider.DataProperty;
 import org.jboss.dashboard.displayer.table.DataSetTable;
 import org.jboss.dashboard.displayer.table.DataSetTableModel;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * Table formatter which formats cell values using the data set properties.
@@ -37,7 +37,7 @@ public class DataSetTableFormatter extends TableFormatter {
         if (property == null) return "";
         
         DataPropertyFormatter formatter = DataFormatterRegistry.lookup().getPropertyFormatter(property.getPropertyId());
-        return StringEscapeUtils.escapeHtml(formatter.formatValue(property, table.getValueAt(row, column), LocaleManager.currentLocale()));
+        return StringEscapeUtils.ESCAPE_HTML4.translate(formatter.formatValue(property, table.getValueAt(row, column), LocaleManager.currentLocale()));
     }
 
     protected void renderFragment(String fragment) {

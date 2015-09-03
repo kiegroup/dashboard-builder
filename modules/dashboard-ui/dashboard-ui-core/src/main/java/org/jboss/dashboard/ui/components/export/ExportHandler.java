@@ -313,7 +313,7 @@ public class ExportHandler extends UIBeanHandler {
                 }
             } catch (Exception e) {
                 log.error("Error importing KPIs from file (" + file + ")", e);
-                messagesHandler.addError(new ExportHandlerMessage("import.kpis.importAbortedError", new Object[] {}).getMessage(LocaleManager.currentLocale()));
+                messagesHandler.addError(e.getMessage());
             }
             setComponentIncludeJSP(getKpiImportResultJSP());
         }
