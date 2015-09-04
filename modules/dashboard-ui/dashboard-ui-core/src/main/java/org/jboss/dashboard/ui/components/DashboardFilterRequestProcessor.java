@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.components;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.misc.CalendarUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,7 +73,9 @@ public class DashboardFilterRequestProcessor {
             if (DashboardFilterHandler.PARAM_CUSTOM_VALUE.equals(value)) {
                 value = ((String[])parameters.get(DashboardFilterHandler.PARAM_CUSTOM_VALUE+"_"+dashboardFilterProperty.getPropertyId()))[0];
                 if (value == null || value.trim().length() == 0) return null;
-                allowedValues.add(value);
+                for (String token : StringUtils.split(value, ",")) {
+                    allowedValues.add(token.trim());
+                }
             }
             // Combo selection.
             else {
