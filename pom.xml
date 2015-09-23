@@ -38,6 +38,7 @@
 
     <properties>
         <hyear>2012</hyear>
+        <version.org.codehaus.mojo.native2ascii>1.0-beta-1</version.org.codehaus.mojo.native2ascii>
     </properties>
 
     <scm>
@@ -67,6 +68,19 @@
     <modules>
         <module>modules</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Native to ASCII - UTF encoding for properties files.-->
+            <dependency>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native2ascii-maven-plugin</artifactId>
+                <version>${version.org.codehaus.mojo.native2ascii}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 
@@ -241,6 +255,28 @@
     </dependencies>
 
     <build>
+
+        <pluginManagement>
+            <plugins>
+
+                <!-- Disable version enforcement for native2ascii-maven-plugin, as version is not released. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <configuration>
+                        <rules>
+                            <requirePluginVersions>
+                                <unCheckedPlugins>
+                                    <unCheckedPlugin>org.codehaus.mojo:native2ascii-maven-plugin</unCheckedPlugin>
+                                </unCheckedPlugins>
+                            </requirePluginVersions>
+                        </rules>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <!-- Zanata - translations -->
             <plugin>
