@@ -44,6 +44,29 @@
 
     <build>
         <plugins>
+
+            <!-- Native to ASCII - UTF encoding for properties files.-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native2ascii-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>native2ascii-utf8-resources</id>
+                        <goals>
+                            <goal>native2ascii</goal>
+                        </goals>
+                        <configuration>
+                            <dest>target/resources</dest>
+                            <src>src/main/resources</src>
+                            <encoding>UTF8</encoding>
+                            <includes>
+                                <include>**/*messages*.properties</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
