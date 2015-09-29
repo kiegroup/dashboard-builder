@@ -47,7 +47,7 @@ public class DatabaseAutoSynchronizer {
     @Inject @Config("dashb_installed_module")
     protected String installedModulesTable;
 
-    @Inject @Config("DELIMITER //,//,// DELIMITER ;,GO")
+    @Inject @Config("DELIMITER //,//,DELIMITER ;,GO")
     protected String[] excludedScriptStatements;
 
     @Inject @Config("-- CUSTOM_DELIMITER")
@@ -105,8 +105,7 @@ public class DatabaseAutoSynchronizer {
     }
 
     protected void runDDL(final String ddl) throws Exception {
-        String separator = ";";
-        if (ddl.startsWith(customDelimiterEnabler)) separator = customDelimiter;
+        String separator = ddl.startsWith(customDelimiterEnabler) ? customDelimiter : ";";
         String[] statements = splitString(ddl, separator);
         for (int i = 0; i < statements.length; i++) {
             final String ddlStatement = removeComments(statements[i]).trim();
@@ -114,7 +113,9 @@ public class DatabaseAutoSynchronizer {
                 continue;
             }
 
-            if (log.isDebugEnabled()) log.debug("Running statement: " + ddlStatement);
+            if (log.isDebugEnabled()) {
+                log.debug("Running statement: " + ddlStatement);
+            }
             new HibernateTxFragment() {
             protected void txFragment(Session session) throws Exception {
                 Work w = new Work() {
