@@ -38,6 +38,7 @@ import java.util.List;
 @ApplicationScoped
 public class ClusterNodesManager implements Startable {
     public static transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ClusterNodesManager.class.getName());
+    private static final String LOCALHOST = "127.0.0.1";
 
     /** The id for this node. **/
     private Long currentNodeId;
@@ -217,7 +218,7 @@ public class ClusterNodesManager implements Startable {
     /**
      * Return the IP address for the default interface.
      *
-     * @return The IP address for the default interface.
+     * @return The IP address for the default interface. If not interfaces found, no clustered installation - the IP address to bind is 127.0.0.1.
      * @throws SocketException Error reading socket.
      */
     protected String getIPAddress() throws SocketException{
@@ -235,8 +236,9 @@ public class ClusterNodesManager implements Startable {
                 ip = addr.getHostAddress();
             }
         }
-
-        return ip;
+        
+        // BZ-1266109: If not interfaces found, no clustered installation - the IP address to bind is 127.0.0.1.
+        return ip != null && ip.trim().length() > 0 ? ip : LOCALHOST;
     }
 
     /**
