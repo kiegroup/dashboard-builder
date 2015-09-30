@@ -187,7 +187,7 @@ CREATE TABLE dashb_panel_html_i18n (
 
 CREATE TABLE dashb_allowed_panel (
    id_workspace VARCHAR(40) NOT NULL,
-   id_panel_provider VARCHAR(3000) NOT NULL,
+   id_panel_provider VARCHAR(255) NOT NULL,
    CONSTRAINT dashb_workspace_provider_allowed_pkey PRIMARY KEY(id_workspace, id_panel_provider),
    CONSTRAINT fk_workspace_id FOREIGN KEY (id_workspace)
    REFERENCES dashb_workspace(id_workspace)
