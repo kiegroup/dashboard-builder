@@ -37,9 +37,13 @@ function CreateProgressBars(containerId, name, startDate, endDate, size, done, c
 				.style("width", donePercent + "%")      
 				.style("background", "#3182bd");
 
-	bars.append("div")
+    var elapsedColor = "#3182bd";
+    if(elapsedPercent > donePercent)
+        elapsedColor = "#FFEE33";
+    
+    bars.append("div")
 			.style("margin", "5 1 1 1")
-			.style("height", "3px")
+			.style("height", "5px")
 			.style("width", elapsedPercent + "%")      
 			.style("background", "#3182bd");
     
