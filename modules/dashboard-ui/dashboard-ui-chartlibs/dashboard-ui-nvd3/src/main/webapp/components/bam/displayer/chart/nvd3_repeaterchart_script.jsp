@@ -27,7 +27,7 @@
             values: [
                 <% for(int i=0; i < xvalues.size(); i++) { if( i != 0 ) out.print(", "); %>
                 {
-                    "value" : "<%= xvalues.get(i) %>" ,                    
+                    "value" : "<%= xvalues.get(i).replace("\"","\\\"") %>" ,
                 }
                 <% } %>
             ]

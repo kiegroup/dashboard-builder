@@ -1,5 +1,8 @@
 function CreateProgressBars(containerId, name, startDate, endDate, size, done, callback) 
 {
+    if(name.indexOf('.jboss.dashboard.domain') > 0){
+        return false;
+    }
 	size = Math.max(1, size);
 	var totalDays = Math.max(1, Math.ceil(Math.abs(new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)));
 	var elapsedDays = Math.max(0, Math.ceil(((new Date()).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)));	
@@ -45,7 +48,7 @@ function CreateProgressBars(containerId, name, startDate, endDate, size, done, c
 			.style("margin", "5 1 1 1")
 			.style("height", "5px")
 			.style("width", elapsedPercent + "%")      
-			.style("background", "#3182bd");
+			.style("background", elapsedColor);
     
     if(callback){
         div.on("click", function() {
