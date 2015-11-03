@@ -88,3 +88,11 @@
 	<mvc:include page="../domain/fieldDone_selector_component.jsp"  flush="true" />
 </tr>
 <% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_PROGRESS_PROP)) { %>
+<tr>
+	<td align="left" nowrap="nowrap">
+		Progress:
+	</td>
+	<mvc:include page="../domain/fieldProgress_selector_component.jsp"  flush="true" />
+</tr>
+<% } %>

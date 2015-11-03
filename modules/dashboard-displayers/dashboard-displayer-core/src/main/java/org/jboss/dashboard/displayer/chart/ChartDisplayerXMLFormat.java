@@ -157,6 +157,10 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             NodeList domainNodes = item.getChildNodes();
             displayer.setDoneConfiguration(parseDomain(domainNodes));
         }
+		else if (item.getNodeName().equals("progress") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setProgressConfiguration(parseDomain(domainNodes));
+        }
 		
     }
 
@@ -336,6 +340,14 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             formatDomain(doneConfig, out, indent);
             printIndent(out, --indent);
             out.println("</done>");
+			
+			printIndent(out, indent++);
+            out.println("<progress>");
+            DomainConfiguration progressConfig = new DomainConfiguration(displayerToFormat.getProgressProperty());
+            displayerToFormat.setProgressConfiguration(progressConfig);
+            formatDomain(progressConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</progress>");
 
         } catch (ClassCastException e) {
             throw new RuntimeException("Can not format non-chart displayers: " + displayer.getClass().getName());

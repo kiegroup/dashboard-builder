@@ -185,7 +185,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 		if ((displayer instanceof Line2ChartDisplayer || displayer instanceof BarAndLineChartDisplayer) && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR2)) {
             return true;
         }
-		if (displayer instanceof ProgressBarChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP) )) {
+		if (displayer instanceof ProgressBarChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP)  || feature.equals(DataDisplayerFeature.SET_PROGRESS_PROP) )) {
             return true;
         }
 		else {

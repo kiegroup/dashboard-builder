@@ -34,7 +34,8 @@
 							"startDate"  : "<%=xyDataSet.getValueAt(i, 3)%>",
 							"endDate"  : "<%=xyDataSet.getValueAt(i, 4)%>",
 							"size" : <%=xyDataSet.getValueAt(i, 5)%>,
-							"done" : <%=xyDataSet.getValueAt(i, 6)%>
+							"done" : <%=xyDataSet.getValueAt(i, 6)%>,
+							"progress" : <%=xyDataSet.getValueAt(i, 7)%>
 						}
 						<%
 						if (i < xyDataSet.getRowCount()-1){
@@ -52,7 +53,7 @@
 	for(i = chartData<%=chartId%>[0].values.length-1; i >=0 ; i--)
 	{
 		var item = chartData<%=chartId%>[0].values[i];
-		CreateProgressBars('<%=chartId%>', item.label, item.startDate, item.endDate, item.size, item.done
+		CreateProgressBars('<%=chartId%>', item.label, item.startDate, item.endDate, item.size, item.done, item.progress
             <% if( enableDrillDown && !disableDrillDown ) {%>
             , function(value){
                 form = document.getElementById('<%="form"+chartId%>');

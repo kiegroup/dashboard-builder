@@ -143,6 +143,13 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
             if (!idDoneDetails.equals(doneProperty.getPropertyId())) displayer.setDoneProperty(ds.getPropertyById(idDoneDetails));
         }
 		
+		//Progress
+		String idProgressDetails = request.getRequestObject().getParameter("idProgressDetails");
+        if (idProgressDetails != null) {            
+            DataProperty progressProperty = displayer.getProgressProperty();
+            if (!idProgressDetails.equals(progressProperty.getPropertyId())) displayer.setProgressProperty(ds.getPropertyById(idProgressDetails));
+        }
+		
 
         // Retrieve other configuration parameters and set the new properties to the displayer.
         String chartType = request.getRequestObject().getParameter("chartType");
