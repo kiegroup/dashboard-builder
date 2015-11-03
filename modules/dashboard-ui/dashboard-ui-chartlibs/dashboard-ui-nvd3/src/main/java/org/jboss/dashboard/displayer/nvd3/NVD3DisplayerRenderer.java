@@ -24,6 +24,7 @@ import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.Line2Chart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.annotation.ProgressBarChart;
+import org.jboss.dashboard.displayer.annotation.TreemapChart;
 import org.jboss.dashboard.displayer.annotation.RepeaterChart;
 import org.jboss.dashboard.displayer.annotation.BarAndLineChart;
 import org.jboss.dashboard.displayer.chart.*;
@@ -40,6 +41,7 @@ import java.util.*;
 @LineChart
 @Line2Chart
 @ProgressBarChart
+@TreemapChart
 @RepeaterChart
 @BarAndLineChart
 public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
@@ -84,12 +86,18 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 	
 	@Inject @Config("")
     protected String[] repeaterChartTypes;
+	
+	@Inject @Config("")
+    protected String[] treemapChartTypes;
 
     @Inject @Config("")
     protected String progressBarChartDefault;
 	
 	@Inject @Config("")
     protected String repeaterChartDefault;
+	
+	@Inject @Config("")
+    protected String treemapChartDefault;
 
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String, List<String>> availableChartTypes;
@@ -127,6 +135,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         availableChartTypes.put(BarAndLineChartDisplayerType.UID, Arrays.asList(barAndLineChartTypes));
         availableChartTypes.put(ProgressBarChartDisplayerType.UID, Arrays.asList(progressBarChartTypes));
         availableChartTypes.put(RepeaterChartDisplayerType.UID, Arrays.asList(repeaterChartTypes));
+        availableChartTypes.put(TreemapChartDisplayerType.UID, Arrays.asList(treemapChartTypes));
 
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
@@ -137,6 +146,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         defaultChartTypes.put(BarAndLineChartDisplayerType.UID, barAndLineChartDefault);
         defaultChartTypes.put(ProgressBarChartDisplayerType.UID, progressBarChartDefault);
         defaultChartTypes.put(RepeaterChartDisplayerType.UID, repeaterChartDefault);
+        defaultChartTypes.put(TreemapChartDisplayerType.UID, treemapChartDefault);
     }
 
     public boolean isEnabled() {
