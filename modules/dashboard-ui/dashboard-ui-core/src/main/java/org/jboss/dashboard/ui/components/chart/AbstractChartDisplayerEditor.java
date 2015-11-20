@@ -161,6 +161,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String disableDrillDown = request.getRequestObject().getParameter("disableDrillDown");
         String useProgressColumns = request.getRequestObject().getParameter("useProgressColumns");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
+        String fixedColor = request.getRequestObject().getParameter("fixedColor");
         String color = request.getRequestObject().getParameter("color");
         String color2 = request.getRequestObject().getParameter("color2");
         String backgroundColor = request.getRequestObject().getParameter("backgroundColor");
@@ -179,7 +180,9 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         displayer.setDisableDrillDown(disableDrillDown != null);
         displayer.setUseProgressColumns(useProgressColumns != null);
         displayer.setAxisInteger(axisInteger != null);
+        displayer.setFixedColor(fixedColor != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
+        if (fixedColor != null) displayer.setFixedColor(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);
         if (color2 != null && !"".equals(color2)) displayer.setColor2(color2);
         if (backgroundColor != null && !"".equals(backgroundColor)) displayer.setBackgroundColor(backgroundColor);

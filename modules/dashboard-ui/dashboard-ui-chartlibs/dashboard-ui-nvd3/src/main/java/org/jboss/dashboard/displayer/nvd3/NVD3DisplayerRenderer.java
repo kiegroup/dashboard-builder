@@ -24,6 +24,7 @@ import org.jboss.dashboard.displayer.annotation.LineChart;
 import org.jboss.dashboard.displayer.annotation.Line2Chart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
 import org.jboss.dashboard.displayer.annotation.ProgressBarChart;
+import org.jboss.dashboard.displayer.annotation.GanttChart;
 import org.jboss.dashboard.displayer.annotation.TreemapChart;
 import org.jboss.dashboard.displayer.annotation.RepeaterChart;
 import org.jboss.dashboard.displayer.annotation.BarAndLineChart;
@@ -41,6 +42,7 @@ import java.util.*;
 @LineChart
 @Line2Chart
 @ProgressBarChart
+@GanttChart
 @TreemapChart
 @RepeaterChart
 @BarAndLineChart
@@ -85,6 +87,9 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
     protected String[] progressBarChartTypes;
 	
 	@Inject @Config("")
+    protected String[] ganttChartTypes;
+	
+	@Inject @Config("")
     protected String[] repeaterChartTypes;
 	
 	@Inject @Config("")
@@ -92,6 +97,9 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     @Inject @Config("")
     protected String progressBarChartDefault;
+	
+	@Inject @Config("")
+    protected String ganttChartDefault;
 	
 	@Inject @Config("")
     protected String repeaterChartDefault;
@@ -134,6 +142,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         availableChartTypes.put(Line2ChartDisplayerType.UID, Arrays.asList(line2ChartTypes));
         availableChartTypes.put(BarAndLineChartDisplayerType.UID, Arrays.asList(barAndLineChartTypes));
         availableChartTypes.put(ProgressBarChartDisplayerType.UID, Arrays.asList(progressBarChartTypes));
+        availableChartTypes.put(GanttChartDisplayerType.UID, Arrays.asList(ganttChartTypes));
         availableChartTypes.put(RepeaterChartDisplayerType.UID, Arrays.asList(repeaterChartTypes));
         availableChartTypes.put(TreemapChartDisplayerType.UID, Arrays.asList(treemapChartTypes));
 
@@ -145,6 +154,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         defaultChartTypes.put(Line2ChartDisplayerType.UID, line2ChartDefault);
         defaultChartTypes.put(BarAndLineChartDisplayerType.UID, barAndLineChartDefault);
         defaultChartTypes.put(ProgressBarChartDisplayerType.UID, progressBarChartDefault);
+        defaultChartTypes.put(GanttChartDisplayerType.UID, ganttChartDefault);
         defaultChartTypes.put(RepeaterChartDisplayerType.UID, repeaterChartDefault);
         defaultChartTypes.put(TreemapChartDisplayerType.UID, treemapChartDefault);
     }
@@ -186,6 +196,12 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
             return true;
         }
 		if (displayer instanceof ProgressBarChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP)  || feature.equals(DataDisplayerFeature.SET_PROGRESS_PROP) )) {
+            return true;
+        }
+		if (displayer instanceof GanttChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP)  || feature.equals(DataDisplayerFeature.SET_PROGRESS_PROP) )) {
+            return true;
+        }
+		if (displayer instanceof BarChartDisplayer && feature.equals(DataDisplayerFeature.FIXED_COLOR)) {
             return true;
         }
 		else {
@@ -238,6 +254,10 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         if (displayer instanceof ProgressBarChartDisplayer) {
             ProgressBarChartDisplayer progressBarChartDisplayer = (ProgressBarChartDisplayer) displayer;
             progressBarChartDisplayer.setUseProgressColumns(true);
+        }
+		if (displayer instanceof GanttChartDisplayer) {
+            GanttChartDisplayer ganttChartDisplayer = (GanttChartDisplayer) displayer;
+            ganttChartDisplayer.setUseProgressColumns(true);
         }
     }
 }

@@ -48,6 +48,9 @@
 
              chart  .x(function(d) { return d.label })
                     .y(function(d) { return d.value })
+					<%if (displayer.isFixedColor()) {%>
+                    .color(['#0000FF'])
+					<%}%>
                     .width(<%= displayer.getWidth() %>)
                     .height(<%= displayer.getHeight() %>)
                     .staggerLabels(false)

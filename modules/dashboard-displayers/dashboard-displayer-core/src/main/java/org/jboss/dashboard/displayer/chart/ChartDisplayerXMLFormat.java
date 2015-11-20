@@ -116,6 +116,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("axisinteger") && item.hasChildNodes()) {
             displayer.setAxisInteger(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
+		else if (item.getNodeName().equals("fixedcolor") && item.hasChildNodes()) {
+            displayer.setFixedColor(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
         else if (item.getNodeName().equals("legendanchor") && item.hasChildNodes()) {
             displayer.setLegendAnchor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
@@ -267,6 +270,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<axisinteger>");
             out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isAxisInteger())));
             out.println("</axisinteger>");
+			
+			printIndent(out, indent);
+            out.print("<fixedcolor>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isFixedColor())));
+            out.println("</fixedcolor>");
 
             printIndent(out, indent);
             out.print("<legendanchor>");

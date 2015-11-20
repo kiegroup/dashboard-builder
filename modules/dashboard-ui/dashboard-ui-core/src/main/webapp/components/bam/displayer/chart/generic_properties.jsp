@@ -129,7 +129,22 @@
     </td>
 </tr>
 <% } %>
-
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.FIXED_COLOR)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "fixedColor"%>'>!!Color fixa</i18n:message>:
+    </td>
+    <td height="15" width="66%" align="left">
+        <%
+            boolean fixedColor = false;
+            if (displayer.isFixedColor()) fixedColor = true;
+        %>
+        <input name="fixedColor" id="<factory:encode name="fixedColor"/>" type="checkbox" value="true" <%=fixedColor ? "checked" : ""%>
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND)) { %>
 <tr>
     <td height="15" align="left" width="33%" nowrap="nowrap">

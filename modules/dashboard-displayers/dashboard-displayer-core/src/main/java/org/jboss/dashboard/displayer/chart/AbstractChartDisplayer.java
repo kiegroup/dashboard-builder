@@ -86,6 +86,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
     protected boolean useProgressColumns;
     protected boolean showLegend;
     protected boolean axisInteger;
+    protected boolean fixedColor;
     protected String legendAnchor;
     protected boolean showTitle;
     protected String title;
@@ -134,6 +135,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         useProgressColumns = false;
         showLegend = false;
         axisInteger = false;
+        fixedColor = false;
         legendAnchor = "south";
         showTitle = false;
         title = null;
@@ -658,8 +660,16 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
         return axisInteger;
     }
 
+	public boolean isFixedColor() {
+        return fixedColor;
+    }
+	
     public void setAxisInteger(boolean axisInteger) {
         this.axisInteger = axisInteger;
+    }
+	
+	public void setFixedColor(boolean fixedColor) {
+        this.fixedColor = fixedColor;
     }
 
     public String getLegendAnchor() {
@@ -850,6 +860,7 @@ public abstract class AbstractChartDisplayer extends AbstractDataDisplayer {
             setTitle(source.getTitle());
             setWidth(source.getWidth());
             setAxisInteger(source.isAxisInteger());
+            setFixedColor(source.isFixedColor());
             setShowLegend(source.isShowLegend());
             setDisableDrillDown(source.isDisableDrillDown());
             setShowTitle(source.isShowTitle());

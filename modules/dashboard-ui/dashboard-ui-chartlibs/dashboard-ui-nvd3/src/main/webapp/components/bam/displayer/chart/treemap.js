@@ -216,10 +216,7 @@ var loadTreemap = (function(container, jsonDataset, width, height, filterCallbac
 				removeFilterCallback(currentZoomed);				
 			}			
 			if(d != root){			
-                var localD = d;
-                setTimeout(function(){
-                    filterCallback(localD)
-                },500);				
+                filterCallback(d);
 			}			
 		}
 		previousZoomed = currentZoomed;

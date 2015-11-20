@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.dashboard.ui.components.chart;
+package org.jboss.dashboard.displayer.annotation;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
-import org.jboss.dashboard.annotation.config.Config;
-import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
-
-/**
- * Treemap chart editor displayer configurator component.
- */
-@PanelScoped
-@Named("treemapchart_editor")
-public class TreemapChartEditor extends AbstractXAxisDisplayerEditor {
-
-    @Inject @Config("/components/bam/displayer/chart/treemapchart_editor.jsp")
-    protected String beanJSP;
-
-    public String getBeanJSP() {
-        return beanJSP;
-    }
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+public @interface GanttChart {
 }

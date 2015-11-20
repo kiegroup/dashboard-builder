@@ -22,13 +22,13 @@ import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 /**
- * Treemap chart editor displayer configurator component.
+ * Gantt chart editor displayer configurator component.
  */
 @PanelScoped
-@Named("treemapchart_editor")
-public class TreemapChartEditor extends AbstractXAxisDisplayerEditor {
+@Named("ganttchart_editor")
+public class GanttChartEditor extends AbstractXAxisDisplayerEditor {
 
-    @Inject @Config("/components/bam/displayer/chart/treemapchart_editor.jsp")
+    @Inject @Config("/components/bam/displayer/chart/ganttchart_editor.jsp")
     protected String beanJSP;
 
     public String getBeanJSP() {

@@ -22,7 +22,7 @@ import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
 /**
- * ProgressBar chart editor displayer configurator component.
+ * Repeater chart editor displayer configurator component.
  */
 @PanelScoped
 @Named("repeaterchart_editor")

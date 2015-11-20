@@ -21,14 +21,11 @@ import javax.inject.Named;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 
-/**
- * Treemap chart editor displayer configurator component.
- */
 @PanelScoped
-@Named("treemapchart_editor")
-public class TreemapChartEditor extends AbstractXAxisDisplayerEditor {
+@Named("nvd3_ganttchart_viewer")
+public class NVD3GanttChartViewer extends NVD3ChartViewer {
 
-    @Inject @Config("/components/bam/displayer/chart/treemapchart_editor.jsp")
+    @Inject @Config("/components/bam/displayer/chart/nvd3_ganttchart_viewer.jsp")
     protected String beanJSP;
 
     public String getBeanJSP() {
