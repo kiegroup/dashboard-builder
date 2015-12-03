@@ -138,12 +138,19 @@ function CreateGantt(containerId, index, name, startDate, endDate, size, done, p
     var today = new Date();
     if(name.indexOf('(') != -1 && name.indexOf(')') != -1){
         var todayTxt = name.split('(')[1].split(')')[0];
-        today = toDate(todayTxt);
+        if(name.indexOf('2') >= 0 && name.indexOf('-') >= 0)
+        {
+            today = toDate(todayTxt);
+        }
     }
+    var todayTxt = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
     
 	var totalDays = Math.max(1, Math.ceil(Math.abs(new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)));
 	var elapsedDays = Math.max(0, Math.ceil(((today).getTime() - new Date(startDate).getTime()) / (1000 * 3600 * 24)));	
-	var elapsedPercent = Math.ceil(Math.max(Math.min((elapsedDays * 100) / totalDays, 100), 1));
+    var elapsedPercent = Math.ceil(Math.max(Math.min((elapsedDays * 100) / totalDays, 100), 1));
+    if(elapsedPercent == 100 && dateDiff(endDate, todayTxt) == 0){
+        elapsedPercent = 99;
+    }
 	var donePercent = Math.ceil((Math.min((done * 100) / size, 100)));
 	var progressPercent = Math.ceil((Math.min((progress * 100) / size, 100)));
     var graphTotalDays = Math.max(1, Math.ceil(Math.abs(new Date(endingDate).getTime() - new Date(initialDate).getTime()) / (1000 * 3600 * 24)));
@@ -154,6 +161,9 @@ function CreateGantt(containerId, index, name, startDate, endDate, size, done, p
         progressPercent = 100-donePercent;
     }
     
+    if(today == (new Date(endDate)) && elapsedPercent == 100){
+        elapsedPercent = 99;
+    }
     var elapsedColor = "#9999EE";    
     var innerTextColor = "#000000";
     var performanceIndex = (donePercent+progressPercent) / elapsedPercent;
@@ -166,8 +176,7 @@ function CreateGantt(containerId, index, name, startDate, endDate, size, done, p
     else if(performanceIndex < 1 && performanceIndex >= 0.85)
         elapsedColor = "#EEDD22";
     else if(performanceIndex < 0.85)
-        elapsedColor = "#FF6666";
-    
+        elapsedColor = "#FF6666";    
     var totalSize = dateDiff(initialDate, endingDate)*daySize;
     var startPadding = dateDiff(initialDate, startDate)*daySize;
     var itemSize = dateDiff(startDate, endDate)*daySize
