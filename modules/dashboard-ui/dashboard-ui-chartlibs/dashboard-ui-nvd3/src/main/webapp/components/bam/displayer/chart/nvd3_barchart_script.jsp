@@ -33,6 +33,14 @@
             ]
         }
     ];
+	
+	var tooltipShowFn_<%=chartId%> = function(e, offsetElement) {
+		x = e.point.label;
+		y = e.value,
+		content = x + " : " + y;
+
+		document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+	}
 
     nv.addGraph({
       generate: function() {
@@ -40,6 +48,9 @@
 
              chart  .x(function(d) { return d.label })
                     .y(function(d) { return d.value })
+					<%if (displayer.isFixedColor()) {%>
+                    .color(['#0000FF'])
+					<%}%>
                     .width(<%= displayer.getWidth() %>)
                     .height(<%= displayer.getHeight() %>)
                     .staggerLabels(false)
@@ -73,21 +84,15 @@
 
       },
       callback: function(graph) {
-       <% if( enableDrillDown ) {%>
+       <% if( enableDrillDown && !disableDrillDown ) {%>
           graph.discretebar.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.point.label;
           submitAjaxForm(form);
           });
        <% } %>
 
-          graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-              x = e.point.label;
-              y = graph.yAxis.tickFormat()(graph.discretebar.y()(e.point, e.pointIndex)),
-              content = x + " : " + y;
-
-              document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-          });
+          graph.dispatch.on('tooltipShow', tooltipShowFn_<%=chartId%>);
       }
   });
 </script>

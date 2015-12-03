@@ -223,8 +223,8 @@ nv.models.scatter = function() {
           pointPaths
               .on('click', function(d) {
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[d.point];
+                var series = data[d.series];
+                var point  = series.values[d.point];
 
                 dispatch.elementClick({
                   point: point,
@@ -236,8 +236,8 @@ nv.models.scatter = function() {
               })
               .on('mouseover', function(d) {
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[d.point];
+                var series = data[d.series];
+                var point  = series.values[d.point];
 
                 dispatch.elementMouseover({
                   point: point,
@@ -249,8 +249,8 @@ nv.models.scatter = function() {
               })
               .on('mouseout', function(d, i) {
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[d.point];
+                var series = data[d.series];
+                var point  = series.values[d.point];
 
                 dispatch.elementMouseout({
                   point: point,
@@ -281,8 +281,8 @@ nv.models.scatter = function() {
               .on('click', function(d,i) { 
                 //nv.log('test', d, i);
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[i];
+                var series = data[d.series];
+                var point  = series.values[i];
 
                 dispatch.elementClick({
                   point: point,
@@ -294,8 +294,8 @@ nv.models.scatter = function() {
               })
               .on('mouseover', function(d,i) {
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[i];
+                var series = data[d.series];
+                var point  = series.values[i];
 
                 dispatch.elementMouseover({
                   point: point,
@@ -307,8 +307,8 @@ nv.models.scatter = function() {
               })
               .on('mouseout', function(d,i) {
                 if (needsUpdate) return 0;
-                var series = data[d.series],
-                    point  = series.values[i];
+                var series = data[d.series];
+                var point  = series.values[i];
 
                 dispatch.elementMouseout({
                   point: point,

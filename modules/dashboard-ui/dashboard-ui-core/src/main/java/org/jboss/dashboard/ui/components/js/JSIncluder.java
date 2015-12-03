@@ -37,6 +37,10 @@ public class JSIncluder {
                     "/components/bam/displayer/chart/nvd3/src/models/lineChart.js," +
                     "/components/bam/displayer/chart/nvd3/src/models/pie.js," +
                     "/components/bam/displayer/chart/nvd3/src/models/pieChart.js," +
+                    "/components/bam/displayer/chart/progressBar.js," +
+                    "/components/bam/displayer/chart/gantt.js," +
+					"/components/bam/displayer/chart/repeater.js," +
+					"/components/bam/displayer/chart/treemap.js," +
                     "/js/lib/scriptaculous-js-1.9.0/prototype.js," +
                     "/js/lib/scriptaculous-js-1.9.0/scriptaculous.js," +
                     "/js/lib/scriptaculous-js-1.9.0/effects.js," +

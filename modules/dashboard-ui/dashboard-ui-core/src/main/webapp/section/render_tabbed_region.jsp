@@ -168,7 +168,7 @@
                         </div>
                     </div>
                     <div id="Region_Panel_Container_<%=((Panel)panel).getPanelId()%>"
-                         style=" <%=Boolean.TRUE.equals(editMode) ? "" : "border: solid 1px #CCCCCC; "%>margin: 0; <%=((Panel)panel).getHeight()>0?"height: "+((Panel)panel).getHeight():""%>">
+                         style="margin: 0; <%=((Panel)panel).getHeight()>0?"height: "+((Panel)panel).getHeight():""%>">
                       <% RequestContext.lookup().activatePanel((Panel) panel); %>
                       <mvc:include page="render_panel_content.jsp" flush="true"/>
                       <% RequestContext.lookup().deactivatePanel((Panel) panel); %>

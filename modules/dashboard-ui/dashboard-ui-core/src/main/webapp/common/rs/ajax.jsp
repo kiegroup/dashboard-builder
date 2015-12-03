@@ -263,18 +263,19 @@ function submitAjaxForm(form) {
 function submitForm(form) {
     if (form) {
         // Double click control.
+        window.blockedForm=true;
         form.onsubmit = function() {
             processDoubleClick();
             return false;
         };
-        // Submit the form.
+        // Submit the form.        
         form.submit();
     }
 }
 
 function processDoubleClick() {
 	var message = "<i18n:message key="ui.ajax.doubleClickWarn">! Por favor, espere a que finalice la petici\u00F3n en curso !</i18n:message>";
-    alert(message);
+    //alert(message);
 }
 
 function sendFormToHandler(form, component, property){
@@ -377,11 +378,13 @@ function setAjaxTarget(element, targetId, onAjaxRequestScript, onAjaxResponseScr
             eval('ajaxPreviousHandlers[\'' + element.id + '\']=element.onsubmit;');
         }
         //alert("Putting new onsubmit for "+element.id);
+        window.blockedForm=false;
         element.onsubmit = function() {
             var formAction = element.action;
 
             // Double click control.
             if (element) {
+                window.blockedForm=true;
                 element.onsubmit = function() {
                     processDoubleClick();
                     return false;

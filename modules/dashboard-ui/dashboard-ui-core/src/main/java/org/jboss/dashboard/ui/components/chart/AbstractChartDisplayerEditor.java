@@ -40,6 +40,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
     public static final String I18N_PREFFIX = "abstractChartDisplayer.";
     public static final String DOMAIN_SAVE_BUTTON_PRESSED = "updateDomainDetails";
     public static final String RANGE_SAVE_BUTTON_PRESSED = "updateRangeDetails";
+    public static final String RANGE2_SAVE_BUTTON_PRESSED = "updateRange2Details";
 
     public CommandResponse actionSubmit(CommandRequest request) throws Exception {
         AbstractChartDisplayer displayer = (AbstractChartDisplayer) getDataDisplayer();
@@ -92,6 +93,63 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
                 displayer.setUnitI18nMap(rangeConfig.getUnitI18nMap());
             }
         }
+		
+		String idRange2Details = request.getRequestObject().getParameter("idRange2Details");
+        if (idRange2Details != null) {
+
+            // If the range2 property has been changed, load it.
+            DataProperty range2Property = displayer.getRange2Property();
+            if (!idRange2Details.equals(range2Property.getPropertyId())) displayer.setRange2Property(ds.getPropertyById(idRange2Details));
+
+            // If range2 save button has been pressed, update its configuration parameters.
+            String range2SaveButtonPressed = request.getRequestObject().getParameter(RANGE2_SAVE_BUTTON_PRESSED);
+            boolean updateRange2Details =  (range2SaveButtonPressed != null) && Boolean.valueOf(range2SaveButtonPressed).booleanValue();
+            // TODO: Also save if the enter key has been pressed.
+            if (updateRange2Details) {
+                RangeConfiguration range2Config = displayer.getRange2Configuration();
+                RangeConfigurationParser parser = new RangeConfigurationParser(range2Config);
+                parser.parse2(request);
+                range2Config.apply(displayer.getRange2Property());
+                displayer.setRange2ScalarFunction(DataDisplayerServices.lookup().getScalarFunctionManager().getScalarFunctionByCode(range2Config.getScalarFunctionCode()));
+                displayer.setUnitI18nMap(range2Config.getUnitI18nMap());
+            }
+        }
+		
+		//StartDate
+		String idStartDateDetails = request.getRequestObject().getParameter("idStartDateDetails");
+        if (idStartDateDetails != null) {            
+            DataProperty startDateProperty = displayer.getStartDateProperty();
+            if (!idStartDateDetails.equals(startDateProperty.getPropertyId())) displayer.setStartDateProperty(ds.getPropertyById(idStartDateDetails));
+        }
+		
+		//EndDate
+		String idEndDateDetails = request.getRequestObject().getParameter("idEndDateDetails");
+        if (idEndDateDetails != null) {            
+            DataProperty endDateProperty = displayer.getEndDateProperty();
+            if (!idEndDateDetails.equals(endDateProperty.getPropertyId())) displayer.setEndDateProperty(ds.getPropertyById(idEndDateDetails));
+        }
+		
+		//Size
+		String idSizeDetails = request.getRequestObject().getParameter("idSizeDetails");
+        if (idSizeDetails != null) {            
+            DataProperty sizeProperty = displayer.getSizeProperty();
+            if (!idSizeDetails.equals(sizeProperty.getPropertyId())) displayer.setSizeProperty(ds.getPropertyById(idSizeDetails));
+        }
+		
+		//Done
+		String idDoneDetails = request.getRequestObject().getParameter("idDoneDetails");
+        if (idDoneDetails != null) {            
+            DataProperty doneProperty = displayer.getDoneProperty();
+            if (!idDoneDetails.equals(doneProperty.getPropertyId())) displayer.setDoneProperty(ds.getPropertyById(idDoneDetails));
+        }
+		
+		//Progress
+		String idProgressDetails = request.getRequestObject().getParameter("idProgressDetails");
+        if (idProgressDetails != null) {            
+            DataProperty progressProperty = displayer.getProgressProperty();
+            if (!idProgressDetails.equals(progressProperty.getPropertyId())) displayer.setProgressProperty(ds.getPropertyById(idProgressDetails));
+        }
+		
 
         // Retrieve other configuration parameters and set the new properties to the displayer.
         String chartType = request.getRequestObject().getParameter("chartType");
@@ -100,8 +158,12 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         // Other properties.
         String showTitle = request.getRequestObject().getParameter("showTitle");
         String showLegend = request.getRequestObject().getParameter("showLegend");
+        String disableDrillDown = request.getRequestObject().getParameter("disableDrillDown");
+        String useProgressColumns = request.getRequestObject().getParameter("useProgressColumns");
         String axisInteger = request.getRequestObject().getParameter("axisInteger");
+        String fixedColor = request.getRequestObject().getParameter("fixedColor");
         String color = request.getRequestObject().getParameter("color");
+        String color2 = request.getRequestObject().getParameter("color2");
         String backgroundColor = request.getRequestObject().getParameter("backgroundColor");
         String width = request.getRequestObject().getParameter("width");
         String height = request.getRequestObject().getParameter("height");
@@ -111,12 +173,18 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
         String marginRight = request.getRequestObject().getParameter("marginRight");
         String marginTop = request.getRequestObject().getParameter("marginTop");
         String marginBottom = request.getRequestObject().getParameter("marginBottom");
+        String labelThreshold = request.getRequestObject().getParameter("labelThreshold");
 
         displayer.setShowTitle(showTitle != null);
         displayer.setShowLegend(showLegend != null);
+        displayer.setDisableDrillDown(disableDrillDown != null);
+        displayer.setUseProgressColumns(useProgressColumns != null);
         displayer.setAxisInteger(axisInteger != null);
+        displayer.setFixedColor(fixedColor != null);
         if (axisInteger != null) displayer.setAxisInteger(true);
+        if (fixedColor != null) displayer.setFixedColor(true);
         if (color != null && !"".equals(color)) displayer.setColor(color);
+        if (color2 != null && !"".equals(color2)) displayer.setColor2(color2);
         if (backgroundColor != null && !"".equals(backgroundColor)) displayer.setBackgroundColor(backgroundColor);
         try {
             if (!StringUtils.isBlank(width)) displayer.setWidth(Integer.parseInt(width));
@@ -125,6 +193,7 @@ public abstract class AbstractChartDisplayerEditor extends DataDisplayerEditor {
             if (!StringUtils.isBlank(marginRight)) displayer.setMarginRight(Integer.parseInt(marginRight));
             if (!StringUtils.isBlank(marginTop)) displayer.setMarginTop(Integer.parseInt(marginTop));
             if (!StringUtils.isBlank(marginBottom)) displayer.setMarginBottom(Integer.parseInt(marginBottom));
+            if (!StringUtils.isBlank(labelThreshold)) displayer.setLabelThreshold(Integer.parseInt(labelThreshold));
         } catch (NumberFormatException e) {
             log.warn("Cannot parse value width or height value as number.");
         }

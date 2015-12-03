@@ -21,7 +21,13 @@ import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.displayer.*;
 import org.jboss.dashboard.displayer.annotation.BarChart;
 import org.jboss.dashboard.displayer.annotation.LineChart;
+import org.jboss.dashboard.displayer.annotation.Line2Chart;
 import org.jboss.dashboard.displayer.annotation.PieChart;
+import org.jboss.dashboard.displayer.annotation.ProgressBarChart;
+import org.jboss.dashboard.displayer.annotation.GanttChart;
+import org.jboss.dashboard.displayer.annotation.TreemapChart;
+import org.jboss.dashboard.displayer.annotation.RepeaterChart;
+import org.jboss.dashboard.displayer.annotation.BarAndLineChart;
 import org.jboss.dashboard.displayer.chart.*;
 import org.jboss.dashboard.ui.UIServices;
 import org.jboss.dashboard.ui.components.js.JSIncluder;
@@ -34,6 +40,12 @@ import java.util.*;
 @BarChart
 @PieChart
 @LineChart
+@Line2Chart
+@ProgressBarChart
+@GanttChart
+@TreemapChart
+@RepeaterChart
+@BarAndLineChart
 public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     public static final String UID = "nvd3";
@@ -58,6 +70,42 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
 
     @Inject @Config("")
     protected String lineChartDefault;
+	
+	@Inject @Config("")
+    protected String[] line2ChartTypes;
+
+    @Inject @Config("")
+    protected String line2ChartDefault;
+
+    @Inject @Config("")
+    protected String[] barAndLineChartTypes;
+
+    @Inject @Config("")
+    protected String barAndLineChartDefault;
+	
+	@Inject @Config("")
+    protected String[] progressBarChartTypes;
+	
+	@Inject @Config("")
+    protected String[] ganttChartTypes;
+	
+	@Inject @Config("")
+    protected String[] repeaterChartTypes;
+	
+	@Inject @Config("")
+    protected String[] treemapChartTypes;
+
+    @Inject @Config("")
+    protected String progressBarChartDefault;
+	
+	@Inject @Config("")
+    protected String ganttChartDefault;
+	
+	@Inject @Config("")
+    protected String repeaterChartDefault;
+	
+	@Inject @Config("")
+    protected String treemapChartDefault;
 
     protected List<DataDisplayerFeature> featuresSupported;
     protected Map<String, List<String>> availableChartTypes;
@@ -84,18 +132,31 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_LEFT);
         featuresSupported.add(DataDisplayerFeature.SET_MARGIN_RIGHT);
         //featuresSupported.add(DataDisplayerFeature.SHOW_LINES_AREA);
+        featuresSupported.add(DataDisplayerFeature.DISABLE_DRILL_DOWN);
 
         // Register the available chart types.
         availableChartTypes = new HashMap<String, List<String>>();
         availableChartTypes.put(BarChartDisplayerType.UID, Arrays.asList(barChartTypes));
         availableChartTypes.put(PieChartDisplayerType.UID, Arrays.asList(pieChartTypes));
         availableChartTypes.put(LineChartDisplayerType.UID, Arrays.asList(lineChartTypes));
+        availableChartTypes.put(Line2ChartDisplayerType.UID, Arrays.asList(line2ChartTypes));
+        availableChartTypes.put(BarAndLineChartDisplayerType.UID, Arrays.asList(barAndLineChartTypes));
+        availableChartTypes.put(ProgressBarChartDisplayerType.UID, Arrays.asList(progressBarChartTypes));
+        availableChartTypes.put(GanttChartDisplayerType.UID, Arrays.asList(ganttChartTypes));
+        availableChartTypes.put(RepeaterChartDisplayerType.UID, Arrays.asList(repeaterChartTypes));
+        availableChartTypes.put(TreemapChartDisplayerType.UID, Arrays.asList(treemapChartTypes));
 
         // Set the default chart type for each displayer type.
         defaultChartTypes = new HashMap<String, String>();
         defaultChartTypes.put(BarChartDisplayerType.UID, barChartDefault);
         defaultChartTypes.put(PieChartDisplayerType.UID, pieChartDefault);
         defaultChartTypes.put(LineChartDisplayerType.UID, lineChartDefault);
+        defaultChartTypes.put(Line2ChartDisplayerType.UID, line2ChartDefault);
+        defaultChartTypes.put(BarAndLineChartDisplayerType.UID, barAndLineChartDefault);
+        defaultChartTypes.put(ProgressBarChartDisplayerType.UID, progressBarChartDefault);
+        defaultChartTypes.put(GanttChartDisplayerType.UID, ganttChartDefault);
+        defaultChartTypes.put(RepeaterChartDisplayerType.UID, repeaterChartDefault);
+        defaultChartTypes.put(TreemapChartDisplayerType.UID, treemapChartDefault);
     }
 
     public boolean isEnabled() {
@@ -118,14 +179,32 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
     public boolean isFeatureSupported(DataDisplayer displayer, DataDisplayerFeature feature) {
         if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LEGEND)) {
             return true;
+        }
+		if (displayer instanceof PieChartDisplayer && feature.equals(DataDisplayerFeature.SET_LABEL_THRESHOLD)) {
+            return true;
         } else
-        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
+        if (((displayer instanceof LineChartDisplayer) || (displayer instanceof Line2ChartDisplayer) || (displayer instanceof BarAndLineChartDisplayer)) && feature.equals(DataDisplayerFeature.SHOW_LINES_AREA)) {
             return true;
         }
-        if (displayer instanceof LineChartDisplayer && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR)) {
+		if (((displayer instanceof LineChartDisplayer) || (displayer instanceof Line2ChartDisplayer) || (displayer instanceof BarAndLineChartDisplayer)) && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR)) {
             return true;
         }
-        else {
+		if ((displayer instanceof Line2ChartDisplayer || displayer instanceof BarAndLineChartDisplayer) && feature.equals(DataDisplayerFeature.SET_RANGE2)) {
+            return true;
+        }
+		if ((displayer instanceof Line2ChartDisplayer || displayer instanceof BarAndLineChartDisplayer) && feature.equals(DataDisplayerFeature.SET_FOREGRND_COLOR2)) {
+            return true;
+        }
+		if (displayer instanceof ProgressBarChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP)  || feature.equals(DataDisplayerFeature.SET_PROGRESS_PROP) )) {
+            return true;
+        }
+		if (displayer instanceof GanttChartDisplayer && (feature.equals(DataDisplayerFeature.SET_STARTDATE_PROP) || feature.equals(DataDisplayerFeature.SET_ENDDATE_PROP) || feature.equals(DataDisplayerFeature.SET_SIZE_PROP) || feature.equals(DataDisplayerFeature.SET_DONE_PROP)  || feature.equals(DataDisplayerFeature.SET_PROGRESS_PROP) )) {
+            return true;
+        }
+		if (displayer instanceof BarChartDisplayer && feature.equals(DataDisplayerFeature.FIXED_COLOR)) {
+            return true;
+        }
+		else {
             return featuresSupported.contains(feature);
         }
     }
@@ -154,6 +233,7 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
             AbstractChartDisplayer chartDisplayer = (AbstractChartDisplayer) displayer;
             chartDisplayer.setMarginLeft(80);
             chartDisplayer.setMarginBottom(100);
+            chartDisplayer.setUseProgressColumns(false);
         }
         if (displayer instanceof AbstractXAxisDisplayer) {
             AbstractXAxisDisplayer xAxisDisplayer = (AbstractXAxisDisplayer) displayer;
@@ -162,6 +242,22 @@ public class NVD3DisplayerRenderer extends AbstractDataDisplayerRenderer {
         if (displayer instanceof LineChartDisplayer) {
             LineChartDisplayer lineChartDisplayer = (LineChartDisplayer) displayer;
             lineChartDisplayer.setShowLinesArea(true);
+        }
+        if (displayer instanceof Line2ChartDisplayer) {
+            Line2ChartDisplayer line2ChartDisplayer = (Line2ChartDisplayer) displayer;
+            line2ChartDisplayer.setShowLinesArea(true);
+        }
+        if (displayer instanceof BarAndLineChartDisplayer) {
+            BarAndLineChartDisplayer barAndLineChartDisplayer = (BarAndLineChartDisplayer) displayer;
+            barAndLineChartDisplayer.setShowLinesArea(true);
+        }
+        if (displayer instanceof ProgressBarChartDisplayer) {
+            ProgressBarChartDisplayer progressBarChartDisplayer = (ProgressBarChartDisplayer) displayer;
+            progressBarChartDisplayer.setUseProgressColumns(true);
+        }
+		if (displayer instanceof GanttChartDisplayer) {
+            GanttChartDisplayer ganttChartDisplayer = (GanttChartDisplayer) displayer;
+            ganttChartDisplayer.setUseProgressColumns(true);
         }
     }
 }

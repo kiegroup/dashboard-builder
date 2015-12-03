@@ -38,20 +38,7 @@
         <table>
         <tr>
         <td align="right">
-        <table>
-            <tr>
-                <td>
-                    <a href="<factory:url action="exportData" friendly="true"><factory:param name="<%= TableHandler.EXPORT_FORMAT %>" value="<%= ExportTool.FORMAT_EXCEL %>"/></factory:url>">
-                        <img title="<i18n:message key="table.exportData.excel">!!!Excel</i18n:message>" src="<static:image relativePath="general/22x22/MSExcel.png"/>" border="0">
-                    </a>
-                </td>
-                <td>
-                    <a href="<factory:url action="exportData" friendly="true"><factory:param name="<%= TableHandler.EXPORT_FORMAT %>" value="<%= ExportTool.FORMAT_CSV %>"/></factory:url>">
-                        <img hspace="10px" title="<i18n:message key="table.exportData.csv">!!!CSV</i18n:message>" src="<static:image relativePath="general/22x22/CSV.png"/>" border="0">
-                    </a>
-                </td>
-            </tr>
-        </table>
+        
         <form method="post" action="<factory:formUrl friendly="false"/>" id="<factory:encode name="tableViewForm"/>">
         <factory:handler action="submitViewer"/>
         <table  border="0" style="solid: #000000; padding:0; text-align:center;" class="skn-table_border" cellpadding="2" cellspacing="1">
@@ -157,6 +144,20 @@
                 <mvc:include page="cursor.jsp" flush="true" />
             </td>
         </tr>
+        </table>
+		<table>
+            <tr>
+                <td>
+                    <a href="<factory:url action="exportData" friendly="true"><factory:param name="<%= TableHandler.EXPORT_FORMAT %>" value="<%= ExportTool.FORMAT_EXCEL %>"/></factory:url>">
+                        <img title="<i18n:message key="table.exportData.excel">!!!Excel</i18n:message>" src="<static:image relativePath="general/22x22/MSExcel.png"/>" border="0">
+                    </a>
+                </td>
+                <td>
+                    <a href="<factory:url action="exportData" friendly="true"><factory:param name="<%= TableHandler.EXPORT_FORMAT %>" value="<%= ExportTool.FORMAT_CSV %>"/></factory:url>">
+                        <img hspace="10px" title="<i18n:message key="table.exportData.csv">!!!CSV</i18n:message>" src="<static:image relativePath="general/22x22/CSV.png"/>" border="0">
+                    </a>
+                </td>
+            </tr>
         </table>
         </form>
         </td>

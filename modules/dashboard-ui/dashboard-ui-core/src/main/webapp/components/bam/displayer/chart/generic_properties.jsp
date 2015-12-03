@@ -117,7 +117,34 @@
 </tr>
 -->
 <% } %>
-
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_FOREGRND_COLOR2)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "color"%>'>!!Color externo</i18n:message> 2:
+    </td>
+    <td  align="left">
+        <input class="skn-input" name="color2" type="text" size="14" value="<%=displayer.getColor2()%>" onClick="startColorPicker(this);" onkeyup="maskedHex(this)"
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.FIXED_COLOR)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "fixedColor"%>'>!!Color fixa</i18n:message>:
+    </td>
+    <td height="15" width="66%" align="left">
+        <%
+            boolean fixedColor = false;
+            if (displayer.isFixedColor()) fixedColor = true;
+        %>
+        <input name="fixedColor" id="<factory:encode name="fixedColor"/>" type="checkbox" value="true" <%=fixedColor ? "checked" : ""%>
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
 <% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SHOW_LEGEND)) { %>
 <tr>
     <td height="15" align="left" width="33%" nowrap="nowrap">
@@ -129,6 +156,23 @@
             if (displayer.isShowLegend()) showLegend = true;
         %>
         <input name="showLegend" id="<factory:encode name="showLegend"/>" type="checkbox" value="true" <%=showLegend ? "checked" : ""%>
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
+
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.DISABLE_DRILL_DOWN)) { %>
+<tr>
+    <td height="15" align="left" width="33%" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "disableDrillDown"%>'>!!Disable Drill Down</i18n:message>:
+    </td>
+    <td height="15" width="66%" align="left">
+        <%
+            boolean disableDrillDown = false;
+            if (displayer.isDisableDrillDown()) disableDrillDown = true;
+        %>
+        <input name="disableDrillDown" id="<factory:encode name="disableDrillDown"/>" type="checkbox" value="true" <%=disableDrillDown ? "checked" : ""%>
           onChange="return bam_kpiedit_submitProperties(this);"
         >
     </td>
@@ -240,6 +284,19 @@
     </td>
     <td align="left">
         <input class="skn-input" name="marginBottom" type="text" size="14" value="<%= displayer.getMarginBottom() %>"
+          onChange="return bam_kpiedit_submitProperties(this);"
+        >
+    </td>
+</tr>
+<% } %>
+
+<% if (renderer.isFeatureSupported(displayer, DataDisplayerFeature.SET_LABEL_THRESHOLD)) { %>
+<tr>
+    <td height="15" align="left" nowrap="nowrap">
+        <i18n:message key='<%= AbstractChartDisplayerEditor.I18N_PREFFIX + "label_threshold"%>'>!!Label Threshold</i18n:message>:
+    </td>
+    <td align="left">
+        <input class="skn-input" name="labelThreshold" type="text" size="14" value="<%= displayer.getLabelThreshold() %>"
           onChange="return bam_kpiedit_submitProperties(this);"
         >
     </td>

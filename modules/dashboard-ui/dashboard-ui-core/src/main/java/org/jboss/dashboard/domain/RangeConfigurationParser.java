@@ -39,4 +39,12 @@ public class RangeConfigurationParser {
         String unit = request.getRequestObject().getParameter("unit");
         if (unit != null && unit.indexOf(AbstractChartDisplayer.UNIT_VALUE_TAG) != -1) config.setUnit(unit, locale);
     }
+	
+	public void parse2(CommandRequest request) {
+        Locale locale = LocaleManager.currentLocale();
+        config.setName(request.getRequestObject().getParameter("descripRange2Details"), locale);
+        config.setScalarFunctionCode(request.getRequestObject().getParameter("scalar2FunctionCode"));
+        String unit = request.getRequestObject().getParameter("unit2");
+        if (unit != null && unit.indexOf(AbstractChartDisplayer.UNIT_VALUE_TAG) != -1) config.setUnit(unit, locale);
+    }
 }

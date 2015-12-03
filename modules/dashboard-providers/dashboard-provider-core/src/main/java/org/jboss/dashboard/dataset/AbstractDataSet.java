@@ -374,7 +374,7 @@ public abstract class AbstractDataSet implements DataSet {
         ProfilerHelper.addRuntimeConstraint(new DataSetGroupByConstraints(this));
 
         // For label-type properties use the high-performance groupByLabel method.
-        if (groupByProperty.getDomain() instanceof LabelDomain) {
+        if (groupByProperty.getDomain() instanceof LabelDomain && columns.length == functionCodes.length) {
             return groupByLabel(groupByProperty, columns, functionCodes, sortIndex, sortOrder);
         }
         // Get the intervals
@@ -400,8 +400,16 @@ public abstract class AbstractDataSet implements DataSet {
                 // The row values for the pivot column are the own interval instances.
                 for (Interval interval : intervals) {
                     _result.addRowValue(j, interval);
-                }
-            } else {
+                }			
+            } 
+			else if (j >= functionCodes.length){
+				 _prop.setDomain(new LabelDomain());                
+                for (Interval interval : intervals) {
+					List values = interval.getValues(dataProp);
+                    _result.addRowValue(j, values.get(0));					
+                }				
+			}
+			else {
                 // The values for other columns is a scalar function applied on the interval's values.
                 ScalarFunctionManager scalarFunctionManager = DataProviderServices.lookup().getScalarFunctionManager();
                 ScalarFunction function = scalarFunctionManager.getScalarFunctionByCode(functionCodes[j]);

@@ -64,6 +64,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             NodeList rangeNodes = item.getChildNodes();
             displayer.setRangeConfiguration(parseRange(rangeNodes));
         }
+		// Range2.
+        else if (item.getNodeName().equals("range2") && item.hasChildNodes()) {
+            NodeList rangeNodes = item.getChildNodes();
+            displayer.setRange2Configuration(parseRange(rangeNodes));
+        }
         else if (item.getNodeName().equals("type") && item.hasChildNodes()) {
             displayer.setType(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
@@ -87,6 +92,9 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("color") && item.hasChildNodes()) {
             displayer.setColor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
+		else if (item.getNodeName().equals("color2") && item.hasChildNodes()) {
+            displayer.setColor2(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
+        }
         else if (item.getNodeName().equals("backgroundcolor") && item.hasChildNodes()) {
             displayer.setBackgroundColor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
         }
@@ -99,8 +107,17 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("showlegend") && item.hasChildNodes()) {
             displayer.setShowLegend(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
+		else if (item.getNodeName().equals("disabledrilldown") && item.hasChildNodes()) {
+            displayer.setDisableDrillDown(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
+		else if (item.getNodeName().equals("useprogresscolumns") && item.hasChildNodes()) {
+            displayer.setUseProgressColumns(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
         else if (item.getNodeName().equals("axisinteger") && item.hasChildNodes()) {
             displayer.setAxisInteger(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
+        }
+		else if (item.getNodeName().equals("fixedcolor") && item.hasChildNodes()) {
+            displayer.setFixedColor(Boolean.valueOf(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())).booleanValue());
         }
         else if (item.getNodeName().equals("legendanchor") && item.hasChildNodes()) {
             displayer.setLegendAnchor(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue()));
@@ -123,6 +140,31 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
         else if (item.getNodeName().equals("marginbottom") && item.hasChildNodes()) {
             displayer.setMarginBottom(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
         }
+		else if (item.getNodeName().equals("labelthreshold") && item.hasChildNodes()) {
+            displayer.setLabelThreshold(Integer.parseInt(StringEscapeUtils.unescapeXml(item.getFirstChild().getNodeValue())));
+        }
+		
+		else if (item.getNodeName().equals("startdate") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setStartDateConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("enddate") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setEndDateConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("size") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setSizeConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("done") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setDoneConfiguration(parseDomain(domainNodes));
+        }
+		else if (item.getNodeName().equals("progress") && item.hasChildNodes()) {
+            NodeList domainNodes = item.getChildNodes();
+            displayer.setProgressConfiguration(parseDomain(domainNodes));
+        }
+		
     }
 
     protected void formatDisplayer(DataDisplayer displayer, PrintWriter out, int indent) throws Exception {
@@ -146,6 +188,15 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             formatRange(rangeConfig, out, indent);
             printIndent(out, --indent);
             out.println("</range>");
+			
+			// Format the range2.
+            printIndent(out, indent++);
+            out.println("<range2>");
+            RangeConfiguration range2Config = new RangeConfiguration(displayerToFormat.getRange2Property(), displayerToFormat.getRange2ScalarFunction(), displayerToFormat.getUnitI18nMap());
+            displayerToFormat.setRange2Configuration(range2Config);
+            formatRange(range2Config, out, indent);
+            printIndent(out, --indent);
+            out.println("</range2>");
 
             printIndent(out, indent);
             out.print("<type>");
@@ -180,6 +231,11 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print(StringEscapeUtils.escapeXml(displayerToFormat.getColor()));
             out.println("</color>");
 
+			printIndent(out, indent);
+            out.print("<color2>");
+            out.print(StringEscapeUtils.escapeXml(displayerToFormat.getColor2()));
+            out.println("</color2>");
+
             printIndent(out, indent);
             out.print("<backgroundcolor>");
             out.print(StringEscapeUtils.escapeXml(displayerToFormat.getBackgroundColor()));
@@ -199,11 +255,26 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<showlegend>");
             out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isShowLegend())));
             out.println("</showlegend>");
+			
+			printIndent(out, indent);
+            out.print("<disabledrilldown>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isDisableDrillDown())));
+            out.println("</disabledrilldown>");
+			
+			printIndent(out, indent);
+            out.print("<useprogresscolumns>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isUseProgressColumns())));
+            out.println("</useprogresscolumns>");
 
             printIndent(out, indent);
             out.print("<axisinteger>");
             out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isAxisInteger())));
             out.println("</axisinteger>");
+			
+			printIndent(out, indent);
+            out.print("<fixedcolor>");
+            out.print(StringEscapeUtils.escapeXml(Boolean.toString(displayerToFormat.isFixedColor())));
+            out.println("</fixedcolor>");
 
             printIndent(out, indent);
             out.print("<legendanchor>");
@@ -239,6 +310,52 @@ public class ChartDisplayerXMLFormat extends AbstractDataDisplayerXMLFormat {
             out.print("<marginbottom>");
             out.print(StringEscapeUtils.escapeXml(Integer.toString(displayerToFormat.getMarginBottom())));
             out.println("</marginbottom>");
+			
+            printIndent(out, indent);
+            out.print("<labelthreshold>");
+            out.print(StringEscapeUtils.escapeXml(Integer.toString(displayerToFormat.getLabelThreshold())));
+            out.println("</labelthreshold>");
+			
+			
+            printIndent(out, indent++);
+            out.println("<startdate>");
+            DomainConfiguration startDateConfig = new DomainConfiguration(displayerToFormat.getStartDateProperty());
+            displayerToFormat.setStartDateConfiguration(startDateConfig);
+            formatDomain(startDateConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</startdate>");
+			
+			printIndent(out, indent++);
+            out.println("<enddate>");
+            DomainConfiguration endDateConfig = new DomainConfiguration(displayerToFormat.getEndDateProperty());
+            displayerToFormat.setEndDateConfiguration(endDateConfig);
+            formatDomain(endDateConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</enddate>");
+			
+			printIndent(out, indent++);
+            out.println("<size>");
+            DomainConfiguration sizeConfig = new DomainConfiguration(displayerToFormat.getSizeProperty());
+            displayerToFormat.setSizeConfiguration(sizeConfig);
+            formatDomain(sizeConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</size>");
+			
+			printIndent(out, indent++);
+            out.println("<done>");
+            DomainConfiguration doneConfig = new DomainConfiguration(displayerToFormat.getDoneProperty());
+            displayerToFormat.setDoneConfiguration(doneConfig);
+            formatDomain(doneConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</done>");
+			
+			printIndent(out, indent++);
+            out.println("<progress>");
+            DomainConfiguration progressConfig = new DomainConfiguration(displayerToFormat.getProgressProperty());
+            displayerToFormat.setProgressConfiguration(progressConfig);
+            formatDomain(progressConfig, out, indent);
+            printIndent(out, --indent);
+            out.println("</progress>");
 
         } catch (ClassCastException e) {
             throw new RuntimeException("Can not format non-chart displayers: " + displayer.getClass().getName());

@@ -34,6 +34,17 @@
         }
     ];
 
+	var tooltipShowFn_<%=chartId%> = function(e, offsetElement) {
+       <% if(enableTooltips) { %>
+		x = e.label;
+		y = d3.format(',.<%=decimalPrecision%>f')(e.value);
+
+		content = x + " : " + y;
+		document.getElementById("tooltip<%=chartId%>").innerHTML=content;
+
+		<% } %>
+	}
+	
     nv.addGraph({
       generate: function() {
             var chart = nv.models.pieChart();
@@ -44,6 +55,7 @@
                     .height(<%= displayer.getHeight() %>)
                     .showLegend(<%=displayer.isShowLegend() %>)
                     .showLabels(<%=displayer.isShowLabelsXAxis() %>)
+					.labelThreshold(<%=displayer.getLabelThreshold()%>/100)
                     .margin({top: <%=displayer.getMarginTop()%>, right: <%=displayer.getMarginRight()%>, bottom: <%=displayer.getMarginBottom()%>, left: <%=displayer.getMarginLeft()%>});
 
                d3.select('#<%= chartId %> svg')
@@ -57,24 +69,15 @@
 
       },
       callback: function(graph) {
-       <% if( enableDrillDown ) {%>
+       <% if( enableDrillDown && !disableDrillDown) {%>
           graph.pie.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.index;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.label;
           submitAjaxForm(form);
           });
        <% } %>
 
-        graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-        <% if(enableTooltips) { %>
-            x = e.label;
-            y = d3.format(',.<%=decimalPrecision%>f')(e.value);
-
-            content = x + " : " + y;
-            document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-
-            <% } %>
-          });
+        graph.dispatch.on('tooltipShow', tooltipShowFn_<%=chartId%>);
       }
   });
 </script>

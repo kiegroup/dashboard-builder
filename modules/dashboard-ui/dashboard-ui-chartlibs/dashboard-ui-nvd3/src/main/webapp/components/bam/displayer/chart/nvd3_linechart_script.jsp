@@ -39,6 +39,20 @@
   <% } %>
   ];
 
+  var tooltipShowFn_<%=chartId%> = function(e, offsetElement) {
+       x = e.point.label;
+       y = e.point.y;
+       n = e.pointIndex;
+
+       if( n >= 0 && n < <%=xvalues.size()%> ) {
+           content = chartLabels<%=chartId%>[n] + " : " + y;
+       } else {
+           content = "";
+       }
+
+       document.getElementById("tooltip<%=chartId%>").innerHTML=content;	  
+  }
+  
   nv.addGraph({
   generate: function() {
             var chart = nv.models.lineChart();
@@ -83,27 +97,15 @@
 
   },
   callback: function(graph) {
-  <% if( enableDrillDown ) {%>
+  <% if( enableDrillDown && !disableDrillDown) {%>
     graph.lines.dispatch.on('elementClick', function(e) {
           form = document.getElementById('<%="form"+chartId%>');
-          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = e.pointIndex;
+          form.<%= NVD3ChartViewer.PARAM_NSERIE %>.value = chartLabels<%=chartId%>[e.pointIndex];
           submitAjaxForm(form);
           });
   <% } %>
 
-   graph.dispatch.on('tooltipShow', function(e, offsetElement) {
-       x = e.point.label;
-       y = graph.yAxis.tickFormat()(graph.lines.y()(e.point, e.pointIndex));
-       n = e.pointIndex;
-
-       if( n >= 0 && n < <%=xvalues.size()%> ) {
-           content = chartLabels<%=chartId%>[n] + " : " + y;
-       } else {
-           content = "";
-       }
-
-       document.getElementById("tooltip<%=chartId%>").innerHTML=content;
-     });
+   graph.dispatch.on('tooltipShow', tooltipShowFn_<%=chartId%>);
   }
   });
 </script>
