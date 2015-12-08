@@ -41,7 +41,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <!-- <version>${version.org.slf4j}</version> -->
     </dependency>
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
@@ -85,8 +84,8 @@
             <configuration>
               <finalName>dashbuilder</finalName>
               <descriptors>
-                <descriptor>src/main/assembly/assembly-demo.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-demo-installer.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-demo.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-demo-installer.xml</descriptor>
               </descriptors>
               <archive>
                 <addMavenDescriptor>false</addMavenDescriptor>
@@ -102,12 +101,12 @@
             <configuration>
               <finalName>dashbuilder-${project.version}</finalName>
               <descriptors>
-                <descriptor>src/main/assembly/assembly-wildfly-8.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-eap-6_4.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-tomcat-7.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-tomee-1.7.1.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-websphere-as-8.xml</descriptor>
-                <descriptor>src/main/assembly/assembly-weblogic-12c.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-wildfly-8.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-eap-6_4.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-tomcat-7.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-tomee-1.7.1.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-websphere-as-8.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-weblogic-12c.xml</descriptor>
               </descriptors>
               <archive>
                 <addMavenDescriptor>false</addMavenDescriptor>
