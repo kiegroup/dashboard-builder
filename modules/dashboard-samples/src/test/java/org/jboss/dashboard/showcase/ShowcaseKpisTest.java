@@ -73,7 +73,7 @@ public class ShowcaseKpisTest {
         CDIBeanLocator.beanManager = beanManager;
         CodeBlockTrace.RUNTIME_CONTRAINTS_ENABLED = false;
 
-        rootDir = MavenProjectHelper.getModuleDir("dashboard-samples");
+        rootDir = MavenProjectHelper.getModuleDir("modules/dashboard-samples");
         webAppDir = new File(rootDir, "src/main/webapp");
         Application.lookup().setBaseAppDirectory(webAppDir.getAbsolutePath());
 

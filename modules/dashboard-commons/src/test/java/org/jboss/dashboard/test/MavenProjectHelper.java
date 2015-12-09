@@ -37,10 +37,11 @@ public class MavenProjectHelper {
         File rootDir = MavenProjectHelper.getRootDir();
         if (rootDir == null) throw new NullPointerException("Root directory not found");
 
-        List<File> javaFolders = getFolders(rootDir, FileFilterUtils.nameFileFilter(moduleName));
-        if (!javaFolders.isEmpty()) return javaFolders.get(0);
-
-        throw new RuntimeException("Module " + moduleName + " dir not found. Root=" + rootDir.getPath());
+        File moduleDir = new File(rootDir, moduleName);
+        if (!moduleDir.isDirectory()) {
+            throw new RuntimeException("Module " + moduleName + " dir not found. Root=" + rootDir.getPath());
+        }
+        return moduleDir;
     }
 
     public static File getRootDir() {

@@ -40,7 +40,7 @@ public class ShowcaseKPITestsGenerator {
         CDIBeanLocator.beanManager = container.getBeanManager();
         CodeBlockTrace.RUNTIME_CONTRAINTS_ENABLED = false;
 
-        File rootDir = MavenProjectHelper.getModuleDir("dashboard-samples");
+        File rootDir = MavenProjectHelper.getModuleDir("modules/dashboard-samples");
         File webAppDir = new File(rootDir, "src/main/webapp");
         Application.lookup().setBaseAppDirectory(webAppDir.getAbsolutePath());
 
