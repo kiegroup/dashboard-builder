@@ -2,7 +2,7 @@
 <config xmlns="http://zanata.org/namespace/config/">
     <url>https://translate.jboss.org/</url>
     <project>dashbuilder</project>
-    <project-version>6.3.0</project-version>
+    <project-version>6.4.0</project-version>
     <project-type>utf8properties</project-type>
 
     <locales>
@@ -10,8 +10,10 @@
         <locale>fr</locale>
         <locale>ja</locale>
         <locale>de</locale>
+        <locale>ru</locale>
         <locale map-from="pt">pt-BR</locale>
         <locale map-from="zh">zh-Hans</locale>
+        <locale map-from="zh-TW">zh-Hant</locale>
     </locales>
 
 </config>
