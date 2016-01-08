@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.panel.DashboardDriver;
@@ -28,7 +29,6 @@ import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.domain.date.DateInterval;
 import org.jboss.dashboard.domain.numeric.NumericInterval;
 import org.jboss.dashboard.commons.events.Publisher;
-import org.jboss.dashboard.commons.filter.FilterByCriteria;
 import java.util.*;
 
 import org.jboss.dashboard.ui.panel.AjaxRefreshManager;
@@ -63,9 +63,9 @@ public class Dashboard {
     protected Dashboard parent;
 
     /**
-     * Parent property to drill-up if dashboard filter does not contains it.
+     * For child dashboards, the set of property ids used in a parent's drill-down operation
      */
-    protected String parentProperty;
+    protected Set<String> drillDownIds = new HashSet<String>();
 
     /**
      * Dashboard listeners
@@ -103,14 +103,6 @@ public class Dashboard {
 
     public void addListener(DashboardListener listener) {
         listeners.subscribe(listener);
-    }
-
-    public String getParentProperty() {
-        return parentProperty;
-    }
-
-    public void setParentProperty(String parentProperty) {
-        this.parentProperty = parentProperty;
     }
 
     public Dashboard getParent() {
@@ -198,7 +190,7 @@ public class Dashboard {
 
         // Clear drill-down if any.
         parent = null;
-        parentProperty = null;
+        drillDownIds.clear();
 
         // Populate the dashboard with KPIs data for the first time.
         refresh();
@@ -262,27 +254,59 @@ public class Dashboard {
             }
         }
 
-        return filter(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, values, allowMode);
+        DashboardFilter filterRequest = new DashboardFilter();
+        filterRequest.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, values, allowMode);
+        return filter(filterRequest);
     }
 
-    public boolean filter(String propertyId, Object minValue, boolean minValueIncluded, Object maxValue, boolean maxValueIncluded, Collection allowedValues, int allowMode) throws Exception {
+    public boolean filter(DashboardFilter filterRequest) throws Exception {
+        Dashboard drillDownTarget = null;
+        boolean filterRequired = false;
 
-        // Get the filter property configuration.
-        DashboardFilterProperty dashboardFilterProperty = dashboardFilter.getPropertyInFilterComponents(propertyId);
+        for (String propertyId : filterRequest.getPropertyIds()) {
+            Object minValue = filterRequest.getPropertyMinValue(propertyId);
+            boolean minValueIncluded = filterRequest.minValueIncluded(propertyId);
+            Object maxValue = filterRequest.getPropertyMaxValue(propertyId);
+            boolean maxValueIncluded = filterRequest.maxValueIncluded(propertyId);
+            Collection allowedValues = filterRequest.getPropertyAllowedValues(propertyId);
+            int allowMode = filterRequest.getPropertyAllowMode(propertyId);;
 
-        // Apply drill-down.
-        if (dashboardFilterProperty != null && dashboardFilterProperty.isDrillDownEnabled()) {
-            Dashboard targetDashboard = dashboardFilterProperty.getDrillDownDashboard();
-            DashboardFilter targetFilter = targetDashboard.getDashboardFilter();
-            if (targetDashboard.drillDown(this, propertyId)) {
-                targetFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, FilterByCriteria.ALLOW_ANY);
-                targetDashboard.filter();
-                return true;
+            // Get the filter property configuration.
+            DashboardFilterProperty dashboardFilterProperty = dashboardFilter.getPropertyInFilterComponents(propertyId);
+
+            // Apply drill-down.
+            if (dashboardFilterProperty != null && dashboardFilterProperty.isDrillDownEnabled()) {
+                Dashboard targetDashboard = dashboardFilterProperty.getDrillDownDashboard();
+                if (targetDashboard.drillDown(this, propertyId)) {
+                    DashboardFilter targetFilter = targetDashboard.getDashboardFilter();
+
+                    if (targetDashboard != drillDownTarget) {
+                        drillDownTarget = targetDashboard;
+                        targetFilter.removeAllProperty();
+                    }
+                    targetFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, allowMode);
+                }
+            }
+            // Apply filter only.
+            else {
+                dashboardFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, allowMode);
+                filterRequired = true;
             }
         }
-        // Apply filter only.
-        else {
-            dashboardFilter.addProperty(propertyId, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, FilterByCriteria.ALLOW_ANY);
+        // Filter the child
+        if (drillDownTarget != null) {
+            Dashboard parent = this;
+            DashboardFilter childFilter = drillDownTarget.getDashboardFilter();
+            while (parent != null) {
+                // Inherit the filters set on its ancestors
+                childFilter.merge(parent.getDashboardFilter());
+                parent = parent.getParent();
+            }
+            drillDownTarget.filter();
+            return true;
+        }
+        // Filter the current dashboard if requested
+        if (filterRequired) {
             filter();
             refreshPanels(dashboardFilter.getPropertyIds());
         }
@@ -326,7 +350,9 @@ public class Dashboard {
     }
 
     protected boolean drillDown(Dashboard parent, String parentPropertyId) {
-        if (parent == null || parentPropertyId == null) return false;
+        if (parent == null || parentPropertyId == null) {
+            return false;
+        }
 
         // Check if this dashboard is already in the drill down chain.
         if (!isDrillDownAllowed(parent)) {
@@ -336,52 +362,33 @@ public class Dashboard {
 
         // Set the parent.
         setParent(parent);
-        setParentProperty(parentPropertyId);
+        drillDownIds.add(parentPropertyId);
 
         // Set drill down page.
         NavigationManager.lookup().setCurrentSection(getSection());
-        listeners.notifyEvent(DashboardListener.EVENT_DRILL_DOWN, new Object[] {parent, this});
-
-        // Apply parent dashboard parentFilter properties to target parentFilter.
-        DashboardFilter filter = getDashboardFilter();
-        filter.removeAllProperty();
-        while (parent != null) {
-            DashboardFilter parentFilter = parent.getDashboardFilter();
-
-            // Add properties from parentFilter.
-            String[] props = parentFilter.getPropertyIds();
-            for (String prop : props) {
-                Object minValue = parentFilter.getPropertyMinValue(prop);
-                Object maxValue = parentFilter.getPropertyMaxValue(prop);
-                boolean minValueIncluded = parentFilter.minValueIncluded(prop);
-                boolean maxValueIncluded = parentFilter.maxValueIncluded(prop);
-                Collection allowedValues = parentFilter.getPropertyAllowedValues(prop);
-                int allowMode = parentFilter.getPropertyAllowMode(prop);
-                filter.addProperty(prop,minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, allowMode);
-            }
-            // Get the next parent.
-            parent = parent.getParent();
-        }
+        listeners.notifyEvent(DashboardListener.EVENT_DRILL_DOWN, new Object[]{parent, this});
         return true;
     }
 
     protected Dashboard drillUp() {
-        String parentProperty = getParentProperty();
-        if (parentProperty == null) return null;
+        if (drillDownIds.isEmpty()) {
+            return null;
+        }
 
+        List<String> filterIds = Arrays.asList(getDashboardFilter().getPropertyIds());
         Dashboard parent = this;
         Dashboard firstParent = null;
-        while (parentProperty != null) {
-            if (!ArrayUtils.contains(getDashboardFilter().getPropertyIds(), parentProperty)) {
-                // Apply drill-up.
+        while (!parent.drillDownIds.isEmpty()) {
+            if (CollectionUtils.intersection(filterIds, parent.drillDownIds).isEmpty()) {
+                // Drill-up detected
                 firstParent = parent.getParent();
             }
             parent = parent.getParent();
-            if (parent != null) parentProperty = parent.getParentProperty();
-            else parentProperty = null;
         }
         // No drill-up detected
-        if (firstParent == null) return null;
+        if (firstParent == null) {
+            return null;
+        }
 
         // Return back to the parent dashboard.
         NavigationManager.lookup().setCurrentSection(firstParent.getSection());
@@ -410,31 +417,34 @@ public class Dashboard {
         panelIdsToRefresh.clear();
 
         // Inspect all the dashboard's panels.
-        Panel currentPanel = RequestContext.lookup().getActivePanel();
-        for (Panel panel : getSection().getPanels()) {
+        RequestContext requestCtx = RequestContext.lookup();
+        if (requestCtx != null) {
+            Panel currentPanel = RequestContext.lookup().getActivePanel();
+            for (Panel panel : getSection().getPanels()) {
 
-            // Leave out non dashboard related panels.
-            PanelDriver driver = panel.getProvider().getDriver();
-            if (!(driver instanceof DashboardDriver)) {
-                continue;
-            }
-            // Don't refresh the active panel as it's being updated already along the execution of this request.
-            Long panelId = panel.getPanelId();
-            if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
-                continue;
-            }
-            // Don't refresh panels that are not displaying any dashboard data.
-            Set<String> propRefs = ((DashboardDriver) driver).getPropertiesReferenced(panel);
-            if (propRefs.isEmpty()) {
-                continue;
-            }
-            // Mark panel as refreshable.
-            if (propertySet == null) {
-                panelIdsToRefresh.add(panelId);
-            } else {
-                for (String propertyId : propertySet) {
-                    if (!panelIdsToRefresh.contains(panelId) && propRefs.contains(propertyId)) {
-                        panelIdsToRefresh.add(panelId);
+                // Leave out non dashboard related panels.
+                PanelDriver driver = panel.getProvider().getDriver();
+                if (!(driver instanceof DashboardDriver)) {
+                    continue;
+                }
+                // Don't refresh the active panel as it's being updated already along the execution of this request.
+                Long panelId = panel.getPanelId();
+                if (currentPanel != null && currentPanel.getPanelId().equals(panelId)) {
+                    continue;
+                }
+                // Don't refresh panels that are not displaying any dashboard data.
+                Set<String> propRefs = ((DashboardDriver) driver).getPropertiesReferenced(panel);
+                if (propRefs.isEmpty()) {
+                    continue;
+                }
+                // Mark panel as refreshable.
+                if (propertySet == null) {
+                    panelIdsToRefresh.add(panelId);
+                } else {
+                    for (String propertyId : propertySet) {
+                        if (!panelIdsToRefresh.contains(panelId) && propRefs.contains(propertyId)) {
+                            panelIdsToRefresh.add(panelId);
+                        }
                     }
                 }
             }

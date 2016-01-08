@@ -117,7 +117,7 @@ public class DashboardFilterHandler extends UIBeanHandler {
     protected boolean showAutoRefresh;
 
     // Handle component properties.
-    protected List properties; // Properties selected in edit mode. Filter can be executed with these properties.
+    protected List<DashboardFilterProperty> properties; // Properties selected in edit mode. Filter can be executed with these properties.
     protected List notAllowedProperties; // Properties that cannot be displayed because there is another property visible with same property identifier.
     protected Set filterPropertyErrors; // Errors when data input to filter cannot be parsed.
     protected boolean panelDuplicated; // Flag which indicate if a panel instance is duplicated in different sections.
@@ -244,9 +244,14 @@ public class DashboardFilterHandler extends UIBeanHandler {
         this.showPropertyNames = showPropertyNames;
     }
 
-    public List getProperties() {
+    public List<DashboardFilterProperty> getProperties() {
         // Return a copy of the array to avoid concurrent issues.
-        return new ArrayList(properties);
+        return new ArrayList<DashboardFilterProperty>(properties);
+    }
+
+    public void setProperties(List<DashboardFilterProperty> l) {
+        properties.clear();
+        properties.addAll(l);
     }
 
     public DashboardHandler getDashboardHandler() {
@@ -340,20 +345,20 @@ public class DashboardFilterHandler extends UIBeanHandler {
     }
 
     public synchronized DashboardFilterProperty getDashboardFilterPropertyForCurrentFilter(String dataProviderCode, String propertyId) {
-        Iterator it = properties.iterator();
-        while (it.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
             if (dataProviderCode.equals(dashboardFilterProperty.getDataProviderCode()) &&
-                    propertyId.equals(dashboardFilterProperty.getPropertyId())) return dashboardFilterProperty;
+                propertyId.equals(dashboardFilterProperty.getPropertyId())) {
+                return dashboardFilterProperty;
+            }
         }
         return null;
     }
 
     public synchronized DashboardFilterProperty getDashboardFilterProperty(String propertyId) {
-        Iterator it = properties.iterator();
-        while (it.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
-            if (propertyId.equals(dashboardFilterProperty.getPropertyId())) return dashboardFilterProperty;
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
+            if (propertyId.equals(dashboardFilterProperty.getPropertyId())) {
+                return dashboardFilterProperty;
+            }
         }
         return null;
     }
@@ -399,10 +404,10 @@ public class DashboardFilterHandler extends UIBeanHandler {
 
     public synchronized DashboardFilterProperty[] getBeingFilteredProperties() {
         List results = new ArrayList();
-        Iterator it = properties.iterator();
-        while (it.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
-            if (dashboardFilterProperty.isBeingFiltered()) results.add(dashboardFilterProperty);
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
+            if (dashboardFilterProperty.isBeingFiltered()) {
+                results.add(dashboardFilterProperty);
+            }
         }
 
         return (DashboardFilterProperty[]) results.toArray(new DashboardFilterProperty[results.size()]);
@@ -410,10 +415,10 @@ public class DashboardFilterHandler extends UIBeanHandler {
 
     public synchronized List<DashboardFilterProperty> getVisibleProperties() {
         List<DashboardFilterProperty> results = new ArrayList<DashboardFilterProperty>();
-        Iterator it = properties.iterator();
-        while (it.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
-            if (dashboardFilterProperty.isVisible()) results.add(dashboardFilterProperty);
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
+            if (dashboardFilterProperty.isVisible()) {
+                results.add(dashboardFilterProperty);
+            }
         }
         return results;
     }
@@ -492,21 +497,33 @@ public class DashboardFilterHandler extends UIBeanHandler {
     }
 
     public synchronized CommandResponse actionFilter(CommandRequest request) throws Exception {
-        // Init attributes for start applying the filter.
+        Dashboard currentDashboard = getDashboard();
+        DashboardFilter filterRequest = parseFilterRequest(request);
         filterPropertyErrors.clear();
 
-        // Parse parameters and set the filter.
-        Iterator visiblePropertiesIt = properties.iterator();
-        while (visiblePropertiesIt.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) visiblePropertiesIt.next();
+        // On drill-down, refresh the whole screen
+        if (currentDashboard.filter(filterRequest)) {
+            return new ShowCurrentScreenResponse();
+        }
+        // Refresh only the filter panel and the affected dashboard panels
+        return null;
+    }
+
+    public DashboardFilter parseFilterRequest(CommandRequest request) throws Exception {
+        DashboardFilter filterRequest = new DashboardFilter();
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
 
             // Is property already in the dashboard filter?. Then is not possible to filter by this property, it's already added to dashboard filter.
-            if (dashboardFilterProperty.isBeingFiltered()) continue;
+            if (dashboardFilterProperty.isBeingFiltered()) {
+                continue;
+            }
             if (!dashboardFilterProperty.isPropertyAlive()){
                 log.warn("Trying to filter by " + dashboardFilterProperty.getPropertyId() + ". This property is not in any dataset.");
                 continue;
             }
-            if (!dashboardFilterProperty.isVisible()) continue;
+            if (!dashboardFilterProperty.isVisible()) {
+                continue;
+            }
 
             Object[] result;
             try {
@@ -525,15 +542,14 @@ public class DashboardFilterHandler extends UIBeanHandler {
             Collection allowedValues = (Collection) result[0];
             Object minValue = result[1];
             Object maxValue = result[2];
-            if (allowedValues == null && minValue == null && maxValue == null) continue;
-
-            // Set the filter with this property.
-            Dashboard currentDashboard = DashboardHandler.lookup().getCurrentDashboard();
-            if (currentDashboard.filter(dashboardFilterProperty.getPropertyId(), minValue, true, maxValue, true, allowedValues, FilterByCriteria.ALLOW_ANY)) {
-                return new ShowCurrentScreenResponse();
+            if (allowedValues != null || minValue != null || maxValue != null) {
+                filterRequest.addProperty(dashboardFilterProperty.getPropertyId(),
+                        minValue, true,
+                        maxValue, true,
+                        allowedValues, FilterByCriteria.ALLOW_ANY);
             }
         }
-        return null;
+        return filterRequest;
     }
 
     public void actionRefresh(CommandRequest request) throws Exception {
@@ -586,9 +602,7 @@ public class DashboardFilterHandler extends UIBeanHandler {
         int indent = 0;
         printIndent(out, indent);
         out.println("<dashboard_filter>");
-        Iterator it = properties.iterator();
-        while (it.hasNext()) {
-            DashboardFilterProperty dashboardFilterProperty = (DashboardFilterProperty) it.next();
+        for (DashboardFilterProperty dashboardFilterProperty : properties) {
             printIndent(out, indent+1);
             out.println("<property id=\"" + StringEscapeUtils.escapeXml(dashboardFilterProperty.getPropertyId()) + "\" providerCode =\"" +
             StringEscapeUtils.escapeXml(dashboardFilterProperty.getDataProviderCode())+ "\">");
@@ -725,9 +739,6 @@ public class DashboardFilterHandler extends UIBeanHandler {
 
     public synchronized void beforeRenderBean() {
         super.beforeRenderBean();
-
-        // Initialize the dashboard (loads all its kpi panels)
-        DashboardHandler.lookup().getCurrentDashboard();
 
         // Get the filter.
         DashboardFilter filter = getFilter();
