@@ -24,14 +24,26 @@ import javax.naming.NamingException;
 
 public class CDIBeanLocator {
 
-    /** The bean manager. */
+    /** The bean manager */
     public static BeanManager beanManager;
 
-    public static BeanManager getBeanManager() {
-        if (beanManager != null) return beanManager;
+    /** Singleton */
+    public static CDIBeanLocator beanLocator;
 
-        beanManager = lookupBeanManager("java:comp/BeanManager");
-        if (beanManager == null) beanManager = lookupBeanManager("java:comp/env/BeanManager");
+    public static CDIBeanLocator get() {
+        if (beanLocator == null) {
+            beanLocator = new CDIBeanLocator();
+        }
+        return beanLocator;
+    }
+
+    public static BeanManager getBeanManager() {
+        if (beanManager == null) {
+            beanManager = lookupBeanManager("java:comp/BeanManager");
+            if (beanManager == null) {
+                beanManager = lookupBeanManager("java:comp/env/BeanManager");
+            }
+        }
         return beanManager;
     }
 
@@ -45,7 +57,35 @@ public class CDIBeanLocator {
         }
     }
 
+    /**
+     * @deprecated Use CDIBeanLocator.get().lookupBeanByName() instead.
+     */
     public static Object getBeanByName(String name) {
+        return get().lookupBeanByName(name);
+    }
+
+    /**
+     * @deprecated Use CDIBeanLocator.get().lookupBeanByType() instead.
+     */
+    public static <T> T getBeanByType(Class<T> type) {
+        return get().lookupBeanByType(type);
+    }
+
+    /**
+     * @deprecated Use CDIBeanLocator.get().lookupBeanByType() instead.
+     */
+    public static Object getBeanByType(String type) {
+        return get().lookupBeanByType(type);
+    }
+
+    /**
+     * @deprecated Use CDIBeanLocator.get().lookupBeanByNameOrType() instead.
+     */
+    public static Object getBeanByNameOrType(String beanName) {
+        return get().lookupBeanByNameOrType(beanName);
+    }
+
+    public Object lookupBeanByName(String name) {
         BeanManager bm = getBeanManager();
         Set<Bean<?>> beans  = bm.getBeans(name);
         if (beans.isEmpty()) throw new IllegalArgumentException("Bean not found by name: " + name);
@@ -57,7 +97,7 @@ public class CDIBeanLocator {
         return o;
     }
 
-    public static <T> T getBeanByType(Class<T> type) {
+    public <T> T lookupBeanByType(Class<T> type) {
         BeanManager bm = getBeanManager();
         Set<Bean<?>> beans  = bm.getBeans(type);
         if (beans.isEmpty()) throw new IllegalArgumentException("Bean not found by type: " + type.getName());
@@ -77,23 +117,23 @@ public class CDIBeanLocator {
         return type.cast(o);
     }
 
-    public static Object getBeanByType(String type) {
+    public Object lookupBeanByType(String type) {
         try {
             Class beanClass = Class.forName(type);
-            return CDIBeanLocator.getBeanByType(beanClass);
+            return lookupBeanByType(beanClass);
         } catch (Throwable e) {
             // Just ignore
             return null;
         }
     }
 
-    public static Object getBeanByNameOrType(String beanName) {
+    public Object lookupBeanByNameOrType(String beanName) {
         try {
-            Object beanObject = CDIBeanLocator.getBeanByName(beanName);
+            Object beanObject = lookupBeanByName(beanName);
             if (beanObject != null) return beanObject;
             return null;
         } catch (Exception e) {
-            return getBeanByType(beanName);
+            return lookupBeanByType(beanName);
         }
     }
 }
