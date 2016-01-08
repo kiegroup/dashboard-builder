@@ -150,6 +150,21 @@ public abstract class AbstractFilter implements FilterByCriteria, Cloneable {
         this.ltOrEq = ltOrEq;
     }
 
+    public void merge(AbstractFilter other) {
+        if (other != null) {
+            String[] props = other.getPropertyIds();
+            for (String prop : props) {
+                Object minValue = other.getPropertyMinValue(prop);
+                Object maxValue = other.getPropertyMaxValue(prop);
+                boolean minValueIncluded = other.minValueIncluded(prop);
+                boolean maxValueIncluded = other.maxValueIncluded(prop);
+                Collection allowedValues = other.getPropertyAllowedValues(prop);
+                int allowMode = other.getPropertyAllowMode(prop);
+                addProperty(prop, minValue, minValueIncluded, maxValue, maxValueIncluded, allowedValues, allowMode);
+            }
+        }
+    }
+
     public void addProperties(FilterByCriteria filter) {
         if (filter == null) return;
         String[] propIds = filter.getPropertyIds();
