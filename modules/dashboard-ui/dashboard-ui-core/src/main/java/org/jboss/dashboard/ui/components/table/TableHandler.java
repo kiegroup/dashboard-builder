@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.ui.Dashboard;
 import org.jboss.dashboard.displayer.table.*;
 import org.jboss.dashboard.domain.Interval;
+import org.jboss.dashboard.ui.DashboardFilter;
 import org.jboss.dashboard.ui.annotation.panel.PanelScoped;
 import org.jboss.dashboard.ui.components.DashboardHandler;
 import org.jboss.dashboard.provider.DataProperty;
@@ -325,7 +326,9 @@ public class TableHandler extends UIBeanHandler {
         } else {
             Collection values = new ArrayList();
             values.add(selectedValue);
-            if (dashboard.filter(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY)) {
+            DashboardFilter filterRequest = new DashboardFilter();
+            filterRequest.addProperty(selectedProperty.getPropertyId(), null, false, null, false, values, FilterByCriteria.ALLOW_ANY);
+            if (dashboard.filter(filterRequest)) {
                 // If drill-down then force the whole screen to be refreshed.
                 return new ShowCurrentScreenResponse();
             }
