@@ -27,7 +27,7 @@ import java.util.Properties;
 public class ShowcaseBundleExtractor {
 
     public static void main(String[] args) throws Exception {
-        String rootDir = System.getProperty("user.dir") + "/modules/dashboard-samples";
+        String rootDir = System.getProperty("user.dir");
 
         // Process the Showcase KPIs file
         XmlToBundleConverter converter = new KpisFileConverter();

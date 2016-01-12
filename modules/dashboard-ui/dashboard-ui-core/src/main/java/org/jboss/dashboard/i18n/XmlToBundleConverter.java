@@ -91,13 +91,19 @@ public abstract class XmlToBundleConverter {
         List<String> keyList = new ArrayList<String>(Arrays.asList(StringUtils.split(bundleKey, ".")));
         List<Element> nodes = lookupNodes(doc.getRootElement(), keyList);
 
-        if (nodes.isEmpty()) throw new RuntimeException("Node not found: " + bundleKey);
+        if (nodes.isEmpty()) {
+            return null;
+        }
         Element node = nodes.get(0);
-        if (nodes.size() == 1 && getLanguageAttr(node) == null) return node;
+        if (nodes.size() == 1 && getLanguageAttr(node) == null) {
+            return node;
+        }
 
         // Get the node for the specified locale.
         node = getElementForLocale(nodes, locale);
-        if (node != null) return node;
+        if (node != null) {
+            return node;
+        }
 
         // Node not found for the target language. Create a brand new one.
         Element sibling = nodes.get(0);

@@ -19,7 +19,7 @@
     <param name="title" value="Demostraci&#243;n de cuadros de mando" lang="es"/>
     <param name="title" value="D&#233;mo de tableaux de bord" lang="fr"/>
     <param name="title" value="&#12480;&#12483;&#12471;&#12517;&#12508;&#12540;&#12489;&#12471;&#12519;&#12540;&#12465;&#12540;&#12473;" lang="ja"/>
-    <panelInstance serialization="rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAADdAAEcGFnZXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAAKdAABKnh0AAZwb3J0YWxzcQB+AAMAAAABdwQAAAAKcQB+AAV4dAAEbGFuZ3NxAH4AAwAAAAd3BAAAAAp0AAJlbnQAAmVzdAACZGV0AAJmcnQAAmphdAACcHR0AAJ6aHh4" provider="navigation.language_horiz" id="2074">
+    <panelInstance serialization="rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAN3CAAAAAQAAAADdAAEcGFnZXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAABdwQAAAABdAABKnh0AARsYW5nc3EAfgADAAAAAXcEAAAAAXQAASp4dAAGcG9ydGFsc3EAfgADAAAAAXcEAAAAAXEAfgAFeHg=" provider="navigation.language_horiz" id="2074">
       <param name="after.link" value="&lt;/td&gt;&lt;td&gt;&amp;nbsp;|&amp;nbsp;&lt;/td&gt;" lang=" "/>
       <param name="before.link" value="&lt;td&gt;" lang=" "/>
       <param name="end.html" value="&lt;/tr&gt;&lt;/table&gt;" lang=" "/>

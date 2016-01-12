@@ -13,7 +13,6 @@
         <locale>ru</locale>
         <locale map-from="pt">pt-BR</locale>
         <locale map-from="zh">zh-Hans</locale>
-        <locale map-from="zh-TW">zh-Hant</locale>
     </locales>
 
 </config>
