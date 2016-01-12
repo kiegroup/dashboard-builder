@@ -13,7 +13,7 @@ else
 
   # Language settings
   LOCALE_DEFAULT=-DLocaleManager.defaultLocaleId=en
-  LOCALE_INSTALLED=-DLocaleManager.installedLocaleIds=en,es,de,fr,pt,ja,zh
+  LOCALE_INSTALLED=-DLocaleManager.installedLocaleIds=en,es,de,fr,pt,ru,ja,zh
 
   # Dataset engine settings
   DS_SIZE=-DDataSetSettings.maxDataSetSizeInBytes=104857600
