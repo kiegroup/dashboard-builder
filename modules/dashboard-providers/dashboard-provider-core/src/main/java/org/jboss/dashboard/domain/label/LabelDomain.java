@@ -172,7 +172,7 @@ public class LabelDomain extends AbstractDomain {
 
         // Include the aggregated interval only if visible.
         if (!isIntervalHidden(compositeInterval)) {
-            Set<Interval> otherIntervals = new HashSet<Interval>();
+            Set<Interval> otherIntervals = new TreeSet<Interval>();
             for (int i = maxNumberOfIntervals; i < intervals.size(); i++) otherIntervals.add(intervals.get(i));
             compositeInterval.setIntervals(otherIntervals);
             results.add(compositeInterval);
