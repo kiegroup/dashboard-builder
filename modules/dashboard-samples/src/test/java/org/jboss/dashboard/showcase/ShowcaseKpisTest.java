@@ -507,7 +507,7 @@ public class ShowcaseKpisTest {
                     {"Saudi Arabia","83"},
                     {"Russia","67"},
                     {"Poland","88"},
-                    {"Australia, China, Netherlands, Canada, Mexico, Japan, Germany, Italy, France, Norway, India, Belgium, Indonesia, Brazil","1,051"}}, 0);
+                    {"Australia, Belgium, Brazil, Canada, China, France, Germany, India, Indonesia, Italy, Japan, Mexico, Netherlands, Norway","1,051"}}, 0);
         }
     }
 
