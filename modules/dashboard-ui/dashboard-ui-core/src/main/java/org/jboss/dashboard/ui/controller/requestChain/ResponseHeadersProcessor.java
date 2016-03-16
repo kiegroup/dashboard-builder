@@ -15,7 +15,6 @@
  */
 package org.jboss.dashboard.ui.controller.requestChain;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.HTTPSettings;
 
@@ -51,13 +50,6 @@ public class ResponseHeadersProcessor extends AbstractChainProcessor {
         response.setHeader("Cache-Control", "no-cache, must-revalidate");
         response.setHeader("Pragma", "no-cache");
 
-        if (httpSettings.isXSSProtectionEnabled()) {
-            if (httpSettings.isXSSProtectionBlock()) response.setHeader("X-XSS-Protection", "1; mode=block");
-            else response.setHeader("X-XSS-Protection", "1");
-        }
-        if (!StringUtils.isBlank(httpSettings.getXFrameOptions())) {
-            response.setHeader("X-FRAME-OPTIONS", httpSettings.getXFrameOptions());
-        }
         if (useRefreshHeader) {
             response.setHeader("Refresh", java.lang.String.valueOf(request.getSession().getMaxInactiveInterval() + 61));
         }
