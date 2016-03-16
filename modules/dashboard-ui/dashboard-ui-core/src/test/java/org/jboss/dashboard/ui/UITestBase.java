@@ -36,10 +36,14 @@ public class UITestBase {
     @Mock
     protected AjaxRefreshManager ajaxRefreshManager;
 
+    @Mock
+    protected HTTPSettings httpSettings;
+
     @Before
     public void setUp() throws Exception {
         CDIBeanLocator.beanLocator = beanLocator;
         when(beanLocator.lookupBeanByType(NavigationManager.class)).thenReturn(navigationManager);
         when(beanLocator.lookupBeanByType(AjaxRefreshManager.class)).thenReturn(ajaxRefreshManager);
+        when(beanLocator.lookupBeanByType(HTTPSettings.class)).thenReturn(httpSettings);
     }
 }
