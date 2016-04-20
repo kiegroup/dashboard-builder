@@ -2,7 +2,7 @@
 <kpis>
   <dataprovider code="dataprovider_63791223772073037" type="csv">
     <description language="en">Expense reports demo</description>
-    <description language="ru">Образец отчетов о расходах</description>
+    <description language="ru">Образец отчета о расходах</description>
     <description language="fr">Démo Rapports de dépenses</description>
     <description language="de">Ausgabenberichte Demo</description>
     <description language="pt">Demonstração de relatórios de despesas</description>
