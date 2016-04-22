@@ -152,7 +152,7 @@ public class CSVPerformanceTest {
         dataSetSettings.setMaxDataSetSizeInBytes(-1); // Disable memory usage checking.
 
         try {
-            buildDataSet(10, dataProvider, dataLoader);
+            buildDataSet(1000, dataProvider, dataLoader);
             failBecauseExceptionWasNotThrown(DataSetException.class);
         } catch (DataSetException e) {
             // It's expected
