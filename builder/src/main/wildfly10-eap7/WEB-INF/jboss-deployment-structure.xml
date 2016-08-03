@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2014 Red Hat, Inc. and/or its affiliates.
+    Copyright (C) 2016 Red Hat, Inc. and/or its affiliates.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,20 +17,22 @@
 
 -->
 <jboss-deployment-structure>
-    <deployment>
+  <deployment>
+    <!-- Exclude JPA (Hibernate 5) subsystem as the WAR bundles own Hibernate version (4.x) -->
+    <exclude-subsystems>
+      <subsystem name="jpa"/>
+    </exclude-subsystems>
 
-        <dependencies>
-            <module name="org.javassist" />
-            <module name="org.hibernate" />
-            <module name="org.dom4j" />
-            <module name="org.jdom" />
-            <module name="org.slf4j" />
-            <module name="org.apache.commons.io" />
-            <module name="org.apache.commons.collections" />
-            <module name="org.apache.commons.codec" />
-            <module name="org.apache.xerces" />
-            <module name="org.jboss.ironjacamar.jdbcadapters" />
-        </dependencies>
+    <dependencies>
+      <module name="org.javassist"/>
+      <module name="org.jdom"/>
+      <module name="org.slf4j"/>
+      <module name="org.apache.commons.io"/>
+      <module name="org.apache.commons.collections"/>
+      <module name="org.apache.commons.codec"/>
+      <module name="org.apache.xerces"/>
+      <module name="org.jboss.ironjacamar.jdbcadapters"/>
+    </dependencies>
 
-    </deployment>
+  </deployment>
 </jboss-deployment-structure>

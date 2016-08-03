@@ -101,8 +101,9 @@
             <configuration>
               <finalName>dashbuilder-${project.version}</finalName>
               <descriptors>
-                <descriptor>${project.basedir}/src/main/assembly/assembly-wildfly-8.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-wildfly-10.xml</descriptor>
                 <descriptor>${project.basedir}/src/main/assembly/assembly-eap-6_4.xml</descriptor>
+                <descriptor>${project.basedir}/src/main/assembly/assembly-eap-7.xml</descriptor>
                 <descriptor>${project.basedir}/src/main/assembly/assembly-tomcat-7.xml</descriptor>
                 <descriptor>${project.basedir}/src/main/assembly/assembly-tomee-1.7.1.xml</descriptor>
                 <descriptor>${project.basedir}/src/main/assembly/assembly-websphere-as-8.xml</descriptor>
