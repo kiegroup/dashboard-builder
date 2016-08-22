@@ -41,58 +41,58 @@ As
 
 CREATE TABLE dashb_data_source (
    dbid bigint NOT NULL,
-   ds_type  varchar(512),
-   name varchar(512),
-   jndi_path  varchar(512),
-   ds_url varchar(512),
-   jdbc_driver_class  varchar(512),
-   user_name varchar(512),
-   passwd varchar(512),
-   test_query  varchar(2000),
+   ds_type  varchar(512) NULL,
+   name varchar(512) NULL,
+   jndi_path  varchar(512) NULL,
+   ds_url varchar(512) NULL,
+   jdbc_driver_class  varchar(512) NULL,
+   user_name varchar(512) NULL,
+   passwd varchar(512) NULL,
+   test_query  varchar(2000) NULL,
    PRIMARY KEY (dbid)
 );
 CREATE TABLE dashb_data_source_table (
    dbid bigint NOT NULL,
-   name varchar (512),
-   data_source varchar (512),
-   selected varchar(512),
+   name varchar (512) NULL,
+   data_source varchar (512) NULL,
+   selected varchar(512) NULL,
    PRIMARY KEY (dbid)
 );
 CREATE TABLE dashb_data_source_column (
    dbid bigint NOT NULL,
-   name varchar (512),
-   sql_type integer,
-   data_source varchar (512),
-   table_name varchar (512),
-   primary_key varchar (5),
-   identity1 varchar (5),
+   name varchar (512) NULL,
+   sql_type integer NULL,
+   data_source varchar (512) NULL,
+   table_name varchar (512) NULL,
+   primary_key varchar (5) NULL,
+   identity1 varchar (5) NULL,
    PRIMARY KEY (dbid)
 );
 CREATE TABLE dashb_installed_module (
    name varchar(256) NOT NULL,
-   version bigint,
+   version bigint NULL,
    PRIMARY KEY (name)
 );
 
 CREATE TABLE dashb_permission (
    id_permission DECIMAL(28,0) NOT NULL,
-   principal_class VARCHAR(100),
-   principal_name VARCHAR(100),
+   principal_class VARCHAR(100) NULL,
+   principal_name VARCHAR(100) NULL,
    permission_class VARCHAR(100) NOT NULL,
    permission_resource VARCHAR(100) NOT NULL,
-   permission_action VARCHAR(100),
-   permission_readonly smallint,
+   permission_action VARCHAR(100) NULL,
+   permission_readonly smallint NULL,
    PRIMARY KEY (id_permission)
 );
 
 CREATE TABLE dashb_workspace (
    id_workspace VARCHAR(40) NOT NULL,
-   look VARCHAR(100),
-   envelope VARCHAR(100),
+   look VARCHAR(100) NULL,
+   envelope VARCHAR(100) NULL,
    -- BZ-1030407: url column - DB2 unique constraint must be inserted in a not-null column,
    -- but when duplicating a workspace the url is initially null. So, in DB2 case (not other dbms) the url
    -- column cannot contain a unique constraint.
-   url varchar(3000),
+   url varchar(3000) NULL,
    default_workspace smallint NOT NULL,
    home_search_mode DECIMAL(4,0) NOT NULL,
    PRIMARY KEY (id_workspace)
@@ -103,7 +103,7 @@ ALTER TABLE dashb_workspace replace home_search_mode default 0;
 CREATE TABLE dashb_workspace_home (
    id_workspace VARCHAR(40) NOT NULL,
    id_role   VARCHAR(100) NOT NULL,
-   id_section numeric(28,0),
+   id_section numeric(28,0) NULL,
    PRIMARY KEY(id_workspace, id_role),
    FOREIGN KEY (id_workspace) REFERENCES dashb_workspace(id_workspace)
 );
@@ -112,21 +112,21 @@ CREATE TABLE dashb_workspace_parameter (
    id_workspace VARCHAR(40) NOT NULL,
    id_parameter VARCHAR(100) NOT NULL,
    language VARCHAR(10) NOT NULL,
-   value VARCHAR(4000),
+   value VARCHAR(4000) NULL,
    PRIMARY KEY(id_workspace, id_parameter, language),
    FOREIGN KEY (id_workspace) REFERENCES dashb_workspace(id_workspace)
 );
 
 CREATE TABLE dashb_graphic_resource (
    dbid NUMERIC(28,0) NOT NULL,
-   workspace_id VARCHAR(40),
-   section_id numeric(28,0),
-   panel_id numeric(28,0),
-   id VARCHAR(3000),
-   resource_type VARCHAR(3000),
-   zip IMAGE,
-   status smallint,
-   last_modified DATETIME,
+   workspace_id VARCHAR(40) NULL,
+   section_id numeric(28,0) NULL,
+   panel_id numeric(28,0) NULL,
+   id VARCHAR(3000) NULL,
+   resource_type VARCHAR(3000) NULL,
+   zip IMAGE NULL,
+   status smallint NULL,
+   last_modified DATETIME NULL,
    PRIMARY KEY(dbid)
 );
 
@@ -136,14 +136,14 @@ CREATE TABLE dashb_section (
    id_workspace VARCHAR(40) NOT NULL,
    id_template VARCHAR(100) NOT NULL,
    position BIGINT NOT NULL,
-   visible smallint,
-   region_spacing NUMERIC(4,0),
-   panel_spacing NUMERIC(4,0),
-   id_parent NUMERIC(28,0),
-   url varchar(3000),
+   visible smallint NULL,
+   region_spacing NUMERIC(4,0) NULL,
+   panel_spacing NUMERIC(4,0) NULL,
+   id_parent NUMERIC(28,0) NULL,
+   url varchar(3000) NULL,
    dbid NUMERIC(28,0) NOT NULL,
-   skin VARCHAR(100),
-   envelope VARCHAR(100),
+   skin VARCHAR(100) NULL,
+   envelope VARCHAR(100) NULL,
    PRIMARY KEY (dbid),
    FOREIGN KEY (id_workspace) REFERENCES dashb_workspace(id_workspace)
 );
@@ -151,7 +151,7 @@ CREATE TABLE dashb_section (
 CREATE TABLE dashb_section_i18n (
    id_section NUMERIC(28,0) NOT NULL,
    language VARCHAR(10) NOT NULL,
-   title VARCHAR(200),
+   title VARCHAR(200) NULL,
    PRIMARY KEY (id_section, language),
    FOREIGN KEY (id_section) REFERENCES dashb_section(dbid)
 );
@@ -161,7 +161,7 @@ CREATE TABLE dashb_panel_instance (
    id_instance NUMERIC(28,0) NOT NULL,
    id_workspace VARCHAR(40) NOT NULL,
    provider VARCHAR(100) NOT NULL,
-   serialization TEXT,
+   serialization TEXT NULL,
    PRIMARY KEY (dbid),
    FOREIGN KEY (id_workspace) REFERENCES dashb_workspace(id_workspace)
 );
@@ -171,7 +171,7 @@ CREATE TABLE dashb_panel (
    id_panel NUMERIC(28,0) NOT NULL,
    id_instance NUMERIC(28,0) NOT NULL,
    id_section NUMERIC(28,0) NOT NULL,
-   id_region VARCHAR(100),
+   id_region VARCHAR(100) NULL,
    position NUMERIC(4,0) NOT NULL,
    PRIMARY KEY (dbid),
    FOREIGN KEY (id_section) REFERENCES dashb_section(dbid)
@@ -181,8 +181,8 @@ CREATE TABLE dashb_panel_parameter (
    dbid NUMERIC(28,0) NOT NULL,
    id_parameter VARCHAR(100) NOT NULL,
    id_instance NUMERIC(28,0) NOT NULL,
-   value TEXT,
-   language VARCHAR(10),
+   value TEXT NULL,
+   language VARCHAR(10) NULL,
    PRIMARY KEY (dbid),
    FOREIGN KEY (id_instance) REFERENCES dashb_panel_instance(dbid)
 );
@@ -197,7 +197,7 @@ CREATE TABLE dashb_panel_html (
 CREATE TABLE dashb_panel_html_i18n (
    id_text NUMERIC(28,0) NOT NULL,
    language VARCHAR(10) NOT NULL,
-   html_text TEXT,
+   html_text TEXT NULL,
    PRIMARY KEY (id_text, language),
    FOREIGN KEY (id_text) REFERENCES dashb_panel_html(dbid)
 );
@@ -215,10 +215,10 @@ CREATE TABLE dashb_data_provider (
    code VARCHAR(128) NOT NULL,
    provider_uid TEXT NOT NULL,
    provider_xml TEXT NOT NULL,
-   data_properties_xml TEXT,
-   can_edit smallint,
-   can_edit_properties smallint,
-   can_delete smallint,
+   data_properties_xml TEXT NULL,
+   can_edit smallint NULL,
+   can_edit_properties smallint NULL,
+   can_delete smallint NULL,
    PRIMARY KEY (id)
 );
 
@@ -235,7 +235,7 @@ CREATE TABLE dashb_kpi (
 CREATE TABLE dashb_kpi_i18n (
    id_kpi NUMERIC(28,0) NOT NULL,
    language VARCHAR(10) NOT NULL,
-   description VARCHAR(512),
+   description VARCHAR(512) NULL,
    PRIMARY KEY (id_kpi, language),
    FOREIGN KEY (id_kpi) REFERENCES dashb_kpi(id)
 );
@@ -243,7 +243,7 @@ CREATE TABLE dashb_kpi_i18n (
 CREATE TABLE dashb_data_provider_i18n (
    id_data_provider NUMERIC(28,0) NOT NULL,
    language VARCHAR(10) NOT NULL,
-   description VARCHAR(512),
+   description VARCHAR(512) NULL,
    PRIMARY KEY (id_data_provider, language),
    FOREIGN KEY (id_data_provider) REFERENCES dashb_data_provider(id)
 );
@@ -252,7 +252,7 @@ CREATE TABLE dashb_cluster_node (
    id_node NUMERIC(28,0) NOT NULL,
    node_address VARCHAR(50) NOT NULL,
    startup_time DATETIME NOT NULL,
-   node_status VARCHAR(100),
+   node_status VARCHAR(100) NULL,
    PRIMARY KEY (id_node)
 );
 
