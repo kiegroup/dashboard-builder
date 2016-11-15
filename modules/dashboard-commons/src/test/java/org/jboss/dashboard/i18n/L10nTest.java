@@ -57,8 +57,6 @@ public class L10nTest {
     @Before
     public void setUp() throws Exception {
         CDIBeanLocator.beanManager = beanManager;
-        localeManager.setDefaultLocaleId("en");
-        localeManager.setInstalledLocaleIds(new String[]{"en", "es"});
     }
 
     @Test
@@ -93,5 +91,11 @@ public class L10nTest {
         ResourceBundle bundle = localeManager.getBundle("org.jboss.dashboard.i18n.l10ntest", localeManager.getDefaultLocale());
         String string1 = bundle.getString("string1");
         assertThat(string1.equals(STRING1_ES));
+    }
+
+    @Test
+    public void testSupportedLanguages() {
+        String[] langIds = localeManager.getPlatformAvailableLangs();
+        assertThat(langIds).isEqualTo(new String[] {"en","es","de","fr","pt","ja"});
     }
 }
