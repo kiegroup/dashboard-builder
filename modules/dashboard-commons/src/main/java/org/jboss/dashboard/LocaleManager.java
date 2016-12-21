@@ -42,7 +42,7 @@ public class LocaleManager {
     /**
      * The list of locales supported.
      */
-    @Inject @Config("en,es,de,fr,pt,ja")
+    @Inject @Config("en,es,de,fr,pt,ja,zh")
     protected String[] installedLocaleIds;
 
     /**

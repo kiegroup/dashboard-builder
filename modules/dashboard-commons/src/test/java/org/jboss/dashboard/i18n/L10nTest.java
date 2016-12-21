@@ -96,6 +96,6 @@ public class L10nTest {
     @Test
     public void testSupportedLanguages() {
         String[] langIds = localeManager.getPlatformAvailableLangs();
-        assertThat(langIds).isEqualTo(new String[] {"en","es","de","fr","pt","ja"});
+        assertThat(langIds).isEqualTo(new String[] {"en","es","de","fr","pt","ja","zh"});
     }
 }
