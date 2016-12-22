@@ -128,19 +128,18 @@ public class PropertyReadTag extends BaseTag {
             return null;
         }
         try {
-            Object val = JXPathContext.newContext(subjectOfTheGetter).getValue(property);
-            if (localize != null && localize.booleanValue() && val instanceof Map) {
-                return StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(
-                        StringEscapeUtils.ESCAPE_HTML4.translate((String) (localize((Map) val))));
-            }
-            return StringEscapeUtils.ESCAPE_ECMASCRIPT.translate(StringEscapeUtils.ESCAPE_HTML4.translate((String)val));
-        } catch (Exception e) {
+            Object value = JXPathContext.newContext(subjectOfTheGetter).getValue(property);
+            return formatValue(LocaleManager.lookup(), value, localize);
+        }
+        catch (Exception e) {
             log.warn("Error accessing property " + property + " in " + object + "." + e);
             return null;
         }
     }
 
-    protected Object localize(Map map) {
-        return LocalizeTag.getLocalizedValue(map, LocaleManager.currentLang(), true);
+    public static String formatValue(LocaleManager localeManager, Object value, Boolean localize) {
+        boolean requiresL18n = localize != null && localize && value instanceof Map;
+        String target = requiresL18n ? (String) localeManager.localize((Map) value) : (String) value;
+        return StringEscapeUtils.ESCAPE_HTML4.translate(target);
     }
 }
