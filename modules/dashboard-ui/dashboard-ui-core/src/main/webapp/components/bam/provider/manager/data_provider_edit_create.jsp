@@ -20,6 +20,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="org.apache.commons.lang3.StringUtils" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ taglib prefix="factory" uri="factory.tld" %>
 <%@ taglib prefix="panel" uri="bui_taglib.tld" %>
 <%@ taglib uri="resources.tld" prefix="resource" %>
@@ -72,7 +73,7 @@
 							<legend class="skn-error">
 								<i18n:message key='<%=DataProviderHandler.I18N_PREFFIX + "error"%>'>!!!Error</i18n:message>
 							</legend>
-							<p class="skn-error"><%= message %></p>
+							<p class="skn-error"><%= StringEscapeUtils.escapeHtml4((String) message) %></p>
 						</fieldset>
 						<br>
 					</div>
@@ -122,10 +123,12 @@
             for (int i = 0; i < langs.length; i++) {
                 String lang = langs[i];
                 String descr = (String)((Map) value).get(new Locale(lang));
+                descr = StringUtils.defaultString(descr, "");
+                descr = StringEscapeUtils.escapeHtml4(descr);
 				%>
 				<input id="<factory:encode name="providerNameId"/><%= "_" + lang%>"
 					   name="<%=DataProviderHandler.PARAM_PROVIDER_NAME + "/" + lang%>"
-             value="<%= StringUtils.defaultString(descr, "") %>"
+             value="<%= descr %>"
 					   style='<%="width:250px;"+ (lang.equals(LocaleManager.currentLang()) ? "display:inline;" : "display:none;")%>'
 					   class="skn-input"
 					   size="65" >

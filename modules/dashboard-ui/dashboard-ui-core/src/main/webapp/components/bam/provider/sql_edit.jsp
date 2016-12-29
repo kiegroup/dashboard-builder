@@ -23,6 +23,7 @@
 <%@ page import="org.jboss.dashboard.provider.sql.SQLDataLoader" %>
 <%@ page import="org.jboss.dashboard.CoreServices" %>
 <%@ page import="org.jboss.dashboard.ui.UIBeanLocator" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@taglib uri="factory.tld" prefix="factory"%>
 <%@taglib uri="mvc_taglib.tld" prefix="mvc"%>
 <%@ taglib uri="bui_taglib.tld" prefix="panel"%>
@@ -43,15 +44,15 @@
     <tr>
         <td align="left" style="padding-left:20px; padding-right:20px;">
             <i18n:message key="editor.sql.datasourceToUse">!!!Datasource a utilizar</i18n:message>: &nbsp;
-            <select name="dataSource" title="<%= currentDataSource %>" width="65px" class="skn-input">
+            <select name="dataSource" title="<%= StringEscapeUtils.escapeHtml4(currentDataSource) %>" width="65px" class="skn-input">
             <%
                 DataSourceManager dataSourceManager = CoreServices.lookup().getDataSourceManager();
                 List dataSourcesList = dataSourceManager.getDataSourceNames();
                 ListIterator dataSourcesListIterator = dataSourcesList.listIterator();
                 while (dataSourcesListIterator.hasNext()) {
-                    String selected = "";
                     String dataSource = (String) dataSourcesListIterator.next();
-                    if (dataSource.equals(currentDataSource)) selected = "selected";
+                    String selected = dataSource.equals(currentDataSource) ? "selected" : "";
+                    dataSource = StringEscapeUtils.escapeHtml4(dataSource);
             %>
                     <option title="<%= dataSource %>" value="<%= dataSource %>" <%= selected %>><%= dataSource %></option>
             <%

@@ -29,6 +29,12 @@
 <%
 	CSVProviderEditor editor = (CSVProviderEditor) UIBeanLocator.lookup().getCurrentBean(request);
 	CSVDataLoader csvLoader = editor.getCSVDataLoader();
+	String fileURL = csvLoader.getFileURL() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getFileURL()) : "";
+	String separatedBy = csvLoader.getCsvSeparatedBy() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getCsvSeparatedBy()) : "";
+	String quoteChar = csvLoader.getCsvQuoteChar() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getCsvQuoteChar()) : "";
+	String escapeChar = csvLoader.getCsvEscapeChar() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getCsvEscapeChar()) : "";
+	String datePattern = csvLoader.getCsvDatePattern() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getCsvDatePattern()) : "";
+	String numberPattern = csvLoader.getCsvNumberPattern() != null ? StringEscapeUtils.escapeHtml4(csvLoader.getCsvNumberPattern()) : "";
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -40,7 +46,7 @@
 				   title="<i18n:message key="editor.csv.csvFileURL">!!!url</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvUrlFile"
-				   value="<%=(csvLoader.getFileURL()!= null? csvLoader.getFileURL():"")%>">
+				   value="<%= fileURL %>">
 		</td>
 	</tr>
 	<tr>
@@ -52,7 +58,7 @@
 				   title="<i18n:message key="editor.csv.csvSeparatedBy">!!!Data separator</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvSeparatedBy"
-				   value="<%= (csvLoader.getCsvSeparatedBy()!=null? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvSeparatedBy()):"")%>">
+				   value="<%= separatedBy %>">
 		</td>
 	</tr>
 	<tr>
@@ -64,7 +70,7 @@
 				   title="<i18n:message key="editor.csv.csvQuoteChar">!!!Quote character</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvQuoteChar"
-				   value="<%=(csvLoader.getCsvQuoteChar()!=null ? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvQuoteChar()):"")%>">
+				   value="<%= quoteChar %>">
 		</td>
 	</tr>
 	<tr>
@@ -76,7 +82,7 @@
 				   title="<i18n:message key="editor.csv.csvEscapeChar">!!!Escape character</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvEscapeChar"
-				   value="<%=(csvLoader.getCsvEscapeChar()!=null ? StringEscapeUtils.ESCAPE_HTML4.translate(csvLoader.getCsvEscapeChar()):"")%>">
+				   value="<%= escapeChar %>">
 		</td>
 	</tr>
 	<tr>
@@ -88,7 +94,7 @@
 				   title="<i18n:message key="editor.csv.csvDatePattern">!!!Date format</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvDatePattern"
-				   value="<%=(csvLoader.getCsvDatePattern()!=null ? csvLoader.getCsvDatePattern():"")%>">
+				   value="<%= datePattern %>">
 		</td>
 	</tr>
 	<tr>
@@ -100,7 +106,7 @@
 				   title="<i18n:message key="editor.csv.csvNumberPattern">!!!Formato numeros</i18n:message>"
 				   style="width:20em; margin-bottom:1.4em;" type="text"
 				   name="csvNumberPattern"
-				   value="<%=(csvLoader.getCsvNumberPattern()!= null? csvLoader.getCsvNumberPattern():"")%>">
+				   value="<%= numberPattern %>">
 		</td>
 	</tr>
 

@@ -74,7 +74,8 @@ public class DataProviderFormatter extends Formatter {
             setAttribute("providerName", StringEscapeUtils.ESCAPE_HTML4.translate(handler.getProviderName()));
             renderFragment("outputEditTitle");
             if (handler.hasErrors()) {
-                setAttribute("message", handler.getProviderMessage());
+                String error = StringEscapeUtils.escapeEcmaScript(handler.getProviderMessage());
+                setAttribute("message", error);
                 renderFragment("outputError");
             }
             renderFragment("outputTableStart");
@@ -106,7 +107,8 @@ public class DataProviderFormatter extends Formatter {
             renderFragment("outputStart");
             renderFragment("outputCreateTitle");
             if (handler.hasErrors()) {
-                setAttribute("message", handler.getProviderMessage());
+                String error = StringEscapeUtils.escapeEcmaScript(handler.getProviderMessage());
+                setAttribute("message", error);
                 renderFragment("outputError");
             }
             renderFragment("outputTableStart");
@@ -266,7 +268,8 @@ public class DataProviderFormatter extends Formatter {
             renderFragment("outputStart");
 
             if (provider != null) {
-                setAttribute("description",provider.getDescription(localeManager.getCurrentLocale()) );
+                String descr = StringEscapeUtils.ESCAPE_HTML4.translate(provider.getDescription(localeManager.getCurrentLocale()));
+                setAttribute("description",  descr);
                 renderFragment("outputTitle");
 
                 // Get the list of KPI that are using this data provider.
