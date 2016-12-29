@@ -38,7 +38,7 @@ public class DataSourceManagementFormFormatter extends Formatter {
 
             if (dataSourceManagementHandler.isEDIT_MODE()) {
                 // Editing DS.
-                setAttribute("dsName", dataSourceManagementHandler.getName());
+                setAttribute("dsName", dataSourceManagementHandler.getName() != null ? StringEscapeUtils.ESCAPE_HTML4.translate(dataSourceManagementHandler.getName()) : "");
                 renderFragment("outputStartEditing");
             }
             renderFragment("outputStart");
