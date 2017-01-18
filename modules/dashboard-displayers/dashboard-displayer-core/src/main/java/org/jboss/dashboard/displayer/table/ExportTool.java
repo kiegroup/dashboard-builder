@@ -16,6 +16,7 @@
 package org.jboss.dashboard.displayer.table;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.jboss.dashboard.domain.Interval;
 import org.jboss.dashboard.LocaleManager;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -43,17 +44,26 @@ public class ExportTool {
 
     protected String dateFormatPattern = "dd/MM/yyyy HH:mm:ss";
     protected String numberFormatPattern = "#,###.##########";
+    protected LocaleManager localeManager = null;
 
     private transient static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExportTool.class);
     private DecimalFormat decf = new DecimalFormat(numberFormatPattern);
     private DateFormat datef = new SimpleDateFormat(dateFormatPattern);
+
+    public ExportTool() {
+        localeManager = LocaleManager.lookup();
+    }
+
+    public ExportTool(LocaleManager localeManager) {
+        this.localeManager = localeManager;
+    }
 
     public InputStream exportCSV(Table table) throws Exception {
         if (table == null) throw new IllegalArgumentException("Null table specified!");
         int columnCount = table.getColumnCount();
         int rowCount = table.getRowCount();
 
-        List<String[]> lines = new ArrayList<String[]>(rowCount+1);
+        List<String[]> lines = new ArrayList<>(rowCount+1);
 
         String[] line = new String[columnCount];
         for (int cc = 0; cc < columnCount; cc++) {
@@ -89,7 +99,7 @@ public class ExportTool {
         if (value == null) return "";
         if (value instanceof Number) return decf.format(value);
         else if (value instanceof Date) return datef.format(value);
-        else if (value instanceof Interval) return ((Interval)value).getDescription(LocaleManager.currentLocale());
+        else if (value instanceof Interval) return ((Interval)value).getDescription(localeManager.getCurrentLocale());
         else return value.toString();
     }
 
@@ -102,13 +112,14 @@ public class ExportTool {
 
         SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk
         Map<String, CellStyle> styles = createStyles(wb);
-        Sheet sh = wb.createSheet("Sheet 1");
+        SXSSFSheet sh = wb.createSheet("Sheet 1");
 
         // General setup
         sh.setDisplayGridlines(true);
         sh.setPrintGridlines(false);
         sh.setFitToPage(true);
         sh.setHorizontallyCenter(true);
+        sh.trackAllColumnsForAutoSizing();
         PrintSetup printSetup = sh.getPrintSetup();
         printSetup.setLandscape(true);
 
@@ -128,27 +139,27 @@ public class ExportTool {
                 Cell cell = _row.createCell(cellnum);
                 Object value = table.getValueAt(row - 1, cellnum);
                 if (value instanceof Short || value instanceof Long || value instanceof Integer || value instanceof BigInteger) {
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                     cell.setCellStyle(styles.get("integer_number_cell"));
                     cell.setCellValue(((Number) value).doubleValue());
                 } else if (value instanceof Float || value instanceof Double || value instanceof BigDecimal) {
-                    cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+                    cell.setCellType(CellType.NUMERIC);
                     cell.setCellStyle(styles.get("decimal_number_cell"));
                     cell.setCellValue(((Number) value).doubleValue());
                 } else if (value instanceof Date) {
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellStyle(styles.get("date_cell"));
                     cell.setCellValue((Date) value);
                 } else if (value instanceof Interval) {
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellStyle(styles.get("text_cell"));
-                    cell.setCellValue(((Interval) value).getDescription(LocaleManager.currentLocale()));
+                    cell.setCellValue(((Interval) value).getDescription(localeManager.getCurrentLocale()));
                 } else if (value == null) {
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellStyle(styles.get("text_cell"));
                     cell.setCellValue("");
                 } else {
-                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    cell.setCellType(CellType.STRING);
                     cell.setCellStyle(styles.get("text_cell"));
                     cell.setCellValue(value.toString());
                 }
@@ -171,63 +182,65 @@ public class ExportTool {
         }
 
         // Dispose of temporary files backing this workbook on disk
-        if (!wb.dispose()) log.warn("Could not dispose of temporary file associated to data export!");
+        if (!wb.dispose()) {
+            log.warn("Could not dispose of temporary file associated to data export!");
+        }
 
         return bis;
     }
 
     private Map<String, CellStyle> createStyles(Workbook wb){
-        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        Map<String, CellStyle> styles = new HashMap<>();
         CellStyle style;
 
         Font titleFont = wb.createFont();
         titleFont.setFontHeightInPoints((short)12);
-        titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        titleFont.setBold(true);
         style = wb.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_CENTER);
-        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setFont(titleFont);
         style.setWrapText(false);
-        style.setBorderBottom(CellStyle.BORDER_THIN);
+        style.setBorderBottom(BorderStyle.THIN);
         style.setBottomBorderColor(IndexedColors.GREY_80_PERCENT.getIndex());
         styles.put("header", style);
 
         Font cellFont = wb.createFont();
         cellFont.setFontHeightInPoints((short)10);
-        cellFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+        cellFont.setBold(true);
 
         style = wb.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_RIGHT);
-        style.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        style.setVerticalAlignment(VerticalAlignment.BOTTOM);
         style.setFont(cellFont);
         style.setWrapText(false);
         style.setDataFormat(wb.createDataFormat().getFormat(BuiltinFormats.getBuiltinFormat(3)));
         styles.put("integer_number_cell", style);
 
         style = wb.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_RIGHT);
-        style.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+        style.setAlignment(HorizontalAlignment.RIGHT);
+        style.setVerticalAlignment(VerticalAlignment.BOTTOM);
         style.setFont(cellFont);
         style.setWrapText(false);
         style.setDataFormat(wb.createDataFormat().getFormat(BuiltinFormats.getBuiltinFormat(4)));
         styles.put("decimal_number_cell", style);
 
         style = wb.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_LEFT);
-        style.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.BOTTOM);
         style.setFont(cellFont);
         style.setWrapText(false);
         style.setDataFormat( (short) BuiltinFormats.getBuiltinFormat("text") );
         styles.put("text_cell", style);
 
         style = wb.createCellStyle();
-        style.setAlignment(CellStyle.ALIGN_CENTER);
-        style.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.BOTTOM);
         style.setFont(cellFont);
         style.setWrapText(false);
-        style.setDataFormat(wb.createDataFormat().getFormat(DateFormatConverter.convert(LocaleManager.currentLocale(), dateFormatPattern)));
+        style.setDataFormat(wb.createDataFormat().getFormat(DateFormatConverter.convert(localeManager.getCurrentLocale(), dateFormatPattern)));
         styles.put("date_cell", style);
         return styles;
     }
