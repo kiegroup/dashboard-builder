@@ -240,7 +240,7 @@ public class Dashboard {
 
         if (interval instanceof LabelInterval) {
             if (dashboardFilter.getPropertyIds().length == 0) values = Arrays.asList(interval);
-            else values = Arrays.asList(((LabelInterval) interval).getLabel());
+            else values = Arrays.asList(((LabelInterval) interval).getHolder().value);
         }
 
         if (interval instanceof CompositeInterval) {
