@@ -15,10 +15,14 @@ package org.jboss.dashboard.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.dashboard.dataset.index.DistinctValue;
+import org.jboss.dashboard.domain.label.LabelDomain;
+import org.jboss.dashboard.domain.label.LabelInterval;
 import org.jboss.dashboard.ui.components.DashboardFilterProperty;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
@@ -90,5 +94,28 @@ public class DashboardFilterTest extends UITestBase {
         assertEquals(childPropIds[0], "prop1");
         assertEquals(childPropIds[1], "prop2");
         verify(childDashboard).filter();
+    }
+
+    @Test
+    public void test_RHBPMS_4537_Fix() throws Exception {
+        LabelInterval labelInterval = new LabelInterval();
+        labelInterval.setHolder(new DistinctValue(null, 4));
+        labelInterval.setDomain(new LabelDomain());
+        DashboardFilter filterRequest = spy(new DashboardFilter());
+        filterRequest.addProperty("prop1", "val1");
+        filterRequest.addProperty("prop2", "val2");
+        mainDashboard.filter(filterRequest);
+        reset(mainDashboard);
+
+        mainDashboard.filter("prop3", labelInterval, 1);
+
+        ArgumentCaptor<DashboardFilter> filterCaptor = ArgumentCaptor.forClass(DashboardFilter.class);
+        verify(mainDashboard).filter(filterCaptor.capture());
+
+        DashboardFilter filter = filterCaptor.getValue();
+        List allowedValue = filter.getPropertyAllowedValues("prop3");
+        assertEquals(allowedValue.size(), 1);
+        assertTrue(allowedValue.get(0) instanceof Integer);
+        assertEquals(allowedValue.get(0), 4);
     }
 }
