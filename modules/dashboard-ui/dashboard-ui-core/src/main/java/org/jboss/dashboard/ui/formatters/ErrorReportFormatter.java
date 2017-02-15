@@ -15,6 +15,7 @@
  */
 package org.jboss.dashboard.ui.formatters;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.ui.components.ErrorReportHandler;
 import org.jboss.dashboard.ui.taglib.formatter.Formatter;
@@ -70,9 +71,11 @@ public class ErrorReportFormatter extends Formatter {
         ErrorReport errorReport = errorReportHandler.getErrorReport();
         if (errorReport != null) {
             setAttribute("errorIcon", getErrorIcon(errorReport));
-            setAttribute("errorMessage", errorReport.printErrorMessage());
+            setAttribute("errorMessage", StringEscapeUtils.escapeHtml4(errorReport.printErrorMessage()));
             setAttribute("closeEnabled", errorReportHandler.isCloseEnabled());
-            if (!errorReport.isBusinessAppError()) setAttribute("technicalDetails", errorReport.printContext(0));
+            if (!errorReport.isBusinessAppError()) {
+                setAttribute("technicalDetails", StringEscapeUtils.escapeHtml4(errorReport.printContext(0)));
+            }
             renderFragment("errorMessage");
         }
     }

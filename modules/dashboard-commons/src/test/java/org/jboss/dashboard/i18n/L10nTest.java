@@ -98,4 +98,10 @@ public class L10nTest {
         String[] langIds = localeManager.getPlatformAvailableLangs();
         assertThat(langIds).isEqualTo(new String[] {"en","es","de","fr","pt","ja","zh"});
     }
+
+    @Test
+    public void testNonExistentLocale() {
+        Locale l = localeManager.getPlatformLocale(null);
+        assertThat(l).isNull();
+    }
 }
