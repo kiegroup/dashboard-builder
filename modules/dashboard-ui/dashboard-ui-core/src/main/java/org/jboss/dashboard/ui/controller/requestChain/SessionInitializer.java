@@ -48,7 +48,7 @@ public class SessionInitializer extends AbstractChainProcessor {
     @Inject
     private LocaleManager localeManager;
 
-    public static boolean isNewSession(HttpServletRequest request) {
+    public boolean isNewSession(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         return !"true".equals(session.getAttribute(SESSION_ATTRIBUTE_INITIALIZED));
     }

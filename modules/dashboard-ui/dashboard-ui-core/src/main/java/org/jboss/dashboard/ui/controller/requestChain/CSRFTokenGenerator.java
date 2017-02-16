@@ -17,12 +17,12 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.events.SectionChangedEvent;
+import org.jboss.dashboard.ui.events.WorkspaceChangedEvent;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * CSRF Token generator & validator.
@@ -31,37 +31,44 @@ import java.util.List;
 public class CSRFTokenGenerator implements Serializable {
 
     public static CSRFTokenGenerator lookup() {
-        return CDIBeanLocator.getBeanByType(CSRFTokenGenerator.class);
+        return CDIBeanLocator.get().lookupBeanByType(CSRFTokenGenerator.class);
     }
 
     protected String tokenName = "csrf";
-    protected List<String> tokenList = new ArrayList<String>();
-    protected int maxTokens = 1000;
+    protected String activeToken = null;
     protected int tokenSize = 8;
-
-    @PostConstruct
-    protected void init() {
-        generateToken();
-    }
 
     public String getTokenName() {
         return tokenName;
     }
 
-    public synchronized String generateToken() {
-        long seed = (long) (Math.random() * Math.pow(10, tokenSize));
-        String token = StringUtils.leftPad(String.valueOf(seed), tokenSize, "0");
-
-        if (tokenList.size() == maxTokens) tokenList.remove(0);
-        tokenList.add(token);
-        return token;
-    }
-
     public synchronized String getLastToken() {
-        return tokenList.get(tokenList.size()-1);
+        if (activeToken == null) {
+            activeToken = generateToken();
+        }
+        return activeToken;
     }
 
     public synchronized boolean isValidToken(String token) {
-        return tokenList.contains(token);
+        return activeToken == null || activeToken.equals(token);
+    }
+
+    public synchronized void resetToken() {
+        activeToken = null;
+    }
+
+    public String generateToken() {
+        long seed = (long) (Math.random() * Math.pow(10, tokenSize));
+        return StringUtils.leftPad(String.valueOf(seed), tokenSize, "0");
+    }
+
+    // Tokens turn to be stale after a navigation change
+
+    private void onWorkspaceChanged(@Observes WorkspaceChangedEvent event) {
+        resetToken();
+    }
+
+    private void onSectionChanged(@Observes SectionChangedEvent event) {
+        resetToken();
     }
 }
