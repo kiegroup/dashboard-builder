@@ -141,6 +141,9 @@ public class LocaleManager {
     }
 
     public Locale getPlatformLocale(Locale l) {
+        if (l == null) {
+            return null;
+        }
         Locale result = null;
         for (Locale locale : availableLocales) {
             if (locale.equals(l)) {

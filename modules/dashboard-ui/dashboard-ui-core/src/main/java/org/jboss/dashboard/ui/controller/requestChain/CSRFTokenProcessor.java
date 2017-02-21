@@ -17,6 +17,7 @@ package org.jboss.dashboard.ui.controller.requestChain;
 
 import org.jboss.dashboard.annotation.config.Config;
 import org.jboss.dashboard.commons.cdi.CDIBeanLocator;
+import org.jboss.dashboard.ui.components.URLMarkupGenerator;
 import org.jboss.dashboard.workspace.Parameters;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -33,11 +34,27 @@ import javax.servlet.http.HttpServletRequest;
 public class CSRFTokenProcessor extends AbstractChainProcessor {
 
     public static CSRFTokenProcessor lookup() {
-        return CDIBeanLocator.getBeanByType(CSRFTokenProcessor.class);
+        return CDIBeanLocator.get().lookupBeanByType(CSRFTokenProcessor.class);
     }
 
-    @Inject @Config("true")
     protected boolean enabled;
+    protected URLMarkupGenerator urlMarkupGenerator;
+    protected SessionInitializer sessionInitializer;
+    protected CSRFTokenGenerator csrfTokenGenerator;
+
+    public CSRFTokenProcessor() {
+    }
+
+    @Inject
+    public CSRFTokenProcessor(@Config("true") boolean enabled,
+                              URLMarkupGenerator urlMarkupGenerator,
+                              SessionInitializer sessionInitializer,
+                              CSRFTokenGenerator csrfTokenGenerator) {
+        this.enabled = enabled;
+        this.urlMarkupGenerator = urlMarkupGenerator;
+        this.sessionInitializer = sessionInitializer;
+        this.csrfTokenGenerator = csrfTokenGenerator;
+    }
 
     public boolean isEnabled() {
         return enabled;
@@ -51,32 +68,31 @@ public class CSRFTokenProcessor extends AbstractChainProcessor {
 
         // If the session is being created then the CSRF control makes no sense.
         HttpServletRequest request = getHttpRequest();
-        if (SessionInitializer.isNewSession(request)) {
+        if (sessionInitializer.isNewSession(request)) {
             return true;
         }
 
-        CSRFTokenGenerator csrfTokenGenerator = CSRFTokenGenerator.lookup();
+        // Internal requests are excluded from CSRF processing
+        if (urlMarkupGenerator.isInternalRequest(request)) {
+            return true;
+        }
+
         String token = request.getParameter(csrfTokenGenerator.getTokenName());
-        if (token != null) {
-            if (csrfTokenGenerator.isValidToken(token)) {
-                // If the current token is valid then generate a new one and continue.
-                csrfTokenGenerator.generateToken();
-            } else {
-                // Throw an exception aborting the request flow.
-                throw new ServletException("CSRF token validation broken.");
-            }
-        } else {
-            // CSRF protection is guaranteed for AJAX & non-friendly URL based requests.
-            String ajaxParam = request.getParameter(Parameters.AJAX_ACTION);
-            String servletPath = request.getServletPath();
-            boolean isAjax = (ajaxParam != null && Boolean.parseBoolean(ajaxParam));
-            boolean isFriendly = servletPath.startsWith(FriendlyUrlProcessor.FRIENDLY_MAPPING);
-            boolean isJsp = servletPath.startsWith(JspUrlProcessor.JSP_MAPPING);
-            boolean isKPI = servletPath.startsWith(KPIProcessor.KPI_MAPPING);
-            if (isAjax || !(isFriendly || isJsp || isKPI)) {
-                // Throw an exception aborting the request flow.
-                throw new ServletException("CSRF token missing.");
-            }
+        String ajaxParam = request.getParameter(Parameters.AJAX_ACTION);
+        String servletPath = request.getServletPath();
+        boolean isAjax = ajaxParam != null && Boolean.parseBoolean(ajaxParam);
+        boolean isFriendly = servletPath.startsWith(FriendlyUrlProcessor.FRIENDLY_MAPPING);
+        boolean isJsp = servletPath.startsWith(JspUrlProcessor.JSP_MAPPING);
+        boolean isKPI = servletPath.startsWith(KPIProcessor.KPI_MAPPING);
+
+        // CSRF protection is guaranteed for AJAX & non-friendly URL based requests
+        boolean csrfRequired = isAjax || !(isFriendly || isJsp || isKPI);
+        if (token == null && csrfRequired) {
+            throw new ServletException("CSRF token missing.");
+        }
+        // If the current token is NOT valid then abort the request flow.
+        if (token != null && !csrfTokenGenerator.isValidToken(token)) {
+            throw new ServletException("CSRF token validation broken.");
         }
         return true;
     }

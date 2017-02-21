@@ -40,27 +40,29 @@ import org.jboss.dashboard.ui.controller.requestChain.SessionInitializer;
 @ApplicationScoped
 public class RequestProcessor {
 
+    private static CDIBeanLocator beanLocator = CDIBeanLocator.get();
+    
     public static RequestProcessor lookup() {
-        return CDIBeanLocator.getBeanByType(RequestProcessor.class);
+        return beanLocator.lookupBeanByType(RequestProcessor.class);
     }
 
     protected List<RequestChainProcessor> processorChain = new ArrayList<RequestChainProcessor>();
 
     @PostConstruct
     protected void initChain() {
-        processorChain.add(CDIBeanLocator.getBeanByType(CSRFTokenProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(HttpSSOProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(ModalDialogStatusSaver.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(ResponseHeadersProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(MultipartProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(DashboardProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(FreeMemoryProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(SessionInitializer.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(FriendlyUrlProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(JspUrlProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(NavigationCookieProcessor.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(RequestDispatcher.class));
-        processorChain.add(CDIBeanLocator.getBeanByType(KPIProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(HttpSSOProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(ModalDialogStatusSaver.class));
+        processorChain.add(beanLocator.lookupBeanByType(ResponseHeadersProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(MultipartProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(CSRFTokenProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(DashboardProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(FreeMemoryProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(SessionInitializer.class));
+        processorChain.add(beanLocator.lookupBeanByType(FriendlyUrlProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(JspUrlProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(NavigationCookieProcessor.class));
+        processorChain.add(beanLocator.lookupBeanByType(RequestDispatcher.class));
+        processorChain.add(beanLocator.lookupBeanByType(KPIProcessor.class));
     }
 
     public void run() throws Exception {

@@ -28,6 +28,8 @@ import org.jboss.dashboard.ui.controller.RequestContext;
 import org.jboss.dashboard.ui.config.Tree;
 import org.jboss.dashboard.ui.config.TreeNode;
 import org.jboss.dashboard.ui.config.TreeStatus;
+import org.jboss.dashboard.ui.events.SectionChangedEvent;
+import org.jboss.dashboard.ui.events.WorkspaceChangedEvent;
 import org.jboss.dashboard.workspace.Panel;
 import org.jboss.dashboard.workspace.Workspace;
 import org.jboss.dashboard.workspace.WorkspaceImpl;
@@ -43,6 +45,7 @@ import org.slf4j.Logger;
 
 import java.util.*;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -60,9 +63,6 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
         return CDIBeanLocator.getBeanByType(NavigationManager.class);
     }
 
-    @Inject
-    private transient Logger log;
-
     public static final String WORKSPACE_ID = "workspace";
     public static final String PAGE_ID = "page";
 
@@ -70,10 +70,23 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
     public static final String CURRENT_WORKSPACE_ATTR = "currentWorkspace";
     public static final String CURRENT_PAGE_ATTR = "currentPage";
 
+    private Logger log;
     private String currentWorkspaceId;
     private Long currentSectionId;
     private boolean showingConfig = false;
     private boolean userRequiresLoginBackdoor = false;
+    private Event<WorkspaceChangedEvent> workspaceChangedEvent;
+    private Event<SectionChangedEvent> sectionChangedEvent;
+
+    public NavigationManager() {
+    }
+
+    @Inject
+    public NavigationManager(Logger log, Event<WorkspaceChangedEvent> workspaceChangedEvent, Event<SectionChangedEvent> sectionChangedEvent) {
+        this.log = log;
+        this.workspaceChangedEvent = workspaceChangedEvent;
+        this.sectionChangedEvent = sectionChangedEvent;
+    }
 
     public boolean isUserRequiresLoginBackdoor() {
         return userRequiresLoginBackdoor;
@@ -112,6 +125,7 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
     }
 
     protected synchronized void setCurrentWorkspaceId(String workspaceId) {
+        Workspace oldWorkspace = getCurrentWorkspace();
         boolean workspaceChanged = false;
         if (workspaceId != null) {
             if (!workspaceId.equals(getCurrentWorkspaceId())) {
@@ -131,7 +145,9 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
             workspaceChanged = true;
         }
         if (workspaceChanged) {
+            Workspace newWorkspace = getCurrentWorkspace();
             getUserStatus().invalidateUserPrincipals();
+            workspaceChangedEvent.fire(new WorkspaceChangedEvent(oldWorkspace, newWorkspace));
         }
     }
 
@@ -177,6 +193,7 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
     }
 
     public synchronized void setCurrentSection(Section section) {
+        Section oldSection = getCurrentSection();
         if (section != null) {
             if (section.getId() != null && !section.getDbid().equals(getCurrentSectionId())) {
                 pageLeft(doGetCurrentSection());
@@ -189,6 +206,7 @@ public class NavigationManager extends BeanHandler implements LogoutSurvivor {
             currentWorkspaceId = null;
         }
         clearRequestCache();
+        sectionChangedEvent.fire(new SectionChangedEvent(oldSection, section));
         //logCurrentStatus("setCurrentSection");
     }
 

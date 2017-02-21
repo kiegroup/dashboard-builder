@@ -19,6 +19,7 @@
 <%@ page import="org.jboss.dashboard.LocaleManager" %>
 <%@ page import="org.jboss.dashboard.ui.controller.requestChain.SessionInitializer" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="org.jboss.dashboard.ui.controller.SecureHeaderFilter" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -167,6 +168,8 @@
 
             String messageKey = (String) request.getSession().getAttribute("login.message");
             if (messageKey == null) messageKey = "login.hint";
+
+            SecureHeaderFilter.applyHeaders(response);
         %>
         <h3><%= i18nBundle.getString(messageKey) %></h3>
         <form action="j_security_check" method="POST">

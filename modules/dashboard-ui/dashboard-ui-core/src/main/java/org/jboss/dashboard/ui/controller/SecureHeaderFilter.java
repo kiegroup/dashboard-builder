@@ -33,15 +33,8 @@ import org.jboss.dashboard.ui.HTTPSettings;
  */
 public class SecureHeaderFilter implements Filter {
 
-    private HTTPSettings httpSettings;
-
-    public void setHttpSettings(HTTPSettings httpSettings) {
-        this.httpSettings = httpSettings;
-    }
-
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
-        setHttpSettings(HTTPSettings.lookup());
     }
 
     @Override
@@ -56,20 +49,21 @@ public class SecureHeaderFilter implements Filter {
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        addFrameOptions(response);
-        addXSSOptions(response);
+        applyHeaders(response);
 
         chain.doFilter(request, response);
     }
 
-    private void addFrameOptions(HttpServletResponse response) {
+    public static void applyHeaders(HttpServletResponse response) {
+        HTTPSettings httpSettings = HTTPSettings.lookup();
+        applyHeaders(httpSettings, response);
+    }
+
+    public static void applyHeaders(HTTPSettings httpSettings, HttpServletResponse response) {
         if (httpSettings.isXSSProtectionEnabled()) {
             String mode = httpSettings.isXSSProtectionBlock() ? "1; mode=block" : "1";
             response.setHeader("X-XSS-Protection", mode);
         }
-    }
-
-    private void addXSSOptions(HttpServletResponse response) {
         if (!StringUtils.isBlank(httpSettings.getXFrameOptions())) {
             response.setHeader("X-FRAME-OPTIONS", httpSettings.getXFrameOptions());
         }

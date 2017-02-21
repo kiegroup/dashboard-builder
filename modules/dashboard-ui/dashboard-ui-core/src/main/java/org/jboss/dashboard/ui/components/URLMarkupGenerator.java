@@ -95,12 +95,16 @@ public class URLMarkupGenerator {
     protected String _getServletMapping() {
         HttpServletRequest request = RequestContext.lookup().getRequest().getRequestObject();
         if( request != null ) {
-            return request.getContextPath()+"/"+COMMAND_RUNNER;
+            return _getServletMappingUri(request);
         } else {
             // Do the best we can, this is a relative URL that might not work if AJAX handler does not convert it to
             // absolute or a <base> tag is specified in the generated HTML
             return COMMAND_RUNNER;
         }
+    }
+
+    protected String _getServletMappingUri(HttpServletRequest request) {
+        return request.getContextPath() + "/" + COMMAND_RUNNER;
     }
 
     /**
@@ -362,5 +366,20 @@ public class URLMarkupGenerator {
             url.append(csrfTokenGenerator.getTokenName()).append("=").append(token);
         }
         return url;
+    }
+
+    /**
+     * Internal requests are those called solely by the system. For example, the redirect to page request that is
+     * executed right after a dashboard drill-down AJAX request.
+     */
+    public boolean isInternalRequest(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String bean = request.getParameter(FactoryURL.PARAMETER_BEAN);
+        String baction = request.getParameter(FactoryURL.PARAMETER_ACTION);
+        String panel = request.getParameter(Parameters.DISPATCH_IDPANEL);
+        String paction = request.getParameter(Parameters.DISPATCH_ACTION);
+        String suri =_getServletMappingUri(request);
+
+        return suri.equals(uri) && bean == null && baction == null && panel == null && paction == null;
     }
 }
